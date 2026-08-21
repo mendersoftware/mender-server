@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIdleTimer, workerTimers } from 'react-idle-timer';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { BrowserRouter, useLocation, useNavigate } from 'react-router';
 
 import createCache from '@emotion/cache';
@@ -42,7 +42,7 @@ import {
   getSnackbar,
   getTrackerCode
 } from '@northern.tech/store/selectors';
-import { store } from '@northern.tech/store/store';
+import { store, useAppDispatch } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
 import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
@@ -135,7 +135,7 @@ export const AppRoot = () => {
   const navigate = useNavigate();
   const { pathname = '', hash } = useLocation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id: currentUser } = useSelector(getCurrentUser);
   const showDismissHelptipsDialog = useSelector(state => !state.onboarding.complete && state.onboarding.showTipsDialog);
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);

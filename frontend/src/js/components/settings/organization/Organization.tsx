@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Select, Typography, formControlClasses, textFieldClasses } from '@mui/material';
@@ -24,6 +24,7 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs, getUserOrganization, storeSsoConfig } from '@northern.tech/store/thunks';
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
@@ -68,7 +69,7 @@ export const Organization = () => {
   const { isHosted } = useSelector(getFeatures);
   const { id: tenantId, name: orgName, tenant_token = '' } = useSelector(getOrganization);
   const ssoConfig = useSelector(getSsoConfig);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { token } = useSelector(getCurrentSession);
   const { classes } = useStyles();
 

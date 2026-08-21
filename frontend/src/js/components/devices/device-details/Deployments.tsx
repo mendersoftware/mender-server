@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, buttonClasses, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -27,6 +27,7 @@ import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeploymentById as getDeploymentByIdSelector, getFeatures, getIsPreview } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceDeployments, getDeviceLog, getSingleDeployment, resetDeviceDeployments } from '@northern.tech/store/thunks';
 import { isDarkMode } from '@northern.tech/store/utils';
 
@@ -156,7 +157,7 @@ export const Deployments = ({ device }) => {
   const { hasAiEnabled, isHosted } = useSelector(getFeatures);
   const isPreview = useSelector(getIsPreview);
   const canAi = isHosted && (isPreview || hasAiEnabled);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const deployment = useSelector(state => getDeploymentByIdSelector(state, showsDeploymentLogForId));
 
   useEffect(() => {

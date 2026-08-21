@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { ComponentType, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { InlineCode } from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -23,6 +23,7 @@ import storeActions from '@northern.tech/store/actions';
 import type { Device } from '@northern.tech/store/api/types';
 import type { READ_STATES } from '@northern.tech/store/constants';
 import { getFeatures } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 
 const { setSnackbar } = storeActions;
 
@@ -100,7 +101,7 @@ const ConfigureTimezoneTip = () => (
 );
 
 const ConfigureRaspberryLedTip = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <>
       To see the effects of applying a configuration to your device you can set one of the below values to modify the behaviour of your Raspberry Pi green

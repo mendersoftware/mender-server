@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
@@ -25,6 +25,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
 import { getDeviceCountsByStatus, getFeatures, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
 
 import raspberryPi from '../../../../assets/img/raspberrypi.png';
@@ -190,7 +191,7 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   const { isEnterprise } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
   const { complete: onboardingComplete, deviceType: onboardingDeviceType } = useSelector(getOnboardingState);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {

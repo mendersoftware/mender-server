@@ -13,7 +13,7 @@
 //    limitations under the License.
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -22,6 +22,7 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 import type { Integration } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -218,7 +219,7 @@ export const Integrations = () => {
   const [isConfiguringWebhook, setIsConfiguringWebhook] = useState(false);
   const integrations = useSelector(getExternalIntegrations);
   const isPreRelease = useSelector(getIsPreview);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { classes } = useStyles();
 

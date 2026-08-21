@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
@@ -30,6 +30,7 @@ import {
   getUsersById,
   getUsersList
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, removeUser } from '@northern.tech/store/thunks';
 
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
@@ -50,7 +51,7 @@ export const UserManagement = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [removeDialog, setRemoveDialog] = useState(false);
   const [user, setUser] = useState({});
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { canManageUsers } = useSelector(getUserCapabilities);
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);

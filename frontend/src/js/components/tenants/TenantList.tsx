@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import { Alert, Tooltip, Typography } from '@mui/material';
@@ -24,7 +24,7 @@ import { CommonList } from '@northern.tech/common-ui/List';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import { getDisabledTiers, getTenantListWithLimits } from '@northern.tech/store/selectors';
-import type { AppDispatch } from '@northern.tech/store/store';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
@@ -197,7 +197,7 @@ export const TenantList = () => {
   const disabledTiers: string[] = useSelector(getDisabledTiers);
   const tenantListState = useSelector(getTenantListWithLimits);
   const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
 

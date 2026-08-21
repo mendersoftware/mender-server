@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Tab, Tabs, Typography } from '@mui/material';
 
@@ -29,6 +29,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { decommissionDevice, getDeviceInfo } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
@@ -118,7 +119,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const integrations = useSelector(getDeviceTwinIntegrations);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     clearInterval(timer.current);

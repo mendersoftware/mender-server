@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Typography, formControlLabelClasses } from '@mui/material';
@@ -27,7 +27,7 @@ import Form from '@northern.tech/common-ui/forms/Form';
 import actions from '@northern.tech/store/actions';
 import { generateTenantPathById } from '@northern.tech/store/locationutils';
 import { getSpLimits, getSsoConfig } from '@northern.tech/store/selectors';
-import type { AppDispatch } from '@northern.tech/store/store';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { editTenant, removeTenant } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
@@ -65,7 +65,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
   const ssoConfig = useSelector(getSsoConfig);
 
   const { classes } = useStyles();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const copyLinkToClipboard = () => {
     const location = window.origin + '/ui';

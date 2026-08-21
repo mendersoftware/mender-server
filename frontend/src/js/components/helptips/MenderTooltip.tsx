@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Help as HelpIcon } from '@mui/icons-material';
 import { Button, Tooltip, Typography } from '@mui/material';
@@ -24,6 +24,7 @@ import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/Mender
 import type { Device } from '@northern.tech/store/api/types';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceById, getTooltipsState } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setAllTooltipsReadState, setTooltipReadState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { yes } from '@northern.tech/utils/helpers';
@@ -188,7 +189,7 @@ type MenderHelpTooltipProps = {
 export const MenderHelpTooltip = (props: MenderHelpTooltipProps) => {
   const { id, deviceId } = props;
   const tooltipsById = useSelector(getTooltipsState);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const device = useSelector(state => getDeviceById(state, deviceId));
   const { readState = READ_STATES.unread } = tooltipsById[id] || {};
   const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];
