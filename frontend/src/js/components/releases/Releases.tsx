@@ -24,15 +24,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
-import {
-  getActiveTab,
-  getFeatures,
-  getIsEnterprise,
-  getReleaseListState,
-  getReleasesList,
-  getSelectedRelease,
-  getUserCapabilities
-} from '@northern.tech/store/selectors';
+import { getActiveTab, getFeatures, getIsEnterprise, getReleaseListState, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
 import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -137,7 +129,6 @@ export const Releases = () => {
   const releasesListState = useSelector(getReleaseListState);
   const { searchTerm, sort = {}, page, perPage, selectedTags, type } = releasesListState;
   const tab = useSelector(getActiveTab);
-  const releases = useSelector(getReleasesList);
   const selectedRelease = useSelector(getSelectedRelease);
   const { canUploadReleases } = useSelector(getUserCapabilities);
   const features = useSelector(getFeatures);
@@ -243,9 +234,7 @@ export const Releases = () => {
       </Typography>
       <Header canUpload={canUploadReleases} tab={tab} onTabChanged={onTabChanged} onUploadClick={onUploadClick} tabs={tabs} />
       <ContentComponent className={classes.container} onFileUploadClick={onFileUploadClick} />
-      {showAddArtifactDialog && (
-        <AddArtifactDialog releases={releases} onCancel={onHideAddArtifactDialog} onUploadStarted={onHideAddArtifactDialog} selectedFile={selectedFile} />
-      )}
+      {showAddArtifactDialog && <AddArtifactDialog onCancel={onHideAddArtifactDialog} onUploadStarted={onHideAddArtifactDialog} selectedFile={selectedFile} />}
       <AddManifestDrawer open={showManifestDrawer} onClose={() => setShowManifestDrawer(false)} />
     </div>
   );

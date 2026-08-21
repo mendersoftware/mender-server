@@ -11,10 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ReactNode } from 'react';
+import type { BaseSyntheticEvent } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 import { CloudUpload } from '@mui/icons-material';
 import { Button, DialogActions, DialogContent } from '@mui/material';
@@ -22,65 +23,27 @@ import { makeStyles } from 'tss-react/mui';
 
 import { InputErrorNotification } from '@northern.tech/common-ui/InputErrorNotification';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import storeActions from '@northern.tech/store/actions';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { createArtifact, uploadArtifact } from '@northern.tech/store/thunks';
-import { unionizeStrings } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 
 import Tracking from '../../../tracking';
-import ArtifactInformationForm from './ArtifactInformationForm';
-import ArtifactUploadConfirmation from './ArtifactUpload';
-
-const { setSnackbar } = storeActions;
-
-type SupportedUploadTypes = 'mender' | 'singleFile';
+import ArtifactInformationForm, { steps } from './ArtifactInformationForm';
+import { FileInformation } from './FileInformation';
 
 type Update = {
-  customDeviceTypes?: string;
-  destination?: string;
-  file?: File;
-  fileSystem?: string;
-  finalStep: boolean;
-  isValid: boolean;
-  isValidDestination?: boolean;
+  destination: string;
+  deviceTypes: string[];
+  fileSystem: string;
   name: string;
-  selectedDeviceTypes?: string[];
-  softwareName?: string;
-  softwareVersion?: string;
-  type: SupportedUploadTypes;
+  softwareName: string;
+  softwareVersion: string;
 };
-
-type UploadType = {
-  component: ReactNode;
-  key: SupportedUploadTypes;
-};
-
-type UploadTypes = Record<string, UploadType>;
 
 const useStyles = makeStyles()(theme => ({
-  dropzone: { ['&.dropzone']: { padding: theme.spacing(4) } },
-  fileInfo: {
-    alignItems: 'center',
-    columnGap: theme.spacing(4),
-    display: 'grid',
-    gridTemplateColumns: 'max-content 1fr max-content max-content',
-    marginBottom: theme.spacing(2),
-    marginRight: theme.spacing(4)
-  },
-  fileSizeWrapper: { marginTop: 5 }
+  dropzone: { ['&.dropzone']: { padding: theme.spacing(4) } }
 }));
-
-const uploadTypes: UploadTypes = {
-  mender: {
-    key: 'mender',
-    component: ArtifactUploadConfirmation
-  },
-  singleFile: {
-    key: 'singleFile',
-    component: ArtifactInformationForm
-  }
-};
 
 const commonExtensions = ['zip', 'txt', 'tar', 'html', 'tar.gzip', 'gzip'];
 const shortenFileName = name => {
@@ -109,7 +72,7 @@ const validateFile = ({ name, size }: File): string => {
   return '';
 };
 
-export const ArtifactUpload = ({ updateCreation }: { updateCreation: (some: Partial<Update>) => void }) => {
+export const ArtifactUpload = ({ onFileSelect }: { onFileSelect: (file?: File) => void }) => {
   const onboardingAnchor = useRef();
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -117,24 +80,20 @@ export const ArtifactUpload = ({ updateCreation }: { updateCreation: (some: Part
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const onDrop = acceptedFiles => {
-    const emptyFileInfo = { file: undefined, name: '', type: uploadTypes.mender.key };
-    if (acceptedFiles.length === 1) {
-      const validationError = validateFile(acceptedFiles[0]);
-      if (validationError) {
-        updateCreation(emptyFileInfo);
-        setErrorMessage(validationError);
-      } else {
-        const { name } = acceptedFiles[0];
-        updateCreation({
-          file: acceptedFiles[0],
-          name: shortenFileName(name),
-          type: isMenderArtifact(name) ? uploadTypes.mender.key : uploadTypes.singleFile.key
-        });
-      }
-    } else {
-      updateCreation(emptyFileInfo);
+    if (acceptedFiles.length !== 1) {
+      onFileSelect(undefined);
       setErrorMessage('The selected file is not supported.');
+      return;
     }
+    const [file] = acceptedFiles;
+    const validationError = validateFile(file);
+    if (validationError) {
+      onFileSelect(undefined);
+      setErrorMessage(validationError);
+      return;
+    }
+    setErrorMessage('');
+    onFileSelect(file);
   };
 
   return (
@@ -149,9 +108,7 @@ export const ArtifactUpload = ({ updateCreation }: { updateCreation: (some: Part
           <div {...getRootProps({ className: `fadeIn onboard dropzone ${classes.dropzone}` })} ref={onboardingAnchor}>
             <input {...getInputProps()} />
             <CloudUpload fontSize="large" className="muted" />
-            <div>
-              Drag and drop here or <b>browse</b> to upload
-            </div>
+            <div>Drag and drop here or browse to upload</div>
           </div>
         )}
       </Dropzone>
@@ -160,92 +117,124 @@ export const ArtifactUpload = ({ updateCreation }: { updateCreation: (some: Part
   );
 };
 
-export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selectedFile }) => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [creation, setCreation] = useState<Update>({
-    customDeviceTypes: '',
+const defaultFileSystem = 'rootfs-image';
+const defaultVersion = '1.0.0';
+const lastStep = steps.length - 1;
+
+const getDefaultValues = (file?: File): Update => {
+  const name = file ? shortenFileName(file.name) : '';
+  return {
     destination: '',
-    file: undefined,
-    fileSystem: 'rootfs-image',
-    finalStep: false,
-    isValid: false,
-    isValidDestination: false,
-    name: '',
-    selectedDeviceTypes: [],
-    softwareName: '',
-    softwareVersion: '',
-    type: uploadTypes.mender.key
-  });
+    deviceTypes: [],
+    fileSystem: defaultFileSystem,
+    name,
+    softwareName: name.replace('.', '-'),
+    softwareVersion: defaultVersion
+  };
+};
+
+export const AddArtifactDialog = ({ onCancel, onUploadStarted, selectedFile }) => {
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [file, setFile] = useState<File | undefined>(selectedFile);
+  const shouldAdvance = useRef<boolean>(false);
 
   const deviceTypes = useSelector(getDeviceTypes);
-  const dispatch = useDispatch();
-
-  const onCreateArtifact = useCallback((meta, file) => dispatch(createArtifact({ meta, file })), [dispatch]);
-  const onSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-  const onUploadArtifact = useCallback((meta, file) => dispatch(uploadArtifact({ meta, file })), [dispatch]);
+  const dispatch = useAppDispatch();
+  const methods = useForm<Update>({ defaultValues: getDefaultValues(selectedFile) });
+  const { getValues, handleSubmit, reset } = methods;
 
   useEffect(() => {
-    setCreation(current => ({ ...current, file: selectedFile }));
+    setFile(selectedFile);
   }, [selectedFile]);
+
+  useEffect(() => {
+    setActiveStep(0);
+    reset(getDefaultValues(file));
+  }, [file, reset]);
 
   const addArtifact = useCallback(
     (meta, file, type = 'upload') => {
       onUploadStarted();
-      const upload = type === 'create' ? onCreateArtifact(meta, file) : onUploadArtifact(meta, file);
+      const upload = type === 'create' ? dispatch(createArtifact({ meta, file })) : dispatch(uploadArtifact({ meta, file }));
       // track in GA
-      return upload.then(() => Tracking.event({ category: 'artifacts', action: 'create' }));
+      return upload.unwrap().then(() => Tracking.event({ category: 'artifacts', action: 'create' }));
     },
-    [onCreateArtifact, onUploadStarted, onUploadArtifact]
+    [dispatch, onUploadStarted]
   );
 
-  const onUpload = useCallback(() => {
-    const { customDeviceTypes, destination, file, fileSystem, name, selectedDeviceTypes, softwareName, softwareVersion } = creation;
-    const { name: filename = '' } = file;
-    let meta = { description: '' };
-    if (filename.endsWith('.mender')) {
-      return addArtifact(meta, file, 'upload');
-    }
-    const otherDeviceTypes = customDeviceTypes.split(',');
-    const deviceTypes = unionizeStrings(selectedDeviceTypes, otherDeviceTypes);
-    meta = {
-      ...meta,
-      device_types_compatible: deviceTypes,
-      args: { dest_dir: destination, filename, software_filesystem: fileSystem, software_name: softwareName, software_version: softwareVersion },
-      name
-    };
-    return addArtifact(meta, file, 'create');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addArtifact, JSON.stringify(creation)]);
+  const onUploadClick = useCallback(() => addArtifact({ description: '' }, file, 'upload'), [addArtifact, file]);
 
-  const onUpdateCreation = useCallback(update => setCreation(current => ({ ...current, ...update })), []);
+  // the inputs of the current step are validated before this is called - which is why progressing is handled here only
+  const onValid = useCallback(
+    ({ destination, deviceTypes: selectedDeviceTypes, fileSystem, name, softwareName, softwareVersion }: Update) => {
+      if (activeStep < lastStep) {
+        shouldAdvance.current = true;
+        return;
+      }
+      const meta = {
+        description: '',
+        device_types_compatible: selectedDeviceTypes,
+        args: { dest_dir: destination, filename: file?.name, software_filesystem: fileSystem, software_name: softwareName, software_version: softwareVersion },
+        name
+      };
+      addArtifact(meta, file, 'create');
+    },
+    [activeStep, addArtifact, file]
+  );
 
-  const onNextClick = useCallback(() => {
-    onUpdateCreation({ isValid: false });
-    setActiveStep(activeStep + 1);
-  }, [activeStep, onUpdateCreation]);
+  // clearing the submit state on step changes prevents the inputs of the following step from being validated on every keystroke
+  const onStepChange = useCallback(
+    (step: number) => {
+      setActiveStep(step);
+      reset(getValues(), { keepDefaultValues: true, keepTouched: true });
+    },
+    [getValues, reset]
+  );
 
-  const onRemove = () => onUpdateCreation({ file: undefined, isValid: false });
+  // react-hook-form marks the form as submitted only once the submit handler returned, so the step can be advanced here only
+  const onSubmitClick = useCallback(
+    (event?: BaseSyntheticEvent) =>
+      handleSubmit(onValid)(event).then(() => {
+        if (!shouldAdvance.current) {
+          return;
+        }
+        shouldAdvance.current = false;
+        onStepChange(activeStep + 1);
+      }),
+    [activeStep, handleSubmit, onStepChange, onValid]
+  );
 
-  const { file, finalStep, isValid, type } = creation;
-  const { component: ComponentToShow } = uploadTypes[type];
-  const commonProps = { releases, setSnackbar: onSetSnackbar, updateCreation: onUpdateCreation };
+  const onRemove = () => setFile(undefined);
+
+  const isMender = !!file && isMenderArtifact(file.name);
+  const type = isMender ? 'mender' : 'singleFile';
+  const submitLabel = isMender ? 'Upload artifact' : activeStep < lastStep ? 'Next' : 'Upload';
 
   return (
     <BaseDialog open title="Upload an Artifact" fullWidth maxWidth="sm" onClose={onCancel}>
       <DialogContent className="margin-top margin-bottom">
         {!file ? (
-          <ArtifactUpload updateCreation={onUpdateCreation} />
+          <ArtifactUpload onFileSelect={setFile} />
+        ) : isMender ? (
+          <FileInformation file={file} onRemove={onRemove} type={type} />
         ) : (
-          <ComponentToShow {...commonProps} activeStep={activeStep} creation={creation} deviceTypes={deviceTypes} onRemove={onRemove} />
+          <FormProvider {...methods}>
+            <form noValidate onSubmit={onSubmitClick}>
+              <ArtifactInformationForm activeStep={activeStep} deviceTypes={deviceTypes} file={file} onRemove={onRemove} type={type} />
+            </form>
+          </FormProvider>
         )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
-        {!!activeStep && <Button onClick={() => setActiveStep(activeStep - 1)}>Back</Button>}
-        <div style={{ flexGrow: 1 }} />
-        {file && (
-          <Button variant="contained" disabled={!isValid} onClick={() => (finalStep ? onUpload() : onNextClick())}>
-            {finalStep ? 'Upload artifact' : 'Next'}
+        {!!activeStep && (
+          <Button color="info" variant="outlined" onClick={() => onStepChange(activeStep - 1)}>
+            Back
+          </Button>
+        )}
+        {!!file && (
+          <Button variant="contained" onClick={isMender ? onUploadClick : onSubmitClick}>
+            {submitLabel}
           </Button>
         )}
       </DialogActions>

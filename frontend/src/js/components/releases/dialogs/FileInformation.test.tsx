@@ -1,4 +1,4 @@
-// Copyright 2020 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -13,21 +13,28 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { ArtifactUploadConfirmation } from './ArtifactUpload';
+import { FileInformation } from './FileInformation';
 
-describe('ArtifactUpload Component', () => {
+const file = { name: 'testFile', size: 1024 };
+
+describe('FileInformation Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(
-      <ArtifactUploadConfirmation
-        creation={{ file: { name: 'testFile', size: 1024 }, type: 'mender' }}
-        onboardingState={{ complete: true }}
-        updateCreation={vi.fn()}
-      />
-    );
+    const { baseElement } = render(<FileInformation file={file} onRemove={vi.fn()} type="mender" />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('allows removing the selected file', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const removeMock = vi.fn();
+    render(<FileInformation file={file} onRemove={removeMock} type="mender" />);
+    expect(screen.getByText('Selected Mender Artifact')).toBeInTheDocument();
+    await user.click(screen.getByRole('button'));
+    expect(removeMock).toHaveBeenCalled();
   });
 });

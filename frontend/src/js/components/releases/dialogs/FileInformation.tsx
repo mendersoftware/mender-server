@@ -11,63 +11,53 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Delete as DeleteIcon, InsertDriveFile as InsertDriveFileIcon } from '@mui/icons-material';
-import { Divider, IconButton } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import { Delete as DeleteIcon, FileCopy as FileIcon } from '@mui/icons-material';
+import { IconButton, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
+import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
-const useStyles = makeStyles()(theme => ({
-  fileInfo: {
-    alignItems: 'center',
-    columnGap: theme.spacing(4),
-    display: 'grid',
-    gridTemplateColumns: 'max-content 1fr max-content max-content',
-    marginBottom: theme.spacing(2),
-    marginRight: theme.spacing(4)
-  },
-  fileSizeWrapper: { marginTop: 5 }
-}));
-
 const fileInformationContent = {
   mender: {
     title: 'Mender Artifact',
-    icon: InsertDriveFileIcon,
+    icon: FileIcon,
     infoId: 'menderArtifactUpload'
   },
   singleFile: {
-    title: 'Single File',
-    icon: InsertDriveFileIcon,
+    title: 'single file',
+    icon: FileIcon,
     infoId: 'singleFileUpload'
   }
 };
 
 export const FileInformation = ({ file, type, onRemove }) => {
-  const { classes } = useStyles();
   if (!file) {
     return <div />;
   }
   const { icon: Icon, infoId, title } = fileInformationContent[type];
   return (
-    <>
-      <h4>Selected {title}</h4>
-      <div className={classes.fileInfo}>
-        <Icon size="large" />
-        <div className="flexbox column">
-          <div>{file.name}</div>
-          <div className={`muted ${classes.fileSizeWrapper}`}>
-            <FileSize fileSize={file.size} />
-          </div>
-        </div>
-        <IconButton size="large" onClick={onRemove}>
-          <DeleteIcon />
-        </IconButton>
-        <MenderHelpTooltip id={HELPTOOLTIPS[infoId].id} />
+    <div>
+      <div className="flexbox align-items-center margin-bottom-x-small">
+        <Typography variant="subtitle1">Selected {title}</Typography>
+        <InfoHintContainer>
+          <MenderHelpTooltip id={HELPTOOLTIPS[infoId].id} placement="bottom-start" small />
+        </InfoHintContainer>
       </div>
-      <Divider className="margin-right-large" />
-    </>
+      <ListItem
+        secondaryAction={
+          <IconButton edge="end" onClick={onRemove}>
+            <DeleteIcon />
+          </IconButton>
+        }
+      >
+        <ListItemAvatar className="align-self-center">
+          <Icon color="action" />
+        </ListItemAvatar>
+        <ListItemText primary={file.name} secondary={<FileSize fileSize={file.size} />} />
+      </ListItem>
+    </div>
   );
 };

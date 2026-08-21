@@ -11,29 +11,26 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 
-import { FormControl, InputLabel, OutlinedInput, TextField, inputLabelClasses } from '@mui/material';
+import { Typography, inputLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { FileInformation } from './FileInformation';
 
-const defaultVersion = '1.0.0';
-
 const useStyles = makeStyles()(theme => ({
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
+  hints: { pointerEvents: 'auto' },
   releaseName: {
     display: 'flex',
-    marginTop: theme.spacing(-1),
-    height: '100%',
-    alignItems: 'center',
+    overflow: 'visible',
     [`&.${inputLabelClasses.shrink}`]: {
       background: theme.palette.background.default,
       paddingLeft: theme.spacing(0.5),
@@ -44,111 +41,93 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const VersionInformation = ({ creation = {}, onRemove, updateCreation }) => {
-  const { file, fileSystem: propFs, name, softwareName: propName, softwareVersion: version = '', type } = creation;
-  const [fileSystem, setFileSystem] = useState(propFs);
-  const [softwareName, setSoftwareName] = useState(propName || name.replace('.', '-'));
-  const [softwareVersion, setSoftwareVersion] = useState(version || defaultVersion);
+const versionFields = [
+  { key: 'fileSystem', label: 'Software filesystem' },
+  { key: 'softwareName', label: 'Software name' },
+  { key: 'softwareVersion', label: 'Software version' }
+];
+
+export const VersionInformation = ({ file, onRemove, type }) => {
   const { classes } = useStyles();
 
-  useEffect(() => {
-    updateCreation({ finalStep: true });
-  }, [updateCreation]);
-
-  useEffect(() => {
-    updateCreation({ fileSystem, softwareName, softwareVersion, isValid: fileSystem && softwareName && softwareVersion });
-  }, [fileSystem, softwareName, softwareVersion, updateCreation]);
-
   return (
-    <>
+    <div className={classes.formWrapper}>
       <FileInformation file={file} type={type} onRemove={onRemove} />
-      <h4>Version information</h4>
-      <div className={classes.formWrapper}>
-        {[
-          { key: 'fileSystem', title: 'Software filesystem', setter: setFileSystem, value: fileSystem },
-          { key: 'softwareName', title: 'Software name', setter: setSoftwareName, value: softwareName },
-          { key: 'softwareVersion', title: 'Software version', setter: setSoftwareVersion, value: softwareVersion }
-        ].map(({ key, title, setter, value: currentValue }, index) => (
-          <TextField autoFocus={!index} fullWidth key={key} label={title} onChange={({ target: { value } }) => setter(value)} value={currentValue} />
-        ))}
-      </div>
-    </>
-  );
-};
-
-const checkDestinationValidity = destination => (destination.length ? /^(?:\/|[a-z]+:\/\/)/.test(destination) : false);
-
-export const ArtifactInformation = ({ creation = {}, deviceTypes = [], onRemove, updateCreation }) => {
-  const { destination = '', file, name = '', selectedDeviceTypes = [], type } = creation;
-
-  const methods = useForm({ mode: 'onChange', defaultValues: { deviceTypes: selectedDeviceTypes } });
-  const { watch } = methods;
-  const formDeviceTypes = watch('deviceTypes');
-  const { classes } = useStyles();
-
-  useEffect(() => {
-    updateCreation({ selectedDeviceTypes: formDeviceTypes });
-  }, [formDeviceTypes, updateCreation]);
-
-  useEffect(() => {
-    updateCreation({
-      destination,
-      isValid: checkDestinationValidity(destination) && selectedDeviceTypes.length && name,
-      finalStep: false
-    });
-  }, [destination, name, selectedDeviceTypes.length, updateCreation]);
-
-  const onDestinationChange = ({ target: { value } }) =>
-    updateCreation({ destination: value, isValid: checkDestinationValidity(value) && selectedDeviceTypes.length && name });
-
-  const isValidDestination = checkDestinationValidity(destination);
-  return (
-    <div className="flexbox column" style={{ gap: 15 }}>
-      <FileInformation file={file} type={type} onRemove={onRemove} />
-      <TextField
-        autoFocus={true}
-        error={!isValidDestination}
-        fullWidth
-        helperText={
-          !isValidDestination ? <span className="warning">Destination has to be an absolute path</span> : 'where the file will be installed on your devices'
-        }
-        label="Destination directory"
-        onChange={onDestinationChange}
-        placeholder="Example: /opt/installed-by-single-file"
-        value={destination}
-      />
-      <h4>Artifact information</h4>
-      <FormControl>
-        <InputLabel htmlFor="release-name" className={classes.releaseName} onClick={e => e.preventDefault()}>
-          Release name
-          <InfoHintContainer>
-            <MenderHelpTooltip id={HELPTOOLTIPS.releaseName.id} />
-            <DocsTooltip id={DOCSTIPS.releases.id} />
-          </InfoHintContainer>
-        </InputLabel>
-        <OutlinedInput
-          defaultValue={name}
-          className="release-name-input"
-          id="release-name"
-          placeholder="A descriptive name for the software"
-          onChange={e => updateCreation({ name: e.target.value })}
-        />
-      </FormControl>
-      <FormProvider {...methods}>
-        <form noValidate>
-          <ChipSelect
-            name="deviceTypes"
-            label="Device types compatible"
-            helperText="Enter all device types this software is compatible with"
-            options={deviceTypes}
-          />
-        </form>
-      </FormProvider>
+      <Typography variant="subtitle1">Version information</Typography>
+      {versionFields.map(({ key, label }, index) => (
+        <TextInput key={key} id={key} InputProps={{ autoFocus: !index }} label={label} required requiredRendered={false} width="100%" />
+      ))}
     </div>
   );
 };
 
-const steps = [ArtifactInformation, VersionInformation];
+const destinationHelperText = 'Where the file will be installed on your devices';
+
+const checkDestinationValidity = destination => /^(?:\/|[a-z]+:\/\/)/.test(destination);
+
+export const ArtifactInformation = ({ deviceTypes = [], file, onRemove, type }) => {
+  const { classes } = useStyles();
+  const {
+    formState: { dirtyFields },
+    setValue
+  } = useFormContext();
+  const releaseName = useWatch({ name: 'name' });
+
+  useEffect(() => {
+    if (dirtyFields.softwareName) {
+      return;
+    }
+    setValue('softwareName', releaseName.replace('.', '-'));
+  }, [dirtyFields.softwareName, releaseName, setValue]);
+
+  const releaseNameLabel = (
+    <>
+      Release name
+      <InfoHintContainer className={`margin-left-small margin-right-x-small ${classes.hints}`}>
+        <MenderHelpTooltip small id={HELPTOOLTIPS.releaseName.id} placement="bottom-start" />
+      </InfoHintContainer>
+    </>
+  );
+
+  return (
+    <div className={classes.formWrapper}>
+      <FileInformation file={file} type={type} onRemove={onRemove} />
+      <TextInput
+        helperText={destinationHelperText}
+        hint="Example: /opt/installed-by-single-file"
+        id="destination"
+        InputProps={{ autoFocus: true }}
+        label="Destination directory"
+        required
+        requiredRendered={false}
+        rules={{ validate: value => checkDestinationValidity(value) || 'Destination has to be an absolute path' }}
+        width="100%"
+      />
+      <Typography variant="subtitle1">Artifact information</Typography>
+      <TextInput
+        hint="A descriptive name for the software"
+        id="name"
+        InputLabelProps={{ className: classes.releaseName, onClick: e => e.preventDefault() }}
+        // the label carries the help tooltip, so it is rendered on top of the outline instead of in its notch - which requires suppressing the notch label
+        InputProps={{ label: undefined }}
+        label={releaseNameLabel}
+        required
+        requiredRendered={false}
+        rules={{ required: 'Release name is required' }}
+        width="100%"
+      />
+      <ChipSelect
+        name="deviceTypes"
+        helperText="Enter all device types this software is compatible with"
+        label="Device types compatible"
+        options={deviceTypes}
+        rules={{ required: 'Device type is required' }}
+      />
+    </div>
+  );
+};
+
+export const steps = [ArtifactInformation, VersionInformation];
 
 export const ArtifactInformationForm = ({ activeStep, ...remainder }) => {
   const Component = steps[activeStep];

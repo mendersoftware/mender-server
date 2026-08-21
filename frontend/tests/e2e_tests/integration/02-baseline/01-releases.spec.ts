@@ -106,7 +106,7 @@ test.describe('Files', () => {
     await deviceTypeInput.fill(releaseName);
     await page.getByLabel(/Device types/i).fill(`all-of-them,`);
     await page.getByRole('button', { name: /next/i }).click();
-    await page.getByRole('button', { name: /upload artifact/i }).click();
+    await page.getByRole('button', { name: 'Upload', exact: true }).click();
     await page.getByText('1-2 of 2').waitFor();
     const token = await getTokenFromStorage(baseUrl);
     await tagRelease(releaseName, 'customRelease', baseUrl, token, request);
