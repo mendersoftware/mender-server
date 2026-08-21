@@ -20,6 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from mender_client.models.select_attribute import SelectAttribute
 from typing import Optional, Set
 from typing_extensions import Self
@@ -33,7 +34,7 @@ class SearchIdentityParams(BaseModel):
     value_prefix: StrictStr = Field(description="The prefix used to match against attribute values with 'scope' and 'name'.")
     attributes: Optional[List[SelectAttribute]] = Field(default=None, description="List of attributes to select and return")
     page: Optional[StrictInt] = Field(default=None, description="Starting page.")
-    per_page: Optional[StrictInt] = Field(default=None, description="Number of results per page.")
+    per_page: Optional[Annotated[int, Field(le=500, strict=True)]] = Field(default=None, description="Number of results per page.")
     __properties: ClassVar[List[str]] = ["scope", "name", "value_prefix", "attributes", "page", "per_page"]
 
     @field_validator('scope')
