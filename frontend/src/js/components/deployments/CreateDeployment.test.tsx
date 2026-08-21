@@ -17,15 +17,20 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { defaultState, render } from '@/testUtils';
+import GeneralApi from '@northern.tech/store/api/general-api';
+import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { act, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import CreateDeployment, { defaultValues as formDefaultValues } from './CreateDeployment';
 import { DeviceLimit } from './deployment-wizard/DeviceLimit';
-import { RolloutPatternSelection, getPhaseDeviceCount, getRemainderPercent, validatePhases } from './deployment-wizard/PhaseSettings';
+import { RolloutPatternSelection } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+import { deploymentErrors } from './deployment-wizard/validation';
 
 const FormWrapper = ({ children, defaultValues = {} }) => {
   const methods = useForm({
@@ -36,6 +41,9 @@ const FormWrapper = ({ children, defaultValues = {} }) => {
   });
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
+
+// the rollout options exclude each other, so they have to be enabled one at a time to render their expanded state
+const expandedDefaultValues = { RolloutOptions: { isPaused: true }, RolloutPatternSelection: { usesPattern: true } };
 
 const preloadedState = {
   ...defaultState,
@@ -48,11 +56,18 @@ const preloadedState = {
     }
   }
 };
-const deploymentCreationTime = defaultState.deployments.byId.d1.created;
+
+const renderWrapper = ({ deploymentObject = {}, onScheduleSubmit = vi.fn(), preloadedState: preloadedStateProp = preloadedState }) =>
+  render(
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <CreateDeployment deploymentObject={deploymentObject} onScheduleSubmit={onScheduleSubmit} onValuesChange={vi.fn()} open />
+    </LocalizationProvider>,
+    { preloadedState: preloadedStateProp }
+  );
 
 describe('CreateDeployment Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+    const { baseElement } = renderWrapper({});
     const view = baseElement.getElementsByClassName('MuiDrawer-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -77,7 +92,7 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormWrapper>
+            <FormWrapper defaultValues={expandedDefaultValues[Component.name] ?? {}}>
               <Component {...props} />
             </FormWrapper>
           </LocalizationProvider>,
@@ -91,7 +106,7 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly as enterprise`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormWrapper>
+            <FormWrapper defaultValues={expandedDefaultValues[Component.name] ?? {}}>
               <Component {...props} isEnterprise />
             </FormWrapper>
           </LocalizationProvider>,
@@ -105,75 +120,96 @@ describe('CreateDeployment Component', () => {
     });
   });
 
-  describe('utility functions', () => {
-    describe('getPhaseDeviceCount function', () => {
-      it('works with empty attributes', async () => {
-        expect(getPhaseDeviceCount(120, 10, 20, false)).toEqual(12);
-        expect(getPhaseDeviceCount(120, 10, 20, true)).toEqual(12);
-        expect(getPhaseDeviceCount(120, null, 20, true)).toEqual(24);
-        expect(getPhaseDeviceCount(120, null, 20, false)).toEqual(24);
-        expect(getPhaseDeviceCount(undefined, null, 20, false)).toEqual(0);
-      });
-    });
-    describe('getRemainderPercent function', () => {
-      it('remainder Percent calculated correctly', async () => {
-        const phases = [
-          { batch_size: 10, not: 'interested' },
-          { batch_size: 10, not: 'interested' },
-          { batch_size: 10, not: 'interested' }
-        ];
-        expect(getRemainderPercent(phases)).toEqual(80);
-        expect(
-          getRemainderPercent([
-            { batch_size: 10, not: 'interested' },
-            { batch_size: 90, not: 'interested' }
-          ])
-        ).toEqual(90);
-        expect(
-          getRemainderPercent([
-            { batch_size: 10, not: 'interested' },
-            { batch_size: 95, not: 'interested' }
-          ])
-        ).toEqual(90);
-        // this will be caught in the phase validation - should still be good to be fixed in the future
-        expect(
-          getRemainderPercent([
-            { batch_size: 50, not: 'interested' },
-            { batch_size: 55, not: 'interested' },
-            { batch_size: 95, not: 'interested' }
-          ])
-        ).toEqual(-5);
-      });
+  describe('validation', () => {
+    it('accepts a click on an incomplete deployment & points out what is missing', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      const onScheduleSubmit = vi.fn();
+      renderWrapper({ onScheduleSubmit });
+      const submitButton = screen.getByRole('button', { name: /create deployment/i });
+      expect(submitButton).toBeEnabled();
+      await user.click(submitButton);
+      await waitFor(() => expect(screen.getByText(deploymentErrors.release)).toBeVisible());
+      expect(screen.getByText(deploymentErrors.group)).toBeVisible();
+      expect(onScheduleSubmit).not.toHaveBeenCalled();
     });
 
-    describe('validatePhases function', () => {
-      it('works as expected', async () => {
-        const phases = [
-          {
-            batch_size: 10,
-            delay: 2,
-            delayUnit: 'hours',
-            start_ts: deploymentCreationTime
-          },
-          { batch_size: 10, delay: 2, start_ts: deploymentCreationTime },
-          { batch_size: 10, start_ts: deploymentCreationTime }
-        ];
-        expect(validatePhases(undefined, 10000)).toEqual(true);
-        expect(validatePhases(undefined, 10000)).toEqual(true);
-        expect(validatePhases(phases, 10)).toEqual(true);
-        expect(validatePhases(phases, 10)).toEqual(true);
-        expect(validatePhases([], 10)).toEqual(true);
-        expect(
-          validatePhases(
-            [
-              { batch_size: 50, not: 'interested' },
-              { batch_size: 55, not: 'interested' },
-              { batch_size: 95, not: 'interested' }
-            ],
-            100
-          )
-        ).toEqual(false);
-      });
+    it('drops an error once its field is taken care of', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      renderWrapper({});
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(screen.getByText(deploymentErrors.group)).toBeVisible());
+      const groupSelect = screen.getByPlaceholderText(/select a device group/i);
+      await user.type(groupSelect, 'testGroupDyn');
+      await user.keyboard('{ArrowDown}{Enter}');
+      await waitFor(() => expect(screen.queryByText(deploymentErrors.group)).toBeFalsy());
+      expect(screen.getByText(deploymentErrors.release)).toBeVisible();
+    });
+
+    it('drops an error once the option that caused it is switched off again', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      renderWrapper({});
+      await user.click(screen.getByRole('button', { name: /advanced options/i }));
+      const limitCheckbox = screen.getByRole('checkbox', { name: /maximum number of devices/i });
+      await user.click(limitCheckbox);
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(screen.getByText(deploymentErrors.maxDevices)).toBeVisible());
+      await user.click(limitCheckbox);
+      await waitFor(() => expect(screen.queryByText(deploymentErrors.maxDevices)).toBeFalsy());
+    });
+
+    it('applies a schedule even without a rollout pattern', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      // scheduling is plan gated, so the plain preloadedState would leave the schedule selection disabled
+      const enterpriseState = {
+        ...defaultState,
+        app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: true } }
+      };
+      renderWrapper({ deploymentObject: { group: ALL_DEVICES, release: defaultState.releases.byId.r1 }, preloadedState: enterpriseState });
+      await user.click(screen.getByText(/start immediately/i));
+      await user.click(await screen.findByRole('option', { name: /schedule the start date/i }));
+      await user.click(await screen.findByRole('gridcell', { name: '28' }));
+      await user.click(screen.getByRole('button', { name: 'Next' }));
+      await user.click(await screen.findByRole('button', { name: /ok/i }));
+      // let the picker dialog finish its exit transition to give the drawer back its visibility
+      await act(async () => vi.runOnlyPendingTimers());
+      const post = vi.spyOn(GeneralApi, 'post');
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() =>
+        expect(post).toHaveBeenCalledWith(
+          '/api/management/v1/deployments/deployments',
+          expect.objectContaining({ phases: [{ batch_size: 100, start_ts: expect.stringMatching(/^2019-01-28/) }] })
+        )
+      );
+    });
+
+    it('mounts the advanced options only once they are expanded & keeps them mounted afterwards', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      renderWrapper({ deploymentObject: { group: 'testGroupDynamic', release: defaultState.releases.byId.r1 } });
+      const accordionToggle = screen.getByRole('button', { name: /advanced options/i });
+      expect(screen.queryByRole('checkbox', { name: /maximum number of devices/i })).toBeNull();
+      await user.click(accordionToggle);
+      await user.click(await screen.findByRole('checkbox', { name: /maximum number of devices/i }));
+      const limitInput = document.querySelector('#maxDevices') as HTMLElement;
+      await user.clear(limitInput);
+      await user.type(limitInput, '123');
+      // collapsing keeps them mounted, so their sections don't have to redo their device lookups on every toggle
+      await user.click(accordionToggle);
+      await act(async () => vi.runOnlyPendingTimers());
+      expect(accordionToggle).toHaveAttribute('aria-expanded', 'false');
+      expect(document.querySelector('#maxDevices')).toBeTruthy();
+      const post = vi.spyOn(GeneralApi, 'post');
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(post).toHaveBeenCalledWith('/api/management/v2/deployments/deployments', expect.objectContaining({ max_devices: 123 })));
+    });
+
+    it('expands the advanced options to show an error hidden in them', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      renderWrapper({ deploymentObject: { group: 'testGroupDynamic', maxDevices: -90 } });
+      const accordionToggle = screen.getByRole('button', { name: /advanced options/i });
+      expect(accordionToggle).toHaveAttribute('aria-expanded', 'false');
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(accordionToggle).toHaveAttribute('aria-expanded', 'true'));
+      expect(screen.getByText(deploymentErrors.maxDevices)).toBeVisible();
     });
   });
 });

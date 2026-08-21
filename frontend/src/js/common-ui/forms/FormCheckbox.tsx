@@ -15,8 +15,13 @@ import type { MouseEventHandler, ReactNode } from 'react';
 import type { Control, FieldValues } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
-import type { CheckboxProps } from '@mui/material';
+import type { CheckboxProps, FormControlLabelProps } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
+
+type FormCheckboxSlotProps = {
+  checkbox?: Partial<CheckboxProps>;
+  label?: Partial<Omit<FormControlLabelProps, 'control' | 'label'>>;
+};
 
 interface FormCheckboxProps extends Pick<CheckboxProps, 'className' | 'disabled' | 'style'> {
   control?: Control<FieldValues>;
@@ -24,9 +29,22 @@ interface FormCheckboxProps extends Pick<CheckboxProps, 'className' | 'disabled'
   id: string;
   label: ReactNode;
   required?: boolean;
+  slotProps?: FormCheckboxSlotProps;
 }
 
-export const FormCheckbox = ({ className, control, disabled, id, handleClick, style, label, required }: FormCheckboxProps) => (
+const emptySlotProps: FormCheckboxSlotProps = { label: {}, checkbox: {} };
+
+export const FormCheckbox = ({
+  className,
+  control,
+  disabled,
+  id,
+  handleClick,
+  style,
+  label,
+  required,
+  slotProps: { label: labelProps, checkbox: checkboxProps } = emptySlotProps
+}: FormCheckboxProps) => (
   <Controller
     name={id}
     rules={{ required }}
@@ -35,9 +53,19 @@ export const FormCheckbox = ({ className, control, disabled, id, handleClick, st
       <FormControlLabel
         className={className}
         control={
-          <Checkbox name={id} onClick={handleClick} disabled={disabled} checked={value} style={style} color="primary" onChange={() => onChange(!value)} />
+          <Checkbox
+            name={id}
+            onClick={handleClick}
+            disabled={disabled}
+            checked={value}
+            style={style}
+            color="primary"
+            onChange={() => onChange(!value)}
+            {...checkboxProps}
+          />
         }
         label={label}
+        {...labelProps}
       />
     )}
   />

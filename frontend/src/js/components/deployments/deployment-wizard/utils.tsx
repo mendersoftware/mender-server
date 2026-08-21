@@ -11,26 +11,92 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { UseFormWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+
+import { HelpOutlineOutlined as HelpIcon } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 
 import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { getDeviceCountsByStatus, getDevicesById, getGroupData } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
 import { getGroupDevices } from '@northern.tech/store/thunks';
 import type { Device, Filter } from '@northern.tech/types/MenderTypes';
+import dayjs from 'dayjs';
+import validator from 'validator';
 
+import { phaseLimits, rolloutModes } from './phases/constants';
 import type { DeploymentFormValues } from './types';
 
 export const deploymentFormSections: Record<keyof DeploymentFormValues, string> = {
   delta: 'delta',
   forceDeploy: 'forceDeploy',
   group: 'group',
+  isPaused: 'isPaused',
   maxDevices: 'maxDevices',
   phases: 'phases',
   release: 'release',
   retries: 'retries',
-  update_control_map: 'update_control_map'
+  rolloutMode: 'rolloutMode',
+  shouldLimit: 'shouldLimit',
+  startTime: 'startTime',
+  uniform_phases: 'uniform_phases',
+  update_control_map: 'update_control_map',
+  usesPattern: 'usesPattern'
+};
+
+export const getPhaseStartTime = (phases, index, startDate) => {
+  const startingDate = typeof startDate === 'string' && validator.isISO8601(startDate) ? startDate : undefined;
+  if (index < 1) {
+    return startDate?.toISOString ? startDate.toISOString() : startingDate;
+  } else if (phases[index].start_ts && typeof phases[index].start_ts === 'string' && validator.isISO8601(phases[index].start_ts)) {
+    return phases[index].start_ts;
+  }
+  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startingDate);
+  return newStartTime.toISOString();
+};
+
+export const buildPhasePayload = ({
+  phases = [],
+  rolloutMode,
+  startTime,
+  uniform_phases
+}: Pick<DeploymentFormValues, 'phases' | 'rolloutMode' | 'startTime' | 'uniform_phases'>) => {
+  if (uniform_phases) {
+    return {
+      phases: undefined,
+      uniform_phases: startTime ? { ...uniform_phases, start_ts: startTime } : uniform_phases
+    };
+  }
+  if (phases.length) {
+    return {
+      uniform_phases: undefined,
+      phases: phases.map((phase, i, origPhases) => {
+        const { batch_size, batch_size_devices, start_ts: _st, delay: _d, delayUnit: _du, ...rest } = phase;
+        return {
+          ...rest,
+          start_ts: getPhaseStartTime(origPhases, i, startTime),
+          ...(rolloutMode === rolloutModes.device_count.key ? { batch_size_devices } : { batch_size })
+        };
+      })
+    };
+  }
+  if (startTime) {
+    // if there is no existing phase, set phase and start time
+    return { phases: [{ batch_size: phaseLimits.fullBatchPercentage, start_ts: startTime }], uniform_phases: undefined };
+  }
+  return { phases: undefined, uniform_phases: undefined };
+};
+
+// most of the form is written through setValue, which doesn't re-run the validation unless it is told to - and it has
+// to, so that an error the user just resolved goes away right away instead of lingering until the next submit attempt
+export const useValidatedSetValue = () => {
+  const {
+    formState: { isSubmitted },
+    setValue
+  } = useFormContext();
+  return useCallback((name, value) => setValue(name, value, { shouldValidate: isSubmitted }), [isSubmitted, setValue]);
 };
 
 export type DeploymentDerivedState = {
@@ -38,6 +104,7 @@ export type DeploymentDerivedState = {
   deploymentDeviceIds: string[];
   devices: Device[];
   filter: Filter | undefined;
+  isDeviceCountResolved: boolean;
 };
 
 export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initialDevices: Device[] = []): DeploymentDerivedState => {
@@ -52,21 +119,29 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
   const [deploymentDeviceCount, setDeploymentDeviceCount] = useState(initialDevices.length);
   const [deploymentDeviceIds, setDeploymentDeviceIds] = useState(initialDevices.map(({ id }) => id));
   const [devices, setDevices] = useState(initialDevices);
+  const [isDeviceCountResolved, setIsDeviceCountResolved] = useState(!!initialDevices.length);
 
   // Compute device count from group selection
   useEffect(() => {
     if (group === ALL_DEVICES) {
       setDeploymentDeviceCount(acceptedDeviceCount);
+      setIsDeviceCountResolved(true);
     } else if (groups[group]) {
+      setIsDeviceCountResolved(false);
       dispatch(getGroupDevices({ group, perPage: 1 }))
         .unwrap()
         .then(result => {
           const total = result?.payload?.group?.total ?? 0;
           setDeploymentDeviceCount(total);
+          setIsDeviceCountResolved(true);
         })
-        .catch(() => setDeploymentDeviceCount(0));
+        .catch(() => {
+          setDeploymentDeviceCount(0);
+          setIsDeviceCountResolved(true);
+        });
     } else if (!initialDevices.length) {
       setDeploymentDeviceCount(0);
+      setIsDeviceCountResolved(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptedDeviceCount, group, dispatch, JSON.stringify(groups)]);
@@ -81,6 +156,7 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
     setDeploymentDeviceIds(deviceIds);
     setDeploymentDeviceCount(deviceIds.length);
     setDevices(enrichedDevices);
+    setIsDeviceCountResolved(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(initialDevices), JSON.stringify(devicesById)]);
 
@@ -88,6 +164,14 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
     deploymentDeviceCount,
     deploymentDeviceIds,
     devices,
-    filter
+    filter,
+    isDeviceCountResolved
   };
 };
+
+export const DisabledReasonHint = ({ reason }: { reason?: string }) =>
+  reason ? (
+    <Tooltip arrow placement="top" title={reason}>
+      <HelpIcon color="action" fontSize="small" />
+    </Tooltip>
+  ) : null;

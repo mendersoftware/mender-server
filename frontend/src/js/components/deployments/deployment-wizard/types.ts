@@ -12,7 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { Release } from '@northern.tech/store/releasesSlice';
-import type { Device, Filter, NewDeploymentPhaseTypeManagement, NewDeploymentTypeManagement } from '@northern.tech/types/MenderTypes';
+import type { DeploymentUniformPhase, Device, Filter, NewDeploymentPhaseTypeManagement, NewDeploymentTypeManagement } from '@northern.tech/types/MenderTypes';
+
+import type { RolloutMode } from './phases/constants';
 
 export type DeploymentSettings = Partial<{
   delta: boolean;
@@ -26,10 +28,20 @@ export type DeploymentSettings = Partial<{
   phases: Array<NewDeploymentPhaseTypeManagement>;
   release: Release;
   retries: number;
+  rolloutMode: RolloutMode;
+  uniform_phases: DeploymentUniformPhase;
   update_control_map: NewDeploymentTypeManagement['update_control_map'];
 }>;
 
-export type DeploymentFormValues = Pick<DeploymentSettings, 'delta' | 'forceDeploy' | 'maxDevices' | 'retries' | 'phases' | 'update_control_map'> & {
+export type DeploymentFormValues = Pick<
+  DeploymentSettings,
+  'delta' | 'forceDeploy' | 'maxDevices' | 'retries' | 'phases' | 'update_control_map' | 'rolloutMode' | 'uniform_phases'
+> & {
   group: string | null;
+  // the rollout pattern & pause toggles are part of the form to let them restrict each other and get reset with it
+  isPaused: boolean;
   release: Release | null;
+  shouldLimit: boolean;
+  startTime?: string;
+  usesPattern: boolean;
 };
