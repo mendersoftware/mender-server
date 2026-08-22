@@ -16,6 +16,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"sync"
 	"sync/atomic"
@@ -26,6 +27,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
+	"github.com/mendersoftware/mender-server/services/deviceconnect/config"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
@@ -54,43 +56,68 @@ type App interface {
 	GetRecorder(sessionID string) Recorder
 	GetControlRecorder(sessionID string) Recorder
 	DeleteTenant(ctx context.Context, tenantID string) error
-	Shutdown(timeout time.Duration)
-	ShutdownDone()
-	RegisterConnectionCancelHandle(id string, cancel context.CancelFunc, exclusive bool) uint32
-	UnregisterConnectionCancelHandle(handleID uint32)
-}
-
-type cancelHandle struct {
-	id     string
-	cancel context.CancelFunc
+	GetShutdownNotification() (<-chan struct{}, context.CancelFunc)
+	Shutdown(ctx context.Context, gracePeriod time.Duration) error
+	Done() <-chan struct{}
 }
 
 // app is an app object
 type app struct {
-	store            store.DataStore
-	shutdownCancels  map[uint32]*cancelHandle
-	shutdownCancelsM *sync.Mutex
-	shutdownDone     chan struct{}
+	store        store.DataStore
+	conns        map[chan struct{}]struct{}
+	connsMu      chan struct{}
+	shutdownOnce sync.Once
+	shutdownDone chan struct{}
+	memUnhealthy atomic.Bool
 	Config
 }
 
-type Config struct{}
+type Config struct {
+	ReadinessLimits *config.ReadinessLimits
+}
 
 // NewApp initialize a new deviceconnect App
-func New(ds store.DataStore, config ...Config) App {
+func New(ds store.DataStore, opts ...func(*Config)) App {
 	conf := Config{}
+	connsMu := make(chan struct{}, 1)
+	connsMu <- struct{}{}
+	for _, opt := range opts {
+		opt(&conf)
+	}
 	return &app{
-		store:            ds,
-		Config:           conf,
-		shutdownCancels:  make(map[uint32]*cancelHandle),
-		shutdownCancelsM: &sync.Mutex{},
-		shutdownDone:     make(chan struct{}),
+		store:        ds,
+		Config:       conf,
+		conns:        make(map[chan struct{}]struct{}),
+		connsMu:      connsMu,
+		shutdownDone: make(chan struct{}),
 	}
 }
 
 // HealthCheck performs a health check and returns an error if it fails
 func (a *app) HealthCheck(ctx context.Context) error {
-	return a.store.Ping(ctx)
+	err := a.store.Ping(ctx)
+	if err != nil {
+		return err
+	}
+	if a.ReadinessLimits != nil {
+		usage, err := a.ReadinessLimits.Source.Usage()
+		if err != nil {
+			return err
+		}
+		if a.memUnhealthy.Load() {
+			if usage < a.ReadinessLimits.Low {
+				a.memUnhealthy.Store(false)
+			} else {
+				return fmt.Errorf("memory usage above watermark")
+			}
+		} else {
+			if usage > a.ReadinessLimits.High {
+				a.memUnhealthy.Store(true)
+				return fmt.Errorf("memory usage above watermark")
+			}
+		}
+	}
+	return nil
 }
 
 // ProvisionDevice provisions a new tenant
@@ -188,11 +215,11 @@ func (a *app) SaveSessionRecording(ctx context.Context, id string, sessionBytes 
 	return err
 }
 
-func (a app) GetRecorder(sessionID string) Recorder {
+func (a *app) GetRecorder(sessionID string) Recorder {
 	return NewRecorder(sessionID, a.store)
 }
 
-func (a app) GetControlRecorder(sessionID string) Recorder {
+func (a *app) GetControlRecorder(sessionID string) Recorder {
 	return NewControlRecorder(sessionID, a.store)
 }
 
@@ -204,53 +231,102 @@ func (a *app) UploadFile(ctx context.Context, sess *model.Session, path string) 
 	return nil
 }
 
-func (a *app) Shutdown(timeout time.Duration) {
-	a.shutdownCancelsM.Lock()
-	defer a.shutdownCancelsM.Unlock()
-	ticker := time.NewTicker(timeout / time.Duration(len(a.shutdownCancels)+1))
-	for _, handle := range a.shutdownCancels {
-		handle.cancel()
-		<-ticker.C
-	}
-	<-ticker.C
-	close(a.shutdownDone)
-}
-
-func (a *app) ShutdownDone() {
-	<-a.shutdownDone
-}
-
-var shutdownID uint32
-
-func (a *app) RegisterConnectionCancelHandle(
-	id string,
-	cancel context.CancelFunc,
-	exclusive bool,
-) uint32 {
-	a.shutdownCancelsM.Lock()
-	defer a.shutdownCancelsM.Unlock()
-	if exclusive {
-		for handleID, handle := range a.shutdownCancels {
-			if handle.id == id {
-				handle.cancel()
-				delete(a.shutdownCancels, handleID)
-			}
-		}
-	}
-	handleID := atomic.AddUint32(&shutdownID, 1)
-	a.shutdownCancels[handleID] = &cancelHandle{id: id, cancel: cancel}
-	return handleID
-}
-
-func (a *app) UnregisterConnectionCancelHandle(handleID uint32) {
-	a.shutdownCancelsM.Lock()
-	defer a.shutdownCancelsM.Unlock()
-	delete(a.shutdownCancels, handleID)
-}
-
 func (d *app) DeleteTenant(ctx context.Context, tenantID string) error {
 	tenantCtx := identity.WithContext(ctx, &identity.Identity{
 		Tenant: tenantID,
 	})
 	return d.store.DeleteTenant(tenantCtx, tenantID)
+}
+
+func (a *app) gracefulShutdown(gracePeriod time.Duration) {
+	a.shutdownOnce.Do(func() {
+		<-a.connsMu
+		close(a.connsMu) // Close the mutex channel to signal that we're shutting down
+
+		// Shutdown must only run once
+		// Add ~1% margin on the deadline
+		deadlineMargin := 1 + len(a.conns)/100
+		interval := gracePeriod /
+			time.Duration(len(a.conns)+deadlineMargin)
+
+		var tickerChan <-chan time.Time
+		if interval <= 0 {
+			// If context deadline is already exceeded,
+			// short circuit loop and ignore done.
+			c := make(chan time.Time)
+			tickerChan = c
+			close(c)
+		} else {
+			ticker := time.NewTicker(interval)
+			defer ticker.Stop()
+			tickerChan = ticker.C
+		}
+		n := len(a.conns)
+		i := 0
+		var done chan struct{}
+		for done = range a.conns {
+			i++
+			close(done)
+			if i == n {
+				break
+			}
+			<-tickerChan
+		}
+		close(a.shutdownDone)
+	})
+}
+
+// Shutdown gracefully shuts websocket connections:
+//
+//	http.Server.RegisterOnShutdown(func() {
+//	  a.GracefulShutdown(ctx)
+//	})
+func (a *app) Shutdown(ctx context.Context, gracePeriod time.Duration) error {
+	var err error
+	deadline, ok := ctx.Deadline()
+	if ok {
+		gracePeriod = min(gracePeriod, time.Until(deadline)-time.Second)
+	}
+	go a.gracefulShutdown(gracePeriod)
+	select {
+	case <-a.shutdownDone:
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+	return err
+}
+
+func (a *app) GetShutdownNotification() (<-chan struct{}, context.CancelFunc) {
+	done := make(chan struct{})
+
+	_, ok := <-a.connsMu
+	if !ok {
+		// App is shutting down
+		close(done)
+		return done, func() {}
+	}
+	defer func() { a.connsMu <- struct{}{} }() // Release lock
+	a.conns[done] = struct{}{}
+
+	return done, func() {
+		select {
+		case <-done:
+			// Already closed?
+		default:
+			_, ok := <-a.connsMu
+			if !ok {
+				return
+			}
+			defer func() { a.connsMu <- struct{}{} }()
+			if _, ok := a.conns[done]; ok {
+				// Ensure only done once
+				close(done)
+				delete(a.conns, done)
+			}
+		}
+	}
+}
+
+func (a *app) Done() <-chan struct{} {
+	return a.shutdownDone
 }

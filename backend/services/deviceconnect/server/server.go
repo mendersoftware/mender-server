@@ -16,6 +16,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -51,15 +52,21 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	if err != nil {
 		return err
 	}
+
+	lim, err := dconfig.LoadReadiness(conf)
+	if err != nil {
+		return fmt.Errorf("failed to load memory limits: %w", err)
+	}
 	deviceConnectApp := app.New(
-		dataStore, app.Config{},
+		dataStore, func(c *app.Config) {
+			c.ReadinessLimits = lim
+		},
 	)
 
 	gracefulShutdownTimeout := conf.GetDuration(dconfig.SettingGracefulShutdownTimeout)
 	router, err := api.NewRouter(deviceConnectApp, natsClient, &api.RouterConfig{
-		GracefulShutdownTimeout: gracefulShutdownTimeout,
-		MaxRequestSize:          config.Config.GetInt64(dconfig.SettingMaxRequestSize),
-		MaxFileSize:             config.Config.GetInt64(dconfig.SettingMaxFileUploadSize),
+		MaxRequestSize: config.Config.GetInt64(dconfig.SettingMaxRequestSize),
+		MaxFileSize:    config.Config.GetInt64(dconfig.SettingMaxFileUploadSize),
 	})
 	if err != nil {
 		l.Fatal(err)
@@ -78,30 +85,43 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	}()
 
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, unix.SIGINT, unix.SIGTERM, unix.SIGUSR1)
-	recvSignal := <-quit
+	sigusr1 := make(chan os.Signal, 1)
+	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
+	signal.Notify(sigusr1, unix.SIGUSR1)
+	var recvSignal os.Signal
+	select {
+	case recvSignal = <-sigusr1:
+	case recvSignal = <-quit:
+	}
+	signal.Stop(quit) // Restore signal handlers for SIGTERM/SIGQUIT
 
-	l.Info("server shutdown")
+	l.Infof("received signal %s, server shutting down", recvSignal)
 
+	gracePeriod := time.Duration(0)
 	if recvSignal == unix.SIGUSR1 {
 		l.Info("received SIGUSR1, graceful shutdown")
-		srv.RegisterOnShutdown(func() {
-			deviceConnectApp.Shutdown(gracefulShutdownTimeout)
-		})
+		gracePeriod = gracefulShutdownTimeout
 	}
-
-	ctxWithTimeout, cancel := context.WithTimeout(ctx, 5*time.Second)
+	timeout := 5*time.Second + gracePeriod
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
-	if err := srv.Shutdown(ctxWithTimeout); err != nil {
-		l.Errorf("error when shutting down the server: %s", err.Error())
-		return err
+	errChan := make(chan error, 1)
+	srv.RegisterOnShutdown(func() { errChan <- deviceConnectApp.Shutdown(ctx, gracePeriod) })
+	err = srv.Shutdown(ctx)
+	if err != nil {
+		return fmt.Errorf("error shutting down server: %w", err)
 	}
-	l.Info("server exited")
-
-	if recvSignal == unix.SIGUSR1 {
-		deviceConnectApp.ShutdownDone()
-		l.Info("graceful shutdown completed")
+	select {
+	case <-deviceConnectApp.Done():
+		// Give the last websocket sessions a second to complete the handshake
+		select {
+		case err = <-errChan:
+		case <-time.After(time.Second):
+		case <-ctx.Done():
+			err = fmt.Errorf("timeout waiting for server to shutdown: %w", err)
+		}
+	case <-ctx.Done():
+		err = fmt.Errorf("timeout waiting for server to shutdown: %w", err)
 	}
-
-	return nil
+	return err
 }

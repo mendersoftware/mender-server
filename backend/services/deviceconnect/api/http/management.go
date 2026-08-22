@@ -31,6 +31,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
 
+	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
@@ -147,8 +148,8 @@ func (h ManagementController) Connect(c *gin.Context) {
 		rest.RenderError(c, http.StatusBadRequest, ErrMissingUserAuthentication)
 		return
 	}
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
+	ctx, stop := context.WithCancel(ctx)
+	defer stop()
 
 	tenantID := idata.Tenant
 	userID := idata.Subject
@@ -213,6 +214,11 @@ func (h ManagementController) Connect(c *gin.Context) {
 		// upgrader.Upgrade has already responded
 		return
 	}
+	logCtx := accesslog.GetContext(ctx)
+	logCtx.SetField("status", http.StatusSwitchingProtocols)
+
+	done, stop := h.app.GetShutdownNotification()
+	defer stop()
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
 	defer conn.Close()
 
@@ -228,8 +234,16 @@ func (h ManagementController) Connect(c *gin.Context) {
 		)
 	})
 
-	//nolint:errcheck
-	h.ConnectServeWS(c, ctx, conn, session, s)
+	err = h.ConnectServeWS(c, ctx, done, conn, session, s)
+	var wsErr *websocket.CloseError
+	if errors.As(err, &wsErr) {
+		logCtx.SetField("wsstatus", wsErr.Code)
+	}
+	if err != nil && !websocket.IsCloseError(
+		err, websocket.CloseNormalClosure, websocket.CloseGoingAway,
+	) {
+		_ = c.Error(err)
+	}
 }
 
 func (h ManagementController) Playback(c *gin.Context) {
@@ -349,7 +363,9 @@ func writerFinalizer(conn WSConn, e *error, l *log.Logger) {
 				)
 			}
 		}
-		l.Errorf("websocket closed with error: %s", err.Error())
+		if closeErr == nil {
+			l.Errorf("websocket closed with error: %s", err.Error())
+		}
 	} else {
 		err = conn.WriteControl(websocket.CloseMessage,
 			websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""),
@@ -597,6 +613,7 @@ func sendLimitErrDevice(ctx context.Context, session *model.Session, s stream.Co
 func (h ManagementController) ConnectServeWS(
 	c *gin.Context,
 	ctx context.Context,
+	done <-chan struct{},
 	conn *websocket.Conn,
 	sess *model.Session,
 	s stream.Conn,
@@ -656,9 +673,25 @@ func (h ManagementController) ConnectServeWS(
 	case err = <-errWrite:
 	case <-ctx.Done():
 		err = ctx.Err()
-	}
-	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
-		_ = c.Error(err)
+	case <-done:
+		deadline := time.Now().Add(writeWait)
+		err = conn.WriteControl(
+			websocket.CloseMessage,
+			websocket.FormatCloseMessage(websocket.CloseGoingAway, "shutting down"),
+			deadline,
+		)
+		if err == nil {
+			// Wait for peer close message (if any)
+			timeout := time.Until(deadline)
+			if timeout > 0 {
+				select {
+				case err = <-errRead:
+				case <-time.After(timeout):
+				case <-ctx.Done():
+					err = ctx.Err()
+				}
+			}
+		}
 	}
 	return err
 }
