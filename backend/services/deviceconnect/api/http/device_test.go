@@ -101,14 +101,7 @@ func TestDeviceConnect(t *testing.T) {
 		IsDevice: true,
 	}
 	app := &app_mocks.App{}
-	app.On("RegisterConnectionCancelHandle",
-		Identity.Subject,
-		mock.AnythingOfType("context.CancelFunc"),
-		true,
-	).Return(uint32(1))
-	app.On("UnregisterConnectionCancelHandle",
-		uint32(1),
-	).Return()
+	app.On("GetShutdownNotification").Return(nil, context.CancelFunc(func() {}))
 	app.On("SetDeviceConnected",
 		mock.MatchedBy(func(_ context.Context) bool {
 			return true
@@ -264,10 +257,14 @@ func TestDeviceConnect(t *testing.T) {
 		}
 		b, _ := msgpack.Marshal(msg)
 		streamRecv <- b
-		wsMessage := <-connRecvCh
-		require.NoError(t, wsMessage.Error)
-		assert.Equal(t, websocket.BinaryMessage, wsMessage.Type)
-		assert.Equal(t, b, wsMessage.Data)
+		select {
+		case wsMessage := <-connRecvCh:
+			require.NoError(t, wsMessage.Error)
+			assert.Equal(t, websocket.BinaryMessage, wsMessage.Type)
+			assert.Equal(t, b, wsMessage.Data)
+		case <-time.After(time.Second):
+			t.Fatal("timeout waiting for message from websocket")
+		}
 	})
 
 	t.Run("close websocket", func(t *testing.T) {
@@ -302,14 +299,7 @@ func TestDeviceConnectDeadPeerReaped(t *testing.T) {
 	}
 
 	app := &app_mocks.App{}
-	app.On("RegisterConnectionCancelHandle",
-		Identity.Subject,
-		mock.AnythingOfType("context.CancelFunc"),
-		true,
-	).Return(uint32(1))
-	app.On("UnregisterConnectionCancelHandle",
-		uint32(1),
-	).Return()
+	app.On("GetShutdownNotification").Return(nil, context.CancelFunc(func() {}))
 	app.On("SetDeviceConnected",
 		mock.MatchedBy(func(_ context.Context) bool { return true }),
 		Identity.Tenant,
