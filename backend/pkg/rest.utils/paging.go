@@ -29,6 +29,8 @@ const (
 
 	PageQueryParam    = "page"
 	PerPageQueryParam = "per_page"
+
+	HeaderXTotalCount = "X-Total-Count"
 )
 
 var (

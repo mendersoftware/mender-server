@@ -19,6 +19,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -1214,6 +1215,66 @@ func (db *DataStoreMongo) SearchDevices(
 	count, err := c.CountDocuments(ctx, findQuery)
 	if err != nil {
 		return nil, -1, errors.Wrap(err, "failed to search devices")
+	}
+
+	return devices, int(count), nil
+}
+
+func (db *DataStoreMongo) SearchDevicesByIdentity(
+	ctx context.Context,
+	searchParams model.SearchIdentityParams,
+) ([]model.Device, int, error) {
+	c := db.client.Database(
+		mstore.DbFromContext(ctx, DbName),
+	).Collection(DbDevicesColl)
+
+	var (
+		query         bson.M
+		sort          bson.D
+		prefixMatcher = bson.Regex{Pattern: "^" + regexp.QuoteMeta(searchParams.ValuePrefix)}
+	)
+
+	if searchParams.Name == model.AttrNameID {
+		// Using the `_id` index gives better performance than using
+		// the `identities` index, so we leverage it if we can
+		query = bson.M{DbDevId: prefixMatcher}
+		sort = bson.D{{Key: DbDevId, Value: 1}}
+	} else {
+		// Search both the `identities` index _and_ the `attributes` array
+		// results in a significant performance increase. See more technical
+		// details in `MEN-9700`
+		field := makeAttrField(searchParams.Name, string(searchParams.Scope), DbDevAttributesValue)
+		query = bson.M{DbDevIdentitiesName: prefixMatcher, field: prefixMatcher}
+		sort = bson.D{{Key: field, Value: 1}}
+	}
+
+	options := mopts.Find()
+	options.SetSort(sort)
+	options.SetSkip(int64((searchParams.Page - 1) * searchParams.PerPage))
+	options.SetLimit(int64(searchParams.PerPage))
+
+	if len(searchParams.Attributes) > 0 {
+		projection := bson.M{makeAttrField(DbDevUpdatedTs, model.AttrScopeSystem): 1}
+		for _, a := range searchParams.Attributes {
+			projection[makeAttrField(a.Attribute, string(a.Scope))] = 1
+		}
+		options.SetProjection(projection)
+	}
+
+	cursor, err := c.Find(ctx, query, options)
+	if err != nil {
+		return nil, -1, errors.Wrap(err, "failed to search devices")
+	}
+	defer cursor.Close(ctx)
+
+	devices := []model.Device{}
+	if err = cursor.All(ctx, &devices); err != nil {
+		return nil, -1, errors.Wrap(err, "failed to read search results")
+	}
+
+	count, err := c.CountDocuments(ctx, query)
+	if err != nil {
+		return nil, -1, errors.Wrap(err, "failed to count total devices")
 	}
 
 	return devices, int(count), nil

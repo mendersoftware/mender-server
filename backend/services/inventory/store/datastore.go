@@ -156,6 +156,9 @@ type DataStore interface {
 	SearchDevices(ctx context.Context,
 		searchParams model.SearchParams,
 	) ([]model.Device, int, error)
+	SearchDevicesByIdentity(ctx context.Context,
+		searchParams model.SearchIdentityParams,
+	) ([]model.Device, int, error)
 
 	GetDeviceTierStatisticsByStatus(ctx context.Context) (*model.DeviceStatisticsByStatus, error)
 

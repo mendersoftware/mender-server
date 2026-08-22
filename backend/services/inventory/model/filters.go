@@ -142,3 +142,50 @@ func (f FilterPredicate) Validate() error {
 		validation.Field(&f.Type, validation.Required, validation.In(validSelectors...)),
 		validation.Field(&f.Value, validation.NotNil))
 }
+
+type SearchIdentityParams struct {
+	Scope       string            `json:"scope"`
+	Name        string            `json:"name"`
+	ValuePrefix string            `json:"value_prefix"`
+	Attributes  []SelectAttribute `json:"attributes"`
+	Page        int               `json:"page"`
+	PerPage     int               `json:"per_page"`
+}
+
+func (s SearchIdentityParams) Validate() error {
+	err := validation.ValidateStruct(&s,
+		validation.Field(&s.Scope,
+			validation.Required,
+			validation.In(AttrScopeIdentity, AttrScopeTags),
+		),
+		validation.Field(&s.Name, validation.Required),
+		validation.Field(&s.ValuePrefix, validation.Required),
+		validation.Field(&s.PerPage, validation.Max(rest.PerPageMax)),
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if s.Name == AttrNameID && s.Scope != AttrScopeIdentity {
+		return errors.Errorf("scope: must be %s when name is '%s'.",
+			AttrScopeIdentity, AttrNameID)
+	}
+
+	attrNameName := "name"
+	if s.Scope == AttrScopeTags && s.Name != attrNameName {
+		return errors.Errorf("name: must be '%s' when scope is '%s'.",
+			attrNameName, AttrScopeTags)
+	}
+
+	for _, s := range s.Attributes {
+		err := validation.ValidateStruct(&s,
+			validation.Field(&s.Scope, validation.Required),
+			validation.Field(&s.Attribute, validation.Required))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
