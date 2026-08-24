@@ -148,8 +148,8 @@ func (h ManagementController) Connect(c *gin.Context) {
 		rest.RenderError(c, http.StatusBadRequest, ErrMissingUserAuthentication)
 		return
 	}
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
+	ctx, stop := context.WithCancel(ctx)
+	defer stop()
 
 	tenantID := idata.Tenant
 	userID := idata.Subject
@@ -217,6 +217,8 @@ func (h ManagementController) Connect(c *gin.Context) {
 	logCtx := accesslog.GetContext(ctx)
 	logCtx.SetField("status", http.StatusSwitchingProtocols)
 
+	done, stop := h.app.GetShutdownNotification()
+	defer stop()
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
 	defer conn.Close()
 
@@ -232,7 +234,7 @@ func (h ManagementController) Connect(c *gin.Context) {
 		)
 	})
 
-	err = h.ConnectServeWS(c, ctx, conn, session, s)
+	err = h.ConnectServeWS(c, ctx, done, conn, session, s)
 	var wsErr *websocket.CloseError
 	if errors.As(err, &wsErr) {
 		logCtx.SetField("wsstatus", wsErr.Code)
@@ -611,6 +613,7 @@ func sendLimitErrDevice(ctx context.Context, session *model.Session, s stream.Co
 func (h ManagementController) ConnectServeWS(
 	c *gin.Context,
 	ctx context.Context,
+	done <-chan struct{},
 	conn *websocket.Conn,
 	sess *model.Session,
 	s stream.Conn,
@@ -650,8 +653,8 @@ func (h ManagementController) ConnectServeWS(
 		return nil
 	})
 
-	errRead := make(chan error)
-	errWrite := make(chan error)
+	errRead := make(chan error, 1)
+	errWrite := make(chan error, 1)
 	//nolint:errcheck
 	go h.connectServeWSProcessMessages(ctx, conn, s, sess, errRead,
 		&remoteTerminalRunning, controlRecorder)
@@ -670,6 +673,8 @@ func (h ManagementController) ConnectServeWS(
 	case err = <-errWrite:
 	case <-ctx.Done():
 		err = ctx.Err()
+	case <-done:
+		return handleShutdown(ctx, conn, errRead)
 	}
 	return err
 }

@@ -25,6 +25,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
@@ -239,7 +240,6 @@ func TestPrepareUserSession(t *testing.T) {
 			defer uuid.SetRand(nil)
 			app := New(
 				ds,
-				Config{},
 			)
 			if tc.BadParameters {
 				goto execTest
@@ -338,7 +338,7 @@ func TestFreeUserSession(t *testing.T) {
 			t.Parallel()
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			app := New(ds, Config{})
+			app := New(ds)
 			ctx := context.Background()
 
 			sessTypes := []string{}
@@ -463,50 +463,45 @@ func TestShutdown(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	test := New(nil, Config{})
-	test.Shutdown(gracePeriod)
-	test.ShutdownDone()
+	testApp := New(nil)
 
-	// verify the channel is closed
-	testApp, _ := test.(*app)
-	_, ok := <-testApp.shutdownDone
-	assert.False(t, ok)
-}
+	t.Run("GetShutdownNotification cancel func", func(t *testing.T) {
+		c, cancel := testApp.GetShutdownNotification()
+		cancel()
+		select {
+		case <-c:
+		default:
+			t.Fatal("calling CancelFunc should deregister and close chan")
+		}
+	})
 
-func TestShutdownCancels(t *testing.T) {
-	t.Parallel()
-	gracePeriod := 1 * time.Second
+	t.Run("Shutdown broadcasts shutdown notification", func(t *testing.T) {
+		c, shutdownCancel := testApp.GetShutdownNotification()
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+		defer cancel()
+		err := testApp.Shutdown(ctx, gracePeriod)
+		require.NoError(t, err)
+		select {
+		case <-testApp.Done():
+		case <-ctx.Done():
+			t.Fatal("timeout waiting for Shutdown to complete")
+		}
+		select {
+		case <-c:
+			assert.NotPanics(t, assert.PanicTestFunc(shutdownCancel))
+		default:
+			t.Fatal("shutdown notification channel was not closed")
+		}
+	})
 
-	app := New(nil, Config{})
-
-	// register shutdown cancels
-	c1 := false
-	app.RegisterConnectionCancelHandle("", func() {
-		c1 = true
-	}, false)
-
-	c2 := false
-	app.RegisterConnectionCancelHandle("", func() {
-		c2 = true
-	}, false)
-
-	c3 := false
-	id := app.RegisterConnectionCancelHandle("", func() {
-		c3 = true
-	}, false)
-	app.UnregisterConnectionCancelHandle(id)
-
-	t1 := time.Now()
-	app.Shutdown(gracePeriod)
-
-	assert.True(t, c1)
-	assert.True(t, c2)
-	assert.False(t, c3)
-
-	elapsed := time.Now().Sub(t1)
-	assert.Greater(t, elapsed, gracePeriod)
-
-	app.ShutdownDone()
+	t.Run("shutdown notification after shutdown", func(t *testing.T) {
+		c, _ := testApp.GetShutdownNotification()
+		select {
+		case <-c:
+		default:
+			t.Fatal("calling GetShutdownNotification after Shutdown should return a closed chan")
+		}
+	})
 }
 
 func TestDeleteTenant(t *testing.T) {
@@ -543,7 +538,7 @@ func TestDeleteTenant(t *testing.T) {
 				}),
 				tc.tenantId,
 			).Return(tc.dbErr)
-			app := New(ds, Config{})
+			app := New(ds)
 			err := app.DeleteTenant(ctx, tc.tenantId)
 
 			if tc.dbErr != nil {
