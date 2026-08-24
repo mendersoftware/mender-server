@@ -293,7 +293,7 @@ exports[`AddArtifact Component > renders correctly 1`] = `
         Upload an Artifact
       </h2>
       <div
-        class="MuiDialogContent-root margin-top margin-bottom emotion-5"
+        class="MuiDialogContent-root emotion-5"
       >
         <div
           class="flexbox column centered margin"
@@ -329,11 +329,7 @@ exports[`AddArtifact Component > renders correctly 1`] = `
             />
           </svg>
           <div>
-            Drag and drop here or 
-            <b>
-              browse
-            </b>
-             to upload
+            Drag and drop here or browse to upload
           </div>
         </div>
         <p
@@ -350,9 +346,6 @@ exports[`AddArtifact Component > renders correctly 1`] = `
         >
           Cancel
         </button>
-        <div
-          style="flex-grow: 1;"
-        />
       </div>
     </div>
   </div>
