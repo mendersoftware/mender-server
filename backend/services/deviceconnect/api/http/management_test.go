@@ -227,7 +227,9 @@ func TestManagementConnect(t *testing.T) {
 					sessionID,
 				).Return(discardRecorder{})
 		}).
-		Return(nil)
+		Return(nil).
+		On("GetShutdownNotification").
+		Return(nil, context.CancelFunc(func() {}))
 
 	natsClient := nats_mocks.NewClient(t)
 	router, _ := NewRouter(app, natsClient, nil)
@@ -374,10 +376,14 @@ func TestManagementConnect(t *testing.T) {
 		}
 		b, _ := msgpack.Marshal(msg)
 		streamRecv <- b
-		wsMessage := <-connRecvCh
-		require.NoError(t, wsMessage.Error)
-		assert.Equal(t, websocket.BinaryMessage, wsMessage.Type)
-		assert.Equal(t, b, wsMessage.Data)
+		select {
+		case wsMessage := <-connRecvCh:
+			require.NoError(t, wsMessage.Error)
+			assert.Equal(t, websocket.BinaryMessage, wsMessage.Type)
+			assert.Equal(t, b, wsMessage.Data)
+		case <-time.After(time.Second * 2):
+			t.Fatal("timeout waiting for websocket message")
+		}
 	})
 
 	t.Run("close websocket", func(t *testing.T) {
@@ -728,7 +734,9 @@ func TestManagementSessionLimit(t *testing.T) {
 				).Return(discardRecorder{}).
 				On("GetRecorder",
 					sessionID,
-				).Return(discardRecorder{})
+				).Return(discardRecorder{}).
+				On("GetShutdownNotification").
+				Return(nil, context.CancelFunc(func() {}))
 		}).
 		Return(nil)
 

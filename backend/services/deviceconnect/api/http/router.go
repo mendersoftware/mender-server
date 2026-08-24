@@ -15,8 +15,6 @@
 package http
 
 import (
-	"time"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
@@ -59,9 +57,8 @@ const (
 )
 
 type RouterConfig struct {
-	GracefulShutdownTimeout time.Duration
-	MaxRequestSize          int64
-	MaxFileSize             int64
+	MaxRequestSize int64
+	MaxFileSize    int64
 }
 
 // NewRouter returns the gin router
@@ -84,11 +81,7 @@ func NewRouter(
 		fileLimit.Use(requestsize.Middleware(config.MaxFileSize))
 	}
 
-	gracefulShutdownTimeout := time.Duration(0)
-	if config != nil && config.GracefulShutdownTimeout > gracefulShutdownTimeout {
-		gracefulShutdownTimeout = config.GracefulShutdownTimeout
-	}
-	status := NewStatusController(app, gracefulShutdownTimeout)
+	status := NewStatusController(app)
 	router.GET(APIURLInternalAlive, status.Alive)
 	router.GET(APIURLInternalHealth, status.Health)
 	router.GET(APIURLInternalShutdown, status.Shutdown)
