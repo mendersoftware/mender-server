@@ -21,10 +21,11 @@ import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '.
 
 describe('TwoColumnData Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<TwoColumnData data={{ uiPasswordRequired: true, foo: 'bar', timezone: 'GMT+2' }} />);
+    const { baseElement } = render(<TwoColumnData data={{ uiPasswordRequired: true, foo: 'bar', timezone: 'GMT+2', multi: ['something', 'else'] }} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    expect(screen.getByText('something, else')).toBeInTheDocument();
   });
   it('renders with chipLikeKey prop', async () => {
     const { baseElement } = render(<TwoColumnData chipLikeKey data={{ attribute: 'value', another: 'item' }} />);

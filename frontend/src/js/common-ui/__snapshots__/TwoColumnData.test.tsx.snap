@@ -76,6 +76,23 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
       GMT+2
     </p>
   </div>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+    style="white-space: nowrap;"
+  >
+    multi
+  </h6>
+  <div
+    class="flexbox align-items-center "
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 emotion-2"
+      style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+      title="something,else"
+    >
+      something, else
+    </p>
+  </div>
 </div>
 `;
 
