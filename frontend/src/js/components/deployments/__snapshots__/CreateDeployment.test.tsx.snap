@@ -14842,10 +14842,10 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   color: rgba(0, 0, 0, 0.87);
   margin-left: var(--PickerDay-horizontalMargin);
   margin-right: var(--PickerDay-horizontalMargin);
+  color: rgba(0, 0, 0, 0.6);
   color: rgba(0, 0, 0, 0.38);
   opacity: 0;
   pointer-events: none;
-  color: rgba(0, 0, 0, 0.6);
 }
 
 @media (pointer: fine) {
@@ -15408,15 +15408,19 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   style="opacity: 1;"
                 >
                   <div
+                    aria-colcount="7"
                     aria-labelledby="_r_X_-grid-label"
+                    aria-rowcount="6"
                     class="MuiDayCalendar-root emotion-42"
                     role="grid"
                   >
                     <div
+                      aria-rowindex="1"
                       class="MuiDayCalendar-header emotion-43"
                       role="row"
                     >
                       <span
+                        aria-colindex="1"
                         aria-label="Sunday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15424,6 +15428,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         S
                       </span>
                       <span
+                        aria-colindex="2"
                         aria-label="Monday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15431,6 +15436,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         M
                       </span>
                       <span
+                        aria-colindex="3"
                         aria-label="Tuesday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15438,6 +15444,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         T
                       </span>
                       <span
+                        aria-colindex="4"
                         aria-label="Wednesday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15445,6 +15452,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         W
                       </span>
                       <span
+                        aria-colindex="5"
                         aria-label="Thursday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15452,6 +15460,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         T
                       </span>
                       <span
+                        aria-colindex="6"
                         aria-label="Friday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15459,6 +15468,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         F
                       </span>
                       <span
+                        aria-colindex="7"
                         aria-label="Saturday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -15475,15 +15485,17 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         role="rowgroup"
                       >
                         <div
-                          aria-rowindex="1"
+                          aria-rowindex="2"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
                           <div
+                            aria-colindex="1"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
+                            aria-colindex="2"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
@@ -15549,7 +15561,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="2"
+                          aria-rowindex="3"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -15639,7 +15651,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="3"
+                          aria-rowindex="4"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -15730,7 +15742,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="4"
+                          aria-rowindex="5"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -15820,7 +15832,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="5"
+                          aria-rowindex="6"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -15885,10 +15897,12 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                             31
                           </button>
                           <div
+                            aria-colindex="6"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
+                            aria-colindex="7"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
@@ -16938,10 +16952,10 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   color: rgba(0, 0, 0, 0.87);
   margin-left: var(--PickerDay-horizontalMargin);
   margin-right: var(--PickerDay-horizontalMargin);
+  color: rgba(0, 0, 0, 0.6);
   color: rgba(0, 0, 0, 0.38);
   opacity: 0;
   pointer-events: none;
-  color: rgba(0, 0, 0, 0.6);
 }
 
 @media (pointer: fine) {
@@ -17504,15 +17518,19 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   style="opacity: 1;"
                 >
                   <div
+                    aria-colcount="7"
                     aria-labelledby="_r_X_-grid-label"
+                    aria-rowcount="6"
                     class="MuiDayCalendar-root emotion-42"
                     role="grid"
                   >
                     <div
+                      aria-rowindex="1"
                       class="MuiDayCalendar-header emotion-43"
                       role="row"
                     >
                       <span
+                        aria-colindex="1"
                         aria-label="Sunday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17520,6 +17538,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         S
                       </span>
                       <span
+                        aria-colindex="2"
                         aria-label="Monday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17527,6 +17546,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         M
                       </span>
                       <span
+                        aria-colindex="3"
                         aria-label="Tuesday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17534,6 +17554,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         T
                       </span>
                       <span
+                        aria-colindex="4"
                         aria-label="Wednesday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17541,6 +17562,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         W
                       </span>
                       <span
+                        aria-colindex="5"
                         aria-label="Thursday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17548,6 +17570,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         T
                       </span>
                       <span
+                        aria-colindex="6"
                         aria-label="Friday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17555,6 +17578,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         F
                       </span>
                       <span
+                        aria-colindex="7"
                         aria-label="Saturday"
                         class="MuiTypography-root MuiTypography-caption MuiDayCalendar-weekDayLabel emotion-44"
                         role="columnheader"
@@ -17571,15 +17595,17 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                         role="rowgroup"
                       >
                         <div
-                          aria-rowindex="1"
+                          aria-rowindex="2"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
                           <div
+                            aria-colindex="1"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
+                            aria-colindex="2"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
@@ -17645,7 +17671,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="2"
+                          aria-rowindex="3"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -17735,7 +17761,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="3"
+                          aria-rowindex="4"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -17826,7 +17852,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="4"
+                          aria-rowindex="5"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -17916,7 +17942,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           </button>
                         </div>
                         <div
-                          aria-rowindex="5"
+                          aria-rowindex="6"
                           class="MuiDayCalendar-weekContainer emotion-53"
                           role="row"
                         >
@@ -17981,10 +18007,12 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                             31
                           </button>
                           <div
+                            aria-colindex="6"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
+                            aria-colindex="7"
                             class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
