@@ -66,6 +66,23 @@
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
+    // MONGO_VERSION, pinned both as a .gitlab-ci.yml variable and as the
+    // ${MONGO_VERSION:-8.0} compose default. The variable tag defeats the
+    // docker-compose manager, so both sites need a regex manager to move together.
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)\\.gitlab-ci\\.yml$/",
+        "/(^|/)docker-compose\\.yml$/"
+      ],
+      "matchStrings": [
+        "MONGO_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?",
+        "library/mongo:\\$\\{MONGO_VERSION:-(?<currentValue>[\\d\\.]+)\\}"
+      ],
+      "depNameTemplate": "mongo",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
     // frontend/pipeline.yml is a `local:` include, so the gitlabci manager does
     // not scan it. These two regex managers track its pinned images directly -
     // a custom manager is required because the ${MIRROR_REGISTRY} prefix and the
