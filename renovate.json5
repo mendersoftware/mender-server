@@ -35,6 +35,12 @@
     "labels": ["security"]
   },
 
+  "docker-compose": {
+    "registryAliases": {
+      "${MIRROR_REGISTRY:-docker.io}": "docker.io"
+    }
+  },
+
   // Mender-internal versions not visible to standard managers.
   "customManagers": [
     // MENDER_ARTIFACT_VERSION as a Dockerfile ARG (create-artifact-worker, tests).
