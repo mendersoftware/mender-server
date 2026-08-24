@@ -35,6 +35,12 @@
     "labels": ["security"]
   },
 
+  "docker-compose": {
+    "registryAliases": {
+      "${MIRROR_REGISTRY:-docker.io}": "docker.io"
+    }
+  },
+
   // Mender-internal versions not visible to standard managers.
   "customManagers": [
     // MENDER_ARTIFACT_VERSION as a Dockerfile ARG (create-artifact-worker, tests).
@@ -57,6 +63,23 @@
         "DOCKER_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "docker",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
+    // MONGO_VERSION, pinned both as a .gitlab-ci.yml variable and as the
+    // ${MONGO_VERSION:-8.0} compose default. The variable tag defeats the
+    // docker-compose manager, so both sites need a regex manager to move together.
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)\\.gitlab-ci\\.yml$/",
+        "/(^|/)docker-compose\\.yml$/"
+      ],
+      "matchStrings": [
+        "MONGO_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?",
+        "library/mongo:\\$\\{MONGO_VERSION:-(?<currentValue>[\\d\\.]+)\\}"
+      ],
+      "depNameTemplate": "mongo",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
