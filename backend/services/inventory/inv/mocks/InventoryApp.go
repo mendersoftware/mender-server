@@ -471,6 +471,43 @@ func (_m *InventoryApp) SearchDevices(ctx context.Context, searchParams model.Se
 	return r0, r1, r2
 }
 
+// SearchDevicesByIdentity provides a mock function with given fields: ctx, searchParams
+func (_m *InventoryApp) SearchDevicesByIdentity(ctx context.Context, searchParams model.SearchIdentityParams) ([]model.Device, int, error) {
+	ret := _m.Called(ctx, searchParams)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SearchDevicesByIdentity")
+	}
+
+	var r0 []model.Device
+	var r1 int
+	var r2 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.SearchIdentityParams) ([]model.Device, int, error)); ok {
+		return rf(ctx, searchParams)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, model.SearchIdentityParams) []model.Device); ok {
+		r0 = rf(ctx, searchParams)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]model.Device)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, model.SearchIdentityParams) int); ok {
+		r1 = rf(ctx, searchParams)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	if rf, ok := ret.Get(2).(func(context.Context, model.SearchIdentityParams) error); ok {
+		r2 = rf(ctx, searchParams)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // UnsetDeviceGroup provides a mock function with given fields: ctx, id, groupName
 func (_m *InventoryApp) UnsetDeviceGroup(ctx context.Context, id model.DeviceID, groupName model.GroupName) error {
 	ret := _m.Called(ctx, id, groupName)

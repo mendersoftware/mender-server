@@ -5870,11 +5870,6 @@ paths:
               description: Total number of devices matched query.
               schema:
                 type: string
-            Link:
-              description: |
-                Standard header used for page navigation, page relations: 'first', 'next' and 'prev'.
-              schema:
-                type: string
           content:
             application/json:
               schema:
@@ -10100,6 +10095,7 @@ components:
         per_page:
           description: Number of results per page.
           type: integer
+          maximum: 500
     DeviceInventoryRequest:
       type: object
       properties:

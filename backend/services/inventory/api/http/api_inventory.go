@@ -63,8 +63,10 @@ const (
 	urlInternalAttributesNoScope = "/tenants/:tenant_id/device/:device_id/attributes"
 	urlInternalReindex           = "/tenants/:tenant_id/devices/:device_id/reindex"
 	apiUrlManagementV2           = "/api/management/v2/inventory"
+	apiUrlManagementV2Alpha1     = "/api/management/v2alpha1/inventory"
 	urlFiltersAttributes         = "/filters/attributes"
 	urlFiltersSearch             = "/filters/search"
+	urlIdentitiesSearch          = "/identities/search"
 	urlDeviceStatistics          = "/statistics"
 
 	apiUrlInternalV2         = "/api/internal/v2/inventory"
@@ -932,6 +934,25 @@ func (i *ManagementAPI) FiltersSearchHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, devs)
 }
 
+func (i *ManagementAPI) IdentitiesSearchHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	searchParams, err := parseSearchIdentityParams(c)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
+
+	devs, totalCount, err := i.App.SearchDevicesByIdentity(ctx, searchParams)
+	if err != nil {
+		rest.RenderError(c, http.StatusInternalServerError, errors.New("internal error"))
+		return
+	}
+
+	// the response writer will ensure the header name is in Kebab-Pascal-Case
+	c.Writer.Header().Add(rest.HeaderXTotalCount, strconv.Itoa(totalCount))
+	c.JSON(http.StatusOK, devs)
+}
+
 func (i *InternalAPI) InternalFiltersSearchHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -1161,6 +1182,29 @@ func parseSearchParams(c *gin.Context) (*model.SearchParams, error) {
 	}
 
 	return &searchParams, nil
+}
+
+func parseSearchIdentityParams(c *gin.Context) (model.SearchIdentityParams, error) {
+	var searchParams model.SearchIdentityParams
+	if err := c.ShouldBindJSON(&searchParams); err != nil {
+		return searchParams, errors.Wrap(err, "failed to decode request body")
+	}
+
+	searchParams.Name = strings.TrimSpace(searchParams.Name)
+	searchParams.ValuePrefix = strings.TrimSpace(searchParams.ValuePrefix)
+
+	if searchParams.Page < 1 {
+		searchParams.Page = utils.PageDefault
+	}
+	if searchParams.PerPage < 1 {
+		searchParams.PerPage = utils.PerPageDefault
+	}
+
+	if err := searchParams.Validate(); err != nil {
+		return searchParams, err
+	}
+
+	return searchParams, nil
 }
 
 func getDeviceStatistics(c *gin.Context, app inventory.InventoryApp) {
