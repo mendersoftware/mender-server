@@ -13,7 +13,7 @@
 //    limitations under the License.
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import { CloudUpload } from '@mui/icons-material';
@@ -33,6 +33,7 @@ import {
   getSelectedRelease,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -141,7 +142,7 @@ export const Releases = () => {
   const selectedRelease = useSelector(getSelectedRelease);
   const { canUploadReleases } = useSelector(getUserCapabilities);
   const features = useSelector(getFeatures);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
   const tabs = useMemo(() => Object.values(tabbedComponents).filter(({ canAccess }) => canAccess(features)), [features]);

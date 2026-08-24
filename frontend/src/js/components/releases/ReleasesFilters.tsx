@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { TextField, Typography } from '@mui/material';
 
@@ -21,6 +21,7 @@ import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocompl
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import { getReleaseListState, getReleaseTags, getUpdateTypes as getUpdateTypesSelector } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setReleasesListState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -28,7 +29,7 @@ export const ReleasesFilters = ({ classes }: { classes: Record<string, string> }
   const { selectedTags = [], searchTerm = '', searchTotal, total, type } = useSelector(getReleaseListState);
   const existingTags = useSelector(getReleaseTags);
   const updateTypes = useSelector(getUpdateTypesSelector);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const searchUpdated = useCallback(searchTerm => dispatch(setReleasesListState({ searchTerm })), [dispatch]);
 

@@ -12,13 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
 import { makeStyles } from 'tss-react/mui';
 
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { passwordResetComplete } from '@northern.tech/store/thunks';
 
 import { PasswordScreenContainer } from './Password';
@@ -32,7 +32,7 @@ const useStyles = makeStyles()(() => ({
 export const PasswordReset = () => {
   const [confirm, setConfirm] = useState(false);
   const { secretHash } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
   const handleSubmit = formData =>

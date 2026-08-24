@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Divider, IconButton, InputAdornment, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material';
@@ -21,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { Link } from '@northern.tech/common-ui/Link';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 import { canAccess } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { deviceFileUpload } from '@northern.tech/store/thunks';
 
 const tabs = [
@@ -58,7 +58,7 @@ export const FileTransfer = ({
   const [currentTab, setCurrentTab] = useState(tabs[0].key);
   const [isValidDestination, setIsValidDestination] = useState(true);
   const [availableTabs, setAvailableTabs] = useState(tabs);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const destination = currentTab === 'download' ? downloadPath : uploadPath;

@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { Typography } from '@mui/material';
@@ -35,6 +35,7 @@ import {
   getSelectedReleases,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getExistingReleaseTags, getReleases, getUpdateTypes, removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
 import ReleaseDetails, { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './ReleaseDetails';
@@ -126,7 +127,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const releases = useSelector(getReleasesList);
   const userCapabilities = useSelector(getUserCapabilities);
   const selectedReleases = useSelector(getSelectedReleases);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const [addTagsDialog, setAddTagsDialog] = useState(false);
   const [deleteDialogConfirmation, setDeleteDialogConfirmation] = useState(false);

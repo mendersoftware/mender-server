@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Button, Checkbox, FormControlLabel, InputAdornment, TextField, Typography } from '@mui/material';
@@ -23,6 +23,7 @@ import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { Link } from '@northern.tech/common-ui/Link';
 import Form from '@northern.tech/common-ui/forms/Form';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -171,7 +172,7 @@ const ArtifactGenerationSettingsForm = ({ deltaLimits, defaultValues }) => {
 
 export const ArtifactGenerationSettings = ({ onClose, open }) => {
   const { binaryDelta: deltaConfig = {}, binaryDeltaLimits: deltaLimits = {} } = useSelector(state => state.deployments.config) ?? {};
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
   const initialValues = useMemo(() => ({ ...formDefaults, ...deltaConfig }), [deltaConfig]);
