@@ -18,19 +18,24 @@ import { Button, ButtonGroup, Menu, MenuItem } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { canAccess } from '@northern.tech/store/constants';
+import { ALL_DEVICES, canAccess, uiPermissionsById } from '@northern.tech/store/constants';
 
 const useStyles = makeStyles()(() => ({
   buttonStyle: { textTransform: 'none' }
 }));
 
-export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onPreauthClick, tenantCapabilities }) => {
+export const DeviceAdditionWidget = ({ innerRef, onConnectClick, onPreauthClick, userCapabilities }) => {
   const [anchorEl, setAnchorEl] = useState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { classes } = useStyles();
 
   const options = [
-    { action: onConnectClick, title: 'Connect a new device', value: 'connect', canAccess },
+    {
+      action: onConnectClick,
+      title: 'Connect a new device',
+      value: 'connect',
+      canAccess: ({ userCapabilities: { groupsPermissions } }) => groupsPermissions[ALL_DEVICES]?.includes(uiPermissionsById.manage.value)
+    },
     { action: onPreauthClick, title: 'Preauthorize a device', value: 'preauth', canAccess },
     {
       component: DocsLink,
@@ -39,7 +44,7 @@ export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onPre
       value: 'learntoconnect',
       canAccess
     }
-  ];
+  ].filter(({ canAccess }) => canAccess({ userCapabilities }));
 
   const handleToggle = event => {
     const anchor = anchorEl ? null : event?.currentTarget.parentElement;
@@ -63,13 +68,10 @@ export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onPre
         </Button>
       </ButtonGroup>
       <Menu id="device-connection-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleToggle} variant="menu">
-        {options.reduce((accu, option, index) => {
-          if (!option.canAccess({ features, tenantCapabilities })) {
-            return accu;
-          }
+        {options.map((option, index) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { canAccess, component, title, value, ...optionProps } = option;
-          const item = component ? (
+          return component ? (
             <MenuItem {...optionProps} key={value} component={component}>
               {title}
               <LaunchIcon style={{ fontSize: '10pt' }} />
@@ -79,9 +81,7 @@ export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onPre
               {title}
             </MenuItem>
           );
-          accu.push(item);
-          return accu;
-        }, [])}
+        })}
       </Menu>
     </>
   );

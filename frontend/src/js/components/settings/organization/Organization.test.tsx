@@ -89,6 +89,21 @@ describe('MyOrganization Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
+  it('hides the organization token from users who cannot retrieve it', async () => {
+    render(<MyOrganization />, {
+      preloadedState: {
+        ...preloadedState,
+        users: {
+          ...preloadedState.users,
+          byId: { ...preloadedState.users.byId, a1: { ...preloadedState.users.byId.a1, roles: ['test'] } },
+          currentSession: getSessionInfo()
+        }
+      }
+    });
+    expect(screen.getByText(/organization id/i)).toBeInTheDocument();
+    expect(screen.queryByText(/organization token/i)).not.toBeInTheDocument();
+  });
+
   it('supports modifying SSO settings', async () => {
     const config = '<div>not quite right</div>';
     const str = JSON.stringify(config);
