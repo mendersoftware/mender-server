@@ -90,7 +90,7 @@ const deviceRefreshTimes = {
   default: TIMEOUTS.refreshDefault
 };
 
-const idAttributeTitleMap = {
+export const idAttributeTitleMap = {
   id: 'Device ID',
   name: 'Name'
 };
