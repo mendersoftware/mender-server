@@ -661,7 +661,7 @@ func TestApiInventoryAddDevice(t *testing.T) {
 			inventoryErr: nil,
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("failed to decode request body: json: cannot unmarshal number into Go struct field Device.attributes of type []model.DeviceAttribute"),
+				OutputBodyObject: RestError("failed to decode request body: json: cannot unmarshal number into Go value of type []model.DeviceAttribute"),
 			},
 		},
 		"body formatted ok, 'id' missing": {
