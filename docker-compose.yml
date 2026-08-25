@@ -342,7 +342,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: ${MIRROR_REGISTRY:-docker.io}/library/traefik:v3.6.15
+    image: ${MIRROR_REGISTRY:-docker.io}/library/traefik:v3.7.11
     command:
       - --api=true
       - --api.insecure=true
