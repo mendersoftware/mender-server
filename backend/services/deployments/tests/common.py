@@ -351,15 +351,18 @@ def s3_bucket(request):
     key_id = request.config.getoption("s3_key_id")
     secret = request.config.getoption("s3_secret_key")
     endpoint = request.config.getoption("s3_endpoint_url")
+    s3 = boto3.client(
+        "s3",
+        aws_access_key_id=key_id,
+        aws_secret_access_key=secret,
+        endpoint_url=endpoint,
+    )
     try:
-        s3 = boto3.client(
-            "s3",
-            aws_access_key_id=key_id,
-            aws_secret_access_key=secret,
-            endpoint_url=endpoint,
-        )
         s3.create_bucket(Bucket=bucket_name)
-    except s3.exceptions.BucketAlreadyExists:  # Exception: # boto3.BucketAlreadyExists:
+    except (
+        s3.exceptions.BucketAlreadyExists,
+        s3.exceptions.BucketAlreadyOwnedByYou,
+    ):
         pass
     bucket = boto3.resource(
         "s3",
