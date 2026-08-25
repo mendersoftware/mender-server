@@ -11,20 +11,54 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { CSSProperties, ReactNode } from 'react';
 import { useState } from 'react';
 import Dropzone from 'react-dropzone';
 
 // material ui
-import { Clear as ClearIcon, CloudUploadOutlined as FileIcon } from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
+import { CheckCircle as CheckCircleIcon, Delete as DeleteIcon, UploadFileOutlined as FileIcon } from '@mui/icons-material';
+import { IconButton, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { useAppDispatch } from '@northern.tech/store/store';
 
 const { setSnackbar } = storeActions;
 
-export const FileUpload = ({ enableContentReading = true, fileNameSelection, onFileChange, onFileSelect = () => undefined, placeholder, style = {} }) => {
+const useStyles = makeStyles()(theme => ({
+  dropzone: { ['&.dropzone']: { padding: theme.spacing(3, 2) } },
+  selection: {
+    display: 'grid',
+    gridTemplateColumns: 'max-content 1fr max-content max-content',
+    alignItems: 'center',
+    columnGap: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
+  }
+}));
+
+interface FileUploadProps {
+  enableContentReading?: boolean;
+  fileNameSelection?: string;
+  /** indicates whether the selected file passed the consuming component's validation - shows a success indicator if it did */
+  isValid?: boolean;
+  onFileChange: (content?: string) => void;
+  onFileSelect?: (file?: File) => void;
+  placeholder: ReactNode;
+  style?: CSSProperties;
+}
+
+export const FileUpload = ({
+  enableContentReading = true,
+  fileNameSelection,
+  isValid,
+  onFileChange,
+  onFileSelect = () => undefined,
+  placeholder,
+  style = {}
+}: FileUploadProps) => {
   const [filename, setFilename] = useState(fileNameSelection);
+  const { classes } = useStyles();
   const dispatch = useAppDispatch();
 
   const onDrop = (acceptedFiles, rejectedFiles) => {
@@ -32,14 +66,13 @@ export const FileUpload = ({ enableContentReading = true, fileNameSelection, onF
       if (enableContentReading) {
         const reader = new FileReader();
         reader.readAsBinaryString(acceptedFiles[0]);
-        reader.fileName = acceptedFiles[0].name;
         reader.onload = () => {
-          const str = reader.result.replace(/\n|\r/g, '\n');
+          const str = (reader.result as string).replace(/\n|\r/g, '\n');
           onFileChange(str);
         };
         reader.onerror = error => {
           console.log('Error: ', error);
-          setFilename();
+          setFilename(undefined);
         };
       }
       setFilename(acceptedFiles[0].name);
@@ -53,26 +86,30 @@ export const FileUpload = ({ enableContentReading = true, fileNameSelection, onF
   const onClear = () => {
     onFileChange();
     onFileSelect();
-    setFilename();
+    setFilename(undefined);
   };
 
   return filename ? (
-    <div style={style}>
-      <TextField id="keyfile" value={filename} disabled style={{ color: 'rgba(0, 0, 0, 0.8)', borderBottom: '1px solid rgb(224, 224, 224)' }} />
-      <IconButton style={{ top: '6px' }} onClick={onClear} size="large">
-        <ClearIcon />
+    <div className={classes.selection} style={style}>
+      <FileIcon color="primary" />
+      <Typography component="div" variant="subtitle2">
+        {filename}
+      </Typography>
+      <IconButton aria-label="remove the selected file" onClick={onClear} size="small">
+        <DeleteIcon />
       </IconButton>
+      {isValid ? <CheckCircleIcon color="success" titleAccess="the selected file was accepted" /> : <span />}
     </div>
   ) : (
     <div style={style}>
       <Dropzone activeClassName="active" rejectClassName="active" multiple={false} onDrop={onDrop}>
         {({ getRootProps, getInputProps }) => (
-          <div {...getRootProps()} style={{ padding: 15 }} className="dropzone onboard dashboard-placeholder flexbox centered">
+          <div {...getRootProps()} className={`dropzone onboard dashboard-placeholder flexbox centered ${classes.dropzone}`}>
             <input {...getInputProps()} />
-            <FileIcon className="icon" style={{ height: 24, width: 24, verticalAlign: 'middle', marginTop: '-2px' }} />
-            <div className="margin-left-small" style={{ fontSize: '11pt' }}>
+            <FileIcon color="primary" />
+            <Typography className="margin-left-small" component="div" variant="subtitle2">
               {placeholder}
-            </div>
+            </Typography>
           </div>
         )}
       </Dropzone>

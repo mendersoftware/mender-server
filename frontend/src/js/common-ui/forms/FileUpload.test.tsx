@@ -33,10 +33,21 @@ describe('FileUpload Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <Provider store={store}>
-        <FileUpload placeholder="test" />
+        <FileUpload onFileChange={vi.fn()} placeholder="test" />
       </Provider>
     );
-    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    const view = baseElement.firstChild?.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('renders a selected file correctly', async () => {
+    const { baseElement } = render(
+      <Provider store={store}>
+        <FileUpload fileNameSelection="test.file" isValid onFileChange={vi.fn()} placeholder="test" />
+      </Provider>
+    );
+    const view = baseElement.firstChild?.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
@@ -62,9 +73,29 @@ describe('FileUpload Component', () => {
 
     expect(uploadInput.files).toHaveLength(1);
     await waitFor(() => expect(document.querySelector('.dropzone input')).not.toBeInTheDocument());
-    expect(screen.getByDisplayValue('test.file')).toBeInTheDocument();
+    expect(screen.getByText('test.file')).toBeInTheDocument();
+    // the success indicator is reserved for consumers validating the file content
+    expect(screen.queryByTitle(/accepted/i)).not.toBeInTheDocument();
 
     await waitFor(() => expect(submitMock).toHaveBeenCalled());
     await waitFor(() => expect(selectMock).toHaveBeenCalled());
+
+    await user.click(screen.getByRole('button', { name: /remove the selected file/i }));
+    await waitFor(() => rerender(ui));
+    expect(document.querySelector('.dropzone input')).toBeInTheDocument();
+  });
+
+  it('marks validated files as accepted', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    const ui = (
+      <Provider store={store}>
+        <FileUpload isValid onFileChange={vi.fn()} placeholder="test placeholder" />
+      </Provider>
+    );
+    const { rerender } = render(ui);
+    await user.upload(document.querySelector('.dropzone input'), new File(['testContent plain'], 'test.file'));
+    await waitFor(() => rerender(ui));
+    expect(screen.getByTitle(/accepted/i)).toBeInTheDocument();
   });
 });
