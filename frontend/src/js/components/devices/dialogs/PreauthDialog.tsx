@@ -15,7 +15,7 @@ import { useCallback, useState } from 'react';
 
 // material ui
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
-import { Button, DialogActions, DialogContent } from '@mui/material';
+import { Alert, Button, DialogActions, DialogContent } from '@mui/material';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
@@ -24,6 +24,12 @@ import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { preauthDevice } from '@northern.tech/store/thunks';
 import { isEmpty } from '@northern.tech/utils/helpers';
+
+const publicKeyEnvelope = /^-----BEGIN PUBLIC KEY-----([A-Za-z0-9+/=\s]+)-----END PUBLIC KEY-----$/;
+
+const generalFileHint = 'Please upload a PEM encoded public key, starting with "-----BEGIN PUBLIC KEY-----".';
+const invalidKeyError = `This file does not contain a public key. ${generalFileHint}`;
+const emptyKeyError = `This file is empty. ${generalFileHint}`;
 
 export const DeviceLimitContact = () => (
   <p>
@@ -44,25 +50,48 @@ export const DeviceLimitWarning = ({ acceptedDevices, deviceLimit, hasContactInf
 );
 
 export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCancel, onSubmit }) => {
-  const [errortext, setErrortext] = useState(null);
-  const [jsonIdentity, setJsonIdentity] = useState(null);
-  const [publicKey, setPublicKey] = useState(null);
+  const [jsonIdentity, setJsonIdentity] = useState<Record<string, string>>({});
+  const [keyError, setKeyError] = useState<string>('');
+  const [publicKey, setPublicKey] = useState<string>('');
+  const [submitError, setSubmitError] = useState<string>('');
   const dispatch = useAppDispatch();
 
   const convertIdentityToJSON = useCallback(jsonIdentity => {
-    setErrortext(null);
+    setSubmitError('');
     setJsonIdentity(jsonIdentity);
   }, []);
 
-  const onHandleSubmit = shouldClose => {
+  const onKeyChange = (content?: string) => {
+    setSubmitError('');
+    setPublicKey('');
+    if (content === undefined) {
+      setKeyError('');
+      return;
+    }
+    if (!content) {
+      setKeyError(emptyKeyError);
+      return;
+    }
+    if (!publicKeyEnvelope.test(content)) {
+      setKeyError(invalidKeyError);
+      return;
+    }
+    setKeyError('');
+    setPublicKey(content);
+  };
+
+  const onHandleSubmit = async shouldClose => {
+    setSubmitError('');
     const authset = {
       pubkey: publicKey,
       identity_data: jsonIdentity
     };
-    return dispatch(preauthDevice(authset))
-      .unwrap()
-      .then(() => onSubmit(shouldClose))
-      .catch(setErrortext);
+    try {
+      await dispatch(preauthDevice(authset)).unwrap();
+      onSubmit(shouldClose);
+    } catch (error) {
+      setSubmitError(typeof error === 'string' ? error : (error as Error)?.message);
+    }
   };
 
   const isSubmitDisabled = !publicKey || isEmpty(jsonIdentity) || !!limitMaxed;
@@ -79,11 +108,17 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
               Drag here or <Link>browse</Link> to upload a public key file
             </>
           }
-          onFileChange={setPublicKey}
+          onFileChange={onKeyChange}
         />
+        {!!keyError && (
+          <Alert className="margin-top-small" severity="error">
+            {keyError}
+          </Alert>
+        )}
         <h4 className="margin-bottom-none margin-top">Identity data</h4>
-        <KeyValueEditor errortext={errortext} onInputChange={convertIdentityToJSON} />
+        <KeyValueEditor onInputChange={convertIdentityToJSON} />
         {!!limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} />}
+        {!!submitError && <Alert severity="error">The device could not be added: {submitError}</Alert>}
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
