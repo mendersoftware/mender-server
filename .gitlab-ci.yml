@@ -834,7 +834,7 @@ test:staging-deployment:chrome:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed
-      start_in: 30 minutes
+      start_in: 5 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
@@ -844,7 +844,7 @@ test:staging-deployment:firefox:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed
-      start_in: 40 minutes
+      start_in: 10 minutes # this will wait for the chrome tests to finish & this is purely for ordering by browser usage
 
 publish:backend:coverage:
   stage: publish
