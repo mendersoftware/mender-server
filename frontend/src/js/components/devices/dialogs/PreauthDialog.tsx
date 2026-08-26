@@ -14,9 +14,9 @@
 import { useCallback, useState } from 'react';
 
 // material ui
-import { InfoOutlined as InfoIcon } from '@mui/icons-material';
-import { Alert, Button, DialogActions, DialogContent } from '@mui/material';
+import { Alert, Button, DialogActions, DialogContent, Typography } from '@mui/material';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { Link } from '@northern.tech/common-ui/Link';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
@@ -31,22 +31,10 @@ const generalFileHint = 'Please upload a PEM encoded public key, starting with "
 const invalidKeyError = `This file does not contain a public key. ${generalFileHint}`;
 const emptyKeyError = `This file is empty. ${generalFileHint}`;
 
-export const DeviceLimitContact = () => (
-  <p>
-    If you need a higher device limit, you can contact us through our{' '}
-    <Link href="https://support.northern.tech" external>
-      support portal
-    </Link>{' '}
-    to request a higher limit.
-  </p>
-);
-
-export const DeviceLimitWarning = ({ acceptedDevices, deviceLimit, hasContactInfo }) => (
-  <div className="margin-bottom-small margin-top-small warning">
-    <InfoIcon style={{ marginRight: 2, height: 16, verticalAlign: 'bottom' }} />
+export const DeviceLimitWarning = ({ acceptedDevices, deviceLimit }) => (
+  <Alert severity="error">
     You have reached your limit of authorized devices: {acceptedDevices} of {deviceLimit}
-    {hasContactInfo && <DeviceLimitContact />}
-  </div>
+  </Alert>
 );
 
 export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCancel, onSubmit }) => {
@@ -97,35 +85,36 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
   const isSubmitDisabled = !publicKey || isEmpty(jsonIdentity) || !!limitMaxed;
   return (
     <BaseDialog open title="Preauthorize devices" onClose={onCancel}>
-      <DialogContent style={{ overflow: 'hidden' }}>
-        <p>You can preauthorize a device by adding its authentication dataset here.</p>
-        <p>This means when a device with the matching key and identity data comes online, it will automatically be authorized to connect to the server.</p>
-
-        <h4 className="margin-top margin-bottom-small">Public key</h4>
-        <FileUpload
-          placeholder={
-            <>
-              Drag here or <Link>browse</Link> to upload a public key file
-            </>
-          }
-          onFileChange={onKeyChange}
-        />
-        {!!keyError && (
-          <Alert className="margin-top-small" severity="error">
-            {keyError}
-          </Alert>
-        )}
-        <h4 className="margin-bottom-none margin-top">Identity data</h4>
-        <KeyValueEditor onInputChange={convertIdentityToJSON} />
+      <DialogContent>
+        <Typography>Add a device&apos;s authentication set to authorize it automatically as soon as it connects.</Typography>
+        <ContentSection title="Public key">
+          <FileUpload
+            isValid={!!publicKey}
+            placeholder={
+              <>
+                Drag and drop or <Link>browse</Link> to upload a file
+              </>
+            }
+            onFileChange={onKeyChange}
+          />
+          {!!keyError && (
+            <Alert className="margin-top-small" severity="error">
+              {keyError}
+            </Alert>
+          )}
+        </ContentSection>
+        <ContentSection title="Identity data">
+          <KeyValueEditor onInputChange={convertIdentityToJSON} />
+        </ContentSection>
         {!!limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} />}
         {!!submitError && <Alert severity="error">The device could not be added: {submitError}</Alert>}
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
-        <Button variant="contained" disabled={isSubmitDisabled} onClick={() => onHandleSubmit(false)} color="primary" style={{ marginLeft: 10 }}>
+        <Button variant="outlined" disabled={isSubmitDisabled} onClick={() => onHandleSubmit(false)}>
           Save and add another
         </Button>
-        <Button variant="contained" disabled={isSubmitDisabled} onClick={() => onHandleSubmit(true)} color="secondary" style={{ marginLeft: 10 }}>
+        <Button variant="contained" disabled={isSubmitDisabled} onClick={() => onHandleSubmit(true)}>
           Save
         </Button>
       </DialogActions>

@@ -76,7 +76,7 @@ export const Authsets = ({ decommission, device, listRef }) => {
         device={device}
         userCapabilities={userCapabilities}
       />
-      {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} hasContactInfo />}
+      {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} />}
       {![DEVICE_STATES.preauth, DEVICE_STATES.pending].includes(device.status) && canManageDevices && (
         <div className="margin-top-small flexbox relative">
           {confirmDecommission ? (
