@@ -303,9 +303,11 @@ export const ReleaseDetails = () => {
   const onCreateDeployment = () =>
     navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`, { state: { internal: true } });
 
-  const onToggleReleaseDeletion = () => setConfirmReleaseDeletion(toggle);
+  const onReleaseDeletion = () => setConfirmReleaseDeletion(true);
 
-  const onDeleteRelease = () => dispatch(removeRelease(releaseName)).then(() => setConfirmReleaseDeletion(false));
+  const onCloseReleaseDeletion = () => setConfirmReleaseDeletion(false);
+
+  const onDeleteRelease = () => dispatch(removeRelease(releaseName)).unwrap();
 
   const onReleaseNotesChanged = useCallback(notes => dispatch(updateReleaseInfo({ name: releaseName, info: { notes } })).unwrap(), [dispatch, releaseName]);
 
@@ -359,10 +361,10 @@ export const ReleaseDetails = () => {
         }
         confirmButtonText="Remove"
         open={confirmReleaseDeletion}
-        close={onToggleReleaseDeletion}
+        close={onCloseReleaseDeletion}
         onConfirm={onDeleteRelease}
       />
-      <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }} />
+      <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onReleaseDeletion }} />
     </BaseDrawer>
   );
 };
