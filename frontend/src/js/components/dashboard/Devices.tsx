@@ -109,7 +109,7 @@ export const Devices = ({ clickHandle }) => {
             content={
               acceptedDevicesCount || pendingDevicesCount ? (
                 <>
-                  <AddIcon className="margin-right-x-small" /> Connect more devices
+                  <AddIcon className="margin-right-x-small" /> Connect more devices rgiotest
                 </>
               ) : (
                 'Connect a device'
