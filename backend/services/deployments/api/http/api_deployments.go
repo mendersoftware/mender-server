@@ -150,6 +150,8 @@ type Config struct {
 	// related to releases; helpful in performing long-running maintenance and data
 	// migrations on the artifacts and releases collections.
 	DisableNewReleasesFeature bool
+
+	RequestTimeoutDevicesAPI time.Duration
 }
 
 func NewConfig() *Config {
@@ -209,6 +211,11 @@ func (conf *Config) SetDisableNewReleasesFeature(disable bool) *Config {
 
 func (conf *Config) SetMaxRequestSize(size int64) *Config {
 	conf.MaxRequestSize = size
+	return conf
+}
+
+func (conf *Config) SetRequestTimeoutDevicesAPI(timeout time.Duration) *Config {
+	conf.RequestTimeoutDevicesAPI = timeout
 	return conf
 }
 
@@ -1455,7 +1462,8 @@ func (d *DeploymentsApiHandlers) getDeploymentForDevice(
 		if err == app.ErrConflictingRequestData {
 			d.view.RenderError(c, err, http.StatusConflict)
 		} else {
-			d.view.RenderInternalError(c, err)
+			// fallback on middlewares.ErrorHandler
+			_ = c.Error(err)
 		}
 		return
 	}
@@ -1522,20 +1530,18 @@ func (d *DeploymentsApiHandlers) PutDeploymentStatusForDevice(
 		d.view.RenderError(c, err, http.StatusBadRequest)
 		return
 	}
-	l := log.FromContext(ctx)
-	l.Infof("status: %+v", report)
 	if err := d.app.UpdateDeviceDeploymentStatus(ctx, did,
 		idata.Subject, model.DeviceDeploymentState{
 			Status:   report.Status,
 			SubState: report.SubState,
 		}); err != nil {
-
 		if err == app.ErrDeploymentAborted || err == app.ErrDeviceDecommissioned {
 			d.view.RenderError(c, err, http.StatusConflict)
 		} else if err == app.ErrStorageNotFound {
 			d.view.RenderErrorNotFound(c)
 		} else {
-			d.view.RenderInternalError(c, err)
+			// fallback on middlewares.ErrorHandler
+			_ = c.Error(err)
 		}
 		return
 	}
@@ -1899,7 +1905,7 @@ func (d *DeploymentsApiHandlers) PutDeploymentLogForDevice(c *gin.Context) {
 		if err == app.ErrModelDeploymentNotFound {
 			d.view.RenderError(c, err, http.StatusNotFound)
 		} else {
-			d.view.RenderInternalError(c, err)
+			_ = c.Error(err)
 		}
 		return
 	}

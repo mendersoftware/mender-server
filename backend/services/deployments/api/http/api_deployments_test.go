@@ -1150,7 +1150,7 @@ func TestDownloadConfiguration(t *testing.T) {
 			reqClone := tc.Request.Clone(context.Background())
 			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, tc.App, tc.Config)
 			router := setUpTestRouter()
-			NewDeploymentsResourceRoutes(router.Group("."), handlers)
+			NewDeploymentsResourceRoutes(router.Group("."), handlers, NewConfig())
 
 			w := httptest.NewRecorder()
 			router.ServeHTTP(w, tc.Request)

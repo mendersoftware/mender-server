@@ -19,6 +19,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/middlewares"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
@@ -28,6 +29,7 @@ func setUpTestRouter() *gin.Engine {
 	router := gin.New()
 	router.Use(accesslog.Middleware())
 	router.Use(requestid.Middleware())
+	router.Use(middlewares.ErrorHandler())
 
 	return router
 }
