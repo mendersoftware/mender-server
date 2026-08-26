@@ -383,7 +383,7 @@ services:
           - s3.docker.mender.io
 
   mongo:
-    image: ${MIRROR_REGISTRY:-docker.io}/library/mongo:${MONGO_VERSION:-8.0}
+    image: ${MIRROR_REGISTRY:-docker.io}/library/mongo:${MONGO_VERSION:-8.3}
     healthcheck:
       test: ["CMD", "mongosh", "mongodb://localhost:27017/test", "--quiet", "--eval", "db.runCommand('ping').ok"]
       interval: 10s

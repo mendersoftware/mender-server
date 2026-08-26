@@ -29,7 +29,7 @@ variables:
     value: "1.26.1"
     description: "Version of Golang to use in jobs"
   MONGO_VERSION:
-    value: "8.0"
+    value: "8.3"
     description: "Version of MongoDB to use in jobs"
   IMAGE_GOLANGCI_VERSION:
     value: "v2.4.0"
