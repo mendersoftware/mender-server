@@ -7,20 +7,15 @@ global:
   s3:
     existingSecret: "mender-s3-artifacts"
 
-  # Every backend service except gui comes from mender-server-enterprise's own
-  # published image (already published to registry.mender.io on every green
-  # main merge by that repo's own pipeline), not this pipeline's own build.
-  # Only gui below overrides this with its own image.
+# Every backend service except gui comes from mender-server-enterprise's own
+# published image. Must be default.image, not global.image: global propagates
+# to the nats subchart, which reads global.image.registry for its own images.
+default:
   image:
     registry: "registry.mender.io"
     repository: "mender-server-enterprise"
     tag: "main"
 
-# image: intentionally not set here - every backend service falls through to
-# global.image above. imagePullSecrets covers both registries in use: this
-# pipeline's own (gitlab-registry, for gui) and mender-server-enterprise's
-# (mender-enterprise-registry, manually created by review:deploy).
-default:
   imagePullSecrets:
     - name: gitlab-registry
     - name: mender-enterprise-registry
