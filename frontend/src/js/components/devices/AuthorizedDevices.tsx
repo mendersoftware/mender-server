@@ -592,11 +592,11 @@ export const Authorized = ({
                   configuration to match.{' '}
                 </Typography>
                 <DocsLink path="overview/limits" title="Learn more" />
-                <Typography className="margin-top-small">You can add or remove test devices up to 20 times a day.</Typography>
+                <Typography className="margin-top-small">You can only assign test devices up to 10 times a day.</Typography>
               </>
             ) : (
               <Typography>
-                Are you sure you want to remove the test device status from this device? You can add or remove test devices up to 20 times a day.
+                Are you sure you want to remove the test device status from this device? You can only assign test devices up to 10 times a day.
               </Typography>
             )}
             <TestDeviceLimit testDeviceUsed={testDevicesCount} className="margin-top-small" onNavigate={onTestDeviceLimitNavigate} />
