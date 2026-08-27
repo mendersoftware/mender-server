@@ -32,6 +32,7 @@ export const deploymentErrors = {
 };
 
 export const disabledReasons = {
+  allDevicesLimit: 'Cannot limit device count when targeting all devices',
   deviceTargetLimit: 'Cannot limit device count when targeting individual devices',
   emptyGroupPattern: 'Rollout pattern is not available for empty device groups',
   emptyGroupPauses: 'Pauses is not available for empty device groups',
@@ -53,7 +54,10 @@ export const getDeviceLimitDisabledReason = ({ devices = [], filter, group }: Ta
   if (filter) {
     return '';
   }
-  if (group && group !== ALL_DEVICES) {
+  if (group === ALL_DEVICES) {
+    return disabledReasons.allDevicesLimit;
+  }
+  if (group) {
     return disabledReasons.staticGroupLimit;
   }
   return devices.length ? disabledReasons.deviceTargetLimit : '';
