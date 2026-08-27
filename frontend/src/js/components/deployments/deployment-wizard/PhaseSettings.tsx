@@ -23,6 +23,7 @@ import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { BENEFITS } from '@northern.tech/store/constants';
 import { isDarkMode } from '@northern.tech/store/utils';
+import type { Filter } from '@northern.tech/types/MenderTypes';
 
 import { CustomPhaseTable } from './phases/CustomPhases';
 import { getUniformBatchDefault } from './phases/UniformPhases';
@@ -31,7 +32,7 @@ import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes, rolloutPattern
 import type { PhaseDefinition, StandardizedPhase } from './phases/utils';
 import { convertDefinitionsToMode, getPhasesMessage, parsePreviousPhases, toPhaseDescription } from './phases/utils';
 import type { DeploymentFormValues } from './types';
-import { DisabledReasonHint, deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -59,28 +60,33 @@ const getDefaultPhaseDefinitions = (pattern: RolloutPattern, rolloutMode: Rollou
 };
 
 interface RolloutPatternSelectionProps {
+  deploymentDeviceCount?: number;
   disabledReason: string;
+  filter?: Filter;
   isEnterprise: boolean;
   previousPhases?: Array<Array<StandardizedPhase>>;
 }
 
-export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', previousPhases = [] }: RolloutPatternSelectionProps) => {
+export const RolloutPatternSelection = ({
+  deploymentDeviceCount = 0,
+  isEnterprise,
+  disabledReason = '',
+  filter,
+  previousPhases = []
+}: RolloutPatternSelectionProps) => {
   const { watch, getValues } = useFormContext<DeploymentFormValues>();
   const setValue = useValidatedSetValue();
-  const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const rolloutMode: RolloutMode = watch(deploymentFormSections.rolloutMode) || rolloutModes.percentage.key;
   const usesPattern = watch(deploymentFormSections.usesPattern);
   const maxDevices = watch(deploymentFormSections.maxDevices);
   const { classes } = useStyles();
-
-  const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
 
   const activePattern: RolloutPattern = watch(deploymentFormSections.rolloutPattern) || (rolloutPatternDefinitions.custom.key as RolloutPattern);
 
   const handlePatternChange = ({ target: { value } }) => {
     if (typeof value === 'string') {
       setValue(deploymentFormSections.rolloutPattern, value);
-      setValue(deploymentFormSections.phases, getDefaultPhaseDefinitions(value as RolloutPattern, rolloutMode, numberDevices));
+      setValue(deploymentFormSections.phases, getDefaultPhaseDefinitions(value as RolloutPattern, rolloutMode, deploymentDeviceCount));
       return;
     }
     // a recent pattern was picked - adopt its shape, converted to the currently selected mode where needed
@@ -97,17 +103,17 @@ export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', pre
       }
       if (!getValues(deploymentFormSections.phases)?.length) {
         const pattern = getValues(deploymentFormSections.rolloutPattern) || (rolloutPatternDefinitions.custom.key as RolloutPattern);
-        setValue(deploymentFormSections.phases, getDefaultPhaseDefinitions(pattern, rolloutMode, numberDevices));
+        setValue(deploymentFormSections.phases, getDefaultPhaseDefinitions(pattern, rolloutMode, deploymentDeviceCount));
       }
     },
-    [getValues, setValue, rolloutMode, numberDevices]
+    [getValues, setValue, rolloutMode, deploymentDeviceCount]
   );
 
   // switching the mode only changes what the batch numbers mean, so they get converted in the same go - which keeps
   // the mode field the single signal for how to read them
   const handleModeChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     const newMode = value as RolloutMode;
-    const conversionBasis = activePattern === rolloutPatternDefinitions.uniform.key && maxDevices ? maxDevices : numberDevices;
+    const conversionBasis = activePattern === rolloutPatternDefinitions.uniform.key && maxDevices ? maxDevices : deploymentDeviceCount;
     setValue(deploymentFormSections.rolloutMode, newMode);
     setValue(deploymentFormSections.phases, convertDefinitionsToMode(getValues(deploymentFormSections.phases) || [], newMode, conversionBasis));
   };
@@ -115,7 +121,7 @@ export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', pre
   const previousPhaseOptions =
     previousPhases.length > 0
       ? previousPhases.map((previousPhaseSetting, index) => {
-          const { phasesDescription, tooltip } = toPhaseDescription(previousPhaseSetting, numberDevices);
+          const { phasesDescription, tooltip } = toPhaseDescription(previousPhaseSetting, deploymentDeviceCount);
           return (
             <MenuItem key={`previousPhaseSetting-${index}`} value={previousPhaseSetting}>
               <Tooltip title={tooltip} placement="left">
@@ -137,7 +143,7 @@ export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', pre
     <>
       <FormCheckbox
         id={deploymentFormSections.usesPattern}
-        disabled={!isEnterprise || numberDevices === 0 || !!disabledReason}
+        disabled={!isEnterprise || deploymentDeviceCount === 0 || !!disabledReason}
         handleClick={onUsesPatternClick}
         label={
           <div className="flexbox align-items-center">
@@ -152,7 +158,7 @@ export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', pre
         slotProps={{ checkbox: { className: 'margin-left-small', size: 'small' } }}
       />
       <Collapse className={usesPattern ? 'margin-bottom-small' : ''} in={usesPattern}>
-        {numberDevices > 1 && (
+        {deploymentDeviceCount > 1 && (
           <FormControl className={classes.patternSelection}>
             <Select onChange={handlePatternChange} value={activePattern} disabled={!isEnterprise}>
               {[
@@ -176,7 +182,7 @@ export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', pre
               <FormControlLabel key={key} value={key} control={<Radio size="small" />} label={title} />
             ))}
           </RadioGroup>
-          <ActivePatternComponent classes={classes} deploymentDeviceCount={numberDevices} filter={filter} />
+          <ActivePatternComponent classes={classes} deploymentDeviceCount={deploymentDeviceCount} filter={filter} />
           {phasesNotification && (
             <Alert className="margin-top-x-small margin-bottom-x-small" severity={phasesNotification.severity}>
               {phasesNotification.message}

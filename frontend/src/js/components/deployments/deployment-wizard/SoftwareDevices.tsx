@@ -36,7 +36,7 @@ import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { SoftwareArtifactFilter } from './ReleaseArtifactFilter';
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
+import { deploymentFormSections, useValidatedSetValue } from './utils';
 
 const { isUUID } = validator;
 
@@ -125,7 +125,18 @@ export const ReleasesWarning = ({ lacksReleases }) => (
   </FormHelperText>
 );
 
-export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDynamicGroups, hasPending, idAttribute, initialDevices = [] }) => {
+export const Devices = ({
+  deploymentDeviceCount = 0,
+  devices = [],
+  devicesById,
+  filter,
+  groupRef,
+  groupNames,
+  hasDevices,
+  hasDynamicGroups,
+  hasPending,
+  idAttribute
+}) => {
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
@@ -135,7 +146,6 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
   } = useFormContext<DeploymentFormValues>();
 
   const group = watch(deploymentFormSections.group);
-  const { deploymentDeviceCount, devices, filter } = useDerivedData(watch, initialDevices);
   const device = useMemo(() => (devices.length === 1 ? devices[0] : {}), [devices]);
 
   const { deviceText, devicesLink, targetDeviceCount, targetDevicesText } = useMemo(() => {
