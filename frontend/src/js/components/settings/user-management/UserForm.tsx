@@ -42,7 +42,13 @@ const useStyles = makeStyles()(theme => ({
 export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }) => {
   const isEnterprise = useSelector(getIsEnterprise);
   const relevantRolesById = useMemo(
-    () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
+    () =>
+      Object.fromEntries(
+        roles.map(role => {
+          const value = role.value ?? role.name;
+          return [value, { ...role, value }];
+        })
+      ),
     [roles]
   );
   const [selectedRoleIds, setSelectedRoleIds] = useState([]);
@@ -51,38 +57,29 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
     setSelectedRoleIds((user.roles || [rolesByName.admin]).filter(roleId => relevantRolesById[roleId]));
   }, [user.roles, relevantRolesById]);
 
-  const onInputChange = ({ target: { value } }) => {
-    const { roles = [] } = user;
-    let newlySelectedRoles = value;
-    if (value.includes('')) {
-      newlySelectedRoles = [];
-    }
-    const hadRoleChanges =
-      roles.length !== newlySelectedRoles.length || roles.some(currentRoleId => !newlySelectedRoles.some(roleId => currentRoleId === roleId));
+  const onInputChange = ({ target: { value: newlySelectedRoles } }) => {
+    const { roles: assignedRoles = [] } = user;
+    const hadRoleChanges = assignedRoles.length !== newlySelectedRoles.length || assignedRoles.some(roleId => !newlySelectedRoles.includes(roleId));
     setSelectedRoleIds(newlySelectedRoles);
     onSelect(newlySelectedRoles, hadRoleChanges);
   };
 
+  const hasUiApiAccess = ({ value, permissions, uiPermissions }) => {
+    if (value === rolesByName.ci) {
+      return false;
+    }
+    return (
+      value === rolesByName.admin ||
+      permissions.some(({ action }) => action !== rolesByName.deploymentCreation.action) ||
+      uiPermissions.userManagement.includes(uiPermissionsById.read.value)
+    );
+  };
+
   const { editableRoles, showRoleUsageNotification } = useMemo(() => {
-    const editableRoles = Object.entries(relevantRolesById).map(([value, role]) => {
-      const enabled = selectedRoleIds.some(roleId => value === roleId);
-      return { enabled, value, ...role };
-    });
-    const showRoleUsageNotification = selectedRoleIds.reduce((accu, roleId) => {
-      const { permissions, uiPermissions } = relevantRolesById[roleId];
-      const hasUiApiAccess = [rolesByName.ci].includes(roleId)
-        ? false
-        : roleId === rolesByName.admin ||
-          permissions.some(permission => ![rolesByName.deploymentCreation.action].includes(permission.action)) ||
-          uiPermissions.userManagement.includes(uiPermissionsById.read.value);
-      if (hasUiApiAccess) {
-        return false;
-      }
-      return typeof accu !== 'undefined' ? accu : true;
-    }, undefined);
+    const editableRoles = Object.values(relevantRolesById).map(role => ({ ...role, enabled: selectedRoleIds.includes(role.value) }));
+    const showRoleUsageNotification = selectedRoleIds.length ? !selectedRoleIds.some(roleId => hasUiApiAccess(relevantRolesById[roleId])) : undefined;
     return { editableRoles, showRoleUsageNotification };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(relevantRolesById), selectedRoleIds]);
+  }, [relevantRolesById, selectedRoleIds]);
 
   return (
     <div className="flexbox column">
