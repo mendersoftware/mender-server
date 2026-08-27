@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router';
 import { Add as AddIcon } from '@mui/icons-material';
 
 import storeActions from '@northern.tech/store/actions';
-import { onboardingSteps } from '@northern.tech/store/constants';
+import { ALL_DEVICES, onboardingSteps, uiPermissionsById } from '@northern.tech/store/constants';
 import {
   getAvailableIssueOptionsByType,
   getDeviceCountsByStatus,
@@ -46,10 +46,11 @@ export const Devices = ({ clickHandle }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const availableIssueOptions = useSelector(getAvailableIssueOptionsByType);
-  const { canManageDevices } = useSelector(getUserCapabilities);
+  const { canManageDevices, groupsPermissions } = useSelector(getUserCapabilities);
   const { plan } = useSelector(getTenantCapabilities);
   const onboardingState = useSelector(getOnboardingState);
   const { accepted: acceptedDevicesCount, pending: pendingDevicesCount } = useSelector(getDeviceCountsByStatus);
+  const canAddDevices = groupsPermissions[ALL_DEVICES]?.includes(uiPermissionsById.manage.value);
 
   const refreshDevices = useCallback(() => {
     const issueRequests = Object.keys(availableIssueOptions).map(key =>
@@ -104,7 +105,7 @@ export const Devices = ({ clickHandle }) => {
             pendingDevicesCount={pendingDevicesCount}
           />
         )}
-        {canManageDevices && (
+        {canAddDevices && canManageDevices && (
           <RedirectionWidget
             content={
               acceptedDevicesCount || pendingDevicesCount ? (

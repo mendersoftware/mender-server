@@ -292,6 +292,7 @@ export const processLoginForm = async ({
 export const tenantTokenRetrieval = async (baseUrl: string, page: Page) => {
   await page.goto(`${baseUrl}ui/settings/organization`);
   await page.getByText(/show more/i).click();
+  await page.waitForFunction(() => !!document.querySelector('.tenant-token-text')?.textContent);
   return page.$eval('.tenant-token-text', el => el.textContent);
 };
 

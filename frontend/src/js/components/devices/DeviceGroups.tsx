@@ -26,7 +26,6 @@ import {
   getCombinedLimit,
   getDeviceCountsByStatus,
   getDeviceFilters,
-  getFeatures,
   getGroups as getGroupsSelector,
   getIsEnterprise,
   getLimitMaxed,
@@ -94,13 +93,12 @@ export const DeviceGroups = () => {
 
   const { groupCount, selectedGroup, groupFilters = [] } = useSelector(getSelectedGroupInfo);
   const filteringAttributes = useSelector(getSortedFilteringAttributes);
-  const { canManageDevices } = useSelector(getUserCapabilities);
+  const userCapabilities = useSelector(getUserCapabilities);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
   const groups = groupNames;
   const deviceLimit = useSelector(getCombinedLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
-  const features = useSelector(getFeatures);
   const filters = useSelector(getDeviceFilters);
   const limitMaxed = useSelector(getLimitMaxed);
   const { accepted: acceptedCount, pending: pendingCount } = useSelector(getDeviceCountsByStatus);
@@ -111,6 +109,7 @@ export const DeviceGroups = () => {
   const isInitialized = useRef(false);
   const location = useLocation();
   const { classes } = useStyles();
+  const { canManageDevices } = userCapabilities;
 
   const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('devices', {
     filteringAttributes,
@@ -327,10 +326,9 @@ export const DeviceGroups = () => {
           )}
           {canManageDevices && (
             <DeviceAdditionWidget
-              features={features}
               onConnectClick={() => dispatch(setShowConnectingDialog(true))}
               onPreauthClick={setOpenPreauth}
-              tenantCapabilities={tenantCapabilities}
+              userCapabilities={userCapabilities}
               innerRef={deviceConnectionRef}
             />
           )}

@@ -22,10 +22,27 @@ import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
-import { SSO_TYPES } from '@northern.tech/store/constants';
-import { getCurrentSession, getFeatures, getIsEnterprise, getIsPreview, getOrganization, getSsoConfig, getUserRoles } from '@northern.tech/store/selectors';
+import { ALL_DEVICES, SSO_TYPES, uiPermissionsById } from '@northern.tech/store/constants';
+import {
+  getCurrentSession,
+  getFeatures,
+  getIsEnterprise,
+  getIsPreview,
+  getOrganization,
+  getSsoConfig,
+  getUserCapabilities,
+  getUserRoles
+} from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs, getUserOrganization, storeSsoConfig } from '@northern.tech/store/thunks';
+import {
+  changeSsoConfig,
+  deleteSsoConfig,
+  downloadLicenseReport,
+  getSsoConfigs,
+  getTenantToken,
+  getUserOrganization,
+  storeSsoConfig
+} from '@northern.tech/store/thunks';
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
@@ -65,6 +82,7 @@ export const Organization = () => {
   const [selectedSsoItem, setSelectedSsoItem] = useState(undefined);
   const isEnterprise = useSelector(getIsEnterprise);
   const { isAdmin } = useSelector(getUserRoles);
+  const { groupsPermissions } = useSelector(getUserCapabilities);
   const canPreview = useSelector(getIsPreview);
   const { isHosted } = useSelector(getFeatures);
   const { id: tenantId, name: orgName, tenant_token = '' } = useSelector(getOrganization);
@@ -72,10 +90,18 @@ export const Organization = () => {
   const dispatch = useAppDispatch();
   const { token } = useSelector(getCurrentSession);
   const { classes } = useStyles();
+  const canAddDevices = groupsPermissions[ALL_DEVICES]?.includes(uiPermissionsById.manage.value);
 
   useEffect(() => {
     dispatch(getUserOrganization());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!canAddDevices) {
+      return;
+    }
+    dispatch(getTenantToken());
+  }, [canAddDevices, dispatch]);
 
   useEffect(() => {
     if (!isEnterprise) {
@@ -152,21 +178,23 @@ export const Organization = () => {
       <div className="flexbox column">
         <SettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
         <SettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
-        <SettingsItem
-          classes={{ base: '', content: '', main: classes.tenantToken }}
-          title="Organization token"
-          description="The token is unique for your organization and ensures that only devices that you own are able to connect to your account."
-          secondary={<TenantToken expanded={showTokenWarning} onClick={onTokenExpansion} token={tenant_token} />}
-          sideBarContent={<CopyTextToClipboard notify={false} onCopy={onTokenExpansion} token={tenant_token} />}
-          notification={
-            showTokenWarning && (
-              <Alert severity="warning">
-                Do not share your organization token. If leaked, unauthorized devices can send authorization requests, making it difficult to identify and
-                manage your own devices.
-              </Alert>
-            )
-          }
-        />
+        {canAddDevices && (
+          <SettingsItem
+            classes={{ base: '', content: '', main: classes.tenantToken }}
+            title="Organization token"
+            description="The token is unique for your organization and ensures that only devices that you own are able to connect to your account."
+            secondary={<TenantToken expanded={showTokenWarning} onClick={onTokenExpansion} token={tenant_token} />}
+            sideBarContent={<CopyTextToClipboard notify={false} onCopy={onTokenExpansion} token={tenant_token} />}
+            notification={
+              showTokenWarning && (
+                <Alert severity="warning">
+                  Do not share your organization token. If leaked, unauthorized devices can send authorization requests, making it difficult to identify and
+                  manage your own devices.
+                </Alert>
+              )
+            }
+          />
+        )}
         {isEnterprise && isAdmin && (
           <ToggleSettingsItem
             title="Enable Single Sign-On"

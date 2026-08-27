@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { ALL_DEVICES } from '@northern.tech/utils/constants';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -21,7 +22,7 @@ import DeviceAdditionWidget from './DeviceAdditionWidget';
 
 describe('DeviceAdditionWidget Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceAdditionWidget features={{}} onConnectClick={vi.fn} tenantCapabilities={{}} />);
+    const { baseElement } = render(<DeviceAdditionWidget onConnectClick={vi.fn} userCapabilities={{ groupsPermissions: {} }} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -30,7 +31,7 @@ describe('DeviceAdditionWidget Component', () => {
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const clickMock = vi.fn();
-    render(<DeviceAdditionWidget features={{}} onConnectClick={clickMock} tenantCapabilities={{}} />);
+    render(<DeviceAdditionWidget onConnectClick={clickMock} userCapabilities={{ groupsPermissions: { [ALL_DEVICES]: ['manage'] } }} />);
     await user.click(screen.getByRole('button', { name: /connect a new device/i }));
     expect(clickMock).toHaveBeenCalled();
   });

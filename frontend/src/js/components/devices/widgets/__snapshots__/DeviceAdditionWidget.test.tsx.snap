@@ -272,7 +272,7 @@ exports[`DeviceAdditionWidget Component > renders correctly 1`] = `
     tabindex="0"
     type="button"
   >
-    Connect a new device
+    Preauthorize a device
   </button>
   <button
     class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton emotion-2"
