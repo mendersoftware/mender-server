@@ -105,7 +105,7 @@ export const Retries = ({ canManageUsers, canRetry, commonClasses, defaultRetrie
     </div>
     <div className="flexbox align-items-center margin-top-x-small margin-bottom-small">
       {/* input validation needs to be handled via validation.ts due to the cross form checks */}
-      <NumberInput id={deploymentFormSections.retries} disabled={!canRetry} min={0} max={maxDeploymentRetries} showSteps size="small" width={120} />
+      <NumberInput id={deploymentFormSections.retries} disabled={!canRetry} min={1} max={maxDeploymentRetries} showSteps size="small" width={120} />
       <Tooltip arrow placement="top" title={`Default is ${defaultRetries + 1}. This can be changed in the global settings`}>
         <HelpIcon className="margin-left-x-small margin-right-x-small" color="action" />
       </Tooltip>

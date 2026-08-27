@@ -127,7 +127,7 @@ export const deploymentResolver: Resolver<DeploymentFormValues, DeploymentResolv
   } else if (values.shouldLimit && !(Number.isInteger(values.maxDevices) && Number(values.maxDevices) >= 1)) {
     errors.maxDevices = { message: deploymentErrors.numberRange, type: 'validate' };
   }
-  if (values.retries && !(Number(values.retries) >= 0 && Number(values.retries) <= maxDeploymentRetries)) {
+  if (values.retries && !(Number.isInteger(values.retries) && Number(values.retries) > 0 && Number(values.retries) <= maxDeploymentRetries)) {
     errors.retries = { message: deploymentErrors.numberRange, type: 'validate' };
   }
   Object.assign(
