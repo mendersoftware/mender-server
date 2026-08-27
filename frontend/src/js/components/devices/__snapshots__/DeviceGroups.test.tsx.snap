@@ -617,9 +617,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   12 days ago
                 </time>
               </div>
-              <div
-                class="css-lglc1i-status"
-              >
+              <div>
                 <p
                   class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
                 >
@@ -688,9 +686,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   12 days ago
                 </time>
               </div>
-              <div
-                class="css-lglc1i-status"
-              >
+              <div>
                 <p
                   class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
                 >
