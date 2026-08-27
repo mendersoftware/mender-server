@@ -41,6 +41,7 @@ import Progress from './InProgressDeployments';
 import Past from './PastDeployments';
 import Report from './Report';
 import Scheduled from './ScheduledDeployments';
+import type { DeploymentPrefill } from './deployment-wizard/types';
 
 const { isUUID } = validator;
 const { setSnackbar } = storeActions;
@@ -71,7 +72,7 @@ export const Deployments = () => {
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useAppDispatch();
 
-  const [deploymentObject, setDeploymentObject] = useState({});
+  const [deploymentObject, setDeploymentObject] = useState<DeploymentPrefill>({});
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const tabsRef = useRef();
@@ -131,7 +132,7 @@ export const Deployments = () => {
       dispatch(getDynamicGroups());
     }
     const { deploymentObject = {}, id: selectedId = [], ...remainder } = locationParams;
-    const { devices: selectedDevices = [], release: releaseName } = deploymentObject;
+    const { devices: selectedDevices = [], release: releaseName } = deploymentObject as DeploymentPrefill;
     const release = releaseName ? { ...(releases[releaseName] ?? { name: releaseName }) } : undefined;
     const devices = selectedDevices.length ? selectedDevices.map(device => ({ ...device, ...devicesById[device.id] })) : [];
     setDeploymentObject({ devices, release, releaseSelectionLocked: !!release });
@@ -150,43 +151,36 @@ export const Deployments = () => {
   const retryDeployment = (deployment, deploymentDeviceIds) => {
     const { artifact_name, name, update_control_map = {} } = deployment;
     const release = releases[artifact_name] || { name: artifact_name };
-    const enterpriseSettings = isEnterprise
-      ? {
-          phases: [{ batch_size: 100, start_ts: undefined, delay: 0 }],
-          update_control_map: { states: update_control_map.states || {} }
-        }
-      : {};
+    // pauses are the only rollout aspect worth carrying over - the schedule & phases of the retried deployment already
+    // played out, so the form starts those from scratch
+    const enterpriseSettings = isEnterprise ? { update_control_map: { states: update_control_map.states || {} } } : {};
     const targetDevicesConfig =
       name === ALL_DEVICES || groupsById[name]
         ? { group: name }
         : { devices: isUUID(name) ? [devicesById[name]] : deploymentDeviceIds.map(id => devicesById[id] ?? { id }) };
-    const deploymentObject = {
-      deploymentDeviceIds,
-      release,
-      deploymentDeviceCount: deploymentDeviceIds.length,
-      ...targetDevicesConfig,
-      ...enterpriseSettings
-    };
-    setDeploymentObject(deploymentObject);
+    setDeploymentObject({ release, ...targetDevicesConfig, ...enterpriseSettings });
     dispatch(setDeploymentsState({ general: { showCreationDialog: true, showReportDialog: false } }));
   };
 
-  const onScheduleSubmit = () => {
+  const changeTab = useCallback(
+    (_, tabIndex) => {
+      dispatch(setDeploymentsState({ general: { state: tabIndex } }));
+      dispatch(setSnackbar(''));
+      if (pastCount && !onboardingState.complete) {
+        dispatch(advanceOnboarding(onboardingSteps.DEPLOYMENTS_PAST));
+      }
+    },
+    [dispatch, onboardingState.complete, pastCount]
+  );
+
+  const onScheduleSubmit = useCallback(() => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: false, showReportDialog: false } }));
     setDeploymentObject({});
     // successfully retrieved new deployment
     if (routes.active.key !== state) {
       changeTab(undefined, routes.active.key);
     }
-  };
-
-  const changeTab = (_, tabIndex) => {
-    dispatch(setDeploymentsState({ general: { state: tabIndex } }));
-    dispatch(setSnackbar(''));
-    if (pastCount && !onboardingState.complete) {
-      dispatch(advanceOnboarding(onboardingSteps.DEPLOYMENTS_PAST));
-    }
-  };
+  }, [changeTab, dispatch, state]);
 
   const showReport = (reportType, selectedId) => {
     if (!onboardingState.complete) {
@@ -199,10 +193,10 @@ export const Deployments = () => {
 
   const onAbortDeployment = id => dispatch(abortDeployment(id)).then(closeReport);
 
-  const onCreationDismiss = () => {
+  const onCreationDismiss = useCallback(() => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: false } }));
     setDeploymentObject({});
-  };
+  }, [dispatch]);
 
   const onCreationShow = () => dispatch(setDeploymentsState({ general: { showCreationDialog: true } }));
 

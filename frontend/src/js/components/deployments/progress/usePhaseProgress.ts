@@ -20,6 +20,8 @@ import type { DeploymentPhase } from '@northern.tech/types/MenderTypes';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 
+import { devicesToPercentage } from '../deployment-wizard/phases/utils';
+
 dayjs.extend(durationDayJs);
 
 interface RolloutPhasesParams {
@@ -46,7 +48,8 @@ export const getDisplayableRolloutPhases = ({
     (accu, phase, index) => {
       const displayablePhase = { ...phase };
       // ongoing phases might not have a device_count yet - so we calculate it
-      let expectedDeviceCountInPhase = Math.floor((totalDeviceCount / 100) * displayablePhase.batch_size) || displayablePhase.batch_size;
+      let expectedDeviceCountInPhase =
+        displayablePhase.batch_size_devices || Math.floor((totalDeviceCount / 100) * displayablePhase.batch_size) || displayablePhase.batch_size;
       // for phases with more successes than phase.device_count or more failures than phase.device_count we have to guess what phase to put them in =>
       // because of that we have to limit per phase success/ failure counts to the phase.device_count and split the progress between those with a bias for success,
       // therefore we have to track the remaining width and work with it - until we get per phase success & failure information
@@ -66,8 +69,11 @@ export const getDisplayableRolloutPhases = ({
       }
       displayablePhase.offset = accu.countedBatch;
       const remainingWidth = 100 - accu.countedBatch; // countedBatch should be the summarized percentages of the phases so far
-      displayablePhase.width = index === phases.length - 1 ? remainingWidth : displayablePhase.batch_size;
-      accu.countedBatch += displayablePhase.batch_size;
+      const phasePercentage = displayablePhase.batch_size_devices
+        ? devicesToPercentage(displayablePhase.batch_size_devices, totalDeviceCount)
+        : displayablePhase.batch_size;
+      displayablePhase.width = index === phases.length - 1 ? remainingWidth : phasePercentage;
+      accu.countedBatch += phasePercentage;
       accu.countedFailures += possiblePhaseFailures;
       accu.countedSuccesses += possiblePhaseSuccesses;
       accu.displayablePhases.push(displayablePhase);
