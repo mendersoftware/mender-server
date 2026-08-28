@@ -25,6 +25,8 @@ import { v4 as uuid } from 'uuid';
 
 import type { TestEnvironment } from '../fixtures/fixtures';
 import { emptyStorageState, selectors, storagePath, timeouts } from './constants';
+import type { EmailClient } from './email';
+import { poll } from './utils';
 import { startServer } from './webhookListener';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -126,6 +128,37 @@ export const prepareNewPage = async ({
   page = await ensureFeedbackDisabled({ baseUrl, page, token: logInResult.token });
   await page.goto(`${baseUrl}ui/`);
   return page;
+};
+
+// users that are created without a password receive a link to set one themselves - following it turns the invitation into an account that can log in
+export const acceptUserInvitation = async ({
+  baseUrl,
+  emailClient,
+  page,
+  password,
+  username
+}: {
+  baseUrl: string;
+  emailClient: EmailClient;
+  page: Page;
+  password: string;
+  username: string;
+}) => {
+  const linkPattern = new RegExp(`${baseUrl.replace(/\/$/, '')}/ui/password/[0-9a-f-]+`);
+  const invitationLink = await poll({
+    callback: async () => {
+      const emails = await emailClient.getEmails({ to: username, unread: true });
+      const [link] = emails.flatMap(({ body }) => body.match(linkPattern) ?? []);
+      return link;
+    },
+    delay: timeouts.fiveSeconds,
+    message: `timeout waiting for the invitation email to ${username}`
+  });
+  await page.goto(invitationLink);
+  await page.getByLabel('Password *', { exact: true }).fill(password);
+  await page.getByLabel('Confirm password *', { exact: true }).fill(password);
+  await page.getByRole('button', { name: /save password/i }).click();
+  await page.getByText(/your password has been updated/i).waitFor({ timeout: timeouts.default });
 };
 
 const updateConfigFileWithUrl = (fileName, serverUrl = 'https://docker.mender.io', token = '') => {
