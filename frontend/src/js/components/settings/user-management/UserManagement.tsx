@@ -31,7 +31,7 @@ import {
   getUsersList
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { addUserToCurrentTenant, createUser, editUser, getUserList, removeUser } from '@northern.tech/store/thunks';
+import { addUserToCurrentTenant, createUser, createUserV2, editUser, getUserList, removeUser } from '@northern.tech/store/thunks';
 
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserDefinition } from './UserDefinition';
@@ -43,6 +43,7 @@ const { setSnackbar } = storeActions;
 const actions = {
   add: 'addUser',
   create: 'createUser',
+  createV2: 'createUserV2',
   edit: 'editUser',
   remove: 'removeUser'
 };
@@ -66,6 +67,7 @@ export const UserManagement = () => {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
     createUser: userData => dispatch(createUser(userData)),
+    createUserV2: userData => dispatch(createUserV2(userData)),
     currentUser,
     editUser: (id, userData) => dispatch(editUser({ ...userData, id })),
     hasMultitenancy,
@@ -105,8 +107,10 @@ export const UserManagement = () => {
       } else {
         await props[actions[type]](userData).unwrap();
       }
+      return true;
     } catch {
       // error already handled in thunk - leave open
+      return false;
     }
   };
 

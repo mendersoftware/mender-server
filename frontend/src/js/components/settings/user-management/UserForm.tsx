@@ -178,13 +178,15 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
   const onSubmit = async data => {
     const { password, ...remainder } = data;
     const roleData = hadRoleChanges ? { roles: selectedRoles } : {};
-    if (isAddingExistingUser) {
-      const { email: userId } = data;
-      await submit(userId, 'add');
-      return closeDialog();
+    // Add via id / invite via email / OS create
+    const [payload, type] = isAddingExistingUser
+      ? [remainder.email, 'add']
+      : hasMultitenancy
+        ? [{ ...remainder, ...roleData }, 'createV2']
+        : [{ ...remainder, ...roleData, password, shouldResetPassword: false }, 'create'];
+    if (await submit(payload, type)) {
+      closeDialog();
     }
-    await submit({ ...remainder, ...roleData, password }, 'create');
-    closeDialog();
   };
 
   return (
