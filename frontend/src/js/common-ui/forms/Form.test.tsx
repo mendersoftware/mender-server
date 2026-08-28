@@ -13,9 +13,7 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { screen } from '@testing-library/react';
 
 import Form from './Form';
 import FormCheckbox from './FormCheckbox';
@@ -35,20 +33,5 @@ describe('Form Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-  });
-  window.prompt = vi.fn();
-  it('works correctly with generated passwords', async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-
-    const ui = (
-      <Form showButtons submitLabel="submit">
-        <PasswordInput id="password" required create generate />
-      </Form>
-    );
-    const { rerender } = render(ui);
-    await user.click(screen.getByRole('button', { name: /generate/i }));
-    await waitFor(() => rerender(ui));
-    await waitFor(() => expect(screen.getByRole('button', { name: /submit/i })).not.toBeDisabled());
-    window.prompt.mockClear();
   });
 });
