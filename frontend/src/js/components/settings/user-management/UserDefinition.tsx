@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 
 // material ui
 import { Alert, Button, Chip, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
@@ -140,10 +140,10 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
     onRemove(selectedUser);
   };
 
-  const onRolesSelect = (newlySelectedRoles, hadRoleChanges) => {
+  const onRolesSelect = useCallback((newlySelectedRoles, hadRoleChanges) => {
     setSelectedRoles(newlySelectedRoles);
     setHadRoleChanges(hadRoleChanges);
-  };
+  }, []);
 
   const onCancelRoleChanges = () => {
     setSelectedRoles(selectedUser.roles || []);

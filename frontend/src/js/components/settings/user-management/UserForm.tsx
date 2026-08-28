@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -48,8 +48,10 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
   const [selectedRoleIds, setSelectedRoleIds] = useState([]);
 
   useEffect(() => {
-    setSelectedRoleIds((user.roles || [rolesByName.admin]).filter(roleId => relevantRolesById[roleId]));
-  }, [user.roles, relevantRolesById]);
+    const relevantSelectedRoleIds = (user.roles || [rolesByName.admin]).filter(roleId => relevantRolesById[roleId]);
+    setSelectedRoleIds(relevantSelectedRoleIds);
+    onSelect(relevantSelectedRoleIds, false);
+  }, [onSelect, relevantRolesById, user.roles]);
 
   const onInputChange = ({ target: { value: newlySelectedRoles } }) => {
     const { roles: assignedRoles = [] } = user;
@@ -172,13 +174,15 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
   const onSubmit = async data => {
     const { password, ...remainder } = data;
     const roleData = hadRoleChanges ? { roles: selectedRoles } : {};
-    if (isAddingExistingUser) {
-      const { email: userId } = data;
-      await submit(userId, 'add');
-      return closeDialog();
+    // Add via id / invite via email / OS create
+    const [payload, type] = isAddingExistingUser
+      ? [remainder.email, 'add']
+      : hasMultitenancy
+        ? [{ ...remainder, ...roleData }, 'createV2']
+        : [{ ...remainder, ...roleData, password, shouldResetPassword: false }, 'create'];
+    if (await submit(payload, type)) {
+      closeDialog();
     }
-    await submit({ ...remainder, ...roleData, password }, 'create');
-    closeDialog();
   };
 
   return (
