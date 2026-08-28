@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState } from '@/testUtils';
+import { ALL_DEVICES } from '@northern.tech/utils/constants';
 
 import { defaultValues } from '../CreateDeployment';
 import { rolloutModes, rolloutPatterns } from './phases/constants';
@@ -33,8 +34,9 @@ describe('disabled reasons', () => {
     expect(getRolloutPatternDisabledReason({ deploymentDeviceCount: 0, filter: undefined, group: null })).toEqual('');
     expect(getPausesDisabledReason({ deploymentDeviceCount: 0, filter: undefined, group: null })).toEqual('');
   });
-  it('rules out limiting the device count for static groups & direct device targets', async () => {
+  it('rules out limiting the device count for everything but dynamic groups', async () => {
     expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 5, filter: undefined, group: 'testGroup' })).toEqual(disabledReasons.staticGroupLimit);
+    expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 5, filter: undefined, group: ALL_DEVICES })).toEqual(disabledReasons.allDevicesLimit);
     expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 5, filter, group: 'testGroupDynamic' })).toEqual('');
     expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 1, devices: [defaultState.devices.byId.a1], filter: undefined, group: null })).toEqual(
       disabledReasons.deviceTargetLimit
