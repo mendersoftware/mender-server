@@ -17,6 +17,7 @@ import type { AlertProps } from '@mui/material';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import type { NewDeploymentPhaseTypeManagement as DeploymentPhase, Filter } from '@northern.tech/types/MenderTypes';
+import type { StandardizedPhase } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import durationPlugin from 'dayjs/plugin/duration';
 import pluralize from 'pluralize';
@@ -220,16 +221,6 @@ export const getPhasesMessage = ({
 const deviceCountFormatter = new Intl.NumberFormat('en-US', { notation: 'compact', roundingMode: 'trunc' });
 
 export const formatDeviceCount = (count: number): string => (Number.isFinite(count) && count >= 0 ? deviceCountFormatter.format(count) : '0');
-
-export interface StandardizedPhase {
-  batch_size?: number;
-  batch_size_devices?: number;
-  delay?: number;
-  delayUnit?: string;
-  device_count?: number;
-  isUniform?: boolean;
-  start_ts?: number;
-}
 
 const getStoredPhasesMode = (phases: StandardizedPhase[]): RolloutMode =>
   phases.some(phase => phase.hasOwnProperty(rolloutModes.device_count.batchKey) && !!phase.batch_size_devices)

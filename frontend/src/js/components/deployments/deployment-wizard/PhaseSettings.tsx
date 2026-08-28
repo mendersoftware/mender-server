@@ -24,12 +24,13 @@ import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { BENEFITS } from '@northern.tech/store/constants';
 import { isDarkMode } from '@northern.tech/store/utils';
 import type { Filter } from '@northern.tech/types/MenderTypes';
+import type { StandardizedPhase } from '@northern.tech/utils/helpers';
 
 import { CustomPhaseTable } from './phases/CustomPhases';
 import { getUniformBatchDefault } from './phases/UniformPhases';
 import type { RolloutMode, RolloutPattern } from './phases/constants';
 import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes, rolloutPatterns as rolloutPatternDefinitions } from './phases/constants';
-import type { PhaseDefinition, StandardizedPhase } from './phases/utils';
+import type { PhaseDefinition } from './phases/utils';
 import { convertDefinitionsToMode, getPhasesMessage, parsePreviousPhases, toPhaseDescription } from './phases/utils';
 import type { DeploymentFormValues } from './types';
 import { DisabledReasonHint, deploymentFormSections, useValidatedSetValue } from './utils';
