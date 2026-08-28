@@ -1,5 +1,5 @@
 ARG REGISTRY=docker.io
-FROM --platform=$BUILDPLATFORM ${REGISTRY}/library/node:26.7.0-alpine3.24 AS base
+FROM --platform=$BUILDPLATFORM ${REGISTRY}/library/node:26.8.1-alpine3.24 AS base
 WORKDIR /usr/src/app
 RUN apk add --no-cache gzip
 COPY package-lock.json package.json ./
