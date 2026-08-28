@@ -21,9 +21,10 @@ import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
+import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
-import { rolesByName, twoFAStates, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
+import { BENEFITS, rolesByName, twoFAStates, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { passwordResetStart } from '@northern.tech/store/thunks';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
@@ -273,7 +274,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           </div>
         )}
       </ContentSection>
-      <ContentSection title="Roles">
+      <ContentSection title="Roles" postTitle={<EnterpriseNotification id={BENEFITS.rbac.id} />}>
         <UserRolesSelect
           key={`roles-select-${isEditingRoles}`}
           disabled={!isEnterprise || !isEditingRoles}
