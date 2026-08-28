@@ -74,30 +74,25 @@ describe('UserManagement Component', () => {
     await user.click(screen.getByRole('button', { name: /Save/i }));
   });
   it('supports user creation', async () => {
-    const { createUser: createUserSpy } = StoreThunks;
+    const { createUserV2: createUserSpy } = StoreThunks;
+    vi.mocked(createUserSpy).mockClear();
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const copyCheck = vi.fn(yes);
-    document.execCommand = copyCheck;
     const ui = <UserManagement />;
     const { rerender } = render(ui, { preloadedState });
-    expect(screen.queryByText(/send an email/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /add user/i })).not.toBeInTheDocument();
     const userCreationButton = screen.getByRole('button', { name: /add new user/i });
     await user.click(userCreationButton);
-    expect(screen.queryByText(/send an email/i)).toBeInTheDocument();
-    const submitButton = screen.getByRole('button', { name: /create user/i });
-    expect(submitButton).toBeDisabled();
+    const submitButton = screen.getByRole('button', { name: /add user/i });
+    await user.click(submitButton);
+    expect(createUserSpy).not.toHaveBeenCalled();
     const input = screen.getByPlaceholderText(/email/i);
     await user.type(input, 'test@test');
     expect(screen.getByText(/enter a valid email address/i)).toBeInTheDocument();
     await user.type(input, '.com');
     await waitFor(() => rerender(ui));
-    await waitFor(() => expect(submitButton).toBeEnabled());
-    await user.click(screen.getByRole('button', { name: /generate/i }));
-    expect(copyCheck).toHaveBeenCalled();
-    expect(submitButton).toBeEnabled();
-    const passwordInput = screen.getByPlaceholderText(/password/i);
-    await user.clear(passwordInput);
-    expect(submitButton).toBeEnabled();
+    await waitFor(() => expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument());
+    // with multitenancy new users are created without a password, they get an email with a reset link instead
+    expect(screen.queryByPlaceholderText(/password/i)).not.toBeInTheDocument();
     await user.click(submitButton);
     await act(async () => {
       vi.runOnlyPendingTimers();
