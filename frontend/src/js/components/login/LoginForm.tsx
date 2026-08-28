@@ -32,8 +32,7 @@ import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 const useStyles = makeStyles()((theme: Theme) => ({
   alert: { fontWeight: theme.typography.fontWeightMedium },
   gapRemover: { marginTop: theme.spacing(-1.5) },
-  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative', '.required:after': { content: 'none' } },
-  passwordWrapper: { '.password-wrapper': { gridTemplateColumns: '1fr' } }
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative', '.required:after': { content: 'none' } }
 }));
 
 interface LoginFormState {
@@ -128,7 +127,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           }}
         />
         <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
-          <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
+          <PasswordInput id="password" label="Password" required={isOsInstallation} />
         </Collapse>
         {isHosted && (
           <div>
