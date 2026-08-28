@@ -127,10 +127,6 @@ include:
   - project: "Northern.tech/Mender/mendertesting"
     file: "qa-common/send-results-to-mantra.yml"
     ref: "master"
-  - component: gitlab.com/Northern.tech/Mender/mendertesting/renovate@master
-    inputs:
-      stage: ".pre"
-      runner: "k8s"
 
 stages:
   - lint
