@@ -109,7 +109,7 @@
     "yarn": "1.22.22"
   },
   "overrides": {
-    "monaco-editor": "0.52.2"
+    "monaco-editor": "0.56.0"
   },
   "browserslist": [
     ">0.2%",
