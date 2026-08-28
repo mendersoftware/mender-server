@@ -184,11 +184,15 @@ export const SelfUserManagement = () => {
         My profile
       </Typography>
       {resetNotice && (
-        <Alert className="margin-bottom-small" severity="warning" onClose={() => setResetNotice(false)}>
+        <Alert className="margin-top-small margin-bottom-small" severity="warning" onClose={() => setResetNotice(false)}>
           We&rsquo;ve sent a reset password link. Please check your email.
         </Alert>
       )}
-
+      {pendingChange && (
+        <Alert className="margin-top-small margin-bottom-small" severity="warning">
+          There is a pending email change to {pendingChange.new_email} Click the verification link in the email to complete changes.
+        </Alert>
+      )}
       {isOAuth2 && (
         <Alert severity="info" className="margin-top-small margin-bottom-small">
           Your Mender account is currently linked to your {provider.name} account. If you unlink these accounts, your Mender account password will be reset, and
@@ -224,11 +228,6 @@ export const SelfUserManagement = () => {
         </Alert>
       )}
       {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
-      {pendingChange && (
-        <Alert className={`${classes.alert} margin-top-small`} severity="warning">
-          There is a pending email change to {pendingChange.new_email} Click the verification link in the email to complete changes.
-        </Alert>
-      )}
       <UserId className="margin-top-small profile-settings" userId={userId} />
       {email && (
         <>
@@ -340,7 +339,6 @@ export const SelfUserManagement = () => {
           }
         />
       )}
-      <ToggleSettingsItem title="Enable dark theme" onClick={toggleMode} checked={isDarkMode} />
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />
       ) : (
@@ -350,6 +348,7 @@ export const SelfUserManagement = () => {
           </Button>
         </div>
       )}
+      <ToggleSettingsItem title="Enable dark theme" onClick={toggleMode} checked={isDarkMode} />
       <SettingsItem
         classes={{ main: classes.columnWidths }}
         title="Session token"
