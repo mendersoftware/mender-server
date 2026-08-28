@@ -14,15 +14,19 @@
 import type { Page } from '@playwright/test';
 
 import test, { expect } from '../../fixtures/fixtures';
-import { isEnterpriseOrStaging, prepareNewPage } from '../../utils/commands';
+import { acceptUserInvitation, isEnterpriseOrStaging, prepareNewPage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
+import { setupEmailClient } from '../../utils/email';
 import { locateReleaseByName } from '../../utils/utils.ts';
 
 // A custom role with release-read + deploy must be able to list software when creating a deployment.
 // Regression: the /deployments/software endpoints had no RBAC permission-set entry, so every non-admin
 // role was rejected with "forbidden by role-based access control" when opening the software picker.
 const expectSoftwareListingAllowed = async (page: Page) => {
-  await page.locator('.leftFixed.leftNav').getByRole('link', { name: /deployments/i }).click();
+  await page
+    .locator('.leftFixed.leftNav')
+    .getByRole('link', { name: /deployments/i })
+    .click();
   await page
     .getByRole('button', { name: /create a deployment/i })
     .first()
@@ -37,6 +41,20 @@ const releaseRoles = [
   { name: `test-manage-${releaseTag}-deploy-role`, permissions: ['Manage'], tag: releaseTag },
   { name: `test-ro-${releaseTag}-deploy-role`, permissions: ['Read'], tag: releaseTag }
 ];
+
+const getManagedUsers = (username: string, uniqueId: string) => {
+  const [localPart, domain] = username.split('@');
+  const [mailbox] = localPart.split('+');
+  //to avoid running over the email length limit
+  const runId = uniqueId.slice(-8);
+  const alias = (prefix: string) => `${mailbox}+${prefix}${runId}@${domain}`;
+  return {
+    deviceGroups: { user: alias('lim-'), role: 'test-groups-role' },
+    readOnlyReleases: { user: alias('lim-ro-releases-'), role: releaseRoles[0].name },
+    manageTaggedReleases: { user: alias(`lim-manage-${releaseTag}-`), role: releaseRoles[1].name },
+    readOnlyTaggedReleases: { user: alias(`lim-ro-${releaseTag}-`), role: releaseRoles[2].name }
+  };
+};
 
 test.describe('RBAC functionality', () => {
   test.beforeEach(async ({ baseUrl, environment, page }) => {
@@ -53,12 +71,7 @@ test.describe('RBAC functionality', () => {
   });
   test.afterAll(async ({ baseUrl, browser, environment, password, request, username, uniqueId }) => {
     test.skip(!isEnterpriseOrStaging(environment));
-    const userCreations = [
-      { user: `lim-${uniqueId}@example.com`, role: 'test-groups-role' },
-      { user: `lim-ro-releases-${uniqueId}@example.com`, role: releaseRoles[0].name },
-      { user: `lim-manage-${releaseTag}-${uniqueId}@example.com`, role: releaseRoles[1].name },
-      { user: `lim-ro-${releaseTag}-${uniqueId}@example.com`, role: releaseRoles[2].name }
-    ];
+    const userCreations = Object.values(getManagedUsers(username, uniqueId));
     const page = await prepareNewPage({ baseUrl, browser, password, request, username });
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/Global settings/i).waitFor();
@@ -133,19 +146,20 @@ test.describe('RBAC functionality', () => {
       }
     });
   });
-  test('allows user creation', async ({ environment, page, password, uniqueId }) => {
-    const userCreations = [
-      { user: `lim-${uniqueId}@example.com`, role: 'test-groups-role' },
-      { user: `lim-ro-releases-${uniqueId}@example.com`, role: releaseRoles[0].name },
-      { user: `lim-manage-${releaseTag}-${uniqueId}@example.com`, role: releaseRoles[1].name },
-      { user: `lim-ro-${releaseTag}-${uniqueId}@example.com`, role: releaseRoles[2].name }
-    ];
-    for (const { user, role } of userCreations) {
+  test('allows user creation', async ({ baseUrl, environment, page, password, uniqueId, username }) => {
+    const emailClient = setupEmailClient(username, environment);
+    for (const { user, role } of Object.values(getManagedUsers(username, uniqueId))) {
       await page.getByRole('button', { name: /new user/i }).click();
       await page.getByPlaceholder(/email/i).click();
       await page.getByPlaceholder(/email/i).fill(user);
-      await page.getByPlaceholder(/Password/i).click();
-      await page.getByPlaceholder(/Password/i).fill(password);
+      // OS users set the password, in all other cases the new user receives an invitation email
+      const passwordInput = page.getByPlaceholder(/Password/i);
+      const isInvitationFlow = !(await passwordInput.count());
+      test.skip(isInvitationFlow && !emailClient, 'setting up invited users requires a mailbox the tests can read');
+      if (!isInvitationFlow) {
+        await passwordInput.click();
+        await passwordInput.fill(password);
+      }
       if (isEnterpriseOrStaging(environment)) {
         await page.getByRole('combobox', { name: /Roles/i }).click();
         // first we need to deselect the default admin role
@@ -154,14 +168,19 @@ test.describe('RBAC functionality', () => {
         await page.getByRole('option', { name: role }).click();
         await page.press('body', 'Escape');
       }
-      await page.getByText(/Create user/i).click();
-      await page.getByText('The user was created successfully.').waitFor();
+      await page.getByRole('button', { name: /Add user/i }).click();
+      await page.getByText(/The user was (created|added) successfully/i).waitFor();
+      if (isInvitationFlow) {
+        await acceptUserInvitation({ baseUrl, emailClient, page, password, username: user });
+        await page.goto(`${baseUrl}ui/settings/user-management`);
+      }
       await page.waitForTimeout(timeouts.default);
     }
   });
   test.describe('has working RBAC limitations for', () => {
-    test('device groups', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-${uniqueId}@example.com` });
+    test('device groups', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
+      const { deviceGroups } = getManagedUsers(username, uniqueId);
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: deviceGroups.user });
       const navigationButton = page.getByRole('link', { name: /devices/i });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
@@ -171,8 +190,9 @@ test.describe('RBAC functionality', () => {
       await page.getByText(/Device configuration/i).waitFor({ timeout: timeouts.tenSeconds });
       await page.context().close();
     });
-    test('read-only all releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-ro-releases-${uniqueId}@example.com` });
+    test('read-only all releases', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
+      const { readOnlyReleases } = getManagedUsers(username, uniqueId);
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: readOnlyReleases.user });
       const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
@@ -185,8 +205,9 @@ test.describe('RBAC functionality', () => {
       await expectSoftwareListingAllowed(page);
       await page.context().close();
     });
-    test('read-only tagged releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-ro-${releaseTag}-${uniqueId}@example.com` });
+    test('read-only tagged releases', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
+      const { readOnlyTaggedReleases } = getManagedUsers(username, uniqueId);
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: readOnlyTaggedReleases.user });
       const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
@@ -197,8 +218,9 @@ test.describe('RBAC functionality', () => {
       await expectSoftwareListingAllowed(page);
       await page.context().close();
     });
-    test('manage tagged releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-manage-${releaseTag}-${uniqueId}@example.com` });
+    test('manage tagged releases', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
+      const { manageTaggedReleases } = getManagedUsers(username, uniqueId);
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: manageTaggedReleases.user });
       const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
