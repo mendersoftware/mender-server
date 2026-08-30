@@ -8,7 +8,7 @@ variables:
     value: "true"
     description: "Publish docker images without attestations"
   DOCKER_VERSION:
-    value: "29.6"
+    value: "29.7"
     description: "Version of docker to use in pipelines"
   DOCKER_HOST:
     value: 'tcp://docker:2376'
