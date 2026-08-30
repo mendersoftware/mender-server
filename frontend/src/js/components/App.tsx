@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIdleTimer, workerTimers } from 'react-idle-timer';
 import { Provider, useSelector } from 'react-redux';
 import { BrowserRouter, useLocation, useNavigate } from 'react-router';
@@ -229,10 +229,10 @@ export const AppRoot = () => {
   const onOpenSearchResult = useCallback(() => setShowSearchResult(true), []);
   const onCloseSearchResult = useCallback(() => setShowSearchResult(false), []);
 
-  const theme = createTheme(THEME[isDarkMode ? DARK_MODE : LIGHT_MODE] || THEME.light);
+  const theme = useMemo(() => createTheme(THEME[isDarkMode ? DARK_MODE : LIGHT_MODE]), [isDarkMode]);
 
   const { classes } = useStyles();
-  const globalCssVars = cssVariables({ theme })['@global'];
+  const globalCssVars = useMemo(() => cssVariables({ theme })['@global'], [theme]);
 
   const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
   const isSP = useSelector(getIsServiceProvider);
