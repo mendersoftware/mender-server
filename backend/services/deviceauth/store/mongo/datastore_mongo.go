@@ -1109,6 +1109,8 @@ func (db *DataStoreMongo) ListTenantsIds(
 
 func (db *DataStoreMongo) ListAllDevices(
 	ctx context.Context,
+	afterDeviceID *string,
+	limit int64,
 	fields ...string,
 ) iter.Seq2[*model.Device, error] {
 	collDevs := db.client.
@@ -1117,7 +1119,17 @@ func (db *DataStoreMongo) ListAllDevices(
 			mopts.Collection().
 				SetReadPreference(readpref.SecondaryPreferred()))
 
-	findOpts := mopts.Find()
+	findOpts := mopts.Find().
+		SetSort(bson.M{"_id": 1})
+	if limit >= 0 {
+		findOpts.SetLimit(limit)
+	}
+	filter := bson.D{}
+	if afterDeviceID != nil {
+		filter = append(filter, bson.E{Key: "_id", Value: bson.D{
+			{Key: "$gt", Value: *afterDeviceID},
+		}})
+	}
 	if len(fields) > 0 {
 		projection := make(bson.D, 0, len(fields))
 		for _, key := range fields {
@@ -1126,7 +1138,7 @@ func (db *DataStoreMongo) ListAllDevices(
 		findOpts.SetProjection(projection)
 	}
 
-	cur, err := collDevs.Find(ctx, bson.D{}, findOpts)
+	cur, err := collDevs.Find(ctx, filter, findOpts)
 	if err != nil {
 		return func(yield func(*model.Device, error) bool) {
 			yield(nil, err)
