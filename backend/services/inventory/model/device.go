@@ -162,8 +162,10 @@ type Device struct {
 	//text attribute for the full-text search
 	Text string `json:"-" bson:"text,omitempty"`
 
+	// Type of 'any' introduced as workaround for MEN-10107, change back
+	// to []string once workaround is reverted.
 	//identities attribute see MEN-9974
-	Identities []string `json:"identities,omitempty" bson:"identities,omitempty"`
+	Identities []any `json:"identities,omitempty" bson:"identities,omitempty"`
 }
 
 // internalDevice is only used internally to avoid recursive type-loops for
@@ -193,6 +195,21 @@ func (d *Device) UnmarshalBSON(b []byte) error {
 			}
 		}
 	}
+
+	// MEN-10107: Some devices have array values in their their identities attribute
+	// in the database (due to the referenced bug). This is a quick workaround
+	// to allow de-serialization of these devices by ignoring identity values that are not strings.
+	// The issue should self-heal as every new update of device the identities now flatten
+	// these array values. Once all devices have been healed we can remove this workaround.
+	idx := 0
+	for _, identity := range d.Identities {
+		if _, ok := identity.(string); ok {
+			d.Identities[idx] = identity
+			idx++
+		}
+	}
+	d.Identities = d.Identities[:idx]
+
 	return nil
 }
 
