@@ -57,12 +57,6 @@ const sortAndHoist = thing =>
     .sort((a, b) => a[1].priority - b[1].priority)
     .reduce((accu, entry) => {
       let { children, content, title } = entry[1];
-      title = Object.keys(content).reduce((layerTitle, key) => {
-        if (softwareTitleMap[`${title}.${key}`]) {
-          return softwareTitleMap[`${title}.${key}`].title;
-        }
-        return layerTitle;
-      }, title);
       children = sortAndHoist(children);
       if (isEmpty(content) && Object.keys(children).length === 1) {
         const child = Object.entries(children).reduce((result, [key, value]) => ({ title: key, ...value }), {});
@@ -70,6 +64,12 @@ const sortAndHoist = thing =>
         content = child.content;
         children = child.children;
       }
+      title = Object.keys(content).reduce((layerTitle, key) => {
+        if (softwareTitleMap[`${title}.${key}`]) {
+          return softwareTitleMap[`${title}.${key}`].title;
+        }
+        return layerTitle;
+      }, title);
       accu = { ...accu, [title]: { content, children, title } };
       return accu;
     }, {});
