@@ -123,7 +123,7 @@ class ArtifactsClient(BaseApiClient):
     def get_jwt(self):
         return self._jwt
 
-    def add_artifact(self, description="", size=0, data=None):
+    def add_artifact(self, description="", data=None):
         """Create new artifact with provided upload data. Data must be a file like
         object.
 
@@ -134,7 +134,6 @@ class ArtifactsClient(BaseApiClient):
         files = ArtifactsClient.make_upload_meta(
             {
                 "description": (None, description),
-                "size": (None, str(size)),
                 "artifact": ("firmware", data, "application/octet-stream", {}),
             }
         )
@@ -224,7 +223,9 @@ class ArtifactsClient(BaseApiClient):
             raise ArtifactsClientError("delete failed", e.status)
 
     def list_artifacts(self):
-        rsp = management_v1_client(jwt=self._jwt).list_artifacts_with_http_info()
+        rsp = management_v2_client(
+            jwt=self._jwt
+        ).deployments_v2_list_artifacts_with_pagination_with_http_info()
         try:
             assert rsp.status_code == 200
         except AssertionError:
@@ -240,12 +241,12 @@ class ArtifactsClient(BaseApiClient):
         return rsp.data
 
     @contextmanager
-    def with_added_artifact(self, description="", size=0, data=None):
+    def with_added_artifact(self, description="", data=None):
         """Acts as a context manager, adds artifact and yields artifact ID and deletes
         it upon completion"""
         artid = None
         try:
-            artid = self.add_artifact(description=description, size=size, data=data)
+            artid = self.add_artifact(description=description, data=data)
             yield artid
         finally:
             if artid is not None:

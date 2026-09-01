@@ -264,7 +264,7 @@ def artifacts_added_from_data(artifacts):
             name=name, data=data, devicetype=device_type
         ) as art:
             logging.info("uploading artifact")
-            artid = ac.add_artifact("foo", art.size, art)
+            artid = ac.add_artifact("foo", art)
             out_artifacts.append(artid)
 
     yield out_artifacts
@@ -285,7 +285,7 @@ def artifacts_update_module_added_from_data(artifacts):
             name=name, data=data, devicetype=device_type, update_type=update_type
         ) as art:
             logging.info("uploading artifact")
-            artid = ac.add_artifact("foo", art.size, art)
+            artid = ac.add_artifact("foo", art)
             out_artifacts.append(artid)
 
     yield out_artifacts
