@@ -127,7 +127,7 @@ func (a AccessLogger) LogFunc(
 		latency = latency.Round(time.Microsecond)
 	}
 	logCtx["responsetime"] = latency.String()
-	logCtx["status"] = c.Writer.Status()
+	logCtx["status"] = code
 	logCtx["byteswritten"] = c.Writer.Size()
 	logCtx["bytesprocessed"] = body.BytesProcessed()
 
