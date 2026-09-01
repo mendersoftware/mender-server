@@ -177,7 +177,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
           title: <>Device information for {<DeviceIdentityDisplay device={device} isEditable={false} style={{ marginLeft: 4 }} />}</>,
           onLinkCopy: copyLinkToClipboard,
           preCloser: (
-            <Typography variant="body2" className="flexbox align-items-center" color="textSecondary">
+            <Typography variant="body2" className="flexbox align-items-center" color="textSecondary" component="div">
               Latest activity:
               <RelativeTime className="margin-left-small" updateTime={device.check_in_time} />
             </Typography>
