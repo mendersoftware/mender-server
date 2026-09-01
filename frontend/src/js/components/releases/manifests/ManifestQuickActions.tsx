@@ -37,15 +37,15 @@ import pluralize from 'pluralize';
 const { setSnackbar } = storeActions;
 
 interface ActionCallbacks {
-  onCopyManifest: (selection: number[]) => void;
-  onCreateDeployment: (selection: number[]) => void;
-  onDeleteManifest: (selection: number[]) => void;
-  onDownloadManifest: (selection: number[]) => void;
-  onTagManifest: (selection: number[]) => void;
+  onCopyManifest: () => void;
+  onCreateDeployment: () => void;
+  onDeleteManifest: () => void;
+  onDownloadManifest: () => void;
+  onTagManifest: () => void;
 }
 
 interface ManifestAction {
-  action: (context: ActionCallbacks & { selection: number[] }) => void;
+  action: (context: ActionCallbacks) => void;
   icon: ReactNode;
   isApplicable: ({
     selectedManifest,
@@ -62,7 +62,7 @@ interface ManifestAction {
 
 const defaultActions: ManifestAction[] = [
   {
-    action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
+    action: ({ onCreateDeployment }) => onCreateDeployment(),
     icon: <SyncOutlinedIcon />,
     isApplicable: ({ userCapabilities: { canDeploy }, selectedRows, selectedManifest }) =>
       canDeploy && (!isEmpty(selectedManifest) || selectedRows.length === 1),
@@ -70,28 +70,28 @@ const defaultActions: ManifestAction[] = [
     title: () => 'Create a deployment for this Manifest'
   },
   {
-    action: ({ onCopyManifest, selection }) => onCopyManifest(selection),
+    action: ({ onCopyManifest }) => onCopyManifest(),
     icon: <FileCopyOutlinedIcon />,
     isApplicable: ({ selectedRows, selectedManifest }) => !isEmpty(selectedManifest) || selectedRows.length === 1,
     key: 'copy',
     title: () => 'Create a copy from this Manifest'
   },
   {
-    action: ({ onDownloadManifest, selection }) => onDownloadManifest(selection),
+    action: ({ onDownloadManifest }) => onDownloadManifest(),
     icon: <FileDownload />,
     isApplicable: ({ selectedRows, selectedManifest }) => !isEmpty(selectedManifest) || selectedRows.length === 1,
     key: 'download',
     title: () => 'Download Manifest (.mender file)'
   },
   {
-    action: ({ onTagManifest, selection }) => onTagManifest(selection),
+    action: ({ onTagManifest }) => onTagManifest(),
     icon: <LabelOutlinedIcon />,
     isApplicable: ({ userCapabilities: { canManageReleases }, selectedManifest }) => canManageReleases && isEmpty(selectedManifest),
     key: 'tag',
     title: (pluralized: string) => `Tag ${pluralized}`
   },
   {
-    action: ({ onDeleteManifest, selection }) => onDeleteManifest(selection),
+    action: ({ onDeleteManifest }) => onDeleteManifest(),
     icon: <HighlightOffOutlinedIcon className="red" />,
     isApplicable: ({ userCapabilities: { canManageReleases } }) => canManageReleases,
     key: 'delete',
@@ -159,7 +159,7 @@ export const ManifestQuickActions = ({ onCopy }: { onCopy?: (name: string) => vo
       key,
       icon,
       title: title(pluralized),
-      onClick: () => action({ ...actionCallbacks, selection: selectedRows })
+      onClick: () => action(actionCallbacks)
     }));
 
   return (
