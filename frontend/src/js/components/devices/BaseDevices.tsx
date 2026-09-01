@@ -16,7 +16,7 @@ import { Typography } from '@mui/material';
 import { defaultTextRender } from '@northern.tech/common-ui/DeviceIdentity';
 import { Link } from '@northern.tech/common-ui/Link';
 import Time, { ApproximateRelativeDate } from '@northern.tech/common-ui/Time';
-import { DEVICE_STATES, currentArtifact, rootfsImageVersion } from '@northern.tech/store/constants';
+import { DEVICE_STATES, currentArtifact, manifestVersion, rootfsImageVersion } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
 
 import preauthImage from '../../../assets/img/preauthorize.png';
@@ -34,7 +34,7 @@ export const DefaultAttributeRenderer = ({ column, device, idAttribute }) => (
   <AttributeRenderer content={column.textRender({ device, column, idAttribute })} textContent={column.textRender({ device, column, idAttribute })} />
 );
 
-export const getDeviceSoftwareText = (attributes = {}) => attributes[rootfsImageVersion] || '-';
+export const getDeviceSoftwareText = (attributes = {}) => attributes[manifestVersion] || attributes[rootfsImageVersion] || '-';
 export const DeviceSoftware = ({ device }) => (
   <AttributeRenderer content={getDeviceSoftwareText(device.attributes)} textContent={getDeviceSoftwareText(device.attributes)} />
 );
