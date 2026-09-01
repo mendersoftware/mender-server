@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIdleTimer, workerTimers } from 'react-idle-timer';
 import { Provider, useSelector } from 'react-redux';
 import { BrowserRouter, useLocation, useNavigate } from 'react-router';
@@ -30,17 +30,17 @@ import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupN
 import storeActions from '@northern.tech/store/actions';
 import type { SentryConfig } from '@northern.tech/store/appSlice';
 import { getSessionInfo, updateMaxAge } from '@northern.tech/store/auth';
-import { DARK_MODE, LIGHT_MODE, TIMEOUTS, maxSessionAge } from '@northern.tech/store/constants';
+import { DARK_MODE, LIGHT_MODE, TIMEOUTS, maxSessionAge, settingsKeys } from '@northern.tech/store/constants';
 import {
   getCommit,
   getCurrentSession,
   getCurrentUser,
-  getIsDarkMode,
   getIsServiceProvider,
   getOrganization,
   getSentryConfig,
   getSnackbar,
-  getTrackerCode
+  getTrackerCode,
+  getUserSettings
 } from '@northern.tech/store/selectors';
 import { store, useAppDispatch } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
@@ -129,6 +129,7 @@ const THEME = {
   [LIGHT_MODE]: lightTheme,
   [DARK_MODE]: darkTheme
 };
+const preferredMode = window.localStorage.getItem(settingsKeys.colorScheme) === DARK_MODE ? DARK_MODE : LIGHT_MODE;
 
 export const AppRoot = () => {
   const [showSearchResult, setShowSearchResult] = useState(false);
@@ -145,7 +146,7 @@ export const AppRoot = () => {
   const trackingCode = useSelector(getTrackerCode);
   const { location: sentryLocation, replaysSessionSampleRate, tracesSampleRate } = useSelector(getSentryConfig);
   const commit = useSelector(getCommit);
-  const isDarkMode = useSelector(getIsDarkMode);
+  const { mode = preferredMode } = useSelector(getUserSettings);
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
   const { id: tenantId } = useSelector(getOrganization);
@@ -229,10 +230,11 @@ export const AppRoot = () => {
   const onOpenSearchResult = useCallback(() => setShowSearchResult(true), []);
   const onCloseSearchResult = useCallback(() => setShowSearchResult(false), []);
 
-  const theme = createTheme(THEME[isDarkMode ? DARK_MODE : LIGHT_MODE] || THEME.light);
+  const isDarkMode = mode === DARK_MODE;
+  const theme = useMemo(() => createTheme(THEME[mode] || THEME[LIGHT_MODE]), [mode]);
 
   const { classes } = useStyles();
-  const globalCssVars = cssVariables({ theme })['@global'];
+  const globalCssVars = useMemo(() => cssVariables({ theme })['@global'], [theme]);
 
   const dispatchedSetSnackbar = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
   const isSP = useSelector(getIsServiceProvider);
