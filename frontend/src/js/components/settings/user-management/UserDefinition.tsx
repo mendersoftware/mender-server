@@ -289,7 +289,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
                 <Button color="info" variant="outlined" className="margin-right-small" onClick={onCancelRoleChanges}>
                   Cancel
                 </Button>
-                <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick} color="secondary">
+                <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick} color="primary">
                   Save changes
                 </Button>
               </>
