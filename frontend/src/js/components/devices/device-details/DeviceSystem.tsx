@@ -14,8 +14,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { KeyboardArrowDown as KeyboardArrowDownIcon, KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material';
 import { Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
