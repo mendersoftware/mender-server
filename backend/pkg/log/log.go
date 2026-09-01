@@ -148,8 +148,9 @@ func Configure(opts Options) {
 	switch opts.Format {
 	case FormatConsole:
 		formatter = &logrus.TextFormatter{
-			FullTimestamp:   true,
-			TimestampFormat: opts.TimestampFormat,
+			FullTimestamp:    true,
+			TimestampFormat:  opts.TimestampFormat,
+			QuoteEmptyFields: true,
 		}
 	case FormatJSON:
 		formatter = &logrus.JSONFormatter{
