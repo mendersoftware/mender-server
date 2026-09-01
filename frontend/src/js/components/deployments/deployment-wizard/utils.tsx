@@ -71,14 +71,22 @@ export const buildPhasePayload = ({
     const [{ batchSize, delay = delayDefaults.delay, delayUnit = delayDefaults.delayUnit }] = phases;
     return {
       phases: undefined,
-      uniform_phases: { [batchKey]: batchSize, time_interval: delayToSeconds(delay, delayUnit), ...(startTime ? { start_ts: startTime } : {}) }
+      uniform_phases: {
+        [batchKey]: batchSize,
+        delay,
+        delayUnit,
+        time_interval: delayToSeconds(delay, delayUnit),
+        ...(startTime ? { start_ts: startTime } : {})
+      }
     };
   }
   if (phases.length) {
     const withFinalPhase = [...phases, {}];
     return {
       uniform_phases: undefined,
-      phases: withFinalPhase.map(({ batchSize }, i) => ({
+      phases: withFinalPhase.map(({ batchSize, delay, delayUnit }, i) => ({
+        delay,
+        delayUnit,
         start_ts: getPhaseStartTime(withFinalPhase, i, startTime),
         ...(i < phases.length ? { [batchKey]: batchSize } : {})
       }))

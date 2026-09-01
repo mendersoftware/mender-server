@@ -350,14 +350,15 @@ export const CreateDeployment = ({
             <>
               <Devices
                 deploymentDeviceCount={deploymentDeviceCount}
+                devices={devices}
                 devicesById={devicesById}
+                filter={filter}
                 groupRef={groupRef}
                 groupNames={groupNames}
                 hasDevices={hasDevices}
                 hasDynamicGroups={hasDynamicGroups}
                 hasPending={hasPending}
                 idAttribute={idAttribute}
-                initialDevices={deploymentObject.devices}
               />
               <Software
                 commonClasses={classes}
@@ -381,8 +382,14 @@ export const CreateDeployment = ({
             </AccordionSummary>
             <AccordionDetails>
               <Retries canManageUsers={canManageUsers} canRetry={canRetry} commonClasses={classes} defaultRetries={previousRetries} />
-              <DeviceLimit disabledReason={deviceLimitDisabledReason} />
-              <RolloutPatternSelection disabledReason={rolloutPatternDisabledReason} isEnterprise={isEnterprise} previousPhases={previousPhases} />
+              <DeviceLimit deploymentDeviceCount={deploymentDeviceCount} disabledReason={deviceLimitDisabledReason} />
+              <RolloutPatternSelection
+                deploymentDeviceCount={deploymentDeviceCount}
+                disabledReason={rolloutPatternDisabledReason}
+                filter={filter}
+                isEnterprise={isEnterprise}
+                previousPhases={previousPhases}
+              />
               <RolloutOptions disabledReason={pausesDisabledReason} isEnterprise={isEnterprise} />
               <ForceDeploy />
               {!isTrial && hasDeltaEnabled && (

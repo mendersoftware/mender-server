@@ -20,19 +20,17 @@ import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 
 import type { DeploymentFormValues } from './types';
-import { DisabledReasonHint, deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useValidatedSetValue } from './utils';
 
-export const DeviceLimit = ({ disabledReason = '' }) => {
+export const DeviceLimit = ({ deploymentDeviceCount = 0, disabledReason = '' }: { deploymentDeviceCount?: number; disabledReason?: string }) => {
   const { control, watch } = useFormContext<DeploymentFormValues>();
   const setValue = useValidatedSetValue();
-  const { deploymentDeviceCount, deploymentDeviceIds } = useDerivedData(watch);
-  const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
   const shouldLimit = watch(deploymentFormSections.shouldLimit);
 
   const onToggleLimit = (_, checked) => {
     setValue(deploymentFormSections.shouldLimit, checked);
     if (checked) {
-      setValue(deploymentFormSections.maxDevices, numberDevices);
+      setValue(deploymentFormSections.maxDevices, deploymentDeviceCount);
     } else {
       setValue(deploymentFormSections.maxDevices, 0);
     }
