@@ -49,7 +49,7 @@ func TestMiddleware(t *testing.T) {
 			"method=GET",
 			"useragent=tester",
 			"responsetime=",
-			"ts=",
+			"time=",
 		},
 	}, {
 		Name: "ok, pushed error",
@@ -67,7 +67,7 @@ func TestMiddleware(t *testing.T) {
 			"method=GET",
 			"responsetime=",
 			"byteswritten=14",
-			"ts=",
+			"time=",
 			`error="internal error"`,
 		},
 	}, {
@@ -89,7 +89,7 @@ func TestMiddleware(t *testing.T) {
 			"method=GET",
 			"responsetime=",
 			"byteswritten=16",
-			"ts=",
+			"time=",
 			`error="#01: internal error 1\\n#02: internal error 2\\n"`,
 		},
 	}, {
@@ -106,7 +106,7 @@ func TestMiddleware(t *testing.T) {
 			"method=GET",
 			"responsetime=",
 			"useragent=tester",
-			"ts=",
+			"time=",
 			// First three entries in the trace should match this:
 			`trace=".+TestMiddleware\.func[0-9]*@middleware_gin_test\.go:[0-9]+\\n`,
 		},

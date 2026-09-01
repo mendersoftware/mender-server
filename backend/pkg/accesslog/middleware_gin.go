@@ -61,11 +61,8 @@ func (a AccessLogger) LogFunc(
 		"path":        c.FullPath(),
 		"path_params": formatPathParams(c.Params),
 		"qs":          c.Request.URL.RawQuery,
-		"ts": startTime.
-			Truncate(time.Millisecond).
-			Format(time.RFC3339Nano),
-		"type":      c.Request.Proto,
-		"useragent": c.Request.UserAgent(),
+		"type":        c.Request.Proto,
+		"useragent":   c.Request.UserAgent(),
 	}
 	if a.ClientIPHook != nil {
 		logCtx["clientip"] = a.ClientIPHook(c.Request)
@@ -92,13 +89,6 @@ func (a AccessLogger) LogFunc(
 	} else if a.DisableLog != nil && a.DisableLog(c) {
 		return
 	}
-	latency := time.Since(startTime)
-	// We do not need more than 3 digit fraction
-	if latency > time.Second {
-		latency = latency.Round(time.Millisecond)
-	} else if latency > time.Millisecond {
-		latency = latency.Round(time.Microsecond)
-	}
 	code := c.Writer.Status()
 	select {
 	case <-ctx.Done():
@@ -107,10 +97,6 @@ func (a AccessLogger) LogFunc(
 		}
 	default:
 	}
-	logCtx["responsetime"] = latency.String()
-	logCtx["status"] = c.Writer.Status()
-	logCtx["byteswritten"] = c.Writer.Size()
-	logCtx["bytesprocessed"] = body.BytesProcessed()
 
 	var logLevel logrus.Level = logrus.InfoLevel
 	if code >= 500 {
@@ -132,6 +118,19 @@ func (a AccessLogger) LogFunc(
 		}
 		logCtx["error"] = errMsg
 	}
+
+	latency := time.Since(startTime)
+	// We do not need more than 3 digit fraction
+	if latency > time.Second {
+		latency = latency.Round(time.Millisecond)
+	} else if latency > time.Millisecond {
+		latency = latency.Round(time.Microsecond)
+	}
+	logCtx["responsetime"] = latency.String()
+	logCtx["status"] = c.Writer.Status()
+	logCtx["byteswritten"] = c.Writer.Size()
+	logCtx["bytesprocessed"] = body.BytesProcessed()
+
 	lc := fromContext(ctx)
 	if lc != nil {
 		lc.addFields(logCtx)
