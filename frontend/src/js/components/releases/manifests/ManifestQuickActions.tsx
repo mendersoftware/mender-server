@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { type ReactNode, useCallback, useState } from 'react';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -29,9 +29,9 @@ import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getManifestsListState, getSelectedManifest, getSelectedManifests, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { removeManifests } from '@northern.tech/store/thunks';
+import { getArtifactUrl, removeManifests } from '@northern.tech/store/thunks';
 import type { Manifest } from '@northern.tech/types/MenderTypes';
-import { isEmpty } from '@northern.tech/utils/helpers';
+import { createDownload, isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 const { setSnackbar } = storeActions;
@@ -108,23 +108,25 @@ export const ManifestQuickActions = ({ onCopy }: { onCopy?: (name: string) => vo
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onCreateDeployment = useCallback(
-    (selection: number[]) => {
-      if (selection.length !== 1) {
-        return;
-      }
-      const { name: manifestName } = selectedManifests[0];
-      navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(manifestName)}`, { state: { internal: true } });
-    },
-    [navigate, selectedManifests]
+  const targetManifests: Manifest[] = useMemo(
+    () => (isEmpty(selectedManifest) ? selectedManifests : [selectedManifest as Manifest]),
+    [selectedManifest, selectedManifests]
   );
 
+  const onCreateDeployment = useCallback(() => {
+    if (targetManifests.length !== 1) {
+      return;
+    }
+    const { name: manifestName } = targetManifests[0];
+    navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(manifestName)}`, { state: { internal: true } });
+  }, [navigate, targetManifests]);
+
   const onCopyManifest = useCallback(() => {
-    const name = !isEmpty(selectedManifest) ? selectedManifest.name : selectedManifests[0]?.name;
+    const { name } = targetManifests[0] ?? {};
     if (name) {
       onCopy?.(name);
     }
-  }, [onCopy, selectedManifest, selectedManifests]);
+  }, [onCopy, targetManifests]);
 
   const onTagManifest = useCallback(() => dispatch(setSnackbar('Tagging Manifests is not yet supported')), [dispatch]);
 
@@ -133,14 +135,18 @@ export const ManifestQuickActions = ({ onCopy }: { onCopy?: (name: string) => vo
   const onCancelDeletion = () => setConfirmManifestDeletion(false);
 
   const onConfirmDeletion = useCallback(() => {
-    const names = !isEmpty(selectedManifest) ? [selectedManifest.name] : selectedManifests.map(({ name }) => name);
-    dispatch(removeManifests(names));
+    dispatch(removeManifests(targetManifests.map(({ name }) => name)));
     setConfirmManifestDeletion(false);
-  }, [dispatch, selectedManifest, selectedManifests]);
+  }, [dispatch, targetManifests]);
 
-  const onDownloadManifest = useCallback(() => {
-    dispatch(setSnackbar('Downloading Manifests is not yet supported'));
-  }, [dispatch]);
+  const onDownloadManifest = useCallback(async () => {
+    const { artifact, name } = targetManifests[0] ?? {};
+    if (!artifact?.id) {
+      return;
+    }
+    const uri = await dispatch(getArtifactUrl(artifact.id)).unwrap();
+    createDownload(uri, `${name}.mender`, '');
+  }, [dispatch, targetManifests]);
 
   const actionCallbacks: ActionCallbacks = { onCreateDeployment, onCopyManifest, onTagManifest, onDeleteManifest, onDownloadManifest };
 
