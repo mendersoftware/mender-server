@@ -12,15 +12,14 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { Button, DialogActions, DialogContent, Divider } from '@mui/material';
+import { Button, DialogActions, DialogContent, Divider, useTheme } from '@mui/material';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_ONLINE_CUTOFF, TIMEOUTS } from '@northern.tech/store/constants';
-import { getIsDarkMode } from '@northern.tech/store/selectors';
+import { DARK_MODE } from '@northern.tech/store/constants';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { saveGlobalSettings } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -67,7 +66,7 @@ const notifications = {
 export const StartupNotificationDialog = () => {
   const [isAllowedToClose] = useState(false);
   const dispatch = useAppDispatch();
-  const isDarkMode = useSelector(getIsDarkMode);
+  const { palette } = useTheme();
 
   const { action, Content } = notifications.offlineThreshold;
 
@@ -77,7 +76,7 @@ export const StartupNotificationDialog = () => {
     action({ dispatch });
     dispatch(setShowStartupNotification(false));
   };
-  const headerLogo = isDarkMode ? whiteLogo : logo;
+  const headerLogo = palette.mode === DARK_MODE ? whiteLogo : logo;
   return (
     <BaseDialog
       open
