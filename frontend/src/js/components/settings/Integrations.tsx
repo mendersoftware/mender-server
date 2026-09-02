@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Divider, FormControl, InputLabel, MenuItem, Select, FormHelperText, Typography } from '@mui/material';
+import { Alert, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
@@ -26,22 +26,18 @@ import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/sele
 import { useAppDispatch } from '@northern.tech/store/store';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 import type { Integration } from '@northern.tech/types/MenderTypes';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { customSort } from '@northern.tech/utils/helpers';
 
+import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_SELECT_WIDTH } from './constants';
 import WebhookConfiguration from './webhooks/Configuration';
 import Webhooks from './webhooks/Webhooks';
 
-const maxWidth = 750;
-
 const useStyles = makeStyles()(theme => ({
-  leftButton: { marginRight: theme.spacing() },
-  inputWrapper: { alignItems: 'flex-end' },
-  select: { minWidth: 300 },
+  contentWidth: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
+  select: { minWidth: SETTINGS_SELECT_WIDTH },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
-  textInput: { minWidth: 500, wordBreak: 'break-all' },
-  confirmationWrapper: { height: 50 }, // roughly larger than even a large sized "delete" button
-  widthLimit: { maxWidth }
+  textInput: { wordBreak: 'break-all' },
+  widthLimit: { width: SETTINGS_INPUT_WIDTH }
 }));
 
 const ConnectionDetailsInput = ({ isEditing }) => {
@@ -138,19 +134,21 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
         <div className="margin-bottom-x-small margin-top-small">
           {isEditing ? (
             <>
-              <Button className={classes.leftButton} onClick={onCancelClick}>
+              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelClick}>
                 Cancel
               </Button>
-              <Button variant="contained" onClick={onSaveClick} disabled={credentials === connectionConfig}>
+              <Button variant="contained" onClick={onSaveClick} disabled={!isDirty}>
                 Save
               </Button>
             </>
           ) : (
             <>
-              <Button className={classes.leftButton} onClick={onEditClick}>
+              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onEditClick}>
                 Edit
               </Button>
-              <Button onClick={onDeleteClick}>Delete</Button>
+              <Button color="error" variant="outlined" onClick={onDeleteClick}>
+                Delete
+              </Button>
             </>
           )}
         </div>
@@ -160,7 +158,6 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
           </div>
         )}
       </div>
-      <InfoHint className={`margin-bottom ${classes.widthLimit}`} content={configHint} />
       {!isLast && <Divider className={`margin-bottom ${classes.widthLimit}`} />}
     </FormProvider>
   );
@@ -175,16 +172,21 @@ const determineAvailableIntegrations = (integrations, isPreRelease) =>
     return accu;
   }, []);
 
-const IntegrationsContainer = ({ children }: { children: ReactNode }) => (
-  <div>
-    <h2 className="margin-top-small">Integrations</h2>
-    {children}
-  </div>
-);
+const IntegrationsContainer = ({ children }: { children: ReactNode }) => {
+  const { classes } = useStyles();
+  return (
+    <div className={classes.contentWidth}>
+      <Typography variant="h6" className="margin-bottom-medium">
+        Integrations
+      </Typography>
+      {children}
+    </div>
+  );
+};
 
 export const Integrations = () => {
   const [availableIntegrations, setAvailableIntegrations] = useState([]);
-  const [configuredIntegrations, setConfiguredIntegrations] = useState([]);
+  const [configuredIntegrations, setConfiguredIntegrations] = useState<Integration[]>([]);
   const [isConfiguringWebhook, setIsConfiguringWebhook] = useState(false);
   const integrations = useSelector(getExternalIntegrations);
   const isPreRelease = useSelector(getIsPreview);
@@ -241,7 +243,14 @@ export const Integrations = () => {
       <IntegrationsContainer>
         <FormControl>
           <InputLabel id="integration-select-label">Add an integration</InputLabel>
-          <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
+          <Select
+            autoWidth={false}
+            className={classes.select}
+            label="Add an integration"
+            labelId="integration-select-label"
+            onChange={onConfigureIntegration}
+            value=""
+          >
             {availableIntegrations.map(item => (
               <MenuItem key={item.provider} value={item.provider}>
                 {item.title}
@@ -256,6 +265,11 @@ export const Integrations = () => {
   }
   return (
     <IntegrationsContainer>
+      {!isConfiguring && (
+        <Alert severity="info" className="margin-bottom-small">
+          You can only have one active integration at a time. To use a different integration, you&#39;ll need to delete the current one first.
+        </Alert>
+      )}
       {configuredIntegrations.map((integration, index) => (
         <IntegrationConfiguration
           key={integration.provider}
@@ -267,9 +281,6 @@ export const Integrations = () => {
         />
       ))}
       <Webhooks />
-      {!isConfiguring && (
-        <InfoHint content="You can only have one active integration at a time. To use a different integration, you'll need to delete the current one first." />
-      )}
     </IntegrationsContainer>
   );
 };
