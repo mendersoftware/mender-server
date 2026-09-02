@@ -25,6 +25,7 @@ import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import { BENEFITS } from '@northern.tech/store/constants';
 
+import { maxDeploymentRetries } from '../constants';
 import RolloutSteps from './RolloutSteps';
 import { DisabledReasonHint, deploymentFormSections, useValidatedSetValue } from './utils';
 
@@ -90,8 +91,6 @@ export const RolloutOptions = ({ disabledReason = '', isEnterprise }) => {
     </>
   );
 };
-
-export const maxDeploymentRetries = 100;
 
 export const Retries = ({ canManageUsers, canRetry, commonClasses, defaultRetries }) => (
   <>

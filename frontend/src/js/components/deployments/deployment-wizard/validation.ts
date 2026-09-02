@@ -16,7 +16,7 @@ import type { Resolver } from 'react-hook-form';
 import { ALL_DEVICES } from '@northern.tech/utils/constants';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
-import { maxDeploymentRetries } from './RolloutOptions';
+import { maxDeploymentRetries } from '../constants';
 import { rolloutModes, rolloutPatterns } from './phases/constants';
 import type { PhaseDefinition, PhaseMessagesProps } from './phases/utils';
 import { getDefinitionsRemainder, getPhaseMessages } from './phases/utils';

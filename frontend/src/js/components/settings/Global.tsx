@@ -42,6 +42,7 @@ import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, save
 import type { Scope } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
+import { maxDeploymentRetries } from '../deployments/constants';
 import ArtifactGenerationSettings from './ArtifactGeneration';
 
 const maxWidth = 750;
@@ -219,7 +220,7 @@ export const GlobalSettings = () => {
               <NumberField
                 allowOutOfRange={false}
                 min={1}
-                max={100}
+                max={maxDeploymentRetries}
                 className={`margin-top-x-small ${classes.offlineThresholdInput}`}
                 onValueChange={setCurrentAttempts}
                 showSteps
