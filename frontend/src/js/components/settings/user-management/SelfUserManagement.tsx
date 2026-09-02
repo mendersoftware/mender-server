@@ -26,7 +26,7 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
+import { DARK_MODE, LIGHT_MODE, OWN_USER_ID, settingsKeys } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
@@ -161,7 +161,9 @@ export const SelfUserManagement = () => {
 
   const toggleMode = () => {
     const newMode = isDarkMode ? LIGHT_MODE : DARK_MODE;
-    dispatch(saveUserSettings({ mode: newMode }));
+    dispatch(saveUserSettings({ mode: newMode }))
+      .unwrap()
+      .then(() => window.localStorage.setItem(settingsKeys.colorScheme, newMode));
   };
 
   const startVerification = () => {
