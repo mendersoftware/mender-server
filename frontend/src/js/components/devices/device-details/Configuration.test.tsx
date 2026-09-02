@@ -122,16 +122,14 @@ describe('Configuration Component', () => {
     let ui = <Configuration device={preloadedState.devices.byId.a1} />;
     const { rerender } = render(ui, { preloadedState });
     expect(screen.queryByRole('button', { name: /import configuration/i })).not.toBeInTheDocument();
-    while (screen.queryByRole('button', { name: /edit/i })) {
-      await user.click(screen.getByRole('button', { name: /edit/i }));
-      await waitFor(() => rerender(ui));
-    }
+    await user.click(screen.getByRole('button', { name: /edit/i }));
+    await waitFor(() => rerender(ui));
     expect(screen.getByRole('button', { name: /import configuration/i })).toBeInTheDocument();
-    const fabButton = document.querySelector('.MuiFab-root');
-    expect(fabButton).toBeDisabled();
+    const addButton = screen.getByLabelText('add-editor-line-button');
+    expect(addButton).toBeDisabled();
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'evilValue');
-    expect(fabButton).not.toBeDisabled();
+    expect(addButton).not.toBeDisabled();
     await expect(screen.queryByText(/Configuration up-to-date on the device/i)).not.toBeInTheDocument();
 
     ui = <Configuration device={preloadedState.devices.byId.a1} />;
