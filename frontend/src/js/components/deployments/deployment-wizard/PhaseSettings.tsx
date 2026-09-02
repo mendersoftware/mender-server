@@ -27,7 +27,7 @@ import type { Filter } from '@northern.tech/types/MenderTypes';
 import type { StandardizedPhase } from '@northern.tech/utils/helpers';
 
 import { CustomPhaseTable } from './phases/CustomPhases';
-import { getUniformBatchDefault } from './phases/UniformPhases';
+import { UniformPhaseSettings, getUniformBatchDefault } from './phases/UniformPhases';
 import type { RolloutMode, RolloutPattern } from './phases/constants';
 import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes, rolloutPatterns as rolloutPatternDefinitions } from './phases/constants';
 import type { PhaseDefinition } from './phases/utils';
@@ -45,7 +45,8 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const rolloutPatterns = {
-  [rolloutPatternDefinitions.custom.key]: { ...rolloutPatternDefinitions.custom, component: CustomPhaseTable }
+  [rolloutPatternDefinitions.custom.key]: { ...rolloutPatternDefinitions.custom, component: CustomPhaseTable },
+  [rolloutPatternDefinitions.uniform.key]: { ...rolloutPatternDefinitions.uniform, component: UniformPhaseSettings }
 };
 
 const getDefaultPhaseDefinitions = (pattern: RolloutPattern, rolloutMode: RolloutMode, numberDevices: number): PhaseDefinition[] => {
