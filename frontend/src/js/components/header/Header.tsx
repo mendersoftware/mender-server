@@ -89,6 +89,7 @@ import Announcement from './Announcement';
 import DeploymentNotifications from './DeploymentNotifications';
 import DeviceNotifications from './DeviceNotifications';
 import OfferHeader from './OfferHeader';
+import SearchV2 from './SearchV2';
 import TrialNotification from './TrialNotification';
 
 dayjs.extend(durationDayJs);
@@ -159,6 +160,10 @@ const useStyles = makeStyles()(theme => ({
         width: '100%'
       }
     }
+  },
+  searchV2: {
+    alignSelf: 'center',
+    justifySelf: 'center'
   },
   serviceProvider: {
     gridTemplateColumns: '1fr max-content'
@@ -298,7 +303,7 @@ export const Header = ({ isDarkMode }) => {
   const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
-  const { hasAiEnabled, hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
+  const { hasAiEnabled, hasFeedbackEnabled, isHosted, hasNewSearch } = useSelector(getFeatures);
   const { searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
@@ -399,7 +404,11 @@ export const Header = ({ isDarkMode }) => {
           </div>
         ) : (
           <>
-            <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+            {hasNewSearch ? (
+              <SearchV2 className={classes.searchV2} />
+            ) : (
+              <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+            )}
             <div className="flexbox align-items-center">
               <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
               <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
