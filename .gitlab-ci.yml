@@ -99,7 +99,7 @@ variables:
     value: "mendersoftware/mender-docs"
   LICENSE_REMOTE_FILE:
     description: "The changelog file in the remote changelog repo"
-    value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
+    value: "302.Release-information/04.Open-source-licenses/01.Mender-Server/docs.md"
 
   # Retries for internal Gitlab Runner job stages:
   #   - https://docs.gitlab.com/ci/runners/configure_runners/#job-stages-attempts
