@@ -19,7 +19,7 @@ import GeneralApi from '@northern.tech/store/api/general-api';
 import { ALL_DEVICES, TIMEOUTS } from '@northern.tech/store/constants';
 import { mockDate, undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
-import { act, screen, waitFor, within } from '@testing-library/react';
+import { act, screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -423,5 +423,7 @@ describe('Deployments Component', () => {
         phases: [expect.objectContaining({ batch_size: 100, start_ts: expect.stringMatching(/2019-01-14/) })]
       })
     );
+
+    await waitForElementToBeRemoved(screen.queryByText(/Cancel/i), { timeout: TIMEOUTS.twoSeconds });
   });
 });
