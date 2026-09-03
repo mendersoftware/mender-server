@@ -23,10 +23,10 @@ import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
-import { getDeviceCountsByStatus, getFeatures, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
+import { ALL_DEVICES, DEVICE_STATES, TIMEOUTS, onboardingSteps, uiPermissionsById } from '@northern.tech/store/constants';
+import { getDeviceCountsByStatus, getFeatures, getOnboardingState, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
+import { advanceOnboarding, getTenantToken, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
 
 import raspberryPi from '../../../../assets/img/raspberrypi.png';
 import zephyr from '../../../../assets/img/zephyr_logo.png';
@@ -191,12 +191,21 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   const { isEnterprise } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
   const { complete: onboardingComplete, deviceType: onboardingDeviceType } = useSelector(getOnboardingState);
+  const { groupsPermissions } = useSelector(getUserCapabilities);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const canAddDevices = groupsPermissions[ALL_DEVICES]?.includes(uiPermissionsById.manage.value);
 
   useEffect(() => {
     setHasMoreDevices(pendingCount > pendingDevicesCount);
   }, [pendingDevicesCount, pendingCount]);
+
+  useEffect(() => {
+    if (!canAddDevices) {
+      return;
+    }
+    dispatch(getTenantToken());
+  }, [canAddDevices, dispatch]);
 
   useEffect(() => {
     if ((virtualDevice || progress >= 2) && hasMoreDevices && !window.location.hash.includes('pending')) {
