@@ -26,7 +26,7 @@ import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
 import storeActions from '@northern.tech/store/actions';
-import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
+import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, manifestVersion } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getManifestTags, getSelectedManifest, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
@@ -65,7 +65,7 @@ const ManifestInfo = ({ manifest }: { manifest: Manifest }) => {
         perPage: 1,
         filterSelection: [
           {
-            key: 'rootfs-image.update-module.mender-orchestrator-manifest.version',
+            key: manifestVersion,
             operator: DEVICE_FILTERING_OPTIONS.$eq.key,
             scope: ATTRIBUTE_SCOPES.inventory,
             value: manifest.name
