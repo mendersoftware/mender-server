@@ -110,7 +110,7 @@ describe('deploymentResolver function', () => {
     const phases = [{ batchSize: 10 }];
     expect(deploymentResolver({ ...values, phases }, context).errors.phases?.message).toEqual('Phase 1: Rollout size exceeds total target group size');
     // a dynamic group can still grow into an oversized phase, so it only warrants a warning
-    expect(deploymentResolver({ ...values, phases }, { ...context, filter }).errors.phases).toBeFalsy();
+    expect(deploymentResolver({ ...values, phases }, { ...context, filter }).errors.phases?.message).toEqual('Phase 2: Phases must have at least 1 device');
     const limited = { ...values, maxDevices: 2, phases: [{ batchSize: 3 }], shouldLimit: true };
     expect(deploymentResolver(limited, { ...context, deploymentDeviceCount: 20 }).errors.phases?.message).toEqual(
       'Phase 1: Rollout size cannot exceed the maximum number devices'

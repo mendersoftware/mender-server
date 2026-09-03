@@ -207,7 +207,7 @@ describe('getPhaseMessages', () => {
       expect(msgs[0].message).toContain('exceeds total target group size');
     });
     it('flags phases with 0 devices', () => {
-      const msgs = getPhaseMessages({ batchSize: 0, remainder: 100, deploymentDeviceCount: 100, rolloutMode: rolloutModes.device_count.key, isDynamic: false });
+      const msgs = getPhaseMessages({ batchSize: 0, remainder: 0, deploymentDeviceCount: 100, rolloutMode: rolloutModes.device_count.key, isDynamic: false });
       expect(msgs[0].severity).toEqual('error');
       expect(msgs[0].message).toContain('at least 1 device');
     });
