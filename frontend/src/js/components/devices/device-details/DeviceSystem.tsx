@@ -14,8 +14,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { KeyboardArrowDown as KeyboardArrowDownIcon, KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material';
 import { Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -27,7 +26,7 @@ import Pagination from '@northern.tech/common-ui/Pagination';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_LIST_DEFAULTS, rootfsManifestVersion } from '@northern.tech/store/constants';
+import { DEVICE_LIST_DEFAULTS, manifestVersion } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceComponents } from '@northern.tech/store/thunks';
@@ -124,7 +123,7 @@ export const DeviceSystem = ({ device }) => {
   const search = searchTerm.toLowerCase();
   const [page, setPage] = useState(defaultPage);
   const [perPage, setPerPage] = useState(defaultPerPage);
-  const manifestName = attributes[rootfsManifestVersion];
+  const manifestName = attributes[manifestVersion];
   const systemType = deviceTypes.join(',') || '-';
   const manifestPath = `${generateReleasesPath({ pageState: {} })}?${formatReleases({ pageState: { tab: 'manifests', id: manifestName } })}`;
   const manifest = manifestName ? (

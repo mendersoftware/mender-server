@@ -108,7 +108,10 @@ const GroupSelect = ({ groups, name }) => {
   );
 };
 
-const getIndentation = (level, theme) => ({ paddingLeft: theme.spacing(2) + level * theme.spacing() });
+const getIndentation = (level, theme, isSubheader) => ({
+  paddingLeft: theme.spacing(level + 2),
+  ...(isSubheader ? { color: theme.palette.text.disabled, lineHeight: theme.spacing(4) } : {})
+});
 
 const SoftwareSelect = ({ software, name }) => {
   const { control } = useFormContext();
@@ -126,11 +129,11 @@ const SoftwareSelect = ({ software, name }) => {
           <Select labelId="software-select-label" label="Software" displayEmpty {...field}>
             {software.map(({ subheader, title, value, nestingLevel }) =>
               subheader ? (
-                <ListSubheader key={value} style={getIndentation(nestingLevel, theme)}>
+                <ListSubheader key={value} disableGutters style={getIndentation(nestingLevel, theme, true)}>
                   {subheader}
                 </ListSubheader>
               ) : (
-                <MenuItem key={value} style={getIndentation(nestingLevel, theme)} value={value}>
+                <MenuItem key={value} style={getIndentation(nestingLevel, theme, false)} value={value}>
                   {title}
                 </MenuItem>
               )

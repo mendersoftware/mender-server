@@ -85,10 +85,10 @@ describe('extractSoftwareInformation function', () => {
             content: { checksum: 'b31a03283704a8e772f946cdec3d2a0a89ada59eccbe64b6dcb62434372a8b67', version: 'gateway-v4' },
             title: 'Root filesystem'
           },
-          'data-partition.mender-orchestrator-manifest': {
+          'Manifest version': {
             children: {},
             content: { version: 'manifest-v5' },
-            title: 'data-partition.mender-orchestrator-manifest'
+            title: 'Manifest version'
           }
         },
         content: {},

@@ -20,6 +20,11 @@ import { vi } from 'vitest';
 
 import ManifestQuickActions from './ManifestQuickActions';
 
+const mockNavigate = vi.fn();
+vi.mock('react-router', () => ({ useNavigate: () => mockNavigate }));
+
+const manifest = defaultState.releases.manifestsById.m1000;
+
 describe('ManifestQuickActions Component', () => {
   it('renders correctly', async () => {
     const preloadedState = {
@@ -54,6 +59,25 @@ describe('ManifestQuickActions Component', () => {
     render(<ManifestQuickActions />, { preloadedState });
     expect(screen.getByLabelText('manifest-actions')).toBeInTheDocument();
     expect(screen.getByText(/Manifest actions/i)).toBeInTheDocument();
+  });
+
+  it('navigates to the deployment creation for the Manifest shown in the details drawer', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const preloadedState = { ...defaultState, releases: { ...defaultState.releases, selectedManifest: manifest.name } };
+    const { container } = render(<ManifestQuickActions />, { preloadedState });
+    await user.click(container.querySelector('.MuiSpeedDial-fab') as Element);
+    await user.click(screen.getByLabelText('deploy'));
+    expect(mockNavigate).toHaveBeenCalledWith(`/deployments/active?open=true&release=${manifest.name}`, { state: { internal: true } });
+  });
+
+  it('downloads the artifact of the Manifest shown in the details drawer', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { getArtifactUrl: getArtifactUrlSpy } = StoreThunks;
+    const preloadedState = { ...defaultState, releases: { ...defaultState.releases, selectedManifest: manifest.name } };
+    const { container } = render(<ManifestQuickActions />, { preloadedState });
+    await user.click(container.querySelector('.MuiSpeedDial-fab') as Element);
+    await user.click(screen.getByLabelText('download'));
+    expect(getArtifactUrlSpy).toHaveBeenCalledWith(manifest.artifact.id);
   });
 
   it('triggers manifest removal after confirming the dialog', async () => {

@@ -1798,7 +1798,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
         <div
           class="flexbox align-items-center relative"
         >
-          <p
+          <div
             class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
           >
             Latest activity:
@@ -1813,7 +1813,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                 2019-01-01 09:25
               </time>
             </p>
-          </p>
+          </div>
           <button
             aria-label="close"
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small emotion-6"
