@@ -62,13 +62,13 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 	{
 		require := require.New(u.T())
 		for idx := range deviceCount {
-			device, err := common.NewDevice()
+			device, err := common.NewDevice(u.APIClient, u.Tenant.TenantToken)
 			require.NoError(err, "failed to create device identity")
 
-			_, err = device.SubmitAuthRequest(ctx, u.APIClient, u.Tenant.TenantToken)
+			_, err = device.SubmitAuthRequest(ctx)
 			require.NoError(err)
 
-			err = device.Accept(ctx, u.APIClient)
+			err = device.AcceptFirst(ctx)
 			require.NoError(err)
 
 			_, err = u.APIClient.DeviceInventoryManagementAPIAPI.
