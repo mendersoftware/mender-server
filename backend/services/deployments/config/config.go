@@ -20,6 +20,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -155,6 +156,9 @@ const (
 	// Max Request body size
 	SettingMaxRequestSize        = "request_size_limit"
 	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
+
+	SettingRequestTimeout        = "request_timeout"
+	SettingRequestTimeoutDefault = time.Minute
 )
 
 const (
@@ -317,5 +321,6 @@ var (
 		{Key: SettingPresignScheme, Value: SettingPresignSchemeDefault},
 		{Key: SettingDisableNewReleasesFeature, Value: SettingDisableNewReleasesFeatureDefault},
 		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
+		{Key: SettingRequestTimeout, Value: SettingRequestTimeoutDefault},
 	}
 )

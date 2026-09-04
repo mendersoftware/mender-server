@@ -27,6 +27,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/contenttype"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/middlewares"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/requestsize"
 	"github.com/mendersoftware/mender-server/pkg/routing"
@@ -141,7 +142,7 @@ func NewRouter(
 	publicAPIs.Use(requestsize.Middleware(cfg.MaxRequestSize))
 	withAuth.Use(requestsize.Middleware(cfg.MaxRequestSize))
 
-	NewDeploymentsResourceRoutes(publicAPIs, deploymentsHandlers)
+	NewDeploymentsResourceRoutes(publicAPIs, deploymentsHandlers, cfg)
 	NewLimitsResourceRoutes(withAuth, deploymentsHandlers)
 	InternalRoutes(internalAPIs, deploymentsHandlers)
 	ReleasesRoutes(withAuth, deploymentsHandlers)
@@ -218,7 +219,11 @@ func NewImagesResourceRoutes(router *gin.RouterGroup,
 	}
 }
 
-func NewDeploymentsResourceRoutes(router *gin.RouterGroup, controller *DeploymentsApiHandlers) {
+func NewDeploymentsResourceRoutes(
+	router *gin.RouterGroup,
+	controller *DeploymentsApiHandlers,
+	cfg *Config,
+) {
 
 	if controller == nil {
 		return
@@ -261,7 +266,10 @@ func NewDeploymentsResourceRoutes(router *gin.RouterGroup, controller *Deploymen
 	devices.GET(ApiUrlDevicesDownloadConfig,
 		controller.DownloadConfiguration)
 
-	devices.Use(identity.Middleware())
+	devices.Use(identity.Middleware(), middlewares.ErrorHandler())
+	if cfg.RequestTimeout > 0 {
+		devices.Use(middlewares.Timeout(cfg.RequestTimeout))
+	}
 
 	devices.GET(ApiUrlDevicesDeploymentsNext, controller.GetDeploymentForDevice)
 	devices.Group(".").Use(contenttype.CheckJSON()).

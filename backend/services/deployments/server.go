@@ -224,6 +224,7 @@ func RunServer(ctx context.Context) error {
 	// Setup API Router configuration
 	base64Repl := strings.NewReplacer("-", "+", "_", "/", "=", "")
 	expire := c.GetDuration(dconfig.SettingPresignExpireSeconds)
+	requestTimeout := c.GetDuration(dconfig.SettingRequestTimeout)
 	apiConf := api.NewConfig().
 		SetPresignExpire(time.Second * expire).
 		SetPresignHostname(c.GetString(dconfig.SettingPresignHost)).
@@ -233,7 +234,8 @@ func RunServer(ctx context.Context) error {
 		SetEnableDirectUpload(c.GetBool(dconfig.SettingStorageEnableDirectUpload)).
 		SetEnableDirectUploadSkipVerify(c.GetBool(dconfig.SettingStorageDirectUploadSkipVerify)).
 		SetDisableNewReleasesFeature(c.GetBool(dconfig.SettingDisableNewReleasesFeature)).
-		SetMaxRequestSize(c.GetInt64(dconfig.SettingMaxRequestSize))
+		SetMaxRequestSize(c.GetInt64(dconfig.SettingMaxRequestSize)).
+		SetRequestTimeout(requestTimeout)
 	if key, err := base64.RawStdEncoding.DecodeString(
 		base64Repl.Replace(
 			c.GetString(dconfig.SettingPresignSecret),
@@ -246,8 +248,9 @@ func RunServer(ctx context.Context) error {
 	listen := c.GetString(dconfig.SettingListen)
 
 	srv := &http.Server{
-		Addr:    listen,
-		Handler: handler,
+		Addr:              listen,
+		Handler:           handler,
+		ReadHeaderTimeout: max(requestTimeout, 0),
 	}
 
 	if c.IsSet(dconfig.SettingHttps) {
