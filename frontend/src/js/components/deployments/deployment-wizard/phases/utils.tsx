@@ -171,13 +171,11 @@ const getDeviceCountPhaseMessages = ({ batchSize, isDynamic, isFinal, remainder,
       messages.push({ message: 'Rollout size exceeds total target group size', severity: 'error' });
     }
   }
-  if (!isFinal && batchSize === 0) {
+  const effectiveSize = (isFinal ? remainder : batchSize) || 0;
+  if (effectiveSize < 1) {
     messages.push({ message: 'Phases must have at least 1 device', severity: 'error' });
   }
-  if (isFinal && remainder < 1 && !isDynamic) {
-    messages.push({ message: 'Phases must have at least 1 device', severity: 'error' });
-  }
-  if (maxDevices && !!batchSize && batchSize > maxDevices && !isDynamic) {
+  if (maxDevices && !!batchSize && effectiveSize > maxDevices && !isDynamic) {
     messages.push({ message: 'Rollout size cannot exceed the maximum number devices', severity: 'error' });
   }
   return messages;
