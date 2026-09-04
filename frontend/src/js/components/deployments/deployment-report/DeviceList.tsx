@@ -81,6 +81,19 @@ const stateInfoMap: Record<string, StateInfoEntry> = {
   success: { title: 'Success', color: statusColorMap.success, icon: CheckIcon }
 };
 
+const SoftwareLink = ({ canReadReleases, softwareName }) =>
+  softwareName ? (
+    canReadReleases ? (
+      <Link style={{ fontWeight: 'initial' }} to={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
+        {softwareName}
+      </Link>
+    ) : (
+      softwareName
+    )
+  ) : (
+    '-'
+  );
+
 const deviceListColumns = [
   {
     key: 'idAttribute',
@@ -108,15 +121,7 @@ const deviceListColumns = [
     title: 'Current artifact',
     render: ({ device: { attributes = {} }, userCapabilities: { canReadReleases } }) => {
       const { artifact_name: softwareName } = attributes;
-      return softwareName ? (
-        canReadReleases ? (
-          <Link to={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>{softwareName}</Link>
-        ) : (
-          softwareName
-        )
-      ) : (
-        '-'
-      );
+      return <SoftwareLink canReadReleases={canReadReleases} softwareName={softwareName} />;
     },
     canShow
   },
@@ -126,17 +131,7 @@ const deviceListColumns = [
     render: ({ device: { attributes = {} }, userCapabilities: { canReadReleases } }) => {
       const { [rootfsImageVersionAttribute]: rootfsImageVersion } = attributes;
       const softwareName = rootfsImageVersion;
-      return softwareName ? (
-        canReadReleases ? (
-          <Link style={{ fontWeight: 'initial' }} href={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
-            {softwareName}
-          </Link>
-        ) : (
-          softwareName
-        )
-      ) : (
-        '-'
-      );
+      return <SoftwareLink canReadReleases={canReadReleases} softwareName={softwareName} />;
     },
     canShow
   },
