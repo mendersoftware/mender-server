@@ -31,7 +31,7 @@ from common import (
     mongo,
 )
 
-from client import management_v1_client
+from client import management_v1_client, management_v2_client
 import mender_client
 from mender_client import ApiException
 
@@ -47,9 +47,9 @@ class TestDeployment:
         )
 
     def test_deployments_get(self):
-        res = management_v1_client(
+        res = management_v2_client(
             jwt=self.d.get_jwt()
-        ).deployments_v1_list_deployments()
+        ).deployments_v2_list_deployments()
         self.d.log.debug("result: %s", res)
 
         # try with bogus image ID
@@ -111,9 +111,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            artid = ac.add_artifact(
-                description="some description", size=art.size, data=art
-            )
+            artid = ac.add_artifact(description="some description", data=art)
 
             newdep = self.d.make_new_deployment(
                 name="fake deployment", artifact_name=artifact_name, devices=[dev.devid]
@@ -145,7 +143,7 @@ class TestDeployment:
             # fetch device status
             depdevs = management_v1_client(
                 jwt=ac.get_jwt()
-            ).list_all_devices_in_deployment(deployment_id=depid)
+            ).list_devices_in_deployment(deployment_id=depid)
             assert len(depdevs) == 1
             depdev = depdevs[0]
             assert depdev.status == "pending"
@@ -170,7 +168,7 @@ class TestDeployment:
             # fetch device status
             depdevs = management_v1_client(
                 jwt=ac.get_jwt()
-            ).list_all_devices_in_deployment(deployment_id=depid)
+            ).list_devices_in_deployment(deployment_id=depid)
             self.d.log.debug("deployment devices: %s", depdevs)
             assert len(depdevs) == 1
             depdev = depdevs[0]
@@ -193,7 +191,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            ac.add_artifact(description="some description", size=art.size, data=art)
+            ac.add_artifact(description="some description", data=art)
             newdep = self.d.make_new_deployment(
                 name="fake deployment", artifact_name=artifact_name, devices=[dev.devid]
             )
@@ -223,9 +221,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            artid = ac.add_artifact(
-                description="some description", size=art.size, data=art
-            )
+            artid = ac.add_artifact(description="some description", data=art)
 
             newdep = self.d.make_new_deployment(
                 name="fake deployment", artifact_name=artifact_name, devices=[dev.devid]
@@ -274,7 +270,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            ac.add_artifact(description="some description", size=art.size, data=art)
+            ac.add_artifact(description="some description", data=art)
 
             new_dep = self.d.make_new_deployment(
                 name="pagination deployment",
@@ -331,9 +327,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            with ac.with_added_artifact(
-                description="desc", size=art.size, data=art
-            ) as artid:
+            with ac.with_added_artifact(description="desc", data=art) as artid:
 
                 newdep = self.d.make_new_deployment(
                     name="foo", artifact_name=artifact_name, devices=[dev.devid]
@@ -401,9 +395,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            with ac.with_added_artifact(
-                description="desc", size=art.size, data=art
-            ) as artid:
+            with ac.with_added_artifact(description="desc", data=art) as artid:
 
                 newdep = self.d.make_new_deployment(
                     name="foo", artifact_name=artifact_name, devices=[dev.devid]
@@ -448,9 +440,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            with ac.with_added_artifact(
-                description="desc", size=art.size, data=art
-            ) as artid:
+            with ac.with_added_artifact(description="desc", data=art) as artid:
 
                 newdep = self.d.make_new_deployment(
                     name="foo", artifact_name=artifact_name, devices=[dev.devid]
@@ -571,9 +561,7 @@ class TestDeployment:
             name=artifact_name, data=data, devicetype=dev.device_type
         ) as art:
             ac = SimpleArtifactsClient()
-            with ac.with_added_artifact(
-                description="desc", size=art.size, data=art
-            ) as artid:
+            with ac.with_added_artifact(description="desc", data=art) as artid:
 
                 newdep = self.d.make_new_deployment(
                     name="foo", artifact_name=artifact_name, devices=[dev.devid]

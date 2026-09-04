@@ -64,7 +64,6 @@ class TestUploadArtifactBase:
                     deployments.URL_DEPLOYMENTS_ARTIFACTS,
                     files=(
                         ("description", (None, "description")),
-                        ("size", (None, str(os.path.getsize(artifact)))),
                         (
                             "artifact",
                             (
@@ -239,7 +238,6 @@ class TestUploadArtifactOpenSource(TestUploadArtifactBase):
                 deployments.URL_DEPLOYMENTS_ARTIFACTS,
                 files=(
                     ("description", (None, "description")),
-                    ("size", (None, str(os.path.getsize(artifact)))),
                     (
                         "artifact",
                         (artifact, open(artifact, "rb"), "application/octet-stream"),

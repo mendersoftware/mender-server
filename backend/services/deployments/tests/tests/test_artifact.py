@@ -38,7 +38,7 @@ from common import (
     Lock,
     MONGO_LOCK_FILE,
 )
-from client import management_v1_client
+from client import management_v1_client, management_v2_client
 from mender_client import ApiException
 
 
@@ -46,7 +46,7 @@ class TestArtifact:
     ac = ArtifactsClient()
 
     def test_artifacts_all(self):
-        res = management_v1_client().list_artifacts()
+        res = management_v2_client().deployments_v2_list_artifacts_with_pagination()
         self.ac.log.debug("result: %s", res)
 
     def test_artifacts_new_bogus_empty(self, clean_minio, clean_db):
@@ -56,7 +56,6 @@ class TestArtifact:
                 res = (
                     management_v1_client(jwt=self.ac.get_jwt())
                     .upload_artifact(
-                        size=100,
                         artifact="".encode(),
                         description="bar",
                     )
@@ -74,7 +73,6 @@ class TestArtifact:
                 files = ArtifactsClient.make_upload_meta(
                     {
                         "description": "bar",
-                        "size": str(art.size),
                         "artifact": (
                             "firmware",
                             art,
@@ -105,10 +103,12 @@ class TestArtifact:
                 name=artifact_name, data=data, devicetype=device_type
             ) as art:
                 self.ac.log.info("uploading artifact")
-                artid = self.ac.add_artifact(description, art.size, art)
+                artid = self.ac.add_artifact(description, art)
 
                 # artifacts listing should not be empty now
-                res = management_v1_client(jwt=self.ac.get_jwt()).list_artifacts()
+                res = management_v2_client(
+                    jwt=self.ac.get_jwt()
+                ).deployments_v2_list_artifacts_with_pagination()
                 self.ac.log.debug("result: %s", res)
                 assert len(res) > 0
 
@@ -185,7 +185,7 @@ class TestArtifact:
                 name=artifact_name, devicetype=device_type
             ) as art:
                 self.ac.log.info("uploading artifact")
-                artid = self.ac.add_artifact(description, art.size, art)
+                artid = self.ac.add_artifact(description, art)
 
                 # artifacts listing should not be empty now
                 res = self.ac.list_artifacts()
@@ -264,10 +264,12 @@ class TestArtifact:
                 name=artifact_name, data=data, devicetype=device_type
             ) as art:
                 self.ac.log.info("uploading artifact")
-                artid = self.ac.add_artifact(description, art.size, art)
+                artid = self.ac.add_artifact(description, art)
 
                 # artifacts listing should not be empty now
-                res = management_v1_client(jwt=self.ac.get_jwt()).list_artifacts()
+                res = management_v2_client(
+                    jwt=self.ac.get_jwt()
+                ).deployments_v2_list_artifacts_with_pagination()
                 self.ac.log.debug("result: %s", res)
                 assert len(res) > 0
 
@@ -355,7 +357,7 @@ class TestArtifact:
                     self.ac.log.info(
                         "uploading artifact (compression: {})".format(comp)
                     )
-                    self.ac.add_artifact(description, art.size, art)
+                    self.ac.add_artifact(description, art)
             l.unlock()
 
 

@@ -57,7 +57,6 @@ def upload_image(filename, auth_token, description="abc"):
         deployments.URL_DEPLOYMENTS_ARTIFACTS,
         files=(
             ("description", (None, description)),
-            ("size", (None, str(os.path.getsize(filename)))),
             ("artifact", (filename, open(filename, "rb"), "application/octet-stream")),
         ),
     )
@@ -578,6 +577,7 @@ class StatusVerifier:
     def __init__(self, deploymentsm, deploymentsd):
         self.deploymentsm = deploymentsm
         self.deploymentsd = deploymentsd
+        self.deploymentsm_v2 = ApiClient(deployments_v2.URL_MGMT)
 
     def status_update_and_verify(
         self,
@@ -626,9 +626,11 @@ class StatusVerifier:
 
         if device_deployment_status != "":
             resp = self.deploymentsm.with_auth(user_token).call(
-                "GET", deployments.URL_DEPLOYMENTS_DEVICES.format(id=deployment_id)
+                "GET",
+                deployments.URL_DEPLOYMENTS_DEVICES_LIST.format(id=deployment_id),
+                qs_params={"per_page": 500},
             )
-            resp.status_code == 200
+            assert resp.status_code == 200
 
             devices = resp.json()
 
@@ -640,10 +642,12 @@ class StatusVerifier:
                         assert device["substate"] == substate
 
         if deployment_status != "":
-            resp = self.deploymentsm.with_auth(user_token).call(
-                "GET", deployments.URL_DEPLOYMENTS.format(id=deployment_id)
+            resp = self.deploymentsm_v2.with_auth(user_token).call(
+                "GET",
+                deployments_v2.URL_DEPLOYMENTS,
+                qs_params={"id": deployment_id},
             )
-            resp.status_code == 200
+            assert resp.status_code == 200
             assert resp.json()[0]["status"] == deployment_status
 
 
@@ -1050,13 +1054,13 @@ def verify_stats(stats, expected):
 class _TestDeploymentsArtifactBase(object):
     def do_test_show_artifact_size(self, clean_mongo, user_token, devs):
         api_mgmt_dep = ApiClient(deployments.URL_MGMT)
+        api_dep_v2 = ApiClient(deployments_v2.URL_MGMT)
 
         # get artifact size
-        r = api_mgmt_dep.with_auth(user_token).call(
+        r = api_dep_v2.with_auth(user_token).call(
             "GET",
-            deployments.URL_DEPLOYMENTS_ARTIFACTS
-            + "?name="
-            + "deployments-phase-testing",
+            deployments_v2.URL_ARTIFACTS,
+            qs_params={"name": "deployments-phase-testing"},
         )
         assert r.status_code == 200
         artifacts = r.json()
