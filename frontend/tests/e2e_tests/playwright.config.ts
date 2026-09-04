@@ -63,6 +63,11 @@ const options: PlaywrightTestConfig = {
     { name: 'advanced-firefox', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.firefox, dependencies: ['baseline-firefox'], workers: 1 },
     { name: 'advanced-webkit', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.webkit, dependencies: ['baseline-webkit'], workers: 1 },
 
+    // The admin panel is an operator facing app of its own, without a tenant session to set up. It is
+    // kept in a dependency free project so it can be run on its own with `--project=admin-panel`,
+    // while still being pulled in by the regular chromium run below.
+    { name: 'admin-panel', testDir: `${testDirBase}/05-admin-panel`, use: { ...devices['Desktop Chrome'], viewport }, workers: 1 },
+
     {
       name: 'chromium',
       testDir: `${testDirBase}/09-potentially-destructive`,

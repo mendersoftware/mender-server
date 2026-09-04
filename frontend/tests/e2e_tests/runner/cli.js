@@ -35,6 +35,7 @@ export const environments = {
 };
 
 export const testSuiteVariants = {
+  admin: 'admin',
   regular: 'regular',
   qemu: 'qemu'
 };
