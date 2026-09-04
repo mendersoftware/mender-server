@@ -57,10 +57,6 @@ const confirmationType = {
     loading: 'Aborting...',
     message: 'This will abort the deployment and attempt to roll back all devices. Confirm abort?'
   },
-  integrationRemoval: {
-    loading: defaultRemoving,
-    message: 'Remove the integration. Are you sure?'
-  },
   webhooksRemoval: {
     loading: defaultRemoving,
     message: 'Delete all webhooks?'
