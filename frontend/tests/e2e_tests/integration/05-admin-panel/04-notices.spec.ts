@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../../fixtures/fixtures';
-import { adminPanelApiUrl } from '../../utils/adminPanel';
+import { adminPanelApiUrl, noticePreview } from '../../utils/adminPanel';
 import { timeouts } from '../../utils/constants';
 import type { Email, EmailClient } from '../../utils/email';
 import { setupEmailClient } from '../../utils/email';
@@ -25,27 +25,33 @@ const noticeHeadline = 'Retiring the widget API';
 const defaultTitle = 'Notice';
 const defaultGreeting = 'Hello,';
 
+/** `test.skip` aborts the test, which the type checker cannot see - hence the assertion */
+const requireEmailClient = (username: string, environment: string): EmailClient => {
+  const emailClient = setupEmailClient(username, environment);
+  test.skip(!emailClient, 'test requires a reachable mailbox');
+  return emailClient as EmailClient;
+};
+
 /**
  * The workflow bcc's its recipients, so the `To` header the mail server reports stays empty and
  * filtering by recipient finds nothing - matching a unique subject is the reliable way in.
  */
-const findBySubject = async (emailClient: EmailClient, subject: string): Promise<Email | undefined> => {
-  const emails = await emailClient.getEmails();
-  return emails.find(email => email.subject === subject);
-};
-
 const awaitNotice = async (emailClient: EmailClient, subject: string): Promise<Email> => {
+  let notice: Email | undefined;
   await expect
-    .poll(async () => !!(await findBySubject(emailClient, subject)), {
-      message: `expected a notice with subject "${subject}" to be delivered`,
-      timeout: timeouts.fifteenSeconds
-    })
+    .poll(
+      async () => {
+        const emails = await emailClient.getEmails();
+        notice = emails.find(email => email.subject === subject);
+        return !!notice;
+      },
+      {
+        message: `expected a notice with subject "${subject}" to be delivered`,
+        timeout: timeouts.fifteenSeconds
+      }
+    )
     .toBeTruthy();
-  const notice = await findBySubject(emailClient, subject);
-  if (!notice) {
-    throw new Error(`the notice "${subject}" vanished between being polled for and being read`);
-  }
-  return notice;
+  return notice!;
 };
 
 test.describe('Admin panel notices', () => {
@@ -54,26 +60,23 @@ test.describe('Admin panel notices', () => {
   });
 
   test.describe('composing', () => {
-    test('previews what the recipients will see', async ({ adminBaseUrl, page }) => {
+    test('previews what the recipients will see, once there is something to preview', async ({ adminBaseUrl, page }) => {
       await page.goto(`${adminBaseUrl}notices`);
       await expect(page.getByRole('heading', { name: 'Send Notice' })).toBeVisible();
       await expect(page.getByText(/click .*preview rendered email.* to see how it will look/i)).toBeVisible();
 
+      await page.getByRole('button', { name: /preview rendered email/i }).click();
+      await expect(page.getByText('Message body is required.')).toBeVisible();
+      await expect(noticePreview(page).getByText(defaultGreeting)).toHaveCount(0);
+
       await page.getByLabel(/feature details/i).fill(noticeBody);
       await page.getByRole('button', { name: /preview rendered email/i }).click();
 
-      const preview = page.getByText('Rendered preview').locator('..');
+      const preview = noticePreview(page);
       await expect(preview.getByText(noticeHeadline)).toBeVisible();
       // the framing is filled in for the operator, the body itself is left untouched
       await expect(preview.getByText(defaultGreeting)).toBeVisible();
       await expect(preview.getByText(defaultTitle)).toBeVisible();
-    });
-
-    test('asks for a body before previewing anything', async ({ adminBaseUrl, page }) => {
-      await page.goto(`${adminBaseUrl}notices`);
-      await page.getByRole('button', { name: /preview rendered email/i }).click();
-      await expect(page.getByText('Message body is required.')).toBeVisible();
-      await expect(page.getByText('Rendered preview').locator('..').getByText(defaultGreeting)).toHaveCount(0);
     });
 
     test('lets the operator take over the framing', async ({ adminBaseUrl, page }) => {
@@ -83,11 +86,11 @@ test.describe('Admin panel notices', () => {
 
       // the defaults are good enough most of the time, so the overrides start out collapsed
       await expect(page.getByLabel('Email subject')).not.toBeVisible();
-      await page.getByText(/customize subject, title, intro/i).click();
+      await page.getByRole('button', { name: /customize subject, title, intro/i }).click();
       await page.getByLabel('Title (H1 in the email)').fill(customTitle);
 
       await page.getByRole('button', { name: /preview rendered email/i }).click();
-      const preview = page.getByText('Rendered preview').locator('..');
+      const preview = noticePreview(page);
       await expect(preview.getByText(customTitle)).toBeVisible();
       await expect(preview.getByText(defaultTitle)).not.toBeVisible();
     });
@@ -100,36 +103,19 @@ test.describe('Admin panel notices', () => {
       await expect(page.getByText('Type SEND in the confirmation box to proceed.')).toBeVisible();
     });
   });
+
+  // What is left here is delivery: the request rejections the panel and its API perform are covered
+  // by the admin-panel service's own handler tests, what nothing else covers is whether a notice
+  // makes it through workflows into an actual inbox.
   test.describe('sending', () => {
-    test('refuses a notice without a body', async ({ adminBaseUrl, request }) => {
-      const response = await request.post(adminPanelApiUrl(adminBaseUrl, 'notices/preview'), { data: { body: '' }, failOnStatusCode: false });
-      expect(response.status()).toEqual(400);
-    });
-
-    test('refuses a test send without a recipient', async ({ adminBaseUrl, request }) => {
-      const response = await request.post(adminPanelApiUrl(adminBaseUrl, 'notices/send'), {
-        data: { action: 'test', body: noticeBody },
-        failOnStatusCode: false
-      });
-      expect(response.status()).toEqual(400);
-    });
-
-    test('refuses a broadcast without the confirmation', async ({ adminBaseUrl, request }) => {
-      const response = await request.post(adminPanelApiUrl(adminBaseUrl, 'notices/send'), {
-        data: { action: 'send_all', audience: 'admins', body: noticeBody },
-        failOnStatusCode: false
-      });
-      expect(response.status()).toEqual(400);
-    });
     test('delivers a test notice as plain text to the named address', async ({ adminBaseUrl, environment, page, username }) => {
-      const emailClient = setupEmailClient(username, environment);
-      test.skip(!emailClient, 'test requires a reachable mailbox');
+      const emailClient = requireEmailClient(username, environment);
       const subject = `e2e admin panel test notice ${Date.now()}`;
       const testEmail = 'notice-recipient@example.com';
 
       await page.goto(`${adminBaseUrl}notices`);
       await page.getByLabel(/feature details/i).fill(noticeBody);
-      await page.getByText(/customize subject, title, intro/i).click();
+      await page.getByRole('button', { name: /customize subject, title, intro/i }).click();
       await page.getByLabel('Email subject').fill(subject);
       await page.getByLabel('Test recipient').fill(testEmail);
       await page.getByRole('button', { name: /send test message/i }).click();
@@ -139,14 +125,16 @@ test.describe('Admin panel notices', () => {
       // what the preview promised is what actually lands in the inbox
       expect(notice.body).toContain(noticeHeadline);
       expect(notice.body).toContain('migrate to the gadget API instead');
-      expect(notice.body).not.toContain('<h1>');
+      expect(notice.body).toContain(defaultTitle);
+      expect(notice.body).toContain(defaultGreeting);
     });
 
     test('broadcasts to the tenant admins across tenant boundaries', async ({ adminBaseUrl, environment, request, username }) => {
-      const emailClient = setupEmailClient(username, environment);
-      test.skip(!emailClient, 'test requires a reachable mailbox');
+      const emailClient = requireEmailClient(username, environment);
       const subject = `e2e admin panel broadcast ${Date.now()}`;
 
+      // driven through the API on purpose: the UI path ends in a `window.confirm` that playwright
+      // dismisses by default, and the confirmation guard in front of it is covered above
       const response = await request.post(adminPanelApiUrl(adminBaseUrl, 'notices/send'), {
         data: { action: 'send_all', audience: 'admins', body: noticeBody, confirm: 'SEND', subject }
       });

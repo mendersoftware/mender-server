@@ -12,17 +12,26 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../../fixtures/fixtures';
-import { findSecondaryTenant } from '../../utils/adminPanel';
+import { findSecondaryTenant, listTenants, planCount, statTile } from '../../utils/adminPanel';
 
-test.describe('Admin panel navigation', () => {
+test.describe('Admin panel navigation & dashboard', () => {
   test.beforeEach(async ({ environment }) => {
     test.skip(environment !== 'enterprise', 'the admin panel is only deployed alongside enterprise installations');
   });
 
-  test('opens on the dashboard', async ({ adminBaseUrl, page }) => {
+  test('opens on the dashboard', async ({ adminBaseUrl, page, request }) => {
+    const { total } = await listTenants(request, adminBaseUrl, { per_page: 1 });
+    // the runner creates the main tenant plus a service provider and a plain secondary one
+    expect(total).toBeGreaterThanOrEqual(3);
+    // `tenantadm create-org` defaults to the enterprise plan, so the breakdown has to account for them
+    const { total: enterpriseTotal } = await listTenants(request, adminBaseUrl, { per_page: 1, plan: 'enterprise' });
+
     await page.goto(adminBaseUrl);
     await expect(page.getByText('Mender Admin Panel')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+    await expect(statTile(page, 'Total Tenants')).toHaveText(String(total));
+    await expect(page.getByText('Tenants by Plan')).toBeVisible();
+    await expect(planCount(page, 'Enterprise')).toHaveText(String(enterpriseTotal));
   });
 
   test('moves between the sections through the drawer', async ({ adminBaseUrl, page }) => {
