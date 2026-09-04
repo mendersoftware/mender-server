@@ -39,7 +39,6 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -67,6 +66,8 @@ type loggerContextKeyType int
 
 const (
 	loggerContextKey loggerContextKeyType = 0
+
+	rfc3339Milli = "2006-01-02T15:04:05.999Z07:00"
 )
 
 // ContextLogger interface for components which support
@@ -92,7 +93,7 @@ func init() {
 			opts.Level = Level(logLevel)
 		}
 	}
-	opts.TimestampFormat = time.RFC3339
+	opts.TimestampFormat = rfc3339Milli
 	opts.DisableCaller, _ = strconv.ParseBool(os.Getenv(envLogDisableCaller))
 	Configure(opts)
 
@@ -147,8 +148,9 @@ func Configure(opts Options) {
 	switch opts.Format {
 	case FormatConsole:
 		formatter = &logrus.TextFormatter{
-			FullTimestamp:   true,
-			TimestampFormat: opts.TimestampFormat,
+			FullTimestamp:    true,
+			TimestampFormat:  opts.TimestampFormat,
+			QuoteEmptyFields: true,
 		}
 	case FormatJSON:
 		formatter = &logrus.JSONFormatter{
