@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { APIRequestContext } from '@playwright/test';
+import type { APIRequestContext, Page } from '@playwright/test';
 
 export const adminPanelApiUrl = (adminBaseUrl: string, path: string) => `${adminBaseUrl}api/sudo/v1/admin-panel/${path}`;
 
@@ -33,21 +33,21 @@ export interface AdminPanelDeviceCounts {
   total: number;
 }
 
+export interface AdminPanelDeviceLimit {
+  current_value: number;
+  name: string;
+  value: number;
+}
+
 export interface AdminPanelTenantDetail extends AdminPanelTenant {
   artifact_size_limit_micro: number;
   device_counts?: AdminPanelDeviceCounts;
+  device_limits?: Record<string, AdminPanelDeviceLimit>;
   warnings?: string[];
-}
-
-export interface AdminPanelUser {
-  email: string;
-  id: string;
-  tenant_id?: string;
 }
 
 type QueryValue = boolean | number | string | undefined;
 type TenantQuery = { page?: number; per_page?: number; plan?: string; q?: string; trial?: boolean };
-type UserQuery = { email?: string; page?: number; per_page?: number; tenant_id?: string };
 
 const toParams = (query: Record<string, QueryValue>) =>
   Object.fromEntries(
@@ -70,15 +70,6 @@ export const getTenantDetail = async (request: APIRequestContext, adminBaseUrl: 
   const response = await request.get(adminPanelApiUrl(adminBaseUrl, `tenants/${id}`));
   if (!response.ok()) {
     throw new Error(`admin panel tenant detail for ${id} failed with ${response.status()}`);
-  }
-  return response.json();
-};
-
-/** unlike the tenant listing the user store has no total to report, so there is no count header here */
-export const listUsers = async (request: APIRequestContext, adminBaseUrl: string, query: UserQuery = {}): Promise<AdminPanelUser[]> => {
-  const response = await request.get(adminPanelApiUrl(adminBaseUrl, 'users'), { params: toParams(query) });
-  if (!response.ok()) {
-    throw new Error(`admin panel user listing failed with ${response.status()}`);
   }
   return response.json();
 };
@@ -113,3 +104,15 @@ export const findMainTenant = (request: APIRequestContext, adminBaseUrl: string)
  */
 export const findSecondaryTenant = (request: APIRequestContext, adminBaseUrl: string) =>
   findTenant(request, adminBaseUrl, tenant => tenant.name === tenantNames.secondary && !tenant.service_provider, 'plain secondary');
+
+/*
+ * The panel renders its numbers as bare typography next to their label, with nothing but the DOM order tying the two together.
+ * Keeping the traversals below in one place means a follow up that gives the panel test ids only has to touch these three helpers.
+ */
+export const statTile = (page: Page, label: string) => page.getByText(label, { exact: true }).locator('xpath=preceding-sibling::*[1]');
+
+export const planCount = (page: Page, plan: string) => page.getByText(plan, { exact: true }).locator('xpath=following-sibling::*[2]');
+
+export const noticePreview = (page: Page) => page.getByRole('heading', { name: 'Rendered preview' }).locator('..');
+
+export const deviceStateCount = (page: Page, state: string) => page.getByText(state, { exact: true }).locator('xpath=preceding-sibling::*[1]');
