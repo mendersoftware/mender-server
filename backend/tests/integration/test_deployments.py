@@ -630,7 +630,7 @@ class StatusVerifier:
                 deployments.URL_DEPLOYMENTS_DEVICES_LIST.format(id=deployment_id),
                 qs_params={"per_page": 500},
             )
-            resp.status_code == 200
+            assert resp.status_code == 200
 
             devices = resp.json()
 
@@ -647,7 +647,7 @@ class StatusVerifier:
                 deployments_v2.URL_DEPLOYMENTS,
                 qs_params={"id": deployment_id},
             )
-            resp.status_code == 200
+            assert resp.status_code == 200
             assert resp.json()[0]["status"] == deployment_status
 
 
