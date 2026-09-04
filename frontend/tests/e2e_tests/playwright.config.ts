@@ -72,7 +72,7 @@ const options: PlaywrightTestConfig = {
       name: 'chromium',
       testDir: `${testDirBase}/09-potentially-destructive`,
       use: projectParamsByBrowser.chrome,
-      dependencies: ['advanced-chromium', 'admin-panel'],
+      dependencies: ['advanced-chromium'],
       teardown: 'teardown',
       workers: 1
     },

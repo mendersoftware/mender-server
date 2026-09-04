@@ -134,8 +134,8 @@ export const validateConfiguration = config => {
   if (!environments[config.environment]) {
     errors.push(`Invalid environment: ${config.environment}. Valid environments are: ${Object.values(environments).join(', ')}`);
   }
-  if (config.variant === testSuiteVariants.qemu && config.environment !== environments.enterprise) {
-    errors.push(`--variant qemu requires --environment enterprise`);
+  if ([testSuiteVariants.admin, testSuiteVariants.qemu].includes(config.variant) && config.environment !== environments.enterprise) {
+    errors.push(`--variant ${config.variant} requires --environment enterprise`);
   }
   const missingFiles = config.composeFiles.filter(file => !existsSync(file));
   if (missingFiles.length > 0) {

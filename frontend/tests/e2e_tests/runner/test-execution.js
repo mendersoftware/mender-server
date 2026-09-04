@@ -190,6 +190,9 @@ export const runTests = async (config, currentProcesses) => {
   if (config.variant === testSuiteVariants.qemu) {
     playwrightConfig = '--config=playwright-qemu.config.ts --project=qemu-tests';
   }
+  if (config.variant === testSuiteVariants.admin) {
+    playwrightConfig = `--project=admin-panel`;
+  }
   console.log(chalk.yellow(`🐳 Running tests in docker using ${chalk.cyan(config.project)}/${chalk.blue(config.variant)}...`));
 
   await composeExec('gui-tests-runner', `npm install`, config);
