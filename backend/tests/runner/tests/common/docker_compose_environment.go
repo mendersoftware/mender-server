@@ -266,7 +266,7 @@ func (i *ComposeEnvironment) User(ctx context.Context) (User, error) {
 
 type Tenant struct {
 	ID          string
-	TenantToken *string
+	TenantToken string
 }
 
 func (i *ComposeEnvironment) TenantOfUser(ctx context.Context, u User) (Tenant, error) {
