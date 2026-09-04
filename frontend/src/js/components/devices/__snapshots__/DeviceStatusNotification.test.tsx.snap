@@ -63,6 +63,20 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  padding: 4px 0 0 16px;
+  margin-left: auto;
+  margin-right: -8px;
+}
+
+.emotion-5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -121,33 +135,33 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-5::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-5 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:hover {
+.emotion-5:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-4:hover {
+  .emotion-5:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -155,12 +169,12 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
   }
 }
 
-.emotion-4.MuiButton-loading {
+.emotion-5.MuiButton-loading {
   color: transparent;
 }
 
 <div
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard flexbox align-items-center margin-left-large margin-right emotion-0"
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-left-large margin-right emotion-0"
   role="alert"
   style="--Paper-shadow: none;"
 >
@@ -180,19 +194,21 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
     </svg>
   </div>
   <div
-    class="MuiAlert-message flexbox align-items-center space-between full-width emotion-3"
+    class="MuiAlert-message emotion-3"
   >
-    <div>
-      1
-       
-      device
-       
-      is
-       
-      pending authorization
-    </div>
+    1
+     
+    device
+     
+    is
+     
+    pending authorization
+  </div>
+  <div
+    class="MuiAlert-action emotion-4"
+  >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary nowrap emotion-5"
       tabindex="0"
       type="button"
     >

@@ -58,7 +58,10 @@ test.describe('Devices', () => {
     if (!hasAcceptedDevice) {
       const pendingMessage = await page.getByText(/pending authorization/i);
       await pendingMessage.waitFor({ timeout: timeouts.sixtySeconds });
-      await pendingMessage.click();
+      await pendingMessage
+        .locator('..')
+        .getByRole('button', { name: /view details/i })
+        .click();
       await page.click(selectors.deviceListCheckbox);
       await page.click('.MuiSpeedDial-fab');
       await page.click('[aria-label="accept"]');
