@@ -153,9 +153,18 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
           )}
         </div>
         {isDeleting && (
-          <div className={`absolute full-width ${classes.confirmationWrapper}`}>
-            <Confirm type="integrationRemoval" action={onDeleteConfirm} cancel={() => setIsDeleting(false)} />
-          </div>
+          <ConfirmModal
+            header="Delete integration?"
+            description={
+              <>
+                Are you sure you want to delete the <b>{title}</b> integration?
+              </>
+            }
+            confirmButtonText="Delete integration"
+            open
+            close={() => setIsDeleting(false)}
+            onConfirm={onDeleteConfirm}
+          />
         )}
       </div>
       {!isLast && <Divider className={`margin-bottom ${classes.widthLimit}`} />}
