@@ -19,6 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 interface ContentSectionProps {
   children: ReactNode;
   className?: string;
+  disableMargin?: boolean;
   isAddOn?: boolean;
   postTitle?: ReactNode;
   title: string;
@@ -36,11 +37,11 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const ContentSection = ({ children, className = '', isAddOn = false, postTitle, title, titleEnd }: ContentSectionProps) => {
+export const ContentSection = ({ children, className = '', disableMargin = false, isAddOn = false, postTitle, title, titleEnd }: ContentSectionProps) => {
   const { classes } = useStyles();
 
   return (
-    <div className={`margin-bottom-medium margin-top-small ${className}`}>
+    <div className={`${disableMargin ? '' : 'margin-bottom-medium margin-top-small'} ${className}`}>
       <div className="flexbox space-between">
         <div className={`margin-bottom-x-small ${classes.titleGroup}`}>
           <Typography variant="subtitle1">{title}</Typography>
