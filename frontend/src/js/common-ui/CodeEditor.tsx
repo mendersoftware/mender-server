@@ -12,14 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 
 import { alpha, rgbToHex, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import type { EditorProps, Monaco } from '@monaco-editor/react';
 import MonacoEditor, { loader } from '@monaco-editor/react';
-import { getIsDarkMode } from '@northern.tech/store/selectors';
+import { DARK_MODE } from '@northern.tech/store/constants';
 import type { editor } from 'monaco-editor';
 
 import Loader from './Loader';
@@ -76,8 +75,8 @@ const makeColorMonacoSafe = (color: string) => {
 
 export const useEditorTheme = (isReadOnly: boolean) => {
   const monacoRef = useRef<Monaco | null>(null);
-  const isDarkMode = useSelector(getIsDarkMode);
   const muiTheme = useTheme();
+  const isDarkMode = muiTheme.palette.mode === DARK_MODE;
 
   const editorThemeName = `mender-${muiTheme.palette.mode}${isReadOnly ? '-ro' : ''}`;
 

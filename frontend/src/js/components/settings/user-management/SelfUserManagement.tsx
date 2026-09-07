@@ -15,7 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Chip, DialogActions, DialogContent, TextField, Typography, formControlClasses, textFieldClasses } from '@mui/material';
+import { Alert, Button, Chip, DialogActions, DialogContent, TextField, Typography, formControlClasses, textFieldClasses, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
@@ -26,8 +26,8 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
+import { DARK_MODE, LIGHT_MODE, OWN_USER_ID, settingsKeys } from '@northern.tech/store/constants';
+import { getCurrentSession, getCurrentUser, getFeatures, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
   cancelEmailChange,
@@ -99,7 +99,7 @@ export const SelfUserManagement = () => {
   const { email, id: userId } = currentUser;
   const hasTracking = useSelector(state => !!state.app.trackerCode);
   const { trackingConsentGiven: hasTrackingConsent } = useSelector(getUserSettings);
-  const isDarkMode = useSelector(getIsDarkMode);
+  const isDarkMode = useTheme().palette.mode === DARK_MODE;
   const { token } = useSelector(getCurrentSession);
   const [showNotice, setShowNotice] = useState<string>('');
   const { hasMultitenancy } = useSelector(getFeatures);
@@ -161,7 +161,9 @@ export const SelfUserManagement = () => {
 
   const toggleMode = () => {
     const newMode = isDarkMode ? LIGHT_MODE : DARK_MODE;
-    dispatch(saveUserSettings({ mode: newMode }));
+    dispatch(saveUserSettings({ mode: newMode }))
+      .unwrap()
+      .then(() => window.localStorage.setItem(settingsKeys.colorScheme, newMode));
   };
 
   const startVerification = () => {
