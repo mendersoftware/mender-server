@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import {  useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -44,6 +44,9 @@ import validator from 'validator';
 import { SETTINGS_SELECT_WIDTH } from '../constants';
 
 const { isUUID } = validator;
+
+const defaultNewUser = { roles: [rolesByName.readOnly] };
+const defaultAdminUser = { roles: [rolesByName.admin] };
 
 export const UserRolesSelect = ({ currentUser, disabled, error = '', maxWidth = SETTINGS_SELECT_WIDTH, onSelect, roles, user }) => {
   const isEnterprise = useSelector(getIsEnterprise);
@@ -153,23 +156,21 @@ const UserIdentifier = ({ userIdAllowed, onHasUserId, hasMultitenancy }) => {
 };
 
 export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultitenancy, isEnterprise, roles, submit, isTrial }) => {
-  const [hadRoleChanges, setHadRoleChanges] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState<string[] | undefined>();
+  const canSelectRoles = canManageUsers && isEnterprise;
+  const defaultUser = canSelectRoles ? defaultNewUser : defaultAdminUser;
+  const [selectedRoles, setSelectedRoles] = useState<string[]>(defaultUser.roles);
   const [isAddingExistingUser, setIsAddingExistingUser] = useState(false);
   const submitRef = useRef<() => void>(undefined);
-  const onSelect = (newlySelectedRoles, hadRoleChanges) => {
-    setSelectedRoles(newlySelectedRoles);
-    setHadRoleChanges(hadRoleChanges);
-  };
+  const onSelect = useCallback(newlySelectedRoles => setSelectedRoles(newlySelectedRoles), []);
 
-  const hasEmptyRoleSelection = !isAddingExistingUser && !!selectedRoles && !selectedRoles.length;
+  const hasEmptyRoleSelection = canSelectRoles && !isAddingExistingUser && !selectedRoles.length;
 
   const onSubmit = async data => {
     if (hasEmptyRoleSelection) {
       return;
     }
     const { password, ...remainder } = data;
-    const roleData = hadRoleChanges ? { roles: selectedRoles } : {};
+    const roleData = canSelectRoles ? { roles: selectedRoles } : {};
     // Add via id / invite via email / OS create
     const [payload, type] = isAddingExistingUser
       ? [remainder.email, 'add']
@@ -202,12 +203,12 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
             <ContentSection className="margin-top-small" disableMargin title="Roles" postTitle={<EnterpriseNotification id={BENEFITS.rbac.id} />}>
               <UserRolesSelect
                 currentUser={currentUser}
-                disabled={!(canManageUsers && isEnterprise)}
+                disabled={!canSelectRoles}
                 error={hasEmptyRoleSelection ? 'Select at least one role.' : ''}
                 maxWidth={SETTINGS_SELECT_WIDTH}
                 onSelect={onSelect}
                 roles={roles}
-                user={{}}
+                user={defaultUser}
               />
             </ContentSection>
           </Collapse>
