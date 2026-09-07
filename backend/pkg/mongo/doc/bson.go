@@ -84,7 +84,7 @@ func dereferenceValue(val reflect.Value) reflect.Value {
 	const maxDereference = 4
 	for i := 0; i < maxDereference; i++ {
 		switch val.Kind() {
-		case reflect.Ptr:
+		case reflect.Pointer:
 			val = val.Elem()
 		case reflect.Interface:
 			val = val.Elem()

@@ -32,7 +32,7 @@ variables:
     value: "8.3"
     description: "Version of MongoDB to use in jobs"
   IMAGE_GOLANGCI_VERSION:
-    value: "v2.4.0"
+    value: "v2.13.2"
     description: "Version of image golangci/golangci-lint for static checks"
   DOCKER_PLATFORM:
     value: "linux/amd64,linux/arm64"
