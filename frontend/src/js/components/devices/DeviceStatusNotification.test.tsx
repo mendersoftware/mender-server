@@ -14,7 +14,7 @@
 import { render } from '@/testUtils';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -32,7 +32,9 @@ describe('DeviceStatusNotification Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const clickMock = vi.fn();
     render(<DeviceStatusNotification deviceCount={1} onClick={clickMock} state={DEVICE_STATES.pending} />);
-    await user.click(screen.getByText(/pending authorization/i));
+    const alertMessage = screen.getByText(/pending authorization/i);
+    const button = within(alertMessage.parentElement).getByRole('button', { name: /view details/i });
+    await user.click(button);
     expect(clickMock).toHaveBeenCalled();
   });
 });

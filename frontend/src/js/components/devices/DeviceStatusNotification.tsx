@@ -27,17 +27,15 @@ export const DeviceStatusNotification = ({ deviceCount, onClick, state }) => {
   const pluralized = pluralize('device', deviceCount);
   return (
     <Alert
-      className="flexbox align-items-center margin-left-large margin-right"
-      onClick={() => onClick(state)}
+      className="margin-left-large margin-right"
       severity="info"
-      slotProps={{ message: { className: 'flexbox align-items-center space-between full-width' } }}
+      action={
+        <Button className="nowrap" size="small" onClick={() => onClick(state)}>
+          View details
+        </Button>
+      }
     >
-      <div>
-        {deviceCount} {pluralized} {pluralize('is', deviceCount)} {stateActionMap[state]}
-      </div>
-      <Button className="padding-bottom-none padding-top-none" size="small" variant="text">
-        View details
-      </Button>
+      {deviceCount} {pluralized} {pluralize('is', deviceCount)} {stateActionMap[state]}
     </Alert>
   );
 };
