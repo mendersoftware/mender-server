@@ -186,7 +186,7 @@ func parseRedisExtraOptions(ctx context.Context, redisurl *url.URL) (
 	// Use cluster mode if `cluster` querystring is truthy or additional
 	// addr parameters are supplied.
 	if _, ok := q["cluster"]; ok {
-		isCluster, _ = strconv.ParseBool("cluster")
+		isCluster, _ = strconv.ParseBool(q.Get("cluster"))
 		delete(q, "cluster")
 	} else {
 		_, isCluster = q["addr"]
