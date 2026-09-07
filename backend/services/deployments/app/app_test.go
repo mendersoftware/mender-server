@@ -33,7 +33,6 @@ import (
 	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -237,7 +236,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 
 			InvDevices: []client.DeviceInventoryResponse{
 				{
-					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
+					Id: new("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
 				},
 			},
 			TotalCount: 1,
@@ -253,12 +252,12 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 
 			InvDevices: []client.DeviceInventoryResponse{
 				{
-					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
+					Id: new("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
 				},
 			},
 			InvDevicesPageTwo: []client.DeviceInventoryResponse{
 				{
-					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc348"),
+					Id: new("b532b01a-9313-404f-8d19-e7fcbe5cc348"),
 				},
 			},
 			TotalCount: 2,
@@ -361,15 +360,15 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 					}
 					req := client.ApiInventoryInternalV2SearchDeviceInventoriesRequest{ApiService: inventoryV2Client}
 					req = req.SearchParams(client.SearchParams{
-						Page:    types.Pointer(int32(page + 1)),
-						PerPage: types.Pointer(int32(PerPageInventoryDevices)),
+						Page:    new(int32(page + 1)),
+						PerPage: new(int32(PerPageInventoryDevices)),
 						Filters: []client.FilterPredicate{
 							{
 								Scope:     InventoryIdentityScope,
 								Attribute: InventoryStatusAttributeName,
 								Type:      "$eq",
 								Value: client.AttributeValueRequest{
-									String: types.Pointer(InventoryStatusAccepted),
+									String: new(InventoryStatusAccepted),
 								},
 							},
 							{
@@ -377,7 +376,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 								Attribute: InventoryGroupAttributeName,
 								Type:      "$eq",
 								Value: client.AttributeValueRequest{
-									String: types.Pointer(testCase.InputConstructor.Group),
+									String: new(testCase.InputConstructor.Group),
 								},
 							},
 						},
@@ -1655,22 +1654,22 @@ func TestLookupDeployment(t *testing.T) {
 			dbDeployments: []*model.Deployment{
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
-					DeviceCount: intPtr(3),
+					DeviceCount: new(3),
 				},
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
-					DeviceCount: intPtr(3),
+					DeviceCount: new(3),
 				},
 			},
 			dbDeploymentsCount: 2,
 			res: []*model.Deployment{
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
-					DeviceCount: intPtr(3),
+					DeviceCount: new(3),
 				},
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
-					DeviceCount: intPtr(3),
+					DeviceCount: new(3),
 				},
 			},
 			resCount: 2,
@@ -1774,14 +1773,14 @@ func TestLookupDeploymentFallback(t *testing.T) {
 			ApiService: inv,
 		}
 		req = req.SearchParams(client.SearchParams{
-			Page:    types.Pointer(int32(1)),
-			PerPage: types.Pointer(int32(1)),
+			Page:    new(int32(1)),
+			PerPage: new(int32(1)),
 			Filters: []client.FilterPredicate{{
 				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
 				Value: client.AttributeValueRequest{
-					String: types.Pointer("my-device"),
+					String: new("my-device"),
 				},
 			}},
 		})
@@ -1793,7 +1792,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 			InventoryInternalV2SearchDeviceInventoriesExecute(req).
 			Return(
 				[]client.DeviceInventoryResponse{
-					{Id: types.Pointer("device-uuid-123")},
+					{Id: new("device-uuid-123")},
 				},
 				&http.Response{
 					StatusCode: 200,
@@ -1814,7 +1813,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		db.On("FindDeployments", ctx, fallbackQuery).
 			Return([]*model.Deployment{{
 				Id:          "dep-1",
-				DeviceCount: intPtr(1),
+				DeviceCount: new(1),
 			}}, int64(1), nil)
 
 		ds := &Deployments{
@@ -1863,7 +1862,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		db.On("FindDeployments", ctx, query).
 			Return([]*model.Deployment{{
 				Id:          "dep-1",
-				DeviceCount: intPtr(1),
+				DeviceCount: new(1),
 			}}, int64(1), nil)
 
 		ds := &Deployments{db: &db}
@@ -1918,14 +1917,14 @@ func TestLookupDeploymentFallback(t *testing.T) {
 			ApiService: inv,
 		}
 		req = req.SearchParams(client.SearchParams{
-			Page:    types.Pointer(int32(1)),
-			PerPage: types.Pointer(int32(1)),
+			Page:    new(int32(1)),
+			PerPage: new(int32(1)),
 			Filters: []client.FilterPredicate{{
 				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
 				Value: client.AttributeValueRequest{
-					String: types.Pointer("unknown-device"),
+					String: new("unknown-device"),
 				},
 			}},
 		})
@@ -2090,10 +2089,10 @@ func TestDeployments_GetDeployment(t *testing.T) {
 			ds.On("FindDeploymentByID",
 				mock.MatchedBy(func(context.Context) bool { return true }),
 				"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
-			).Return(&model.Deployment{DeviceCount: types.Pointer(123)}, nil)
+			).Return(&model.Deployment{DeviceCount: new(123)}, nil)
 			return ds
 		},
-		want: &model.Deployment{DeviceCount: types.Pointer(123)},
+		want: &model.Deployment{DeviceCount: new(123)},
 	}, {
 		name:         "not found",
 		deploymentID: "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
@@ -2128,7 +2127,7 @@ func TestDeployments_GetDeployment(t *testing.T) {
 		},
 		want: &model.Deployment{
 			Id:          "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
-			DeviceCount: types.Pointer(123),
+			DeviceCount: new(123),
 		},
 	}}
 	for _, tt := range tests {

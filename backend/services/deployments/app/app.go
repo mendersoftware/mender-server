@@ -39,7 +39,6 @@ import (
 	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
@@ -1112,14 +1111,14 @@ func (d *Deployments) updateDeploymentConstructor(ctx context.Context,
 	page := int32(1)
 	searchParams := openapi.SearchParams{
 		Page:    &page,
-		PerPage: types.Pointer(int32(PerPageInventoryDevices)),
+		PerPage: new(int32(PerPageInventoryDevices)),
 		Filters: []openapi.FilterPredicate{
 			{
 				Scope:     InventoryIdentityScope,
 				Attribute: InventoryStatusAttributeName,
 				Type:      "$eq",
 				Value: openapi.AttributeValueRequest{
-					String: types.Pointer(InventoryStatusAccepted),
+					String: new(InventoryStatusAccepted),
 				},
 			},
 		},
@@ -1132,7 +1131,7 @@ func (d *Deployments) updateDeploymentConstructor(ctx context.Context,
 				Attribute: InventoryGroupAttributeName,
 				Type:      "$eq",
 				Value: openapi.AttributeValueRequest{
-					String: types.Pointer(constructor.Group),
+					String: new(constructor.Group),
 				},
 			})
 	}
@@ -1918,14 +1917,14 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 		}
 
 		devices, _, err := d.search(ctx, id.Tenant, openapi.SearchParams{
-			Page:    types.Pointer(int32(1)),
-			PerPage: types.Pointer(int32(1)),
+			Page:    new(int32(1)),
+			PerPage: new(int32(1)),
 			Filters: []openapi.FilterPredicate{{
 				Scope:     openapi.Scope(query.IdScope),
 				Attribute: query.IdAttribute,
 				Type:      "$eq",
 				Value: openapi.AttributeValueRequest{
-					String: types.Pointer(query.Names[0]),
+					String: new(query.Names[0]),
 				},
 			}},
 		})

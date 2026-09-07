@@ -33,7 +33,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
@@ -2278,14 +2277,14 @@ func TestDevAuthApiHandlers_UpdateDeviceInternal(t *testing.T) {
 	}{{
 		name:     "ok/provisioned",
 		deviceID: "ce8e187e-a18d-4aca-a471-3c8c712cbef8",
-		body:     model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		body:     model.DeviceUpdate{Provisioned: new(true)},
 
 		devAuth: func(t *testing.T) devauth.App {
 			app := mocks.NewApp(t)
 			app.On("UpdateDevice",
 				mtest.ContextMatcher(),
 				"ce8e187e-a18d-4aca-a471-3c8c712cbef8",
-				model.DeviceUpdate{Provisioned: types.Pointer(true)}).
+				model.DeviceUpdate{Provisioned: new(true)}).
 				Return(nil)
 			return app
 		},

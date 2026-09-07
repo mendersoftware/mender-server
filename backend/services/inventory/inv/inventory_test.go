@@ -39,14 +39,6 @@ func invForTest(d store.DataStore) InventoryApp {
 	return &inventory{db: d}
 }
 
-func boolPtr(value bool) *bool {
-	return &value
-}
-
-func timePtr(value time.Time) *time.Time {
-	return &value
-}
-
 func TestHealthCheck(t *testing.T) {
 	t.Parallel()
 
@@ -108,7 +100,7 @@ func TestInventoryListDevices(t *testing.T) {
 			outDeviceCount:  1,
 		},
 		"has group true": {
-			inHasGroup:      boolPtr(true),
+			inHasGroup:      new(true),
 			datastoreFilter: nil,
 			datastoreError:  nil,
 			outError:        nil,
@@ -116,7 +108,7 @@ func TestInventoryListDevices(t *testing.T) {
 			outDeviceCount:  1,
 		},
 		"has group false": {
-			inHasGroup:      boolPtr(false),
+			inHasGroup:      new(false),
 			datastoreFilter: nil,
 			datastoreError:  nil,
 			outError:        nil,
@@ -442,7 +434,7 @@ func TestInventoryUpsertAttributesWithUpdated(t *testing.T) {
 					},
 				},
 				// yesterday
-				UpdatedTs: timePtr(time.Now().Add(-25 * time.Hour)),
+				UpdatedTs: new(time.Now().Add(-25 * time.Hour)),
 			},
 			attributes: model.DeviceAttributes{
 				model.DeviceAttribute{

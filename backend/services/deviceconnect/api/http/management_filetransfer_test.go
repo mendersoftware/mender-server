@@ -43,18 +43,6 @@ import (
 	nats_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/nats/mocks"
 )
 
-func string2pointer(v string) *string {
-	return &v
-}
-
-func uint322pointer(v uint32) *uint32 {
-	return &v
-}
-
-func int642pointer(v int64) *int64 {
-	return &v
-}
-
 func TestManagementDownloadFile(t *testing.T) {
 	originalFileTransferTimeout := fileTransferTimeout
 	originalAckSlidingWindowSend := ackSlidingWindowSend
@@ -127,11 +115,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -286,11 +274,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -461,8 +449,8 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.Error{
-							Error:       string2pointer("file not found"),
-							MessageType: string2pointer(wsft.MessageTypeStat),
+							Error:       new("file not found"),
+							MessageType: new(wsft.MessageTypeStat),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -562,11 +550,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777 | uint32(os.ModeDir)),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(777 | uint32(os.ModeDir)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -666,11 +654,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -703,8 +691,8 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// final chunk
 						errBody := wsft.Error{
-							Error:       string2pointer("generic error"),
-							MessageType: string2pointer(wsft.MessageTypeStat),
+							Error:       new("generic error"),
+							MessageType: new(wsft.MessageTypeStat),
 						}
 						bodyData, _ := msgpack.Marshal(errBody)
 						msg := &ws.ProtoMsg{
@@ -881,11 +869,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -1007,11 +995,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -1671,8 +1659,8 @@ func TestManagementUploadFile(t *testing.T) {
 					On("Recv", contextMatcher).
 					Return(func(context.Context) ([]byte, error) {
 						body := wsft.Error{
-							Error:       string2pointer("file not writeable"),
-							MessageType: string2pointer(wsft.MessageTypePut),
+							Error:       new("file not writeable"),
+							MessageType: new(wsft.MessageTypePut),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						msg := &ws.ProtoMsg{

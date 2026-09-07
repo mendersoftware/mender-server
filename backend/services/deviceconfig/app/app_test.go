@@ -35,7 +35,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/api/client"
 	client_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	mstore "github.com/mendersoftware/mender-server/services/deviceconfig/store/mocks"
@@ -533,7 +532,7 @@ func TestSetConfigurationWithAuditLogs(t *testing.T) {
 					w.Header().Add("Content-Type", "application/json")
 					w.WriteHeader(http.StatusCreated)
 					json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-						Id: types.Pointer("123"),
+						Id: new("123"),
 					})
 					roundTrip.Return(w.Result(), nil)
 				}
@@ -704,7 +703,7 @@ func TestDeployConfiguration(t *testing.T) {
 						w.Header().Set("Content-Type", "application/json")
 						w.WriteHeader(http.StatusCreated)
 						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-							Id: types.Pointer("1234"),
+							Id: new("1234"),
 						})
 						deployConfig.Return(w.Result(), nil)
 					} else {
@@ -744,7 +743,7 @@ func TestDeployConfiguration(t *testing.T) {
 						w.Header().Add("Content-Type", "application/json")
 						w.WriteHeader(http.StatusCreated)
 						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-							Id: types.Pointer("123"),
+							Id: new("123"),
 						})
 						submitLog.Return(w.Result(), nil)
 					}
