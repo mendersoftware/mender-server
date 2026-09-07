@@ -26,7 +26,7 @@ import (
 	"strings"
 	"testing"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -643,7 +643,7 @@ func TestDeleteTenant(t *testing.T) {
 		{
 			Name: "ok",
 
-			TenantID: primitive.NewObjectID().Hex(),
+			TenantID: bson.NewObjectID().Hex(),
 			App: func(t *testing.T, self *testCase) *mapp.App {
 				mock := new(mapp.App)
 				mock.On("DeleteTenant",
