@@ -79,7 +79,7 @@ def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -
 class TestRelease:
     d = DeploymentsClient()
 
-    @pytest.mark.usefixtures("clean_minio")
+    @pytest.mark.usefixtures("clean_db", "clean_minio")
     def test_get_all_releases(self, mongo, cli):
         with Lock(MONGO_LOCK_FILE) as l:
             cli.migrate()
@@ -115,7 +115,7 @@ class TestRelease:
                 assert len(types) == 1
                 assert types[0] == "rootfs-image"
 
-    @pytest.mark.usefixtures("clean_minio")
+    @pytest.mark.usefixtures("clean_db", "clean_minio")
     def test_get_all_releases_types(self, mongo, cli):
         with Lock(MONGO_LOCK_FILE) as l:
             cli.migrate()
@@ -128,7 +128,7 @@ class TestRelease:
             ):
                 types = management_v2_client(jwt=self.d.get_jwt()).list_release_types()
                 assert len(types) > 0
-                assert types == ["rootfs-image", "app", "single-file", "directory"]
+                assert types == ["app", "single-file", "directory"]
 
     @pytest.mark.usefixtures("clean_db", "clean_minio")
     def test_get_all_releases_types_empty(self, mongo, cli):

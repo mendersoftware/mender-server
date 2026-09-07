@@ -60,6 +60,11 @@ def pytest_addoption(parser):
 
 
 def pytest_configure(config):
+    config.addinivalue_line(
+        "markers",
+        "deprecated_api: marks tests that deliberately exercise a deprecated API; "
+        "delete together with the endpoint/field they cover",
+    )
     lvl = logging.INFO
     if config.getoption("verbose"):
         lvl = logging.DEBUG
