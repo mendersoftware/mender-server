@@ -233,7 +233,8 @@ func RunServer(ctx context.Context) error {
 		SetEnableDirectUpload(c.GetBool(dconfig.SettingStorageEnableDirectUpload)).
 		SetEnableDirectUploadSkipVerify(c.GetBool(dconfig.SettingStorageDirectUploadSkipVerify)).
 		SetDisableNewReleasesFeature(c.GetBool(dconfig.SettingDisableNewReleasesFeature)).
-		SetMaxRequestSize(c.GetInt64(dconfig.SettingMaxRequestSize))
+		SetMaxRequestSize(c.GetInt64(dconfig.SettingMaxRequestSize)).
+		SetRequestTimeoutDevicesAPI(c.GetDuration(dconfig.SettingRequestTimeoutDevicesAPI))
 	if key, err := base64.RawStdEncoding.DecodeString(
 		base64Repl.Replace(
 			c.GetString(dconfig.SettingPresignSecret),
@@ -246,8 +247,9 @@ func RunServer(ctx context.Context) error {
 	listen := c.GetString(dconfig.SettingListen)
 
 	srv := &http.Server{
-		Addr:    listen,
-		Handler: handler,
+		Addr:              listen,
+		Handler:           handler,
+		ReadHeaderTimeout: c.GetDuration(dconfig.SettingRequestTimeoutReadHeaders),
 	}
 
 	if c.IsSet(dconfig.SettingHttps) {

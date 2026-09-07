@@ -71,13 +71,11 @@
 
 # mender-workflows: "http://mender-workflows-server:8080"
 
-
 # This is a flag that turns off the new API end-points related to releases
 # Defaults to: false
 # Overwrite with environment variable: DEPLOYMENTS_DISABLE_NEW_RELEASES_FEATURE
 
 # disable_new_releases_feature: false
-
 
 # storage:
 #     # storage.default: Default storage service
@@ -143,7 +141,6 @@
 #     # scenario. This feature is disabled by default.
 #     # Overwrite with environment variable: DEPLOYMENTS_STORAGE_DIRECT_UPLOAD_SKIP_VERIFY
 #     # direct_upload_skip_verify: false
-
 
 # # AWS configuration section
 # aws:
@@ -320,7 +317,6 @@
 #       #
 #       # uri: "https://myStorageAccount.not.windows.net"
 
-
 # presign:
 #   # Presign algorithm
 #   # Signature algorithm used for generating URL signature for signed URLs.
@@ -365,3 +361,11 @@
 # Overwrite with environment variable: DEPLOYMENTS_REQUEST_SIZE_LIMIT
 
 # request_size_limit: 1048576
+
+# request_timeout:
+#   # Read header timout specifies the maximum amount of time the server
+#   # reads HTTP headers before timing out.
+#   read_headers: 15s
+#   # Devices API timeout specifies the timeout for the Devices API request
+#   # handlers to process the requests from devices.
+#   devices_api: 60s
