@@ -83,6 +83,17 @@
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
+    // REDIS_VERSION as a .gitlab-ci.yml variable (currently tracked by nothing).
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/.gitlab-ci.yml/"],
+      "matchStrings": [
+        "REDIS_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
+      ],
+      "depNameTemplate": "redis",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
     // frontend/pipeline.yml is a `local:` include, so the gitlabci manager does
     // not scan it. These two regex managers track its pinned images directly -
     // a custom manager is required because the ${MIRROR_REGISTRY} prefix and the
