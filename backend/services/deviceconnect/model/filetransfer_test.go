@@ -22,10 +22,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func str2pointer(val string) *string {
-	return &val
-}
-
 func TestDownloadFileRequestValidation(t *testing.T) {
 	testCases := []struct {
 		Name    string
@@ -35,20 +31,20 @@ func TestDownloadFileRequestValidation(t *testing.T) {
 		{
 			Name: "validation ok",
 			Request: &DownloadFileRequest{
-				Path: str2pointer("/path"),
+				Path: new("/path"),
 			},
 		},
 		{
 			Name: "validation failed, path is relative",
 			Request: &DownloadFileRequest{
-				Path: str2pointer("path/to/file"),
+				Path: new("path/to/file"),
 			},
 			Error: errors.New("path: must be absolute."),
 		},
 		{
 			Name: "validation failed, path empty",
 			Request: &DownloadFileRequest{
-				Path: str2pointer(""),
+				Path: new(""),
 			},
 			Error: errors.New("path: cannot be blank."),
 		},
@@ -82,14 +78,14 @@ func TestUploadFileRequestValidation(t *testing.T) {
 		{
 			Name: "validation ok",
 			Request: &UploadFileRequest{
-				Path: str2pointer("/path"),
+				Path: new("/path"),
 				File: &multipart.Part{},
 			},
 		},
 		{
 			Name: "validation failed, path is relative",
 			Request: &UploadFileRequest{
-				Path: str2pointer("path/to/file"),
+				Path: new("path/to/file"),
 				File: &multipart.Part{},
 			},
 			Error: errors.New("path: must be absolute."),
@@ -97,7 +93,7 @@ func TestUploadFileRequestValidation(t *testing.T) {
 		{
 			Name: "validation failed, path empty",
 			Request: &UploadFileRequest{
-				Path: str2pointer(""),
+				Path: new(""),
 				File: &multipart.Part{},
 			},
 			Error: errors.New("path: cannot be blank."),
@@ -113,7 +109,7 @@ func TestUploadFileRequestValidation(t *testing.T) {
 		{
 			Name: "validation failed, missing file",
 			Request: &UploadFileRequest{
-				Path: str2pointer("/absolute/path"),
+				Path: new("/absolute/path"),
 			},
 			Error: errors.New("file: upload file is required."),
 		},

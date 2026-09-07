@@ -39,7 +39,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
-	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
 )
 
 const (
@@ -478,7 +477,7 @@ func (d *DevAuth) updateDeviceStatus(
 		device.Revision,
 		model.DeviceUpdate{
 			Status:    status,
-			UpdatedTs: uto.TimePtr(time.Now().UTC()),
+			UpdatedTs: new(time.Now().UTC()),
 		}); err != nil {
 		if errors.Is(err, store.ErrDevNotFound) {
 			return nil
@@ -577,7 +576,7 @@ func (d *DevAuth) processAuthRequest(
 		PubKey:       r.PubKey,
 		DeviceId:     dev.Id,
 		Status:       model.DevStatusPending,
-		Timestamp:    uto.TimePtr(time.Now()),
+		Timestamp:    new(time.Now()),
 	}
 
 	// record authentication request
@@ -705,7 +704,7 @@ func (d *DevAuth) DecommissionDevice(ctx context.Context, devID string) error {
 
 	// set decommissioning flag on the device
 	updev := model.DeviceUpdate{
-		Decommissioning: uto.BoolPtr(true),
+		Decommissioning: new(true),
 	}
 	if err := d.db.UpdateDevice(
 		ctx, devID, updev,
@@ -1053,7 +1052,7 @@ func (d *DevAuth) PreauthorizeDevice(
 				PubKey:       req.PubKey,
 				DeviceId:     dev.Id,
 				Status:       model.DevStatusPreauth,
-				Timestamp:    uto.TimePtr(time.Now()),
+				Timestamp:    new(time.Now()),
 			}
 			err = d.db.UpsertAuthSetStatus(ctx, authset)
 			if err != nil {
@@ -1082,7 +1081,7 @@ func (d *DevAuth) PreauthorizeDevice(
 		PubKey:       req.PubKey,
 		DeviceId:     req.DeviceId,
 		Status:       model.DevStatusPreauth,
-		Timestamp:    uto.TimePtr(time.Now()),
+		Timestamp:    new(time.Now()),
 	}
 
 	err = d.db.AddAuthSet(ctx, authset)
@@ -1568,7 +1567,7 @@ func (d *DevAuth) updateCheckInTime(
 			)
 		}
 	}()
-	checkInTime := uto.TimePtr(time.Now().UTC())
+	checkInTime := new(time.Now().UTC())
 	// in case cache is disabled, use mongo
 	if d.cache == nil {
 		if err = d.db.UpdateDevice(ctx,

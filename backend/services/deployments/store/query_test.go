@@ -23,10 +23,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
-func str2ptr(s string) *string {
-	return &s
-}
-
 func TestListQueryValidate(t *testing.T) {
 	testCases := map[string]struct {
 		query *ListQuery
@@ -49,7 +45,7 @@ func TestListQueryValidate(t *testing.T) {
 			query: &ListQuery{
 				Limit:        1,
 				DeploymentID: "dummy",
-				Status:       str2ptr("dummy"),
+				Status:       new("dummy"),
 			},
 			err: errors.New("status: must be a valid value"),
 		},
@@ -57,28 +53,28 @@ func TestListQueryValidate(t *testing.T) {
 			query: &ListQuery{
 				Limit:        1,
 				DeploymentID: "dummy",
-				Status:       str2ptr(model.DeviceDeploymentStatusPauseStr),
+				Status:       new(model.DeviceDeploymentStatusPauseStr),
 			},
 		},
 		"status, active": {
 			query: &ListQuery{
 				Limit:        1,
 				DeploymentID: "dummy",
-				Status:       str2ptr(model.DeviceDeploymentStatusActiveStr),
+				Status:       new(model.DeviceDeploymentStatusActiveStr),
 			},
 		},
 		"status, pending": {
 			query: &ListQuery{
 				Limit:        1,
 				DeploymentID: "dummy",
-				Status:       str2ptr(model.DeviceDeploymentStatusPendingStr),
+				Status:       new(model.DeviceDeploymentStatusPendingStr),
 			},
 		},
 		"status, finished": {
 			query: &ListQuery{
 				Limit:        1,
 				DeploymentID: "dummy",
-				Status:       str2ptr(model.DeviceDeploymentStatusFinishedStr),
+				Status:       new(model.DeviceDeploymentStatusFinishedStr),
 			},
 		},
 	}

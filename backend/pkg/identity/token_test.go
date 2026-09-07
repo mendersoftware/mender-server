@@ -22,10 +22,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func boolPtr(val bool) *bool {
-	return &val
-}
-
 func makeClaimsFull(sub, tenant, plan string, device, user, trial bool) string {
 	claim := struct {
 		Subject string `json:"sub,omitempty"`
@@ -42,10 +38,10 @@ func makeClaimsFull(sub, tenant, plan string, device, user, trial bool) string {
 	}
 
 	if device {
-		claim.Device = boolPtr(true)
+		claim.Device = new(true)
 	}
 	if user {
-		claim.User = boolPtr(true)
+		claim.User = new(true)
 	}
 	data, _ := json.Marshal(&claim)
 	rawclaim := base64.RawURLEncoding.EncodeToString(data)

@@ -38,7 +38,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
-	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
 )
 
 const (
@@ -353,7 +352,7 @@ func (db *DataStoreMongo) updateDevice(ctx context.Context,
 		filter[DbKeyDeviceRevision] = revision
 	}
 
-	updev.UpdatedTs = uto.TimePtr(time.Now().UTC())
+	updev.UpdatedTs = new(time.Now().UTC())
 	update := bson.M{
 		"$inc": bson.M{
 			DbKeyDeviceRevision: 1,

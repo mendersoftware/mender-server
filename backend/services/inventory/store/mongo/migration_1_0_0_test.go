@@ -46,7 +46,7 @@ func TestMigration_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					Group:     "foobar",
@@ -60,7 +60,7 @@ func TestMigration_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -87,7 +87,7 @@ func TestMigration_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					Group:     "foobar",
@@ -100,7 +100,7 @@ func TestMigration_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					UpdatedTs: testTimestamp,
@@ -113,7 +113,7 @@ func TestMigration_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -134,7 +134,7 @@ func TestMigration_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -157,7 +157,7 @@ func TestMigration_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					Group:     "foobar",
@@ -170,7 +170,7 @@ func TestMigration_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					UpdatedTs: testTimestamp,
@@ -188,7 +188,7 @@ func TestMigration_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -209,7 +209,7 @@ func TestMigration_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -304,7 +304,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					Group:     "foobar",
@@ -318,7 +318,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -345,7 +345,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					Group:     "foobar",
@@ -358,7 +358,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					UpdatedTs: testTimestamp,
@@ -371,7 +371,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -392,7 +392,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -415,7 +415,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					Group:     "foobar",
@@ -428,7 +428,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 					UpdatedTs: testTimestamp,
@@ -446,7 +446,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",
@@ -467,7 +467,7 @@ func TestMaintenance_1_0_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:  "created_ts",

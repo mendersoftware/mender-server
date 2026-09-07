@@ -47,7 +47,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
-	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
 )
 
 const (
@@ -390,7 +389,11 @@ func compareAuthSet(expected *model.AuthSet, actual *model.AuthSet, t *testing.T
 	assert.Equal(t, expected.IdDataStruct, actual.IdDataStruct)
 	assert.Equal(t, expected.IdDataSha256, actual.IdDataSha256)
 	assert.Equal(t, expected.Status, actual.Status)
-	compareTime(uto.Time(expected.Timestamp), uto.Time(actual.Timestamp), t)
+	if expected.Timestamp == nil {
+		assert.Nil(t, actual.Timestamp)
+	} else if assert.NotNil(t, actual.Timestamp) {
+		compareTime(*expected.Timestamp, *actual.Timestamp, t)
+	}
 }
 
 func TestStoreAddDevice(t *testing.T) {
@@ -501,14 +504,14 @@ func TestStoreUpdateDevice(t *testing.T) {
 		{
 			id:     dev1.Id,
 			old:    dev1,
-			update: model.DeviceUpdate{Decommissioning: uto.BoolPtr(true)},
+			update: model.DeviceUpdate{Decommissioning: new(true)},
 			outErr: "",
 			tenant: tenant,
 		},
 		{
 			//other tenant's DB
 			id:     dev1.Id,
-			update: model.DeviceUpdate{Decommissioning: uto.BoolPtr(true)},
+			update: model.DeviceUpdate{Decommissioning: new(true)},
 			outErr: store.ErrDevNotFound.Error(),
 			tenant: "",
 		},
@@ -1310,7 +1313,7 @@ func TestStoreAuthSet(t *testing.T) {
 		IdDataSha256: getIdDataHash("foobar"),
 		PubKey:       "pubkey-1",
 		DeviceId:     "1",
-		Timestamp:    uto.TimePtr(time.Now()),
+		Timestamp:    new(time.Now()),
 		TenantID:     tenant,
 		Status:       model.DevStatusPreauth,
 	}
@@ -1330,19 +1333,21 @@ func TestStoreAuthSet(t *testing.T) {
 	assert.NotNil(t, as)
 
 	err = db.UpdateAuthSet(ctx, asin, model.AuthSetUpdate{
-		Timestamp: uto.TimePtr(time.Now()),
+		Timestamp: new(time.Now()),
 	})
 	assert.NoError(t, err)
 
 	as, err = db.GetAuthSetByIdDataHashKey(ctx, getIdDataHash("foobar"), "pubkey-1")
 	assert.NoError(t, err)
-	assert.NotNil(t, as)
-	assert.WithinDuration(t, time.Now(), uto.Time(as.Timestamp), time.Second)
+	_ = assert.NotNil(t, as) &&
+		assert.NotNil(t, as.Timestamp) &&
+		assert.WithinDuration(t, time.Now(), *as.Timestamp, time.Second)
 
 	as, err = db.GetAuthSetByIdDataHashKeyByStatus(ctx, getIdDataHash("foobar"), "pubkey-1", model.DevStatusPreauth)
 	assert.NoError(t, err)
-	assert.NotNil(t, as)
-	assert.WithinDuration(t, time.Now(), uto.Time(as.Timestamp), time.Second)
+	_ = assert.NotNil(t, as) &&
+		assert.NotNil(t, as.Timestamp) &&
+		assert.WithinDuration(t, time.Now(), *as.Timestamp, time.Second)
 
 	as, err = db.GetAuthSetByIdDataHashKeyByStatus(ctx, getIdDataHash("foobar"), "pubkey-1", model.DevStatusAccepted)
 	assert.Error(t, err)
@@ -1375,7 +1380,7 @@ func TestStoreAuthSet(t *testing.T) {
 		IdData:    "foobar",
 		PubKey:    "pubkey-99",
 		DeviceId:  "1",
-		Timestamp: uto.TimePtr(time.Now()),
+		Timestamp: new(time.Now()),
 	}
 	err = db.AddAuthSet(ctx, asin)
 	assert.NoError(t, err)
@@ -1473,7 +1478,7 @@ func TestUpdateAuthSetMultiple(t *testing.T) {
 	// add 5 auth sets, all with status 'accepted'
 	for i := 0; i < 5; i++ {
 		asin.PubKey = fmt.Sprintf("pubkey-%d", i)
-		asin.Timestamp = uto.TimePtr(time.Now())
+		asin.Timestamp = new(time.Now())
 		err := db.AddAuthSet(ctx, asin)
 		assert.NoError(t, err)
 	}
@@ -1483,7 +1488,7 @@ func TestUpdateAuthSetMultiple(t *testing.T) {
 		PubKey:    "pubkey-5",
 		DeviceId:  "1",
 		Status:    model.DevStatusPending,
-		Timestamp: uto.TimePtr(time.Now()),
+		Timestamp: new(time.Now()),
 		TenantID:  tenant,
 	})
 	assert.NoError(t, err)
@@ -1558,7 +1563,7 @@ func TestUpdateAuthSetBson(t *testing.T) {
 	// add 5 auth sets, all with status 'pending'
 	for i := 0; i < 5; i++ {
 		asin.PubKey = fmt.Sprintf("pubkey-%d", i)
-		asin.Timestamp = uto.TimePtr(time.Now())
+		asin.Timestamp = new(time.Now())
 		err := db.AddAuthSet(ctx, asin)
 		assert.NoError(t, err)
 	}
@@ -1569,7 +1574,7 @@ func TestUpdateAuthSetBson(t *testing.T) {
 		PubKey:    "pubkey-5",
 		DeviceId:  "1",
 		Status:    model.DevStatusAccepted,
-		Timestamp: uto.TimePtr(time.Now()),
+		Timestamp: new(time.Now()),
 	})
 	assert.NoError(t, err)
 
@@ -1579,7 +1584,7 @@ func TestUpdateAuthSetBson(t *testing.T) {
 		PubKey:    "pubkey-6",
 		DeviceId:  "1",
 		Status:    model.DevStatusPreauth,
-		Timestamp: uto.TimePtr(time.Now()),
+		Timestamp: new(time.Now()),
 	})
 	assert.NoError(t, err)
 
@@ -2355,7 +2360,7 @@ func getAuthSetsForStatus(dev *model.Device, status string) []model.AuthSet {
 			IdDataSha256: dev.IdDataSha256,
 			IdDataStruct: dev.IdDataStruct,
 			PubKey:       testPublicKeys[i],
-			Timestamp:    uto.TimePtr(time.Now()),
+			Timestamp:    new(time.Now()),
 			Status:       "rejected",
 			TenantID:     dev.TenantID,
 		}

@@ -25,7 +25,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
-	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
 )
 
 type migration_1_4_0 struct {
@@ -66,7 +65,7 @@ func (m *migration_1_4_0) Up(from migrate.Version) error {
 
 		update := model.DeviceUpdate{
 			Status:    status,
-			UpdatedTs: uto.TimePtr(time.Now().UTC()),
+			UpdatedTs: new(time.Now().UTC()),
 		}
 
 		_, err = devColl.UpdateOne(m.ctx, bson.M{"_id": dev.Id}, bson.M{"$set": update})

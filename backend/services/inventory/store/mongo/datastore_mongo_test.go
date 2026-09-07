@@ -67,38 +67,38 @@ func TestMongoGetDevices(t *testing.T) {
 		{
 			ID: model.DeviceID("3"),
 			Attributes: model.DeviceAttributes{
-				{Name: "attrString", Value: "val3", Description: strPtr("desc1"), Scope: model.AttrScopeInventory},
-				{Name: "attrFloat", Value: 3.0, Description: strPtr("desc2"), Scope: model.AttrScopeInventory},
+				{Name: "attrString", Value: "val3", Description: new("desc1"), Scope: model.AttrScopeInventory},
+				{Name: "attrFloat", Value: 3.0, Description: new("desc2"), Scope: model.AttrScopeInventory},
 			},
 		},
 		{
 			ID: model.DeviceID("4"),
 			Attributes: model.DeviceAttributes{
-				{Name: "attrString", Value: "val4", Description: strPtr("desc1"), Scope: model.AttrScopeInventory},
-				{Name: "attrFloat", Value: 4.0, Description: strPtr("desc2"), Scope: model.AttrScopeInventory},
+				{Name: "attrString", Value: "val4", Description: new("desc1"), Scope: model.AttrScopeInventory},
+				{Name: "attrFloat", Value: 4.0, Description: new("desc2"), Scope: model.AttrScopeInventory},
 			},
 		},
 		{
 			ID: model.DeviceID("5"),
 			Attributes: model.DeviceAttributes{
-				{Name: "attrString", Value: "val5", Description: strPtr("desc1"), Scope: model.AttrScopeInventory},
-				{Name: "attrFloat", Value: 5.0, Description: strPtr("desc2"), Scope: model.AttrScopeInventory},
-				{Name: "attrTime", Value: timeValue, Description: strPtr("desc3"), Scope: model.AttrScopeInventory},
+				{Name: "attrString", Value: "val5", Description: new("desc1"), Scope: model.AttrScopeInventory},
+				{Name: "attrFloat", Value: 5.0, Description: new("desc2"), Scope: model.AttrScopeInventory},
+				{Name: "attrTime", Value: timeValue, Description: new("desc3"), Scope: model.AttrScopeInventory},
 			},
 			Group: model.GroupName("2"),
 		},
 		{
 			ID: model.DeviceID("6"),
 			Attributes: model.DeviceAttributes{
-				{Name: "attrString", Value: "val6", Description: strPtr("desc1"), Scope: model.AttrScopeInventory},
-				{Name: "attrFloat", Value: 4.0, Description: strPtr("desc2"), Scope: model.AttrScopeInventory},
+				{Name: "attrString", Value: "val6", Description: new("desc1"), Scope: model.AttrScopeInventory},
+				{Name: "attrFloat", Value: 4.0, Description: new("desc2"), Scope: model.AttrScopeInventory},
 			},
 		},
 		{
 			ID: model.DeviceID("7"),
 			Attributes: model.DeviceAttributes{
-				{Name: "attrString", Value: "val4", Description: strPtr("desc1"), Scope: model.AttrScopeInventory},
-				{Name: "attrFloat", Value: 6.0, Description: strPtr("desc2"), Scope: model.AttrScopeInventory},
+				{Name: "attrString", Value: "val4", Description: new("desc1"), Scope: model.AttrScopeInventory},
+				{Name: "attrFloat", Value: 6.0, Description: new("desc2"), Scope: model.AttrScopeInventory},
 			},
 		},
 	}
@@ -252,7 +252,7 @@ func TestMongoGetDevices(t *testing.T) {
 			limit:    20,
 			filters:  nil,
 			sort:     nil,
-			hasGroup: boolPtr(true),
+			hasGroup: new(true),
 		},
 		"hasGroup = false": {
 			expected: []model.Device{inputDevs[0], inputDevs[3], inputDevs[4], inputDevs[6], inputDevs[7]},
@@ -261,7 +261,7 @@ func TestMongoGetDevices(t *testing.T) {
 			limit:    20,
 			filters:  nil,
 			sort:     nil,
-			hasGroup: boolPtr(false),
+			hasGroup: new(false),
 		},
 	}
 
@@ -322,8 +322,8 @@ func TestMongoGetAllAttributeNames(t *testing.T) {
 				{
 					ID: model.DeviceID("1"),
 					Attributes: model.DeviceAttributes{
-						{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "sn", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+						{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "sn", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 					},
 				},
 			},
@@ -334,15 +334,15 @@ func TestMongoGetAllAttributeNames(t *testing.T) {
 				{
 					ID: model.DeviceID("1"),
 					Attributes: model.DeviceAttributes{
-						{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "sn", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+						{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "sn", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 					},
 				},
 				{
 					ID: model.DeviceID("2"),
 					Attributes: model.DeviceAttributes{
-						{Name: "foo", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "bar", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+						{Name: "foo", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "bar", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 					},
 				},
 			},
@@ -353,16 +353,16 @@ func TestMongoGetAllAttributeNames(t *testing.T) {
 				{
 					ID: model.DeviceID("1"),
 					Attributes: model.DeviceAttributes{
-						{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "sn", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+						{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "sn", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 					},
 				},
 				{
 					ID: model.DeviceID("2"),
 					Attributes: model.DeviceAttributes{
-						{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "foo", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "bar", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+						{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "foo", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "bar", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 					},
 				},
 			},
@@ -373,8 +373,8 @@ func TestMongoGetAllAttributeNames(t *testing.T) {
 				{
 					ID: model.DeviceID("1"),
 					Attributes: model.DeviceAttributes{
-						{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-						{Name: "sn", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+						{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+						{Name: "sn", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 					},
 				},
 			},
@@ -805,13 +805,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -821,13 +821,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 			inDevIDs: []model.DeviceID{"0003"},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("mac description"),
+					Description: new("mac description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       "0003-newmac",
 				},
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -840,13 +840,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					ID: model.DeviceID("0003"),
 					Attributes: model.DeviceAttributes{
 						{
-							Description: strPtr("mac description"),
+							Description: new("mac description"),
 							Scope:       model.AttrScopeInventory,
 							Name:        "mac",
 							Value:       "0003-newmac",
 						},
 						{
-							Description: strPtr("sn description"),
+							Description: new("sn description"),
 							Scope:       model.AttrScopeInventory,
 							Name:        "sn",
 							Value:       "0003-newsn",
@@ -864,13 +864,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -880,13 +880,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 			inDevIDs: []model.DeviceID{"0003"},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("mac description"),
+					Description: new("mac description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       "0003-newmac",
 				},
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -898,13 +898,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("mac description"),
+						Description: new("mac description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-newmac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -921,13 +921,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("AttrScopeTags"),
+							Description: new("AttrScopeTags"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -937,7 +937,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 			inDevIDs: []model.DeviceID{"0003"},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeTags,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -949,13 +949,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeTags,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeTags,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -972,13 +972,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -988,7 +988,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 			inDevIDs: []model.DeviceID{"0003"},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -1000,13 +1000,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -1023,13 +1023,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1039,7 +1039,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 			inDevIDs: []model.DeviceID{"0003"},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 				},
@@ -1050,13 +1050,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-sn",
@@ -1073,13 +1073,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1100,13 +1100,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -1123,13 +1123,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1150,13 +1150,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       bson.A{"0003-sn-1", "0003-sn-2"},
@@ -1173,13 +1173,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1197,7 +1197,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "new-2",
 					Value:       "new-2-val",
-					Description: strPtr("foo"),
+					Description: new("foo"),
 				},
 			},
 			inScope: model.AttrScopeInventory,
@@ -1208,14 +1208,14 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Value:       "0003-mac",
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-sn",
-						Description: strPtr("descr"),
+						Description: new("descr"),
 					},
 					{
 						Scope: model.AttrScopeInventory,
@@ -1226,7 +1226,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "new-2",
 						Value:       "new-2-val",
-						Description: strPtr("foo"),
+						Description: new("foo"),
 					},
 				},
 				CreatedTs: createdTs,
@@ -1240,13 +1240,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1258,7 +1258,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				{
 					Name:        "mac",
 					Value:       "0003-mac-new",
-					Description: strPtr("descr-new"),
+					Description: new("descr-new"),
 				},
 				{
 					Name:  "new-1",
@@ -1267,7 +1267,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				{
 					Name:        "new-2",
 					Value:       "new-2-val",
-					Description: strPtr("foo"),
+					Description: new("foo"),
 				},
 			},
 			inScope: model.AttrScopeInventory,
@@ -1279,13 +1279,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac-new",
-						Description: strPtr("descr-new"),
+						Description: new("descr-new"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-sn",
-						Description: strPtr("descr"),
+						Description: new("descr"),
 					},
 					{
 						Scope: model.AttrScopeInventory,
@@ -1296,7 +1296,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "new-2",
 						Value:       "new-2-val",
-						Description: strPtr("foo"),
+						Description: new("foo"),
 					},
 				},
 				CreatedTs: createdTs,
@@ -1315,13 +1315,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip",
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 				},
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       bson.A{"0006-mac"},
-					Description: strPtr("mac addr"),
+					Description: new("mac addr"),
 				},
 			},
 			inScope: model.AttrScopeInventory,
@@ -1333,13 +1333,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip",
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       bson.A{"0006-mac"},
-						Description: strPtr("mac addr"),
+						Description: new("mac addr"),
 					},
 				},
 				CreatedTs: createdTs,
@@ -1358,13 +1358,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip.address",
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 				},
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac$address",
 					Value:       bson.A{"0006-mac"},
-					Description: strPtr("mac addr"),
+					Description: new("mac addr"),
 				},
 			},
 			inScope: model.AttrScopeInventory,
@@ -1376,13 +1376,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip.address",
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac$address",
 						Value:       bson.A{"0006-mac"},
-						Description: strPtr("mac addr"),
+						Description: new("mac addr"),
 					},
 				},
 				CreatedTs: createdTs,
@@ -1395,7 +1395,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip",
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
 				},
 			},
@@ -1407,7 +1407,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip",
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
 					},
 				},
@@ -1445,13 +1445,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip",
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 				},
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       bson.A{"0099-mac"},
-					Description: strPtr("mac addr"),
+					Description: new("mac addr"),
 				},
 			},
 			inScope: model.AttrScopeInventory,
@@ -1463,13 +1463,13 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip",
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       bson.A{"0099-mac"},
-						Description: strPtr("mac addr"),
+						Description: new("mac addr"),
 					},
 				},
 				CreatedTs: createdTs,
@@ -1493,7 +1493,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 				Scope:       model.AttrScopeIdentity,
 				Name:        "status",
 				Value:       "accepted",
-				Description: strPtr("deviceauth status"),
+				Description: new("deviceauth status"),
 			}},
 			inScope: model.AttrScopeIdentity,
 
@@ -1503,7 +1503,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeIdentity,
 					Name:        "status",
 					Value:       "accepted",
-					Description: strPtr("deviceauth status"),
+					Description: new("deviceauth status"),
 				}},
 				CreatedTs: createdTs,
 			}, {
@@ -1516,7 +1516,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeIdentity,
 					Name:        "status",
 					Value:       "accepted",
-					Description: strPtr("deviceauth status"),
+					Description: new("deviceauth status"),
 				}},
 				CreatedTs: createdTs,
 			}, {
@@ -1525,7 +1525,7 @@ func TestMongoUpsertDevicesAttributes(t *testing.T) {
 					Scope:       model.AttrScopeIdentity,
 					Name:        "status",
 					Value:       "accepted",
-					Description: strPtr("deviceauth status"),
+					Description: new("deviceauth status"),
 				}},
 			}},
 		},
@@ -1670,13 +1670,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1686,13 +1686,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			inDevID: model.DeviceID("0003"),
 			inUpsertAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("mac description"),
+					Description: new("mac description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       "0003-newmac",
 				},
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -1704,13 +1704,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					ID: model.DeviceID("0003"),
 					Attributes: model.DeviceAttributes{
 						{
-							Description: strPtr("mac description"),
+							Description: new("mac description"),
 							Scope:       model.AttrScopeInventory,
 							Name:        "mac",
 							Value:       "0003-newmac",
 						},
 						{
-							Description: strPtr("sn description"),
+							Description: new("sn description"),
 							Scope:       model.AttrScopeInventory,
 							Name:        "sn",
 							Value:       "0003-newsn",
@@ -1730,13 +1730,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1746,13 +1746,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			inDevID: model.DeviceID("0003"),
 			inUpsertAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("mac description"),
+					Description: new("mac description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       "0003-newmac",
 				},
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -1763,13 +1763,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("mac description"),
+						Description: new("mac description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-newmac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -1788,13 +1788,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1804,7 +1804,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			inDevID: model.DeviceID("0003"),
 			inUpsertAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -1815,13 +1815,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -1840,13 +1840,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1856,7 +1856,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			inDevID: model.DeviceID("0003"),
 			inUpsertAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -1866,7 +1866,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Name:        "mac",
 					Value:       "0003-mac",
-					Description: strPtr("descr"),
+					Description: new("descr"),
 					Scope:       model.AttrScopeInventory,
 				},
 			},
@@ -1874,7 +1874,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -1892,13 +1892,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1908,7 +1908,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 			inDevID: model.DeviceID("0003"),
 			inUpsertAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 				},
@@ -1918,13 +1918,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("sn description"),
+						Description: new("sn description"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-sn",
@@ -1942,13 +1942,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -1968,13 +1968,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-newsn",
@@ -1992,13 +1992,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -2018,13 +2018,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				ID: model.DeviceID("0003"),
 				Attributes: model.DeviceAttributes{
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac",
 					},
 					{
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       bson.A{"0003-sn-1", "0003-sn-2"},
@@ -2042,13 +2042,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -2066,7 +2066,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "new-2",
 					Value:       "new-2-val",
-					Description: strPtr("foo"),
+					Description: new("foo"),
 				},
 			},
 
@@ -2076,14 +2076,14 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
-						Description: strPtr("descr"),
+						Description: new("descr"),
 						Value:       "0003-mac",
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-sn",
-						Description: strPtr("descr"),
+						Description: new("descr"),
 					},
 					{
 						Scope: model.AttrScopeInventory,
@@ -2094,7 +2094,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "new-2",
 						Value:       "new-2-val",
-						Description: strPtr("foo"),
+						Description: new("foo"),
 					},
 				},
 				CreatedTs: testStart,
@@ -2109,13 +2109,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -2127,7 +2127,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Name:        "mac",
 					Value:       "0003-mac-new",
-					Description: strPtr("descr-new"),
+					Description: new("descr-new"),
 				},
 				{
 					Name:  "new-1",
@@ -2136,7 +2136,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Name:        "new-2",
 					Value:       "new-2-val",
-					Description: strPtr("foo"),
+					Description: new("foo"),
 				},
 			},
 
@@ -2147,13 +2147,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       "0003-mac-new",
-						Description: strPtr("descr-new"),
+						Description: new("descr-new"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "sn",
 						Value:       "0003-sn",
-						Description: strPtr("descr"),
+						Description: new("descr"),
 					},
 					{
 						Scope: model.AttrScopeInventory,
@@ -2164,7 +2164,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "new-2",
 						Value:       "new-2-val",
-						Description: strPtr("foo"),
+						Description: new("foo"),
 					},
 				},
 				CreatedTs: testStart,
@@ -2184,13 +2184,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip",
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 				},
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       bson.A{"0006-mac"},
-					Description: strPtr("mac addr"),
+					Description: new("mac addr"),
 				},
 			},
 
@@ -2201,13 +2201,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip",
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       bson.A{"0006-mac"},
-						Description: strPtr("mac addr"),
+						Description: new("mac addr"),
 					},
 				},
 				CreatedTs: testStart,
@@ -2227,13 +2227,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip.address",
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 				},
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac$address",
 					Value:       bson.A{"0006-mac"},
-					Description: strPtr("mac addr"),
+					Description: new("mac addr"),
 				},
 			},
 
@@ -2244,13 +2244,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip.address",
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac$address",
 						Value:       bson.A{"0006-mac"},
-						Description: strPtr("mac addr"),
+						Description: new("mac addr"),
 					},
 				},
 				CreatedTs: testStart,
@@ -2264,7 +2264,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip",
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
 				},
 			},
@@ -2275,7 +2275,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip",
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
 					},
 				},
@@ -2314,13 +2314,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 					Scope:       model.AttrScopeInventory,
 					Name:        "ip",
 					Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-					Description: strPtr("ip addr array"),
+					Description: new("ip addr array"),
 				},
 				{
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       bson.A{"0099-mac"},
-					Description: strPtr("mac addr"),
+					Description: new("mac addr"),
 				},
 			},
 
@@ -2331,13 +2331,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						Scope:       model.AttrScopeInventory,
 						Name:        "ip",
 						Value:       bson.A{"1.2.3.4", "1.2.3.5"},
-						Description: strPtr("ip addr array"),
+						Description: new("ip addr array"),
 					},
 					{
 						Scope:       model.AttrScopeInventory,
 						Name:        "mac",
 						Value:       bson.A{"0099-mac"},
-						Description: strPtr("mac addr"),
+						Description: new("mac addr"),
 					},
 				},
 				CreatedTs: testStart,
@@ -2359,13 +2359,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "environment",
 							Value:       "test",
-							Description: strPtr("test_env"),
+							Description: new("test_env"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "region",
 							Value:       "EU",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -2377,7 +2377,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Name:        "environment",
 					Value:       "prod",
-					Description: strPtr("prod_env"),
+					Description: new("prod_env"),
 					Scope:       model.AttrScopeTags,
 				},
 			},
@@ -2388,13 +2388,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "environment",
 							Value:       "prod",
-							Description: strPtr("prod_env"),
+							Description: new("prod_env"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "region",
 							Value:       "EU",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -2413,13 +2413,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "environment",
 							Value:       "test",
-							Description: strPtr("test_env"),
+							Description: new("test_env"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "region",
 							Value:       "EU",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -2431,7 +2431,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Name:        "environment",
 					Value:       "prod",
-					Description: strPtr("prod_env"),
+					Description: new("prod_env"),
 					Scope:       model.AttrScopeTags,
 				},
 			},
@@ -2442,13 +2442,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "environment",
 							Value:       "prod",
-							Description: strPtr("prod_env"),
+							Description: new("prod_env"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "region",
 							Value:       "EU",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -2468,13 +2468,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "environment",
 							Value:       "test",
-							Description: strPtr("test_env"),
+							Description: new("test_env"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "region",
 							Value:       "EU",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -2486,7 +2486,7 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 				{
 					Name:        "environment",
 					Value:       "prod",
-					Description: strPtr("prod_env"),
+					Description: new("prod_env"),
 					Scope:       model.AttrScopeTags,
 				},
 			},
@@ -2497,13 +2497,13 @@ func TestMongoUpsertRemoveDeviceAttributes(t *testing.T) {
 						{
 							Name:        "environment",
 							Value:       "prod",
-							Description: strPtr("prod_env"),
+							Description: new("prod_env"),
 							Scope:       model.AttrScopeTags,
 						},
 						{
 							Name:        "region",
 							Value:       "EU",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeTags,
 						},
 					},
@@ -2952,14 +2952,6 @@ func TestMongoUpdateDeviceText(t *testing.T) {
 			assert.NoError(t, err)
 		})
 	}
-}
-
-func strPtr(s string) *string {
-	return &s
-}
-
-func boolPtr(b bool) *bool {
-	return &b
 }
 
 func compareAttrsWithoutTimestamp(a, b model.DeviceAttributes) bool {
@@ -3860,22 +3852,22 @@ func TestMigrate(t *testing.T) {
 		{
 			ID: model.DeviceID("0"),
 			Attributes: model.DeviceAttributes{
-				{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-				{Name: "sn", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+				{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+				{Name: "sn", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 			},
 		},
 		{
 			ID: model.DeviceID("1"),
 			Attributes: model.DeviceAttributes{
-				{Name: "mac", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-				{Name: "foo", Value: "foo", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
-				{Name: "bar", Value: "bar", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+				{Name: "mac", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+				{Name: "foo", Value: "foo", Description: new("desc"), Scope: model.AttrScopeInventory},
+				{Name: "bar", Value: "bar", Description: new("desc"), Scope: model.AttrScopeInventory},
 			},
 		},
 		{
 			ID: model.DeviceID("2"),
 			Attributes: model.DeviceAttributes{
-				{Name: "baz", Value: "baz", Description: strPtr("desc"), Scope: model.AttrScopeInventory},
+				{Name: "baz", Value: "baz", Description: new("desc"), Scope: model.AttrScopeInventory},
 			},
 		},
 	}
@@ -4143,9 +4135,9 @@ func TestMongoSearchDevices(t *testing.T) {
 		{
 			ID: model.DeviceID("0"),
 			Attributes: model.DeviceAttributes{
-				{Name: "MAC", Value: "000", Description: strPtr("MAC"), Scope: model.AttrScopeInventory},
-				{Name: "SN", Value: float64(100), Description: strPtr("SN"), Scope: model.AttrScopeInventory},
-				{Name: "group", Value: "foo", Description: strPtr("group"), Scope: model.AttrScopeInventory},
+				{Name: "MAC", Value: "000", Description: new("MAC"), Scope: model.AttrScopeInventory},
+				{Name: "SN", Value: float64(100), Description: new("SN"), Scope: model.AttrScopeInventory},
+				{Name: "group", Value: "foo", Description: new("group"), Scope: model.AttrScopeInventory},
 				{Name: "ip.address", Value: "1.2.3.4", Scope: model.AttrScopeInventory},
 				{Name: "name", Value: "device0", Scope: model.AttrScopeTags, Timestamp: &now},
 			},
@@ -4156,9 +4148,9 @@ func TestMongoSearchDevices(t *testing.T) {
 		{
 			ID: model.DeviceID("1"),
 			Attributes: model.DeviceAttributes{
-				{Name: "MAC", Value: "001", Description: strPtr("MAC"), Scope: model.AttrScopeInventory},
-				{Name: "SN", Value: float64(111), Description: strPtr("SN"), Scope: model.AttrScopeInventory},
-				{Name: "group", Value: "foo", Description: strPtr("group"), Scope: model.AttrScopeInventory},
+				{Name: "MAC", Value: "001", Description: new("MAC"), Scope: model.AttrScopeInventory},
+				{Name: "SN", Value: float64(111), Description: new("SN"), Scope: model.AttrScopeInventory},
+				{Name: "group", Value: "foo", Description: new("group"), Scope: model.AttrScopeInventory},
 				{Name: "name", Value: "device1", Scope: model.AttrScopeTags, Timestamp: &before},
 			},
 			Group:     "foo",
@@ -4168,9 +4160,9 @@ func TestMongoSearchDevices(t *testing.T) {
 		{
 			ID: model.DeviceID("2"),
 			Attributes: model.DeviceAttributes{
-				{Name: "MAC", Value: "002", Description: strPtr("MAC"), Scope: model.AttrScopeInventory},
-				{Name: "SN", Value: float64(122), Description: strPtr("SN"), Scope: model.AttrScopeInventory},
-				{Name: "group", Value: "foo", Description: strPtr("group"), Scope: model.AttrScopeInventory},
+				{Name: "MAC", Value: "002", Description: new("MAC"), Scope: model.AttrScopeInventory},
+				{Name: "SN", Value: float64(122), Description: new("SN"), Scope: model.AttrScopeInventory},
+				{Name: "group", Value: "foo", Description: new("group"), Scope: model.AttrScopeInventory},
 				{Name: "name", Value: "device2", Scope: model.AttrScopeTags, Timestamp: &now},
 			},
 			Group:     "foo",
@@ -4180,9 +4172,9 @@ func TestMongoSearchDevices(t *testing.T) {
 		{
 			ID: model.DeviceID("3"),
 			Attributes: model.DeviceAttributes{
-				{Name: "MAC", Value: "003", Description: strPtr("MAC"), Scope: model.AttrScopeInventory},
-				{Name: "SN", Value: float64(133), Description: strPtr("SN"), Scope: model.AttrScopeInventory},
-				{Name: "group", Value: "bar", Description: strPtr("group"), Scope: model.AttrScopeInventory},
+				{Name: "MAC", Value: "003", Description: new("MAC"), Scope: model.AttrScopeInventory},
+				{Name: "SN", Value: float64(133), Description: new("SN"), Scope: model.AttrScopeInventory},
+				{Name: "group", Value: "bar", Description: new("group"), Scope: model.AttrScopeInventory},
 				{Name: "name", Value: "device3", Scope: model.AttrScopeTags, Timestamp: &now},
 			},
 			Group:     "bar",
@@ -4192,9 +4184,9 @@ func TestMongoSearchDevices(t *testing.T) {
 		{
 			ID: model.DeviceID("4"),
 			Attributes: model.DeviceAttributes{
-				{Name: "MAC", Value: "003", Description: strPtr("MAC"), Scope: model.AttrScopeInventory},
-				{Name: "SN", Value: float64(144), Description: strPtr("SN"), Scope: model.AttrScopeInventory},
-				{Name: "group", Value: "bar", Description: strPtr("group"), Scope: model.AttrScopeInventory},
+				{Name: "MAC", Value: "003", Description: new("MAC"), Scope: model.AttrScopeInventory},
+				{Name: "SN", Value: float64(144), Description: new("SN"), Scope: model.AttrScopeInventory},
+				{Name: "group", Value: "bar", Description: new("group"), Scope: model.AttrScopeInventory},
 				{Name: "text", Value: "this is a free-text searchable attribute", Scope: model.AttrScopeInventory},
 				{Name: "name", Value: "device4", Scope: model.AttrScopeTags, Timestamp: &now},
 			},
@@ -4868,13 +4860,13 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -4884,13 +4876,13 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 			inDevs: []model.DeviceUpdate{{Id: model.DeviceID("0003"), Revision: 1}},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("mac description"),
+					Description: new("mac description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       "0003-newmac",
 				},
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -4902,13 +4894,13 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 					ID: model.DeviceID("0003"),
 					Attributes: model.DeviceAttributes{
 						{
-							Description: strPtr("mac description"),
+							Description: new("mac description"),
 							Scope:       model.AttrScopeInventory,
 							Name:        "mac",
 							Value:       "0003-newmac",
 						},
 						{
-							Description: strPtr("sn description"),
+							Description: new("sn description"),
 							Scope:       model.AttrScopeInventory,
 							Name:        "sn",
 							Value:       "0003-newsn",
@@ -4926,13 +4918,13 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -4942,13 +4934,13 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 			inDevs: []model.DeviceUpdate{{Id: model.DeviceID("0003"), Revision: 0}},
 			inAttrs: model.DeviceAttributes{
 				{
-					Description: strPtr("mac description"),
+					Description: new("mac description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "mac",
 					Value:       "0003-newmac",
 				},
 				{
-					Description: strPtr("sn description"),
+					Description: new("sn description"),
 					Scope:       model.AttrScopeInventory,
 					Name:        "sn",
 					Value:       "0003-newsn",
@@ -4962,13 +4954,13 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 						{
 							Name:        "mac",
 							Value:       "0003-mac",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "sn",
 							Value:       "0003-sn",
-							Description: strPtr("descr"),
+							Description: new("descr"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -5000,7 +4992,7 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 				Scope:       model.AttrScopeIdentity,
 				Name:        "status",
 				Value:       "accepted",
-				Description: strPtr("deviceauth status"),
+				Description: new("deviceauth status"),
 			}},
 			outDevs: []model.Device{{
 				ID: model.DeviceID("0003"),
@@ -5008,7 +5000,7 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 					Scope:       model.AttrScopeIdentity,
 					Name:        "status",
 					Value:       "accepted",
-					Description: strPtr("deviceauth status"),
+					Description: new("deviceauth status"),
 				}},
 				CreatedTs: createdTs,
 			}, {
@@ -5025,7 +5017,7 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 					Scope:       model.AttrScopeIdentity,
 					Name:        "status",
 					Value:       "accepted",
-					Description: strPtr("deviceauth status"),
+					Description: new("deviceauth status"),
 				}},
 			}},
 		},

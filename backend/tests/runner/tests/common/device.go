@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/mendersoftware/mender-server/pkg/api/client"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	modelinventory "github.com/mendersoftware/mender-server/services/inventory/model"
 )
@@ -162,7 +161,7 @@ func (d *Device) WaitInventory(
 				Attribute: "mac",
 				Type:      "$eq",
 				Value: client.AttributeValueRequest{
-					String: types.Pointer(d.MAC),
+					String: new(d.MAC),
 				},
 			},
 		}

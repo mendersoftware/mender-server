@@ -24,15 +24,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 )
 
-func str2ptr(s string) *string {
-	return &s
-}
-
-func str2cyptoptr(s string) *crypto.String {
-	c := crypto.String(s)
-	return &c
-}
-
 func TestIntegrationValidate(t *testing.T) {
 	cs, _ := ParseConnectionString(
 		"HostName=mender-test-hub.azure-devices.net;DeviceId=7b478313-de33-4735-bf00-0ebc31851faf;" +
@@ -71,10 +62,10 @@ func TestIntegrationValidate(t *testing.T) {
 				Credentials: Credentials{
 					Type: CredentialTypeAWS,
 					AWSCredentials: &AWSCredentials{
-						AccessKeyID:      str2ptr("x"),
-						SecretAccessKey:  str2cyptoptr("x"),
-						Region:           str2ptr("us-east-1"),
-						DevicePolicyName: str2ptr("{\"Statement\": []}"),
+						AccessKeyID:      new("x"),
+						SecretAccessKey:  new(crypto.String("x")),
+						Region:           new("us-east-1"),
+						DevicePolicyName: new("{\"Statement\": []}"),
 					},
 				},
 			},
