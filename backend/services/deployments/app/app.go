@@ -1021,10 +1021,18 @@ func getUpdateFiles(uFiles []*handlers.DataFile) ([]model.UpdateFile, error) {
 	return files, nil
 }
 
+type noArtifactLogs struct{}
+
+func (noArtifactLogs) Debug(...any) {}
+func (noArtifactLogs) Info(...any)  {}
+func (noArtifactLogs) Warn(...any)  {}
+func (noArtifactLogs) Error(...any) {}
+
 func getMetaFromArchive(r *io.Reader, skipVerify bool) (*model.ArtifactMeta, error) {
 	metaArtifact := model.NewArtifactMeta()
 
 	aReader := areader.NewReader(*r)
+	aReader.WarnOnEmptyTypeInfo(noArtifactLogs{})
 
 	// There is no signature verification here.
 	// It is just simple check if artifact is signed or not.
