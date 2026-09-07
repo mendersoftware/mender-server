@@ -13,187 +13,162 @@
 //    limitations under the License.
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Alert, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
-import InfoHint from '@northern.tech/common-ui/InfoHint';
-import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 import type { Integration } from '@northern.tech/types/MenderTypes';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { customSort } from '@northern.tech/utils/helpers';
 
+import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_SELECT_WIDTH } from './constants';
 import WebhookConfiguration from './webhooks/Configuration';
 import Webhooks from './webhooks/Webhooks';
 
-const maxWidth = 750;
-
 const useStyles = makeStyles()(theme => ({
-  leftButton: { marginRight: theme.spacing() },
-  inputWrapper: { alignItems: 'flex-end' },
-  select: { minWidth: 300 },
+  contentWidth: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
+  select: { minWidth: SETTINGS_SELECT_WIDTH },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
-  textInput: { minWidth: 500, wordBreak: 'break-all' },
-  confirmationWrapper: { height: 50 }, // roughly larger than even a large sized "delete" button
-  widthLimit: { maxWidth }
+  textInput: { wordBreak: 'break-all' },
+  widthLimit: { width: SETTINGS_INPUT_WIDTH }
 }));
 
-const ConnectionDetailsInput = ({ connectionConfig, isEditing, setConnectionConfig }) => {
-  const { access_key_id = '', secret_access_key = '', region = '', device_policy_name = '' } = connectionConfig.aws || {};
-  const [keyId, setKeyId] = useState(access_key_id);
-  const [keySecret, setKeySecret] = useState(secret_access_key);
-  const [awsRegion, setRegion] = useState(region);
-  const [policy, setPolicy] = useState(device_policy_name);
-
-  const debouncedId = useDebounce(keyId, TIMEOUTS.debounceDefault);
-  const debouncedSecret = useDebounce(keySecret, TIMEOUTS.debounceDefault);
-  const debouncedRegion = useDebounce(awsRegion, TIMEOUTS.debounceDefault);
-  const debounced = useDebounce(policy, TIMEOUTS.debounceDefault);
-
+const ConnectionDetailsInput = ({ isEditing }) => {
   const { classes } = useStyles();
 
-  useEffect(() => {
-    setConnectionConfig({
-      aws: {
-        access_key_id: debouncedId,
-        secret_access_key: debouncedSecret,
-        region: debouncedRegion,
-        device_policy_name: debounced
-      }
-    });
-  }, [debounced, debouncedRegion, debouncedId, debouncedSecret, setConnectionConfig]);
-
-  useEffect(() => {
-    setKeyId(access_key_id);
-    setKeySecret(secret_access_key);
-    setRegion(region);
-    setPolicy(device_policy_name);
-  }, [access_key_id, secret_access_key, region, device_policy_name]);
-
-  const onKeyChange = ({ target: { value = '' } }) => setKeyId(value);
-  const onSecretChange = ({ target: { value = '' } }) => setKeySecret(value);
-  const onRegionChange = ({ target: { value = '' } }) => setRegion(value);
-  const onPolicyChange = ({ target: { value = '' } }) => setPolicy(value);
-
-  const commonProps = { className: classes.textInput, disabled: !isEditing, multiline: true };
+  const commonProps = { className: classes.textInput, disabled: !isEditing, width: SETTINGS_INPUT_WIDTH };
   return (
     <div className={classes.formWrapper}>
-      <TextField {...commonProps} label="Key ID" onChange={onKeyChange} value={keyId} />
-      <TextField {...commonProps} label="Key Secret" onChange={onSecretChange} value={keySecret} />
-      <TextField {...commonProps} label="Region" onChange={onRegionChange} value={awsRegion} />
-      <TextField {...commonProps} label="Device Policy Name" onChange={onPolicyChange} value={policy} />
+      <TextInput {...commonProps} label="Key ID" id="aws.access_key_id" />
+      <TextInput {...commonProps} label="Key Secret" id="aws.secret_access_key" />
+      <TextInput {...commonProps} label="Region" id="aws.region" />
+      <TextInput {...commonProps} label="Device Policy Name" id="aws.device_policy_name" />
     </div>
   );
 };
 
-const ConnectionStringInput = ({ connectionConfig, isEditing, setConnectionConfig, title }) => {
-  const [value, setValue] = useState(connectionConfig.connection_string);
-  const debouncedValue = useDebounce(value, TIMEOUTS.debounceDefault);
-
+const ConnectionStringInput = ({ isEditing, title }) => {
   const { classes } = useStyles();
-
-  useEffect(() => {
-    setConnectionConfig({ connection_string: debouncedValue });
-  }, [debouncedValue, setConnectionConfig]);
-
-  useEffect(() => {
-    setValue(connectionConfig.connection_string);
-  }, [connectionConfig.connection_string]);
-
-  const updateConnectionConfig = ({ target: { value = '' } }) => setValue(value);
-
   return (
-    <TextField
+    <TextInput
       className={classes.textInput}
       disabled={!isEditing}
+      id="connection_string"
+      InputProps={{ multiline: true }}
       label={`${title} connection string`}
-      multiline
-      onChange={updateConnectionConfig}
-      value={value}
+      width={SETTINGS_INPUT_WIDTH}
     />
   );
 };
 
 const providerConfigMap = {
-  'iot-core': ConnectionDetailsInput,
-  'iot-hub': ConnectionStringInput
+  'iot-core': {
+    Component: ConnectionDetailsInput,
+    getFormValues: ({ aws }) => {
+      const { access_key_id = '', secret_access_key = '', region = '', device_policy_name = '' } = aws || {};
+      return { aws: { access_key_id, secret_access_key, region, device_policy_name } };
+    }
+  },
+  'iot-hub': {
+    Component: ConnectionStringInput,
+    getFormValues: ({ connection_string = '' }) => ({ connection_string })
+  }
 };
+const isUnconfigured = ({ type: _type, ...remainder }: Record<string, unknown> = {}) => !Object.values(remainder).some(i => i);
 
 export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDelete, onSave }) => {
   const { credentials = {}, provider } = integration;
-  const [connectionConfig, setConnectionConfig] = useState(credentials);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { type, ...otherProps } = credentials;
-  const [isEditing, setIsEditing] = useState(!Object.values(otherProps).some(i => i));
+  const [isEditing, setIsEditing] = useState(isUnconfigured(credentials));
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { classes } = useStyles();
 
+  const { Component: ConfigInput, getFormValues } = providerConfigMap[provider];
+  const methods = useForm({ defaultValues: getFormValues(credentials) });
+  const {
+    formState: { isDirty },
+    handleSubmit,
+    reset
+  } = methods;
+
   useEffect(() => {
     const { credentials = {} } = integration;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { type, ...otherProps } = credentials;
-    setConnectionConfig(credentials);
-    setIsEditing(!Object.values(otherProps).some(i => i));
-  }, [integration]);
+    reset(getFormValues(credentials));
+    setIsEditing(isUnconfigured(credentials));
+  }, [getFormValues, integration, reset]);
 
   const onCancelClick = () => {
     setIsEditing(false);
-    setConnectionConfig(credentials);
+    reset();
     onCancel(integration);
   };
   const onDeleteClick = () => setIsDeleting(true);
   const onDeleteConfirm = () => onDelete(integration);
   const onEditClick = () => setIsEditing(true);
-  const onSaveClick = () =>
+  const onSaveClick = handleSubmit(config =>
     onSave({
       ...integration,
       credentials: {
         type: EXTERNAL_PROVIDER[provider].credentialsType,
-        ...connectionConfig
+        ...config
       }
-    });
+    })
+  );
 
-  const ConfigInput = providerConfigMap[provider];
   const { configHint, title } = EXTERNAL_PROVIDER[provider];
   return (
-    <>
-      <h3 className="margin-bottom-none">{title}</h3>
-      <div className={`flexbox space-between padding-top-small relative ${classes.widthLimit} ${classes.inputWrapper}`}>
-        <ConfigInput connectionConfig={connectionConfig} isEditing={isEditing} setConnectionConfig={setConnectionConfig} title={title} />
-        <div className="flexbox margin-bottom-x-small">
+    <FormProvider {...methods}>
+      <Typography variant="subtitle1" className="margin-bottom-none">
+        {title}
+      </Typography>
+      <div className={`flexbox column align-items-start padding-top-small ${classes.widthLimit}`}>
+        <ConfigInput isEditing={isEditing} title={title} />
+        <FormHelperText>{configHint}</FormHelperText>
+        <div className="margin-bottom-x-small margin-top-small">
           {isEditing ? (
             <>
-              <Button className={classes.leftButton} onClick={onCancelClick}>
+              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelClick}>
                 Cancel
               </Button>
-              <Button variant="contained" onClick={onSaveClick} disabled={credentials === connectionConfig}>
+              <Button variant="contained" onClick={onSaveClick} disabled={!isDirty}>
                 Save
               </Button>
             </>
           ) : (
             <>
-              <Button className={classes.leftButton} onClick={onEditClick}>
+              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onEditClick}>
                 Edit
               </Button>
-              <Button onClick={onDeleteClick}>Delete</Button>
+              <Button color="error" variant="outlined" onClick={onDeleteClick}>
+                Delete
+              </Button>
             </>
           )}
         </div>
         {isDeleting && (
-          <div className={`absolute full-width ${classes.confirmationWrapper}`}>
-            <Confirm type="integrationRemoval" action={onDeleteConfirm} cancel={() => setIsDeleting(false)} />
-          </div>
+          <ConfirmModal
+            header="Delete integration?"
+            description={
+              <>
+                Are you sure you want to delete the <b>{title}</b> integration?
+              </>
+            }
+            confirmButtonText="Delete integration"
+            open
+            close={() => setIsDeleting(false)}
+            onConfirm={onDeleteConfirm}
+          />
         )}
       </div>
-      <InfoHint className={`margin-bottom ${classes.widthLimit}`} content={configHint} />
       {!isLast && <Divider className={`margin-bottom ${classes.widthLimit}`} />}
-    </>
+    </FormProvider>
   );
 };
 
@@ -206,16 +181,21 @@ const determineAvailableIntegrations = (integrations, isPreRelease) =>
     return accu;
   }, []);
 
-const IntegrationsContainer = ({ children }: { children: ReactNode }) => (
-  <div>
-    <h2 className="margin-top-small">Integrations</h2>
-    {children}
-  </div>
-);
+const IntegrationsContainer = ({ children }: { children: ReactNode }) => {
+  const { classes } = useStyles();
+  return (
+    <div className={classes.contentWidth}>
+      <Typography variant="h6" className="margin-bottom-medium">
+        Integrations
+      </Typography>
+      {children}
+    </div>
+  );
+};
 
 export const Integrations = () => {
   const [availableIntegrations, setAvailableIntegrations] = useState([]);
-  const [configuredIntegrations, setConfiguredIntegrations] = useState([]);
+  const [configuredIntegrations, setConfiguredIntegrations] = useState<Integration[]>([]);
   const [isConfiguringWebhook, setIsConfiguringWebhook] = useState(false);
   const integrations = useSelector(getExternalIntegrations);
   const isPreRelease = useSelector(getIsPreview);
@@ -272,7 +252,14 @@ export const Integrations = () => {
       <IntegrationsContainer>
         <FormControl>
           <InputLabel id="integration-select-label">Add an integration</InputLabel>
-          <Select className={classes.select} label="Add an integration" labelId="integration-select-label" onChange={onConfigureIntegration} value="">
+          <Select
+            autoWidth={false}
+            className={classes.select}
+            label="Add an integration"
+            labelId="integration-select-label"
+            onChange={onConfigureIntegration}
+            value=""
+          >
             {availableIntegrations.map(item => (
               <MenuItem key={item.provider} value={item.provider}>
                 {item.title}
@@ -287,6 +274,11 @@ export const Integrations = () => {
   }
   return (
     <IntegrationsContainer>
+      {!isConfiguring && (
+        <Alert severity="info" className="margin-bottom-small">
+          You can only have one active integration at a time. To use a different integration, you&#39;ll need to delete the current one first.
+        </Alert>
+      )}
       {configuredIntegrations.map((integration, index) => (
         <IntegrationConfiguration
           key={integration.provider}
@@ -298,9 +290,6 @@ export const Integrations = () => {
         />
       ))}
       <Webhooks />
-      {!isConfiguring && (
-        <InfoHint content="You can only have one active integration at a time. To use a different integration, you'll need to delete the current one first." />
-      )}
     </IntegrationsContainer>
   );
 };
