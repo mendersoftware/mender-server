@@ -26,13 +26,13 @@ variables:
     value: "v1.16.1"
     description: "Version of skopeo to use for publishing images"
   GOLANG_VERSION:
-    value: "1.26.1"
+    value: "1.27.1"
     description: "Version of Golang to use in jobs"
   MONGO_VERSION:
     value: "8.3"
     description: "Version of MongoDB to use in jobs"
   IMAGE_GOLANGCI_VERSION:
-    value: "v2.4.0"
+    value: "v2.13.2"
     description: "Version of image golangci/golangci-lint for static checks"
   DOCKER_PLATFORM:
     value: "linux/amd64,linux/arm64"
