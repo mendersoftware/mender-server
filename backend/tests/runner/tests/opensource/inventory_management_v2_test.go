@@ -72,20 +72,20 @@ func (u *InventoryManagementV2Suite) TestGetInventoryStatistics() {
 
 	var devices []*common.Device
 	for range 4 {
-		device, err := common.NewDevice()
+		device, err := common.NewDevice(u.APIClient, u.Tenant.TenantToken)
 		require.NoError(err, "failed to create device identity")
 		devices = append(devices, device)
 	}
 
 	// Create auth requests for all devices
 	for _, d := range devices {
-		_, err := d.SubmitAuthRequest(ctx, u.APIClient, u.Tenant.TenantToken)
+		_, err := d.SubmitAuthRequest(ctx)
 		require.NoError(err)
 	}
 
 	// Accept half of them
 	for _, d := range devices[:len(devices)/2] {
-		err := d.Accept(ctx, u.APIClient)
+		err := d.AcceptFirst(ctx)
 		require.NoError(err)
 	}
 
