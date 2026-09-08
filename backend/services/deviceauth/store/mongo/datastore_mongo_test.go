@@ -2987,7 +2987,7 @@ func TestListAllDevices(t *testing.T) {
 	t.Run("ok/all attributes", func(t *testing.T) {
 		t.Parallel()
 		countByTenantID := map[string]int{}
-		for dev, err := range ds.ListAllDevices(ctx) {
+		for dev, err := range ds.ListAllDevices(ctx, nil, -1) {
 			assert.NoError(t, err)
 			assert.NotEmpty(t, dev.Id)
 			assert.NotEmpty(t, dev.IdData)
@@ -3007,7 +3007,7 @@ func TestListAllDevices(t *testing.T) {
 	t.Run("ok/selected attributes", func(t *testing.T) {
 		t.Parallel()
 		count := 0
-		for dev, err := range ds.ListAllDevices(ctx, dbFieldID, dbFieldStatus) {
+		for dev, err := range ds.ListAllDevices(ctx, nil, -1, dbFieldID, dbFieldStatus) {
 			assert.NoError(t, err)
 			assert.NotEmpty(t, dev.Id)
 			assert.NotEmpty(t, dev.Status)
@@ -3023,7 +3023,7 @@ func TestListAllDevices(t *testing.T) {
 		t.Parallel()
 		cancelledCtx, cancel := context.WithCancel(ctx)
 		cancel()
-		for _, err := range ds.ListAllDevices(cancelledCtx) {
+		for _, err := range ds.ListAllDevices(cancelledCtx, nil, -1) {
 			if assert.ErrorIs(t, err, context.Canceled) {
 				break
 			}
