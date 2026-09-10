@@ -1,21 +1,42 @@
-FROM python:3.13-bullseye
-
-ARG K8S_VERSION=1.29
-
-RUN sed -i.backup -e 's/^deb /deb [trusted=yes] /' /etc/apt/sources.list
-RUN apt-get -y -qq update && apt-get -qq -y install docker.io libzbar0 apt-transport-https gnupg2 && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION}/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${K8S_VERSION}/deb/ /" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
-    apt-get update && \
-    apt-get install -y awscli kubectl && \
-    curl -o /usr/bin/aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/aws-iam-authenticator && \
-    chmod 755 /usr/bin/aws-iam-authenticator && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY requirements-integration.txt .
-
-RUN pip3 install -r requirements-integration.txt
-
+FROM python:3.14-trixie
 WORKDIR /tests
+
+# Install mender-artifact
+RUN \
+  apt-get update && \
+  apt-get install --assume-yes \
+  apt-transport-https \
+  ca-certificates \
+  gnupg && \
+  curl -fsSL https://downloads.mender.io/repos/debian/gpg | tee /etc/apt/trusted.gpg.d/mender.asc | \
+  gpg --show-keys --with-fingerprint && \
+  sed -i.bak -e "\,https://downloads.mender.io/repos/workstation-tools,d" /etc/apt/sources.list \
+  echo "deb [arch=$(dpkg --print-architecture)] https://downloads.mender.io/repos/workstation-tools debian/trixie/stable main" | \
+  tee /etc/apt/sources.list.d/mender.list && \
+  apt-get update && \
+  apt-get install --assume-yes mender-artifact
+
+# Install docker
+RUN \
+  install -m 0755 -d /etc/apt/keyrings && \
+  curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
+  chmod a+r /etc/apt/keyrings/docker.asc
+RUN . /etc/os-release && \
+  cat > /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+RUN \
+  apt-get update -q && \
+  apt-get install --assume-yes docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Install python dependencies
+COPY requirements-integration.txt .
+RUN pip3 install --no-cache-dir -r requirements-integration.txt && \
+  apt-get install --assume-yes libzbar0
+
 ENTRYPOINT ["python3", "-m", "pytest"]

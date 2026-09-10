@@ -45,7 +45,6 @@ PYTEST_REPORT=""
 PYTEST_ADDOPTS=""
 
 DOCS="$MENDER_SERVER_PATH/backend/tests/integration/docs"
-TOOLS="$MENDER_SERVER_PATH/backend/tests/integration/downloaded-tools"
 
 usage() {
     echo "runner script for backend-specific integration tests"
@@ -122,16 +121,6 @@ parse_args() {
 }
 
 get_runner_requirements() {
-    local MENDER_ARTIFACT_PATH="$TOOLS/mender-artifact"
-    local MENDER_ARTIFACT_BRANCH="master"
-
-    if [ ! -f "$MENDER_ARTIFACT_PATH" ]; then
-        echo "downloading mender-artifact/$MENDER_ARTIFACT_BRANCH"
-        curl -s --fail "https://downloads.mender.io/mender-artifact/${MENDER_ARTIFACT_BRANCH}/linux/mender-artifact" \
-            -o "$MENDER_ARTIFACT_PATH"
-        chmod +x "$MENDER_ARTIFACT_PATH"
-    fi
-
     for svc_path in $(ls -d $MENDER_SERVER_PATH/backend/services/*); do
         svc=$(basename $svc_path)
         if [ -d "${svc_path}/docs" ]; then
@@ -221,7 +210,6 @@ cleanup() {
 }
 
 parse_args "$@"
-mkdir -p "$TOOLS"
 
 if [[ -n "$DOWNLOAD_REQUIREMENTS" ]]; then
     get_runner_requirements
