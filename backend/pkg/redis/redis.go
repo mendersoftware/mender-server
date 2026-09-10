@@ -23,6 +23,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -37,6 +38,15 @@ const (
 
 var (
 	ErrCacheInvalid = errors.New("cache invalidated")
+)
+
+const (
+	// go-redis defaults to 60s, too slow to recover from a topology
+	// change without a restart (MC-8198).
+	clusterStateReloadInterval      = 5 * time.Second
+	clusterBackgroundReloadInterval = 5 * time.Second
+	clusterForceReloadAfterN        = 5
+	clusterForceReloadCooldown      = time.Second
 )
 
 // ClientFromConnectionString creates a new redis client (Cmdable) from the parameters in the
@@ -90,11 +100,13 @@ func ClientFromConnectionString(
 				retries = 3 // Use same default as normal redis.Client
 				redisOpts.MaxRetries = -1
 			}
-			rdb = redis.NewClusterClient(redisOpts)
-			if retries > 0 {
-				// Special retry hook for cluster retries
-				rdb.(*redis.ClusterClient).AddHook(retryHook(retries))
+			if redisOpts.ClusterStateReloadInterval == 0 {
+				redisOpts.ClusterStateReloadInterval = clusterStateReloadInterval
 			}
+			clusterClient := redis.NewClusterClient(redisOpts)
+			clusterClient.AddHook(newClusterHardeningHook(clusterClient, retries))
+			startBackgroundReload(clusterClient)
+			rdb = clusterClient
 		}
 	} else {
 		var redisOpts *redis.Options
@@ -174,7 +186,7 @@ func parseRedisExtraOptions(ctx context.Context, redisurl *url.URL) (
 	// Use cluster mode if `cluster` querystring is truthy or additional
 	// addr parameters are supplied.
 	if _, ok := q["cluster"]; ok {
-		isCluster, _ = strconv.ParseBool("cluster")
+		isCluster, _ = strconv.ParseBool(q.Get("cluster"))
 		delete(q, "cluster")
 	} else {
 		_, isCluster = q["addr"]
@@ -183,19 +195,27 @@ func parseRedisExtraOptions(ctx context.Context, redisurl *url.URL) (
 	return isCluster, tlsConfig, nil
 }
 
-type retryHook int
+type clusterHardeningHook struct {
+	retries int
+	rdb     *redis.ClusterClient
 
-func (retryHook) DialHook(next redis.DialHook) redis.DialHook {
+	mu               sync.Mutex
+	consecutiveErrs  int
+	lastForcedReload time.Time
+}
+
+func newClusterHardeningHook(rdb *redis.ClusterClient, retries int) *clusterHardeningHook {
+	return &clusterHardeningHook{retries: retries, rdb: rdb}
+}
+
+func (*clusterHardeningHook) DialHook(next redis.DialHook) redis.DialHook {
 	return next
 }
 
-func (retries retryHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
+func (h *clusterHardeningHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
 	return func(ctx context.Context, cmd redis.Cmder) error {
 		err := next(ctx, cmd)
-		if err == nil {
-			return err
-		}
-		for range retries {
+		for i := 0; err != nil && i < h.retries; i++ {
 			var netErr net.Error
 			if redis.IsTryAgainError(err) || (errors.As(err, &netErr) && netErr.Timeout()) {
 				err = next(ctx, cmd)
@@ -203,12 +223,52 @@ func (retries retryHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
 				break
 			}
 		}
+		h.record(err)
 		return err
 	}
 }
 
-func (retryHook) ProcessPipelineHook(next redis.ProcessPipelineHook) redis.ProcessPipelineHook {
-	return next
+func (h *clusterHardeningHook) ProcessPipelineHook(
+	next redis.ProcessPipelineHook,
+) redis.ProcessPipelineHook {
+	return func(ctx context.Context, cmds []redis.Cmder) error {
+		err := next(ctx, cmds)
+		h.record(err)
+		return err
+	}
+}
+
+func (h *clusterHardeningHook) record(err error) {
+	if err == nil {
+		h.mu.Lock()
+		h.consecutiveErrs = 0
+		h.mu.Unlock()
+		return
+	}
+	if !IsUnavailableErr(err) {
+		return
+	}
+	h.mu.Lock()
+	h.consecutiveErrs++
+	forceReload := h.consecutiveErrs >= clusterForceReloadAfterN &&
+		time.Since(h.lastForcedReload) > clusterForceReloadCooldown
+	if forceReload {
+		h.lastForcedReload = time.Now()
+	}
+	h.mu.Unlock()
+	if forceReload {
+		h.rdb.ReloadState(context.Background())
+	}
+}
+
+func startBackgroundReload(rdb *redis.ClusterClient) {
+	go func() {
+		ticker := time.NewTicker(clusterBackgroundReloadInterval)
+		defer ticker.Stop()
+		for range ticker.C {
+			rdb.ReloadState(context.Background())
+		}
+	}()
 }
 
 func IsUnavailableErr(err error) bool {

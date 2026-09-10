@@ -31,6 +31,9 @@ variables:
   MONGO_VERSION:
     value: "8.3"
     description: "Version of MongoDB to use in jobs"
+  REDIS_VERSION:
+    value: "8.10"
+    description: "Version of Redis to use in jobs"
   IMAGE_GOLANGCI_VERSION:
     value: "v2.13.2"
     description: "Version of image golangci/golangci-lint for static checks"
@@ -571,9 +574,12 @@ test:backend:unit:
   services:
     - name: ${MIRROR_REGISTRY}/library/mongo:${MONGO_VERSION}
       alias: mongo
+    - name: ${MIRROR_REGISTRY}/library/redis:${REDIS_VERSION}-alpine
+      alias: redis
   variables:
     TEST_MONGO_URL: "mongodb://mongo"
     WORKFLOWS_MONGO_URL: "mongodb://mongo"
+    TEST_REDIS_URL: "redis://redis:6379"
   before_script:
     - mkdir -p $GOCOVERDIR
   script:

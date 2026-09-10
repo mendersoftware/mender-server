@@ -65,7 +65,8 @@ func TestFixedWindowRatelimit(t *testing.T) {
 
 	if reservations[0].Tokens() != 0 {
 		t.Errorf("there should be no tokens left after first event")
-	} else if reservations[1].Tokens() != 0 {
-		t.Errorf("there should be no tokens left after second event")
+	} else if reservations[1].Tokens() >= 0 {
+		t.Errorf("the rejected second event should report negative tokens, got: %d",
+			reservations[1].Tokens())
 	}
 }
