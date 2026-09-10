@@ -22,6 +22,7 @@ The test stack uses the hostname docker.mender.io with a self-signed TLS certifi
 ```
 127.0.0.1 docker.mender.io
 127.0.0.1 s3.docker.mender.io
+127.0.0.1 admin.docker.mender.io
 ```
 
 The test runner (`run.js`) handles environment setup, test execution, and cleanup.

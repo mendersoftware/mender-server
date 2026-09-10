@@ -23,7 +23,7 @@ Mender Server requires Docker Compose version `v2.23.1` or newer.
 * You will also need to update your local DNS or host rewrites, for example by appending to `/etc/hosts`:
 
   ```bash
-  echo '127.0.0.1   docker.mender.io s3.docker.mender.io' | sudo tee -a /etc/hosts
+  echo '127.0.0.1   docker.mender.io s3.docker.mender.io admin.docker.mender.io' | sudo tee -a /etc/hosts
   ```
 
 ### Starting the Mender Server

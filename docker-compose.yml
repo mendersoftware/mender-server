@@ -381,6 +381,7 @@ services:
           - s3.mender.local
           - docker.mender.io
           - s3.docker.mender.io
+          - admin.docker.mender.io
 
   mongo:
     image: ${MIRROR_REGISTRY:-docker.io}/library/mongo:${MONGO_VERSION:-8.3}

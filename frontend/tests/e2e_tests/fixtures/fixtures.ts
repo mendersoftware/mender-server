@@ -21,6 +21,7 @@ import { timeouts } from '../utils/constants.ts';
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
 
 type TestFixtures = {
+  adminBaseUrl: string;
   baseUrl: string;
   config: unknown;
   demoDeviceName: string;
@@ -40,7 +41,14 @@ const urls = {
   production: 'https://hosted.mender.io/'
 };
 
+const adminUrls = {
+  localhost: 'https://admin.docker.mender.io/',
+  staging: 'https://admin.staging.hosted.mender.io/',
+  production: 'https://admin.hosted.mender.io/'
+};
+
 const defaultConfig = {
+  adminBaseUrl: adminUrls.localhost,
   baseUrl: urls.localhost,
   spTenantUsername: 'tenant-demo@example.com',
   username: 'mender-demo@example.com',
@@ -51,9 +59,11 @@ const defaultConfig = {
 
 const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures>({
   isRemote: !!process.env.BASE_URL,
-  page: async ({ baseUrl, page }, use) => {
-    await page.goto(baseUrl);
-    await page.waitForTimeout(timeouts.oneSecond);
+  page: async ({ baseUrl, page }, use, { project }) => {
+    if (project.name !== 'admin-panel') {
+      await page.goto(baseUrl);
+      await page.waitForTimeout(timeouts.oneSecond);
+    }
     await use(page);
   },
   // eslint-disable-next-line no-empty-pattern
@@ -76,6 +86,10 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
   password: async ({ isRemote }, use) => {
     const password = isRemote ? getPersistentLoginInfo().password : defaultConfig.password;
     await use(password);
+  },
+  adminBaseUrl: async ({ environment, isRemote }, use) => {
+    const adminBaseUrl = process.env.ADMIN_BASE_URL ?? adminUrls[environment] ?? (isRemote ? '' : defaultConfig.adminBaseUrl);
+    await use(adminBaseUrl);
   },
   baseUrl: async ({ environment }, use) => {
     const baseUrl = process.env.BASE_URL ?? urls[environment] ?? defaultConfig.baseUrl;
