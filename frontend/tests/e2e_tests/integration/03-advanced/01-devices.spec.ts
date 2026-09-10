@@ -193,7 +193,7 @@ test.describe('Devices', () => {
     await page.waitForSelector(selectors.deviceListItem);
     const mac = await page.locator(selectors.deviceListItem).first().getByText(macPattern).innerText();
 
-    await page.getByPlaceholder(/find a device/i).click();
+    await page.getByRole('button', { name: /find a device/i }).click();
     const searchDialog = page.getByRole('dialog');
     const searchField = searchDialog.getByPlaceholder(/starting with/i);
     await searchField.fill('nonExistentDevicePrefix');
