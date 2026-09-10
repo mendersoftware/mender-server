@@ -13,6 +13,12 @@ services:
         target: /etc/mender/server.crt
       - source: client_json
         target: /etc/mender/mender.conf
+      - source: identity
+        target: /usr/share/mender/identity/mender-device-identity
+        mode: 0555
+      - source: inventory_geo
+        target: /usr/share/mender/inventory/mender-inventory-geo
+        mode: 0555
   mender-client-2-1:
     extends:
       service: mender-client-2-0
@@ -84,7 +90,12 @@ services:
         target: /etc/mender/mender.conf
       - source: device_type
         target: /var/lib/mender/device_type
-
+      - source: identity
+        target: /usr/share/mender/identity/mender-device-identity
+        mode: 0555
+      - source: inventory_geo
+        target: /usr/share/mender/inventory/mender-inventory-geo
+        mode: 0555
 
 configs:
   device_type:
@@ -113,3 +124,12 @@ configs:
       bzAKBggqhkjOPQQDAgNHADBEAiAvmTdg3z7GkrnNM+N5ujl4xIm6bdnVhhLXkJdn
       TyWKrwIgN2asFU4swaMUobs6uXMBt5zftfLKwuQIYbBEwBemWFg=
       -----END CERTIFICATE-----
+  identity:
+    content: |
+      #!/bin/sh
+      echo "hostname=$(cat /etc/hostname)"
+      echo "mac=01:02:03:04:05:06"
+  inventory_geo:
+    content: |
+      #!/bin/sh
+      exit 0
