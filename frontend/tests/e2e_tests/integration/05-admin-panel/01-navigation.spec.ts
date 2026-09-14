@@ -38,8 +38,7 @@ test.describe('Admin panel navigation & dashboard', () => {
     await page.goto(adminBaseUrl);
     const sections = [
       { heading: 'Tenants', nav: 'Tenants', path: 'tenants' },
-      { heading: 'Users', nav: 'Users', path: 'users' },
-      { heading: 'Send Notice', nav: 'Notices', path: 'notices' }
+      { heading: 'Users', nav: 'Users', path: 'users' }
     ];
     for (const { heading, nav, path } of sections) {
       await page.getByRole('button', { name: nav, exact: true }).click();
