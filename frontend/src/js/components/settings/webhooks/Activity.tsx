@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { SetStateAction } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
@@ -29,8 +28,8 @@ interface WebhookActivityProps extends ClassesOverrides {
   columns: WebhookColumns;
   events?: Event[] | undefined;
   eventsTotal: number;
-  getWebhookEvents: () => void;
-  setSelectedEvent: SetStateAction<Event | undefined>;
+  getWebhookEvents: (options: { page: number; perPage: number }) => void;
+  setSelectedEvent: (event?: Event) => void;
   webhook: Webhook;
 }
 
@@ -60,7 +59,7 @@ const WebhookActivity = ({ classes, columns, events = [], eventsTotal, getWebhoo
       {eventsTotal > defaultPerPage && (
         <Pagination
           className="margin-top-none"
-          count={eventsTotal ? eventsTotal : defaultPerPage}
+          count={eventsTotal}
           showCountInfo={false}
           rowsPerPageOptions={[defaultPerPage]}
           page={page}
