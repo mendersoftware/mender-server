@@ -206,6 +206,9 @@ export const ItemSelection: FunctionComponent<IItemSelection> = ({ disabled, opt
     [append, setValue, key, controlledFields, options]
   );
 
+  if (!controlledFields.length) {
+    return null;
+  }
   return (
     <div className="margin-bottom-medium">
       <PermissionsAreaTitle explanation={explanation} title={title} />
