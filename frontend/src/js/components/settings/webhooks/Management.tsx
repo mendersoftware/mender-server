@@ -41,6 +41,8 @@ const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
+  slide: { gridArea: '1 / 1', minWidth: 0 },
+  slideContainer: { display: 'grid', overflowX: 'clip' },
   statusIcon: { fontSize: 12, marginRight: theme.spacing() },
   wrapper: { justifyContent: 'end' }
 }));
@@ -91,11 +93,17 @@ const columns: WebhookColumns = [
 
 export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event>();
+  const [isShowingDetails, setIsShowingDetails] = useState(false);
   const { events, eventsTotal } = useSelector(getWebhookEventInfo);
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const containerRef = useRef();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const onEventSelect = useCallback((event: Event) => {
+    setSelectedEvent(event);
+    setIsShowingDetails(true);
+  }, []);
 
   const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
   const dispatchedSetSnackbar = useCallback(args => dispatch(setSnackbar(args)), [dispatch]);
@@ -116,10 +124,11 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
     'Secret': secret
   };
 
-  const handleBack = () => setSelectedEvent();
+  const handleBack = () => setIsShowingDetails(false);
 
   const onCancelClick = () => {
-    setSelectedEvent();
+    setSelectedEvent(undefined);
+    setIsShowingDetails(false);
     onCancel();
   };
 
@@ -132,16 +141,16 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         header: {
           title: 'Webhook details',
           preCloser: (
-            <Button className={selectedEvent ? 'muted' : ''} color="error" disabled={!!selectedEvent} onClick={() => onRemove(webhook)} variant="outlined">
+            <Button className={isShowingDetails ? 'muted' : ''} color="error" disabled={isShowingDetails} onClick={() => onRemove(webhook)} variant="outlined">
               Delete webhook
             </Button>
           )
         }
       }}
     >
-      <div className="relative" ref={containerRef}>
-        <Slide in={!selectedEvent} container={containerRef.current} direction="right">
-          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+      <div className={classes.slideContainer} ref={containerRef}>
+        <Slide appear={false} in={!isShowingDetails} container={() => containerRef.current} direction="right">
+          <div className={`${classes.slide} margin-top`}>
             <h4>Settings</h4>
             <TwoColumnData className="margin-top margin-bottom" data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
             <h4>Activity</h4>
@@ -151,19 +160,26 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
               events={events}
               eventsTotal={eventsTotal}
               getWebhookEvents={dispatchedGetWebhookEvents}
-              setSelectedEvent={setSelectedEvent}
+              setSelectedEvent={onEventSelect}
               webhook={webhook}
             />
           </div>
         </Slide>
-        <Slide in={!!selectedEvent} container={containerRef.current} direction="left">
-          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+        <Slide
+          in={isShowingDetails}
+          container={() => containerRef.current}
+          direction="left"
+          mountOnEnter
+          onExited={() => setSelectedEvent(undefined)}
+          unmountOnExit
+        >
+          <div className={`${classes.slide} margin-top`}>
             <WebhookEventDetails
               classes={classes}
               columns={columns}
               entry={selectedEvent}
               onClickBack={handleBack}
-              setSnackbar={setSnackbar}
+              setSnackbar={dispatchedSetSnackbar}
               webhook={webhook}
             />
           </div>
