@@ -122,7 +122,7 @@ describe('UserManagement Component', () => {
     expect(screen.getByRole('button', { name: /Save/i })).toBeDisabled();
     await user.click(selectButton);
     listbox = document.body.querySelector(dropDownSelector);
-    const listItem = within(listbox).getByText(/releases/i);
+    const listItem = within(listbox).getByText(/software/i);
     await user.click(listItem);
     await user.click(screen.getByText(/sign-in & security/i));
     expect(screen.getByText(/the selected role may prevent/i)).toBeInTheDocument();

@@ -27,12 +27,12 @@ import {
   getGroupsByIdWithoutUngrouped,
   getIsEnterprise,
   getOrganization,
-  getReleaseTagsById,
   getRelevantRoles,
-  getRolesInitialized
+  getRolesInitialized,
+  getSoftwareTagsById
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
+import { createRole, editRole, getDynamicGroups, getExistingSoftwareTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
 import type { UiRoleDefinition } from '@northern.tech/utils/constants';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
@@ -51,7 +51,7 @@ export const RoleManagement = () => {
   const [role, setRole] = useState<UiRoleDefinition>({ ...emptyRole });
   const dispatch = useAppDispatch();
   const groups = useSelector(getGroupsByIdWithoutUngrouped);
-  const releaseTags = useSelector(getReleaseTagsById);
+  const softwareTags = useSelector(getSoftwareTagsById);
   const isEnterprise = useSelector(getIsEnterprise);
   const { service_provider } = useSelector(getOrganization);
   const items = useSelector(getRelevantRoles);
@@ -61,7 +61,7 @@ export const RoleManagement = () => {
     if (service_provider || !isLikelyInitialized) {
       return;
     }
-    dispatch(getExistingReleaseTags());
+    dispatch(getExistingSoftwareTags());
   }, [dispatch, isLikelyInitialized, service_provider]);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export const RoleManagement = () => {
         removeRole={name => dispatch(removeRole(name))}
         selectedRole={role}
         stateGroups={groups}
-        stateReleaseTags={releaseTags}
+        stateSoftwareTags={softwareTags}
       />
     </div>
   );
