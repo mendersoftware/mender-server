@@ -711,12 +711,12 @@ exports[`Roles Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
         >
-          Releases Manager
+          Software Manager
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
         >
-          Intended for automation accounts building software (e.g. CI/CD systems), this role can only manage Artifacts, including upload new Artifacts and delete Artifacts. It does not have access to Devices or Deployments.
+          Intended for automation accounts building software (e.g. CI/CD systems), this role can only manage existing Releases and Manifests, including the creation of new Releases and Manifests. It does not have access to Devices or Deployments.
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"

@@ -1559,11 +1559,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 emotion-26"
             >
-              Release Management
+              Software Management
             </h6>
             <svg
               aria-hidden="true"
-              aria-label="Release permissions can be granted to allow artifact & release modifications, as well as the creation of new releases."
+              aria-label="Software permissions can be granted to allow modifications of existing releases and manifests, as well as the creation of new releases and manifests."
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small muted emotion-27"
               data-mui-internal-clone-element="true"
               data-testid="InfoOutlinedIcon"
@@ -1589,7 +1589,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
                   data-shrink="false"
                   id="releases-scope-selection-select-label"
                 >
-                  Search release tags
+                  Search software tags
                 </label>
                 <div
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root emotion-51"
@@ -1638,7 +1638,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
                       class="emotion-14"
                     >
                       <span>
-                        Search release tags
+                        Search software tags
                       </span>
                     </legend>
                   </fieldset>
