@@ -99,7 +99,16 @@ func (j JobProcessor) ProcessJSON(
 						return v
 					}
 					if param.Name == key && param.Raw != nil {
-						return j.ProcessJSON(param.Raw, ps)
+						// Return the raw input value verbatim. It is
+						// user-supplied data, so we must NOT evaluate any
+						// ${...} expressions it may contain: doing so would let
+						// a caller read worker environment variables via
+						// ${env.X} or reference other workflow state. Template
+						// evaluation is reserved for the workflow definition,
+						// never for input data. param.Raw is always a plain
+						// JSON-decoded value (map/slice/scalar), so it marshals
+						// back correctly as-is.
+						return param.Raw
 					}
 				}
 				return nil
