@@ -46,6 +46,7 @@ import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getIdAttribute, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
 import { saveUserSettings, searchIdentities, setDeviceListState } from '@northern.tech/store/thunks';
+import { isDarkMode } from '@northern.tech/store/utils';
 import type { SearchIdentityParams } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -79,13 +80,14 @@ const useStyles = makeStyles()(theme => ({
   highlight: { backgroundColor: theme.palette.highlight?.main },
   inlineTime: { display: 'inline', fontSize: 'inherit' },
   inputPlaceholder: { '&::placeholder': { color: theme.palette.text.secondary, opacity: 1 } },
+  subheader: { backgroundColor: 'transparent' },
   viewAll: { background: theme.palette.action.hover },
   listItemIcon: {
     [`&.${listItemIconClasses.root}`]: { minWidth: 'auto' }
   },
   shortcut: {
     border: `1px solid ${theme.palette.divider}`,
-    background: theme.palette.grey[100],
+    background: isDarkMode(theme.palette.mode) ? theme.palette.divider : theme.palette.grey[100],
     borderRadius: theme.shape.borderRadius,
     flexShrink: 0,
     fontFamily: theme.typography.fontFamily,
@@ -269,7 +271,7 @@ const SearchDialog = ({ onClose, open }) => {
   return (
     <Dialog
       fullWidth
-      maxWidth="lg"
+      maxWidth="md"
       onClose={onClose}
       open={open}
       slotProps={{
@@ -302,7 +304,11 @@ const SearchDialog = ({ onClose, open }) => {
           Search is case-sensitive and matches the start of the value (e.g., ABC-1 matches ABC-123, abc-1 does not).
         </Alert>
       )}
-      {(showResults || showSkeleton) && <ListSubheader component="div">Search results</ListSubheader>}
+      {(showResults || showSkeleton) && (
+        <ListSubheader className={classes.subheader} component="div">
+          Search results
+        </ListSubheader>
+      )}
       {showResults && (
         <List disablePadding>
           {results.map(({ checkIn, device, label, metadata }, index) => (
