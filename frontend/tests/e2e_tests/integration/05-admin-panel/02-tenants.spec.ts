@@ -12,8 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../../fixtures/fixtures';
-import { adminPanelApiUrl, findSecondaryTenant, getTenantDetail, tenantNames } from '../../utils/adminPanel';
-import { timeouts } from '../../utils/constants';
+import { adminPanelApiUrl, findSecondaryTenant, getTenantDetail } from '../../utils/adminPanel';
+import { tenantNames, timeouts } from '../../utils/constants';
 
 const gridRow = '.MuiDataGrid-row';
 
@@ -25,7 +25,7 @@ test.describe('Admin panel tenants', () => {
   test('searches the tenant list and opens what it finds', async ({ adminBaseUrl, page }) => {
     await page.goto(`${adminBaseUrl}tenants`);
     const mainRow = page.getByRole('gridcell', { name: tenantNames.main, exact: true });
-    const secondaryRow = page.getByRole('gridcell', { name: tenantNames.secondary, exact: true }).first();
+    const secondaryRow = page.getByRole('gridcell', { name: tenantNames.secondary, exact: true });
     await expect(mainRow).toBeVisible();
     await expect(secondaryRow).toBeVisible();
 

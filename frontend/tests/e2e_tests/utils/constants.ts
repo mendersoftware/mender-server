@@ -32,6 +32,8 @@ export const selectors = {
   terminalText: '.terminal.xterm textarea'
 };
 
+export const tenantNames = { main: 'test', secondary: 'secondary', serviceProvider: 'sptenant' };
+
 export const expectedArtifactName = 'mender-demo-artifact';
 
 export const releaseTag = 'sometag';

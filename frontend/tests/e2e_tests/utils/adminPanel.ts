@@ -13,6 +13,8 @@
 //    limitations under the License.
 import type { APIRequestContext, Page } from '@playwright/test';
 
+import { tenantNames } from './constants';
+
 export const adminPanelApiUrl = (adminBaseUrl: string, path: string) => `${adminBaseUrl}api/sudo/v1/admin-panel/${path}`;
 
 export interface AdminPanelTenant {
@@ -74,8 +76,6 @@ export const getTenantDetail = async (request: APIRequestContext, adminBaseUrl: 
   return response.json();
 };
 
-export const tenantNames = { main: 'test', secondary: 'secondary' };
-
 // the tenants the runner creates fit on a single page many times over
 const tenantLookupPageSize = 100;
 
@@ -97,13 +97,9 @@ const findTenant = async (
 export const findMainTenant = (request: APIRequestContext, adminBaseUrl: string) =>
   findTenant(request, adminBaseUrl, ({ name }) => name === tenantNames.main, tenantNames.main);
 
-/**
- * The runner creates two tenants named `secondary` - the service provider the tenant tests depend on
- * and a plain one. Anything that mutates tenant state has to stay on the plain one to avoid
- * knocking out the service provider coverage.
- */
+/** The tenant to test admin panel & service provider functionality with. */
 export const findSecondaryTenant = (request: APIRequestContext, adminBaseUrl: string) =>
-  findTenant(request, adminBaseUrl, tenant => tenant.name === tenantNames.secondary && !tenant.service_provider, 'plain secondary');
+  findTenant(request, adminBaseUrl, tenant => tenant.name === tenantNames.secondary, tenantNames.secondary);
 
 /*
  * The panel renders its numbers as bare typography next to their label, with nothing but the DOM order tying the two together.

@@ -14,6 +14,7 @@
 import chalk from 'chalk';
 import { join } from 'path';
 
+import { tenantNames } from '../utils/constants.ts';
 import { environments, testSuiteVariants } from './cli.js';
 import { composeDown, composeExec, composeRun, composeUp, formatErrorMessage, removeOldClient, runCommand, withSpinner } from './compose.js';
 import { exportToProcessEnv } from './config.js';
@@ -59,14 +60,14 @@ const createServiceProviderTenant = async (credentials, config) =>
     '📝 Creating SP tenant...',
     async () => {
       const spTenantId = await createTenant(
-        { ...credentials, name: 'secondary', username: credentials.spTenant },
+        { ...credentials, name: tenantNames.serviceProvider, username: credentials.spTenant },
         config,
         [],
         '--device-limit 100 --micro-device-limit=200'
       );
       // updateOne with $set is already idempotent
       await composeExec('mongo', 'mongosh --eval "db.getSiblingDB("tenantadm").tenants.updateOne({},{$set:{max_child_tenants:100}})"', config);
-      await createTenant({ ...credentials, name: 'secondary', username: credentials.username2 }, config);
+      await createTenant({ ...credentials, name: tenantNames.secondary, username: credentials.username2 }, config);
       try {
         await composeExec('tenantadm', `tenantadm update-tenant --id ${spTenantId} --service-provider`, config);
       } catch (error) {
@@ -88,7 +89,7 @@ const setupEnterprise = async config =>
       const { credentials } = config;
 
       await removeOldClient(config);
-      const tenantId = await createTenant({ ...credentials, name: 'test' }, config, ['configure', 'monitor', 'troubleshoot']);
+      const tenantId = await createTenant({ ...credentials, name: tenantNames.main }, config, ['configure', 'monitor', 'troubleshoot']);
       await setupTenantToken(tenantId, config);
       await composeRun('client', [], config, { commandOptions: ['-d'] });
       await createServiceProviderTenant(credentials, config);
