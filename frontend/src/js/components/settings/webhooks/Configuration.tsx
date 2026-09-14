@@ -112,12 +112,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
           [EXTERNAL_PROVIDER.webhook.credentialsType]: { secret: formState.secret, url: formState.url }
         },
         description: formState.description,
-        scopes: Object.keys(availableScopes).reduce((accu, scope) => {
-          if (formState[scope]) {
-            accu.push(scope);
-          }
-          return accu;
-        }, [])
+        scopes: Object.keys(availableScopes).filter(scope => formState[scope])
       };
       onSubmit(webhookConfig);
     },

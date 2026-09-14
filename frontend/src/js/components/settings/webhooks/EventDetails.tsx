@@ -45,7 +45,7 @@ interface WebhookEventDetailsProps extends ClassesOverrides {
 const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
   const { data = {} } = entry;
 
-  const content = columns.slice(0, columns.length - 1).reduce((accu, column) => ({ ...accu, [column.title]: column.render(entry, { webhook, classes }) }), {});
+  const content = Object.fromEntries(columns.slice(0, -1).map(column => [column.title, column.render(entry, { webhook, classes })]));
 
   return (
     <>
