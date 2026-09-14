@@ -41,6 +41,8 @@ const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
+  slide: { gridArea: '1 / 1', minWidth: 0 },
+  slideContainer: { display: 'grid', overflowX: 'clip' },
   statusIcon: { fontSize: 12, marginRight: theme.spacing() },
   wrapper: { justifyContent: 'end' }
 }));
@@ -95,7 +97,15 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const containerRef = useRef();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastSelectedEvent = useRef<Event>(undefined);
+
+  const onEventSelect = useCallback((event?: Event) => {
+    if (event) {
+      lastSelectedEvent.current = event;
+    }
+    setSelectedEvent(event);
+  }, []);
 
   const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
   const dispatchedSetSnackbar = useCallback(args => dispatch(setSnackbar(args)), [dispatch]);
@@ -116,10 +126,10 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
     'Secret': secret
   };
 
-  const handleBack = () => setSelectedEvent();
+  const handleBack = () => onEventSelect(undefined);
 
   const onCancelClick = () => {
-    setSelectedEvent();
+    setSelectedEvent(undefined);
     onCancel();
   };
 
@@ -139,9 +149,9 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         }
       }}
     >
-      <div className="relative" ref={containerRef}>
-        <Slide in={!selectedEvent} container={containerRef.current} direction="right">
-          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+      <div className={classes.slideContainer} ref={containerRef}>
+        <Slide appear={false} in={!selectedEvent} container={() => containerRef.current} direction="right">
+          <div className={`${classes.slide} margin-top`}>
             <h4>Settings</h4>
             <TwoColumnData className="margin-top margin-bottom" data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
             <h4>Activity</h4>
@@ -151,19 +161,19 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
               events={events}
               eventsTotal={eventsTotal}
               getWebhookEvents={dispatchedGetWebhookEvents}
-              setSelectedEvent={setSelectedEvent}
+              setSelectedEvent={onEventSelect}
               webhook={webhook}
             />
           </div>
         </Slide>
-        <Slide in={!!selectedEvent} container={containerRef.current} direction="left">
-          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+        <Slide in={!!selectedEvent} container={() => containerRef.current} direction="left" mountOnEnter unmountOnExit>
+          <div className={`${classes.slide} margin-top`}>
             <WebhookEventDetails
               classes={classes}
               columns={columns}
-              entry={selectedEvent}
+              entry={selectedEvent ?? lastSelectedEvent.current}
               onClickBack={handleBack}
-              setSnackbar={setSnackbar}
+              setSnackbar={dispatchedSetSnackbar}
               webhook={webhook}
             />
           </div>
