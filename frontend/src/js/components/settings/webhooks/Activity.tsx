@@ -28,24 +28,24 @@ interface WebhookActivityProps extends ClassesOverrides {
   columns: WebhookColumns;
   events?: Event[] | undefined;
   eventsTotal: number;
-  getWebhookEvents: (options: { page: number; perPage: number }) => void;
+  getWebhookEvents: (options: { integrationId?: string; page: number; perPage: number }) => void;
   setSelectedEvent: (event?: Event) => void;
-  webhook: Webhook;
+  webhook?: Webhook;
 }
 
 const WebhookActivity = ({ classes, columns, events = [], eventsTotal, getWebhookEvents, setSelectedEvent, webhook }: WebhookActivityProps) => {
   const [page, setPage] = useState(defaultPage);
-  const tableRef = useRef();
   const timer = useRef<ReturnType<typeof setInterval> | undefined>();
 
   useEffect(() => {
     clearInterval(timer.current);
-    timer.current = setInterval(() => getWebhookEvents({ page, perPage: defaultPerPage }), TIMEOUTS.refreshDefault);
-    getWebhookEvents({ page, perPage: defaultPerPage });
-    return () => {
-      clearInterval(timer.current);
-    };
-  }, [getWebhookEvents, page]);
+    if (webhook?.id) {
+      const options = { integrationId: webhook.id, page, perPage: defaultPerPage };
+      timer.current = setInterval(() => getWebhookEvents(options), TIMEOUTS.refreshDefault);
+      getWebhookEvents(options);
+    }
+    return () => clearInterval(timer.current);
+  }, [getWebhookEvents, page, webhook?.id]);
 
   const mappedColumns = columns.map(column => ({ ...column, extras: { webhook, classes } }));
 
@@ -55,7 +55,7 @@ const WebhookActivity = ({ classes, columns, events = [], eventsTotal, getWebhoo
 
   return (
     <>
-      <DetailsTable columns={mappedColumns} items={events} onItemClick={setSelectedEvent} tableRef={tableRef} />
+      <DetailsTable columns={mappedColumns} items={events} onItemClick={setSelectedEvent} />
       {eventsTotal > defaultPerPage && (
         <Pagination
           className="margin-top-none"
