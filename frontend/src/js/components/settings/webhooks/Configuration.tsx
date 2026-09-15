@@ -16,28 +16,27 @@ import { useFormState, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { buttonClasses } from '@mui/material';
+import { Alert, Typography, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
-import InfoHint, { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { BENEFITS, EXTERNAL_PROVIDER, canAccess } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
 
-import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
-import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
+import { SETTINGS_FORM_MAX_WIDTH } from '../constants';
 
 const useStyles = makeStyles()(theme => ({
   buttonWrapper: {
     '&.button-wrapper': { justifyContent: 'initial' },
     [`.${buttonClasses.root}`]: { lineHeight: 'initial' }
   },
-  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), paddingTop: theme.spacing(4) }
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), maxWidth: SETTINGS_FORM_MAX_WIDTH }
 }));
 
 export const availableScopes = {
@@ -51,10 +50,8 @@ const UrlInput = props => {
   return (
     <>
       <TextInput {...props} />
-      {!errors[props.id] && watchedUrl.startsWith('http://') ? (
-        <InfoHint content="The endpoint you provided is not protected by HTTPS; all the data will be transferred in plain text" />
-      ) : (
-        <div />
+      {!errors[props.id] && watchedUrl.startsWith('http://') && (
+        <Alert severity="warning">The endpoint you provided is not protected by HTTPS; all the data will be transferred in plain text</Alert>
       )}
     </>
   );
@@ -63,12 +60,17 @@ const UrlInput = props => {
 const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }) => (
   <>
     <div className="flexbox align-items-center margin-top">
-      <h4 className="margin-none margin-right-small">Webhook Events</h4>
+      <Typography className="margin-right-small" variant="subtitle1">
+        Webhook Events
+      </Typography>
       <InfoHintContainer>
         <EnterpriseNotification id={BENEFITS.webhookEvents.id} />
-        <MenderHelpTooltip id={HELPTOOLTIPS.webhookEvents.id} />
       </InfoHintContainer>
     </div>
+    <Typography variant="body2">
+      You can select which type(s) of events the webhook will receive. Device authentication includes when devices are provisioned, decommissioned, or
+      authentication states changes.
+    </Typography>
     <div className="flexbox column margin-left-small">
       {Object.values(availableScopes).map(({ canAccess, id, title }) => (
         <FormCheckbox className="margin-top-none" disabled={!canAccess({ canSelectEvents })} key={id} id={id} label={title} />
@@ -120,32 +122,48 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
   );
 
   return (
-    <BaseDrawer
-      open
-      onClose={onCancel}
-      size="md"
-      slotProps={{ header: { title: 'Webhook details', postTitle: <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.webhooks.id} /> } }}
-    >
+    <BaseDrawer open onClose={onCancel} size="md" slotProps={{ header: { title: 'Webhook details' } }}>
       <Form
         className={classes.formWrapper}
         classes={classes}
         defaultValues={defaultValues}
         handleCancel={onCancel}
         id="webhookConfig"
-        initialValues={defaultValues}
         onSubmit={onSubmitClick}
         showButtons
         submitLabel="Save"
       >
-        <UrlInput label="Url" required id="url" validations="isLength:1,isURL" />
-        <TextInput label="Description (optional)" id="description" InputProps={{ multiline: true }} />
+        <Typography variant="body2">
+          Use webhooks to send data about device lifecycle events to third-party systems. You can have one integration set up at a time.
+        </Typography>
+        <Typography variant="subtitle1">Target URL</Typography>
+        <UrlInput
+          hint="URL"
+          InputLabelProps={{ shrink: true }}
+          required
+          requiredRendered={false}
+          id="url"
+          validations="isLength:1,isURL"
+          helperText="This URL will receive the events."
+        />
+        <Typography variant="subtitle1">Description</Typography>
+        <TextInput hint="Description (optional)" InputLabelProps={{ shrink: true }} id="description" InputProps={{ multiline: true }} />
         <WebhookEventsSelector canSelectEvents={canSelectEvents} />
+        <Typography variant="subtitle1" className="margin-top">
+          Secret
+        </Typography>
+        <Typography variant="body2">
+          The secret is used for signing the requests sent to your webhook, to verify their authenticity. It is highly recommended for security.{' '}
+          <DocsLink path="server-integration/webhooks#signature-header" title="Learn more" /> about secret signature header.
+        </Typography>
         <div className="flexbox">
-          <TextInput label="Secret (optional)" id="secret" validations="isHexadecimal" />
-          <InfoHintContainer style={{ alignItems: 'center' }}>
-            <MenderHelpTooltip id={HELPTOOLTIPS.webhookSecret.id} />
-            <DocsTooltip id={DOCSTIPS.webhookSecret.id} />
-          </InfoHintContainer>
+          <TextInput
+            hint="Secret (optional)"
+            InputLabelProps={{ shrink: true }}
+            id="secret"
+            validations="isHexadecimal"
+            helperText="The secret must be hexadecimal string (including only characters from A-F and 0-9)"
+          />
         </div>
       </Form>
     </BaseDrawer>
