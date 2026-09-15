@@ -249,10 +249,6 @@ exports[`Login Component > renders correctly 1`] = `
   position: relative;
 }
 
-.emotion-19 .required:after {
-  content: none;
-}
-
 .emotion-20 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1594,7 +1590,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
           novalidate=""
         >
           <div
-            class="MuiFormControl-root required emotion-20"
+            class="MuiFormControl-root emotion-20"
             style="width: 400px;"
           >
             <label
