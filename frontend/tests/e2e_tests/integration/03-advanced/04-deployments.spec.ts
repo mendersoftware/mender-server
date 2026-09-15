@@ -36,10 +36,6 @@ test.describe('Deployments', () => {
   let navbar;
   test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: /devices/i }).click();
-    await page.waitForTimeout(timeouts.default);
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
-    await page.waitForTimeout(timeouts.default);
   });
   test('check time filters before deployment', async ({ page }) => {
     await navbar.getByRole('link', { name: /deployments/i }).click();
@@ -68,6 +64,7 @@ test.describe('Deployments', () => {
   });
 
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
+    await navbar.getByRole('link', { name: /software/i }).click();
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
     await navbar.getByRole('link', { name: /deployments/i }).click();
     await page
@@ -78,11 +75,12 @@ test.describe('Deployments', () => {
     await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
+    await navbar.getByRole('link', { name: /software/i }).click();
     test.setTimeout(6 * timeouts.sixtySeconds);
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="deploy"]');
+    await page.getByRole('button', { name: 'release-actions' }).click();
+    await page.getByRole('menuitem', { name: /Create a deployment for this/i }).click();
     await page.waitForSelector(selectors.deviceGroupSelect, { timeout: timeouts.fiveSeconds });
     const deviceGroupSelect = await page.getByPlaceholder(/select a device group/i);
     await deviceGroupSelect.focus();
@@ -103,10 +101,10 @@ test.describe('Deployments', () => {
   test('allows shortcut device deployments', async ({ page }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
     await navbar.getByRole('link', { name: /devices/i }).click();
-    // create an artifact to download first
     await page.getByText(/original/i).click();
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="create-deployment"]');
+    await expect(page.getByText(/device information for/i)).toBeVisible();
+    await page.getByRole('button', { name: 'device-actions' }).click();
+    await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
 
     await selectReleaseByName(page, 'mender-demo-artifact');
     await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
