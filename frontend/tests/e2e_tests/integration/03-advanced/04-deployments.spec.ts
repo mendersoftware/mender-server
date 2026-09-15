@@ -36,10 +36,6 @@ test.describe('Deployments', () => {
   let navbar;
   test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: /devices/i }).click();
-    await page.waitForTimeout(timeouts.default);
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
-    await page.waitForTimeout(timeouts.default);
   });
   test('check time filters before deployment', async ({ page }) => {
     await navbar.getByRole('link', { name: /deployments/i }).click();
@@ -68,6 +64,7 @@ test.describe('Deployments', () => {
   });
 
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
+    await navbar.getByRole('link', { name: /software/i }).click();
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
     await navbar.getByRole('link', { name: /deployments/i }).click();
     await page
@@ -78,6 +75,7 @@ test.describe('Deployments', () => {
     await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
+    await navbar.getByRole('link', { name: /software/i }).click();
     test.setTimeout(6 * timeouts.sixtySeconds);
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
