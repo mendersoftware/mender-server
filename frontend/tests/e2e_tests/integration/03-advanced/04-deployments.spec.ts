@@ -105,6 +105,7 @@ test.describe('Deployments', () => {
     await navbar.getByRole('link', { name: /devices/i }).click();
     // create an artifact to download first
     await page.getByText(/original/i).click();
+    await expect(page.getByText(/device information for/i)).toBeVisible();
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="create-deployment"]');
 
