@@ -47,8 +47,8 @@ test.describe('Devices', () => {
         .getByRole('button', { name: /view details/i })
         .click();
       await page.click(selectors.deviceListCheckbox);
-      await page.click('.MuiSpeedDial-fab');
-      await page.click('[aria-label="accept"]');
+      await page.getByRole('button', { name: 'device-actions' }).click();
+      await page.getByRole('menuitem', { name: /accept/i }).click();
     }
     await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
     await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
@@ -105,8 +105,8 @@ test.describe('Devices', () => {
     test.setTimeout(12 * timeouts.sixtySeconds);
     await navbar.getByRole('link', { name: /devices/i }).click();
     await page.getByText(/qemu/i).click();
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="create-deployment"]');
+    await page.getByRole('button', { name: 'device-actions' }).click();
+    await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
 
     await selectReleaseByName(page, 'snapshot-test');
     await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
@@ -120,8 +120,8 @@ test.describe('Devices', () => {
   test('allows shortcut device deployments 2', async ({ page }) => {
     await navbar.getByRole('link', { name: /devices/i }).click();
     await page.getByText(/qemu/i).click();
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="create-deployment"]');
+    await page.getByRole('button', { name: 'device-actions' }).click();
+    await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
 
     await selectReleaseByName(page, 'snapshot-modified');
 

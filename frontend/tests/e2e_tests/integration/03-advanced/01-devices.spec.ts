@@ -63,8 +63,8 @@ test.describe('Devices', () => {
         .getByRole('button', { name: /view details/i })
         .click();
       await page.click(selectors.deviceListCheckbox);
-      await page.click('.MuiSpeedDial-fab');
-      await page.click('[aria-label="accept"]');
+      await page.getByRole('button', { name: 'device-actions' }).click();
+      await page.getByRole('menuitem', { name: /accept/i }).click();
     }
     await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
     await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
@@ -97,7 +97,7 @@ test.describe('Devices', () => {
     await deviceActions.click();
     await expect(page.locator('[aria-label="remove-test-device"]')).toBeVisible();
     await expect(page.locator('[aria-label="set-test-device"]')).toHaveCount(0);
-    await page.click('[aria-label="remove-test-device"]');
+    await page.getByRole('menuitem', { name: /Remove as test device/i }).click();
     const removalDialog = page.getByRole('dialog');
     await expect(removalDialog.getByRole('heading', { name: 'Remove as test device?' })).toBeVisible();
     await removalDialog.getByRole('button', { name: 'Remove as test device', exact: true }).click();
@@ -107,7 +107,7 @@ test.describe('Devices', () => {
     await deviceActions.click();
     await expect(page.locator('[aria-label="set-test-device"]')).toBeVisible();
     await expect(page.locator('[aria-label="remove-test-device"]')).toHaveCount(0);
-    await page.click('[aria-label="set-test-device"]');
+    await page.getByRole('menuitem', { name: /Set as test device/i }).click();
     const additionDialog = page.getByRole('dialog');
     await expect(additionDialog.getByRole('heading', { name: 'Set as test device?' })).toBeVisible();
     await additionDialog.getByRole('button', { name: 'Set as test device', exact: true }).click();
@@ -120,8 +120,8 @@ test.describe('Devices', () => {
     const wasGrouped = await groupList.getByText('testgroup').isVisible();
     test.skip(wasGrouped, 'looks like the device was grouped already, continue with the remaining tests');
     await page.click(selectors.deviceListCheckbox);
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="group-add"]');
+    await page.getByRole('button', { name: 'device-actions' }).click();
+    await page.getByRole('menuitem', { name: /add selected/i }).click();
     await page.getByLabel(/type to create new/i).fill('testgroup');
     await page.click('.MuiDialogTitle-root');
     const groupCreation = await page.getByRole('button', { name: /create group/i });

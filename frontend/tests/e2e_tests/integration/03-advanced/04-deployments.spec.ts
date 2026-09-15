@@ -81,8 +81,8 @@ test.describe('Deployments', () => {
     test.setTimeout(6 * timeouts.sixtySeconds);
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="deploy"]');
+    await page.getByRole('button', { name: 'release-actions' }).click();
+    await page.getByRole('menuitem', { name: /Create a deployment for this/i }).click();
     await page.waitForSelector(selectors.deviceGroupSelect, { timeout: timeouts.fiveSeconds });
     const deviceGroupSelect = await page.getByPlaceholder(/select a device group/i);
     await deviceGroupSelect.focus();
@@ -103,11 +103,10 @@ test.describe('Deployments', () => {
   test('allows shortcut device deployments', async ({ page }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
     await navbar.getByRole('link', { name: /devices/i }).click();
-    // create an artifact to download first
     await page.getByText(/original/i).click();
     await expect(page.getByText(/device information for/i)).toBeVisible();
-    await page.click('.MuiSpeedDial-fab');
-    await page.click('[aria-label="create-deployment"]');
+    await page.getByRole('button', { name: 'device-actions' }).click();
+    await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
 
     await selectReleaseByName(page, 'mender-demo-artifact');
     await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
