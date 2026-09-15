@@ -45,7 +45,6 @@ const RequestForm = () => {
         label="Your message"
         InputLabelProps={{ shrink: true }}
         required
-        requiredRendered={false}
         InputProps={{
           rows: 3,
           multiline: true,

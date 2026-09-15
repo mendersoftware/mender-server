@@ -37,7 +37,6 @@ const useStyles = makeStyles()(theme => ({
     alignItems: 'center'
   },
   buttonWrapper: { [`.${buttonClasses.root}`]: { width: '100%' } },
-  requiredReset: { '.required:after': { content: 'none' } },
   ntBrandingLeft: { bottom: `${theme.mixins.toolbar.minHeight}px`, left: '1vw', zIndex: 0 },
   ntBrandingRight: { right: '2vw', top: '-3vh', transform: 'rotate(90deg)', zIndex: 0 }
 }));
@@ -94,7 +93,6 @@ const PasswordForgotRequest = ({ onSubmit }: { onSubmit: (formValues: PasswordRe
       <p className="margin-bottom">Enter the email address associated with your account, and we&apos;ll send you a reset link.</p>
       <Form
         classes={{ buttonWrapper: classes.buttonWrapper }}
-        className={classes.requiredReset}
         defaultValues={{ email: '' }}
         onSubmit={onSubmit}
         showButtons={true}

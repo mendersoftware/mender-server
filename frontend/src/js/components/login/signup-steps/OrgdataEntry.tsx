@@ -67,7 +67,6 @@ const OrgDataContent = ({
         label="Name*"
         helperText="Set an organization name for your account"
         required
-        requiredRendered={false}
         validations="isLength:1:256,trim"
       />
       {!emailVerified && <TextInput className="margin-bottom-small" hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}

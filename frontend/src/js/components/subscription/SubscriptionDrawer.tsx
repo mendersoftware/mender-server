@@ -66,8 +66,7 @@ const useStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    maxWidth: 600,
-    '.required .relative': { marginLeft: theme.spacing(10) }
+    maxWidth: 600
   },
   buttonWrapper: {
     '&.button-wrapper': { justifyContent: 'initial' },
