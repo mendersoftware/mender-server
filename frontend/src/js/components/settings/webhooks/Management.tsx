@@ -57,19 +57,15 @@ const triggerMap = {
 const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
   const { delivery_statuses = [] } = entry;
 
-  const status = useMemo(() => {
-    const status = delivery_statuses.find(status => status.integration_id === webhook.id) ?? delivery_statuses[0];
-    if (status) {
-      return { code: status.status_code, signal: status.success ? 'green' : 'red' };
-    }
-    return { code: 418, signal: 'disabled' };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(delivery_statuses), webhook.id]);
+  const delivery = delivery_statuses.find(status => status.integration_id === webhook.id);
+  if (!delivery) {
+    return '-';
+  }
 
   return (
     <div className="flexbox align-items-center">
-      <CircleIcon className={`${status.signal} ${classes.statusIcon}`} />
-      <div className={status.code >= 400 ? 'muted' : ''}>{status.code}</div>
+      <CircleIcon className={`${delivery.success ? 'green' : 'red'} ${classes.statusIcon}`} />
+      <div>{delivery.status_code ?? '-'}</div>
     </div>
   );
 };
