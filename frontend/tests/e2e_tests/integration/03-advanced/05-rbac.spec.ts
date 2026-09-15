@@ -22,7 +22,10 @@ import { locateReleaseByName } from '../../utils/utils.ts';
 // Regression: the /deployments/software endpoints had no RBAC permission-set entry, so every non-admin
 // role was rejected with "forbidden by role-based access control" when opening the software picker.
 const expectSoftwareListingAllowed = async (page: Page) => {
-  await page.locator('.leftFixed.leftNav').getByRole('link', { name: /deployments/i }).click();
+  await page
+    .locator('.leftFixed.leftNav')
+    .getByRole('link', { name: /deployments/i })
+    .click();
   await page
     .getByRole('button', { name: /create a deployment/i })
     .first()
@@ -115,7 +118,7 @@ test.describe('RBAC functionality', () => {
         // wait for the permissions menu backdrop to fully close before opening the next dropdown,
         // otherwise the click that should open the release-tags autocomplete gets swallowed by the backdrop
         await page.waitForTimeout(timeouts.default);
-        await dialog.getByLabel(/Search release tags/i).click({ force: true });
+        await dialog.getByLabel(/Search software tags/i).click({ force: true });
         if (tag) {
           await page.getByRole('option', { name: tag }).click();
         } else {
