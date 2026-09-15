@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { ReactElement } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
@@ -21,6 +21,7 @@ import { Button, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
@@ -40,11 +41,9 @@ import WebhookEventDetails from './EventDetails';
 const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
-  divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
   slide: { gridArea: '1 / 1', minWidth: 0 },
   slideContainer: { display: 'grid', overflowX: 'clip' },
-  statusIcon: { fontSize: 12, marginRight: theme.spacing() },
-  wrapper: { justifyContent: 'end' }
+  statusIcon: { fontSize: 12, marginRight: theme.spacing() }
 }));
 
 const triggerMap = {
@@ -146,19 +145,21 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
     >
       <div className={classes.slideContainer} ref={containerRef}>
         <Slide appear={false} in={!isShowingDetails} container={() => containerRef.current} direction="right">
-          <div className={`${classes.slide} margin-top`}>
-            <h4>Settings</h4>
-            <TwoColumnData className="margin-top margin-bottom" data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
-            <h4>Activity</h4>
-            <WebhookActivity
-              classes={classes}
-              columns={columns}
-              events={events}
-              eventsTotal={eventsTotal}
-              getWebhookEvents={dispatchedGetWebhookEvents}
-              setSelectedEvent={onEventSelect}
-              webhook={webhook}
-            />
+          <div className={classes.slide}>
+            <ContentSection title="Settings">
+              <TwoColumnData data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            </ContentSection>
+            <ContentSection title="Activity">
+              <WebhookActivity
+                classes={classes}
+                columns={columns}
+                events={events}
+                eventsTotal={eventsTotal}
+                getWebhookEvents={dispatchedGetWebhookEvents}
+                setSelectedEvent={onEventSelect}
+                webhook={webhook}
+              />
+            </ContentSection>
           </div>
         </Slide>
         <Slide
@@ -169,7 +170,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
           onExited={() => setSelectedEvent(undefined)}
           unmountOnExit
         >
-          <div className={`${classes.slide} margin-top`}>
+          <div className={classes.slide}>
             <WebhookEventDetails
               classes={classes}
               columns={columns}
