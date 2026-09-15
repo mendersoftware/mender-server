@@ -29,7 +29,7 @@ describe('Roles Component', () => {
         onSubmit={vi.fn}
         removeRole={vi.fn}
         stateGroups={defaultState.devices.groups.byId}
-        stateReleaseTags={{}}
+        stateSoftwareTags={{}}
         selectedRole={undefined}
       />
     );
@@ -63,7 +63,7 @@ describe('Roles Component', () => {
         onSubmit={vi.fn}
         removeRole={vi.fn}
         stateGroups={defaultState.devices.groups.byId}
-        stateReleaseTags={{}}
+        stateSoftwareTags={{}}
         selectedRole={selectedRole}
       />
     );
@@ -79,7 +79,7 @@ describe('Roles Component', () => {
         onSubmit={vi.fn}
         removeRole={vi.fn}
         stateGroups={defaultState.devices.groups.byId}
-        stateReleaseTags={{}}
+        stateSoftwareTags={{}}
         selectedRole={selectedRole}
       />
     );

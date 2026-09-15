@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { ALL_DEVICES, ALL_RELEASES, TIMEOUTS } from '@northern.tech/store/constants';
+import { ALL_DEVICES, ALL_SOFTWARE, TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
@@ -37,7 +37,7 @@ describe('Roles Component', () => {
       ...defaultState,
       releases: {
         ...defaultState.releases,
-        tags: { ...defaultState.releases.tags, releases: ['foo', 'bar'] }
+        tags: { ...defaultState.releases.tags, software: ['foo', 'bar'] }
       }
     };
     render(<Roles />, { preloadedState });
@@ -61,7 +61,7 @@ describe('Roles Component', () => {
     expect(screen.getByText(/For 'All devices',/)).toBeVisible();
 
     const releaseSelect = within(collapse).getByText('bar').parentNode;
-    await selectMaterialUiSelectOption(releaseSelect, ALL_RELEASES, user);
+    await selectMaterialUiSelectOption(releaseSelect, ALL_SOFTWARE, user);
 
     const permissionSelect = within(collapse).getByDisplayValue(ALL_DEVICES).parentElement?.parentElement?.parentElement;
     const selectButton = within(within(permissionSelect).getByText(/read/i).parentElement).getByRole('combobox', { hidden: true });
@@ -94,7 +94,7 @@ describe('Roles Component', () => {
           { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
         releases: [
-          { disableEdit: false, item: ALL_RELEASES, notFound: false, uiPermissions: ['read'] },
+          { disableEdit: false, item: ALL_SOFTWARE, notFound: false, uiPermissions: ['read'] },
           { disableEdit: false, item: '', notFound: false, uiPermissions: [] }
         ],
         tenantManagement: [],

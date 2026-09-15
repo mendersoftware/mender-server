@@ -38,7 +38,7 @@ const currentState = [
 ];
 const items = [
   {
-    title: 'All releases',
+    title: 'All software',
     notFound: false
   },
   {

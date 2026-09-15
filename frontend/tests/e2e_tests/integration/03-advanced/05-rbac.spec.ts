@@ -119,7 +119,7 @@ test.describe('RBAC functionality', () => {
         if (tag) {
           await page.getByRole('option', { name: tag }).click();
         } else {
-          await page.getByRole('option', { name: /All releases/i }).click({ force: true });
+          await page.getByRole('option', { name: /All software/i }).click({ force: true });
         }
         await dialog.locator(`[id="mui-component-select-releases.0.uiPermissions"]`).click();
         for await (const permission of permissions) {

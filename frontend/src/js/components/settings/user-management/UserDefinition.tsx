@@ -61,7 +61,7 @@ const mapPermissions = permissions => permissions.map(permission => uiPermission
 
 const scopedPermissionAreas = {
   groups: 'Device groups',
-  releases: 'Releases'
+  releases: 'Software'
 };
 
 export const UserId = ({ className = '', userId }) => {

@@ -27,7 +27,7 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
 import {
   ALL_DEVICES,
-  ALL_RELEASES,
+  ALL_SOFTWARE,
   emptyRole,
   emptyUiPermissions,
   itemUiPermissionsReducer,
@@ -88,7 +88,7 @@ const groupsFilter = stateGroups =>
     [ALL_DEVICES]
   );
 
-const releasesFilter = stateReleaseTags => [ALL_RELEASES, ...Object.keys(stateReleaseTags)];
+const releasesFilter = stateSoftwareTags => [ALL_SOFTWARE, ...Object.keys(stateSoftwareTags)];
 
 const scopedPermissionAreas: Record<string, PermissionsArea> = {
   groups: {
@@ -103,10 +103,10 @@ const scopedPermissionAreas: Record<string, PermissionsArea> = {
   releases: {
     ...uiPermissionsByArea.releases,
     filter: releasesFilter,
-    placeholder: 'Search release tags',
+    placeholder: 'Search software tags',
     excessiveAccessConfig: {
-      selector: ALL_RELEASES,
-      warning: `For 'All releases', users with the Manage permission may also upload and delete releases.`
+      selector: ALL_SOFTWARE,
+      warning: `For 'All software', users with the Manage permission may also upload and delete releases and manifests.`
     }
   }
 };
@@ -149,15 +149,15 @@ const deriveItemsAndPermissions = (
 
 interface PermissionSelectionFormVariant extends PermissionsSelectionBaseProps {
   groups: object[];
-  releases: object[];
   setValue: UseFormSetValue<FieldValues>;
+  software: object[];
 }
 
-const DefaultPermissionSelection: FunctionComponent<PermissionSelectionFormVariant> = ({ disabled, groups, releases, setValue }) => (
+const DefaultPermissionSelection: FunctionComponent<PermissionSelectionFormVariant> = ({ disabled, groups, software, setValue }) => (
   <>
     <PermissionsItem area={uiPermissionsByArea.userManagement} disabled={disabled} />
     <PermissionsItem area={uiPermissionsByArea.auditlog} disabled={disabled} />
-    <ItemSelection disabled={disabled} setValue={setValue} options={releases} permissionsArea={scopedPermissionAreas.releases} />
+    <ItemSelection disabled={disabled} setValue={setValue} options={software} permissionsArea={scopedPermissionAreas.releases} />
     <ItemSelection disabled={disabled} setValue={setValue} options={groups} permissionsArea={scopedPermissionAreas.groups} />
   </>
 );
@@ -175,15 +175,15 @@ interface RoleDefinitionFormProps {
   groups: ItemScope[];
   isServiceProvider: boolean;
   onCancel: () => void;
-  releases: ItemScope[];
   selectedRole: UiRoleDefinition;
+  software: ItemScope[];
 }
 
 export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
   editing,
   groups: stateGroups,
   isServiceProvider,
-  releases: stateReleases,
+  software: stateSoftware,
   onCancel,
   selectedRole
 }) => {
@@ -250,7 +250,7 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
         {isServiceProvider ? (
           <ServiceProviderPermissionSelection disabled={disableEdit} />
         ) : (
-          <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
+          <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} software={stateSoftware} setValue={setValue} />
         )}
       </div>
       <div className="flexbox">
@@ -274,7 +274,7 @@ interface RoleDefinitionProps {
   removeRole: () => AsyncThunkAction<void, string, object>;
   selectedRole: UiRoleDefinition;
   stateGroups: Record<string, object>;
-  stateReleaseTags: Record<string, object>;
+  stateSoftwareTags: Record<string, object>;
 }
 
 export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
@@ -282,14 +282,14 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
   editing,
   isServiceProvider,
   stateGroups,
-  stateReleaseTags,
+  stateSoftwareTags,
   onCancel,
   onSubmit,
   removeRole,
   selectedRole = { ...emptyRole }
 }) => {
   const [groups, setGroups] = useState([]);
-  const [releases, setReleases] = useState([]);
+  const [software, setSoftware] = useState([]);
   const [values, setValues] = useState(defaultValues);
   const [removeDialog, setRemoveDialog] = useState(false);
   const { classes } = useStyles();
@@ -310,11 +310,11 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
       filter: scopedPermissionAreas.groups.filter
     });
     setGroups(filteredStateGroups);
-    const { filtered: filteredReleases, selections: releaseTagSelections } = deriveItemsAndPermissions(stateReleaseTags, roleReleases, {
+    const { filtered: filteredReleases, selections: releaseTagSelections } = deriveItemsAndPermissions(stateSoftwareTags, roleReleases, {
       disableEdit,
       filter: scopedPermissionAreas.releases.filter
     });
-    setReleases(filteredReleases);
+    setSoftware(filteredReleases);
     setValues({
       name: roleName,
       description: roleDescription,
@@ -325,7 +325,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
       releases: releaseTagSelections
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editing, JSON.stringify(selectedRole), JSON.stringify(stateGroups), JSON.stringify(stateReleaseTags)]);
+  }, [editing, JSON.stringify(selectedRole), JSON.stringify(stateGroups), JSON.stringify(stateSoftwareTags)]);
 
   const onSubmitClick = values => {
     const allowUserManagement = values.userManagement.includes(uiPermissionsById.manage.value);
@@ -385,7 +385,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
         <FormContent
           editing={editing}
           groups={groups}
-          releases={releases}
+          software={software}
           isServiceProvider={isServiceProvider}
           onCancel={onCancel}
           selectedRole={selectedRole}
