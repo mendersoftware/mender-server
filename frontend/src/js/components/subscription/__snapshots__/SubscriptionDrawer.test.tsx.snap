@@ -210,10 +210,6 @@ exports[`Subscription Drawer component > renders correctly 1`] = `
   max-width: 600px;
 }
 
-.emotion-7 .required .relative {
-  margin-left: 80px;
-}
-
 .emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1557,7 +1553,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           Your billing details
         </h6>
         <div
-          class="MuiFormControl-root required emotion-9"
+          class="MuiFormControl-root emotion-9"
           style="width: 500px;"
         >
           <label
@@ -1597,7 +1593,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           />
         </div>
         <div
-          class="MuiFormControl-root required emotion-9"
+          class="MuiFormControl-root emotion-9"
           style="width: 500px;"
         >
           <label
@@ -1646,7 +1642,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
         class="emotion-7"
       >
         <div
-          class="MuiFormControl-root required emotion-9"
+          class="MuiFormControl-root emotion-9"
           style="width: 500px;"
         >
           <label
@@ -1686,7 +1682,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           />
         </div>
         <div
-          class="MuiFormControl-root required emotion-9"
+          class="MuiFormControl-root emotion-9"
           style="width: 500px;"
         >
           <label
@@ -1726,7 +1722,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           />
         </div>
         <div
-          class="MuiFormControl-root required emotion-9"
+          class="MuiFormControl-root emotion-9"
           style="width: 500px;"
         >
           <label

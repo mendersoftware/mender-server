@@ -38,7 +38,6 @@ type TextInputProps = {
   helperText?: string;
   hint?: string;
   id: string;
-  requiredRendered?: boolean;
   rules?: RegisterOptions;
   type?: string;
   value?: string;
@@ -60,7 +59,6 @@ export const TextInput = ({
   validations = '',
   rules = {},
   value: passedValue = '',
-  requiredRendered = true,
   width = 400,
   helperText = ''
 }: TextInputProps) => {
@@ -92,11 +90,7 @@ export const TextInput = ({
       render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => {
         const { onBlur: externalOnBlur, ...restInputProps } = InputProps;
         return (
-          <FormControl
-            className={`${className} ${required && requiredRendered ? 'required' : ''}`}
-            error={Boolean(error?.message || errors[errorKey])}
-            style={{ width }}
-          >
+          <FormControl className={className} error={Boolean(error?.message || errors[errorKey])} style={{ width }}>
             <InputLabel htmlFor={id} {...InputLabelProps}>
               {label}
             </InputLabel>

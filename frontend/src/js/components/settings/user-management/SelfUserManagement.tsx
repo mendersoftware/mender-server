@@ -53,11 +53,9 @@ const useStyles = makeStyles()(theme => ({
   alert: { width: SETTINGS_INPUT_WIDTH },
   widthLimit: {
     maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
-    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH },
-    '.required:after': { content: 'none' }
+    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH }
   },
   buttonReset: { '.button-wrapper': { justifyContent: 'start', marginTop: theme.spacing(1.5) } },
-  requiredReset: { '.required:after': { content: 'none' } },
   columnWidths: {
     '&.settings-item-main-content': {
       gridTemplateColumns: `${SETTINGS_INPUT_WIDTH}px 1fr`
@@ -288,7 +286,7 @@ export const SelfUserManagement = () => {
           )}
           {!!pendingEmail && (
             <BaseDialog open title="Confirm email change" onClose={() => setPendingEmail('')}>
-              <Form className={classes.requiredReset} onSubmit={onConfirmEmailChange} showButtons={false}>
+              <Form onSubmit={onConfirmEmailChange} showButtons={false}>
                 <DialogContent>
                   <Typography className="margin-bottom-small">Please enter your password to continue.</Typography>
                   <PasswordInput id="current_password" label="Password" required />

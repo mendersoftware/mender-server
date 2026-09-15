@@ -32,7 +32,7 @@ import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 const useStyles = makeStyles()((theme: Theme) => ({
   alert: { fontWeight: theme.typography.fontWeightMedium },
   gapRemover: { marginTop: theme.spacing(-1.5) },
-  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative', '.required:after': { content: 'none' } },
+  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative' },
   passwordWrapper: { '.password-wrapper': { gridTemplateColumns: '1fr' } }
 }));
 

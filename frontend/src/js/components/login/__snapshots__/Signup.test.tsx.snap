@@ -1586,7 +1586,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
           />
         </div>
         <div
-          class="MuiFormControl-root required emotion-25"
+          class="MuiFormControl-root emotion-25"
           style="width: 400px;"
         >
           <label
@@ -1632,7 +1632,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             class="password-wrapper"
           >
             <div
-              class="MuiFormControl-root required emotion-25"
+              class="MuiFormControl-root emotion-25"
               style="width: 400px;"
             >
               <label
@@ -1702,7 +1702,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             class="password-wrapper"
           >
             <div
-              class="MuiFormControl-root required emotion-25"
+              class="MuiFormControl-root emotion-25"
               style="width: 400px;"
             >
               <label

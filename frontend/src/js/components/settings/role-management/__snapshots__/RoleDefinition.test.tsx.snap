@@ -1290,7 +1290,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           Name
         </h6>
         <div
-          class="MuiFormControl-root required emotion-9"
+          class="MuiFormControl-root emotion-9"
           style="width: 400px;"
         >
           <label
