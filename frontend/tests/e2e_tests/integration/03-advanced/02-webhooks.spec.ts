@@ -34,8 +34,8 @@ test.describe('Webhooks Functionality', () => {
     await page.getByRole('option', { name: /Webhooks/i }).click();
     await page.getByTitle(/webhook details/i).isVisible({ timeout: timeouts.default });
     await expect(page.getByRole('button', { name: /save/i })).toBeDisabled();
-    await page.getByLabel(/url/i).fill(`${baseWebhookLocation}/all`);
-    await page.getByLabel(/description/i).fill('some description');
+    await page.getByPlaceholder(/url/i).fill(`${baseWebhookLocation}/all`);
+    await page.getByPlaceholder(/description/i).fill('some description');
     await expect(page.getByRole('button', { name: /save/i })).not.toBeDisabled();
     await page.getByRole('button', { name: /save/i }).click();
     await expect(page.getByText(/view details/i)).toBeVisible();
@@ -76,7 +76,7 @@ test.describe('Webhooks Functionality', () => {
     await page.getByLabel(/add an integration/i).click();
     await page.getByRole('option', { name: /Webhooks/i }).click();
     await page.getByTitle(/webhook details/i).isVisible({ timeout: timeouts.default });
-    await page.getByLabel(/url/i).fill(`${baseWebhookLocation}/inventory`);
+    await page.getByPlaceholder(/url/i).fill(`${baseWebhookLocation}/inventory`);
     await page.getByLabel(/device authentication/i).click();
     await page.getByLabel(/device inventory/i).click();
     await page.screenshot({ path: './test-results/save-webhook.png' });
