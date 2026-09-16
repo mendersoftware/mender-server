@@ -19,6 +19,7 @@ import type { TestEnvironment } from '../../fixtures/fixtures';
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging } from '../../utils/commands';
 import { expectedArtifactName, selectors, timeouts } from '../../utils/constants';
+import { acceptPendingDevice } from '../../utils/utils';
 
 const fileName = `${expectedArtifactName}.mender`;
 const rootfs = 'rootfs-image.version';
@@ -48,27 +49,7 @@ test.describe('Devices', () => {
   test('can authorize a device', async ({ page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(2 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
-    let hasAcceptedDevice = false;
-    try {
-      await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
-      hasAcceptedDevice = await page.isVisible(selectors.deviceListItem);
-    } catch {
-      console.log(`no accepted device present so far`);
-    }
-    if (!hasAcceptedDevice) {
-      const pendingMessage = await page.getByText(/pending authorization/i);
-      await pendingMessage.waitFor({ timeout: timeouts.sixtySeconds });
-      await pendingMessage
-        .locator('..')
-        .getByRole('button', { name: /view details/i })
-        .click();
-      await page.click(selectors.deviceListCheckbox);
-      await page.getByRole('button', { name: 'device-actions' }).click();
-      await page.getByRole('menuitem', { name: /accept/i }).click();
-    }
-    await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
-    await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
-    await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/original/`, { timeout: 2 * timeouts.sixtySeconds });
+    await acceptPendingDevice(page, 'original');
     const element = await page.textContent(selectors.deviceListItem);
     expect(element.includes('original')).toBeTruthy();
     await openDeviceDetails(page);
