@@ -1580,7 +1580,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
                   class=""
                 >
                   <div
-                    class="MuiFormControl-root required emotion-8"
+                    class="MuiFormControl-root emotion-8"
                     style="width: 400px;"
                   >
                     <label

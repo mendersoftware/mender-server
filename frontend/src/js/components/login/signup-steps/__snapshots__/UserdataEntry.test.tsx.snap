@@ -925,7 +925,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
       />
     </div>
     <div
-      class="MuiFormControl-root required emotion-15"
+      class="MuiFormControl-root emotion-15"
       style="width: 400px;"
     >
       <label
@@ -968,7 +968,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
       class="margin-bottom-small margin-top-small"
     >
       <div
-        class="MuiFormControl-root required emotion-15"
+        class="MuiFormControl-root emotion-15"
         style="width: 400px;"
       >
         <label
@@ -1036,7 +1036,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
       class=""
     >
       <div
-        class="MuiFormControl-root required emotion-15"
+        class="MuiFormControl-root emotion-15"
         style="width: 400px;"
       >
         <label

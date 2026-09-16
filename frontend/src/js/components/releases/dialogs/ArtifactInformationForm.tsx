@@ -56,7 +56,7 @@ export const VersionInformation = ({ file, onRemove, type }) => {
       <FileInformation file={file} type={type} onRemove={onRemove} />
       <Typography variant="subtitle1">Version information</Typography>
       {versionFields.map(({ key, label }, index) => (
-        <TextInput key={key} id={key} InputProps={{ autoFocus: !index }} label={label} required requiredRendered={false} width="100%" />
+        <TextInput key={key} id={key} InputProps={{ autoFocus: !index }} label={label} required width="100%" />
       ))}
     </div>
   );
@@ -100,7 +100,6 @@ export const ArtifactInformation = ({ deviceTypes = [], file, onRemove, type }) 
         InputProps={{ autoFocus: true }}
         label="Destination directory"
         required
-        requiredRendered={false}
         rules={{ validate: value => checkDestinationValidity(value) || 'Destination has to be an absolute path' }}
         width="100%"
       />
@@ -113,7 +112,6 @@ export const ArtifactInformation = ({ deviceTypes = [], file, onRemove, type }) 
         InputProps={{ label: undefined }}
         label={releaseNameLabel}
         required
-        requiredRendered={false}
         rules={{ required: 'Release name is required' }}
         width="100%"
       />

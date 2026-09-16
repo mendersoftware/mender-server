@@ -106,7 +106,6 @@ const UserInputs = (props: UserInputsProps) => {
       <TextInput
         validations="isEmail,trim"
         required
-        requiredRendered={false}
         id="email"
         label="Admin user"
         width={430}
@@ -178,7 +177,6 @@ export const DeviceLimitsInput = props => {
             disabled={!deviceTierEnabled[limit.id]}
             id={limit.id}
             required={deviceTierEnabled[limit.id]}
-            requiredRendered={false}
             min={0}
             max={limit.quotaLeft}
             size="small"
@@ -275,7 +273,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <Typography className="margin-bottom-x-small" variant="subtitle1">
             Tenant name
           </Typography>
-          <TextInput validations="isLength:3:256,trim" required requiredRendered={false} id="name" hint="Name" label="Name" width={430} />
+          <TextInput validations="isLength:3:256,trim" required id="name" hint="Name" label="Name" width={430} />
         </div>
         <div>
           <Typography className="margin-bottom-x-small" variant="subtitle1">

@@ -29,7 +29,6 @@ type NumberInputProps = {
   min?: number;
   onBlur?: (value: number | null) => void;
   required?: boolean;
-  requiredRendered?: boolean;
   rules?: RegisterOptions;
   showSteps?: boolean;
   size?: 'small' | 'medium';
@@ -49,7 +48,6 @@ export const NumberInput = ({
   min,
   onBlur: onBlurExternal,
   required,
-  requiredRendered = true,
   rules,
   showSteps,
   size,
@@ -63,8 +61,6 @@ export const NumberInput = ({
     ...rules
   };
 
-  const wrapperClassName = `${className} ${required && requiredRendered ? 'required' : ''}`.trim();
-
   return (
     <Controller
       name={id}
@@ -74,7 +70,7 @@ export const NumberInput = ({
       render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <NumberField
           id={id}
-          className={wrapperClassName}
+          className={className}
           style={{ width }}
           label={label}
           value={value ?? null}

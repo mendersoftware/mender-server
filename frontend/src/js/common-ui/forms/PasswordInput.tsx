@@ -124,7 +124,7 @@ export const PasswordInput = ({
           const showSuccess = strong && !errorMessage && Boolean(value);
           return (
             <FormControl
-              className={`${required ? 'required' : ''} ${showSuccess ? classes.success : ''}`.trim()}
+              className={showSuccess ? classes.success : ''}
               error={Boolean(errorMessage)}
               color={showSuccess ? 'success' : undefined}
               style={{ width }}
