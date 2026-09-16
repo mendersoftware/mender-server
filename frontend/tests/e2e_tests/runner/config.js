@@ -18,7 +18,7 @@ import { join } from 'path';
 import process from 'process';
 import { v4 as uuid } from 'uuid';
 
-import { defaults, environments, projects, testSuiteVariants } from './cli.js';
+import { defaults, environments, isQemuDependent, projects, testSuiteVariants } from './cli.js';
 
 const serverRoot = process.env.SERVER_ROOT || execSync('git rev-parse --show-toplevel', { encoding: 'utf-8' }).trim();
 const guiRepository = process.env.GUI_REPOSITORY || join(serverRoot, 'frontend');
@@ -92,6 +92,8 @@ export const createConfig = (options = {}) => {
   }
   if (baseConfig.variant === testSuiteVariants.qemu) {
     composeFiles.push(join(baseConfig.guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.rofs.yml'));
+  } else if (baseConfig.variant === testSuiteVariants.orchestrator) {
+    composeFiles.push(join(baseConfig.guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.orchestrator.yml'));
   }
 
   const configWithFiles = { ...baseConfig, composeFiles };
@@ -134,8 +136,8 @@ export const validateConfiguration = config => {
   if (!environments[config.environment]) {
     errors.push(`Invalid environment: ${config.environment}. Valid environments are: ${Object.values(environments).join(', ')}`);
   }
-  if (config.variant === testSuiteVariants.qemu && config.environment !== environments.enterprise) {
-    errors.push(`--variant qemu requires --environment enterprise`);
+  if (isQemuDependent(config.variant) && config.environment !== environments.enterprise) {
+    errors.push(`--variant ${config.variant} requires --environment enterprise`);
   }
   const missingFiles = config.composeFiles.filter(file => !existsSync(file));
   if (missingFiles.length > 0) {

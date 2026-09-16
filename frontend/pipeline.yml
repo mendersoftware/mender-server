@@ -230,7 +230,7 @@ test:frontend:acceptance:enterprise:
 test:frontend:acceptance:enterprise:qemu:
   extends: .template:test:frontend:acceptance
   variables:
-    TEST_ENVIRONMENT: enterprise
+    TEST_VARIANT: qemu
   rules:
     # This job can only run on protected branches
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -243,13 +243,18 @@ test:frontend:acceptance:enterprise:qemu:
         export MENDER_IMAGE_TAG=main
       fi
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
-    - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant qemu
+    - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant ${TEST_VARIANT}
   retry:
     max: 2 # the qemu client is unreliable to connect
     when:
       - script_failure
       - runner_system_failure
       - unknown_failure
+
+test:frontend:acceptance:enterprise:orchestrator:
+  extends: test:frontend:acceptance:enterprise:qemu
+  variables:
+    TEST_VARIANT: orchestrator
 
 publish:frontend:tests:
   stage: publish
