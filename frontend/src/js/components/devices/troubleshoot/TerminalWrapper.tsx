@@ -281,21 +281,23 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
           </Button>
         </div>
       )}
-      <div className="flexbox margin-top-x-small">
-        <Button disabled={!socketInitialized} color="error" variant="outlined" onClick={onConnectionToggle}>
-          Disconnect Terminal
-        </Button>
-
-        {canAuditlog && hasAuditlogs && (
-          <Button
-            color="inherit"
-            className="margin-left-medium"
-            component={RouterLink}
-            to={`/auditlog?objectType=device&objectId=${device.id}&startDate=${BEGINNING_OF_TIME}`}
-          >
-            View device session log
+      <div className="flexbox space-between margin-top-x-small">
+        <div className="flexbox">
+          <Button disabled={!socketInitialized} color="error" variant="outlined" onClick={onConnectionToggle}>
+            Disconnect Terminal
           </Button>
-        )}
+
+          {canAuditlog && hasAuditlogs && (
+            <Button
+              color="inherit"
+              className="margin-left-medium"
+              component={RouterLink}
+              to={`/auditlog?objectType=device&objectId=${device.id}&startDate=${BEGINNING_OF_TIME}`}
+            >
+              View device session log
+            </Button>
+          )}
+        </div>
         {socketInitialized && !!commandHandlers.length && <ListOptions options={commandHandlers} title="Quick commands" />}
       </div>
     </div>

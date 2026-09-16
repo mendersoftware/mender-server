@@ -519,15 +519,19 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="flexbox margin-top-x-small"
+        class="flexbox space-between margin-top-x-small"
       >
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-8"
-          tabindex="0"
-          type="button"
+        <div
+          class="flexbox"
         >
-          Disconnect Terminal
-        </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-8"
+            tabindex="0"
+            type="button"
+          >
+            Disconnect Terminal
+          </button>
+        </div>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-9"
           tabindex="0"
