@@ -92,15 +92,16 @@ describe('Webhooks Component', () => {
     const onSubmit = vi.fn();
     render(<WebhookConfiguration onSubmit={onSubmit} />);
     expect(screen.getByText(/save/i)).not.toBeEnabled();
-    await user.type(screen.getByLabelText(/url/i), 'http://foo.bar');
+    const URLInput = screen.getByPlaceholderText(/url/i);
+    await user.type(URLInput, 'http://foo.bar');
     await waitFor(() => expect(screen.queryByText(/not protected by HTTPS/i)).toBeInTheDocument());
-    await user.clear(screen.getByLabelText(/url/i));
-    await user.type(screen.getByLabelText(/url/i), 'https://foo.bar');
+    await user.clear(URLInput);
+    await user.type(URLInput, 'https://foo.bar');
     expect(screen.queryByText(/not protected by HTTPS/i)).not.toBeInTheDocument();
-    await user.type(screen.getByLabelText(/Description/i), 'https://foo.bar');
-    await user.type(screen.getByLabelText(/secret/i), 'https://foo.bar');
+    await user.type(screen.getByPlaceholderText(/Description/i), 'https://foo.bar');
+    await user.type(screen.getByPlaceholderText(/secret/i), 'https://foo.bar');
     expect(screen.getByText(/has to be entered as a hexadecimal/i)).toBeVisible();
-    await user.clear(screen.getByLabelText(/secret/i));
+    await user.clear(screen.getByPlaceholderText(/secret/i));
     await waitFor(() => expect(screen.getByRole('button', { name: /save/i })).toBeEnabled());
     await act(async () => await user.click(screen.getByRole('button', { name: /save/i })));
     expect(onSubmit).toHaveBeenCalledWith({

@@ -14,9 +14,9 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
-import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { getWebhooks } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -40,7 +40,7 @@ export const Webhooks = () => {
   const onRemoveClick = () => dispatch(deleteIntegration(selectedWebhook)).then(() => setSelectedWebhook());
 
   const mappedWebhooks = useMemo(
-    () => webhooks.map(item => ({ ...item, url: item.credentials[EXTERNAL_PROVIDER.webhook.credentialsType].url, status: 'enabled' })),
+    () => webhooks.map(item => ({ ...item, url: item.credentials?.[EXTERNAL_PROVIDER.webhook.credentialsType]?.url ?? '-' })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(webhooks)]
   );
@@ -50,15 +50,10 @@ export const Webhooks = () => {
   }
   return (
     <div>
-      <h2>Webhooks</h2>
-      {webhooks.length ? (
+      <ContentSection title="Webhooks">
         <DetailsTable columns={columns} items={mappedWebhooks} onItemClick={setSelectedWebhook} />
-      ) : (
-        <div className="flexbox centered">
-          No webhooks are configured yet. Learn more about webhooks in our <DocsLink path="server-integration" title="documentation" />
-        </div>
-      )}
-      <WebhookManagement onCancel={onCancel} onRemove={onRemoveClick} webhook={selectedWebhook} />
+        <WebhookManagement onCancel={onCancel} onRemove={onRemoveClick} webhook={selectedWebhook} />
+      </ContentSection>
     </div>
   );
 };

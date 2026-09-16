@@ -14,9 +14,10 @@
 import type { ReactNode } from 'react';
 
 import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
-import { Divider, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 
 import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -44,23 +45,22 @@ interface WebhookEventDetailsProps extends ClassesOverrides {
 
 const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
   const { data = {} } = entry;
+  const payload = JSON.stringify(data, null, '\t');
 
-  const content = columns.slice(0, columns.length - 1).reduce((accu, column) => ({ ...accu, [column.title]: column.render(entry, { webhook, classes }) }), {});
+  const content = Object.fromEntries(columns.slice(0, -1).map(column => [column.title, column.render(entry, { webhook, classes })]));
 
   return (
     <>
-      <div className="clickable" onClick={onClickBack}>
-        <IconButton>
-          <ArrowLeftIcon />
-        </IconButton>
+      <Button startIcon={<ArrowLeftIcon />} variant="outlined" onClick={onClickBack}>
         Back to webhook
-      </div>
-      <Divider className={classes.divider} />
-      <h4>Event details</h4>
-      <TwoColumnData className="margin-top margin-bottom" data={content} setSnackbar={setSnackbar} />
-      <h4>Payload</h4>
-      {data && <CodeEditor language="json" readOnly value={JSON.stringify(data, null, '\t')} />}
-      <CopyTextToClipboard token={data} />
+      </Button>
+      <ContentSection title="Event details">
+        <TwoColumnData data={content} setSnackbar={setSnackbar} />
+      </ContentSection>
+      <ContentSection title="Payload">
+        <CodeEditor language="json" readOnly value={payload} />
+        <CopyTextToClipboard token={payload} />
+      </ContentSection>
     </>
   );
 };

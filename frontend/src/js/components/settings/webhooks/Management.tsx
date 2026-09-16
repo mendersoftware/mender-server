@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { ReactElement } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
@@ -21,6 +21,7 @@ import { Button, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
@@ -40,9 +41,9 @@ import WebhookEventDetails from './EventDetails';
 const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
-  divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
-  statusIcon: { fontSize: 12, marginRight: theme.spacing() },
-  wrapper: { justifyContent: 'end' }
+  slide: { gridArea: '1 / 1', minWidth: 0 },
+  slideContainer: { display: 'grid', overflowX: 'clip' },
+  statusIcon: { fontSize: 12, marginRight: theme.spacing() }
 }));
 
 const triggerMap = {
@@ -55,19 +56,15 @@ const triggerMap = {
 const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
   const { delivery_statuses = [] } = entry;
 
-  const status = useMemo(() => {
-    const status = delivery_statuses.find(status => status.integration_id === webhook.id) ?? delivery_statuses[0];
-    if (status) {
-      return { code: status.status_code, signal: status.success ? 'green' : 'red' };
-    }
-    return { code: 418, signal: 'disabled' };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(delivery_statuses), webhook.id]);
+  const delivery = delivery_statuses.find(status => status.integration_id === webhook.id);
+  if (!delivery) {
+    return '-';
+  }
 
   return (
     <div className="flexbox align-items-center">
-      <CircleIcon className={`${status.signal} ${classes.statusIcon}`} />
-      <div className={status.code >= 400 ? 'muted' : ''}>{status.code}</div>
+      <CircleIcon className={`${delivery.success ? 'green' : 'red'} ${classes.statusIcon}`} />
+      <div>{delivery.status_code ?? '-'}</div>
     </div>
   );
 };
@@ -91,11 +88,17 @@ const columns: WebhookColumns = [
 
 export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event>();
+  const [isShowingDetails, setIsShowingDetails] = useState(false);
   const { events, eventsTotal } = useSelector(getWebhookEventInfo);
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const containerRef = useRef();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const onEventSelect = useCallback((event: Event) => {
+    setSelectedEvent(event);
+    setIsShowingDetails(true);
+  }, []);
 
   const dispatchedGetWebhookEvents = useCallback(options => dispatch(getWebhookEvents(options)), [dispatch]);
   const dispatchedSetSnackbar = useCallback(args => dispatch(setSnackbar(args)), [dispatch]);
@@ -116,10 +119,11 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
     'Secret': secret
   };
 
-  const handleBack = () => setSelectedEvent();
+  const handleBack = () => setIsShowingDetails(false);
 
   const onCancelClick = () => {
-    setSelectedEvent();
+    setSelectedEvent(undefined);
+    setIsShowingDetails(false);
     onCancel();
   };
 
@@ -132,38 +136,47 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         header: {
           title: 'Webhook details',
           preCloser: (
-            <Button className={selectedEvent ? 'muted' : ''} color="error" disabled={!!selectedEvent} onClick={() => onRemove(webhook)} variant="outlined">
+            <Button className={isShowingDetails ? 'muted' : ''} color="error" disabled={isShowingDetails} onClick={() => onRemove(webhook)} variant="outlined">
               Delete webhook
             </Button>
           )
         }
       }}
     >
-      <div className="relative" ref={containerRef}>
-        <Slide in={!selectedEvent} container={containerRef.current} direction="right">
-          <div className="absolute margin-top full-width" style={{ top: 0 }}>
-            <h4>Settings</h4>
-            <TwoColumnData className="margin-top margin-bottom" data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
-            <h4>Activity</h4>
-            <WebhookActivity
-              classes={classes}
-              columns={columns}
-              events={events}
-              eventsTotal={eventsTotal}
-              getWebhookEvents={dispatchedGetWebhookEvents}
-              setSelectedEvent={setSelectedEvent}
-              webhook={webhook}
-            />
+      <div className={classes.slideContainer} ref={containerRef}>
+        <Slide appear={false} in={!isShowingDetails} container={() => containerRef.current} direction="right">
+          <div className={classes.slide}>
+            <ContentSection title="Settings">
+              <TwoColumnData data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            </ContentSection>
+            <ContentSection title="Activity">
+              <WebhookActivity
+                classes={classes}
+                columns={columns}
+                events={events}
+                eventsTotal={eventsTotal}
+                getWebhookEvents={dispatchedGetWebhookEvents}
+                setSelectedEvent={onEventSelect}
+                webhook={webhook}
+              />
+            </ContentSection>
           </div>
         </Slide>
-        <Slide in={!!selectedEvent} container={containerRef.current} direction="left">
-          <div className="absolute margin-top full-width" style={{ top: 0 }}>
+        <Slide
+          in={isShowingDetails}
+          container={() => containerRef.current}
+          direction="left"
+          mountOnEnter
+          onExited={() => setSelectedEvent(undefined)}
+          unmountOnExit
+        >
+          <div className={classes.slide}>
             <WebhookEventDetails
               classes={classes}
               columns={columns}
               entry={selectedEvent}
               onClickBack={handleBack}
-              setSnackbar={setSnackbar}
+              setSnackbar={dispatchedSetSnackbar}
               webhook={webhook}
             />
           </div>
