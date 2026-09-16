@@ -116,10 +116,9 @@ test.describe('SAML Login via sso/id/login', () => {
     await page.getByRole('button', { name: /new user/i }).click();
     await page.getByPlaceholder(/Email/i).click();
     await page.getByPlaceholder(/Email/i).fill(samlSettings.credentials[browserName]);
-    // Click text=Create user
-    await page.getByRole('button', { name: /Create user/i }).click();
+    await page.getByRole('button', { name: /Add user/i }).click();
     await page.screenshot({ path: './test-results/user-created.png' });
-    await page.getByText('The user was created successfully.').waitFor();
+    await page.getByText(/The user was (created|added) successfully/i).waitFor();
   });
 
   // This test calls auth/sso/${id}/login, where id is the id of the identity provider

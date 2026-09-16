@@ -63,7 +63,6 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
           label="Password *"
           validations={`isLength:8:256,isNot:${email}`}
           create={true}
-          generate={false}
           className="margin-bottom-small margin-top-small"
         />
         <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8:256,isNot:${email}`} />
