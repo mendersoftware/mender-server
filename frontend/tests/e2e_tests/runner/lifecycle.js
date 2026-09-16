@@ -16,7 +16,7 @@ import { appendFileSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import process from 'process';
 
-import { testSuiteVariants } from './cli.js';
+import { isQemuDependent } from './cli.js';
 import { composeDown, composeLogs, runCommand } from './compose.js';
 
 export const killTestProcesses = currentProcesses => {
@@ -55,7 +55,7 @@ export const collectClientLogs = async (logDir, config, currentProcesses) => {
 
   const clientLog = await runCommand('docker', ['logs', clientContainer], config, {}, currentProcesses);
   writeFileSync(clientLogPath, clientLog);
-  if (config.variant !== testSuiteVariants.qemu) {
+  if (!isQemuDependent(config.variant)) {
     console.log(chalk.yellow('🟢 Docker client logs written'));
     return;
   }

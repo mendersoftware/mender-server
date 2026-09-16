@@ -1,0 +1,28 @@
+services:
+  gui-tests-runner:
+    volumes:
+      - ${GUI_REPOSITORY}/tests/e2e_tests/playwright-qemu.config.ts:/e2e/playwright-qemu.config.ts
+    environment:
+      - CLIENT_IP
+
+  client:
+    image: registry.gitlab.com/northern.tech/mender/mender-qa:2857194679-mender-orchestrator-qemu-commercial
+    environment:
+      - SERVER_URL=https://docker.mender.io
+      - TENANT_TOKEN
+    ports:
+      - '8822:8822' # Expose QEMU SSH port from container
+    hostname: qemu-client
+    networks:
+      default:
+        aliases:
+          - qemu-client
+          - client-device
+
+  deviceauth:
+    environment:
+      - DEVICEAUTH_ENABLE_TIERS=true
+
+  inventory:
+    environment:
+      - INVENTORY_ORCHESTRATOR_ATTRIBUTES_PROCESSING_ENABLED=true

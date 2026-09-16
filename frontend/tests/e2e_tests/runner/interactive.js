@@ -86,7 +86,8 @@ export const promptForConfiguration = async () => {
       message: 'Which test suite should be run?',
       choices: [
         { name: 'Regular test sets', value: testSuiteVariants.regular },
-        { name: 'QEMU dependent tests', value: testSuiteVariants.qemu }
+        { name: 'QEMU dependent tests', value: testSuiteVariants.qemu },
+        { name: 'Orchestrator dependent tests', value: testSuiteVariants.orchestrator }
       ],
       default: testSuiteVariants.regular
     }

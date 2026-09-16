@@ -251,6 +251,19 @@ test:frontend:acceptance:enterprise:qemu:
       - runner_system_failure
       - unknown_failure
 
+test:frontend:acceptance:enterprise:orchestrator:
+  extends: test:frontend:acceptance:enterprise:qemu
+  script:
+    - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
+    - |
+      if echo "$CI_COMMIT_REF_NAME" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9x]+$'; then
+        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/^v//; s/\.[^.]*$//')"
+      else
+        export MENDER_IMAGE_TAG=main
+      fi
+    - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
+    - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant orchestrator
+
 publish:frontend:tests:
   stage: publish
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/base-alpine:master
