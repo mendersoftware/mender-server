@@ -804,7 +804,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
 
 .emotion-43 {
   border: 0;
-  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
   overflow: hidden;

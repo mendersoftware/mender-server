@@ -20,7 +20,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable css-1o1lizq-MuiButtonBase-root-MuiChip-root"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable css-k8mde6-MuiButtonBase-root-MuiChip-root"
           role="button"
           tabindex="0"
         >
@@ -226,7 +226,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         </div>
         <button
           aria-label="prev"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small css-sravn7-MuiButtonBase-root-MuiIconButton-root"
           tabindex="0"
           type="button"
         >
@@ -245,7 +245,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         <div>
           <button
             aria-label="next"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-sravn7-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >

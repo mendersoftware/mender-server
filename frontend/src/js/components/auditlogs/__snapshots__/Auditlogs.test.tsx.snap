@@ -21,7 +21,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable css-1o1lizq-MuiButtonBase-root-MuiChip-root"
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable css-k8mde6-MuiButtonBase-root-MuiChip-root"
             role="button"
             tabindex="0"
           >
@@ -143,7 +143,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   >
                     <button
                       aria-label="Open"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-2y136s-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-1bdwhv1-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
                       tabindex="-1"
                       title="Open"
                       type="button"
@@ -367,7 +367,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                     >
                       <button
                         aria-label="Choose date, selected date is Jan 13, 2019"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1ysp02-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1cidym2-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-picker-open-button="true"
                         tabindex="0"
                         type="button"
@@ -402,7 +402,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                     <input
                       aria-hidden="true"
                       aria-label="From"
-                      class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+                      class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-7bxtqs-MuiPickersInputBase-input"
                       id="_r_X_"
                       tabindex="-1"
                       value="2019-01-13"
@@ -530,7 +530,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                     >
                       <button
                         aria-label="Choose date, selected date is Jan 13, 2019"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1ysp02-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1cidym2-MuiButtonBase-root-MuiIconButton-root"
                         data-mui-picker-open-button="true"
                         tabindex="0"
                         type="button"
@@ -565,7 +565,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                     <input
                       aria-hidden="true"
                       aria-label="To"
-                      class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
+                      class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-7bxtqs-MuiPickersInputBase-input"
                       id="_r_X_"
                       tabindex="-1"
                       value="2019-01-13"
@@ -603,7 +603,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-74d805-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-2rwryq-MuiButtonBase-root-MuiButton-root"
         style="margin-left: 15px;"
         tabindex="0"
         type="button"
@@ -732,7 +732,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             2019-01-01 12:10
           </time>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-1hfnksx-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -780,7 +780,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             2019-01-01 12:16
           </time>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-1hfnksx-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -830,7 +830,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             2019-01-01 12:10
           </time>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-1hfnksx-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -897,7 +897,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             </div>
             <button
               aria-label="prev"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-sravn7-MuiButtonBase-root-MuiIconButton-root"
               disabled=""
               tabindex="-1"
               type="button"
@@ -917,7 +917,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             <div>
               <button
                 aria-label="next"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-sravn7-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
                 tabindex="-1"
                 type="button"

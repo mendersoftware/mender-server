@@ -135,7 +135,7 @@ exports[`DeviceList Component > renders correctly 1`] = `
         </div>
         <button
           aria-label="prev"
-          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-sravn7-MuiButtonBase-root-MuiIconButton-root"
           disabled=""
           tabindex="-1"
           type="button"
@@ -155,7 +155,7 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div>
           <button
             aria-label="next"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-sravn7-MuiButtonBase-root-MuiIconButton-root"
             tabindex="0"
             type="button"
           >
