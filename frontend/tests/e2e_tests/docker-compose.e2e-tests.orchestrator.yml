@@ -6,7 +6,7 @@ services:
       - CLIENT_IP
 
   client:
-    image: registry.gitlab.com/northern.tech/mender/mender-qa:2857194679-mender-orchestrator-qemu-commercial
+    image: registry.gitlab.com/northern.tech/mender/mender-qa:2861741498-mender-orchestrator-qemu-commercial
     environment:
       - SERVER_URL=https://docker.mender.io
       - TENANT_TOKEN
