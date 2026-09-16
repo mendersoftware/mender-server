@@ -1829,24 +1829,28 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
             </button>
           </div>
           <div
-            class="flexbox margin-top-x-small"
+            class="flexbox space-between margin-top-x-small"
           >
-            <button
-              class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-20"
-              disabled=""
-              tabindex="-1"
-              type="button"
+            <div
+              class="flexbox"
             >
-              Disconnect Terminal
-            </button>
-            <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-left-medium emotion-21"
-              data-discover="true"
-              href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
-              tabindex="0"
-            >
-              View device session log
-            </a>
+              <button
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-20"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                Disconnect Terminal
+              </button>
+              <a
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-left-medium emotion-21"
+                data-discover="true"
+                href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
+                tabindex="0"
+              >
+                View device session log
+              </a>
+            </div>
           </div>
         </div>
       </div>
