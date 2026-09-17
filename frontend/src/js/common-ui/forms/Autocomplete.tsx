@@ -16,13 +16,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Autocomplete } from '@mui/material';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const ControlledAutoComplete = ({ freeSolo, name, onChange, onInputChange, renderInput, ...remainder }) => {
+export const ControlledAutoComplete = ({ freeSolo, name, onChange, onInputChange, renderInput, rules, ...remainder }) => {
   const { control } = useFormContext();
 
   return (
     <Controller
       control={control}
       name={name}
+      rules={rules}
       render={({ field: { onChange: formOnChange, ref, value, ...field } }) => {
         const onChangeHandler = (_e, data) => formOnChange(data);
         const onInputChangeHandler = (_e, data, reason) => {
