@@ -14,40 +14,48 @@
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 
-import GroupDefinition, { validateGroupName } from './GroupDefinition';
+import GroupDefinition, { getGroupNameError, groupNameValidationRules } from './GroupDefinition';
 
-const selectedDevices = [{ id: 'test' }];
+const invalidCharactersError = 'This please only enter valid characters. Valid characters are a-z, A-Z, 0-9, _ and -';
 
 describe('GroupDefinition Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<GroupDefinition groups={[]} isCreationDynamic={true} />);
+    const { baseElement } = render(<GroupDefinition groups={[]} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('validates group names correctly', async () => {
-    expect(validateGroupName('test', undefined, [{ ...selectedDevices[0], group: 'test' }], false)).toEqual({
-      errorText: 'test is the same group the selected devices are already in',
-      invalid: true,
-      isModification: false,
-      name: 'test'
-    });
-    expect(validateGroupName('tæst', undefined, selectedDevices, false).invalid).toBeTruthy();
-    expect(validateGroupName('false', undefined, selectedDevices, false).invalid).toBeFalsy();
-    expect(validateGroupName('', undefined, selectedDevices, false).invalid).toBeTruthy();
-    expect(validateGroupName('test', ['test'], [], true).invalid).toBeTruthy();
+  it('rejects group names with invalid characters', () => {
+    expect(getGroupNameError('tæst')).toBe(invalidCharactersError);
+    expect(getGroupNameError('no.dots.allowed')).toBe(invalidCharactersError);
+    expect(getGroupNameError('valid_name-12')).toBe('');
   });
 
   it('rejects group names longer than 256 characters', () => {
-    const longName = 'a'.repeat(257);
-    const result = validateGroupName(longName, undefined, selectedDevices, false);
-    expect(result.invalid).toBeTruthy();
-    expect(result.errorText).toBe('Name must be at most 256 characters long');
+    expect(getGroupNameError('a'.repeat(257))).toBe('Must be between 1 and 256 characters long');
+    expect(getGroupNameError('a'.repeat(256))).toBe('');
   });
 
-  it('accepts group names with exactly 256 characters', () => {
-    const name256 = 'a'.repeat(256);
-    expect(validateGroupName(name256, undefined, selectedDevices, false).invalid).toBeFalsy();
+  it('rejects the automatically created group name', () => {
+    expect(getGroupNameError('Unassigned')).toBe('This field should have a value other than Unassigned');
+  });
+
+  it('rejects existing group names only for dynamic groups', () => {
+    expect(getGroupNameError('test', { existingGroups: ['test'] })).toBe('');
+    expect(getGroupNameError('test', { existingGroups: ['test'], isDynamic: true })).toBe('A group with the same name already exists');
+  });
+
+  it('rejects the group the selected devices are already in', () => {
+    expect(getGroupNameError('test', { selectedDevices: [{ group: 'test' }] })).toBe('test is the same group the selected devices are already in');
+    expect(getGroupNameError('test', { selectedDevices: [{ group: 'test' }, { group: 'other' }] })).toBe('');
+  });
+
+  it('builds form rules for group names', () => {
+    const { required, validate } = groupNameValidationRules({ existingGroups: ['a-b'], isDynamic: true });
+    expect(required).toBe('Group name is required');
+    expect(validate('a-b')).toBe('A group with the same name already exists');
+    expect(validate('100%')).toBe(invalidCharactersError);
+    expect(validate('a-c')).toBe(true);
   });
 });

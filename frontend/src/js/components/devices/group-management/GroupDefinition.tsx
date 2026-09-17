@@ -18,49 +18,49 @@ import { createFilterOptions } from '@mui/material/useAutocomplete';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import InfoText from '@northern.tech/common-ui/InfoText';
+import { runValidations } from '@northern.tech/common-ui/forms/validations';
 import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
-import { fullyDecodeURI } from '@northern.tech/utils/helpers';
-import validator from 'validator';
 
 const filter = createFilterOptions();
 
-const NAME_LENGTH_LIMIT = 256;
+const nameValidations = `isAlphanumericLocator,isLength:1:256,isNot:${UNGROUPED_GROUP.name}`;
 
-export const validateGroupName = (encodedName: string, groups = [], selectedDevices = [], isCreationDynamic) => {
-  const name = fullyDecodeURI(encodedName);
-  let invalid = false;
-  let errorText = '';
-  const isModification = name.length && groups.some(group => decodeURIComponent(group) === name);
-  if (!name && !isModification) {
-    invalid = true;
-  } else if (!validator.isWhitelisted(name, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.')) {
-    invalid = true;
-    errorText = 'Valid characters are a-z, A-Z, 0-9, ., _ and -';
-  } else if (name.length > NAME_LENGTH_LIMIT) {
-    invalid = true;
-    errorText = `Name must be at most ${NAME_LENGTH_LIMIT} characters long`;
-  } else if (selectedDevices.length && selectedDevices.every(({ group }) => group === name)) {
-    invalid = true;
-    errorText = `${name} is the same group the selected devices are already in`;
-  } else if (isModification && isCreationDynamic) {
-    invalid = true;
-    errorText = 'A group with the same name already exists';
-  } else if (name === UNGROUPED_GROUP.name) {
-    invalid = true;
-    errorText = `A group with the name ${name} is created automatically`;
-  }
-  return { errorText: errorText, invalid, isModification, name };
+type GroupNameValidationOptions = {
+  existingGroups?: string[];
+  isDynamic?: boolean;
+  selectedDevices?: { group?: string }[];
 };
+
+export const getGroupNameError = (name: string, { existingGroups = [], isDynamic = false, selectedDevices = [] }: GroupNameValidationOptions = {}) => {
+  const { isValid, errortext } = runValidations({ id: 'groupName', required: true, validations: nameValidations, value: name });
+  if (!isValid) {
+    return errortext;
+  }
+  // devices can be added to an existing static group, but a dynamic group needs a name of its own
+  if (isDynamic && existingGroups.includes(name)) {
+    return 'A group with the same name already exists';
+  }
+  if (selectedDevices.length && selectedDevices.every(({ group }) => group === name)) {
+    return `${name} is the same group the selected devices are already in`;
+  }
+  return '';
+};
+
+export const groupNameValidationRules = (options: GroupNameValidationOptions = {}) => ({
+  required: 'Group name is required',
+  validate: (value: string) => getGroupNameError(value, options) || true
+});
 
 const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
 
 export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputChange, selectedDevices }) => {
   const [errorText, setErrorText] = useState('');
 
-  const validateName = (encodedName: string) => {
-    const { errorText: error, invalid, isModification, name } = validateGroupName(encodedName, groups, selectedDevices, isCreationDynamic);
+  const validateName = (name: string) => {
+    const isModification = !!name && groups.includes(name);
+    const error = name ? getGroupNameError(name, { selectedDevices }) : '';
     setErrorText(error);
-    onInputChange(invalid, name, isModification);
+    onInputChange(!name || !!error, name, isModification);
   };
 
   const mappedGroups = groups.map(group => ({ value: group, title: group }));
