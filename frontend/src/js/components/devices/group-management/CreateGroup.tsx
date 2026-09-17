@@ -11,44 +11,52 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { Button, DialogActions, DialogContent } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import Form from '@northern.tech/common-ui/forms/Form';
 import { getGroups } from '@northern.tech/store/selectors';
 
 import GroupDefinition from './GroupDefinition';
 
-export const CreateGroup = ({ addListOfDevices, isCreation, onClose, selectedDevices }) => {
-  const [invalid, setInvalid] = useState(true);
-  const [isModification, setIsModification] = useState(!isCreation);
-  const [newGroup, setNewGroup] = useState('');
+const inputName = 'group';
+
+const CreateGroupContent = ({ groups, onClose, selectedDevices }) => {
+  const group = useWatch({ name: inputName });
+
+  return (
+    <>
+      <DialogContent>
+        <GroupDefinition groups={groups} name={inputName} selectedDevices={selectedDevices} />
+      </DialogContent>
+      <DialogActions>
+        <Button className="margin-right-x-small" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button variant="contained" type="submit">
+          {groups.includes(group) ? 'Add to group' : 'Create group'}
+        </Button>
+      </DialogActions>
+    </>
+  );
+};
+
+export const CreateGroup = ({ addListOfDevices, onClose, selectedDevices }) => {
   const title = `Add ${selectedDevices.length ? 'selected ' : ''}devices to group`;
 
   const { static: staticGroups } = useSelector(getGroups);
   const groups = staticGroups.map(g => g.groupId);
 
-  const onNameChange = (isInvalid, newGroupName, isModification) => {
-    setInvalid(isInvalid);
-    setIsModification(isModification);
-    setNewGroup(newGroupName);
-  };
+  const onSubmit = ({ group }) => addListOfDevices(selectedDevices, group);
 
   return (
     <BaseDialog open title={title} fullWidth maxWidth="sm" onClose={onClose}>
-      <DialogContent>
-        <GroupDefinition groups={groups} newGroup={newGroup} onInputChange={onNameChange} selectedDevices={selectedDevices} />
-      </DialogContent>
-      <DialogActions>
-        <Button style={{ marginRight: 10 }} onClick={onClose}>
-          Cancel
-        </Button>
-        <Button variant="contained" onClick={() => addListOfDevices(selectedDevices, newGroup)} disabled={!newGroup.length || invalid}>
-          {!isModification || groups.length === 0 ? 'Create group' : 'Add to group'}
-        </Button>
-      </DialogActions>
+      <Form onSubmit={onSubmit} defaultValues={{ [inputName]: '' }} validationMode="onSubmit">
+        <CreateGroupContent groups={groups} onClose={onClose} selectedDevices={selectedDevices} />
+      </Form>
     </BaseDialog>
   );
 };

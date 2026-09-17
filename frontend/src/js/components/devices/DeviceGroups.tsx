@@ -96,8 +96,8 @@ export const DeviceGroups = () => {
   const filteringAttributes = useSelector(getSortedFilteringAttributes);
   const userCapabilities = useSelector(getUserCapabilities);
   const tenantCapabilities = useSelector(getTenantCapabilities);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
-  const groups = groupNames;
   const deviceLimit = useSelector(getCombinedLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const filters = useSelector(getDeviceFilters);
@@ -360,11 +360,9 @@ export const DeviceGroups = () => {
           />
         </div>
         {removeGroup && <RemoveGroup onClose={toggleGroupRemoval} onRemove={removeCurrentGroup} />}
-        {modifyGroupDialog && fromFilters && (
-          <CreateDynamicGroup onClose={onCreateGroupClose} onCreate={group => createGroupFromDialog(tmpDevices, group)} />
-        )}
+        {modifyGroupDialog && fromFilters && <CreateDynamicGroup onClose={onCreateGroupClose} onCreate={group => createGroupFromDialog(tmpDevices, group)} />}
         {modifyGroupDialog && !fromFilters && (
-          <CreateGroup addListOfDevices={createGroupFromDialog} isCreation={!groups.length} selectedDevices={tmpDevices} onClose={onCreateGroupClose} />
+          <CreateGroup addListOfDevices={createGroupFromDialog} selectedDevices={tmpDevices} onClose={onCreateGroupClose} />
         )}
         {createGroupExplanation && <CreateGroupExplainer isEnterprise={isEnterprise} onClose={() => setCreateGroupExplanation(false)} />}
         <DeviceIdentityDialog open={openIdDialog} onClose={openSettingsDialog} />
