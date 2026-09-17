@@ -10821,7 +10821,10 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-24:hover,
+.emotion-24:hover {
+  background-color: #1565c0;
+}
+
 .emotion-24.Mui-focusVisible {
   background-color: #1565c0;
 }

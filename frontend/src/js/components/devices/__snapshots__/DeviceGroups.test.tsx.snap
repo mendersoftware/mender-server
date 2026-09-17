@@ -15,18 +15,18 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
     >
       <div />
       <div
-        class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-1joretd-MuiButtonGroup-root"
+        class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-19i0b4l-MuiButtonGroup-root"
         role="group"
       >
         <button
-          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButtonGroup-firstButton css-15aywyl-MuiButtonBase-root-MuiButton-root-buttonStyle"
+          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButtonGroup-firstButton css-57foq8-MuiButtonBase-root-MuiButton-root-buttonStyle"
           tabindex="0"
           type="button"
         >
           Connect a new device
         </button>
         <button
-          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton css-1l66tb1-MuiButtonBase-root-MuiButton-root-buttonStyle"
+          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton css-j11n8i-MuiButtonBase-root-MuiButton-root-buttonStyle"
           tabindex="0"
           type="button"
         >
@@ -84,7 +84,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         class="MuiList-root MuiList-padding css-g9eiv5-MuiList-root-list"
       >
         <div
-          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters css-4bx69l-MuiButtonBase-root-MuiListItemButton-root"
+          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
           role="button"
           tabindex="0"
         >
@@ -109,7 +109,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           />
         </li>
         <div
-          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters css-4bx69l-MuiButtonBase-root-MuiListItemButton-root"
+          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
           role="button"
           tabindex="0"
         >
@@ -134,7 +134,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           />
         </li>
         <div
-          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected css-4bx69l-MuiButtonBase-root-MuiListItemButton-root"
+          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
           role="button"
           tabindex="0"
         >
@@ -150,7 +150,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         </div>
       </ul>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top css-plnrbk-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top css-fz451c-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
@@ -268,7 +268,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               </h6>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary css-dizc30-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -295,7 +295,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           class="flexbox align-items-center space-between margin-top margin-bottom-x-small"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color flexbox css-1ibakg3-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color flexbox css-mzh218-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -317,7 +317,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             Filters
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit css-plnrbk-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit css-fz451c-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -375,7 +375,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             >
               <div>
                 <span
-                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1ml7hhy-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                 >
                   <input
                     class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -561,7 +561,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             >
               <div>
                 <span
-                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1ml7hhy-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                 >
                   <input
                     class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -630,7 +630,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             >
               <div>
                 <span
-                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-1ml7hhy-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                 >
                   <input
                     class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
@@ -757,7 +757,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               </div>
               <button
                 aria-label="prev"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-sravn7-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -777,7 +777,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               <div>
                 <button
                   aria-label="next"
-                  class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+                  class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-sravn7-MuiButtonBase-root-MuiIconButton-root"
                   disabled=""
                   tabindex="-1"
                   type="button"

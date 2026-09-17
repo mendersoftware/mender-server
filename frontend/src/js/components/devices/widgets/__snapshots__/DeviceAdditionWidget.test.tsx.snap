@@ -30,9 +30,11 @@ exports[`DeviceAdditionWidget Component > renders correctly 1`] = `
   border-right-color: transparent;
 }
 
-.emotion-0 .MuiButtonGroup-firstButton:hover,
-.emotion-0 .MuiButtonGroup-middleButton:hover {
-  border-right-color: currentColor;
+@media (hover: hover) {
+  .emotion-0 .MuiButtonGroup-firstButton:hover,
+  .emotion-0 .MuiButtonGroup-middleButton:hover {
+    border-right-color: currentColor;
+  }
 }
 
 .emotion-0 .MuiButtonGroup-lastButton,
