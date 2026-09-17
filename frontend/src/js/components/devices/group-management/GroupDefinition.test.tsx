@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render } from '@/testUtils';
+import { formRenderWrapper } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import GroupDefinition, { getGroupNameError, groupNameValidationRules } from './GroupDefinition';
@@ -20,7 +20,7 @@ const invalidCharactersError = 'This please only enter valid characters. Valid c
 
 describe('GroupDefinition Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<GroupDefinition groups={[]} />);
+    const { baseElement } = formRenderWrapper(<GroupDefinition groups={[]} name="group" selectedDevices={[]} />, { defaultValues: { group: '' } });
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
