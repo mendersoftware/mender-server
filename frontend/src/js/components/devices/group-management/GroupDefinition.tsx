@@ -52,7 +52,11 @@ export const groupNameValidationRules = (options: GroupNameValidationOptions = {
   validate: (value: string) => getGroupNameError(value, options) || true
 });
 
-const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
+const GroupOption = ({ key, ...optionProps }, option) => (
+  <li key={key} {...optionProps}>
+    {option.title}
+  </li>
+);
 
 export const GroupDefinition = ({ groups, name, selectedDevices }) => {
   const {
