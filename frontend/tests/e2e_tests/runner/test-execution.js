@@ -29,7 +29,7 @@ const createTenant = async (credentials, config, addons = [], options = '') => {
   try {
     const tenantResult = await composeExec(
       'tenantadm',
-      `tenantadm create-org --name=${name} --username=${username} --password=${password} --device-limit=-1 ${addons.map(addon => `--addon=${addon}`).join(' ')} ${options}`,
+      `tenantadm create-org --name=${name} --username=${username} --password=${password} --device-limit=-1 --micro-device-limit=100 --system-device-limit=200 ${addons.map(addon => `--addon=${addon}`).join(' ')} ${options}`,
       config
     );
     return tenantResult.out.trim();
@@ -63,7 +63,7 @@ const createServiceProviderTenant = async (credentials, config) =>
         { ...credentials, name: tenantNames.serviceProvider, username: credentials.spTenant },
         config,
         [],
-        '--device-limit 100 --micro-device-limit=200'
+        '--device-limit=300'
       );
       // updateOne with $set is already idempotent
       await composeExec('mongo', 'mongosh --eval "db.getSiblingDB("tenantadm").tenants.updateOne({},{$set:{max_child_tenants:100}})"', config);
