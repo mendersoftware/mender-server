@@ -23,7 +23,11 @@ import { groupNameValidationRules } from '@northern.tech/common-ui/forms/validat
 
 const filter = createFilterOptions();
 
-const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
+const GroupOption = ({ key, ...optionProps }, option) => (
+  <li key={key} {...optionProps}>
+    {option.title}
+  </li>
+);
 
 export const GroupDefinition = ({ groups, name, selectedDevices }) => {
   const {
