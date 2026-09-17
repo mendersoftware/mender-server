@@ -58,6 +58,7 @@ import DeviceStatusNotification from './DeviceStatusNotification';
 import Groups from './Groups';
 import { DeviceIdentityDialog } from './dialogs/DeviceIdentityDialog';
 import PreauthDialog, { DeviceLimitWarning } from './dialogs/PreauthDialog';
+import CreateDynamicGroup from './group-management/CreateDynamicGroup';
 import CreateGroup from './group-management/CreateGroup';
 import CreateGroupExplainer from './group-management/CreateGroupExplainer';
 import RemoveGroup from './group-management/RemoveGroup';
@@ -359,14 +360,11 @@ export const DeviceGroups = () => {
           />
         </div>
         {removeGroup && <RemoveGroup onClose={toggleGroupRemoval} onRemove={removeCurrentGroup} />}
-        {modifyGroupDialog && (
-          <CreateGroup
-            addListOfDevices={createGroupFromDialog}
-            fromFilters={fromFilters}
-            isCreation={fromFilters || !groups.length}
-            selectedDevices={tmpDevices}
-            onClose={onCreateGroupClose}
-          />
+        {modifyGroupDialog && fromFilters && (
+          <CreateDynamicGroup onClose={onCreateGroupClose} onCreate={group => createGroupFromDialog(tmpDevices, group)} />
+        )}
+        {modifyGroupDialog && !fromFilters && (
+          <CreateGroup addListOfDevices={createGroupFromDialog} isCreation={!groups.length} selectedDevices={tmpDevices} onClose={onCreateGroupClose} />
         )}
         {createGroupExplanation && <CreateGroupExplainer isEnterprise={isEnterprise} onClose={() => setCreateGroupExplanation(false)} />}
         <DeviceIdentityDialog open={openIdDialog} onClose={openSettingsDialog} />

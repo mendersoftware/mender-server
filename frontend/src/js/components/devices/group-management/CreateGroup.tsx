@@ -21,42 +21,32 @@ import { getGroups } from '@northern.tech/store/selectors';
 
 import GroupDefinition from './GroupDefinition';
 
-export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose, selectedDevices }) => {
-  const isCreationDynamic = isCreation && fromFilters;
+export const CreateGroup = ({ addListOfDevices, isCreation, onClose, selectedDevices }) => {
   const [invalid, setInvalid] = useState(true);
   const [isModification, setIsModification] = useState(!isCreation);
   const [newGroup, setNewGroup] = useState('');
-  const [title, setTitle] = useState(isCreationDynamic ? 'Create a new group' : `Add ${selectedDevices.length ? 'selected ' : ''}devices to group`);
+  const title = `Add ${selectedDevices.length ? 'selected ' : ''}devices to group`;
 
-  // ensure that existing dynamic groups are only listed if a dynamic group should be created
-  const { dynamic, static: staticGroups } = useSelector(getGroups);
-  const groups = fromFilters ? [...staticGroups.map(g => g.groupId), ...dynamic.map(g => g.groupId)] : staticGroups.map(g => g.groupId);
+  const { static: staticGroups } = useSelector(getGroups);
+  const groups = staticGroups.map(g => g.groupId);
 
   const onNameChange = (isInvalid, newGroupName, isModification) => {
-    const title = !isCreationDynamic ? `Add ${selectedDevices.length ? 'selected ' : ''}devices to group` : 'Create a new group';
-    setTitle(title);
     setInvalid(isInvalid);
     setIsModification(isModification);
     setNewGroup(newGroupName);
   };
 
   return (
-    <BaseDialog open title={title} disableEscapeKeyDown fullWidth maxWidth="sm" onClose={onClose}>
+    <BaseDialog open title={title} fullWidth maxWidth="sm" onClose={onClose}>
       <DialogContent>
-        <GroupDefinition
-          groups={groups}
-          isCreationDynamic={isCreationDynamic}
-          newGroup={newGroup}
-          onInputChange={(invalidName, name, isModification) => onNameChange(invalidName, name, isModification)}
-          selectedDevices={selectedDevices}
-        />
+        <GroupDefinition groups={groups} newGroup={newGroup} onInputChange={onNameChange} selectedDevices={selectedDevices} />
       </DialogContent>
       <DialogActions>
         <Button style={{ marginRight: 10 }} onClick={onClose}>
           Cancel
         </Button>
         <Button variant="contained" onClick={() => addListOfDevices(selectedDevices, newGroup)} disabled={!newGroup.length || invalid}>
-          {!isModification || isCreationDynamic || groups.length === 0 ? 'Create group' : 'Add to group'}
+          {!isModification || groups.length === 0 ? 'Create group' : 'Add to group'}
         </Button>
       </DialogActions>
     </BaseDialog>
