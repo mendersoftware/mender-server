@@ -14,40 +14,13 @@
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 
-import GroupDefinition, { validateGroupName } from './GroupDefinition';
-
-const selectedDevices = [{ id: 'test' }];
+import GroupDefinition from './GroupDefinition';
 
 describe('GroupDefinition Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<GroupDefinition groups={[]} isCreationDynamic={true} />);
+    const { baseElement } = render(<GroupDefinition groups={[]} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-  });
-
-  it('validates group names correctly', async () => {
-    expect(validateGroupName('test', undefined, [{ ...selectedDevices[0], group: 'test' }], false)).toEqual({
-      errorText: 'test is the same group the selected devices are already in',
-      invalid: true,
-      isModification: false,
-      name: 'test'
-    });
-    expect(validateGroupName('tæst', undefined, selectedDevices, false).invalid).toBeTruthy();
-    expect(validateGroupName('false', undefined, selectedDevices, false).invalid).toBeFalsy();
-    expect(validateGroupName('', undefined, selectedDevices, false).invalid).toBeTruthy();
-    expect(validateGroupName('test', ['test'], [], true).invalid).toBeTruthy();
-  });
-
-  it('rejects group names longer than 256 characters', () => {
-    const longName = 'a'.repeat(257);
-    const result = validateGroupName(longName, undefined, selectedDevices, false);
-    expect(result.invalid).toBeTruthy();
-    expect(result.errorText).toBe('Name must be at most 256 characters long');
-  });
-
-  it('accepts group names with exactly 256 characters', () => {
-    const name256 = 'a'.repeat(256);
-    expect(validateGroupName(name256, undefined, selectedDevices, false).invalid).toBeFalsy();
   });
 });
