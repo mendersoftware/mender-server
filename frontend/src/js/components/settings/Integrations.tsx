@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Alert, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
@@ -33,6 +33,12 @@ import WebhookConfiguration from './webhooks/Configuration';
 import Webhooks from './webhooks/Webhooks';
 
 const useStyles = makeStyles()(theme => ({
+  configHint: {
+    a: {
+      color: theme.palette.primary.main,
+      textDecorationColor: alpha(theme.palette.primary.main, 0.4)
+    }
+  },
   contentWidth: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
   select: { minWidth: SETTINGS_SELECT_WIDTH },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
@@ -130,7 +136,7 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
       </Typography>
       <div className={`flexbox column align-items-start padding-top-small ${classes.widthLimit}`}>
         <ConfigInput isEditing={isEditing} title={title} />
-        <FormHelperText>{configHint}</FormHelperText>
+        <FormHelperText className={classes.configHint}>{configHint}</FormHelperText>
         <div className="margin-bottom-x-small margin-top-small">
           {isEditing ? (
             <>
