@@ -108,11 +108,7 @@ func NewRouter(
 		}
 	}
 
-	gracefulShutdownTimeout := time.Duration(0)
-	if config != nil && config.GracefulShutdownTimeout > gracefulShutdownTimeout {
-		gracefulShutdownTimeout = config.GracefulShutdownTimeout
-	}
-	status := NewStatusController(app, gracefulShutdownTimeout)
+	status := NewStatusController(app)
 	router.GET(APIURLInternalAlive, status.Alive)
 	router.GET(APIURLInternalHealth, status.Health)
 	router.GET(APIURLInternalShutdown, status.Shutdown)

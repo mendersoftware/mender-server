@@ -175,12 +175,12 @@ func (h DeviceController) Connect(c *gin.Context) {
 	logCtx := accesslog.GetContext(ctx)
 	logCtx.SetField("status", 101)
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
+	shutdown, stop := h.app.GetShutdownNotification()
+	defer stop()
 
 	// register the websocket for graceful shutdown
 	ctxWithCancel, cancel := context.WithCancel(ctx)
 	defer cancel()
-	handle := h.app.RegisterConnectionCancelHandle(idata.Subject, cancel, true)
-	defer h.app.UnregisterConnectionCancelHandle(handle)
 
 	var version int64
 	version, err = h.app.SetDeviceConnected(ctx, idata.Tenant, idata.Subject)
@@ -201,7 +201,7 @@ func (h DeviceController) Connect(c *gin.Context) {
 
 	// websocketWriter is responsible for closing the websocket
 	//nolint:errcheck
-	err = h.connectWSWriter(ctxWithCancel, conn, listener)
+	err = h.connectWSWriter(ctxWithCancel, conn, listener, shutdown)
 	var wsErr *websocket.CloseError
 	if errors.As(err, &wsErr) {
 		logCtx.SetField("wsstatus", wsErr.Code)
@@ -345,6 +345,9 @@ func (h DeviceController) handleManagementMessages(
 				}
 				err = conn.WriteMessage(websocket.BinaryMessage, data)
 				if err != nil {
+					if errors.Is(err, websocket.ErrCloseSent) {
+						return
+					}
 					l.Errorf("fatal error writing to websocket: %s", err.Error())
 					select {
 					case streamErr <- err:
@@ -367,6 +370,7 @@ func (h DeviceController) connectWSWriter(
 	ctx context.Context,
 	conn WSConn,
 	listener stream.Listener,
+	shutdown <-chan struct{},
 ) (err error) {
 	l := log.FromContext(ctx)
 	defer func() {
@@ -403,6 +407,8 @@ func (h DeviceController) connectWSWriter(
 			return err
 		case err := <-acceptErr:
 			return err
+		case <-shutdown:
+			return handleShutdown(ctx, conn, errChan)
 		}
 	}
 }
