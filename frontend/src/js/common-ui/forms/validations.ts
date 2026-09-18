@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
 import validator from 'validator';
 
 const validationMethods = {
@@ -116,3 +117,36 @@ export const hasValidTagCharacters = (value: string) => validator.isWhitelisted(
 export const tagValidationRules = {
   validate: (tags = []) => tags.every(hasValidTagCharacters) || invalidCharactersError
 };
+
+const GROUP_NAME_LENGTH_LIMIT = 256;
+
+type GroupNameValidationOptions = {
+  existingGroups?: string[];
+  isDynamic?: boolean;
+  selectedDevices?: { group?: string }[];
+};
+
+export const getGroupNameError = (name: string, { existingGroups = [], isDynamic = false, selectedDevices = [] }: GroupNameValidationOptions = {}) => {
+  if (!hasValidTagCharacters(name)) {
+    return invalidCharactersError;
+  }
+  if (name.length > GROUP_NAME_LENGTH_LIMIT) {
+    return `Name must be at most ${GROUP_NAME_LENGTH_LIMIT} characters long`;
+  }
+  if (name === UNGROUPED_GROUP.name) {
+    return `A group with the name ${name} is created automatically`;
+  }
+  // devices can be added to an existing static group, but a dynamic group needs a name of its own
+  if (isDynamic && existingGroups.includes(name)) {
+    return 'A group with the same name already exists';
+  }
+  if (selectedDevices.length && selectedDevices.every(({ group }) => group === name)) {
+    return `${name} is the same group the selected devices are already in`;
+  }
+  return '';
+};
+
+export const groupNameValidationRules = (options: GroupNameValidationOptions = {}) => ({
+  required: 'Group name is required',
+  validate: (value: string) => getGroupNameError(value, options) || true
+});
