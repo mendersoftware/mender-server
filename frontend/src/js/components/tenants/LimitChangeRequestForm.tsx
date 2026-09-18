@@ -25,12 +25,7 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { requestPlanChange } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(() => ({
-  container: { maxWidth: '550px' },
-  buttonWrapper: {
-    '&.button-wrapper': {
-      justifyContent: 'start'
-    }
-  }
+  container: { maxWidth: '550px' }
 }));
 const RequestForm = () => {
   const { setFocus } = useFormContext();
@@ -83,7 +78,6 @@ export const LimitChangeRequestForm = () => {
         initialValues={{ enterpriseMessage: '' }}
         buttonColor="secondary"
         showButtons
-        classes={classes}
         submitLabel="Submit request"
         validationMode="onSubmit"
         onSubmit={onEnterpriseRequest}

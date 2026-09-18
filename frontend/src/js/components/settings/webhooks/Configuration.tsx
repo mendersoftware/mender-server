@@ -32,9 +32,6 @@ import { getTenantCapabilities } from '@northern.tech/store/selectors';
 import { SETTINGS_FORM_MAX_WIDTH } from '../constants';
 
 const useStyles = makeStyles()(() => ({
-  buttonWrapper: {
-    '&.button-wrapper': { justifyContent: 'initial' }
-  },
   formWrapper: { display: 'flex', flexDirection: 'column', maxWidth: SETTINGS_FORM_MAX_WIDTH }
 }));
 
@@ -116,7 +113,6 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
     <BaseDrawer open onClose={onCancel} size="md" slotProps={{ header: { title: 'Webhook details' } }}>
       <Form
         className={classes.formWrapper}
-        classes={classes}
         defaultValues={defaultValues}
         handleCancel={onCancel}
         id="webhookConfig"

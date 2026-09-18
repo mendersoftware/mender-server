@@ -42,8 +42,6 @@ import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 const fontSize = 'smaller';
 
 const useStyles = makeStyles()(theme => ({
-  button: { marginLeft: theme.spacing(2), padding: '6px 8px', fontSize },
-  buttonWrapper: { display: 'flex', justifyContent: 'flex-end', alignContent: 'center' },
   header: { minHeight: 30, [`.${svgIconClasses.root}`]: { marginLeft: theme.spacing() } },
   iconButton: {
     [`&.${iconButtonClasses.root}`]: {

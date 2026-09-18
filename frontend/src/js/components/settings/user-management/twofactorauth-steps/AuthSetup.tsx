@@ -31,8 +31,7 @@ const useStyles = makeStyles()(theme => ({
   },
   qrImg: { maxWidth: '188px' },
   codeInput: { maxWidth: '220px', marginTop: theme.spacing(1) },
-  buttonWrapper: { justifyContent: 'flex-end', flexDirection: 'row-reverse', marginTop: theme.spacing(2) },
-  cancelButton: { marginLeft: theme.spacing() }
+  buttonWrapper: { justifyContent: 'flex-end', flexDirection: 'row-reverse', marginTop: theme.spacing(2) }
 }));
 
 export const AuthSetup = ({ currentUser, handle2FAState, has2FA, onClose, qrImage, verify2FA, setShowNotice }) => {

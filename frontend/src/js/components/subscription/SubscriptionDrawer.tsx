@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, AlertTitle, Button, CircularProgress, Typography, buttonClasses } from '@mui/material';
+import { Alert, AlertTitle, Button, CircularProgress, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -67,10 +67,6 @@ const useStyles = makeStyles()(theme => ({
     flexDirection: 'column',
     gap: theme.spacing(2),
     maxWidth: 600
-  },
-  buttonWrapper: {
-    '&.button-wrapper': { justifyContent: 'initial' },
-    [`.${buttonClasses.root}`]: { lineHeight: 'initial' }
   }
 }));
 
@@ -182,7 +178,6 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
 
       {isEdit || (isTrial && isEmpty(billing)) ? (
         <Form
-          classes={classes}
           onSubmit={handleBillingProfileEdit}
           handleCancel={!isEmpty(billing) && (() => setIsEdit(false))}
           defaultValues={formInitialValues}

@@ -30,7 +30,6 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { SETTINGS_CONTENT_MAX_WIDTH } from './constants';
 
 const useStyles = makeStyles()(theme => ({
-  buttonWrapper: { '&.button-wrapper': { justifyContent: 'start', alignItems: 'center' } },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), marginLeft: theme.spacing(2), maxWidth: 300 },
   memoryFormWrapper: { gap: theme.spacing(4), marginLeft: 0 },
   info: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
@@ -173,7 +172,6 @@ const ArtifactGenerationSettingsForm = ({ deltaLimits, defaultValues }) => {
 export const ArtifactGenerationSettings = ({ onClose, open }) => {
   const { binaryDelta: deltaConfig = {}, binaryDeltaLimits: deltaLimits = {} } = useSelector(state => state.deployments.config) ?? {};
   const dispatch = useAppDispatch();
-  const { classes } = useStyles();
 
   const initialValues = useMemo(() => ({ ...formDefaults, ...deltaConfig }), [deltaConfig]);
 
@@ -207,15 +205,7 @@ export const ArtifactGenerationSettings = ({ onClose, open }) => {
 
   return (
     <BaseDrawer open={open} onClose={onClose} size="auto" slotProps={{ header: { title: 'Delta artifacts generation configuration' } }}>
-      <Form
-        classes={{ buttonWrapper: classes.buttonWrapper, cancelButton: '' }}
-        defaultValues={defaultValues}
-        handleCancel={onClose}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        showButtons
-        submitLabel="Save"
-      >
+      <Form defaultValues={defaultValues} handleCancel={onClose} initialValues={initialValues} onSubmit={onSubmit} showButtons submitLabel="Save">
         <ArtifactGenerationSettingsForm defaultValues={defaultValues} deltaLimits={deltaLimits} />
       </Form>
     </BaseDrawer>

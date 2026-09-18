@@ -37,12 +37,7 @@ import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
-  buttonWrapper: {
-    '&.button-wrapper': {
-      justifyContent: 'start',
-      marginTop: 0
-    }
-  },
+  buttonWrapper: { '&.button-wrapper': { marginTop: 0 } },
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
