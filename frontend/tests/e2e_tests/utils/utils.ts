@@ -13,7 +13,35 @@
 //    limitations under the License.
 import type { Page } from '@playwright/test';
 
-import { timeouts } from './constants.ts';
+import { selectors, timeouts } from './constants.ts';
+
+export const acceptPendingDevice = async (page: Page, deviceType = 'qemux86-64') => {
+  await page
+    .locator('.leftFixed.leftNav')
+    .getByRole('link', { name: /Devices/i })
+    .click();
+  let hasAcceptedDevice = false;
+  try {
+    await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
+    hasAcceptedDevice = await page.isVisible(selectors.deviceListItem);
+  } catch {
+    console.log(`no accepted device present so far`);
+  }
+  if (!hasAcceptedDevice) {
+    const pendingMessage = page.getByText(/pending authorization/i);
+    await pendingMessage.waitFor({ timeout: 3 * timeouts.sixtySeconds });
+    await pendingMessage
+      .locator('..')
+      .getByRole('button', { name: /view details/i })
+      .click();
+    await page.click(selectors.deviceListCheckbox);
+    await page.getByRole('button', { name: 'device-actions' }).click();
+    await page.getByRole('menuitem', { name: /accept/i }).click();
+  }
+  await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
+  await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
+  await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/${deviceType}/`, { timeout: 2 * timeouts.sixtySeconds });
+};
 
 export const selectReleaseByName = async (page: Page, name: string) => {
   await page.getByRole('button', { name: 'Select software' }).click();

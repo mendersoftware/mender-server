@@ -36,8 +36,11 @@ export const environments = {
 
 export const testSuiteVariants = {
   regular: 'regular',
-  qemu: 'qemu'
+  qemu: 'qemu',
+  orchestrator: 'orchestrator'
 };
+
+export const isQemuDependent = variant => [testSuiteVariants.qemu, testSuiteVariants.orchestrator].includes(variant);
 
 export const defaults = {
   project: projects.chromium,

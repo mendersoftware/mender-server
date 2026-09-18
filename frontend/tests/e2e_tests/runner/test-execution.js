@@ -15,7 +15,7 @@ import chalk from 'chalk';
 import { join } from 'path';
 
 import { tenantNames } from '../utils/constants.ts';
-import { environments, testSuiteVariants } from './cli.js';
+import { environments, isQemuDependent } from './cli.js';
 import { composeDown, composeExec, composeRun, composeUp, formatErrorMessage, removeOldClient, runCommand, withSpinner } from './compose.js';
 import { exportToProcessEnv } from './config.js';
 
@@ -29,7 +29,7 @@ const createTenant = async (credentials, config, addons = [], options = '') => {
   try {
     const tenantResult = await composeExec(
       'tenantadm',
-      `tenantadm create-org --name=${name} --username=${username} --password=${password} --device-limit=-1 ${addons.map(addon => `--addon=${addon}`).join(' ')} ${options}`,
+      `tenantadm create-org --name=${name} --username=${username} --password=${password} --device-limit=-1 --micro-device-limit=100 --system-device-limit=200 ${addons.map(addon => `--addon=${addon}`).join(' ')} ${options}`,
       config
     );
     return tenantResult.out.trim();
@@ -63,7 +63,7 @@ const createServiceProviderTenant = async (credentials, config) =>
         { ...credentials, name: tenantNames.serviceProvider, username: credentials.spTenant },
         config,
         [],
-        '--device-limit 100 --micro-device-limit=200'
+        '--device-limit=300'
       );
       // updateOne with $set is already idempotent
       await composeExec('mongo', 'mongosh --eval "db.getSiblingDB("tenantadm").tenants.updateOne({},{$set:{max_child_tenants:100}})"', config);
@@ -178,7 +178,7 @@ export const runTests = async (config, currentProcesses) => {
       } else {
         await setupOS(config);
       }
-      if (config.variant === testSuiteVariants.qemu) {
+      if (isQemuDependent(config.variant)) {
         await setupQemuClient(config, currentProcesses);
       }
     } catch (error) {
@@ -188,8 +188,8 @@ export const runTests = async (config, currentProcesses) => {
   }
   exportToProcessEnv(config);
   let playwrightConfig = `--project=${config.project}`;
-  if (config.variant === testSuiteVariants.qemu) {
-    playwrightConfig = '--config=playwright-qemu.config.ts --project=qemu-tests';
+  if (isQemuDependent(config.variant)) {
+    playwrightConfig = `--config=playwright-qemu.config.ts --project=${config.variant}-tests`;
   }
   console.log(chalk.yellow(`🐳 Running tests in docker using ${chalk.cyan(config.project)}/${chalk.blue(config.variant)}...`));
 

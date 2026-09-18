@@ -17,7 +17,7 @@ import * as path from 'path';
 import test, { expect } from '../../fixtures/fixtures';
 import { extractArtifactFromDevice, modifyArtifactChecksum } from '../../utils/commands';
 import { selectors, timeouts } from '../../utils/constants';
-import { selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
+import { acceptPendingDevice, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 const qemuDeviceType = 'qemux86-64';
 
@@ -28,31 +28,10 @@ test.describe('Devices', () => {
     navbar = page.locator('.leftFixed.leftNav');
   });
 
-  test('can authorize a device', async ({ browserName, page }) => {
+  test('can authorize a device', async ({ page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(4 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
-    await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
-    let hasAcceptedDevice = false;
-    try {
-      await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
-      hasAcceptedDevice = await page.isVisible(selectors.deviceListItem);
-    } catch {
-      console.log(`no accepted device present so far`);
-    }
-    if (!hasAcceptedDevice) {
-      const pendingMessage = await page.getByText(/pending authorization/i);
-      await pendingMessage.waitFor({ timeout: 3 * timeouts.sixtySeconds });
-      await pendingMessage
-        .locator('..')
-        .getByRole('button', { name: /view details/i })
-        .click();
-      await page.click(selectors.deviceListCheckbox);
-      await page.getByRole('button', { name: 'device-actions' }).click();
-      await page.getByRole('menuitem', { name: /accept/i }).click();
-    }
-    await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
-    await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
-    await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/${qemuDeviceType}/`, { timeout: 2 * timeouts.sixtySeconds });
+    await acceptPendingDevice(page, qemuDeviceType);
     const element = await page.textContent(selectors.deviceListItem);
     expect(element.includes(qemuDeviceType)).toBeTruthy();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
