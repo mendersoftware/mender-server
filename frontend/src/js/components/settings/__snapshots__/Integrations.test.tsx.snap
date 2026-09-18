@@ -427,6 +427,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   color: #d32f2f;
 }
 
+.emotion-16 a {
+  color: #1976d2;
+  text-decoration-color: rgba(25, 118, 210, 0.4);
+}
+
 .emotion-17 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
