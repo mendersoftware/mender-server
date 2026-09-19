@@ -55,7 +55,7 @@ const useStyles = makeStyles()(theme => ({
     maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
     [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH }
   },
-  buttonReset: { '.button-wrapper': { justifyContent: 'start', marginTop: theme.spacing(1.5) } },
+  buttonReset: { '.button-wrapper': { marginTop: theme.spacing(1.5) } },
   columnWidths: {
     '&.settings-item-main-content': {
       gridTemplateColumns: `${SETTINGS_INPUT_WIDTH}px 1fr`
@@ -316,7 +316,7 @@ export const SelfUserManagement = () => {
             ) : (
               <>
                 <Form
-                  classes={{ buttonWrapper: 'justify-content-start margin-top-x-small' }}
+                  classes={{ buttonWrapper: 'margin-top-x-small' }}
                   onSubmit={editSubmit}
                   handleCancel={handlePass}
                   submitLabel="Save changes"

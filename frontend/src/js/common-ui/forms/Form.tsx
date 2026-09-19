@@ -18,8 +18,7 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()(theme => ({
-  buttonWrapper: { display: 'flex', justifyContent: 'flex-end', height: 'min-content', marginTop: theme.spacing(4) },
-  cancelButton: { marginRight: theme.spacing() }
+  buttonWrapper: { display: 'flex', gap: theme.spacing(), height: 'min-content', marginTop: theme.spacing(4) }
 }));
 
 export const Form = ({
@@ -27,7 +26,7 @@ export const Form = ({
   buttonColor,
   children,
   className = '',
-  classes = { buttonWrapper: '', cancelButton: '' },
+  classes = { buttonWrapper: '' },
   defaultValues = {},
   handleCancel,
   id,
@@ -69,11 +68,7 @@ export const Form = ({
         {children}
         {!!showButtons && (
           <div className={`button-wrapper ${internalClasses.buttonWrapper} ${classes.buttonWrapper}`}>
-            {!!handleCancel && (
-              <Button className={`${internalClasses.cancelButton} ${classes.cancelButton}`} key="cancel" onClick={handleCancel}>
-                Cancel
-              </Button>
-            )}
+            {!!handleCancel && <Button onClick={handleCancel}>Cancel</Button>}
             <Button variant="contained" type="submit" disabled={!isValid && validationMode !== 'onSubmit'} color={buttonColor}>
               {submitLabel}
             </Button>

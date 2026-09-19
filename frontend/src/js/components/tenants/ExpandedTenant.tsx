@@ -41,12 +41,7 @@ interface ExpandedTenantProps {
 }
 
 const useStyles = makeStyles()(theme => ({
-  buttonWrapper: {
-    '&.button-wrapper': {
-      justifyContent: 'start',
-      marginTop: 0
-    }
-  },
+  buttonWrapper: { '&.button-wrapper': { marginTop: 0 } },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(4), maxWidth: 750, [`.${formControlLabelClasses.root}`]: { marginTop: 0 } },
   ssoLink: {
     marginLeft: `calc(1em + ${theme.spacing(1.5)})`, // 1em as the width of the checkbox + the padding around the checkbox
