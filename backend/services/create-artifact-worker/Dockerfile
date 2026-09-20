@@ -44,7 +44,7 @@ RUN \
   BUILDFLAGS="${BUILDFLAGS}" && \
   mkdir /var/cache/create-artifact-worker
 
-FROM ${REGISTRY}/library/alpine:3.24.1
+FROM ${REGISTRY}/library/alpine:3.24.2
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534:65534
