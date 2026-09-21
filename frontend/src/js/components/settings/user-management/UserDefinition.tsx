@@ -158,7 +158,9 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       .then(() => dispatch(setSnackbar(`A password reset email was sent to ${email}.`)));
 
   const onSubmitClick = () => {
-    onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+    // submit the roles alone - the backend rejects any update to another user that carries an
+    // email, changed or not
+    onSubmit({ roles: selectedRoles }, 'edit', id);
     setIsEditingRoles(false);
   };
 
