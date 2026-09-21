@@ -123,5 +123,13 @@ describe('UserManagement Component', () => {
     expect(screen.getByText(/the selected role may prevent/i)).toBeInTheDocument();
     await user.type(listbox, '{Escape}');
     expect(screen.getByRole('button', { name: /Save/i })).not.toBeDisabled();
+
+    const { editUser: editUserSpy } = StoreThunks;
+    vi.mocked(editUserSpy).mockClear();
+    await user.click(screen.getByRole('button', { name: /Save/i }));
+    await waitFor(() => expect(editUserSpy).toHaveBeenCalled());
+    // the backend rejects any update to another user that carries an email, unchanged or not,
+    // so a role change must not submit one
+    expect(vi.mocked(editUserSpy).mock.calls[0][0]).not.toHaveProperty('email');
   });
 });
