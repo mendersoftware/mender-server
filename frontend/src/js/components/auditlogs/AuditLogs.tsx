@@ -218,10 +218,10 @@ export const AuditLogs = () => {
       if (!isInitialized.current) {
         return;
       }
-      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: users[user], type }));
+      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: users[user], type: auditLogsTypes.find(({ value }) => value === type) }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, JSON.stringify(users)]
+    [auditLogsTypes, dispatch, JSON.stringify(users)]
   );
 
   return (

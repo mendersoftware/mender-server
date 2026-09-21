@@ -84,8 +84,8 @@ export const AuditLogsFilter = ({
       <Filters
         topSpacing="margin-top-medium"
         bottomSpacing="margin-bottom-small"
-        initialValues={{ startDate, endDate, user: user?.id ?? user ?? '', type, detail }}
-        defaultValues={{ startDate: today, endDate: tonight, user: '', type: null, detail: '' }}
+        initialValues={{ startDate, endDate, user: user?.id ?? user ?? '', type: type?.value ?? '', detail }}
+        defaultValues={{ startDate: today, endDate: tonight, user: '', type: '', detail: '' }}
         fieldResetTrigger={detailsReset}
         dirtyField={dirtyField}
         clearDirty={setDirtyField}
@@ -105,12 +105,12 @@ export const AuditLogsFilter = ({
           {
             key: 'type',
             title: 'Filter by changes',
-            Component: ControlledAutoComplete,
+            Component: ControlledSelect,
             componentProps: {
-              ...autoSelectProps,
+              classes: { root: 'align-self-start' },
               options: auditLogsTypes,
-              isOptionEqualToValue: (option, value) => option.value === value.value && option.object_type === value.object_type,
-              renderInput: params => <TextField {...params} placeholder="Type" />
+              placeholder: 'Type',
+              selectionAttribute: 'value'
             }
           },
           {
