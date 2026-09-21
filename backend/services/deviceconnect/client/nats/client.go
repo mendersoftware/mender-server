@@ -99,7 +99,7 @@ func (c *client) ChanSubscribe(subj string,
 }
 
 func (c *client) Listen(addr string) (stream.Listener, error) {
-	return stream.ListenNATS(c.nats, addr)
+	return stream.ListenNATS(c.nats, addr, stream.ListenOptionCloseIfOccupied)
 }
 
 func (c *client) Connect(ctx context.Context, srcAddr, dstAddr string) (stream.Conn, error) {
