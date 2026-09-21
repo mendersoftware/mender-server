@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
-import { Button, Chip, DialogActions, DialogContent, Typography } from '@mui/material';
+import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
@@ -147,7 +147,6 @@ export const UserManagement = () => {
       {emailVerificationRequired && <EmailVerificationWarning action="add a new user" />}
       <UserList {...props} editUser={openEdit} />
       {!currentUser.verified && <EmailVerificationWarning action="add a new user" />}
-      <Chip color="primary" icon={<AddIcon />} label="Add new user" onClick={setShowCreate} disabled={!currentUser.verified} />
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
         currentUser={currentUser}
