@@ -16,6 +16,8 @@ package stream
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"strconv"
@@ -35,8 +37,15 @@ import (
 //   bye
 // }
 //
+// [prefix.]streamv1.l.<localAddr>.<remoteAddr>.<msgType>
+//
+// msgType = enum{
+//   hello - remoteAddr initiates a session with the listener on localAddr
+//   close - close the listener occupying localAddr, if any
+// }
+//
 // Subscriptions:
-//   listener: [prefix.]streamv1.l.<localAddr>.*.hello
+//   listener: [prefix.]streamv1.l.<localAddr>.*.*
 //   session:  [prefix.]streamv1.s.<localAddr>.<remoteAddr>.*
 
 type natsStream struct {
@@ -88,8 +97,17 @@ func newStream(nc *nats.Conn, localAddr, remoteAddr string) (*natsStream, error)
 	return ret, nil
 }
 
+const (
+	msgTypeHello = "hello"
+	msgTypeClose = "close"
+)
+
+func fmtListenSubject(localAddr, remoteAddr, msgType string) string {
+	return fmt.Sprintf("streamv1.l.%s.%s.%s", localAddr, remoteAddr, msgType)
+}
+
 func fmtHelloSubject(localAddr, remoteAddr string) string {
-	return fmt.Sprintf("streamv1.l.%s.%s.hello", localAddr, remoteAddr)
+	return fmtListenSubject(localAddr, remoteAddr, msgTypeHello)
 }
 
 func fmtSessionSubject(localAddr, remoteAddr, msgType string) string {
@@ -108,6 +126,27 @@ var (
 	ErrClosed            = errors.New("stream closed")
 	ErrConnectionRefused = errors.New("connection refused")
 )
+
+// defaultProbeTimeout bounds how long ListenNATS waits for its own
+// ListenOptionCloseIfOccupied probe to loop back through its subscription.
+// This is a liveness safety net, not a real wait: since ListenNATS
+// subscribes before publishing the probe, the echo is always expected to
+// arrive almost immediately.
+const defaultProbeTimeout = 2 * time.Second
+
+type listenConfig struct {
+	closeIfOccupied bool
+}
+
+// ListenOption configures how ListenNATS behaves when the requested listen
+// subject is already occupied by another listener.
+type ListenOption func(*listenConfig)
+
+// ListenOptionCloseIfOccupied makes ListenNATS close any other listener
+// already listening on addr before taking over the subject.
+func ListenOptionCloseIfOccupied(cfg *listenConfig) {
+	cfg.closeIfOccupied = true
+}
 
 func ConnectNATS(ctx context.Context, nc *nats.Conn, srcAddr, dstAddr string) (Conn, error) {
 	stream, err := newStream(nc, srcAddr, dstAddr)
@@ -386,14 +425,30 @@ type natsListener struct {
 	mu        sync.Mutex
 }
 
-func ListenNATS(nc *nats.Conn, addr string) (Listener, error) {
+// ListenNATS subscribes to the listen subject for addr and returns a
+// Listener that accepts incoming connections on it.
+//
+// By default, multiple listeners may listen on the same addr concurrently
+// (matching historical behavior). Pass ListenOptionCloseIfOccupied to make
+// the listen subject exclusive: it closes any other listener already
+// listening on addr (and its open connections) before taking over the
+// subject.
+func ListenNATS(nc *nats.Conn, addr string, opts ...ListenOption) (Listener, error) {
+	var cfg listenConfig
+	for _, opt := range opts {
+		opt(&cfg)
+	}
+
+	// Subscribe before probing for an existing occupant, so that a
+	// concurrent takeover request targeting addr can't be missed between
+	// the probe and the subscribe call.
 	msgChan := make(chan *nats.Msg, 3)
-	sub, err := nc.ChanSubscribe(fmtHelloSubject(addr, "*"), msgChan)
+	sub, err := nc.ChanSubscribe(fmtListenSubject(addr, "*", "*"), msgChan)
 	if err != nil {
 		return nil, fmt.Errorf("failed to subscribe to listener subject: %w", err)
 	}
 
-	return &natsListener{
+	l := &natsListener{
 		nc:        nc,
 		subListen: sub,
 		addr:      addr,
@@ -401,7 +456,44 @@ func ListenNATS(nc *nats.Conn, addr string) (Listener, error) {
 		openConns: make(map[string]Conn),
 
 		closed: make(chan struct{}),
-	}, nil
+	}
+
+	if cfg.closeIfOccupied {
+		nonce := make([]byte, 16)
+		_, _ = rand.Read(nonce)
+		selfNonce := hex.EncodeToString(nonce)
+
+		subject := fmtListenSubject(addr, addr, msgTypeClose)
+		if err := nc.Publish(subject, []byte(selfNonce)); err != nil {
+			_ = sub.Unsubscribe()
+			return nil, fmt.Errorf("failed to probe listener subject: %w", err)
+		}
+
+		// Any existing occupant closes itself upon receiving this
+		// broadcast, asynchronously, on its own schedule -- we don't wait
+		// for that. We only wait to see our own probe loop back through
+		// our subscription, confirming it is actually live. Any other
+		// message seen in the meantime (e.g. a hello, or a close from a
+		// concurrent takeover) is assumed to be handled by whichever
+		// listener currently occupies addr, if any; if none does, the
+		// sender's own retry logic will recover once we're done here.
+		deadline := time.NewTimer(defaultProbeTimeout)
+		defer deadline.Stop()
+	waitSelf:
+		for {
+			select {
+			case msg := <-msgChan:
+				if string(msg.Data) == selfNonce {
+					break waitSelf
+				}
+			case <-deadline.C:
+				_ = sub.Unsubscribe()
+				return nil, fmt.Errorf("timed out waiting for listener subscription to activate")
+			}
+		}
+	}
+
+	return l, nil
 }
 
 func (l *natsListener) Close(ctx context.Context) error {
@@ -422,46 +514,59 @@ func (l *natsListener) Close(ctx context.Context) error {
 }
 
 func (l *natsListener) Accept(ctx context.Context) (Conn, error) {
-	select {
-	case <-l.closed:
-		return nil, ErrClosed
-	case <-ctx.Done():
-		return nil, ctx.Err()
-	case msg := <-l.msgChan:
-		rest, msgType, _ := cutLast(msg.Subject, ".")
-		if msgType != "hello" {
-			return nil, ErrProtocol
-		}
-		_, addr, _ := cutLast(rest, ".")
+	for {
+		select {
+		case <-l.closed:
+			return nil, ErrClosed
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		case msg := <-l.msgChan:
+			rest, msgType, _ := cutLast(msg.Subject, ".")
+			switch msgType {
+			case msgTypeClose:
+				// Another ListenNATS caller is taking over this address:
+				// close before acknowledging, so the requester is
+				// guaranteed the subject is free once it gets the reply.
+				_ = l.Close(ctx)
+				if msg.Reply != "" {
+					_ = msg.Respond(nil)
+				}
+				continue
+			case msgTypeHello:
+			default:
+				return nil, ErrProtocol
+			}
+			_, addr, _ := cutLast(rest, ".")
 
-		_, ok := l.openConns[addr]
-		if ok {
-			return nil, ErrProtocol
-		}
-		stream, err := newStream(l.nc, l.addr, addr)
-		if err != nil {
-			return nil, err
-		}
-		l.mu.Lock()
-		if _, ok := l.openConns[addr]; ok {
-			l.mu.Unlock()
-			_ = stream.term()
-			return nil, ErrProtocol
-		} else {
-			l.openConns[addr] = stream
-		}
-		l.mu.Unlock()
-		stream.closeFunc = func() {
+			_, ok := l.openConns[addr]
+			if ok {
+				return nil, ErrProtocol
+			}
+			stream, err := newStream(l.nc, l.addr, addr)
+			if err != nil {
+				return nil, err
+			}
 			l.mu.Lock()
-			defer l.mu.Unlock()
-			delete(l.openConns, addr)
+			if _, ok := l.openConns[addr]; ok {
+				l.mu.Unlock()
+				_ = stream.term()
+				return nil, ErrProtocol
+			} else {
+				l.openConns[addr] = stream
+			}
+			l.mu.Unlock()
+			stream.closeFunc = func() {
+				l.mu.Lock()
+				defer l.mu.Unlock()
+				delete(l.openConns, addr)
+			}
+			err = msg.Respond(nil)
+			if err != nil {
+				l.openConns[addr].Close(ctx)
+				return nil, fmt.Errorf("failed to complete handshake: %w", err)
+			}
+			return stream, nil
 		}
-		err = msg.Respond(nil)
-		if err != nil {
-			l.openConns[addr].Close(ctx)
-			return nil, fmt.Errorf("failed to complete handshake: %w", err)
-		}
-		return stream, nil
 	}
 }
 
