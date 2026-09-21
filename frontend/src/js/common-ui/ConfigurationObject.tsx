@@ -45,7 +45,8 @@ const ValueColumn = ({ value = '', setSnackbar }) => {
   };
   let shownValue = value;
   if (!isComponent) {
-    shownValue = <div title={value}>{value.length > cutoffLength ? `${value.substring(0, cutoffLength - 3)}...` : value}</div>;
+    const renderedValue = Array.isArray(value) ? value.join(', ') : value;
+    shownValue = <div title={value}>{renderedValue.length > cutoffLength ? `${renderedValue.substring(0, cutoffLength - 3)}...` : renderedValue}</div>;
   }
   return (
     <div

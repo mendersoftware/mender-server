@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
-import { Button, Chip, DialogActions, DialogContent } from '@mui/material';
+import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
@@ -31,6 +31,7 @@ import {
 } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
 
+import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserDefinition } from './UserDefinition';
 import UserForm from './UserForm';
 import UserList from './UserList';
@@ -71,18 +72,20 @@ export const UserManagement = () => {
   const dispatch = useDispatch();
 
   const { canManageUsers } = useSelector(getUserCapabilities);
-  const { isHosted } = useSelector(getFeatures);
+  const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);
   const currentUser = useSelector(getCurrentUser);
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
   const { trial: isTrial } = useSelector(getOrganization);
+  const emailVerificationRequired = hasMultitenancy && !currentUser.verified;
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
     createUser: userData => dispatch(createUser(userData)),
     currentUser,
     editUser: (id, userData) => dispatch(editUser({ ...userData, id })),
+    hasMultitenancy,
     isEnterprise,
     isHosted,
     removeUser: id => dispatch(removeUser(id)),
@@ -135,15 +138,19 @@ export const UserManagement = () => {
 
   return (
     <div>
-      <div className="flexbox centered space-between" style={{ marginLeft: '20px' }}>
-        <h2>Users</h2>
+      <div className="flexbox space-between align-items-center margin-bottom-medium">
+        <Typography variant="h6">Users</Typography>
+        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} disabled={emailVerificationRequired} variant="contained">
+          Add new user
+        </Button>
       </div>
-
+      {emailVerificationRequired && <EmailVerificationWarning action="add a new user" />}
       <UserList {...props} editUser={openEdit} />
-      <Chip color="primary" icon={<AddIcon />} label="Add new user" onClick={setShowCreate} />
+      {!currentUser.verified && <EmailVerificationWarning action="add a new user" />}
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
         currentUser={currentUser}
+        hasMultitenancy={hasMultitenancy}
         isEnterprise={isEnterprise}
         onRemove={openRemove}
         onCancel={dialogDismiss}

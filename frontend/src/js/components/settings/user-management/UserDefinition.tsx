@@ -14,7 +14,19 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Drawer,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  TextField,
+  Typography,
+  textFieldClasses
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
@@ -26,6 +38,7 @@ import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
+import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserRolesSelect } from './UserForm';
 
 const useStyles = makeStyles()(theme => ({
@@ -71,7 +84,18 @@ export const UserId = ({ className = '', userId }) => {
   );
 };
 
-export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }) => {
+interface UserDefinitionProps {
+  currentUser: User & { verified?: boolean };
+  hasMultitenancy: boolean;
+  isEnterprise: boolean;
+  onCancel: () => void;
+  onRemove: (user: User) => void;
+  onSubmit: (userData: (User & { roles?: string[] }) | null, type: string, id: string) => void;
+  roles: { name: string; value?: string }[];
+  selectedUser: User & { roles?: string[] };
+}
+
+export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
@@ -139,6 +163,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   }, [selectedRoles, rolesById]);
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
+  const userNotVerified = !currentUser.verified;
   const isSubmitDisabled = !selectedRoles.length;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
@@ -156,10 +181,20 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           )
         }
       />
-      <Divider />
-      <UserId className={classes.widthLimit} userId={id} />
-      <FormControl className={classes.widthLimit}>
-        <TextField label="Email" id="email" value={currentEmail} disabled={isOAuth2 || currentUser.id === id} error={nameError} onChange={validateNameChange} />
+      {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
+      <Typography className="margin-top" variant="subtitle1">
+        User ID
+      </Typography>
+      <UserId className={`margin-top-medium ${classes.widthLimit}`} userId={id} />
+      <FormControl className={`margin-top-medium ${classes.widthLimit}`}>
+        <TextField
+          label="Email"
+          id="email"
+          value={currentEmail}
+          disabled={isOAuth2 || currentUser.id === id || (hasMultitenancy && userNotVerified)}
+          error={nameError}
+          onChange={validateNameChange}
+        />
         {nameError && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
       </FormControl>
       {isOAuth2 ? (
