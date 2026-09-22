@@ -71,9 +71,7 @@ export const GroupDefinition = ({ groups, name, selectedDevices }) => {
       <ControlledAutoComplete
         id="group-creation-selection"
         className="margin-top-x-small"
-        autoSelect
         freeSolo
-        filterSelectedOptions
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
           if (params.inputValue !== '' && !groups.includes(params.inputValue) && (filtered.length !== 1 || filtered[0].title !== params.inputValue)) {
@@ -93,7 +91,6 @@ export const GroupDefinition = ({ groups, name, selectedDevices }) => {
           }
           return option.title;
         }}
-        handleHomeEndKeys
         name={name}
         options={mappedGroups}
         renderInput={params => (

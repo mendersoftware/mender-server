@@ -37,11 +37,8 @@ const renderOption = (props, option) => {
     </li>
   );
 };
-const autoSelectProps = {
-  autoSelect: true,
-  filterSelectedOptions: true,
+const autoCompleteProps = {
   getOptionLabel,
-  handleHomeEndKeys: true,
   renderOption
 };
 
@@ -118,7 +115,7 @@ export const AuditLogsFilter = ({
             title: '\u{200B}',
             Component: ControlledAutoComplete,
             componentProps: {
-              ...autoSelectProps,
+              ...autoCompleteProps,
               freeSolo: true,
               options: detailOptions,
               disabled: !type,

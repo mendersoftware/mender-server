@@ -202,7 +202,7 @@ export const Past = props => {
     [dispatch]
   );
 
-  const autoCompleteProps = { autoHighlight: true, autoSelect: true, filterSelectedOptions: true, freeSolo: true, handleHomeEndKeys: true };
+  const autoCompleteProps = { autoHighlight: true, freeSolo: true };
   return (
     <div className="fadeIn">
       <Filters

@@ -138,10 +138,8 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
       {...remainder}
       autoComplete
       autoHighlight
-      autoSelect
       disabled={disabled}
       freeSolo
-      filterSelectedOptions
       filterOptions={filterOptions}
       getOptionLabel={getOptionLabel}
       groupBy={option => option.category}

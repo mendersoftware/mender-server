@@ -35,7 +35,7 @@ export const ControlledAutoComplete = ({ freeSolo, name, onChange, onInputChange
         const wrappedRenderInput = params => renderInput({ ...params, inputRef: ref });
         return (
           <Autocomplete
-            autoSelect={false}
+            handleHomeEndKeys
             {...field}
             {...(freeSolo
               ? { freeSolo: true, inputValue: value ?? '', onInputChange: onInputChangeHandler }
