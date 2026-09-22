@@ -14,7 +14,19 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Drawer,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  TextField,
+  Typography,
+  textFieldClasses
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';

@@ -143,7 +143,6 @@ export const UserManagement = () => {
         </Button>
       </div>
       <UserList {...props} editUser={openEdit} />
-      {!currentUser.verified && <EmailVerificationWarning action="add a new user" />}
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
         currentUser={currentUser}
