@@ -202,6 +202,8 @@ build:frontend:docker:
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
   script:
+    - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
+    - export MENDER_IMAGE_TAG="4.1.x"
     - npm run script --prefix frontend/tests/e2e_tests -- --environment os
 
 test:frontend:acceptance:enterprise:
@@ -211,12 +213,7 @@ test:frontend:acceptance:enterprise:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
   script:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
-    - |
-      if echo "$CI_COMMIT_REF_NAME" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9x]+$'; then
-        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/^v//; s/\.[^.]*$//')"
-      else
-        export MENDER_IMAGE_TAG=main
-      fi
+    - export MENDER_IMAGE_TAG="4.1.x"
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
@@ -229,12 +226,7 @@ test:frontend:acceptance:enterprise:qemu:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
   script:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
-    - |
-      if echo "$CI_COMMIT_REF_NAME" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9x]+$'; then
-        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/^v//; s/\.[^.]*$//')"
-      else
-        export MENDER_IMAGE_TAG=main
-      fi
+    - export MENDER_IMAGE_TAG="4.1.x"
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant qemu
   retry:
