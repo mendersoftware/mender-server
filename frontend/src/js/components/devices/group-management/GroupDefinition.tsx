@@ -11,62 +11,64 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { Autocomplete, FormHelperText, TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { createFilterOptions } from '@mui/material/useAutocomplete';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import InfoText from '@northern.tech/common-ui/InfoText';
+import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
+import { runValidations } from '@northern.tech/common-ui/forms/validations';
 import { UNGROUPED_GROUP } from '@northern.tech/store/constants';
-import { fullyDecodeURI } from '@northern.tech/utils/helpers';
-import validator from 'validator';
 
 const filter = createFilterOptions();
 
-const NAME_LENGTH_LIMIT = 256;
+const nameValidations = `isAlphanumericLocator,isLength:1:256,isNot:${UNGROUPED_GROUP.name}`;
 
-export const validateGroupName = (encodedName: string, groups = [], selectedDevices = [], isCreationDynamic) => {
-  const name = fullyDecodeURI(encodedName);
-  let invalid = false;
-  let errorText = '';
-  const isModification = name.length && groups.some(group => decodeURIComponent(group) === name);
-  if (!name && !isModification) {
-    invalid = true;
-  } else if (!validator.isWhitelisted(name, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.')) {
-    invalid = true;
-    errorText = 'Valid characters are a-z, A-Z, 0-9, ., _ and -';
-  } else if (name.length > NAME_LENGTH_LIMIT) {
-    invalid = true;
-    errorText = `Name must be at most ${NAME_LENGTH_LIMIT} characters long`;
-  } else if (selectedDevices.length && selectedDevices.every(({ group }) => group === name)) {
-    invalid = true;
-    errorText = `${name} is the same group the selected devices are already in`;
-  } else if (isModification && isCreationDynamic) {
-    invalid = true;
-    errorText = 'A group with the same name already exists';
-  } else if (name === UNGROUPED_GROUP.name) {
-    invalid = true;
-    errorText = `A group with the name ${name} is created automatically`;
-  }
-  return { errorText: errorText, invalid, isModification, name };
+type GroupNameValidationOptions = {
+  existingGroups?: string[];
+  isDynamic?: boolean;
+  selectedDevices?: { group?: string }[];
 };
 
-const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
+export const getGroupNameError = (name: string, { existingGroups = [], isDynamic = false, selectedDevices = [] }: GroupNameValidationOptions = {}) => {
+  const { isValid, errortext } = runValidations({ id: 'groupName', required: true, validations: nameValidations, value: name });
+  if (!isValid) {
+    return errortext;
+  }
+  // devices can be added to an existing static group, but a dynamic group needs a name of its own
+  if (isDynamic && existingGroups.includes(name)) {
+    return 'A group with the same name already exists';
+  }
+  if (selectedDevices.length && selectedDevices.every(({ group }) => group === name)) {
+    return `${name} is the same group the selected devices are already in`;
+  }
+  return '';
+};
 
-export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputChange, selectedDevices }) => {
-  const [errorText, setErrorText] = useState('');
+export const groupNameValidationRules = (options: GroupNameValidationOptions = {}) => ({
+  required: 'Group name is required',
+  validate: (value: string) => getGroupNameError(value, options) || true
+});
 
-  const validateName = (encodedName: string) => {
-    const { errorText: error, invalid, isModification, name } = validateGroupName(encodedName, groups, selectedDevices, isCreationDynamic);
-    setErrorText(error);
-    onInputChange(invalid, name, isModification);
-  };
+const GroupOption = ({ key, ...optionProps }, option) => (
+  <li key={key} {...optionProps}>
+    {option.title}
+  </li>
+);
+
+export const GroupDefinition = ({ groups, name, selectedDevices }) => {
+  const {
+    formState: { errors }
+  } = useFormContext();
+  const error = errors[name]?.message;
 
   const mappedGroups = groups.map(group => ({ value: group, title: group }));
   return (
     <>
-      <Autocomplete
+      <Typography variant="subtitle1">Name</Typography>
+      <ControlledAutoComplete
         id="group-creation-selection"
         className="margin-top-x-small"
         autoSelect
@@ -74,11 +76,7 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
         filterSelectedOptions
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
-          if (
-            params.inputValue !== '' &&
-            !groups.some(group => decodeURIComponent(group) === params.inputValue) &&
-            (filtered.length !== 1 || (filtered.length === 1 && filtered[0].title !== params.inputValue))
-          ) {
+          if (params.inputValue !== '' && !groups.includes(params.inputValue) && (filtered.length !== 1 || filtered[0].title !== params.inputValue)) {
             filtered.push({
               inputValue: params.inputValue,
               title: `Create "${params.inputValue}" group`
@@ -96,20 +94,25 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
           return option.title;
         }}
         handleHomeEndKeys
-        inputValue={newGroup}
+        name={name}
         options={mappedGroups}
-        onInputChange={(e, newValue) => validateName(newValue)}
-        renderInput={params => <TextField {...params} label="Select a group, or type to create new" />}
+        renderInput={params => (
+          <TextField
+            {...params}
+            error={!!error}
+            slotProps={{ ...params.slotProps, inputLabel: { ...params.slotProps.inputLabel, shrink: true } }}
+            placeholder="Select a group, or type to create new"
+            helperText={error}
+          />
+        )}
         renderOption={GroupOption}
+        rules={groupNameValidationRules({ selectedDevices })}
       />
-      <FormHelperText>{errorText}</FormHelperText>
-      {isCreationDynamic && (
-        <InfoText>
-          Note: individual devices can&apos;t be added to dynamic groups.
-          <br />
-          <DocsLink path="overview/device-group" title="Learn more about static vs. dynamic groups" />
-        </InfoText>
-      )}
+      <InfoText>
+        Note: individual devices can&apos;t be added to dynamic groups.
+        <br />
+        <DocsLink path="overview/device-group" title="Learn more about static vs. dynamic groups" />
+      </InfoText>
     </>
   );
 };

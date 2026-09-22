@@ -122,7 +122,7 @@ test.describe('Devices', () => {
     await page.click(selectors.deviceListCheckbox);
     await page.getByRole('button', { name: 'device-actions' }).click();
     await page.getByRole('menuitem', { name: /add selected/i }).click();
-    await page.getByLabel(/type to create new/i).fill('testgroup');
+    await page.getByPlaceholder(/type to create new/i).fill('testgroup');
     await page.click('.MuiDialogTitle-root');
     const groupCreation = await page.getByRole('button', { name: /create group/i });
     const groupExtension = await page.getByRole('button', { name: /add to group/i });
