@@ -17,7 +17,7 @@ import (
 	"crypto/ed25519"
 	"strconv"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/services/useradm/common"
@@ -77,6 +77,8 @@ func (j *JWTHandlerEd25519) FromJWT(tokstr string) (*Token, error) {
 			token.Claims = *claims
 			return &token, nil
 		}
+	} else if errors.Is(err, jwt.ErrTokenExpired) {
+		return nil, ErrTokenExpired
 	}
 
 	return nil, ErrTokenInvalid
