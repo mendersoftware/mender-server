@@ -9,7 +9,7 @@ require (
 	github.com/docker/cli v29.5.2+incompatible
 	github.com/docker/compose/v5 v5.1.4
 	github.com/google/uuid v1.6.0
-	github.com/mendersoftware/mender-artifact v0.0.0-20260907074049-0d869280f653
+	github.com/mendersoftware/mender-artifact v0.0.0-20260916143838-1ed977e481bf
 	github.com/mendersoftware/mender-server v0.0.0-00010101000000-000000000000
 	github.com/moby/moby/api v1.54.2
 	github.com/moby/moby/client v0.4.1
@@ -79,7 +79,7 @@ require (
 	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf // indirect
 	github.com/jonboulle/clockwork v0.5.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.19.2 // indirect
+	github.com/klauspost/compress v1.20.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect

@@ -445,7 +445,7 @@ func TestS3EndpointFormats(t *testing.T) {
 			endpoint:     "", // Standard S3
 			pathStyle:    true,
 			expectedHost: "s3.us-east-1.amazonaws.com",
-			expectedPath: "/artifacts",
+			expectedPath: "/artifacts/",
 		},
 		{
 			name:         "standard_s3/path-style/eu-west-1",
@@ -454,7 +454,7 @@ func TestS3EndpointFormats(t *testing.T) {
 			endpoint:     "", // Standard S3
 			pathStyle:    true,
 			expectedHost: "s3.eu-west-1.amazonaws.com",
-			expectedPath: "/deployments",
+			expectedPath: "/deployments/",
 		},
 		{
 			name:         "s3_compatible/virtual-hosted/minio",
