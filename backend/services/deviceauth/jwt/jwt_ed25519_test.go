@@ -21,7 +21,7 @@ import (
 	"testing"
 	"time"
 
-	jwtgo "github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
@@ -77,7 +77,7 @@ func TestJWTHandlerEd25519GenerateToken(t *testing.T) {
 
 		parsed := parseGeneratedTokenEd25519(t, string(raw), tc.privKey)
 		if assert.NotNil(t, parsed) {
-			mc := parsed.Claims.(jwtgo.MapClaims)
+			mc := parsed.Claims.(jwt.MapClaims)
 			assert.Equal(t, tc.claims.Issuer, mc["iss"])
 			assert.Equal(t, tc.claims.Subject.String(), mc["sub"])
 			if tc.claims.Tenant != "" {
@@ -104,16 +104,30 @@ func TestJWTHandlerEd25519FromJWT(t *testing.T) {
 		"ok (all claims)": {
 			privKey: key,
 
-			inToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdG" +
-				"kiOiJiOTQ3NTMzNi1kZGU2LTU0OTctODA0NC01MWFhOW" +
-				"RkYzAyZjgiLCJzdWIiOiJiY2E5NWFkYi1iNWYxLTU2NG" +
-				"YtOTZhNy02MzU1YzUyZDFmYTciLCJhdWQiOiJNZW5kZX" +
-				"IiLCJzY3AiOiJtZW5kZXIuKiIsImlzcyI6Ik1lbmRlci" +
-				"IsImV4cCI6NDE0NzQ4MzY0NywiaWF0IjoxMjM0NTY3LC" +
-				"JuYmYiOjEyMzQ1Njc4LCJtZW5kZXIudHJpYWwiOmZhbH" +
-				"NlfQ.eOnpurEYseItJXycyjOyfTO-RI_MCSF1e79HG63" +
-				"HzVoR2xLzrA044hQ_pUneqG1V30h67EhWZY1wspqBay-" +
-				"Cw",
+			inToken: func() string {
+				tok := jwt.NewWithClaims(jwt.SigningMethodEdDSA, Claims{
+					ID:       oid.NewUUIDv5("someid"),
+					Subject:  oid.NewUUIDv5("foo"),
+					Audience: "Mender",
+					ExpiresAt: Time{
+						Time: time.Unix(4147483647, 0),
+					},
+					IssuedAt: Time{
+						Time: time.Unix(1234567, 0),
+					},
+					Issuer: "Mender",
+					NotBefore: Time{
+						Time: time.Unix(12345678, 0),
+					},
+					Scope: "mender.*",
+				})
+				token, err := tok.SignedString(key)
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				return token
+			}(),
 
 			outToken: Token{
 				Claims: Claims{
@@ -182,8 +196,8 @@ func TestJWTHandlerEd25519FromJWT(t *testing.T) {
 
 		token, err := jwtHandler.FromJWT(tc.inToken)
 		if tc.outErr == nil {
-			assert.NoError(t, err)
-			assert.Equal(t, tc.outToken, *token)
+			_ = assert.NoError(t, err) &&
+				assert.Equal(t, tc.outToken, *token)
 		} else {
 			assert.EqualError(t, tc.outErr, err.Error())
 		}
@@ -231,15 +245,22 @@ func TestJWTHandlerEd25519Validate(t *testing.T) {
 		"error - bad claims": {
 			privKey: key,
 
-			inToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdG" +
-				"kiOiJiOTQ3NTMzNi1kZGU2LTU0OTctODA0NC01MWFhOW" +
-				"RkYzAyZjgiLCJzdWIiOiJiY2E5NWFkYi1iNWYxLTU2NG" +
-				"YtOTZhNy02MzU1YzUyZDFmYTciLCJhdWQiOiJNZW5kZX" +
-				"IiLCJzY3AiOiJtZW5kZXIuKiIsImV4cCI6NDE0NzQ4Mz" +
-				"Y0NywiaWF0IjoxMjM0NTY3LCJuYmYiOjEyMzQ1Njc4LC" +
-				"JtZW5kZXIudHJpYWwiOmZhbHNlfQ.T4PVYJvRSusq7MZ" +
-				"5XaOo6mLW9GDKdqdWO8NUZOZZ-KJ69d1UDbKWFSs9PPx" +
-				"cNwS5a0j8iiTA6m6-YW0nEvLWAg",
+			inToken: func() string {
+				tok := jwt.NewWithClaims(jwt.SigningMethodEdDSA, Claims{
+					ExpiresAt: Time{time.Now().Add(time.Hour)},
+					IssuedAt:  Time{time.Now()},
+					NotBefore: Time{time.Now().Add(time.Hour)},
+					Audience:  "test",
+					Subject:   oid.NewUUIDv5("tester"),
+					Issuer:    "tester",
+				})
+				token, err := tok.SignedString(key)
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				return token
+			}(),
 
 			outErr: errors.New("jwt: token invalid"),
 		},
@@ -264,7 +285,7 @@ func TestJWTHandlerEd25519Validate(t *testing.T) {
 
 			inToken: "1234123412341234",
 
-			outErr: errors.New("token contains an invalid number of segments"),
+			outErr: errors.New("token is malformed: token contains an invalid number of segments"),
 		},
 	}
 
@@ -276,8 +297,7 @@ func TestJWTHandlerEd25519Validate(t *testing.T) {
 		if tc.outErr == nil {
 			assert.NoError(t, err)
 		} else {
-			assert.Error(t, err)
-			assert.EqualError(t, tc.outErr, err.Error())
+			assert.EqualError(t, err, tc.outErr.Error())
 		}
 	}
 }
@@ -298,9 +318,9 @@ func loadEd25519PrivKey(path string, t *testing.T) *ed25519.PrivateKey {
 	return &retKey
 }
 
-func parseGeneratedTokenEd25519(t *testing.T, token string, key *ed25519.PrivateKey) *jwtgo.Token {
-	tokenParsed, err := jwtgo.Parse(token, func(token *jwtgo.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwtgo.SigningMethodEd25519); !ok {
+func parseGeneratedTokenEd25519(t *testing.T, token string, key *ed25519.PrivateKey) *jwt.Token {
+	tokenParsed, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodEd25519); !ok {
 			return nil, errors.New("Unexpected signing method: " + token.Method.Alg())
 		}
 		return key.Public(), nil

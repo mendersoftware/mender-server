@@ -18,9 +18,13 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/addons"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 )
+
+var _ jwt.Claims = Claims{}
 
 type Claims struct {
 	// ID is the unique jwt ID, also device AuthSet UUID. (Required)
@@ -47,6 +51,34 @@ type Claims struct {
 	Addons []addons.Addon `json:"mender.addons,omitempty"`
 }
 
+func (claims Claims) GetExpirationTime() (*jwt.NumericDate, error) {
+	if claims.ExpiresAt.IsZero() {
+		return nil, nil
+	}
+	return jwt.NewNumericDate(claims.ExpiresAt.Time), nil
+}
+func (claims Claims) GetIssuedAt() (*jwt.NumericDate, error) {
+	if claims.IssuedAt.IsZero() {
+		return nil, nil
+	}
+	return jwt.NewNumericDate(claims.IssuedAt.Time), nil
+}
+func (claims Claims) GetNotBefore() (*jwt.NumericDate, error) {
+	if claims.NotBefore.IsZero() {
+		return nil, nil
+	}
+	return jwt.NewNumericDate(claims.NotBefore.Time), nil
+}
+func (claims Claims) GetIssuer() (string, error) {
+	return claims.Issuer, nil
+}
+func (claims Claims) GetSubject() (string, error) {
+	return claims.Subject.String(), nil
+}
+func (claims Claims) GetAudience() (jwt.ClaimStrings, error) {
+	return jwt.ClaimStrings{claims.Audience}, nil
+}
+
 type Time struct {
 	time.Time
 }
@@ -63,11 +95,11 @@ func (t *Time) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// Valid checks if claims are valid. Returns error if validation fails.
+// Validate checks if claims are valid. Returns error if validation fails.
 // Note that for now we're only using iss, exp, sub, scp.
 // Basic checks are done here, field correctness (e.g. issuer) - at the service
 // level, where this info is available.
-func (c *Claims) Valid() error {
+func (c *Claims) Validate() error {
 	if c.Issuer == "" ||
 		c.ID.String() == "" ||
 		c.Subject.String() == "" {
