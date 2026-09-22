@@ -77,7 +77,6 @@ export const UserManagement = () => {
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
   const { trial: isTrial } = useSelector(getOrganization);
-  const emailVerificationRequired = hasMultitenancy && !currentUser.verified;
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
@@ -139,7 +138,7 @@ export const UserManagement = () => {
     <div>
       <div className="flexbox space-between align-items-center margin-bottom-medium">
         <Typography variant="h6">Users</Typography>
-        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} disabled={emailVerificationRequired} variant="contained">
+        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} variant="contained">
           Add new user
         </Button>
       </div>
