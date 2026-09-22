@@ -18,9 +18,13 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/addons"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 )
+
+var _ jwt.Claims = Claims{}
 
 type Claims struct {
 	// ID is the unique jwt ID, also device AuthSet UUID. (Required)
@@ -45,6 +49,25 @@ type Claims struct {
 	Trial bool `json:"mender.trial" bson:"trial"`
 	// Addons contains the settings for addons enabled for the tenant.
 	Addons []addons.Addon `json:"mender.addons,omitempty"`
+}
+
+func (claims Claims) GetExpirationTime() (*jwt.NumericDate, error) {
+	return jwt.NewNumericDate(claims.ExpiresAt.Time), nil
+}
+func (claims Claims) GetIssuedAt() (*jwt.NumericDate, error) {
+	return jwt.NewNumericDate(claims.IssuedAt.Time), nil
+}
+func (claims Claims) GetNotBefore() (*jwt.NumericDate, error) {
+	return jwt.NewNumericDate(claims.NotBefore.Time), nil
+}
+func (claims Claims) GetIssuer() (string, error) {
+	return claims.Issuer, nil
+}
+func (claims Claims) GetSubject() (string, error) {
+	return claims.Subject.String(), nil
+}
+func (claims Claims) GetAudience() (jwt.ClaimStrings, error) {
+	return jwt.ClaimStrings{claims.Audience}, nil
 }
 
 type Time struct {
