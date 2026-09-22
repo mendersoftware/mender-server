@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { AutoAwesomeOutlined, Close } from '@mui/icons-material';
-import { IconButton, Typography } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { Chip, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
@@ -23,7 +23,7 @@ const useStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText
   },
-  note: { gap: theme.spacing() },
+  note: { gap: theme.spacing(2) },
   closeButton: {
     color: 'inherit',
     marginRight: theme.spacing(3)
@@ -36,9 +36,9 @@ const OfferHeader = ({ onHide }) => {
   return (
     <div className={`flexbox align-items-center ${classes.container}`}>
       <div className={`flexbox centered full-width ${classes.note}`}>
-        <AutoAwesomeOutlined fontSize="small" />
-        <Typography variant="body2">Try out the new AI feature to diagnose deployment failures in seconds.</Typography>
-        <Link href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature" external onClick={onHide} color="inherit" variant="body2">
+        <Chip label="New" color="secondary" size="small" />
+        <Typography variant="body2">More accurate device search: Find exact devices faster using your device identity attribute.</Typography>
+        <Link href="https://mender.io/blog/simpler-more-predictable-device-search-in-the-mender-ui" external onClick={onHide} color="inherit" variant="body2">
           Learn more
         </Link>
       </div>

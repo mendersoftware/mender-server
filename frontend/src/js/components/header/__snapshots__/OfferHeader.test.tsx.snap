@@ -8,27 +8,130 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
 }
 
 .emotion-1 {
-  gap: 8px;
+  gap: 16px;
 }
 
 .emotion-2 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
+  max-width: 100%;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  white-space: nowrap;
+  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  outline: 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: 24px;
+  background-color: #9c27b0;
+  color: #fff;
+}
+
+.emotion-2.Mui-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.emotion-2 .MuiChip-avatar {
+  margin-left: 5px;
+  margin-right: -6px;
+  width: 24px;
+  height: 24px;
+  color: #616161;
+  font-size: 0.75rem;
+}
+
+.emotion-2 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
+}
+
+.emotion-2 .MuiChip-deleteIcon {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 5px 0 -6px;
+}
+
+.emotion-2 .MuiChip-deleteIcon:hover {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-2 .MuiChip-avatar {
+  color: #fff;
+  background-color: #7b1fa2;
+}
+
+.emotion-2 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
+}
+
+.emotion-2 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-2 .MuiChip-deleteIcon {
+  font-size: 16px;
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.emotion-2 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emotion-2 .MuiChip-deleteIcon:hover,
+.emotion-2 .MuiChip-deleteIcon:active {
+  color: #fff;
+}
+
+.emotion-2 .MuiChip-icon {
+  color: #616161;
+}
+
+.emotion-2 .MuiChip-icon {
+  color: inherit;
 }
 
 .emotion-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -37,7 +140,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-4 {
+.emotion-5 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -49,11 +152,11 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   color: inherit;
 }
 
-.emotion-4:hover {
+.emotion-5:hover {
   text-decoration-color: inherit;
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -103,39 +206,56 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   margin-right: 24px;
 }
 
-.emotion-5::-moz-focus-inner {
+.emotion-6::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-5 {
+  .emotion-6 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-5:hover {
+  .emotion-6:hover {
     background-color: transparent;
   }
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5.MuiIconButton-loading {
+.emotion-6.MuiIconButton-loading {
   color: transparent;
+}
+
+.emotion-7 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
 }
 
 <div
@@ -144,25 +264,23 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   <div
     class="flexbox centered full-width emotion-1"
   >
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-2"
-      data-testid="AutoAwesomeOutlinedIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSecondary emotion-2"
     >
-      <path
-        d="m19 9 1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm0 6-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25zm-7.5-5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12zm-1.51 3.49L9 15.17l-.99-2.18L5.83 12l2.18-.99L9 8.83l.99 2.18 2.18.99z"
-      />
-    </svg>
+      <span
+        class="MuiChip-label emotion-3"
+      >
+        New
+      </span>
+    </div>
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-3"
+      class="MuiTypography-root MuiTypography-body2 emotion-4"
     >
-      Try out the new AI feature to diagnose deployment failures in seconds.
+      More accurate device search: Find exact devices faster using your device identity attribute.
     </p>
     <a
-      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-4"
-      href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-5"
+      href="https://mender.io/blog/simpler-more-predictable-device-search-in-the-mender-ui"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -170,13 +288,13 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
     </a>
   </div>
   <button
-    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-5"
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-6"
     tabindex="0"
     type="button"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-2"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
       data-testid="CloseIcon"
       focusable="false"
       viewBox="0 0 24 24"
