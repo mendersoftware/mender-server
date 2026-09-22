@@ -38,7 +38,6 @@ import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
-import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserRolesSelect } from './UserForm';
 
 const useStyles = makeStyles()(theme => ({
@@ -163,7 +162,6 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   }, [selectedRoles, rolesById]);
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
-  const userNotVerified = !currentUser.verified;
   const isSubmitDisabled = !selectedRoles.length;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
@@ -181,20 +179,12 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           )
         }
       />
-      {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
       <Typography className="margin-top" variant="subtitle1">
         User ID
       </Typography>
       <UserId className={`margin-top-medium ${classes.widthLimit}`} userId={id} />
       <FormControl className={`margin-top-medium ${classes.widthLimit}`}>
-        <TextField
-          label="Email"
-          id="email"
-          value={currentEmail}
-          disabled={isOAuth2 || currentUser.id === id || (hasMultitenancy && userNotVerified)}
-          error={nameError}
-          onChange={validateNameChange}
-        />
+        <TextField label="Email" id="email" value={currentEmail} disabled={isOAuth2 || currentUser.id === id} error={nameError} onChange={validateNameChange} />
         {nameError && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
       </FormControl>
       {isOAuth2 ? (

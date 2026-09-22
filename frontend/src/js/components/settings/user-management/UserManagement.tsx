@@ -31,7 +31,6 @@ import {
 } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
 
-import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserDefinition } from './UserDefinition';
 import UserForm from './UserForm';
 import UserList from './UserList';
@@ -144,7 +143,6 @@ export const UserManagement = () => {
           Add new user
         </Button>
       </div>
-      {emailVerificationRequired && <EmailVerificationWarning action="add a new user" />}
       <UserList {...props} editUser={openEdit} />
       {!currentUser.verified && <EmailVerificationWarning action="add a new user" />}
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
