@@ -41,7 +41,7 @@ const getErrorMsg = (validateMethod, args) => {
       if (args[0] && validator.matches(args[0], /^[a-zA-Z0-9_-]+$/)) {
         return '';
       } else {
-        return 'This please only enter valid characters. Valid characters are a-z, A-Z, 0-9, _ and -';
+        return 'Invalid characters. Allowed: a-z, A-Z, 0-9, _ and -';
       }
     case 'isNot':
       if (args[0] === args[1]) {

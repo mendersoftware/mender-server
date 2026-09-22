@@ -16,7 +16,7 @@ import { undefineds } from '@northern.tech/testing/mockData';
 
 import GroupDefinition, { getGroupNameError, groupNameValidationRules } from './GroupDefinition';
 
-const invalidCharactersError = 'This please only enter valid characters. Valid characters are a-z, A-Z, 0-9, _ and -';
+const invalidCharactersError = 'Invalid characters. Allowed: a-z, A-Z, 0-9, _ and -';
 
 describe('GroupDefinition Component', () => {
   it('renders correctly', async () => {
