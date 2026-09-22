@@ -22,7 +22,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	jwtv4 "github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 
 	"github.com/mendersoftware/mender-server/services/useradm/common"
 )
@@ -90,7 +90,7 @@ func NewJWTHandler(privateKeyPath string, privateKeyFilenamePattern string) (Han
 }
 
 func GetKeyId(tokenString string) int {
-	token, _, err := jwtv4.NewParser().ParseUnverified(tokenString, &Claims{})
+	token, _, err := jwt.NewParser().ParseUnverified(tokenString, &Claims{})
 
 	if err != nil {
 		return common.KeyIdZero
