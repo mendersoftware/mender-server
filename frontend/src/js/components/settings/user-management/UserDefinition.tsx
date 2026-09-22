@@ -14,19 +14,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Drawer,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  InputLabel,
-  TextField,
-  Typography,
-  textFieldClasses
-} from '@mui/material';
+import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
@@ -83,18 +71,7 @@ export const UserId = ({ className = '', userId }) => {
   );
 };
 
-interface UserDefinitionProps {
-  currentUser: User & { verified?: boolean };
-  hasMultitenancy: boolean;
-  isEnterprise: boolean;
-  onCancel: () => void;
-  onRemove: (user: User) => void;
-  onSubmit: (userData: (User & { roles?: string[] }) | null, type: string, id: string) => void;
-  roles: { name: string; value?: string }[];
-  selectedUser: User & { roles?: string[] };
-}
-
-export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
+export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
