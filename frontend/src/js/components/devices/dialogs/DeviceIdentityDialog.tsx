@@ -11,13 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Button, DialogActions, DialogContent, FormControl, FormHelperText, MenuItem, Select, Typography } from '@mui/material';
+import { Button, DialogActions, DialogContent, FormControl, FormHelperText, TextField, Typography } from '@mui/material';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { getDeviceIdentityAttributes } from '@northern.tech/store/devicesSlice/selectors';
 import { getDeviceAttributes } from '@northern.tech/store/devicesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -27,60 +29,64 @@ import { saveGlobalSettings } from '@northern.tech/store/usersSlice/thunks';
 export const DeviceIdentityDialog = ({ open, onClose }) => {
   const attributes = useSelector(getDeviceIdentityAttributes);
   const selectedAttribute = useSelector(getIdAttribute);
-  const [attributeSelection, setAttributeSelection] = useState(selectedAttribute);
   const dispatch = useAppDispatch();
+  const selectedOption = attributes.find(({ value }) => value === selectedAttribute.attribute) ?? null;
+  const methods = useForm({ defaultValues: { attribute: selectedOption } });
+  const {
+    formState: { isDirty },
+    handleSubmit,
+    reset
+  } = methods;
 
   useEffect(() => {
-    setAttributeSelection(selectedAttribute);
-  }, [selectedAttribute]);
+    reset({ attribute: selectedOption });
+  }, [reset, selectedOption]);
 
   useEffect(() => {
     dispatch(getDeviceAttributes());
   }, [dispatch]);
 
-  const onHandleSubmit = async () => {
-    await dispatch(saveGlobalSettings({ id_attribute: attributeSelection, notify: true })).unwrap();
+  const onHandleSubmit = async ({ attribute }) => {
+    if (!attribute) {
+      return;
+    }
+    await dispatch(saveGlobalSettings({ id_attribute: { attribute: attribute.value, scope: attribute.scope }, notify: true })).unwrap();
     onClose();
   };
 
-  const onChangeIdAttribute = ({ target: { value } }: { target: { value: string } }) => {
-    const match = attributes.find(attr => attr.value === value);
-    if (!match) {
-      return;
-    }
-    setAttributeSelection({ attribute: match.value, scope: match.scope });
-  };
-
-  const isUnchanged = selectedAttribute.attribute === attributeSelection.attribute;
-
   return (
     <BaseDialog open={open} title="Default device identity" onClose={onClose}>
-      <DialogContent dividers={false}>
-        <FormControl className="margin-top-none">
-          <Select className="margin-top-x-small" value={attributeSelection.attribute} onChange={onChangeIdAttribute}>
-            {attributes.map(item => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.label}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>Choose a device identity attribute to use to identify your devices throughout the UI.</FormHelperText>
-        </FormControl>
-        <Typography className="margin-top-x-small" variant="body2" component="div">
-          Add custom identity attributes to your devices.{' '}
-          <DocsTextLink id={DOCSTIPS.deviceIdentity.id} typographyProps={{ variant: 'body2' }}>
-            Learn how
-          </DocsTextLink>
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="text" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button disabled={isUnchanged} variant="contained" onClick={onHandleSubmit}>
-          Save
-        </Button>
-      </DialogActions>
+      <FormProvider {...methods}>
+        <DialogContent dividers={false}>
+          <FormControl className="margin-top-none">
+            <ControlledAutoComplete
+              name="attribute"
+              id="device-identity-attribute-selection"
+              className="margin-top-x-small"
+              autoHighlight
+              disableClearable
+              getOptionLabel={option => option.label}
+              options={attributes}
+              renderInput={params => <TextField {...params} />}
+            />
+            <FormHelperText>Choose a device identity attribute to use to identify your devices throughout the UI.</FormHelperText>
+          </FormControl>
+          <Typography className="margin-top-x-small" variant="body2" component="div">
+            Add custom identity attributes to your devices.{' '}
+            <DocsTextLink id={DOCSTIPS.deviceIdentity.id} typographyProps={{ variant: 'body2' }}>
+              Learn how
+            </DocsTextLink>
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="text" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button disabled={!isDirty} variant="contained" onClick={handleSubmit(onHandleSubmit)}>
+            Save
+          </Button>
+        </DialogActions>
+      </FormProvider>
     </BaseDialog>
   );
 };
