@@ -98,9 +98,9 @@ const { setShowFeedbackDialog } = storeActions;
 
 // Change this when a new feature/offer is introduced
 const currentOffer = {
-  name: 'ai-feature',
-  expires: '2026-03-31',
-  trial: false,
+  name: 'new-search-announcement',
+  expires: '2026-10-08',
+  trial: true,
   os: true,
   professional: true,
   enterprise: true
@@ -303,7 +303,7 @@ export const Header = ({ isDarkMode }) => {
   const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
-  const { hasAiEnabled, hasFeedbackEnabled, isHosted, hasNewSearch } = useSelector(getFeatures);
+  const { hasFeedbackEnabled, isHosted, hasNewSearch } = useSelector(getFeatures);
   const { searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
@@ -369,7 +369,7 @@ export const Header = ({ isDarkMode }) => {
   };
 
   const showOffer =
-    hasAiEnabled &&
+    hasNewSearch &&
     isHosted &&
     dayjs().isBefore(currentOffer.expires) &&
     (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) &&
