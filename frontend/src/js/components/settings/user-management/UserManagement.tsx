@@ -31,7 +31,6 @@ import {
 } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
 
-import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserDefinition } from './UserDefinition';
 import UserForm from './UserForm';
 import UserList from './UserList';
@@ -78,7 +77,6 @@ export const UserManagement = () => {
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
   const { trial: isTrial } = useSelector(getOrganization);
-  const emailVerificationRequired = hasMultitenancy && !currentUser.verified;
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
@@ -140,17 +138,14 @@ export const UserManagement = () => {
     <div>
       <div className="flexbox space-between align-items-center margin-bottom-medium">
         <Typography variant="h6">Users</Typography>
-        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} disabled={emailVerificationRequired} variant="contained">
+        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} variant="contained">
           Add new user
         </Button>
       </div>
-      {emailVerificationRequired && <EmailVerificationWarning action="add a new user" />}
       <UserList {...props} editUser={openEdit} />
-      {!currentUser.verified && <EmailVerificationWarning action="add a new user" />}
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
         currentUser={currentUser}
-        hasMultitenancy={hasMultitenancy}
         isEnterprise={isEnterprise}
         onRemove={openRemove}
         onCancel={dialogDismiss}
