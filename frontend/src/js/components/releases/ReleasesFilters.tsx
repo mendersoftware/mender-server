@@ -68,9 +68,7 @@ export const ReleasesFilters = ({ classes }: { classes: Record<string, string> }
             Component: ControlledAutoComplete,
             componentProps: {
               autoHighlight: true,
-              filterSelectedOptions: true,
               freeSolo: true,
-              handleHomeEndKeys: true,
               options: updateTypes,
               renderInput: params => <TextField {...params} placeholder="Any" />
             }

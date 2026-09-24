@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { Ref } from 'react';
+import type { ReactNode, Ref } from 'react';
 import { useMemo } from 'react';
 import type { FieldValues, Path } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -25,6 +25,8 @@ const listboxMaxHeight = 304;
 
 type CheckboxAutocompleteProps<T> = {
   chipDisplay?: boolean;
+  error?: boolean;
+  helperText?: ReactNode;
   inputRef?: Ref<HTMLInputElement>;
   label?: string;
   labelAttribute?: string;
@@ -36,6 +38,8 @@ type CheckboxAutocompleteProps<T> = {
 
 export const CheckboxAutocomplete = <T,>({
   chipDisplay = false,
+  error,
+  helperText,
   inputRef,
   label = '',
   labelAttribute = 'title',
@@ -81,7 +85,9 @@ export const CheckboxAutocomplete = <T,>({
               })
           : values => <TruncatedTagList labelAttribute={labelAttribute} values={values} />
       }
-      renderInput={params => <TextField {...params} label={label} placeholder={value?.length ? '' : placeholder} inputRef={inputRef} />}
+      renderInput={params => (
+        <TextField {...params} error={error} helperText={helperText} label={label} placeholder={value?.length ? '' : placeholder} inputRef={inputRef} />
+      )}
       slotProps={{ listbox: { style: { maxHeight: listboxMaxHeight } } }}
       {...remainder}
     />

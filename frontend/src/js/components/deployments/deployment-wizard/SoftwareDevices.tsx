@@ -176,10 +176,7 @@ export const Devices = ({
             <ControlledAutoComplete
               name={deploymentFormSections.group}
               id="deployment-device-group-selection"
-              autoSelect
               autoHighlight
-              filterSelectedOptions
-              handleHomeEndKeys
               disabled={!(hasDevices || hasDynamicGroups)}
               options={groupNames}
               renderInput={params => (

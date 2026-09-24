@@ -19,6 +19,7 @@ import { TextField, Typography } from '@mui/material';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import Filters from '@northern.tech/common-ui/forms/Filters';
 import TimeframePicker from '@northern.tech/common-ui/forms/TimeframePicker';
 import storeActions from '@northern.tech/store/actions';
@@ -59,6 +60,8 @@ const headers: ColumnHeader[] = [
 ];
 
 const type = DEPLOYMENT_STATES.finished;
+
+const deploymentTypeOptions = Object.keys(DEPLOYMENT_TYPES).map(type => ({ id: type, title: type }));
 
 const failureIndicators = [
   deploymentSubstates.failure,
@@ -199,7 +202,7 @@ export const Past = props => {
     [dispatch]
   );
 
-  const autoCompleteProps = { autoHighlight: true, autoSelect: true, filterSelectedOptions: true, freeSolo: true, handleHomeEndKeys: true };
+  const autoCompleteProps = { autoHighlight: true, freeSolo: true };
   return (
     <div className="fadeIn">
       <Filters
@@ -219,11 +222,11 @@ export const Past = props => {
           {
             key: 'type',
             title: 'Contains Artifact type',
-            Component: ControlledAutoComplete,
+            Component: ControlledSelect,
             componentProps: {
-              ...autoCompleteProps,
-              options: Object.keys(DEPLOYMENT_TYPES),
-              renderInput: params => <TextField {...params} label="Deployment type" placeholder="Select a type" />
+              classes: { root: 'align-self-start' },
+              options: deploymentTypeOptions,
+              placeholder: 'Select a type'
             }
           },
           {

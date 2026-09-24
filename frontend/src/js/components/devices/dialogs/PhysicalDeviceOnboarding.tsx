@@ -118,9 +118,7 @@ export const DeviceTypeSelectionStep = ({
       >
         <Autocomplete
           id="device-type-selection"
-          autoSelect
           autoHighlight
-          filterSelectedOptions
           freeSolo
           getOptionLabel={option => {
             // Value selected with enter, right from the input
@@ -132,7 +130,6 @@ export const DeviceTypeSelectionStep = ({
             }
             return option.title;
           }}
-          handleHomeEndKeys
           includeInputInList
           filterOptions={(options, params) => {
             const filtered = filter(options, params);

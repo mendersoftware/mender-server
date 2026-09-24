@@ -211,6 +211,7 @@ test.describe('Devices', () => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await openFilters(page);
     await page.getByLabel(/attribute/i).fill(rootfs);
+    await page.keyboard.press('Enter');
     const nameInput = await page.getByLabel(/value/i);
     await nameInput.fill(demoDeviceSoftware);
     await page.waitForTimeout(timeouts.default);

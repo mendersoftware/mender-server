@@ -80,8 +80,7 @@ describe('Auditlogs Component', () => {
       </LocalizationProvider>,
       { preloadedState }
     );
-    const input = screen.getByPlaceholderText(/type/i);
-    await user.type(input, 'art');
+    const input = screen.getByRole('combobox', { name: /type/i });
     await selectMaterialUiSelectOption(input, /artifact/i, user);
     await user.click(screen.getByText(/clear filter/i));
     const anchorClickHandler = HTMLAnchorElement.prototype.click; // we need to mock the click handler to avoid errors when the download is created artificially
