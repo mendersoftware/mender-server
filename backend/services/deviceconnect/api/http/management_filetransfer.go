@@ -267,19 +267,40 @@ func (h ManagementController) handleResponseError(c *gin.Context, err error) {
 func (h ManagementController) statFile(
 	ctx context.Context,
 	conn stream.Conn,
-	path, userID, sessionID string) (*wsft.FileInfo, error) {
+	path, userID, sessionID string,
+	v2 bool) (*wsft.FileInfo, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 	// stat the remote file
 	req := wsft.StatFile{
 		Path: &path,
 	}
-	if err := h.publishFileTransferProtoMessage(
-		ctx, conn, userID, sessionID,
-		wsft.MessageTypeStat, req, 0); err != nil {
-		return nil, err
+	proto := ws.ProtoTypeFileTransfer
+	if v2 {
+		proto = ws.ProtoTypeFileTransferV2
 	}
-	data, err := conn.Recv(ctx)
+	data, err := msgpack.Marshal(req)
+	if err == nil {
+		data, err = msgpack.Marshal(ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:     proto,
+				MsgType:   wsft.MessageTypeStat,
+				SessionID: sessionID,
+				Properties: map[string]interface{}{
+					PropertyUserID: userID,
+				},
+			},
+			Body: data,
+		})
+	}
+	if err != nil {
+		return nil, fmt.Errorf("error serializing stat request: %w", err)
+	}
+	err = conn.Send(ctx, data)
+	if err != nil {
+		return nil, fmt.Errorf("error sending stat request to device: %w", err)
+	}
+	data, err = conn.Recv(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -301,7 +322,7 @@ func (h ManagementController) statFile(
 		)
 		return nil, rspErr
 	}
-	if msg.Header.Proto != ws.ProtoTypeFileTransfer ||
+	if msg.Header.Proto != proto ||
 		msg.Header.MsgType != wsft.MessageTypeFileInfo {
 		return nil, fmt.Errorf("unexpected response from device %q", msg.Header.MsgType)
 	}
@@ -319,10 +340,12 @@ func (h ManagementController) downloadFileResponse(
 	ctx := c.Request.Context()
 	// send a JSON-encoded error message in case of failure
 
-	if err := h.filetransferHandshake(ctx, conn, sessionID); err != nil {
+	proto, err := h.filetransferHandshake(ctx, conn, sessionID)
+	if err != nil {
 		h.handleResponseError(c, err)
 		return
 	}
+	v2 := proto == ws.ProtoTypeFileTransferV2
 	// Inform the device that we're closing the session
 	//nolint:errcheck
 	defer h.publishControlMessage(ctx, conn, sessionID, ws.MessageTypeClose, nil)
@@ -330,6 +353,7 @@ func (h ManagementController) downloadFileResponse(
 	fileInfo, err := h.statFile(
 		ctx, conn, *request.Path,
 		userID, sessionID,
+		v2,
 	)
 	if err != nil {
 		h.handleResponseError(c, fmt.Errorf("failed to retrieve file info: %w", err))
@@ -346,9 +370,11 @@ func (h ManagementController) downloadFileResponse(
 	if c.Request.Method == http.MethodHead {
 		return
 	}
-	err = h.downloadFile(
-		ctx, conn, c.Writer, *request.Path, userID, sessionID,
-	)
+	if !v2 {
+		err = h.downloadFileV1(
+			ctx, conn, c.Writer, *request.Path, userID, sessionID,
+		)
+	}
 	if err != nil {
 		h.handleResponseError(c, err)
 		log.FromContext(ctx).
@@ -376,7 +402,7 @@ func (ctx timerCtx) Err() error {
 	return context.Cause(ctx.Context)
 }
 
-func (h ManagementController) downloadFile(
+func (h ManagementController) downloadFileV1(
 	ctx context.Context,
 	conn stream.Conn,
 	dst io.Writer,
@@ -513,7 +539,7 @@ func (h ManagementController) DownloadFile(c *gin.Context) {
 	h.downloadFileResponse(c, conn, idata.Subject, sess.ID, request)
 }
 
-func (h ManagementController) uploadFileResponseHandleInboundMessages(
+func (h ManagementController) uploadFileResponseHandleInboundMessagesV1(
 	ctx context.Context,
 	conn stream.Conn,
 	userID, sessionID string,
@@ -578,26 +604,26 @@ func (h ManagementController) uploadFileResponseHandleInboundMessages(
 // is willing to accept file transfer requests.
 func (h ManagementController) filetransferHandshake(
 	ctx context.Context, conn stream.Conn, sessionID string,
-) error {
+) (ws.ProtoType, error) {
 	ctx, cancel := context.WithTimeout(ctx, fileTransferTimeout)
 	defer cancel()
 	if err := h.publishControlMessage(
 		ctx, conn, sessionID, ws.MessageTypeOpen, ws.Open{
 			Versions: []int{ws.ProtocolVersion},
 		}); err != nil {
-		return errFileTransferPublishing
+		return ws.ProtoInvalid, errFileTransferPublishing
 	}
 	data, err := conn.Recv(ctx)
 	if err != nil {
 		if errors.Is(err, context.DeadlineExceeded) {
-			return errFileTransferTimeout
+			return ws.ProtoInvalid, errFileTransferTimeout
 		}
-		return err
+		return ws.ProtoInvalid, err
 	}
 	var msg ws.ProtoMsg
 	err = msgpack.Unmarshal(data, &msg)
 	if err != nil {
-		return err
+		return ws.ProtoInvalid, err
 	}
 
 	if msg.Header.MsgType == ws.MessageTypeError {
@@ -612,43 +638,56 @@ func (h ManagementController) filetransferHandshake(
 			fmt.Errorf("handshake error from client: %s", erro.Error),
 			errCode,
 		)
-		return fmt.Errorf("handshake error from client: %w", rspErr)
+		return ws.ProtoInvalid, fmt.Errorf("handshake error from client: %w", rspErr)
 	} else if msg.Header.MsgType != ws.MessageTypeAccept {
-		return errFileTransferNotImplemented
+		return ws.ProtoInvalid, errFileTransferNotImplemented
 	}
 	accept := new(ws.Accept)
 	err = msgpack.Unmarshal(msg.Body, accept)
 	if err != nil {
-		return err
+		return ws.ProtoInvalid, err
 	}
 
-	if slices.Contains(accept.Protocols, ws.ProtoTypeFileTransfer) {
-		return nil
+	if slices.Contains(accept.Protocols, ws.ProtoTypeFileTransferV2) {
+		return ws.ProtoTypeFileTransferV2, nil
+	} else if slices.Contains(accept.Protocols, ws.ProtoTypeFileTransfer) {
+		return ws.ProtoTypeFileTransfer, nil
 	}
 	// Let's try to be polite and close the session before returning
 	//nolint:errcheck
 	h.publishControlMessage(ctx, conn, sessionID, ws.MessageTypeClose, nil)
-	return errFileTransferDisabled
+	return ws.ProtoInvalid, errFileTransferDisabled
 }
 
 func (h ManagementController) uploadFileResponse(
 	c *gin.Context,
 	conn stream.Conn,
 	request *model.UploadFileRequest,
-	idata identity.Identity,
 	sessionID string,
 ) {
-	userID := idata.Subject
 	ctx := c.Request.Context()
-	if err := h.filetransferHandshake(ctx, conn, sessionID); err != nil {
+	proto, err := h.filetransferHandshake(ctx, conn, sessionID)
+	if err != nil {
 		h.handleResponseError(c, err)
 		return
 	}
-
 	// Inform the device that we're closing the session
 	//nolint:errcheck
 	defer h.publishControlMessage(ctx, conn, sessionID, ws.MessageTypeClose, nil)
 
+	if proto == ws.ProtoTypeFileTransfer {
+		h.uploadFileV1(c, conn, request, sessionID)
+	}
+}
+
+func (h ManagementController) uploadFileV1(
+	c *gin.Context,
+	conn stream.Conn,
+	request *model.UploadFileRequest,
+	sessionID string,
+) {
+	ctx := c.Request.Context()
+	userID := identity.FromContext(ctx).Subject
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, fileTransferTimeout)
 	defer cancel()
 
@@ -703,11 +742,11 @@ func (h ManagementController) uploadFileResponse(
 	// receive the ack message from the device
 	latestAckOffsets := make(chan int64, 1)
 	errorChan := make(chan error)
-	go h.uploadFileResponseHandleInboundMessages(
+	go h.uploadFileResponseHandleInboundMessagesV1(
 		ctx, conn, userID, sessionID, errorChan, latestAckOffsets,
 	)
 
-	err = h.uploadFileResponseWriter(
+	err = h.uploadFileResponseWriterV1(
 		c, conn, userID, sessionID, request, errorChan, latestAckOffsets,
 	)
 	if err != nil {
@@ -717,7 +756,7 @@ func (h ManagementController) uploadFileResponse(
 	c.Status(http.StatusCreated)
 }
 
-func (h ManagementController) uploadFileResponseWriter(ctx context.Context,
+func (h ManagementController) uploadFileResponseWriterV1(ctx context.Context,
 	conn stream.Conn,
 	userID, sessionID string,
 	request *model.UploadFileRequest,
@@ -899,5 +938,5 @@ func (h ManagementController) UploadFile(c *gin.Context) {
 		cancel()
 	}()
 
-	h.uploadFileResponse(c, conn, request, *idata, sess.ID)
+	h.uploadFileResponse(c, conn, request, sess.ID)
 }
