@@ -370,7 +370,11 @@ func (h ManagementController) downloadFileResponse(
 	if c.Request.Method == http.MethodHead {
 		return
 	}
-	if !v2 {
+	if v2 {
+		err = h.downloadFileV2(
+			ctx, conn, c.Writer, *request.Path, userID, sessionID,
+		)
+	} else {
 		err = h.downloadFileV1(
 			ctx, conn, c.Writer, *request.Path, userID, sessionID,
 		)
@@ -492,6 +496,82 @@ func (h ManagementController) downloadFileV1(
 				-1); err != nil {
 				return err
 			}
+		}
+	}
+}
+
+func (h ManagementController) downloadFileV2(
+	ctx context.Context,
+	conn stream.Conn,
+	dst io.Writer,
+	path, userID, sessionID string,
+) error {
+	data, err := msgpack.Marshal(wsft.GetFile{
+		Path: &path,
+	})
+	if err == nil {
+		data, err = msgpack.Marshal(ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:     ws.ProtoTypeFileTransferV2,
+				MsgType:   wsft.MessageTypeGet,
+				SessionID: sessionID,
+				Properties: map[string]interface{}{
+					PropertyUserID: userID,
+				},
+			},
+			Body: data,
+		})
+	}
+	if err != nil {
+		return fmt.Errorf("error serializing download request: %w", err)
+	}
+	err = conn.Send(ctx, data)
+	if err != nil {
+		return fmt.Errorf("failed to send download request: %w", err)
+	}
+	ctx, cancel := context.WithCancel(ctx)
+	timeout := time.NewTimer(defaultTimeout)
+	defer cancel()
+	go func() {
+		select {
+		case <-ctx.Done():
+		case <-timeout.C:
+			cancel()
+		}
+	}()
+	var offset int64
+	for {
+		data, err = conn.Recv(ctx)
+		if err != nil {
+			return fmt.Errorf("error receiving message from device: %w", err)
+		}
+		timeout.Reset(defaultTimeout)
+		var msg ws.ProtoMsg
+		err = msgpack.Unmarshal(data, &msg)
+		if err != nil {
+			return fmt.Errorf("error deserializing response from device: %w", err)
+		}
+		switch msg.Header.MsgType {
+		case wsft.MessageTypeChunk:
+			msgOffset, ok := msg.Header.Properties["offset"].(int64)
+			if !ok || msgOffset != offset {
+				return fmt.Errorf("unexpected file offset received from device")
+			} else if len(msg.Body) == 0 {
+				return nil
+			}
+			n, err := dst.Write(msg.Body)
+			if err != nil {
+				return fmt.Errorf("error forwarding data chunk to device: %w", err)
+			}
+			offset += int64(n)
+		case wsft.MessageTypeError:
+			var body ws.Error
+			err := msgpack.Unmarshal(msg.Body, &body)
+			if err != nil {
+				return fmt.Errorf("malformed error message received from device: %w", err)
+			}
+			return NewError(fmt.Errorf("error from device: %s", body.Error),
+				http.StatusInternalServerError)
 		}
 	}
 }
