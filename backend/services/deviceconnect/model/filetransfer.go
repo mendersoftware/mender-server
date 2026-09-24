@@ -19,6 +19,8 @@ import (
 	"regexp"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+
+	"github.com/mendersoftware/mender-server/pkg/ws/filetransfer"
 )
 
 var absolutePathRegexp = regexp.MustCompile("^/")
@@ -61,4 +63,14 @@ func (f UploadFileRequest) Validate() error {
 			validation.Match(absolutePathRegexp).Error("must be absolute")),
 		validation.Field(&f.File, validation.NotNil.Error("upload file is required")),
 	)
+}
+
+func (f UploadFileRequest) Proto() filetransfer.UploadRequest {
+	return filetransfer.UploadRequest{
+		SrcPath: f.SrcPath,
+		Path:    f.Path,
+		UID:     f.UID,
+		GID:     f.GID,
+		Mode:    f.Mode,
+	}
 }

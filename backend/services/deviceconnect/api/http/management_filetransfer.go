@@ -746,6 +746,7 @@ func (h ManagementController) uploadFileResponse(
 	sessionID string,
 ) {
 	ctx := c.Request.Context()
+	idty := identity.FromContext(ctx)
 	proto, err := h.filetransferHandshake(ctx, conn, sessionID)
 	if err != nil {
 		h.handleResponseError(c, err)
@@ -757,7 +758,157 @@ func (h ManagementController) uploadFileResponse(
 
 	if proto == ws.ProtoTypeFileTransfer {
 		h.uploadFileV1(c, conn, request, sessionID)
+	} else if proto == ws.ProtoTypeFileTransferV2 {
+		err = h.uploadFileV2(ctx, conn, request, idty.Subject, sessionID)
+	} else {
+		err = fmt.Errorf("unknown protocol")
 	}
+	if c.Writer.Written() {
+		return
+	}
+	if err != nil {
+		rest.RenderError(c, http.StatusInternalServerError, err)
+	} else {
+		c.Status(http.StatusCreated)
+	}
+}
+
+func uploadFileV2HandleInbound(
+	ctx context.Context,
+	conn stream.Conn,
+	cancel context.CancelCauseFunc,
+) {
+	data, err := conn.Recv(ctx)
+	if err != nil {
+		if errors.Is(err, context.Canceled) {
+			return
+		}
+		cancel(err)
+	}
+	var msg ws.ProtoMsg
+	err = msgpack.Unmarshal(data, &msg)
+	if err != nil {
+		cancel(fmt.Errorf("error deserializing message from device: %w", err))
+	}
+	if (msg.Header.Proto == ws.ProtoTypeControl ||
+		msg.Header.Proto == ws.ProtoTypeFileTransferV2) &&
+		msg.Header.MsgType == ws.MessageTypeError {
+		var err ws.Error
+		errDecode := msgpack.Unmarshal(msg.Body, &err)
+		if errDecode != nil {
+			cancel(fmt.Errorf("error from device: %s", string(msg.Body)))
+		} else {
+			cancel(fmt.Errorf("error from device: %s", err.Error))
+		}
+	} else {
+		cancel(fmt.Errorf("unexpected message type: %s", msg.Header.MsgType))
+	}
+}
+func (h ManagementController) uploadFileV2(
+	ctx context.Context,
+	conn stream.Conn,
+	request *model.UploadFileRequest,
+	userID string,
+	sessionID string,
+) error {
+	data, err := msgpack.Marshal(request.Proto())
+	if err == nil {
+		data, err = msgpack.Marshal(ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:     ws.ProtoTypeFileTransferV2,
+				MsgType:   wsft.MessageTypePut,
+				SessionID: sessionID,
+				Properties: map[string]interface{}{
+					PropertyUserID: userID,
+				},
+			},
+			Body: data,
+		})
+	}
+	if err != nil {
+		return fmt.Errorf("error serializing upload request: %w", err)
+	}
+	err = conn.Send(ctx, data)
+	if err != nil {
+		return fmt.Errorf("failed to send download request: %w", err)
+	}
+	ctx, cancel := context.WithCancelCause(ctx)
+	timeout := time.NewTimer(defaultTimeout)
+	defer cancel(nil)
+	go func() {
+		select {
+		case <-ctx.Done():
+		case <-timeout.C:
+			cancel(context.DeadlineExceeded)
+		}
+	}()
+	go uploadFileV2HandleInbound(ctx, conn, cancel)
+
+	var (
+		buf    [4096]byte
+		offset int64
+		msg    = ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:     ws.ProtoTypeFileTransferV2,
+				MsgType:   wsft.MessageTypeChunk,
+				SessionID: sessionID,
+				Properties: map[string]interface{}{
+					PropertyUserID: userID,
+					PropertyOffset: offset,
+				},
+			},
+		}
+		n int
+	)
+	for {
+		var errRead error
+		var N int
+		for N < cap(buf) {
+			n, errRead = request.File.Read(buf[N:])
+			N += n
+			if errRead != nil {
+				break
+			}
+		}
+		if N == 0 {
+			err = errRead
+			break
+		}
+		msg.Header.Properties[PropertyOffset] = offset
+		msg.Body = buf[:N]
+		data, err = msgpack.Marshal(msg)
+		if err != nil {
+			err = fmt.Errorf("error serializing data chunk: %w", err)
+			break
+		}
+		err = conn.Send(ctx, data)
+		if err != nil {
+			err = fmt.Errorf("error sending data chunk to device: %w", err)
+			break
+		}
+		timeout.Reset(defaultTimeout)
+		offset += int64(N)
+		if errRead != nil {
+			err = errRead
+			break
+		}
+	}
+	if errors.Is(err, io.EOF) {
+		msg.Body = nil
+		msg.Header.Properties[PropertyOffset] = offset
+		data, err = msgpack.Marshal(msg)
+		if err != nil {
+			return fmt.Errorf("error serializing data chunk: %w", err)
+		}
+		err = conn.Send(ctx, data)
+		if err != nil {
+			return fmt.Errorf("error sending data chunk to device: %w", err)
+		}
+		return nil
+	} else if errors.Is(err, context.Canceled) {
+		return context.Cause(ctx)
+	}
+	return err
 }
 
 func (h ManagementController) uploadFileV1(
