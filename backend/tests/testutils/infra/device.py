@@ -73,7 +73,7 @@ class Connection:
 
         return args
 
-    def run(self, command, warn=False, hide=False, echo=False, popen=False):
+    def run(self, command, warn=False, hide=False, echo=False, popen=False, timeout=None):
         ssh_command = self.get_connect_args() + [command]
 
         if echo:
@@ -83,8 +83,14 @@ class Connection:
             return subprocess.Popen(ssh_command)
         else:
             try:
-                proc = subprocess.run(ssh_command, check=not warn, capture_output=True)
+                proc = subprocess.run(
+                    ssh_command, check=not warn, capture_output=True, timeout=timeout
+                )
                 returncode = proc.returncode
+            except subprocess.TimeoutExpired:
+                raise TimeoutError(
+                    f"Command '{command}' did not complete within {timeout}s on host {self.host}"
+                )
             except subprocess.CalledProcessError as e:
                 returncode = e.returncode
                 if returncode != 255:
@@ -150,6 +156,9 @@ class MenderDevice:
         hide - do not print stdout nor stderr, and do not fail on errors
         warn_only - do not fail on errors
         wait - timeout for how long to retry the execution
+        timeout - max seconds the remote command itself may run before
+            raising TimeoutError; None (default) means no limit, matching
+            prior behavior
         """
         # TODO: Rework tests using warn_only and remove it
         # TODO: Revisit tests using hide and check if they expect errors
