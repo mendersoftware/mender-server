@@ -13,11 +13,12 @@
 //    limitations under the License.
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import type { SelectProps } from '@mui/material';
-import { FormHelperText, InputAdornment, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { FormHelperText, InputAdornment, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import type { NumberFieldRootProps } from '@base-ui/react/number-field';
 import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import pluralize from 'pluralize';
 
 import type { DelayUnit } from './constants';
@@ -30,6 +31,8 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const maxDelayInputValue = 720;
+
+const delayUnitOptions = Object.keys(delayUnits).map(unit => ({ id: unit, title: unit }));
 
 interface DelayInputProps {
   delay: number;
@@ -44,13 +47,13 @@ export const DelayInput = ({ id, delay, delayUnit, onDelayChange, onDelayUnitCha
   return (
     <div className={classes.delayInputWrapper}>
       <NumberField id={id} value={Number(delay) || null} onValueChange={onDelayChange} min={1} max={maxDelayInputValue} />
-      <Select onChange={onDelayUnitChange} value={delayUnit || delayUnits.hours} style={{ minWidth: 'initial' }}>
-        {Object.keys(delayUnits).map(value => (
-          <MenuItem key={value} value={value}>
-            <div className="capitalized-start">{value}</div>
-          </MenuItem>
-        ))}
-      </Select>
+      <Select
+        onChange={onDelayUnitChange}
+        options={delayUnitOptions}
+        renderOption={({ title }) => <div className="capitalized-start">{title}</div>}
+        style={{ minWidth: 'initial' }}
+        value={delayUnit || delayUnits.hours}
+      />
     </div>
   );
 };

@@ -11,20 +11,22 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { MenuItem, Select, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+
+import { Select } from '@northern.tech/common-ui/forms/Select';
 
 export const TierSelection = ({ className = '', onChange, selectedTier = '', enabledTiers }) => (
   <div className="flexbox align-items-center margin-left">
     <Typography variant="body2" className="margin-right-x-small">
       Tier:
     </Typography>
-    <Select className={`capitalized ${className}`} displayEmpty onChange={e => onChange(e.target.value)} value={selectedTier}>
-      <MenuItem value="">Any</MenuItem>
-      {enabledTiers.map(tier => (
-        <MenuItem className="capitalized" key={tier} value={tier}>
-          {tier}
-        </MenuItem>
-      ))}
-    </Select>
+    <Select
+      className={`capitalized ${className}`}
+      displayEmpty
+      MenuItemProps={{ className: 'capitalized' }}
+      onChange={e => onChange(e.target.value)}
+      options={[{ id: '', title: 'Any' }, ...enabledTiers.map(tier => ({ id: tier, title: tier }))]}
+      value={selectedTier}
+    />
   </div>
 );

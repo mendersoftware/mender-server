@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { AutoAwesomeOutlined as AutoAwesomeIcon, Edit as EditIcon } from '@mui/icons-material';
-import { Button, Checkbox, FormControlLabel, MenuItem, Select, Typography, outlinedInputClasses } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Typography, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
@@ -24,6 +24,7 @@ import { Link } from '@northern.tech/common-ui/Link';
 import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
@@ -86,13 +87,14 @@ export const IdAttributeSelection = ({ attributes, onSave, selectedAttribute = '
           </>
         }
         secondary={
-          <Select className="margin-top-x-small" value={selectedAttribute} onChange={onChangeIdAttribute}>
-            {attributes.map(item => (
-              <MenuItem key={item.value} value={item.value}>
-                {item.label}
-              </MenuItem>
-            ))}
-          </Select>
+          <Select
+            className="margin-top-x-small"
+            labelAttribute="label"
+            onChange={onChangeIdAttribute}
+            options={attributes}
+            selectionAttribute="value"
+            value={selectedAttribute}
+          />
         }
       />
     </div>
