@@ -25,8 +25,7 @@ const runId = uuid();
 const samlSettings = {
   credentials: {
     chromium: `chromium-${runId}@example.com`,
-    firefox: `firefox-${runId}@example.com`,
-    webkit: `webkit-${runId}@example.com`
+    firefox: `firefox-${runId}@example.com`
   },
   idpUrl: 'http://localhost:7000/metadata'
 };

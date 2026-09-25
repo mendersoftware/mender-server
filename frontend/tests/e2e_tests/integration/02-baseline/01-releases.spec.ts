@@ -35,9 +35,9 @@ test.describe('Files', () => {
     const buffer = await response.arrayBuffer();
     fs.writeFileSync(fileLocation, Buffer.from(buffer));
   });
-  test.beforeEach(async ({ browserName, page }) => {
+  test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click({ force: browserName === 'webkit' });
+    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
   });
 
   test('allows file removal', async ({ page, environment }) => {
@@ -91,7 +91,7 @@ test.describe('Files', () => {
     });
   });
 
-  test('allows artifact generation', async ({ baseUrl, browserName, page, request }) => {
+  test('allows artifact generation', async ({ baseUrl, page, request }) => {
     const hasTaggedRelease = await page.getByText(/customRelease/i).isVisible();
     if (hasTaggedRelease) {
       return;
@@ -113,7 +113,7 @@ test.describe('Files', () => {
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');
     await page.reload();
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click({ force: browserName === 'webkit' });
+    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
     await expect(page.getByText(/customRelease/i)).toBeVisible();
   });
 

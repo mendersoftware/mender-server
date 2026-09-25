@@ -41,9 +41,9 @@ const skipUnlessTestDevicesAvailable = async ({ environment, page }: { environme
 
 test.describe('Devices', () => {
   let navbar;
-  test.beforeEach(async ({ browserName, page }) => {
+  test.beforeEach(async ({ page }) => {
     navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: /Devices/i }).click({ force: browserName === 'webkit' });
+    await navbar.getByRole('link', { name: /Devices/i }).click();
   });
 
   test('can authorize a device', async ({ page }) => {
@@ -116,9 +116,8 @@ test.describe('Devices', () => {
     await expect(page.locator(`css=${selectors.deviceListItem} >> text=/original/`)).toBeVisible();
   });
 
-  test('allows file transfer', async ({ browserName, environment, page }) => {
-    // TODO adjust test to better work with webkit, for now it should be good enough to assume file transfers work there too if the remote terminal works
-    test.skip(!isEnterpriseOrStaging(environment) || ['webkit'].includes(browserName));
+  test('allows file transfer', async ({ environment, page }) => {
+    test.skip(!isEnterpriseOrStaging(environment));
     await openDeviceDetails(page);
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
@@ -188,7 +187,7 @@ test.describe('Devices', () => {
     await expect(page.locator('.expandedDevice')).toContainText(mac);
   });
 
-  test('can be filtered', async ({ browserName, demoDeviceSoftware, page }) => {
+  test('can be filtered', async ({ demoDeviceSoftware, page }) => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await openFilters(page);
     await page.getByLabel(/attribute/i).fill(rootfs);
@@ -197,9 +196,6 @@ test.describe('Devices', () => {
     await nameInput.fill(demoDeviceSoftware);
     await page.waitForTimeout(timeouts.default);
     await nameInput.press('Enter');
-    if (browserName === 'webkit') {
-      await page.waitForTimeout(timeouts.fiveSeconds);
-    }
     const filterChip = await page.getByRole('button', { name: `${rootfs} = ${demoDeviceSoftware}` });
     await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
     await expect(filterChip).toBeVisible();
