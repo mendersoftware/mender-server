@@ -173,14 +173,13 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                       <Typography variant="subtitle2">Software type</Typography>
                     </div>
                     <ControlledSelect
-                      className={classes.kindMenu}
+                      MenuProps={{ slotProps: { paper: { className: classes.kindMenu } } }}
                       name="kind"
                       disabled={!!kind}
                       options={kindOptions}
                       selectionAttribute="key"
                       labelAttribute="title"
                       placeholder="Select type"
-                      hideEmptyOption
                       width={270}
                       getOptionDisabled={(option: SoftwareKindOption) => option.disabled}
                       renderOption={(option: SoftwareKindOption) => (
@@ -211,7 +210,6 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                       name="type"
                       options={updateTypes.map(updateType => ({ id: updateType, title: updateType }))}
                       placeholder="Select Artifact type"
-                      hideEmptyOption
                       width={270}
                     />
                   </div>
