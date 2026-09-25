@@ -886,10 +886,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
   margin: 0;
   border: 0;
   vertical-align: top;
-  margin-bottom: 15px;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
 }
 
 .emotion-37 {
@@ -910,8 +906,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  width: 100%;
   position: relative;
   border-radius: 4px;
+  margin-bottom: 15px;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
   min-width: 400px;
 }
 
@@ -1508,22 +1509,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
 
 .emotion-57 {
   padding: 8px 16px 16px;
-}
-
-.emotion-62 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  vertical-align: top;
 }
 
 .emotion-63 {
@@ -3322,7 +3307,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
           class="MuiFormControl-root emotion-36"
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl MuiSelect-root emotion-37"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root emotion-37"
           >
             <div
               aria-disabled="true"
@@ -3481,7 +3466,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
                     class="flexbox align-items-center margin-top-x-small margin-bottom-small"
                   >
                     <div
-                      class="MuiFormControl-root emotion-62"
+                      class="MuiFormControl-root emotion-36"
                       style="width: 120px;"
                     >
                       <label
@@ -3668,7 +3653,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
                         class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-55"
                       >
                         <div
-                          class="MuiFormControl-root emotion-62"
+                          class="MuiFormControl-root emotion-36"
                           style="width: 120px;"
                         >
                           <label
@@ -4014,7 +3999,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
                                     class="emotion-143"
                                   >
                                     <div
-                                      class="MuiFormControl-root emotion-62"
+                                      class="MuiFormControl-root emotion-36"
                                     >
                                       <label
                                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-63"
