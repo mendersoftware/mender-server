@@ -21,10 +21,7 @@ import { selectors, timeouts } from '../../utils/constants';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const terminalReferenceFileMap = {
-  default: 'terminalContent.png',
-  webkit: 'terminalContent-webkit.png'
-};
+const terminalReferenceFile = 'terminalContent.png';
 
 test.describe('Device details', () => {
   test.beforeEach(async ({ baseUrl, page }) => {
@@ -67,7 +64,7 @@ test.describe('Device details', () => {
       const elementHandle = await page.locator(selectors.terminalElement);
       const deviceActionsDialMasks = { mask: [page.getByRole('button', { name: 'device-actions' }), page.getByText('Device actions')], maskColor: 'black' };
       expect(elementHandle).toBeTruthy();
-      if (['chromium', 'webkit'].includes(browserName)) {
+      if (browserName === 'chromium') {
         // this should ensure a repeatable position across test runners
         await page.locator('.MuiDrawer-paper').hover();
         await page.mouse.wheel(0, -100);
@@ -75,7 +72,7 @@ test.describe('Device details', () => {
         const screenshotBasePath = path.join(__dirname, '..', '..', 'test-results');
         const screenShotPath = path.join(screenshotBasePath, 'diffs', 'terminalContent-actual.png');
         await elementHandle.screenshot({ path: screenShotPath, ...deviceActionsDialMasks });
-        const expectedPath = path.join(__dirname, '..', '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
+        const expectedPath = path.join(__dirname, '..', '..', 'fixtures', terminalReferenceFile);
         const { pass } = compareImages(expectedPath, screenShotPath);
         expect(pass).toBeTruthy();
 

@@ -18,7 +18,7 @@ import isBetween from 'dayjs/plugin/isBetween.js';
 import test, { expect } from '../../fixtures/fixtures';
 import { getTokenFromStorage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
-import { locateReleaseByName, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
+import { locateReleaseByName, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 dayjs.extend(isBetween);
 
@@ -33,19 +33,15 @@ const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) =
 };
 
 test.describe('Deployments', () => {
-  let navbar;
-  test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
-  });
   test('check time filters before deployment', async ({ page }) => {
-    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await navigateTo(page, 'deployments');
     await page.getByRole('tab', { name: /finished/i }).click();
     await checkTimeFilter(page, 'From');
     await checkTimeFilter(page, 'To', true);
   });
   test('advanced deployment release filters', async ({ page }) => {
     const releaseName = 'mender-demo-artifact';
-    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await navigateTo(page, 'deployments');
     await page.click(`button:has-text('Create a deployment')`);
     await page.getByRole('button', { name: 'Select software' }).click();
 
@@ -64,9 +60,9 @@ test.describe('Deployments', () => {
   });
 
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
-    await navbar.getByRole('link', { name: /software/i }).click();
+    await navigateTo(page, 'software');
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
-    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await navigateTo(page, 'deployments');
     await page
       .getByRole('button', { name: /create a deployment/i })
       .first()
@@ -75,7 +71,7 @@ test.describe('Deployments', () => {
     await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
-    await navbar.getByRole('link', { name: /software/i }).click();
+    await navigateTo(page, 'software');
     test.setTimeout(6 * timeouts.sixtySeconds);
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
@@ -100,7 +96,7 @@ test.describe('Deployments', () => {
 
   test('allows shortcut device deployments', async ({ page }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
-    await navbar.getByRole('link', { name: /devices/i }).click();
+    await navigateTo(page, 'devices');
     await page.getByText(/original/i).click();
     await expect(page.getByText(/device information for/i)).toBeVisible();
     await page.getByRole('button', { name: 'device-actions' }).click();
@@ -123,7 +119,7 @@ test.describe('Deployments', () => {
 
   test('allows group deployments', async ({ page }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
-    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await navigateTo(page, 'deployments');
     await page.click(`button:has-text('Create a deployment')`);
 
     await selectReleaseByName(page, 'mender-demo-artifact');
@@ -141,7 +137,7 @@ test.describe('Deployments', () => {
   });
 
   test('allows deployment filtering by name', async ({ demoDeviceName, page }) => {
-    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await navigateTo(page, 'deployments');
     await page.getByRole('tab', { name: /Finished/i }).click();
     await page.getByRole('combobox', { name: /Target devices/i }).click();
     await page.getByRole('combobox', { name: /Target devices/i }).fill(demoDeviceName);

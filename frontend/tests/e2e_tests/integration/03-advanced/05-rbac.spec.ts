@@ -17,16 +17,13 @@ import test, { expect } from '../../fixtures/fixtures';
 import { acceptUserInvitation, isEnterpriseOrStaging, prepareNewPage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
 import { setupEmailClient } from '../../utils/email';
-import { locateReleaseByName } from '../../utils/utils.ts';
+import { locateReleaseByName, navigateTo } from '../../utils/utils.ts';
 
 // A custom role with release-read + deploy must be able to list software when creating a deployment.
 // Regression: the /deployments/software endpoints had no RBAC permission-set entry, so every non-admin
 // role was rejected with "forbidden by role-based access control" when opening the software picker.
 const expectSoftwareListingAllowed = async (page: Page) => {
-  await page
-    .locator('.leftFixed.leftNav')
-    .getByRole('link', { name: /deployments/i })
-    .click();
+  await navigateTo(page, 'deployments');
   await page
     .getByRole('button', { name: /create a deployment/i })
     .first()
@@ -181,9 +178,7 @@ test.describe('RBAC functionality', () => {
     test('device groups', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
       const { deviceGroups } = getManagedUsers(username, uniqueId);
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: deviceGroups.user });
-      const navigationButton = page.getByRole('link', { name: /devices/i });
-      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
-      await navigationButton.click({ force: true });
+      await navigateTo(page, 'devices');
       await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
       // the created role does have permission to configure devices, so the section should be visible
       await page.getByText(/configuration/i).click();
@@ -193,9 +188,7 @@ test.describe('RBAC functionality', () => {
     test('read-only all releases', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
       const { readOnlyReleases } = getManagedUsers(username, uniqueId);
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: readOnlyReleases.user });
-      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
-      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
-      await navigationButton.click({ force: true });
+      await navigateTo(page, 'software');
       // there should be multiple releases present
       await expect(page.getByText('1-2 of 2')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
@@ -208,9 +201,7 @@ test.describe('RBAC functionality', () => {
     test('read-only tagged releases', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
       const { readOnlyTaggedReleases } = getManagedUsers(username, uniqueId);
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: readOnlyTaggedReleases.user });
-      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
-      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
-      await navigationButton.click({ force: true });
+      await navigateTo(page, 'software');
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
@@ -221,9 +212,7 @@ test.describe('RBAC functionality', () => {
     test('manage tagged releases', async ({ baseUrl, browser, password, request, uniqueId, username }) => {
       const { manageTaggedReleases } = getManagedUsers(username, uniqueId);
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: manageTaggedReleases.user });
-      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
-      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
-      await navigationButton.click({ force: true });
+      await navigateTo(page, 'software');
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role does have permission to upload artifacts, so the button should be visible

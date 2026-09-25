@@ -12,14 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 
 import { selectors, timeouts } from './constants.ts';
 
 export const acceptPendingDevice = async (page: Page, deviceType = 'qemux86-64') => {
-  await page
-    .locator('.leftFixed.leftNav')
-    .getByRole('link', { name: /Devices/i })
-    .click();
+  await navigateTo(page, 'devices');
   let hasAcceptedDevice = false;
   try {
     await page.waitForSelector(`css=${selectors.deviceListItem}`, { timeout: timeouts.default });
@@ -41,6 +39,26 @@ export const acceptPendingDevice = async (page: Page, deviceType = 'qemux86-64')
   await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
   await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
   await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/${deviceType}/`, { timeout: 2 * timeouts.sixtySeconds });
+};
+
+const navItems = {
+  auditlog: { name: 'Audit log', url: /\/ui\/auditlog/ },
+  dashboard: { name: 'Dashboard', url: /\/ui\/?$/ },
+  deployments: { name: 'Deployments', url: /\/ui\/deployments/ },
+  devices: { name: 'Devices', url: /\/ui\/devices/ },
+  software: { name: 'Software', url: /\/ui\/software/ },
+  tenants: { name: 'Tenants', url: /\/ui\/tenants/ }
+};
+
+export const getNavLink = (page: Page, target: keyof typeof navItems) =>
+  page.locator('.leftFixed.leftNav').getByRole('link', { name: navItems[target].name, exact: true });
+
+export const navigateTo = async (page: Page, target: keyof typeof navItems) => {
+  const navigationButton = getNavLink(page, target);
+  await expect(async () => {
+    await navigationButton.click({ timeout: timeouts.tenSeconds });
+    await expect(page).toHaveURL(navItems[target].url, { timeout: timeouts.default });
+  }).toPass({ timeout: 3 * timeouts.tenSeconds });
 };
 
 export const selectReleaseByName = async (page: Page, name: string) => {

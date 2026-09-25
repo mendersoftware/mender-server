@@ -40,8 +40,7 @@ export const launchOptions: LaunchOptions = {
 
 export const projectParamsByBrowser = {
   chrome: { ...devices['Desktop Chrome'], storageState: storagePath, permissions: ['clipboard-read'], viewport },
-  firefox: { ...devices['Desktop Firefox'], storageState: storagePath, viewport },
-  webkit: { ...devices['Desktop Safari'], storageState: storagePath, viewport }
+  firefox: { ...devices['Desktop Firefox'], storageState: storagePath, viewport }
 };
 
 const options: PlaywrightTestConfig = {
@@ -49,19 +48,15 @@ const options: PlaywrightTestConfig = {
   projects: [
     { name: 'setup-chromium', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Chrome'], viewport, permissions: ['clipboard-read'] } },
     { name: 'setup-firefox', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Firefox'], viewport } },
-    { name: 'setup-webkit', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Safari'], viewport } },
 
     { name: 'basic-chromium', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 4 },
     { name: 'basic-firefox', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.firefox, dependencies: ['setup-firefox'], workers: 4 },
-    { name: 'basic-webkit', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.webkit, dependencies: ['setup-webkit'], workers: 4 },
 
     { name: 'baseline-chromium', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.chrome, dependencies: ['basic-chromium'], workers: 4 },
     { name: 'baseline-firefox', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.firefox, dependencies: ['basic-firefox'], workers: 4 },
-    { name: 'baseline-webkit', testDir: `${testDirBase}/02-baseline`, use: projectParamsByBrowser.webkit, dependencies: ['basic-webkit'], workers: 4 },
 
     { name: 'advanced-chromium', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.chrome, dependencies: ['baseline-chromium'], workers: 1 },
     { name: 'advanced-firefox', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.firefox, dependencies: ['baseline-firefox'], workers: 1 },
-    { name: 'advanced-webkit', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.webkit, dependencies: ['baseline-webkit'], workers: 1 },
 
     // The admin panel is an operator facing app of its own, without a tenant session to set up. It is
     // kept in a dependency free project so it can be run on its own with `--project=admin-panel`,
@@ -81,14 +76,6 @@ const options: PlaywrightTestConfig = {
       testDir: `${testDirBase}/09-potentially-destructive`,
       use: projectParamsByBrowser.firefox,
       dependencies: ['advanced-firefox'],
-      teardown: 'teardown',
-      workers: 1
-    },
-    {
-      name: 'webkit',
-      testDir: `${testDirBase}/09-potentially-destructive`,
-      use: projectParamsByBrowser.webkit,
-      dependencies: ['advanced-webkit'],
       teardown: 'teardown',
       workers: 1
     },

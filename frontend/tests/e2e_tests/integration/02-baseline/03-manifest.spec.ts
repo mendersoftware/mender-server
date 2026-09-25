@@ -16,6 +16,7 @@ import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging } from '../../utils/commands';
+import { navigateTo } from '../../utils/utils';
 
 const manifestArtifactApiUrl =
   'https://api.github.com/repos/mendersoftware/mender-server-enterprise/contents/backend/services/deployments/tests/data/test.manifest.mender?ref=main';
@@ -61,7 +62,7 @@ test.describe('Manifests', () => {
     test.skip(!features || !features.hasManifestsEnabled, 'Manifests feature flag is not enabled');
     test.skip(!isEnterpriseOrStaging(environment), 'Manifests are only available in enterprise or staging environments');
 
-    await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await page.getByRole('tab', { name: /manifests/i }).click();
   });
   test('allows .mender manifest upload with tags and description', async ({ page }) => {

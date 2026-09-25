@@ -134,8 +134,7 @@ test.describe('Settings', () => {
       await expect(dialog).toBeVisible();
       await expect(dialog.getByLabel(/password/i)).toBeVisible();
     });
-    test('allows changing the password', async ({ browserName, page, username, password }) => {
-      test.skip(browserName === 'webkit');
+    test('allows changing the password', async ({ page, username, password }) => {
       await page.getByRole('button', { name: username }).click();
       await page.getByRole('menuitem', { name: 'My profile' }).click();
       await page.getByRole('button', { name: /change password/i }).click();
@@ -178,8 +177,7 @@ test.describe('Settings', () => {
       expect(foundEmail).toBeDefined();
     });
 
-    test('allows changing the password back', async ({ baseUrl, browserName, browser, password, request, username }) => {
-      test.skip(browserName === 'webkit');
+    test('allows changing the password back', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password: replacementPassword, request, username });
       await page.getByRole('button', { name: username }).click();
       await page.getByRole('menuitem', { name: /My profile/i }).click();
