@@ -16,19 +16,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 // material ui
-import {
-  Alert,
-  Button,
-  DialogActions,
-  DialogContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Alert, Button, DialogActions, DialogContent, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import CopyCode from '@northern.tech/common-ui/CopyCode';
