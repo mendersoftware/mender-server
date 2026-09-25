@@ -17,9 +17,10 @@ import type { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { InfoOutlined as InfoOutlinedIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
-import { FormControl, InputLabel, MenuItem, Select, TextField, Tooltip, Typography, selectClasses } from '@mui/material';
+import { TextField, Tooltip, Typography, selectClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
 import { uiPermissionsByArea } from '@northern.tech/store/constants';
 
@@ -105,32 +106,28 @@ const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, per
   return disabled ? (
     <TextField disabled defaultValue={itemSelection.item} />
   ) : (
-    <FormControl>
-      <InputLabel id={`${key}-scope-selection-select-label`}>{label}</InputLabel>
-      <Controller
-        name={name || `${key}.${index}.item`}
-        control={control}
-        render={({ field }) => (
-          <Select
-            className={classes.permissionScopeSelect}
-            disabled={disabled}
-            label={label}
-            labelId={`${key}-scope-selection-select-label`}
-            {...field}
-            onChange={({ target: { value } }) => onChange(value)}
-          >
-            {options.map(option => (
-              <MenuItem disabled={option.notFound} key={option.title} value={option.title}>
-                <div title={option.notFound ? 'This item was removed' : ''} className="flexbox align-items-center">
-                  {option.notFound && <WarningIcon style={{ marginRight: 4 }} />}
-                  {option.title}
-                </div>
-              </MenuItem>
-            ))}
-          </Select>
-        )}
-      />
-    </FormControl>
+    <Controller
+      name={name || `${key}.${index}.item`}
+      control={control}
+      render={({ field }) => (
+        <Select
+          className={classes.permissionScopeSelect}
+          disabled={disabled}
+          getOptionDisabled={option => option.notFound}
+          label={label}
+          options={options}
+          renderOption={option => (
+            <div title={option.notFound ? 'This item was removed' : ''} className="flexbox align-items-center">
+              {option.notFound && <WarningIcon style={{ marginRight: 4 }} />}
+              {option.title}
+            </div>
+          )}
+          selectionAttribute="title"
+          {...field}
+          onChange={({ target: { value } }) => onChange(value)}
+        />
+      )}
+    />
   );
 };
 

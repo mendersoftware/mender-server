@@ -11,39 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import type { SelectProps } from '@mui/material';
-import { MenuItem, Select } from '@mui/material';
+import type { SelectOption, SelectProps } from './Select';
+import { Select } from './Select';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type SelectOption = Record<string, any>;
-
-interface ControlledSelectProps<T extends SelectOption = SelectOption> extends Omit<SelectProps, 'onChange' | 'renderValue' | 'value'> {
-  getOptionDisabled?: (option: T) => boolean;
-  hideEmptyOption?: boolean;
-  labelAttribute?: string;
-  options?: T[];
+interface ControlledSelectProps<T extends SelectOption = SelectOption> extends Omit<SelectProps<T>, 'onChange' | 'value'> {
+  name: string;
   placeholder?: string;
-  renderOption?: (option: T) => ReactNode;
-  selectionAttribute?: string;
-  width?: number | string;
 }
 
-export const ControlledSelect = <T extends SelectOption = SelectOption>({
-  name,
-  options = [],
-  placeholder = '',
-  hideEmptyOption = false,
-  selectionAttribute = 'id',
-  labelAttribute = 'title',
-  getOptionDisabled,
-  renderOption,
-  width = 240,
-  className,
-  ...remainder
-}: ControlledSelectProps<T>) => {
+export const ControlledSelect = <T extends SelectOption = SelectOption>({ name, placeholder = '', width = 240, ...remainder }: ControlledSelectProps<T>) => {
   const { control } = useFormContext();
   return (
     <Controller
@@ -51,39 +29,15 @@ export const ControlledSelect = <T extends SelectOption = SelectOption>({
       name={name}
       render={({ field: { value, onChange } }) => (
         <Select
-          autoWidth={false}
-          displayEmpty
-          style={{ width }}
-          value={value ?? ''}
-          onChange={({ target: { value } }) => onChange(value)}
-          renderValue={selected => {
-            const selectedOption = options.find(option => option[selectionAttribute] === selected);
-            return selectedOption ? selectedOption[labelAttribute] : <span className="muted">{placeholder}</span>;
-          }}
-          MenuProps={{
-            anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-            transformOrigin: { vertical: 'top', horizontal: 'left' },
-            slotProps: { paper: { className } }
-          }}
+          MenuItemProps={{ dense: false }}
+          name={name}
+          placeholder={placeholder}
           slotProps={{ input: { 'aria-label': placeholder } }}
+          value={value}
+          width={width}
+          onChange={({ target: { value } }) => onChange(value)}
           {...remainder}
-        >
-          {!!placeholder && !hideEmptyOption && (
-            <MenuItem dense={false} value="">
-              <span className="muted">{placeholder}</span>
-            </MenuItem>
-          )}
-          {options.map(option => (
-            <MenuItem
-              dense={false}
-              key={option[selectionAttribute]}
-              value={option[selectionAttribute]}
-              disabled={getOptionDisabled ? getOptionDisabled(option) : undefined}
-            >
-              {renderOption ? renderOption(option) : option[labelAttribute]}
-            </MenuItem>
-          ))}
-        </Select>
+        />
       )}
     />
   );

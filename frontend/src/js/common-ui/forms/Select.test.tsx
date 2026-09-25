@@ -43,12 +43,12 @@ describe('Select Component', () => {
     expect(onChange.mock.calls[0][0].target.value).toBe('b');
   });
 
-  it('shows the placeholder while nothing is selected and offers it as an empty option', async () => {
+  it('shows the placeholder while nothing is selected without adding it as an option', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<Select options={options} placeholder="Select a letter" value="" onChange={vi.fn()} />);
     expect(screen.getByRole('combobox')).toHaveTextContent('Select a letter');
     await user.click(screen.getByRole('combobox'));
-    expect(screen.getByRole('option', { name: 'Select a letter' })).toBeInTheDocument();
+    expect(screen.getAllByRole('option')).toHaveLength(options.length);
   });
 
   it('renders checkboxes and joins the selected labels in multiple mode', async () => {

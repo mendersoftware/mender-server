@@ -37,11 +37,6 @@ import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { DeviceStateSelection } from '../widgets/DeviceStateSelection';
 
 const useStyles = makeStyles()(theme => ({
-  selection: {
-    fontSize: 13,
-    marginLeft: theme.spacing(0.5),
-    marginTop: 2
-  },
   table: {
     minHeight: '10vh',
     [`.deleted > .${tableCellClasses.root}, .deleted a`]: {
@@ -187,7 +182,7 @@ export const Deployments = ({ device }) => {
   return (
     <ContentSection className="margin-bottom" title="Deployments">
       <div className="flexbox">
-        <DeviceStateSelection className={classes.selection} onStateChange={onSelectStatus} selectedState={filters[0]} states={deploymentStates} />
+        <DeviceStateSelection onStateChange={onSelectStatus} selectedState={filters[0]} states={deploymentStates} />
       </div>
 
       {!deviceDeployments.length ? (
