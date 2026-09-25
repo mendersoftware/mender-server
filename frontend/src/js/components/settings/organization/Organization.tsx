@@ -15,12 +15,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Select, Typography, formControlClasses, textFieldClasses } from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent, Typography, formControlClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, SSO_TYPES, uiPermissionsById } from '@northern.tech/store/constants';
 import {
@@ -52,7 +53,6 @@ import { SSOConfig } from './SSOConfig';
 const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
-  ssoSelect: { minWidth: 265 },
   tenantToken: { wordWrap: 'break-word' },
   widthLimit: {
     maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
@@ -202,14 +202,14 @@ export const Organization = () => {
               <div className="flexbox column">
                 {isConfiguringSSO && (
                   <div>
-                    <Select className={classes.ssoSelect} displayEmpty onChange={onSsoSelect} value={selectedSsoItem?.type || ''}>
-                      <MenuItem value="">Select type</MenuItem>
-                      {Object.values(SSO_TYPES).map(item => (
-                        <MenuItem key={item.type} value={item.type}>
-                          <div className="capitalized-start">{item.title}</div>
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <Select
+                      onChange={onSsoSelect}
+                      options={Object.values(SSO_TYPES)}
+                      renderOption={item => <div className="capitalized-start">{item.title}</div>}
+                      selectionAttribute="type"
+                      value={selectedSsoItem?.type || ''}
+                      width={265}
+                    />
                   </div>
                 )}
                 {isResettingSSO && !isConfiguringSSO && (

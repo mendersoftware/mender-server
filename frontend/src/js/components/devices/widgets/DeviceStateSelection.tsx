@@ -14,25 +14,33 @@
 import { useMemo } from 'react';
 
 // material ui
-import { MenuItem, Select, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import { duplicateFilter } from '@northern.tech/utils/helpers';
 
 export const DeviceStateSelection = ({ className = '', onStateChange, selectedState = '', states }) => {
-  const availableStates = useMemo(() => Object.values(states).filter(duplicateFilter), [states]);
+  const availableStates = useMemo(
+    () =>
+      Object.values(states)
+        .filter(duplicateFilter)
+        .map(({ key, title }) => ({ key, title: title() })),
+    [states]
+  );
 
   return (
     <div className="flexbox align-items-center">
       <Typography variant="body2" className="margin-right-x-small">
         Status:
       </Typography>
-      <Select className={`capitalized ${className}`} onChange={e => onStateChange(e.target.value)} value={selectedState}>
-        {availableStates.map(state => (
-          <MenuItem className="capitalized" key={state.key} value={state.key}>
-            {state.title()}
-          </MenuItem>
-        ))}
-      </Select>
+      <Select
+        className={`capitalized ${className}`}
+        MenuItemProps={{ className: 'capitalized' }}
+        onChange={e => onStateChange(e.target.value)}
+        options={availableStates}
+        selectionAttribute="key"
+        value={selectedState}
+      />
     </div>
   );
 };

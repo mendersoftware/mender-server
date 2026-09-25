@@ -15,26 +15,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import {
-  Alert,
-  Button,
-  Checkbox,
-  Collapse,
-  DialogActions,
-  DialogContent,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  Select
-} from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent } from '@mui/material';
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { BENEFITS, rolesById, rolesByName, uiPermissionsById } from '@northern.tech/store/constants';
 import { getIsEnterprise } from '@northern.tech/store/selectors';
@@ -80,36 +68,30 @@ export const UserRolesSelect = ({ currentUser, disabled, error = '', maxWidth = 
     );
   };
 
-  const { editableRoles, showRoleUsageNotification } = useMemo(() => {
-    const editableRoles = Object.values(relevantRolesById).map(role => ({ ...role, enabled: selectedRoleIds.includes(role.value) }));
+  const { roleOptions, showRoleUsageNotification } = useMemo(() => {
+    const roleOptions = Object.values(relevantRolesById);
     const showRoleUsageNotification = selectedRoleIds.length ? !selectedRoleIds.some(roleId => hasUiApiAccess(relevantRolesById[roleId])) : undefined;
-    return { editableRoles, showRoleUsageNotification };
+    return { roleOptions, showRoleUsageNotification };
   }, [relevantRolesById, selectedRoleIds]);
 
   return (
     <div className="flexbox column">
-      <FormControl error={!!error} id="roles-form" style={{ maxWidth }}>
-        <InputLabel id="roles-selection-label">Roles</InputLabel>
-        <Select
-          label="Roles"
-          labelId="roles-selection-label"
-          id={`roles-selector-${selectedRoleIds.length}`}
-          disabled={disabled}
-          multiple
-          value={selectedRoleIds}
-          required
-          onChange={onInputChange}
-          renderValue={selected => selected.map(role => relevantRolesById[role].name).join(', ')}
-        >
-          {editableRoles.map(role => (
-            <MenuItem id={role.value} key={role.value} value={role.value}>
-              <Checkbox id={`${role.value}-checkbox`} checked={role.enabled} />
-              <ListItemText id={`${role.value}-text`} primary={role.name} />
-            </MenuItem>
-          ))}
-        </Select>
-        {!!error && <FormHelperText>{error}</FormHelperText>}
-      </FormControl>
+      <Select
+        disabled={disabled}
+        error={!!error}
+        helperText={error}
+        id={`roles-selector-${selectedRoleIds.length}`}
+        label="Roles"
+        labelAttribute="name"
+        labelId="roles-selection-label"
+        multiple
+        onChange={onInputChange}
+        options={roleOptions}
+        required
+        selectionAttribute="value"
+        value={selectedRoleIds}
+        width={maxWidth}
+      />
       {showRoleUsageNotification && (
         <Alert className="margin-top-small" severity="warning">
           The selected {pluralize('role', selectedRoleIds.length)} may prevent {currentUser.email === user.email ? 'you' : <i>{user.email}</i>} from using the

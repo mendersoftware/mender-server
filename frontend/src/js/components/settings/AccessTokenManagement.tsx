@@ -21,9 +21,6 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  FormControl,
-  FormHelperText,
-  InputLabel,
   Table,
   TableBody,
   TableCell,
@@ -119,25 +116,23 @@ export const AccessTokenCreationDialog = ({ onCancel, onGenerate, isEnterprise, 
             <Typography className="margin-top-medium margin-bottom-small" variant="subtitle1">
               Expiration
             </Typography>
-            <FormControl className="full-width">
-              <InputLabel id="token-expiration-label">Expiration</InputLabel>
-              <ControlledSelect
-                name="expiresIn"
-                disabled={!!token}
-                label="Expiration"
-                labelAttribute="title"
-                labelId="token-expiration-label"
-                options={expirationOptions}
-                width="100%"
-              />
-              {neverExpires ? (
-                <FormHelperText>The token will never expire.</FormHelperText>
-              ) : (
-                <FormHelperText title={expirationDate.format('YYYY-MM-DD HH:mm')}>
-                  expires on <Time format="YYYY-MM-DD" value={expirationDate} />
-                </FormHelperText>
-              )}
-            </FormControl>
+            <ControlledSelect
+              name="expiresIn"
+              disabled={!!token}
+              helperText={
+                neverExpires ? (
+                  'The token will never expire.'
+                ) : (
+                  <span title={expirationDate.format('YYYY-MM-DD HH:mm')}>
+                    expires on <Time format="YYYY-MM-DD" value={expirationDate} />
+                  </span>
+                )
+              }
+              label="Expiration"
+              labelAttribute="title"
+              options={expirationOptions}
+              width="100%"
+            />
             {neverExpires && (
               <Alert className="margin-top-small" severity="warning">
                 Never-expiring tokens are a security risk. We recommend to set an expiration date and rotate the secret at least yearly.
