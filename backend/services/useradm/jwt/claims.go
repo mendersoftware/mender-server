@@ -17,8 +17,12 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 )
+
+var _ jwt.Claims = Claims{}
 
 type Claims struct {
 	// ID is the unique token UUID.
@@ -39,6 +43,25 @@ type Claims struct {
 	Scope     string `json:"scp,omitempty" bson:"scp,omitempty"`
 	Audience  string `json:"aud,omitempty" bson:"aud,omitempty"`
 	NotBefore Time   `json:"nbf,omitempty" bson:"nbf,omitempty"`
+}
+
+func (claims Claims) GetExpirationTime() (*jwt.NumericDate, error) {
+	return jwt.NewNumericDate(claims.ExpiresAt.Time), nil
+}
+func (claims Claims) GetIssuedAt() (*jwt.NumericDate, error) {
+	return jwt.NewNumericDate(claims.IssuedAt.Time), nil
+}
+func (claims Claims) GetNotBefore() (*jwt.NumericDate, error) {
+	return jwt.NewNumericDate(claims.NotBefore.Time), nil
+}
+func (claims Claims) GetIssuer() (string, error) {
+	return claims.Issuer, nil
+}
+func (claims Claims) GetSubject() (string, error) {
+	return claims.Subject.String(), nil
+}
+func (claims Claims) GetAudience() (jwt.ClaimStrings, error) {
+	return jwt.ClaimStrings{claims.Audience}, nil
 }
 
 // Time is a simple wrapper of time.Time that marshals/unmarshals JSON
