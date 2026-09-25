@@ -23,7 +23,6 @@ export type SelectOption = Record<string, any>;
 export interface SelectProps<T extends SelectOption = SelectOption, Value = unknown> extends Omit<MuiSelectProps<Value>, 'placeholder'> {
   getOptionDisabled?: (option: T) => boolean;
   helperText?: ReactNode;
-  hideEmptyOption?: boolean;
   labelAttribute?: string;
   MenuItemProps?: Partial<MuiMenuItemProps>;
   options?: T[];
@@ -47,7 +46,6 @@ export const Select = <T extends SelectOption = SelectOption, Value = unknown>({
   error,
   getOptionDisabled,
   helperText,
-  hideEmptyOption = false,
   label,
   labelAttribute = 'title',
   labelId: labelIdProp,
@@ -77,7 +75,7 @@ export const Select = <T extends SelectOption = SelectOption, Value = unknown>({
     return multiple ? selectedOptions.map(option => option[labelAttribute]).join(', ') : selectedOptions[0][labelAttribute];
   };
 
-  const selectionRenderer = renderValue ?? (!children && (hasPlaceholder || multiple) ? renderSelection : undefined);
+  const selectionRenderer = renderValue ?? (hasPlaceholder || multiple ? renderSelection : undefined);
 
   return (
     <FormControl disabled={disabled} error={error} style={{ width }}>
@@ -85,6 +83,8 @@ export const Select = <T extends SelectOption = SelectOption, Value = unknown>({
       <MuiSelect
         autoWidth={autoWidth}
         displayEmpty={displayEmpty ?? hasPlaceholder}
+        // fill the FormControl so `width` stays the single source of truth, even when callers override alignment on the root
+        fullWidth
         label={label}
         labelId={label ? labelId : labelIdProp}
         MenuProps={{ ...defaultMenuProps, ...MenuProps }}
@@ -94,18 +94,12 @@ export const Select = <T extends SelectOption = SelectOption, Value = unknown>({
         {...remainder}
       >
         {children}
-        {!children && hasPlaceholder && !hideEmptyOption && !multiple && (
-          <MenuItem {...MenuItemProps} value="">
-            <span className="muted">{placeholder}</span>
+        {options.map(option => (
+          <MenuItem {...MenuItemProps} disabled={getOptionDisabled?.(option)} key={option[selectionAttribute]} value={option[selectionAttribute]}>
+            {multiple && <Checkbox checked={selectedValues.includes(option[selectionAttribute])} />}
+            {renderOption ? renderOption(option) : option[labelAttribute]}
           </MenuItem>
-        )}
-        {!children &&
-          options.map(option => (
-            <MenuItem {...MenuItemProps} disabled={getOptionDisabled?.(option)} key={option[selectionAttribute]} value={option[selectionAttribute]}>
-              {multiple && <Checkbox checked={selectedValues.includes(option[selectionAttribute])} />}
-              {renderOption ? renderOption(option) : option[labelAttribute]}
-            </MenuItem>
-          ))}
+        ))}
       </MuiSelect>
       {!!helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
