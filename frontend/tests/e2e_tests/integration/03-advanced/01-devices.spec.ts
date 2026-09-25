@@ -19,7 +19,7 @@ import type { TestEnvironment } from '../../fixtures/fixtures';
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging } from '../../utils/commands';
 import { expectedArtifactName, selectors, timeouts } from '../../utils/constants';
-import { acceptPendingDevice } from '../../utils/utils';
+import { acceptPendingDevice, navigateTo } from '../../utils/utils';
 
 const fileName = `${expectedArtifactName}.mender`;
 const rootfs = 'rootfs-image.version';
@@ -40,10 +40,8 @@ const skipUnlessTestDevicesAvailable = async ({ environment, page }: { environme
 };
 
 test.describe('Devices', () => {
-  let navbar;
   test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: /Devices/i }).click();
+    await navigateTo(page, 'devices');
   });
 
   test('can authorize a device', async ({ page }) => {
@@ -162,7 +160,7 @@ test.describe('Devices', () => {
     await expect(page.getByText(/Authentication sets/i)).toBeVisible();
     await page.click('[aria-label="close"]');
     await expect(page.getByText(/table options/i)).toBeVisible();
-    await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await searchField.press('Enter');
     await expect(page.getByText(/device found/i)).toBeVisible();
   });

@@ -19,6 +19,7 @@ import { fileURLToPath } from 'url';
 import test, { expect } from '../../fixtures/fixtures';
 import { compareImages, isEnterpriseOrStaging } from '../../utils/commands';
 import { selectors, timeouts } from '../../utils/constants';
+import { navigateTo } from '../../utils/utils';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -68,15 +69,10 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
 };
 
 test.describe('Auditlogs', () => {
-  let navbar;
-  test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
-  });
-
   const secret = 'super secret something text';
   test('will track remote terminal sessions', async ({ browser, environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
-    await navbar.getByRole('link', { name: /Devices/i }).click();
+    await navigateTo(page, 'devices');
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
@@ -110,7 +106,7 @@ test.describe('Auditlogs', () => {
     await terminalText.press('Enter');
     await page.waitForTimeout(timeouts.oneSecond);
     await page.click('[aria-label="close"]'); // short-form
-    await navbar.getByRole('link', { name: /audit log/i }).click();
+    await navigateTo(page, 'auditlog');
 
     await page.click(`.auditlogs-list-item :text('CLOSE_TERMINAL')`);
     const drawer = page.locator(`.MuiDrawer-paper`);

@@ -14,7 +14,7 @@
 import test, { expect } from '../../fixtures/fixtures';
 import { baseUrlToDomain, getTokenFromStorage, prepareCookies, prepareNewPage, processLoginForm } from '../../utils/commands';
 import { spStoragePath, switchTenantStoragePath, timeouts } from '../../utils/constants';
-import { selectDeviceLimitInput } from '../../utils/utils';
+import { navigateTo, selectDeviceLimitInput } from '../../utils/utils';
 
 const tenant = {
   name: 'Child Tenant',
@@ -30,10 +30,7 @@ test.describe('Tenant Functionality', () => {
   test.use({ storageState: spStoragePath });
   test.beforeEach(async ({ page, environment }) => {
     test.skip(environment !== 'enterprise', 'not available in OS');
-    await page
-      .locator('.leftFixed.leftNav')
-      .getByRole('link', { name: /Tenants/i })
-      .click();
+    await navigateTo(page, 'tenants');
   });
   test('tenant creation', async ({ page }) => {
     await expect(page.getByRole('link', { name: 'Tenants' })).toBeVisible();

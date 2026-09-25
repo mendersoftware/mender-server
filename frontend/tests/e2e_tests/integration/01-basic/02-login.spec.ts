@@ -14,6 +14,7 @@
 import test, { expect } from '../../fixtures/fixtures';
 import { baseUrlToDomain, isLoggedIn, prepareCookies, processLoginForm } from '../../utils/commands';
 import { cookieConsentCookie, emptyStorageState, selectors, timeouts } from '../../utils/constants';
+import { navigateTo } from '../../utils/utils';
 
 test.use({ storageState: { ...emptyStorageState } });
 
@@ -90,7 +91,7 @@ test.describe('Login', () => {
     // confirm we have logged in successfully
     await isLoggedIn(page);
     await expect(page.getByText('Welcome back')).not.toBeVisible();
-    await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await context.storageState({ path: `storage/restart-test-storage.json` });
     let differentContext = await browser.newContext({ storageState: `storage/restart-test-storage.json` });
     differentContext = await prepareCookies(differentContext, domain, '');

@@ -15,7 +15,7 @@ import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
 import { timeouts } from '../../utils/constants';
-import { acceptPendingDevice, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
+import { acceptPendingDevice, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 const rtosArtifactUrl = 'https://raw.githubusercontent.com/mendersoftware/mender-orchestrator-support/main/demo/premade-artifacts/rtos-v2.mender';
 const rtosArtifactLocation = 'fixtures/rtos-v2.mender';
@@ -25,8 +25,6 @@ const targetComponentVersion = 'rtos-v2';
 const manifestName = 'system-core-rtos-v2';
 
 test.describe('Orchestrator device', () => {
-  let navbar;
-
   test.beforeAll(async () => {
     if (fs.existsSync(rtosArtifactLocation)) {
       return;
@@ -39,7 +37,6 @@ test.describe('Orchestrator device', () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
     const features = await page.evaluate(() => (window as any).mender_environment?.features);
     test.skip(!features || !features.hasManifestsEnabled, 'Manifests feature flag is not enabled');
   });
@@ -60,7 +57,7 @@ test.describe('Orchestrator device', () => {
 
   test('uploads the artifact and the manifest referring to it', async ({ page }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await page.getByRole('button', { name: 'Upload an artifact' }).click();
     const artifactDialog = page.locator('.MuiDialog-paper');
     await artifactDialog.locator('.dropzone input').setInputFiles(rtosArtifactLocation);
@@ -77,7 +74,7 @@ test.describe('Orchestrator device', () => {
 
   test('deploys the manifest and sees the component versions change', async ({ page }) => {
     test.setTimeout(20 * timeouts.sixtySeconds);
-    await navbar.getByRole('link', { name: /devices/i }).click();
+    await navigateTo(page, 'devices');
     await page.getByText(/qemu/i).click();
     await page.getByRole('button', { name: 'device-actions' }).click();
     await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
@@ -91,7 +88,7 @@ test.describe('Orchestrator device', () => {
       .waitFor({ timeout: 10 * timeouts.sixtySeconds });
 
     await expect(async () => {
-      await navbar.getByRole('link', { name: /devices/i }).click();
+      await navigateTo(page, 'devices');
       await page.getByRole('tab', { name: /system/i }).click();
       await expect(page.getByRole('cell', { name: targetComponentVersion }).first()).toBeVisible();
     }).toPass({ timeout: 6 * timeouts.sixtySeconds });

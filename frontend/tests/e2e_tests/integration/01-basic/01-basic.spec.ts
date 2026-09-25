@@ -15,6 +15,7 @@ import { expect } from '@playwright/test';
 
 import test from '../../fixtures/fixtures';
 import { emptyStorageState } from '../../utils/constants';
+import { getNavLink, navigateTo } from '../../utils/utils';
 
 test.describe('Basic functionality checks', () => {
   test.use({ storageState: { ...emptyStorageState } });
@@ -39,21 +40,16 @@ test.describe('Basic functionality checks', () => {
 });
 
 test.describe('Overall layout and structure', () => {
-  let navbar;
-  test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
+  test('shows the left navigation', async ({ page }) => {
+    await expect(getNavLink(page, 'dashboard')).toBeVisible();
+    await expect(getNavLink(page, 'devices')).toBeVisible();
+    await expect(getNavLink(page, 'software')).toBeVisible();
+    await expect(getNavLink(page, 'deployments')).toBeVisible();
   });
-  test('shows the left navigation', async () => {
-    await expect(navbar.getByRole('link', { name: /Dashboard/i })).toBeVisible();
-    await expect(navbar.getByRole('link', { name: /Devices/i })).toBeVisible();
-    await expect(navbar.getByRole('link', { name: 'Software', exact: true })).toBeVisible();
-    await expect(navbar.getByRole('link', { name: /Deployments/i })).toBeVisible();
-  });
-  test('has clickable header buttons', async () => {
-    await expect(navbar.getByRole('link', { name: /Dashboard/i })).toBeVisible();
-    await navbar.getByRole('link', { name: /Dashboard/i }).click();
-    await navbar.getByRole('link', { name: /Devices/i }).click();
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
-    await navbar.getByRole('link', { name: /Deployments/i }).click();
+  test('has clickable header buttons', async ({ page }) => {
+    await navigateTo(page, 'dashboard');
+    await navigateTo(page, 'devices');
+    await navigateTo(page, 'software');
+    await navigateTo(page, 'deployments');
   });
 });

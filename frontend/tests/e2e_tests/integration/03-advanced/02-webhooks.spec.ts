@@ -16,6 +16,7 @@ import type { Server } from 'net';
 import test, { expect } from '../../fixtures/fixtures';
 import { startWebhookServer } from '../../utils/commands';
 import { selectors, timeouts } from '../../utils/constants';
+import { navigateTo } from '../../utils/utils';
 
 const baseWebhookLocation = 'http://docker.mender.io:9000/webhooks';
 
@@ -95,7 +96,7 @@ test.describe('Webhooks Functionality', () => {
     const inventoryChangeCount = events.filter(({ type }) => type === 'device-inventory-changed').length;
     await page.getByLabel(/close/i).click();
 
-    await page.getByRole('link', { name: /Devices/i }).click();
+    await navigateTo(page, 'devices');
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await expect(page.getByText('Device information for')).toBeVisible();
     await page.locator('button:near(:text("Tags"))').first().click();

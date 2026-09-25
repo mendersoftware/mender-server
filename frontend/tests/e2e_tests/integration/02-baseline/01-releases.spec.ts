@@ -20,6 +20,7 @@ import { parse } from 'yaml';
 import test, { expect } from '../../fixtures/fixtures';
 import { getTokenFromStorage, isEnterpriseOrStaging, tagRelease } from '../../utils/commands';
 import { expectedArtifactName, releaseTag, selectors, timeouts } from '../../utils/constants';
+import { navigateTo } from '../../utils/utils';
 
 dayjs.extend(isBetween);
 
@@ -28,7 +29,6 @@ const demoArtifactLocation = `https://dgsbl4vditpls.cloudfront.net/${fileName}`;
 const fileLocation = `fixtures/${fileName}`;
 
 test.describe('Files', () => {
-  let navbar;
   test.beforeAll(async () => {
     // download a fresh version of the demo artifact
     const response = await fetch(demoArtifactLocation);
@@ -36,8 +36,7 @@ test.describe('Files', () => {
     fs.writeFileSync(fileLocation, Buffer.from(buffer));
   });
   test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
   });
 
   test('allows file removal', async ({ page, environment }) => {
@@ -113,7 +112,7 @@ test.describe('Files', () => {
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');
     await page.reload();
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await expect(page.getByText(/customRelease/i)).toBeVisible();
   });
 

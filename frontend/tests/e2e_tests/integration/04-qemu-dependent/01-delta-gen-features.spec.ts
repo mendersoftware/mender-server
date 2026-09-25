@@ -17,17 +17,11 @@ import * as path from 'path';
 import test, { expect } from '../../fixtures/fixtures';
 import { extractArtifactFromDevice, modifyArtifactChecksum } from '../../utils/commands';
 import { selectors, timeouts } from '../../utils/constants';
-import { acceptPendingDevice, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
+import { acceptPendingDevice, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 const qemuDeviceType = 'qemux86-64';
 
 test.describe('Devices', () => {
-  let navbar;
-
-  test.beforeEach(async ({ page }) => {
-    navbar = page.locator('.leftFixed.leftNav');
-  });
-
   test('can authorize a device', async ({ page }) => {
     // allow twice the device interaction time + roughly a regular test execution time
     test.setTimeout(4 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
@@ -55,7 +49,7 @@ test.describe('Devices', () => {
     expect(fs.existsSync(extractedArtifactPath)).toBeTruthy();
     expect(fs.existsSync(modifiedArtifactPath)).toBeTruthy();
 
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     const uploadButton = await page.getByRole('button', { name: 'Upload an artifact' });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
@@ -82,7 +76,7 @@ test.describe('Devices', () => {
 
   test('allows shortcut device deployments', async ({ page }) => {
     test.setTimeout(12 * timeouts.sixtySeconds);
-    await navbar.getByRole('link', { name: /devices/i }).click();
+    await navigateTo(page, 'devices');
     await page.getByText(/qemu/i).click();
     await page.getByRole('button', { name: 'device-actions' }).click();
     await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
@@ -97,7 +91,7 @@ test.describe('Devices', () => {
   });
 
   test('allows shortcut device deployments 2', async ({ page }) => {
-    await navbar.getByRole('link', { name: /devices/i }).click();
+    await navigateTo(page, 'devices');
     await page.getByText(/qemu/i).click();
     await page.getByRole('button', { name: 'device-actions' }).click();
     await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
@@ -111,7 +105,7 @@ test.describe('Devices', () => {
   });
 
   test('shows delta generation', async ({ page }) => {
-    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await navigateTo(page, 'deployments');
     const pageContent = page.locator('.rightFluid.container');
     const listItem = pageContent.getByRole('listitem').first();
     await listItem.waitFor({ timeout: timeouts.sixtySeconds });
@@ -120,13 +114,13 @@ test.describe('Devices', () => {
     await page.getByRole('button', { name: /close/i }).click();
     await page.getByText('finished').click();
     await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(/to version/i).waitFor({ timeout: timeouts.sixtySeconds });
   });
 
   test('opens & closes delta generation details', async ({ page }) => {
-    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
+    await navigateTo(page, 'software');
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(qemuDeviceType).click();
     await expect(page.getByText('Delta Artifact information')).toBeVisible();
