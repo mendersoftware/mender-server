@@ -1,4 +1,37 @@
 ---
+## 4.2.0 - 2026-09-26
+
+
+### New features
+
+- *(gui)* Disable add/edit user functionality for unverified users ([MEN-8965](https://northerntech.atlassian.net/browse/MEN-8965)) ([2f9e313](https://github.com/mendersoftware/mender-server/commit/2f9e313e5ec6e2c7ff52c11857e0ecffc1d11f3d))
+
+### Improvements
+
+- *(gui)* Allowed email editing only on os & keep it tied to verification on (non-)enterprise ([80f4418](https://github.com/mendersoftware/mender-server/commit/80f441843ce65720fcdbe9be67dd993d9aed319f))
+
+### Bug fixes
+
+- *(gui)* Fixed an issue that could lead to unintended dashboard widget removal ([MEN-9865](https://northerntech.atlassian.net/browse/MEN-9865)) ([98f69ea](https://github.com/mendersoftware/mender-server/commit/98f69eac1f75e1f3fe3fa1e66d4c315361c078eb))
+- *(gui)* Don't require email verification to add users on open source builds ([b26c866](https://github.com/mendersoftware/mender-server/commit/b26c8668fbecb9f53b4b9ca0e06aebc267ebb42e))
+- *(gui)* Email verification is required for all multitenant installations ([35dbb2d](https://github.com/mendersoftware/mender-server/commit/35dbb2d6eac1ecedd906c4cd2ce43221148adc2f))
+- *(gui)* Require password and gate reset-link checkbox on os ([e6cae2e](https://github.com/mendersoftware/mender-server/commit/e6cae2e7a32d59142af24a2624e327e5982eab6d))
+- *(gui)* Ensured data w/ multiple attribute values gets shown in a readable manner ([MEN-10073](https://northerntech.atlassian.net/browse/MEN-10073)) ([4ffdfc5](https://github.com/mendersoftware/mender-server/commit/4ffdfc5ff4a7ae964987e0328194d1a8d6170894))
+
+### Dependency updates
+
+- Bump integration-tester container tag ([b3d148c](https://github.com/mendersoftware/mender-server/commit/b3d148c8e362a7cd31b59a9bdafcf0f989346d2f))
+
+---
+### All tickets resolved in this release
+
+| Ticket |
+|---|
+| [MEN-9865](https://northerntech.atlassian.net/browse/MEN-9865) |
+| [MEN-8965](https://northerntech.atlassian.net/browse/MEN-8965) |
+| [MEN-10073](https://northerntech.atlassian.net/browse/MEN-10073) |
+
+
 ## 4.1.3 - 2026-07-28
 
 
