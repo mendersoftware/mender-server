@@ -16,10 +16,11 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Typography, alpha } from '@mui/material';
+import { Alert, Button, Divider, FormHelperText, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
@@ -256,24 +257,15 @@ export const Integrations = () => {
   if (!!availableIntegrations.length && !integrations.length && !isConfiguring) {
     return (
       <IntegrationsContainer>
-        <FormControl>
-          <InputLabel id="integration-select-label">Add an integration</InputLabel>
-          <Select
-            autoWidth={false}
-            className={classes.select}
-            label="Add an integration"
-            labelId="integration-select-label"
-            onChange={onConfigureIntegration}
-            value=""
-          >
-            {availableIntegrations.map(item => (
-              <MenuItem key={item.provider} value={item.provider}>
-                {item.title}
-              </MenuItem>
-            ))}
-            <MenuItem value="webhook">Webhooks</MenuItem>
-          </Select>
-        </FormControl>
+        <Select
+          className={classes.select}
+          label="Add an integration"
+          labelId="integration-select-label"
+          onChange={onConfigureIntegration}
+          options={[...availableIntegrations, { provider: EXTERNAL_PROVIDER.webhook.provider, title: 'Webhooks' }]}
+          selectionAttribute="provider"
+          value=""
+        />
         {isConfiguringWebhook && <WebhookConfiguration onCancel={onCancelClick} onSubmit={onSaveClick} />}
       </IntegrationsContainer>
     );

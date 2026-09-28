@@ -14,12 +14,13 @@
 import type { FunctionComponent } from 'react';
 import { useCallback } from 'react';
 import type { FieldValues, UseFormSetValue } from 'react-hook-form';
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { InfoOutlined as InfoOutlinedIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
-import { FormControl, InputLabel, MenuItem, Select, TextField, Tooltip, Typography, selectClasses } from '@mui/material';
+import { TextField, Tooltip, Typography, selectClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
 import { uiPermissionsByArea } from '@northern.tech/store/constants';
 
@@ -97,40 +98,34 @@ const useStyles = makeStyles()(theme => ({
   permissionScopeSelect: { [`&.${selectClasses.root}`]: { minWidth: 240 } }
 }));
 
-const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, permissionsArea, index, options, itemSelection, name = '', onChange }) => {
+const renderScopeOption = (option: ItemScope) => (
+  <div title={option.notFound ? 'This item was removed' : ''} className="flexbox align-items-center">
+    {option.notFound && <WarningIcon style={{ marginRight: 4 }} />}
+    {option.title}
+  </div>
+);
+
+const ScopeSelect: FunctionComponent<Omit<IScopedPermissionSelect, 'index'>> = ({ disabled, permissionsArea, options, itemSelection, name, onChange }) => {
   const { classes } = useStyles();
-  const { control } = useFormContext();
-  const { key, placeholder } = permissionsArea;
-  const label = !itemSelection.item ? placeholder : '';
+  const { placeholder } = permissionsArea;
+  const renderValue = (value: string) => {
+    const option = options.find(({ title }) => title === value);
+    return option ? renderScopeOption(option) : <span className="muted">{placeholder}</span>;
+  };
   return disabled ? (
     <TextField disabled defaultValue={itemSelection.item} />
   ) : (
-    <FormControl>
-      <InputLabel id={`${key}-scope-selection-select-label`}>{label}</InputLabel>
-      <Controller
-        name={name || `${key}.${index}.item`}
-        control={control}
-        render={({ field }) => (
-          <Select
-            className={classes.permissionScopeSelect}
-            disabled={disabled}
-            label={label}
-            labelId={`${key}-scope-selection-select-label`}
-            {...field}
-            onChange={({ target: { value } }) => onChange(value)}
-          >
-            {options.map(option => (
-              <MenuItem disabled={option.notFound} key={option.title} value={option.title}>
-                <div title={option.notFound ? 'This item was removed' : ''} className="flexbox align-items-center">
-                  {option.notFound && <WarningIcon style={{ marginRight: 4 }} />}
-                  {option.title}
-                </div>
-              </MenuItem>
-            ))}
-          </Select>
-        )}
-      />
-    </FormControl>
+    <ControlledSelect
+      className={classes.permissionScopeSelect}
+      name={name}
+      getOptionDisabled={(option: ItemScope) => option.notFound}
+      options={options}
+      placeholder={placeholder}
+      renderOption={renderScopeOption}
+      renderValue={renderValue}
+      selectionAttribute="title"
+      onChange={onChange}
+    />
   );
 };
 
@@ -155,7 +150,6 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
         <ScopeSelect
           disabled={disabled}
           permissionsArea={permissionsArea}
-          index={index}
           options={options}
           itemSelection={itemSelection}
           onChange={item => onChange(index, { item, attribute: 'item' })}

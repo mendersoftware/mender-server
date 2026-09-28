@@ -21,7 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import { Link } from '@northern.tech/common-ui/Link';
 import { Loader } from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import NumberInput from '@northern.tech/common-ui/forms/NumberInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -501,7 +501,14 @@ const SubscriptionForm = ({
         <Typography variant="caption">Add-ons are currently available for Standard devices only.</Typography>
         <div className="margin-top-x-small">
           {selectedPlan.id === PLANS.enterprise.id || specialHandling ? (
-            <AddonSelect name="selectedAddons" />
+            <ControlledSelect
+              helperText="Select any Add-ons you are interested in including in your subscription"
+              label="Select Add-ons (optional)"
+              multiple
+              name="selectedAddons"
+              options={Object.values(ADDONS).map(addon => ({ id: addon.id, title: `Mender ${addon.title}` }))}
+              width={550}
+            />
           ) : (
             <Controller
               name="selectedAddons"

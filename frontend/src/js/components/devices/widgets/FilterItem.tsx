@@ -15,9 +15,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 // material ui
 import { Close as CloseIcon } from '@mui/icons-material';
-import { FormHelperText, IconButton, MenuItem, Select, TextField } from '@mui/material';
+import { FormHelperText, IconButton, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
@@ -141,13 +142,13 @@ export const FilterItem = ({ attributes, onChange, onSelect, reset, onSave }) =>
             onRemove={removeFilter}
             onSelect={updateFilterKey}
           />
-          <Select className={classes.filterItem} onChange={updateFilterOperator} value={operator}>
-            {Object.values(filterOptions).map(option => (
-              <MenuItem key={option.key} value={option.key}>
-                {option.title}
-              </MenuItem>
-            ))}
-          </Select>
+          <Select
+            className={classes.filterItem}
+            onChange={updateFilterOperator}
+            options={Object.values(filterOptions)}
+            selectionAttribute="key"
+            value={operator}
+          />
           {showValue && (
             <TextField
               className={classes.valueFilter}

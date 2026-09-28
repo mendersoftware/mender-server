@@ -14,13 +14,14 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FormControl, FormHelperText, MenuItem, Select, Typography } from '@mui/material';
+import { FormControl, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { defaultTimeFormat } from '@northern.tech/common-ui/Time';
+import { Select } from '@northern.tech/common-ui/forms/Select';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 
@@ -33,6 +34,11 @@ const useStyles = makeStyles()(() => ({
   infoStyle: { minWidth: 400, borderBottom: 'none' },
   pickerStyle: { marginBottom: 15, width: 'min-content' }
 }));
+
+const startOptions = [
+  { id: 0, title: 'Start immediately' },
+  { id: 'custom', title: 'Schedule the start date & time' }
+];
 
 export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) => {
   const [isPickerOpen, setIsPickerOpen] = useState(open);
@@ -67,13 +73,15 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
         <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.scheduleDeployment.id} small />
       </div>
       <div className={commonClasses.columns}>
-        <FormControl className={classes.pickerStyle} disabled={!canSchedule} error={!!errors.startTime}>
-          <Select className={classes.textField} onChange={handleStartChange} value={start_time ? 'custom' : 0}>
-            <MenuItem value={0}>Start immediately</MenuItem>
-            <MenuItem value="custom">Schedule the start date &amp; time</MenuItem>
-          </Select>
-          {!!errors.startTime && <FormHelperText>{errors.startTime.message}</FormHelperText>}
-        </FormControl>
+        <Select
+          className={`${classes.pickerStyle} ${classes.textField}`}
+          disabled={!canSchedule}
+          error={!!errors.startTime}
+          helperText={errors.startTime?.message}
+          onChange={handleStartChange}
+          options={startOptions}
+          value={start_time ? 'custom' : 0}
+        />
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.scheduledDeployments.id} />
         </InfoHintContainer>

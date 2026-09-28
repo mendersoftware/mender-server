@@ -224,7 +224,6 @@ export const Past = props => {
             title: 'Contains Artifact type',
             Component: ControlledSelect,
             componentProps: {
-              classes: { root: 'align-self-start' },
               options: deploymentTypeOptions,
               placeholder: 'Select a type'
             }
