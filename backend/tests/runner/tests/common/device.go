@@ -482,7 +482,7 @@ func NewKeyPair(kind string) (*KeyPair, error) {
 		if err != nil {
 			return nil, err
 		}
-		return &KeyPair{Kind: kind, privateKey: privateKey, publicKey: privateKey.PublicKey}, nil
+		return &KeyPair{Kind: kind, privateKey: privateKey, publicKey: &privateKey.PublicKey}, nil
 
 	case KeyKindEd25519:
 		publicKey, privateKey, err := ed25519.GenerateKey(rand.Reader)
