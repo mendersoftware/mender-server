@@ -132,7 +132,7 @@ test.describe('SAML Login via sso/id/login', () => {
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/organization/i).click();
     await page.getByText('View metadata in the text editor').waitFor({ timeout: timeouts.tenSeconds });
-    let loginUrl = '';
+    let loginUrl;
     let loginThing = await page.locator('*:below(:text("Start URL"))').first();
     loginUrl = await loginThing.getAttribute('title');
     if (!loginUrl) {

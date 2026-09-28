@@ -38,7 +38,7 @@ const mapLayerInformation = (key, value, i, path) => {
     priority = softwareTitleMap[path].priority;
   }
   const itemKey = infoItems[infoItems.length - 1];
-  let contents = {};
+  let contents;
   if (infoItems.length > 2) {
     contents = { content: {}, children: { [infoItems[1]]: mapLayerInformation(infoItems.slice(1).join('.'), value, i + 1, key) } };
   } else {

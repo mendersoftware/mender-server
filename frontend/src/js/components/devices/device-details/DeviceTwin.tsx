@@ -156,7 +156,7 @@ export const DeviceTwin = ({ device, integration }) => {
   };
 
   const onApplyClick = () => {
-    let update = {};
+    let update;
     try {
       update = JSON.parse(updated);
     } catch {

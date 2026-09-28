@@ -36,7 +36,7 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
       continue;
     }
     const transferContent = line.substring(line.indexOf('['), line.lastIndexOf(']') + 1);
-    let candidates = [];
+    let candidates;
     try {
       candidates = JSON.parse(transferContent);
     } catch (error) {

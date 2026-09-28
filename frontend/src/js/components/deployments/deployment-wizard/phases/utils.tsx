@@ -244,7 +244,7 @@ const toUniformPhasesDescription = (phases: StandardizedPhase[], numberDevices: 
   const isPercentageMode = getStoredPhasesMode(phases) === rolloutModes.percentage.key;
   const { delay, delayUnit, batch_size, batch_size_devices = 0 } = phases[0];
   const prefix = 'Uniform: ';
-  let phasesDescription = '';
+  let phasesDescription;
   if (isPercentageMode) {
     phasesDescription = `${batch_size}% per phase, ${delay} ${delayUnit || delayDefaults.delayUnit} intervals`;
     return { phasesDescription: `${prefix}${phasesDescription}`, tooltip: phasesDescription };

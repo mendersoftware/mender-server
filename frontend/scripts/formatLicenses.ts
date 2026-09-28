@@ -13,7 +13,7 @@ type License = {
 };
 
 const adjustRepoLocation = (repository: string) => {
-  let accessibleRepo = repository;
+  let accessibleRepo;
   try {
     const url = new URL(repository);
     accessibleRepo = `https://${url.hostname || 'github.com/'}${url.pathname}`;
