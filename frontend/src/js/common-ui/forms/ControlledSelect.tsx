@@ -18,25 +18,35 @@ import { Select } from './Select';
 
 interface ControlledSelectProps<T extends SelectOption = SelectOption> extends Omit<SelectProps<T>, 'onChange' | 'value'> {
   name: string;
+  onChange?: (value: unknown) => void;
   placeholder?: string;
 }
 
-export const ControlledSelect = <T extends SelectOption = SelectOption>({ name, placeholder = '', width = 240, ...remainder }: ControlledSelectProps<T>) => {
+export const ControlledSelect = <T extends SelectOption = SelectOption>({
+  name,
+  onChange,
+  placeholder = '',
+  width = 240,
+  ...remainder
+}: ControlledSelectProps<T>) => {
   const { control } = useFormContext();
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange } }) => (
+      render={({ field: { ref, onChange: fieldOnChange, ...field } }) => (
         <Select
           MenuItemProps={{ dense: false }}
-          name={name}
           placeholder={placeholder}
           slotProps={{ input: { 'aria-label': placeholder } }}
-          value={value}
           width={width}
-          onChange={({ target: { value } }) => onChange(value)}
+          {...field}
+          inputRef={ref}
           {...remainder}
+          onChange={event => {
+            fieldOnChange(event);
+            onChange?.(event.target.value);
+          }}
         />
       )}
     />
