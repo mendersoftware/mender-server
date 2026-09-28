@@ -2,7 +2,6 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import type { Plugin } from 'vite';
 import svgr from 'vite-plugin-svgr';
-import type { UserWorkspaceConfig } from 'vitest/config';
 import { defineConfig } from 'vitest/config';
 
 // Mostly test spying on redux action execution need a fresh environment.
@@ -70,82 +69,65 @@ const muiIconsDeepImports = (): Plugin => ({
   }
 });
 
-export default defineConfig(
-  () =>
-    ({
-      plugins: [
-        muiIconsDeepImports(),
-        react(),
-        svgr({
-          svgrOptions: {
-            ref: true,
-            svgo: false,
-            titleProp: true,
-            jsxRuntime: 'classic'
-          },
-          include: '**/*.svg',
-          oxcOptions: {
-            jsx: { runtime: 'classic' }
-          }
-        })
-      ],
-
-      resolve: {
-        tsconfigPaths: true,
-        alias: [
-          {
-            find: '@northern.tech/common-ui',
-            replacement: path.resolve(__dirname, 'src/js/common-ui')
-          },
-          {
-            find: '@/testUtils',
-            replacement: path.resolve(__dirname, 'tests', 'testUtils')
-          }
-        ]
+export default defineConfig({
+  plugins: [
+    muiIconsDeepImports(),
+    react(),
+    svgr({
+      svgrOptions: {
+        ref: true,
+        svgo: false,
+        titleProp: true,
+        jsxRuntime: 'classic'
       },
-      server: {
-        port: 80,
-        middlewareMode: false
-      },
-      test: {
-        coverage: {
-          reporter: ['json', 'lcov'],
-          reportsDirectory: 'coverage'
-        },
-        env: {
-          BABEL_ENV: 'test',
-          LANG: 'en_US.UTF-8',
-          LC_ALL: 'en_US.UTF-8',
-          NODE_ENV: 'test',
-          PUBLIC_URL: '',
-          TZ: 'UTC'
-        },
-        environment: 'jsdom',
-        globals: true,
-        locale: 'en-US',
-        setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
-        fakeTimers: {
-          toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date', 'requestAnimationFrame', 'cancelAnimationFrame']
-        },
-        projects: [
-          {
-            extends: true,
-            test: {
-              name: 'fast',
-              isolate: false,
-              include: ['src/js/**/*.test.{ts,tsx}'],
-              exclude: [...isolatedTestFiles]
-            }
-          },
-          {
-            extends: true,
-            test: {
-              name: 'isolated',
-              isolate: true,
-              include: [...isolatedTestFiles]
-            }
-          }
-        ]
+      include: '**/*.svg',
+      oxcOptions: {
+        jsx: { runtime: 'classic' }
       }
-    }) as UserWorkspaceConfig
-);
+    })
+  ],
+
+  resolve: {
+    tsconfigPaths: true,
+    alias: [
+      {
+        find: '@northern.tech/common-ui',
+        replacement: path.resolve(__dirname, 'src/js/common-ui')
+      }
+    ]
+  },
+  test: {
+    coverage: {
+      reporter: ['json', 'lcov'],
+      reportsDirectory: 'coverage'
+    },
+    env: {
+      LANG: 'en_US.UTF-8',
+      LC_ALL: 'en_US.UTF-8',
+      TZ: 'UTC'
+    },
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
+    fakeTimers: {
+      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date', 'requestAnimationFrame', 'cancelAnimationFrame']
+    },
+    projects: [
+      {
+        test: {
+          name: 'fast',
+          isolate: false,
+          include: ['src/js/**/*.test.{ts,tsx}'],
+          exclude: [...isolatedTestFiles]
+        }
+      },
+      {
+        test: {
+          name: 'isolated',
+          isolate: true,
+          include: [...isolatedTestFiles]
+        }
+      }
+    ]
+  }
+});
