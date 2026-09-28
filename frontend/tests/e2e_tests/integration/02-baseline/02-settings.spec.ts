@@ -62,7 +62,7 @@ test.describe('Settings', () => {
       const copyButton = page.getByRole('button', { name: /copy to clipboard/i });
       await copyButton.click();
       await page.getByText(/copied to clipboard/i).waitFor();
-      let token = '';
+      let token;
       if (browserName === 'chromium') {
         token = await page.evaluate(() => navigator.clipboard.readText());
       } else {

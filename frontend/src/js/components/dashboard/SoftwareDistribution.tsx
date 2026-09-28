@@ -93,11 +93,11 @@ const checkRequestLimitReached = (reports, deviceRetrievalLimit, total) => {
   const requestLimit = deviceRetrievalLimit / MAX_PAGE_SIZE;
   const { hasTooManyDevices } = reports.reduce(
     (accu, report) => {
-      let { hasTooManyDevices, requestCounter } = accu;
+      let { requestCounter } = accu;
       // as the attribute per report can be different for a given group or for all devices, count them both
       // + we assume smaller (sub 500 device) groups for now - the staggered widget rendering should allow some flexibility with the rate limits
       requestCounter += report.group ? 1 : Math.ceil(total / MAX_PAGE_SIZE);
-      hasTooManyDevices = accu.hasTooManyDevices || accu.requestCounter > requestLimit;
+      const hasTooManyDevices = accu.hasTooManyDevices || accu.requestCounter > requestLimit;
       return { hasTooManyDevices, requestCounter };
     },
     { hasTooManyDevices: false, requestCounter: 0 }

@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@emotion/jest": "11.14.2",
-    "@northern.tech/eslint-config": "0.7.1",
+    "@northern.tech/eslint-config": "0.7.2",
     "@northern.tech/prettier-config": "0.2.1",
     "@northern.tech/testing": "0.18.2",
     "@northern.tech/types": "0.7.8",

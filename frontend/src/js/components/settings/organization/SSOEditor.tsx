@@ -35,7 +35,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
     }
 
     const parser = new DOMParser();
-    let valid = false;
+    let valid;
     switch (ssoItem.metadataFormat) {
       case JSON_METADATA_FORMAT:
         try {

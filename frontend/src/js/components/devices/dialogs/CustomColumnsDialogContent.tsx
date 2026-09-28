@@ -84,7 +84,7 @@ export const Content = ({ attributes, columnHeaders, idAttribute, selectedAttrib
   };
 
   const onRemove = (attribute, index) => {
-    let selection = [];
+    let selection;
     let removed = attribute;
     if (index !== undefined) {
       selection = [...selectedAttributes];
