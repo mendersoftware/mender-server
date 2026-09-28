@@ -163,7 +163,7 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
         .unwrap()
         .then(manifest => {
           setParsedManifest(manifest?.manifest || null);
-          setValue('name', `${name}(copy)`);
+          setValue('name', `${name}-copy`);
         }),
     [dispatch, setValue]
   );
