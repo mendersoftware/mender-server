@@ -19,14 +19,16 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 )
 
 func TestAWSCredentialsJSON(t *testing.T) {
 	awsCredentials := &AWSCredentials{
-		AccessKeyID:      str2ptr("accessKeyID"),
-		SecretAccessKey:  str2cyptoptr("secretAccessKey"),
-		Region:           str2ptr("c"),
-		DevicePolicyName: str2ptr("d"),
+		AccessKeyID:      new("accessKeyID"),
+		SecretAccessKey:  new(crypto.String("secretAccessKey")),
+		Region:           new("c"),
+		DevicePolicyName: new("d"),
 	}
 
 	data, err := json.Marshal(awsCredentials)

@@ -2689,10 +2689,6 @@ func TestMongoGetUserSettings(t *testing.T) {
 	}
 }
 
-func strPtr(s string) *string {
-	return &s
-}
-
 func TestMongoGetPersonalAccessTokens(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode.")
@@ -2738,7 +2734,7 @@ func TestMongoGetPersonalAccessTokens(t *testing.T) {
 				Scope: "scope-1",
 				User:  true,
 			},
-			TokenName: strPtr("my_personal_access_token"),
+			TokenName: new("my_personal_access_token"),
 		},
 		{
 			Claims: jwt.Claims{
@@ -2875,7 +2871,7 @@ func TestMongoCountPersonalAccessTokens(t *testing.T) {
 				Scope: "scope-1",
 				User:  true,
 			},
-			TokenName: strPtr("my_personal_access_token"),
+			TokenName: new("my_personal_access_token"),
 		},
 		{
 			Claims: jwt.Claims{
@@ -2996,7 +2992,7 @@ func TestMongoUpdateTokenLastUsed(t *testing.T) {
 				Scope: "scope-1",
 				User:  true,
 			},
-			TokenName: strPtr("my_personal_access_token"),
+			TokenName: new("my_personal_access_token"),
 		},
 		{
 			Claims: jwt.Claims{

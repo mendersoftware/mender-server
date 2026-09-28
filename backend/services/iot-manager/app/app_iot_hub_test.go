@@ -34,7 +34,6 @@ import (
 	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"
@@ -126,7 +125,7 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 					w.WriteHeader(http.StatusCreated)
 					json.NewEncoder(w).
 						Encode(openapi.StartWorkflow201Response{
-							Id: types.Pointer("12345"),
+							Id: new("12345"),
 						})
 					call.Return(w.Result(), nil)
 				}).Once()
@@ -978,8 +977,8 @@ func TestSyncIoTHubDevices(t *testing.T) {
 					continue
 				}
 				authSets = append(authSets, openapi.Device{
-					Id:     types.Pointer(id),
-					Status: types.Pointer(string(status)),
+					Id:     new(id),
+					Status: new(string(status)),
 				})
 			}
 			expect := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
@@ -1102,7 +1101,7 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				w.WriteHeader(http.StatusCreated)
 				json.NewEncoder(w).
 					Encode(openapi.StartWorkflow201Response{
-						Id: types.Pointer("12345"),
+						Id: new("12345"),
 					})
 				call.Return(w.Result(), nil)
 			}).Once()
@@ -1140,7 +1139,7 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				for _, id := range self.DeviceIDs[1:] {
 					if !yield(openapi.Device{
 						Id:     &id,
-						Status: types.Pointer(string(model.StatusAccepted)),
+						Status: new(string(model.StatusAccepted)),
 					}) {
 						return
 					}
@@ -1330,8 +1329,8 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(http.StatusOK)
 				json.NewEncoder(w).Encode([]openapi.Device{{
-					Id:     types.Pointer(self.DeviceIDs[0]),
-					Status: types.Pointer("accepted"),
+					Id:     new(self.DeviceIDs[0]),
+					Status: new("accepted"),
 				}})
 
 				expect.Return(w.Result(), nil)

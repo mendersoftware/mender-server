@@ -312,7 +312,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 			},
 			InputSkip:         0,
 			InputLimit:        1,
-			InputCreatedAfter: TimePtr(now.Add(time.Hour * 24)),
+			InputCreatedAfter: new(now.Add(time.Hour * 24)),
 
 			OutputError:       nil,
 			OutputDeployments: nil,
@@ -331,7 +331,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 			},
 			InputSkip:         0,
 			InputLimit:        5,
-			InputCreatedAfter: TimePtr(now.Add(-time.Hour * 24)),
+			InputCreatedAfter: new(now.Add(-time.Hour * 24)),
 
 			OutputError: nil,
 			OutputDeployments: []*model.Deployment{
@@ -354,7 +354,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id:      "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Created: TimePtr(now.Add(-time.Hour * 24)),
+					Created: new(now.Add(-time.Hour * 24)),
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
@@ -364,7 +364,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 					},
 					Id:      "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Active:  true,
-					Created: TimePtr(now.Add(time.Hour * 24)),
+					Created: new(now.Add(time.Hour * 24)),
 				},
 			},
 			InputSkip:         0,
@@ -1070,10 +1070,6 @@ func TestFindDeploymentStatsByIDs(t *testing.T) {
 	}
 }
 
-func str2ptr(s string) *string {
-	return &s
-}
-
 func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping TestGetDeviceDeploymentsForDevice in short mode.")
@@ -1158,7 +1154,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, status pause": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusPauseStr),
+				Status:   new(model.DeviceDeploymentStatusPauseStr),
 				Limit:    10,
 				Skip:     0,
 			},
@@ -1170,7 +1166,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, status finished": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusFinishedStr),
+				Status:   new(model.DeviceDeploymentStatusFinishedStr),
 				Limit:    10,
 				Skip:     0,
 			},
@@ -1183,7 +1179,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, status active": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusActiveStr),
+				Status:   new(model.DeviceDeploymentStatusActiveStr),
 				Limit:    10,
 				Skip:     0,
 			},
@@ -1195,7 +1191,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, status successful": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusSuccessStr),
+				Status:   new(model.DeviceDeploymentStatusSuccessStr),
 				Limit:    10,
 				Skip:     0,
 			},
@@ -1208,7 +1204,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, status active, first page": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusSuccessStr),
+				Status:   new(model.DeviceDeploymentStatusSuccessStr),
 				Limit:    1,
 				Skip:     0,
 			},
@@ -1220,7 +1216,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, status active, second page": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusSuccessStr),
+				Status:   new(model.DeviceDeploymentStatusSuccessStr),
 				Limit:    1,
 				Skip:     1,
 			},
@@ -1232,7 +1228,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ok, no results": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr(model.DeviceDeploymentStatusDownloadingStr),
+				Status:   new(model.DeviceDeploymentStatusDownloadingStr),
 				Limit:    10,
 				Skip:     0,
 			},
@@ -1242,7 +1238,7 @@ func TestGetDeviceDeploymentsForDevice(t *testing.T) {
 		"ko, status invalid": {
 			q: store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
-				Status:   str2ptr("dummy"),
+				Status:   new("dummy"),
 				Limit:    10,
 				Skip:     0,
 			},

@@ -45,7 +45,7 @@ func TestListQueryDeviceDeploymentsValidate(t *testing.T) {
 			query: &ListQueryDeviceDeployments{
 				Limit:    1,
 				DeviceID: "dummy",
-				Status:   str2ptr("dummy"),
+				Status:   new("dummy"),
 			},
 			err: errors.New("status: must be a valid value"),
 		},
@@ -53,28 +53,28 @@ func TestListQueryDeviceDeploymentsValidate(t *testing.T) {
 			query: &ListQueryDeviceDeployments{
 				Limit:    1,
 				DeviceID: "dummy",
-				Status:   str2ptr(model.DeviceDeploymentStatusPauseStr),
+				Status:   new(model.DeviceDeploymentStatusPauseStr),
 			},
 		},
 		"status, active": {
 			query: &ListQueryDeviceDeployments{
 				Limit:    1,
 				DeviceID: "dummy",
-				Status:   str2ptr(model.DeviceDeploymentStatusActiveStr),
+				Status:   new(model.DeviceDeploymentStatusActiveStr),
 			},
 		},
 		"status, pending": {
 			query: &ListQueryDeviceDeployments{
 				Limit:    1,
 				DeviceID: "dummy",
-				Status:   str2ptr(model.DeviceDeploymentStatusPendingStr),
+				Status:   new(model.DeviceDeploymentStatusPendingStr),
 			},
 		},
 		"status, finished": {
 			query: &ListQueryDeviceDeployments{
 				Limit:    1,
 				DeviceID: "dummy",
-				Status:   str2ptr(model.DeviceDeploymentStatusFinishedStr),
+				Status:   new(model.DeviceDeploymentStatusFinishedStr),
 			},
 		},
 	}

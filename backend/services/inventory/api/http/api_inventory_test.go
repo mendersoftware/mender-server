@@ -87,11 +87,6 @@ func mockListDeviceIDs(num int) []model.DeviceID {
 	return devs
 }
 
-func floatPtr(f float64) *float64 {
-	ret := f
-	return &ret
-}
-
 func timePtr(f string) *time.Time {
 	ret, _ := time.Parse("2006-01-02T15:04:05Z", f)
 	return &ret
@@ -211,7 +206,7 @@ func TestApiParseFilterParams(t *testing.T) {
 					AttrName:   "attr_name1",
 					AttrScope:  model.AttrScopeInventory,
 					Value:      "3.14",
-					ValueFloat: floatPtr(3.14),
+					ValueFloat: new(3.14),
 					Operator:   store.Eq,
 				},
 			},
@@ -619,9 +614,9 @@ func TestApiInventoryAddDevice(t *testing.T) {
 				OutputHeaders:    map[string][]string{"Location": {"devices/id-0001"}},
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "a1", Value: "00:00:00:01", Description: strPtr("ddd"), Scope: model.AttrScopeInventory},
-				{Name: "a2", Value: 123.2, Description: strPtr("ddd"), Scope: model.AttrScopeInventory},
-				{Name: "a3", Value: []interface{}{"00:00:00:01", "00"}, Description: strPtr("ddd"), Scope: model.AttrScopeInventory},
+				{Name: "a1", Value: "00:00:00:01", Description: new("ddd"), Scope: model.AttrScopeInventory},
+				{Name: "a2", Value: 123.2, Description: new("ddd"), Scope: model.AttrScopeInventory},
+				{Name: "a3", Value: []interface{}{"00:00:00:01", "00"}, Description: new("ddd"), Scope: model.AttrScopeInventory},
 			},
 		},
 		"body formatted ok, all fields present, attributes with scope": {
@@ -644,9 +639,9 @@ func TestApiInventoryAddDevice(t *testing.T) {
 				OutputHeaders:    map[string][]string{"Location": {"devices/id-0001"}},
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "a1", Value: "00:00:00:01", Description: strPtr("ddd"), Scope: model.AttrScopeInventory},
-				{Name: "a2", Value: 123.2, Description: strPtr("ddd"), Scope: model.AttrScopeInventory},
-				{Name: "a3", Value: []interface{}{"00:00:00:01", "00"}, Description: strPtr("ddd"), Scope: model.AttrScopeInventory},
+				{Name: "a1", Value: "00:00:00:01", Description: new("ddd"), Scope: model.AttrScopeInventory},
+				{Name: "a2", Value: 123.2, Description: new("ddd"), Scope: model.AttrScopeInventory},
+				{Name: "a3", Value: []interface{}{"00:00:00:01", "00"}, Description: new("ddd"), Scope: model.AttrScopeInventory},
 			},
 		},
 		"body formatted ok, wrong attributes type": {
@@ -1173,11 +1168,11 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 					{
 						Name:        "name1",
 						Value:       "value1",
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 					},
 					{
 						Value:       2,
-						Description: strPtr("descr2"),
+						Description: new("descr2"),
 					},
 				},
 			}),
@@ -1200,7 +1195,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 				Body: []model.DeviceAttribute{
 					{
 						Name:        "name1",
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 					},
 				},
 			}),
@@ -1224,12 +1219,12 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 					{
 						Name:        "name1",
 						Value:       "value1",
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 					},
 					{
 						Name:        "name2",
 						Value:       2,
-						Description: strPtr("descr2"),
+						Description: new("descr2"),
 					},
 				},
 			}),
@@ -1242,8 +1237,8 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 				OutputBodyObject: nil,
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "name1", Value: "value1", Description: strPtr("descr1"), Scope: model.AttrScopeInventory},
-				{Name: "name2", Value: float64(2), Description: strPtr("descr2"), Scope: model.AttrScopeInventory},
+				{Name: "name1", Value: "value1", Description: new("descr1"), Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Description: new("descr2"), Scope: model.AttrScopeInventory},
 			},
 			scope: model.AttrScopeInventory,
 		},
@@ -1257,13 +1252,13 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 					{
 						Name:        "name1",
 						Value:       "value1",
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 						Scope:       "foo",
 					},
 					{
 						Name:        "name2",
 						Value:       2,
-						Description: strPtr("descr2"),
+						Description: new("descr2"),
 						Scope:       "system",
 					},
 				},
@@ -1277,8 +1272,8 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 				OutputBodyObject: nil,
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "name1", Value: "value1", Description: strPtr("descr1"), Scope: model.AttrScopeInventory},
-				{Name: "name2", Value: float64(2), Description: strPtr("descr2"), Scope: model.AttrScopeInventory},
+				{Name: "name1", Value: "value1", Description: new("descr1"), Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Description: new("descr2"), Scope: model.AttrScopeInventory},
 			},
 			scope: model.AttrScopeInventory,
 		},
@@ -1292,13 +1287,13 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 					{
 						Name:        "name1",
 						Value:       "value1",
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 						Scope:       model.AttrScopeInventory,
 					},
 					{
 						Name:        "name2",
 						Value:       2,
-						Description: strPtr("descr2"),
+						Description: new("descr2"),
 						Scope:       model.AttrScopeInventory,
 					},
 				},
@@ -1312,8 +1307,8 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 				OutputBodyObject: nil,
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "name1", Value: "value1", Description: strPtr("descr1"), Scope: model.AttrScopeInventory},
-				{Name: "name2", Value: float64(2), Description: strPtr("descr2"), Scope: model.AttrScopeInventory},
+				{Name: "name1", Value: "value1", Description: new("descr1"), Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Description: new("descr2"), Scope: model.AttrScopeInventory},
 			},
 			scope: model.AttrScopeInventory,
 		},
@@ -1327,12 +1322,12 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 					{
 						Name:        "name1",
 						Value:       []interface{}{"foo", "bar"},
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 					},
 					{
 						Name:        "name2",
 						Value:       []interface{}{1, 2, 3},
-						Description: strPtr("descr2"),
+						Description: new("descr2"),
 					},
 				},
 			}),
@@ -1410,12 +1405,12 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 					{
 						Name:        "name1",
 						Value:       "value1",
-						Description: strPtr("descr1"),
+						Description: new("descr1"),
 					},
 					{
 						Name:        "name2",
 						Value:       2,
-						Description: strPtr("descr2"),
+						Description: new("descr2"),
 					},
 				},
 			}),
@@ -1548,10 +1543,6 @@ func makeDeviceAuthHeader(claim string) string {
 		base64.RawURLEncoding.EncodeToString([]byte(claim)))
 }
 
-func strPtr(s string) *string {
-	return &s
-}
-
 func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 	t.Parallel()
 
@@ -1590,12 +1581,12 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				{
 					Name:        "name1",
 					Value:       []interface{}{"foo", "bar"},
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 				},
 				{
 					Name:        "name2",
 					Value:       []interface{}{1, 2, 3},
-					Description: strPtr("descr2"),
+					Description: new("descr2"),
 				},
 			},
 
@@ -1634,11 +1625,11 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				{
 					Name:        "name1",
 					Value:       "value1",
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 				},
 				{
 					Value:       2,
-					Description: strPtr("descr2"),
+					Description: new("descr2"),
 				},
 			},
 			inHdrs: map[string]string{
@@ -1659,7 +1650,7 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 			payload: []model.DeviceAttribute{
 				{
 					Name:        "name1",
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 				},
 			},
 			inHdrs: map[string]string{
@@ -1681,12 +1672,12 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				{
 					Name:        "name1",
 					Value:       "value1",
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 				},
 				{
 					Name:        "name2",
 					Value:       2,
-					Description: strPtr("descr2"),
+					Description: new("descr2"),
 				},
 			},
 			inHdrs: map[string]string{
@@ -1698,8 +1689,8 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				OutputBodyObject: nil,
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "name1", Value: "value1", Description: strPtr("descr1"), Scope: model.AttrScopeInventory},
-				{Name: "name2", Value: float64(2), Description: strPtr("descr2"), Scope: model.AttrScopeInventory},
+				{Name: "name1", Value: "value1", Description: new("descr1"), Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Description: new("descr2"), Scope: model.AttrScopeInventory},
 			},
 		},
 
@@ -1712,13 +1703,13 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				{
 					Name:        "name1",
 					Value:       "value1",
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 					Scope:       model.AttrScopeInventory,
 				},
 				{
 					Name:        "name2",
 					Value:       2,
-					Description: strPtr("descr2"),
+					Description: new("descr2"),
 					Scope:       model.AttrScopeInventory,
 				},
 			},
@@ -1731,8 +1722,8 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				OutputBodyObject: nil,
 			},
 			deviceAttributes: model.DeviceAttributes{
-				{Name: "name1", Value: "value1", Description: strPtr("descr1"), Scope: model.AttrScopeInventory},
-				{Name: "name2", Value: float64(2), Description: strPtr("descr2"), Scope: model.AttrScopeInventory},
+				{Name: "name1", Value: "value1", Description: new("descr1"), Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Description: new("descr2"), Scope: model.AttrScopeInventory},
 			},
 		},
 
@@ -1745,12 +1736,12 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				{
 					Name:        "name1",
 					Value:       []interface{}{"foo", "bar"},
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 				},
 				{
 					Name:        "name2",
 					Value:       []interface{}{1, 2, 3},
-					Description: strPtr("descr2"),
+					Description: new("descr2"),
 				},
 			},
 			inHdrs: map[string]string{
@@ -1822,12 +1813,12 @@ func TestApiInventoryUpsertAttributesInternal(t *testing.T) {
 				{
 					Name:        "name1",
 					Value:       "value1",
-					Description: strPtr("descr1"),
+					Description: new("descr1"),
 				},
 				{
 					Name:        "name2",
 					Value:       2,
-					Description: strPtr("descr2"),
+					Description: new("descr2"),
 				},
 			},
 			inHdrs: map[string]string{

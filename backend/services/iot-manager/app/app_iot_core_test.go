@@ -41,7 +41,6 @@ import (
 	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 	coreMocks "github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore/mocks"
@@ -56,10 +55,6 @@ var (
 	awsRegion           = "us-east-1"
 	awsDevicePolicyName = `device-policy-name`
 )
-
-func statusPtr(s model.Status) *model.Status {
-	return &s
-}
 
 func TestProvisionDeviceIoTCore(t *testing.T) {
 	t.Parallel()
@@ -137,7 +132,7 @@ func TestProvisionDeviceIoTCore(t *testing.T) {
 					w.WriteHeader(http.StatusCreated)
 					json.NewEncoder(w).
 						Encode(openapi.StartWorkflow201Response{
-							Id: types.Pointer("123"),
+							Id: new("123"),
 						},
 						)
 					call.Return(w.Result(), nil)
@@ -929,48 +924,45 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 
 		Error error
 	}
-	iotStatusPtr := func(s iotcore.Status) *iotcore.Status {
-		return &s
-	}
 	testCases := []testCase{{
 		Name: "ok/10 devices in all cases",
 
 		Devices: []testDevice{{
 			ID:            "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
-			DevauthStatus: statusPtr(model.StatusAccepted),
+			DevauthStatus: new(model.StatusAccepted),
 			CoreStatus:    nil,
 		}, {
 			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
-			DevauthStatus: statusPtr(model.StatusAccepted),
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			DevauthStatus: new(model.StatusAccepted),
+			CoreStatus:    new(iotcore.StatusEnabled),
 		}, {
 			ID:            "1280cb45-e941-47fb-922e-8dc55006d127",
-			DevauthStatus: statusPtr(model.StatusAccepted),
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			DevauthStatus: new(model.StatusAccepted),
+			CoreStatus:    new(iotcore.StatusEnabled),
 		}, {
 			ID:            "6b7ed385-91ca-4499-a118-3e6b863a9082",
-			DevauthStatus: statusPtr(model.StatusAccepted),
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			DevauthStatus: new(model.StatusAccepted),
+			CoreStatus:    new(iotcore.StatusEnabled),
 		}, {
 			ID:            "4e8e5b20-5558-486c-891c-41e3a4d309a4",
-			DevauthStatus: statusPtr(model.StatusAccepted),
-			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+			DevauthStatus: new(model.StatusAccepted),
+			CoreStatus:    new(iotcore.StatusDisabled),
 		}, {
 			ID:            "49900bc3-9f2b-4b84-ad0d-bec7313b866b",
-			DevauthStatus: statusPtr(model.StatusRejected),
-			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+			DevauthStatus: new(model.StatusRejected),
+			CoreStatus:    new(iotcore.StatusDisabled),
 		}, {
 			ID:            "3146cc4d-21eb-4f67-bdb8-96e3222b1b4b",
-			DevauthStatus: statusPtr(model.StatusRejected),
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			DevauthStatus: new(model.StatusRejected),
+			CoreStatus:    new(iotcore.StatusEnabled),
 		}, {
 			ID:            "02d9ab3e-ca1c-4a61-bf06-b23a224935d4",
-			DevauthStatus: statusPtr(model.StatusNoAuth),
-			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+			DevauthStatus: new(model.StatusNoAuth),
+			CoreStatus:    new(iotcore.StatusDisabled),
 		}, {
 			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
 			DevauthStatus: nil,
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			CoreStatus:    new(iotcore.StatusEnabled),
 		}, {
 			ID:            "1434a240-e556-4acf-b96d-ac66a20f82de",
 			DevauthStatus: nil,
@@ -1033,7 +1025,7 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 		Devices: []testDevice{{
 			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
 			DevauthStatus: nil,
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			CoreStatus:    new(iotcore.StatusEnabled),
 
 			DeleteDeviceError: errors.New("internal error"),
 		}},
@@ -1058,7 +1050,7 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 		Devices: []testDevice{{
 			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
 			DevauthStatus: nil,
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			CoreStatus:    new(iotcore.StatusEnabled),
 
 			DeleteDeviceError: errors.New("internal error"),
 		}},
@@ -1085,7 +1077,7 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 
 		Devices: []testDevice{{
 			ID:            "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
-			DevauthStatus: statusPtr(model.StatusAccepted),
+			DevauthStatus: new(model.StatusAccepted),
 			CoreStatus:    nil,
 
 			UpsertDeviceError: errors.New("internal error"),
@@ -1111,8 +1103,8 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 
 		Devices: []testDevice{{
 			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
-			DevauthStatus: statusPtr(model.StatusAccepted),
-			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+			DevauthStatus: new(model.StatusAccepted),
+			CoreStatus:    new(iotcore.StatusEnabled),
 
 			GetDeviceError: errors.New("internal error"),
 		}},
@@ -1137,8 +1129,8 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 
 		Devices: []testDevice{{
 			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
-			DevauthStatus: statusPtr(model.StatusAccepted),
-			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+			DevauthStatus: new(model.StatusAccepted),
+			CoreStatus:    new(iotcore.StatusDisabled),
 
 			UpsertDeviceError: errors.New("internal error"),
 		}},
@@ -1186,7 +1178,7 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 				}
 				if dev.DevauthStatus != nil {
 					authSets = append(authSets, openapi.Device{
-						Id:     types.Pointer(dev.ID),
+						Id:     new(dev.ID),
 						Status: (*string)(dev.DevauthStatus),
 					})
 					awsEndpoint := "test_aws_endpoint"
@@ -1272,7 +1264,7 @@ func TestSyncIoTCoreDevices(t *testing.T) {
 								w.Header().Set("Content-Type", "application/json")
 								w.WriteHeader(http.StatusCreated)
 								json.NewEncoder(w).Encode(openapi.StartWorkflow201Response{
-									Id: types.Pointer("1234"),
+									Id: new("1234"),
 								})
 								expect.Return(w.Result(), nil)
 							})

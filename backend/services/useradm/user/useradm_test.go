@@ -682,7 +682,6 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		})
 	}
 
-	etagPtr := func(etag model.ETag) *model.ETag { return &etag }
 	type testCase struct {
 		Name string
 
@@ -702,7 +701,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
 		UserUpdate: &model.UserUpdate{
 			Password: "foobar",
-			ETag:     etagPtr(model.ETag{0}),
+			ETag:     new(model.ETag{0}),
 		},
 		DataStore: func(t *testing.T, self *testCase) *mstore.DataStore {
 			ds := new(mstore.DataStore)
@@ -720,7 +719,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
 		UserUpdate: &model.UserUpdate{
 			Email: model.Email("test@mender.io"),
-			ETag:  etagPtr(model.ETag{0}),
+			ETag:  new(model.ETag{0}),
 		},
 		DataStore: func(t *testing.T, self *testCase) *mstore.DataStore {
 			ds := new(mstore.DataStore)
@@ -738,7 +737,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
 		UserUpdate: &model.UserUpdate{
 			Email: model.Email("test@mender.io"),
-			ETag:  etagPtr(model.ETag{0}),
+			ETag:  new(model.ETag{0}),
 		},
 		DataStore: func(t *testing.T, self *testCase) *mstore.DataStore {
 			ds := new(mstore.DataStore)
@@ -1294,10 +1293,6 @@ func TestUserAdmDeleteTokens(t *testing.T) {
 	}
 }
 
-func stringPtr(s string) *string {
-	return &s
-}
-
 func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 	testCases := map[string]struct {
 		tokenRequest model.TokenRequest
@@ -1314,7 +1309,7 @@ func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 	}{
 		"ok": {
 			tokenRequest: model.TokenRequest{
-				Name:      stringPtr("foo"),
+				Name:      new("foo"),
 				ExpiresIn: 3600,
 			},
 			callDbSaveToken:   true,
@@ -1328,7 +1323,7 @@ func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 		},
 		"ok, no limit": {
 			tokenRequest: model.TokenRequest{
-				Name:      stringPtr("foo"),
+				Name:      new("foo"),
 				ExpiresIn: 3600,
 			},
 			callDbSaveToken: true,
@@ -1339,7 +1334,7 @@ func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 		},
 		"error: too many tokens": {
 			tokenRequest: model.TokenRequest{
-				Name:      stringPtr("foo"),
+				Name:      new("foo"),
 				ExpiresIn: 3600,
 			},
 			callDbCountTokens: true,
@@ -1353,7 +1348,7 @@ func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 		},
 		"error: count tokens error": {
 			tokenRequest: model.TokenRequest{
-				Name:      stringPtr("foo"),
+				Name:      new("foo"),
 				ExpiresIn: 3600,
 			},
 			callDbCountTokens: true,
@@ -1369,7 +1364,7 @@ func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 		},
 		"error: duplicate token name": {
 			tokenRequest: model.TokenRequest{
-				Name:      stringPtr("foo"),
+				Name:      new("foo"),
 				ExpiresIn: 3600,
 			},
 			callDbSaveToken:   true,
@@ -1385,7 +1380,7 @@ func TestUserAdmIssuePersonalAccessToken(t *testing.T) {
 		},
 		"error: save token error": {
 			tokenRequest: model.TokenRequest{
-				Name:      stringPtr("foo"),
+				Name:      new("foo"),
 				ExpiresIn: 3600,
 			},
 			callDbSaveToken:   true,

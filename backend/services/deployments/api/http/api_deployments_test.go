@@ -2193,10 +2193,6 @@ func TestGetDeploymentsStats(t *testing.T) {
 	}
 }
 
-func str2ptr(s string) *string {
-	return &s
-}
-
 func TestListDeviceDeployments(t *testing.T) {
 	const deviceID = "d50eda0d-2cea-4de1-8d42-9cd3e7e86701"
 	t.Parallel()
@@ -2255,7 +2251,7 @@ func TestListDeviceDeployments(t *testing.T) {
 			query: &store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
 				Limit:    DefaultPerPage,
-				Status:   str2ptr("pending"),
+				Status:   new("pending"),
 			},
 			responseCode: http.StatusOK,
 			deployments: []model.DeviceDeploymentListItem{
@@ -2423,7 +2419,7 @@ func TestListDeviceDeploymentsInternal(t *testing.T) {
 			query: &store.ListQueryDeviceDeployments{
 				DeviceID: deviceID,
 				Limit:    DefaultPerPage,
-				Status:   str2ptr("pending"),
+				Status:   new("pending"),
 			},
 			responseCode: http.StatusOK,
 			deployments: []model.DeviceDeploymentListItem{
@@ -2579,7 +2575,7 @@ func TestListDeviceDeploymentsByIDsInternal(t *testing.T) {
 			query: &store.ListQueryDeviceDeployments{
 				IDs:    []string{ID},
 				Limit:  DefaultPerPage,
-				Status: str2ptr("pending"),
+				Status: new("pending"),
 			},
 			responseCode: http.StatusOK,
 			deployments: []model.DeviceDeploymentListItem{

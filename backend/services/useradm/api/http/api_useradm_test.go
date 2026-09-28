@@ -1997,10 +1997,6 @@ func TestIssueToken(t *testing.T) {
 	}
 }
 
-func strPtr(s string) *string {
-	return &s
-}
-
 func TestUserAdmApiGetTokens(t *testing.T) {
 	t.Parallel()
 
@@ -2014,11 +2010,11 @@ func TestUserAdmApiGetTokens(t *testing.T) {
 			uaTokens: []model.PersonalAccessToken{
 				{
 					ID:   oid.FromString("1"),
-					Name: strPtr("foo"),
+					Name: new("foo"),
 				},
 				{
 					ID:   oid.FromString("2"),
-					Name: strPtr("bar"),
+					Name: new("bar"),
 				},
 			},
 			uaError: nil,
@@ -2029,11 +2025,11 @@ func TestUserAdmApiGetTokens(t *testing.T) {
 				[]model.PersonalAccessToken{
 					{
 						ID:   oid.FromString("1"),
-						Name: strPtr("foo"),
+						Name: new("foo"),
 					},
 					{
 						ID:   oid.FromString("2"),
-						Name: strPtr("bar"),
+						Name: new("bar"),
 					},
 				},
 			),

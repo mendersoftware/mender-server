@@ -53,12 +53,12 @@ func TestMigration_0_2_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 						"bar": {
 							Name:        "bar",
 							Value:       3.0,
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 				},
@@ -69,12 +69,12 @@ func TestMigration_0_2_0(t *testing.T) {
 					Attributes: model.DeviceAttributes{{
 						Name:        "foo",
 						Value:       "val3",
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}, {
 						Name:        "bar",
 						Value:       3.0,
-						Description: strPtr("desc"),
+						Description: new("desc"),
 						Scope:       model.AttrScopeInventory,
 					}},
 				}},
@@ -87,12 +87,12 @@ func TestMigration_0_2_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 						"bar": {
 							Name:        "bar",
 							Value:       3.0,
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						}},
 				},
 				legacyDevice{
@@ -101,12 +101,12 @@ func TestMigration_0_2_0(t *testing.T) {
 						"foo2": {
 							Name:        "foo2",
 							Value:       "val32",
-							Description: strPtr("desc2"),
+							Description: new("desc2"),
 						},
 						"bar2": {
 							Name:        "bar2",
 							Value:       2.0,
-							Description: strPtr("desc2"),
+							Description: new("desc2"),
 						},
 					},
 				},
@@ -118,13 +118,13 @@ func TestMigration_0_2_0(t *testing.T) {
 						{
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "bar",
 							Value:       3.0,
-							Description: strPtr("desc"),
+							Description: new("desc"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -135,13 +135,13 @@ func TestMigration_0_2_0(t *testing.T) {
 						{
 							Name:        "foo2",
 							Value:       "val32",
-							Description: strPtr("desc2"),
+							Description: new("desc2"),
 							Scope:       model.AttrScopeInventory,
 						},
 						{
 							Name:        "bar2",
 							Value:       2.0,
-							Description: strPtr("desc2"),
+							Description: new("desc2"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -156,12 +156,12 @@ func TestMigration_0_2_0(t *testing.T) {
 						"foo": {
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 						"bar": {
 							Name:        "bar",
 							Value:       3.0,
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 				},
@@ -171,7 +171,7 @@ func TestMigration_0_2_0(t *testing.T) {
 						"baz": {
 							Name:        "baz",
 							Value:       "val",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 						},
 					},
 				},
@@ -183,12 +183,12 @@ func TestMigration_0_2_0(t *testing.T) {
 						{
 							Name:        "foo",
 							Value:       "val3",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 							Scope:       model.AttrScopeInventory,
 						}, {
 							Name:        "bar",
 							Value:       3.0,
-							Description: strPtr("desc"),
+							Description: new("desc"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},
@@ -199,7 +199,7 @@ func TestMigration_0_2_0(t *testing.T) {
 						{
 							Name:        "baz",
 							Value:       "val",
-							Description: strPtr("desc"),
+							Description: new("desc"),
 							Scope:       model.AttrScopeInventory,
 						},
 					},

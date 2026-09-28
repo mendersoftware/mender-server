@@ -96,7 +96,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 		ctx := u.T().Context()
 		softwareTags, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
-			Kind(*client.PtrString(dmodel.ReleaseKindRelease)).
+			Kind(dmodel.ReleaseKindRelease).
 			Execute()
 		require.NoError(u.T(), err)
 		assert.ElementsMatch(u.T(), softwareTags, allTags)
@@ -106,7 +106,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 		ctx := u.T().Context()
 		softwareTags, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
-			Kind(*client.PtrString(dmodel.ReleaseKindManifest)).
+			Kind(dmodel.ReleaseKindManifest).
 			Execute()
 		require.NoError(u.T(), err)
 		assert.Len(u.T(), softwareTags, 0)
@@ -116,7 +116,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 		ctx := u.T().Context()
 		_, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
-			Kind(*client.PtrString("invalid-kind")).
+			Kind("invalid-kind").
 			Execute()
 		require.Error(u.T(), err)
 		assert.Equal(u.T(), http.StatusBadRequest, res.StatusCode)
@@ -146,7 +146,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		i := handlers.NewModuleImage("definitely-not-a-manifest")
 		artifact, err := common.CreateArtifact(name, t, common.WithModuleImage(i))
 		require.NoError(err)
-		res, err := u.uploadArtifact(ctx, artifact, client.PtrString("don't trust me? check it yourself!"))
+		res, err := u.uploadArtifact(ctx, artifact, new("don't trust me? check it yourself!"))
 		require.NoError(err)
 		require.Equal(res.StatusCode, http.StatusCreated)
 		allSoftwares = append(allSoftwares, client.Software{
@@ -268,7 +268,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		ctx := u.T().Context()
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
-			Kind(*client.PtrString(dmodel.ReleaseKindRelease)).
+			Kind(dmodel.ReleaseKindRelease).
 			NamePrefix("test-list-software"). // filter so we dont collide with other tests
 			Execute()
 		require.NoError(u.T(), err)
@@ -281,7 +281,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		ctx := u.T().Context()
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
-			Kind(*client.PtrString(dmodel.ReleaseKindManifest)).
+			Kind(dmodel.ReleaseKindManifest).
 			Execute()
 
 		require.NoError(u.T(), err)
@@ -292,7 +292,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		ctx := u.T().Context()
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
-			Kind(*client.PtrString(dmodel.ReleaseKindRelease)).
+			Kind(dmodel.ReleaseKindRelease).
 			Name([]string{allSoftwares[2].Name}).
 			Execute()
 		require.NoError(u.T(), err)
@@ -313,7 +313,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(ctx).
-			Kind(*client.PtrString(dmodel.ReleaseKindRelease)).
+			Kind(dmodel.ReleaseKindRelease).
 			Tag(tags).
 			Execute()
 		require.NoError(u.T(), err)

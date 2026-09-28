@@ -29,7 +29,6 @@ import (
 	smithyendpoints "github.com/aws/smithy-go/endpoints"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 )
@@ -164,7 +163,7 @@ func (s storageSettings) options(opts *s3.Options) {
 		if s.LiteralBucketURI {
 			opts.EndpointResolverV2 = endpointResolver(*s.URI)
 		} else {
-			opts.BaseEndpoint = types.Pointer(s.URI.String())
+			opts.BaseEndpoint = new(s.URI.String())
 		}
 	}
 
@@ -185,7 +184,7 @@ func (s storageSettings) presignOptions(opts *s3.PresignOptions) {
 						*s.ExternalURI,
 					)
 				} else {
-					clientOpts.BaseEndpoint = types.Pointer(
+					clientOpts.BaseEndpoint = new(
 						s.ExternalURI.String(),
 					)
 				}
