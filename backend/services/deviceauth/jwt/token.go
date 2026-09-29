@@ -23,9 +23,6 @@ type SignFunc func(token *Token) (string, error)
 // UnpackFunc will decode token
 type UnpackFunc func(s string) (*Token, error)
 
-// VerifyFunc will verify token
-type VerifyFunc func(s string) error
-
 // Token wrapper
 type Token struct {
 	Claims `bson:"inline"`
@@ -56,10 +53,4 @@ func (t *Token) UnmarshalJWT(raw []byte, unpack UnpackFunc) error {
 		*t = *tok
 	}
 	return err
-}
-
-// Verify verifies the Token. VerifyFunc does the actual heavy-lifting of validating
-// the JWT token. Returns an error if `verify` failed.
-func (t *Token) Verify(raw []byte, verify VerifyFunc) error {
-	return verify(string(raw))
 }
