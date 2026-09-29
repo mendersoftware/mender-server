@@ -101,7 +101,6 @@ model_groups.go
 model_http.go
 model_http_http.go
 model_http_params.go
-model_identity_data.go
 model_input_parameter.go
 model_integration.go
 model_io_t_manager_internal_update_device_statuses_request_inner.go

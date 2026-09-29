@@ -23,7 +23,8 @@ var _ MappedNullable = &Device{}
 type Device struct {
 	// Mender assigned Device ID.
 	Id *string `json:"id,omitempty"`
-	IdentityData *IdentityData `json:"identity_data,omitempty"`
+	// Device identity attributes, in the form of a JSON structure. The attributes are completely vendor-specific, the provided ones are just an example. In reference implementation structure contains vendor-selected fields, such as MACs, serial numbers, etc.
+	IdentityData map[string]interface{} `json:"identity_data,omitempty"`
 	Status *string `json:"status,omitempty"`
 	// Created timestamp
 	CreatedTs *time.Time `json:"created_ts,omitempty"`
@@ -32,7 +33,7 @@ type Device struct {
 	// Time when accepted device contacted server for the last time.
 	CheckInTime *time.Time `json:"check_in_time,omitempty"`
 	AuthSets []AuthSet `json:"auth_sets,omitempty"`
-	// Devices that are part of ongoing decomissioning process will return True
+	// Devices that are part of ongoing decommissioning process will return True
 	Decommissioning *bool `json:"decommissioning,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
@@ -89,19 +90,19 @@ func (o *Device) SetId(v string) {
 }
 
 // GetIdentityData returns the IdentityData field value if set, zero value otherwise.
-func (o *Device) GetIdentityData() IdentityData {
+func (o *Device) GetIdentityData() map[string]interface{} {
 	if o == nil || IsNil(o.IdentityData) {
-		var ret IdentityData
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.IdentityData
+	return o.IdentityData
 }
 
 // GetIdentityDataOk returns a tuple with the IdentityData field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Device) GetIdentityDataOk() (*IdentityData, bool) {
+func (o *Device) GetIdentityDataOk() (map[string]interface{}, bool) {
 	if o == nil || IsNil(o.IdentityData) {
-		return nil, false
+		return map[string]interface{}{}, false
 	}
 	return o.IdentityData, true
 }
@@ -115,9 +116,9 @@ func (o *Device) HasIdentityData() bool {
 	return false
 }
 
-// SetIdentityData gets a reference to the given IdentityData and assigns it to the IdentityData field.
-func (o *Device) SetIdentityData(v IdentityData) {
-	o.IdentityData = &v
+// SetIdentityData gets a reference to the given map[string]interface{} and assigns it to the IdentityData field.
+func (o *Device) SetIdentityData(v map[string]interface{}) {
+	o.IdentityData = v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.

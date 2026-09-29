@@ -105,7 +105,6 @@ mender_client/models/groups.py
 mender_client/models/http.py
 mender_client/models/http_http.py
 mender_client/models/http_params.py
-mender_client/models/identity_data.py
 mender_client/models/input_parameter.py
 mender_client/models/integration.py
 mender_client/models/io_t_manager_internal_update_device_statuses_request_inner.py

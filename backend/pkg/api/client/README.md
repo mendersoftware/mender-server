@@ -348,7 +348,6 @@ Class | Method | HTTP request | Description
  - [HTTP](docs/HTTP.md)
  - [HTTPHttp](docs/HTTPHttp.md)
  - [HTTPParams](docs/HTTPParams.md)
- - [IdentityData](docs/IdentityData.md)
  - [InputParameter](docs/InputParameter.md)
  - [Integration](docs/Integration.md)
  - [IoTManagerInternalUpdateDeviceStatusesRequestInner](docs/IoTManagerInternalUpdateDeviceStatusesRequestInner.md)
