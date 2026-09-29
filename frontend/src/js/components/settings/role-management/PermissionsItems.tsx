@@ -193,7 +193,7 @@ export const ItemSelection: FunctionComponent<IItemSelection> = ({ disabled, opt
       const changedSelection = [...controlledFields];
       changedSelection[index] = { ...changedSelection[index], ...change };
       if (shouldExtendPermissionSelection(changedSelection, changedSelection[index], options)) {
-        append(emptyItemSelection);
+        append(emptyItemSelection, { shouldFocus: false });
       }
       setValue(`${key}.${index}.${attribute}`, change[attribute]);
     },
