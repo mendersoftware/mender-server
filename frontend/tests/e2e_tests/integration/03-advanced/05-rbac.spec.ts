@@ -100,7 +100,8 @@ test.describe('RBAC functionality', () => {
       await page.getByRole('option', { name: 'testgroup' }).click();
       await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
       await page.getByText('Configure').click();
-      await page.press('body', 'Escape');
+      await page.keyboard.press('Escape');
+      await expect(page.getByRole('listbox')).toBeHidden();
       await dialog.getByRole('button', { name: /save/i }).scrollIntoViewIfNeeded();
       await dialog.getByRole('button', { name: /save/i }).click();
       await page.getByText(/role was created/i).waitFor();
@@ -121,10 +122,10 @@ test.describe('RBAC functionality', () => {
         await page.getByRole('option', { name: 'testgroup' }).click();
         await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
         await page.getByRole('option', { name: 'Deploy', exact: true }).click();
-        await page.press('body', 'Escape');
+        await page.keyboard.press('Escape');
         // wait for the permissions menu backdrop to fully close before opening the next dropdown,
         // otherwise the click that should open the release-tags autocomplete gets swallowed by the backdrop
-        await page.waitForTimeout(timeouts.default);
+        await expect(page.getByRole('listbox')).toBeHidden();
         await dialog.getByLabel(/Search software tags/i).click({ force: true });
         if (tag) {
           await page.getByRole('option', { name: tag }).click();
@@ -135,7 +136,8 @@ test.describe('RBAC functionality', () => {
         for await (const permission of permissions) {
           await page.getByRole('option', { name: permission }).click();
         }
-        await page.press('body', 'Escape');
+        await page.keyboard.press('Escape');
+        await expect(page.getByRole('listbox')).toBeHidden();
         await dialog.getByRole('button', { name: /save/i }).scrollIntoViewIfNeeded();
         await dialog.getByRole('button', { name: /save/i }).click();
         await page.getByText('The role was created successfully.').waitFor();
@@ -163,7 +165,8 @@ test.describe('RBAC functionality', () => {
         await page.getByRole('option', { name: 'Read Access', exact: true }).click();
         await page.getByRole('option', { name: role }).scrollIntoViewIfNeeded();
         await page.getByRole('option', { name: role }).click();
-        await page.press('body', 'Escape');
+        await page.keyboard.press('Escape');
+        await expect(page.getByRole('listbox')).toBeHidden();
       }
       await page.getByRole('button', { name: /Add user/i }).click();
       await page.getByText(/The user was (created|added) successfully/i).waitFor();
