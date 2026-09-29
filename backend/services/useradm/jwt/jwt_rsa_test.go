@@ -140,6 +140,35 @@ func TestJWTHandlerRS256FromJWT(t *testing.T) {
 				},
 			},
 		},
+		"ok/no expiry": {
+			privKey: key,
+
+			inToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
+				"eyJqdGkiOiJiOTQ3NTMzNi1kZGU2LTU0OTctODA0NC01MWFhOWRkYz" +
+				"AyZjgiLCJzdWIiOiJiY2E5NWFkYi1iNWYxLTU2NGYtOTZhNy02MzU1" +
+				"YzUyZDFmYTciLCJhdWQiOiJNZW5kZXIiLCJpc3MiOiJNZW5kZXIiLC" +
+				"JzY3AiOiJtZW5kZXIuKiIsImlhdCI6MTIzNDU2N30.sVVODwlILIPg" +
+				"PjqJcL_qoNI_14QzBwOnllArB8ahOHkOj3DcgnfcbeBU1_usK0SWzw" +
+				"4d7tQcM84X3huBKUeaSA4Wthh05KkA0oMWP-KWtGuTUjNkT206Cx8E" +
+				"neV9R1pLvLZrwwe2v5jhdafWQO3WBksxBP3dM9tb8Vd7rNz1jY-5GB" +
+				"TGaySf16n6zSb-2ZeezeZxS2BEJH0Xl-ieyQd3xuncqfwouwfGuawn" +
+				"ACthtKuPzaZPHJqDvr48Ef7rw66fuRpAMConAN_Fy_RHa0nI2DIWKU" +
+				"F9RRQ5OXWqa-6WqFtQHTgOOjaWlDSCVul0ONLLvBFqPMFWqhAoVeas" +
+				"3uvUTA",
+
+			outToken: Token{
+				Claims: Claims{
+					ID:       oid.NewUUIDv5("someid"),
+					Subject:  oid.NewUUIDv5("foo"),
+					Audience: "Mender",
+					IssuedAt: Time{
+						Time: time.Unix(1234567, 0),
+					},
+					Issuer: "Mender",
+					Scope:  "mender.*",
+				},
+			},
+		},
 		"ok (some claims)": {
 			privKey: key,
 
@@ -251,16 +280,18 @@ func TestJWTHandlerRS256FromJWT(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
-		t.Logf("test case: %s", name)
-		jwtHandler := NewJWTHandlerRS256(tc.privKey, 0)
+		t.Run(name, func(t *testing.T) {
+			jwtHandler := NewJWTHandlerRS256(tc.privKey, 0)
 
-		token, err := jwtHandler.FromJWT(tc.inToken)
-		if tc.outErr == nil {
-			assert.NoError(t, err)
-			assert.Equal(t, tc.outToken, *token)
-		} else {
-			assert.EqualError(t, err, tc.outErr.Error())
-		}
+			token, err := jwtHandler.FromJWT(tc.inToken)
+			if tc.outErr == nil {
+				if assert.NoError(t, err) {
+					assert.Equal(t, tc.outToken, *token)
+				}
+			} else {
+				assert.EqualError(t, err, tc.outErr.Error())
+			}
+		})
 	}
 }
 
