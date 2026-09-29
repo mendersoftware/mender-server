@@ -22,7 +22,6 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from mender_client.models.auth_set import AuthSet
-from mender_client.models.identity_data import IdentityData
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,13 +30,13 @@ class Device(BaseModel):
     Device
     """ # noqa: E501
     id: Optional[StrictStr] = Field(default=None, description="Mender assigned Device ID.")
-    identity_data: Optional[IdentityData] = None
+    identity_data: Optional[Dict[str, Any]] = Field(default=None, description="Device identity attributes, in the form of a JSON structure. The attributes are completely vendor-specific, the provided ones are just an example. In reference implementation structure contains vendor-selected fields, such as MACs, serial numbers, etc.")
     status: Optional[StrictStr] = None
     created_ts: Optional[datetime] = Field(default=None, description="Created timestamp")
     updated_ts: Optional[datetime] = Field(default=None, description="Updated timestamp")
     check_in_time: Optional[datetime] = Field(default=None, description="Time when accepted device contacted server for the last time.")
     auth_sets: Optional[List[AuthSet]] = None
-    decommissioning: Optional[StrictBool] = Field(default=None, description="Devices that are part of ongoing decomissioning process will return True")
+    decommissioning: Optional[StrictBool] = Field(default=None, description="Devices that are part of ongoing decommissioning process will return True")
     __properties: ClassVar[List[str]] = ["id", "identity_data", "status", "created_ts", "updated_ts", "check_in_time", "auth_sets", "decommissioning"]
 
     @field_validator('status')
@@ -89,9 +88,6 @@ class Device(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of identity_data
-        if self.identity_data:
-            _dict['identity_data'] = self.identity_data.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in auth_sets (list)
         _items = []
         if self.auth_sets:
@@ -112,7 +108,7 @@ class Device(BaseModel):
 
         _obj = cls.model_validate({
             "id": obj.get("id"),
-            "identity_data": IdentityData.from_dict(obj["identity_data"]) if obj.get("identity_data") is not None else None,
+            "identity_data": obj.get("identity_data"),
             "status": obj.get("status"),
             "created_ts": obj.get("created_ts"),
             "updated_ts": obj.get("updated_ts"),

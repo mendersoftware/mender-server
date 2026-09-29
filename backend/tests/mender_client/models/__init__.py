@@ -88,7 +88,6 @@ from mender_client.models.groups import Groups
 from mender_client.models.http import HTTP
 from mender_client.models.http_http import HTTPHttp
 from mender_client.models.http_params import HTTPParams
-from mender_client.models.identity_data import IdentityData
 from mender_client.models.input_parameter import InputParameter
 from mender_client.models.integration import Integration
 from mender_client.models.io_t_manager_internal_update_device_statuses_request_inner import IoTManagerInternalUpdateDeviceStatusesRequestInner

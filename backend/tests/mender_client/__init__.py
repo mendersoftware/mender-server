@@ -128,7 +128,6 @@ __all__ = [
     "HTTP",
     "HTTPHttp",
     "HTTPParams",
-    "IdentityData",
     "InputParameter",
     "Integration",
     "IoTManagerInternalUpdateDeviceStatusesRequestInner",
@@ -303,7 +302,6 @@ from mender_client.models.groups import Groups as Groups
 from mender_client.models.http import HTTP as HTTP
 from mender_client.models.http_http import HTTPHttp as HTTPHttp
 from mender_client.models.http_params import HTTPParams as HTTPParams
-from mender_client.models.identity_data import IdentityData as IdentityData
 from mender_client.models.input_parameter import InputParameter as InputParameter
 from mender_client.models.integration import Integration as Integration
 from mender_client.models.io_t_manager_internal_update_device_statuses_request_inner import IoTManagerInternalUpdateDeviceStatusesRequestInner as IoTManagerInternalUpdateDeviceStatusesRequestInner
