@@ -234,7 +234,7 @@ class SimpleManagementClient(ManagementClient):
             devs = self.list_devices(page=page, per_page=per_page, **kwargs)
             for dev in devs:
                 if (
-                    json.dumps({"mac": dev.identity_data.mac}, separators=(",", ":"))
+                    json.dumps({"mac": dev.identity_data["mac"]}, separators=(",", ":"))
                     == identity
                 ):
                     # found
