@@ -62,7 +62,7 @@ func TestConnectWSWriterInitialReadDeadlineError(t *testing.T) {
 	conn.On("Close").Return(nil).Once()
 
 	var h DeviceController
-	err := h.connectWSWriter(context.Background(), conn, nil)
+	err := h.connectWSWriter(context.Background(), conn, nil, nil)
 
 	assert.ErrorIs(t, err, errDeadline)
 }

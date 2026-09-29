@@ -1975,7 +1975,7 @@ class DeviceConnectInternalAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': None,
+            '200': None,
             '500': "Error",
         }
         response_data = self.api_client.call_api(
@@ -2038,7 +2038,7 @@ class DeviceConnectInternalAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': None,
+            '200': None,
             '500': "Error",
         }
         response_data = self.api_client.call_api(
@@ -2101,7 +2101,7 @@ class DeviceConnectInternalAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': None,
+            '200': None,
             '500': "Error",
         }
         response_data = self.api_client.call_api(

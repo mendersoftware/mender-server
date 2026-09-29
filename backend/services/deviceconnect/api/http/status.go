@@ -35,13 +35,12 @@ const (
 
 // StatusController contains status-related end-points
 type StatusController struct {
-	app                     app.App
-	gracefulShutdownTimeout time.Duration
+	app app.App
 }
 
 // NewStatusController returns a new StatusController
-func NewStatusController(app app.App, gracefulShutdownTimeout time.Duration) *StatusController {
-	return &StatusController{app: app, gracefulShutdownTimeout: gracefulShutdownTimeout}
+func NewStatusController(app app.App) *StatusController {
+	return &StatusController{app: app}
 }
 
 // Alive responds to GET /alive
@@ -70,16 +69,20 @@ func (h StatusController) Health(c *gin.Context) {
 
 // Shutdown responds to GET /shutdown
 func (h StatusController) Shutdown(c *gin.Context) {
+	ctx := c.Request.Context()
 	pid := os.Getpid()
 	err := syscall.Kill(pid, syscall.SIGUSR1)
 	if err != nil {
-		ctx := c.Request.Context()
 		log.FromContext(ctx).Error(errors.Wrap(err, "shutdown failed"))
 		c.JSON(http.StatusServiceUnavailable, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	time.Sleep(h.gracefulShutdownTimeout)
-	c.Writer.WriteHeader(http.StatusAccepted)
+	select {
+	case <-h.app.Done():
+		c.Writer.WriteHeader(http.StatusOK)
+	case <-ctx.Done():
+		c.Writer.WriteHeader(499) // Client closed connection
+	}
 }

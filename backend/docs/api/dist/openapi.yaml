@@ -4143,8 +4143,8 @@ paths:
       summary: Shutdown the service.
       operationId: DeviceConnect Internal Shutdown
       responses:
-        '202':
-          description: The service started the graceful shutdown procedure.
+        '200':
+          description: The service shut down successfully.
         '500':
           $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/deviceconnect/tenants/{tenantId}:
