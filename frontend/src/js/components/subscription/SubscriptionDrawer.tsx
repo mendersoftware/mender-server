@@ -23,6 +23,7 @@ import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
+import { findCountry } from '@northern.tech/common-ui/forms/CountrySelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import type { AvailableAddon, Plan } from '@northern.tech/store/constants';
 import type { Organization, ProductPlan } from '@northern.tech/store/organizationSlice/types';
@@ -79,7 +80,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const card = useSelector(getCard);
   const billing = useSelector(getBillingProfile);
   const currentSubscription = useSelector(getSubscription);
-  const initialValues = { email, name: organization?.name || '', line1: '', city: '', postal_code: '', country: '' };
+  const initialValues = { email, name: organization?.name || '', line1: '', city: '', postal_code: '', country: null };
   const [formInitialValues, setFormInitialValues] = useState(initialValues);
   const [isValid, setIsValid] = useState(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -106,7 +107,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
 
   const onInitEditProfile = () => {
     setIsEdit(true);
-    setFormInitialValues({ ...(billing.address || emptyAddress), name: billing.name, email: billing.email });
+    setFormInitialValues({ ...(billing.address || emptyAddress), country: findCountry(billing.address?.country), name: billing.name, email: billing.email });
   };
   useEffect(() => {
     if (!isTrial) {
@@ -118,9 +119,8 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
     }
   }, [dispatch, isTrial, order]);
   const handleBillingProfileEdit = async values => {
-    const { email, name, city, line1, postal_code } = values;
-    const code: string = values.country.code ? values.country.code : values.country;
-    const address = { country: code, city, line1, postal_code };
+    const { email, name, city, country, line1, postal_code } = values;
+    const address = { country: country.code, city, line1, postal_code };
     const billing_profile = { email, name, address, shipping: { name, address } };
     if (isEdit) {
       await dispatch(editBillingProfile({ billingProfile: billing_profile }));
