@@ -93,7 +93,7 @@ func (s *DevauthManagementV2Suite) testPreauthOk() {
 	for _, device := range devs {
 		r, err := devauthm.DeviceAuthManagementPreauthorize(ctx).
 			PreAuthSet(client.PreAuthSet{
-				IdentityData: client.IdentityData{Mac: client.PtrString(device.MAC)},
+				IdentityData: map[string]any{"mac": client.PtrString(device.MAC)},
 				Pubkey:       device.Keys().ExportPublicKeyPEM(),
 			}).Execute()
 		require.NoError(err)
@@ -140,7 +140,7 @@ func (s *DevauthManagementV2Suite) testPreauthOk() {
 
 		r, err := devauthm.DeviceAuthManagementPreauthorize(ctx).
 			PreAuthSet(client.PreAuthSet{
-				IdentityData: client.IdentityData{Mac: client.PtrString(fresh.MAC)},
+				IdentityData: map[string]any{"mac": client.PtrString(fresh.MAC)},
 				Pubkey:       fresh.Keys().ExportPublicKeyPEM(),
 				Force:        client.PtrBool(true),
 			}).Execute()
@@ -202,7 +202,7 @@ func (s *DevauthManagementV2Suite) testPreauthFailDuplicate() {
 
 	r, err := devauthm.DeviceAuthManagementPreauthorize(ctx).
 		PreAuthSet(client.PreAuthSet{
-			IdentityData: client.IdentityData{Mac: client.PtrString(mac.String())},
+			IdentityData: map[string]any{"mac": client.PtrString(mac.String())},
 			Pubkey:       newKP.ExportPublicKeyPEM(),
 		}).Execute()
 	require.Error(err)
@@ -247,7 +247,7 @@ func (s *DevauthManagementV2Suite) testPreauthFailBadRequest() {
 	require.NoError(err)
 	r, err := devauthm.DeviceAuthManagementPreauthorize(ctx).
 		PreAuthSet(client.PreAuthSet{
-			IdentityData: client.IdentityData{Mac: client.PtrString(mac.String())},
+			IdentityData: map[string]any{"mac": client.PtrString(mac.String())},
 			Pubkey:       "not a public key",
 		}).Execute()
 	require.Error(err)
@@ -1098,7 +1098,7 @@ func (s *DevauthManagementV2Suite) createPreauthd(ctx context.Context, kind stri
 	r, err := s.APIClient.DeviceAuthenticationManagementAPIAPI.
 		DeviceAuthManagementPreauthorize(ctx).
 		PreAuthSet(client.PreAuthSet{
-			IdentityData: client.IdentityData{Mac: client.PtrString(mac.String())},
+			IdentityData: map[string]any{"mac": client.PtrString(mac.String())},
 			Pubkey:       kp.ExportPublicKeyPEM(),
 		}).Execute()
 	if err != nil {
