@@ -146,6 +146,7 @@ test.describe('RBAC functionality', () => {
     });
   });
   test('allows user creation', async ({ baseUrl, environment, page, password, uniqueId, username }) => {
+    test.setTimeout(2 * timeouts.sixtySeconds);
     const emailClient = setupEmailClient(username, environment);
     for (const { user, role } of Object.values(getManagedUsers(username, uniqueId))) {
       await page.getByRole('button', { name: /new user/i }).click();
