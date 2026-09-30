@@ -56,7 +56,7 @@ export const FileInformation = ({ file, type, onRemove }) => {
         <ListItemAvatar className="align-self-center">
           <Icon color="action" />
         </ListItemAvatar>
-        <ListItemText primary={file.name} secondary={<FileSize fileSize={file.size} />} />
+        <ListItemText primary={file.name} secondary={<FileSize fileSize={file.size} component="span" />} />
       </ListItem>
     </div>
   );
