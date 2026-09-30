@@ -23,6 +23,178 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 .emotion-5 {
+  max-width: 100%;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  white-space: nowrap;
+  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  outline: 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: 24px;
+  background-color: #ed6c02;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #bdbdbd;
+  color: #ed6c02;
+  border: 1px solid rgba(237, 108, 2, 0.7);
+}
+
+.emotion-5.Mui-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 5px;
+  margin-right: -6px;
+  width: 24px;
+  height: 24px;
+  color: #616161;
+  font-size: 0.75rem;
+}
+
+.emotion-5 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 5px 0 -6px;
+}
+
+.emotion-5 .MuiChip-deleteIcon:hover {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
+}
+
+.emotion-5 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  font-size: 16px;
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emotion-5 .MuiChip-deleteIcon:hover,
+.emotion-5 .MuiChip-deleteIcon:active {
+  color: #fff;
+}
+
+.emotion-5 .MuiChip-icon {
+  color: #616161;
+}
+
+.emotion-5 .MuiChip-icon {
+  color: inherit;
+}
+
+.emotion-5.MuiChip-clickable:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.emotion-5.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 4px;
+}
+
+.emotion-5 .MuiChip-icon {
+  margin-left: 4px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  margin-right: 5px;
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 2px;
+}
+
+.emotion-5 .MuiChip-icon {
+  margin-left: 2px;
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  margin-right: 3px;
+}
+
+.emotion-5.MuiChip-clickable:hover {
+  background-color: rgba(237, 108, 2, 0.04);
+}
+
+.emotion-5.Mui-focusVisible {
+  background-color: rgba(237, 108, 2, 0.12);
+}
+
+.emotion-5 .MuiChip-deleteIcon {
+  color: rgba(237, 108, 2, 0.7);
+}
+
+.emotion-5 .MuiChip-deleteIcon:hover,
+.emotion-5 .MuiChip-deleteIcon:active {
+  color: #ed6c02;
+}
+
+.emotion-6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  padding-left: 11px;
+  padding-right: 11px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -41,13 +213,13 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-5 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -91,79 +263,79 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6.Mui-checked {
+.emotion-8.Mui-checked {
   -webkit-transform: translateX(20px);
   -moz-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
 
-.emotion-6.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: #f5f5f5;
 }
 
-.emotion-6.Mui-checked+.MuiSwitch-track {
+.emotion-8.Mui-checked+.MuiSwitch-track {
   opacity: 0.5;
 }
 
-.emotion-6.Mui-disabled+.MuiSwitch-track {
+.emotion-8.Mui-disabled+.MuiSwitch-track {
   opacity: 0.12;
 }
 
-.emotion-6 .MuiSwitch-input {
+.emotion-8 .MuiSwitch-input {
   left: -100%;
   width: 300%;
 }
 
-.emotion-6:hover {
+.emotion-8:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-6:hover {
+  .emotion-8:hover {
     background-color: transparent;
   }
 }
 
-.emotion-6.Mui-checked {
+.emotion-8.Mui-checked {
   color: #1976d2;
 }
 
-.emotion-6.Mui-checked:hover {
+.emotion-8.Mui-checked:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-6.Mui-checked:hover {
+  .emotion-8.Mui-checked:hover {
     background-color: transparent;
   }
 }
 
-.emotion-6.Mui-checked.Mui-disabled {
+.emotion-8.Mui-checked.Mui-disabled {
   color: rgb(167, 202, 237);
 }
 
-.emotion-6.Mui-checked+.MuiSwitch-track {
+.emotion-8.Mui-checked+.MuiSwitch-track {
   background-color: #1976d2;
 }
 
-.emotion-7 {
+.emotion-9 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -176,7 +348,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-8 {
+.emotion-10 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
   box-sizing: border-box;
@@ -186,7 +358,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-9 {
+.emotion-11 {
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -198,13 +370,13 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 @media (forced-colors: active) {
-  .emotion-9 {
+  .emotion-11 {
     box-sizing: border-box;
     border: 1px solid ButtonBorder;
   }
 }
 
-.emotion-10 {
+.emotion-12 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -213,7 +385,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-11 {
+.emotion-13 {
   -webkit-align-items: baseline;
   -webkit-box-align: baseline;
   -ms-flex-align: baseline;
@@ -224,7 +396,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   max-width: initial;
 }
 
-.emotion-13 {
+.emotion-15 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -247,11 +419,11 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   background-color: rgb(255, 244, 229);
 }
 
-.emotion-13 .MuiAlert-icon {
+.emotion-15 .MuiAlert-icon {
   color: #ed6c02;
 }
 
-.emotion-14 {
+.emotion-16 {
   margin-right: 12px;
   padding: 7px 0;
   display: -webkit-box;
@@ -262,7 +434,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   opacity: 0.9;
 }
 
-.emotion-15 {
+.emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -279,7 +451,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-16 {
+.emotion-18 {
   padding: 8px 0;
   min-width: 0;
   overflow: auto;
@@ -300,48 +472,57 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
         Enable 
         Two Factor authentication
       </h6>
-      <span
-        class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-5"
+      <div
+        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning margin-left-x-small emotion-5"
       >
         <span
-          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-6"
+          class="MuiChip-label emotion-6"
+        >
+          Not enabled
+        </span>
+      </div>
+      <span
+        class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-7"
+      >
+        <span
+          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-8"
         >
           <input
-            class="PrivateSwitchBase-input MuiSwitch-input emotion-7"
+            class="PrivateSwitchBase-input MuiSwitch-input emotion-9"
             role="switch"
             type="checkbox"
           />
           <span
-            class="MuiSwitch-thumb emotion-8"
+            class="MuiSwitch-thumb emotion-10"
           />
         </span>
         <span
-          class="MuiSwitch-track emotion-9"
+          class="MuiSwitch-track emotion-11"
         />
       </span>
     </div>
     <p
-      class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-10"
+      class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-12"
     >
       Two-factor authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
     </p>
     <div
-      class="settings-item-main-content emotion-11 "
+      class="settings-item-main-content emotion-13 "
     >
       <div
-        class="MuiTypography-root MuiTypography-body2 emotion-10"
+        class="MuiTypography-root MuiTypography-body2 emotion-12"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standard emotion-13"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standard emotion-15"
           role="alert"
           style="--Paper-shadow: none;"
         >
           <div
-            class="MuiAlert-icon emotion-14"
+            class="MuiAlert-icon emotion-16"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-17"
               data-testid="ReportProblemOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -352,7 +533,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiAlert-message emotion-16"
+            class="MuiAlert-message emotion-18"
           >
             Two-factor authentication is not enabled yet. Enable it now to prevent unauthorized access.
           </div>

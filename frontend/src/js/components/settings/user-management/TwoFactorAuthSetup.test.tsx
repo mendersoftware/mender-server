@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 
 import TwoFactorAuthSetup from './TwoFactorAuthSetup';
 
@@ -22,5 +23,6 @@ describe('TwoFactorAuthSetup Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    expect(screen.getByText(/^not enabled$/i)).toBeVisible();
   });
 });

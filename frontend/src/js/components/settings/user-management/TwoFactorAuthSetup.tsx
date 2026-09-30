@@ -119,7 +119,10 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
             {has2FA ? (
               <Chip size="small" label="Enabled" variant="outlined" color="success" className="margin-left-x-small" />
             ) : (
-              <Switch className="margin-left-small" checked={!!has2FA || qrExpanded} onChange={onToggle2FAClick} />
+              <>
+                <Chip size="small" label="Not enabled" variant="outlined" color="warning" className="margin-left-x-small" />
+                <Switch className="margin-left-small" checked={!!has2FA || qrExpanded} onChange={onToggle2FAClick} />
+              </>
             )}
           </div>
         }
