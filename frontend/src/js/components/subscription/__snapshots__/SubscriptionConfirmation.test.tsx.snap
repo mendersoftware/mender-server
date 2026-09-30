@@ -508,8 +508,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
             class="MuiAlert-message emotion-15"
           >
             <div
-              class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root emotion-16"
-              textalign="center"
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root align-center emotion-16"
             >
               Subscription Active
             </div>

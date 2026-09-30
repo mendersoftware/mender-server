@@ -157,15 +157,6 @@ exports[`FileInformation Component > renders correctly 1`] = `
 }
 
 .emotion-11 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-}
-
-.emotion-12 {
   position: absolute;
   right: 16px;
   top: 50%;
@@ -175,7 +166,7 @@ exports[`FileInformation Component > renders correctly 1`] = `
   transform: translateY(-50%);
 }
 
-.emotion-13 {
+.emotion-12 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -222,42 +213,42 @@ exports[`FileInformation Component > renders correctly 1`] = `
   margin-right: -12px;
 }
 
-.emotion-13::-moz-focus-inner {
+.emotion-12::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-12.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-12 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-13:hover {
+.emotion-12:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-13:hover {
+  .emotion-12:hover {
     background-color: transparent;
   }
 }
 
-.emotion-13.Mui-disabled {
+.emotion-12.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-13.MuiIconButton-loading {
+.emotion-12.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-14 {
+.emotion-13 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -338,24 +329,20 @@ exports[`FileInformation Component > renders correctly 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-10"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2 emotion-11"
-          >
-            1.00 KB
-          </p>
+          1.00 KB
         </p>
       </div>
       <div
-        class="MuiListItemSecondaryAction-root MuiListItem-secondaryAction emotion-12"
+        class="MuiListItemSecondaryAction-root MuiListItem-secondaryAction emotion-11"
       >
         <button
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-13"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-12"
           tabindex="0"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-14"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-13"
             data-testid="DeleteIcon"
             focusable="false"
             viewBox="0 0 24 24"

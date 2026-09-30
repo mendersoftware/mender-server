@@ -40,6 +40,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body2 emotion-2"
       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+      title="true"
     />
   </div>
   <h6
