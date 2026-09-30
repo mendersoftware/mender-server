@@ -14,8 +14,7 @@
 import { useState } from 'react';
 
 // material ui
-import { Cancel as CancelIcon } from '@mui/icons-material';
-import { Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
@@ -125,8 +124,6 @@ interface DeploymentItemCompactProps extends DeploymentItemCommonProps {
 export const DeploymentItemCompact = ({
   abortDeployment,
   abort,
-  canConfigure,
-  canDeploy,
   className = '',
   columnHeaders,
   deployment,
@@ -175,23 +172,9 @@ export const DeploymentItemCompact = ({
       </div>
     );
   }
-  deploymentInfo[''] = (
-    <Button onClick={() => openReport(type, deployment.id)} variant="outlined" size="small">
-      View details
-    </Button>
-  );
-  if ((canDeploy || (canConfigure && deployment.type === DEPLOYMENT_TYPES.configuration)) && type !== DEPLOYMENT_STATES.finished) {
-    deploymentInfo[' '] = (
-      <Tooltip title="Abort" placement="top-start">
-        <IconButton onClick={() => toggleConfirm(id)} size="small">
-          <CancelIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-    );
-  }
 
   return (
-    <div className={`padding-small relative ${className}`} role="listitem">
+    <div className={`padding-small relative clickable ${className}`} role="listitem" onClick={() => openReport(type, deployment.id)}>
       {!!confirmation && confirmation}
       <TwoColumnData data={deploymentInfo} />
     </div>
@@ -200,8 +183,6 @@ export const DeploymentItemCompact = ({
 
 export const DeploymentItem = ({
   abort: abortDeployment,
-  canConfigure,
-  canDeploy,
   className = '',
   columnHeaders,
   deployment,
@@ -233,8 +214,6 @@ export const DeploymentItem = ({
       <DeploymentItemCompact
         abort={abort}
         abortDeployment={abortDeployment}
-        canConfigure={canConfigure}
-        canDeploy={canDeploy}
         className={className}
         columnHeaders={columnHeaders}
         deployment={deployment}
@@ -250,7 +229,7 @@ export const DeploymentItem = ({
     );
   }
   return (
-    <div className={`padding-small relative ${className}`} role="listitem">
+    <div className={`padding-small relative clickable ${className}`} role="listitem" onClick={() => openReport(type, deployment.id)}>
       {!!confirmation && confirmation}
       {columnHeaders.map(({ renderer: ColumnComponent, class: columnClass = '', props }, i) => (
         <ColumnComponent
@@ -264,16 +243,6 @@ export const DeploymentItem = ({
           {...props}
         />
       ))}
-      <Button className={`nowrap ${classes.centered}`} onClick={() => openReport(type, deployment.id)} variant="outlined">
-        View details
-      </Button>
-      {(canDeploy || (canConfigure && deployment.type === DEPLOYMENT_TYPES.configuration)) && type !== DEPLOYMENT_STATES.finished && (
-        <Tooltip title="Abort" placement="top-start">
-          <IconButton className={classes.centered} onClick={() => toggleConfirm(id)} size="small">
-            <CancelIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      )}
     </div>
   );
 };

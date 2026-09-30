@@ -109,7 +109,7 @@ test.describe('Devices', () => {
     const pageContent = page.locator('.rightFluid.container');
     const listItem = pageContent.getByRole('listitem').first();
     await listItem.waitFor({ timeout: timeouts.sixtySeconds });
-    await listItem.getByRole('button', { name: /view details/i }).click();
+    await listItem.click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('button', { name: /close/i }).click();
     await page.getByText('finished').click();

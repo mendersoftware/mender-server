@@ -141,7 +141,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [tabIndex, setTabIndex] = useState(tabs.list.index);
   const timer = useRef();
-  const { canConfigure, canDeploy } = useSelector(getUserCapabilities);
+  const { canDeploy } = useSelector(getUserCapabilities);
   const {
     scheduled: { total: count }
   } = useSelector(getDeploymentsByStatusSelector);
@@ -223,8 +223,6 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   };
   const props = {
     ...remainder,
-    canDeploy,
-    canConfigure,
     count,
     devices,
     idAttribute,
