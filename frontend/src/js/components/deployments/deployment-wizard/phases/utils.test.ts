@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { delayDefaults, delayUnits, rolloutModes, rolloutPatterns } from './constants';
+import { delayDefaults, delayUnits, phaseLimits, rolloutModes, rolloutPatterns } from './constants';
 import {
   convertDefinitionsToMode,
   devicesToPercentage,
@@ -19,7 +19,9 @@ import {
   getDefinitionsRemainder,
   getPhaseDeviceCount,
   getPhaseMessages,
+  getPhasesMessages,
   getRemainder,
+  getUniformPhaseCount,
   parseInterval,
   parsePreviousPhases,
   percentageToDevices,
@@ -341,5 +343,49 @@ describe('toPhaseDescription', () => {
     const { phasesDescription } = toPhaseDescription(phases, 200);
     expect(phasesDescription).toContain('Uniform');
     expect(phasesDescription).toContain('50 devices');
+  });
+});
+
+describe('getUniformPhaseCount', () => {
+  it('derives the phase count from a percentage batch size', () => {
+    expect(getUniformPhaseCount({ batchSize: 10, numberDevices: 100, rolloutMode: rolloutModes.percentage.key })).toEqual(10);
+    expect(getUniformPhaseCount({ batchSize: 30, numberDevices: 100, rolloutMode: rolloutModes.percentage.key })).toEqual(4);
+  });
+  it('derives the phase count from a device count batch size', () => {
+    expect(getUniformPhaseCount({ batchSize: 10, numberDevices: 95, rolloutMode: rolloutModes.device_count.key })).toEqual(10);
+    expect(getUniformPhaseCount({ batchSize: 200, numberDevices: 95, rolloutMode: rolloutModes.device_count.key })).toEqual(1);
+  });
+  it('returns 0 when no device would be covered by a phase', () => {
+    expect(getUniformPhaseCount({ batchSize: 0, numberDevices: 95, rolloutMode: rolloutModes.device_count.key })).toEqual(0);
+    expect(getUniformPhaseCount({ batchSize: 1, numberDevices: 10, rolloutMode: rolloutModes.percentage.key })).toEqual(0);
+  });
+});
+
+describe('getPhasesMessages', () => {
+  it('flags uniform rollouts exceeding the phase limit', () => {
+    const [message] = getPhasesMessages({
+      batchSize: 1,
+      numberDevices: phaseLimits.maxPhaseCount + 1,
+      phases: [],
+      rolloutMode: rolloutModes.device_count.key,
+      rolloutPattern: rolloutPatterns.uniform.key
+    });
+    expect(message.severity).toEqual('error');
+    expect(message.message).toContain('Increase your batch size');
+    expect(
+      getPhasesMessages({
+        batchSize: 1,
+        numberDevices: phaseLimits.maxPhaseCount,
+        phases: [],
+        rolloutMode: rolloutModes.device_count.key,
+        rolloutPattern: rolloutPatterns.uniform.key
+      })
+    ).toEqual([]);
+  });
+  it('flags custom rollouts exceeding the phase limit including the final phase', () => {
+    const phases = Array.from({ length: phaseLimits.maxPhaseCount }, () => ({ batchSize: 1 }));
+    const [message] = getPhasesMessages({ phases, rolloutPattern: rolloutPatterns.custom.key });
+    expect(message.message).toContain('Remove phases');
+    expect(getPhasesMessages({ phases: phases.slice(1), rolloutPattern: rolloutPatterns.custom.key })).toEqual([]);
   });
 });

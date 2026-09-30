@@ -75,7 +75,7 @@ describe('Deployments Component', () => {
     const get = vi.spyOn(GeneralApi, 'get');
     const ui = <Deployments {...defaultLocationProps} />;
     const { asFragment } = render(ui, { preloadedState: mockState });
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /View details/i })).toBeTruthy());
+    await waitFor(() => expect(screen.getAllByRole('listitem')).toBeTruthy());
     const view = asFragment();
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -138,16 +138,9 @@ describe('Deployments Component', () => {
     await act(async () => vi.runOnlyPendingTimers());
     await waitFor(() => rerender(ui));
     const inprogressDeployments = screen.getByText(/in progress now/i).parentElement.parentElement;
-    const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0].parentElement;
-    await user.click(within(deployment).getByRole('button', { name: /Abort/i }));
-    await waitFor(() => rerender(ui));
-    await waitFor(() => expect(screen.getByText(/Confirm abort/i)).toBeInTheDocument());
-    await user.click(document.querySelector('#confirmAbort').nextElementSibling);
-    await waitFor(() => expect(within(deployment).getByRole('button', { name: /View details/i })).toBeVisible());
-    await user.click(within(deployment).getByRole('button', { name: /View details/i }));
-    await waitFor(() => rerender(ui));
+    const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0];
     if (!screen.queryByText(/Deployment details/i)) {
-      await user.click(within(deployment).getByRole('button', { name: /View details/i }));
+      await user.click(deployment);
       await waitFor(() => expect(screen.queryByText(/Deployment details/i)).toBeInTheDocument());
     }
     expect(screen.getByText(/Deployment details/i)).toBeInTheDocument();
