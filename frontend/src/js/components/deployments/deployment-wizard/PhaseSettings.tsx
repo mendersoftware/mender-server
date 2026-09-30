@@ -164,8 +164,8 @@ export const RolloutPatternSelection = ({
           <FormControl className={classes.patternSelection}>
             <Select onChange={handlePatternChange} value={activePattern} disabled={!isEnterprise}>
               {[
-                ...Object.values(rolloutPatterns).map(({ key, tip, title }) => (
-                  <MenuItem key={key} divider value={key}>
+                ...Object.values(rolloutPatterns).map(({ key, tip, title }, index, patternList) => (
+                  <MenuItem key={key} divider={index === patternList.length - 1} value={key}>
                     <Tooltip title={tip} placement="left">
                       <div className="full-width">{title}</div>
                     </Tooltip>

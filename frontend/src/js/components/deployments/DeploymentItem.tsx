@@ -32,6 +32,7 @@ import DeploymentStats from './DeploymentStatus';
 import type { ColumnHeader } from './DeploymentsList';
 import { getDeploymentTargetText } from './deployment-wizard/SoftwareDevices';
 import { DeploymentProgress } from './progress/DeploymentProgress';
+import { getDeploymentStartTime } from './progress/utils';
 
 interface ColumnComponentProps {
   className: string;
@@ -218,13 +219,13 @@ export const DeploymentItem = ({
 
   const toggleConfirm = id => setTimeout(() => setAbort(current => (current ? null : id)), 150);
 
-  const { created, id, phases } = deployment;
+  const { created, id } = deployment;
 
   let confirmation;
   if (abort === id) {
     confirmation = <Confirm cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
   }
-  const started = isEnterprise && phases?.length >= 1 ? phases[0].start_ts || created : created;
+  const started = (isEnterprise && getDeploymentStartTime(deployment)) || created;
   const wrappingClass = `text-overflow ${type === DEPLOYMENT_STATES.inprogress ? classes.textWrapping : ''}`;
 
   if (isCompact) {
