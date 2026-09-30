@@ -41,9 +41,10 @@ const useStyles = makeStyles()(theme => ({
 const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: string) => void; value?: DataValue }) => {
   const copyableValue = React.isValidElement(value) ? value.props.value : value;
   const renderedValue = React.isValidElement(value) ? value : Array.isArray(value) ? value.join(', ') : value;
+  const title = copyableValue?.toString();
 
   if (!setSnackbar) {
-    return <CopyableText title={copyableValue}>{renderedValue}</CopyableText>;
+    return <CopyableText title={title}>{renderedValue}</CopyableText>;
   }
 
   const onCopy = () => {
@@ -52,7 +53,7 @@ const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: stri
   };
 
   return (
-    <CopyableText onCopy={onCopy} textClasses="clickable" title={copyableValue}>
+    <CopyableText onCopy={onCopy} textClasses="clickable" title={title}>
       {renderedValue}
     </CopyableText>
   );
