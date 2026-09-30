@@ -29,7 +29,6 @@ import {
   getGlobalSettings,
   getIsEnterprise,
   getSelectedGroupInfo,
-  getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -53,7 +52,6 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   const [newFilter, setNewFilter] = useState(emptyFilter);
 
   const dispatch = useAppDispatch();
-  const { hasFullFiltering } = useSelector(getTenantCapabilities);
   const { canManageUsers } = useSelector(getUserCapabilities);
   const { groupFilters, selectedGroup } = useSelector(getSelectedGroupInfo);
   const attributes = useSelector(getFilterAttributes);
@@ -148,8 +146,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
             ))}
           </div>
           <InfoHintContainer>
-            <EnterpriseNotification id={BENEFITS.fullFiltering.id} />
-            {hasFullFiltering && <EnterpriseNotification id={BENEFITS.dynamicGroups.id} />}
+            <EnterpriseNotification id={BENEFITS.dynamicGroups.id} />
           </InfoHintContainer>
         </div>
         <div className="flexbox column">
