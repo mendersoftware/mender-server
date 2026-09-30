@@ -112,12 +112,12 @@ describe('AuthorizedDevices Component', () => {
     expect(setListStateSpy).toHaveBeenCalledWith({ selection: [0, 1], setOnly: true, fetchAuth: false, forceRefresh: false, shouldSelectDevices: true });
     const combo = screen.getAllByRole('combobox').find(item => item.textContent?.includes('all'));
     await user.click(combo);
-    await user.click(screen.getByRole('option', { name: /devices with issues/i }));
+    await user.click(screen.getByRole('option', { name: /offline devices/i }));
     await user.keyboard('{Escape}');
     expect(setListStateSpy).toHaveBeenCalledWith({
       page: 1,
       refreshTrigger: true,
-      selectedIssues: ['offline', 'monitoring'],
+      selectedIssues: ['offline'],
       fetchAuth: false,
       forceRefresh: false,
       shouldSelectDevices: true
