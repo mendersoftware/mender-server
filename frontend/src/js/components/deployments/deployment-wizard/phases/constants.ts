@@ -58,5 +58,6 @@ export const phaseLimits = {
   maxPerBatchPercentage: 99,
   fullBatchPercentage: 100,
   maxDefaultBatchDevices: 2000,
-  fallbackDeviceCount: 100
+  fallbackDeviceCount: 100,
+  maxPhaseCount: 100
 };
