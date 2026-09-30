@@ -2495,15 +2495,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-103:focus::-ms-input
             </p>
           </div>
         </div>
-        <div
+        <p
           class="MuiTypography-root MuiTypography-body2 align-right emotion-79"
         >
-          <p
+          <span
             class="MuiTypography-root MuiTypography-body2 emotion-79"
           >
             1.21 KB
-          </p>
-        </div>
+          </span>
+        </p>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-97"
           tabindex="0"
