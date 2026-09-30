@@ -24,9 +24,7 @@ describe('DeviceIssuesSelection Component', () => {
       { ...DEVICE_ISSUE_OPTIONS.monitoring, count: 0 },
       { ...DEVICE_ISSUE_OPTIONS.offline, count: 8 }
     ];
-    const { baseElement } = render(
-      <DeviceIssuesSelection classes={{ selection: '' }} onChange={vi.fn} options={options} selection={[DEVICE_ISSUE_OPTIONS.offline.key]} />
-    );
+    const { baseElement } = render(<DeviceIssuesSelection onChange={vi.fn} options={options} selection={[DEVICE_ISSUE_OPTIONS.offline.key]} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

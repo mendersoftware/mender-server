@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 // material ui
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 import { getAttributeScopeLabel } from '@northern.tech/store/utils';
@@ -29,7 +30,12 @@ export const getOptionLabel = option => {
   return header?.title || option.title || option.value || option.key || option;
 };
 
-const FilterOption = ({ key, ...props }, option) => {
+const useStyles = makeStyles()(() => ({
+  option: { overflowWrap: 'anywhere' },
+  popper: { minWidth: 320 }
+}));
+
+const FilterOption = ({ key, className, ...props }, option, classes) => {
   let content = getOptionLabel(option);
   if (option.category === 'recently used') {
     content = (
@@ -40,7 +46,7 @@ const FilterOption = ({ key, ...props }, option) => {
     );
   }
   return (
-    <li key={key} {...props}>
+    <li key={key} className={`${className} ${classes.option}`} {...props}>
       {content}
     </li>
   );
@@ -68,6 +74,7 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
   const [reset, setReset] = useState(true);
   const [scope, setScope] = useState(filter.scope);
   const timer = useRef();
+  const { classes } = useStyles();
 
   useEffect(
     () => () => {
@@ -143,7 +150,8 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
       filterOptions={filterOptions}
       getOptionLabel={getOptionLabel}
       groupBy={option => option.category}
-      renderOption={FilterOption}
+      renderOption={(props, option) => FilterOption(props, option, classes)}
+      slotProps={{ popper: { className: classes.popper, placement: 'bottom-start' } }}
       id="filter-selection"
       includeInputInList={true}
       onChange={(e, changedValue) => {
