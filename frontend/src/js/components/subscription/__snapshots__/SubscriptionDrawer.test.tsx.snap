@@ -1749,6 +1749,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
         </div>
         <div
           class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon emotion-46"
+          name="country"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-47"

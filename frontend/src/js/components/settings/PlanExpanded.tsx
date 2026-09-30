@@ -18,6 +18,7 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
+import { findCountry } from '@northern.tech/common-ui/forms/CountrySelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import type { Address } from '@northern.tech/store/api/types';
@@ -80,12 +81,16 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
     }
   };
   const initialValues = isEdit
-    ? { ...(props.currentBillingProfile.address || emptyAddress), name: props.currentBillingProfile.name, email: props.currentBillingProfile.email }
-    : { email, name: organization?.name || '', line1: '', city: '', postal_code: '', country: '' };
+    ? {
+        ...(props.currentBillingProfile.address || emptyAddress),
+        country: findCountry(props.currentBillingProfile.address?.country),
+        name: props.currentBillingProfile.name,
+        email: props.currentBillingProfile.email
+      }
+    : { email, name: organization?.name || '', line1: '', city: '', postal_code: '', country: null };
   const handleSubmit = async values => {
-    const { email, name, city, line1, postal_code } = values;
-    const code: string = values.country.code ? values.country.code : values.country;
-    const billing_profile = { email, name, address: { country: code, city, line1, postal_code } };
+    const { email, name, city, country, line1, postal_code } = values;
+    const billing_profile = { email, name, address: { country: country.code, city, line1, postal_code } };
     if (isEdit) {
       await dispatch(editBillingProfile({ billingProfile: billing_profile }));
     } else {
