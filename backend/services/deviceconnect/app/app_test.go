@@ -29,6 +29,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
+	"github.com/mendersoftware/mender-server/services/deviceconnect/config"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
 )
@@ -50,6 +51,74 @@ func TestHealthCheck(t *testing.T) {
 	assert.Equal(t, err, res)
 
 	store.AssertExpectations(t)
+}
+
+type fakeSource struct {
+	usage uint64
+}
+
+func (src *fakeSource) Usage() (uint64, error) {
+	return src.usage, nil
+}
+
+func (fakeSource) String() string { return "fake" }
+
+func TestHealthCheckReadinessLimits(t *testing.T) {
+	store := store_mocks.NewDataStore(t)
+	src := &fakeSource{}
+	app := New(store, func(c *Config) {
+		c.ReadinessLimits = &config.ReadinessLimits{
+			Max:    1000,
+			Low:    500,
+			High:   900,
+			Source: src,
+		}
+	})
+	ctx := context.Background()
+
+	_ = t.Run("ok/higher than low, less than high", func(t *testing.T) {
+		store.On("Ping",
+			mock.MatchedBy(func(ctx context.Context) bool {
+				return true
+			}),
+		).Return(nil).
+			Once()
+
+		src.usage = 600
+		err := app.HealthCheck(ctx)
+		assert.NoError(t, err)
+	}) && t.Run("unhealthy/high usage", func(t *testing.T) {
+		src.usage = 950
+		store.On("Ping",
+			mock.MatchedBy(func(ctx context.Context) bool {
+				return true
+			}),
+		).Return(nil).
+			Once()
+		err := app.HealthCheck(ctx)
+		assert.Error(t, err, "expected an error due to high usage")
+		t.Run("higher than low", func(t *testing.T) {
+			src.usage = 600
+			store.On("Ping",
+				mock.MatchedBy(func(ctx context.Context) bool {
+					return true
+				}),
+			).Return(nil).
+				Once()
+			err = app.HealthCheck(ctx)
+			assert.Error(t, err, "expected an error due to high usage")
+		})
+	}) && t.Run("ok/less than low watermark", func(t *testing.T) {
+		src.usage = 400
+		store.On("Ping",
+			mock.MatchedBy(func(ctx context.Context) bool {
+				return true
+			}),
+		).Return(nil).
+			Once()
+		err := app.HealthCheck(ctx)
+		assert.NoError(t, err)
+	})
 }
 
 func TestProvisionDevice(t *testing.T) {
