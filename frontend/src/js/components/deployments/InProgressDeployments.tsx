@@ -43,8 +43,8 @@ const { setSnackbar } = storeActions;
 
 export const minimalRefreshDeploymentsLength = 2000;
 
-export const Progress = ({ abort, createClick, ...remainder }) => {
-  const { canConfigure, canDeploy } = useSelector(getUserCapabilities);
+export const Progress = ({ createClick, ...remainder }) => {
+  const { canDeploy } = useSelector(getUserCapabilities);
   const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
   const isEnterprise = useSelector(getIsEnterprise);
@@ -138,9 +138,6 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
     };
   }, [progressPage, progressPerPage, pendingPage, pendingPerPage, setupDeploymentsRefresh]);
 
-  const abortDeployment = id =>
-    abort(id).then(() => Promise.all([refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)]));
-
   const onChangePage = state => page => dispatch(setDeploymentsState({ [state]: { page } }));
   const onChangeRowsPerPage = state => perPage => dispatch(setDeploymentsState({ [state]: { page: 1, perPage } }));
 
@@ -152,7 +149,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_INPROGRESS, onboardingState, { anchor });
   }
-  const props = { ...remainder, canDeploy, canConfigure, devices, idAttribute, isEnterprise };
+  const props = { ...remainder, devices, idAttribute, isEnterprise };
   return doneLoading ? (
     <div className="fadeIn">
       {!!progress.length && (
@@ -162,7 +159,6 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
           </Typography>
           <DeploymentsList
             {...props}
-            abort={abortDeployment}
             count={progressCount}
             items={progress}
             page={progressPage}
@@ -180,7 +176,6 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
           <Typography variant="subtitle1">Pending</Typography>
           <DeploymentsList
             {...props}
-            abort={abortDeployment}
             count={pendingCount}
             items={pending}
             page={pendingPage}
