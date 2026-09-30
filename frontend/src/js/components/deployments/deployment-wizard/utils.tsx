@@ -104,9 +104,19 @@ export const buildPhasePayload = ({
 export const useValidatedSetValue = () => {
   const {
     formState: { isSubmitted },
-    setValue
+    setValue,
+    trigger
   } = useFormContext();
-  return useCallback((name, value) => setValue(name, value, { shouldValidate: isSubmitted }), [isSubmitted, setValue]);
+  return useCallback(
+    (name: string, value) => {
+      setValue(name, value);
+      if (isSubmitted) {
+        // to ensure errors dependent on other sections get revalidated
+        trigger();
+      }
+    },
+    [isSubmitted, setValue, trigger]
+  );
 };
 
 export type DeploymentDerivedState = {

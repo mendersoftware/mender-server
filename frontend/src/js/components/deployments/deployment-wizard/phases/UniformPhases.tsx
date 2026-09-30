@@ -23,9 +23,9 @@ import type { DeploymentFormValues } from '../types';
 import { deploymentFormSections, getPhaseStartTime, useValidatedSetValue } from '../utils';
 import { BatchSizeInput, DelayInput } from './Input';
 import type { DelayUnit, RolloutMode } from './constants';
-import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes } from './constants';
+import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes, rolloutPatterns } from './constants';
 import type { ActivePhaseComponentProps, PhaseDefinition } from './utils';
-import { getPhaseDeviceCount, getPhaseMessages, percentageToDevices } from './utils';
+import { getPhaseDeviceCount, getPhaseMessages, getPhasesMessages, getUniformBatchDevices, getUniformPhaseCount } from './utils';
 
 const uniformTableHeaders = ['Batch size', 'First phase begins', 'Delay before next phase'];
 
@@ -34,15 +34,10 @@ export const getUniformBatchDefault = (rolloutMode: RolloutMode, numberDevices: 
     ? phaseDefaults.batchSize
     : Math.min(numberDevices || phaseLimits.fallbackDeviceCount, phaseLimits.maxDefaultBatchDevices);
 
-const PhasesSummary = ({ deviceCount, delay, delayUnit, filter, isPercentageMode, batchSize }) => {
-  let phasesCount = Math.ceil(deviceCount / batchSize);
-  let perPhaseCount = batchSize;
-  let remainder = deviceCount % batchSize;
-  if (isPercentageMode) {
-    phasesCount = Math.ceil(phaseLimits.fullBatchPercentage / batchSize);
-    perPhaseCount = percentageToDevices(batchSize, deviceCount);
-    remainder = percentageToDevices(phaseLimits.fullBatchPercentage % batchSize, deviceCount);
-  }
+const PhasesSummary = ({ deviceCount, delay, delayUnit, filter, rolloutMode, batchSize }) => {
+  const phasesCount = getUniformPhaseCount({ batchSize, numberDevices: deviceCount, rolloutMode });
+  const perPhaseCount = getUniformBatchDevices({ batchSize, numberDevices: deviceCount, rolloutMode });
+  const remainder = phasesCount > 1 ? deviceCount - (phasesCount - 1) * perPhaseCount : 0;
   const delayDescriptor = `${delay}-${pluralize(delayUnit, 1)} delay between phases`;
   const totalDescriptor = `(${deviceCount} ${pluralize('device', deviceCount)} total)`;
   return (
@@ -51,7 +46,7 @@ const PhasesSummary = ({ deviceCount, delay, delayUnit, filter, isPercentageMode
       <Typography variant="body2" color="text.secondary">
         {filter
           ? `Deploy in phases of ${perPhaseCount.toLocaleString()} ${pluralize('device', perPhaseCount)}, with a ${delayDescriptor}`
-          : remainder
+          : remainder && remainder !== perPhaseCount
             ? `${phasesCount - 1} ${pluralize('phase', phasesCount - 1)} with ${perPhaseCount.toLocaleString()} ${pluralize('device', perPhaseCount)}${phasesCount - 1 > 1 ? ' each' : ''} and a ${delayDescriptor}, plus a final phase with ${remainder} ${pluralize('device', remainder)} ${totalDescriptor}`
             : `${phasesCount} ${pluralize('phase', phasesCount)} with ${perPhaseCount.toLocaleString()} ${pluralize('device', perPhaseCount)} ${totalDescriptor}`}
       </Typography>
@@ -88,14 +83,19 @@ export const UniformPhaseSettings = ({ classes = {}, filter, deploymentDeviceCou
 
   const handleDelayUnitChange = ({ target: { value } }) => updatePhaseDefinition({ delayUnit: value });
 
-  const messages = getPhaseMessages({
-    batchSize,
-    deploymentDeviceCount: consideredDevices,
-    isDynamic: !!filter,
-    maxDevices,
-    remainder: Math.max(0, (isPercentageMode ? phaseLimits.fullBatchPercentage : consideredDevices) - batchSize),
-    rolloutMode
-  });
+  // for uniform deployments we're supposed to show aggregate based errors on the per phase level - so both get handled here
+  const messages = [
+    ...getPhaseMessages({
+      batchSize,
+      deploymentDeviceCount: consideredDevices,
+      isDynamic: !!filter,
+      isUniform: true,
+      maxDevices,
+      remainder: Math.max(0, (isPercentageMode ? phaseLimits.fullBatchPercentage : consideredDevices) - batchSize),
+      rolloutMode
+    }),
+    ...getPhasesMessages({ rolloutPattern: rolloutPatterns.uniform.key, batchSize, numberDevices: deploymentDeviceCount, rolloutMode, phases: [] })
+  ];
   const hasError = messages.some(({ severity }) => severity === 'error');
   const hasWarning = messages.some(({ severity }) => severity === 'warning');
 
@@ -138,14 +138,7 @@ export const UniformPhaseSettings = ({ classes = {}, filter, deploymentDeviceCou
         </TableBody>
       </Table>
       {!!errors.phases && <FormHelperText error>{errors.phases.message}</FormHelperText>}
-      <PhasesSummary
-        batchSize={batchSize}
-        filter={filter}
-        isPercentageMode={isPercentageMode}
-        deviceCount={consideredDevices}
-        delay={delay}
-        delayUnit={delayUnit}
-      />
+      <PhasesSummary batchSize={batchSize} filter={filter} rolloutMode={rolloutMode} deviceCount={consideredDevices} delay={delay} delayUnit={delayUnit} />
     </div>
   );
 };

@@ -19,7 +19,7 @@ import { isEmpty } from '@northern.tech/utils/helpers';
 import { maxDeploymentRetries } from '../constants';
 import { rolloutModes, rolloutPatterns } from './phases/constants';
 import type { PhaseDefinition, PhaseMessagesProps } from './phases/utils';
-import { getDefinitionsRemainder, getPhaseMessages } from './phases/utils';
+import { getDefinitionsRemainder, getPhaseMessages, getPhasesMessages } from './phases/utils';
 import type { DeploymentFormValues } from './types';
 import type { DeploymentDerivedState } from './utils';
 
@@ -99,17 +99,32 @@ const getPhaseFieldErrors = (
   if (!usesPattern || !phases.length) {
     return {};
   }
+  const { deploymentDeviceCount: numberDevices, rolloutMode } = context;
   // for a uniform rollout only the first single phase will be considered & validated
   if (rolloutPattern === rolloutPatterns.uniform.key) {
     const [definition] = phases;
-    const remainder = getDefinitionsRemainder({ phases: [definition], numberDevices: context.deploymentDeviceCount, rolloutMode: context.rolloutMode });
-    const [uniformError] = getDefinitionErrors([definition], remainder, context);
-    return uniformError ? { phases: { message: uniformError.message, type: 'validate' } } : {};
+    const remainder = getDefinitionsRemainder({ phases: [definition], numberDevices, rolloutMode });
+    const [phaseError] = getDefinitionErrors([definition], remainder, context);
+    if (phaseError) {
+      return { phases: { message: phaseError.message, type: 'validate' } };
+    }
+    const phaseCountMessages = getPhasesMessages({
+      rolloutPattern,
+      phases: [],
+      batchSize: definition?.batchSize,
+      numberDevices,
+      rolloutMode
+    });
+    return phaseCountMessages.length ? { phases: { message: phaseCountMessages[0].message as string, type: 'validate' } } : {};
   }
-  const remainder = getDefinitionsRemainder({ phases, numberDevices: context.deploymentDeviceCount, rolloutMode: context.rolloutMode });
+  const remainder = getDefinitionsRemainder({ phases, numberDevices, rolloutMode });
   // validation considers also the derived final phase values
   const [phaseError] = getDefinitionErrors([...phases, undefined], remainder, context);
-  return phaseError ? { phases: { message: `Phase ${phaseError.phaseIndex + 1}: ${phaseError.message}`, type: 'validate' } } : {};
+  if (phaseError) {
+    return { phases: { message: `Phase ${phaseError.phaseIndex + 1}: ${phaseError.message}`, type: 'validate' } };
+  }
+  const phaseCountMessages = getPhasesMessages({ rolloutPattern: rolloutPatterns.custom.key, phases });
+  return phaseCountMessages.length ? { phases: { message: phaseCountMessages[0].message as string, type: 'validate' } } : {};
 };
 
 // the target device count & the preselected devices live outside of the form, so the validation has to run as a
