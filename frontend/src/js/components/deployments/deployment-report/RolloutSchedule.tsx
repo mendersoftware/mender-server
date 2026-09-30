@@ -11,108 +11,138 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ArrowForward } from '@mui/icons-material';
-import { Chip, Typography } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import type { Ref } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { Alert, Typography } from '@mui/material';
+
+import DetailsTable from '@northern.tech/common-ui/DetailsTable';
+import { DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
-import Time from '@northern.tech/common-ui/Time';
-import { SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import Pagination from '@northern.tech/common-ui/Pagination';
+import { MaybeTime, Time } from '@northern.tech/common-ui/Time';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
+import { DEVICE_LIST_DEFAULTS } from '@northern.tech/utils/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
-import dayjs from 'dayjs';
-import durationDayJs from 'dayjs/plugin/duration';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
-import { rolloutModes } from '../deployment-wizard/phases/constants';
-import { getPhaseDeviceCount, getRemainder } from '../deployment-wizard/phases/utils';
-import { getPhaseStartTime } from '../deployment-wizard/utils';
-import { RolloutProgressBar } from '../progress/RolloutProgressBar';
+import { phaseLimits, rolloutModes } from '../deployment-wizard/phases/constants';
+import { getRemainder } from '../deployment-wizard/phases/utils';
 import { SubstateProgressBar } from '../progress/SubstateProgressBar';
-import { getDeploymentPhasesInfo } from '../progress/usePhaseProgress';
+import type { DisplayablePhase } from '../progress/utils';
+import { getDeploymentStartTime, getDisplayablePhases } from '../progress/utils';
+import PhaseStatus from './PhaseStatus';
 
-const useStyles = makeStyles()(theme => ({
-  currentPhaseInfo: { backgroundColor: theme.palette.info.light },
-  phaseInfo: { maxWidth: maxPhaseWidth, borderRadius: 5, paddingTop: theme.spacing(), paddingBottom: theme.spacing(3) },
-  phaseIndex: { alignSelf: 'flex-start', marginBottom: theme.spacing(2), marginTop: theme.spacing(2) },
-  phaseOverview: { alignItems: 'baseline' },
-  phasesOverviewArrow: { marginLeft: theme.spacing(4), marginRight: theme.spacing(4) }
-}));
+const { perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
-dayjs.extend(durationDayJs);
-dayjs.extend(isSameOrAfter);
+const phaseColumns = [
+  {
+    key: 'phase',
+    title: 'Phases',
+    render: ({ id, isFinal }: DisplayablePhase) => (
+      <>
+        <div>Phase {id}</div>
+        {isFinal && <Typography variant="caption">(Final phase)</Typography>}
+      </>
+    )
+  },
+  {
+    key: 'size',
+    title: 'Batch size',
+    cellProps: { align: 'right' },
+    render: ({ isGrowing, device_count, initial_batch_device_count }: DisplayablePhase) =>
+      `${(initial_batch_device_count || device_count)?.toLocaleString()}${isGrowing ? '*' : ''}`
+  },
+  { key: 'startTs', title: 'Phase start time', cellProps: { align: 'right' }, render: ({ start_ts }: DisplayablePhase) => <MaybeTime value={start_ts} /> },
+  { key: 'status', title: 'Status', cellProps: { style: { minWidth: 200 } }, render: (phase: DisplayablePhase) => <PhaseStatus phase={phase} /> }
+];
 
-const maxPhaseWidth = 270;
+interface RolloutScheduleProps {
+  deployment: Deployment;
+  innerRef?: Ref<HTMLDivElement>;
+  onAbort: (id: string) => void;
+  onUpdateControlChange: (update: { states: Record<string, { action: string }> }) => void;
+}
 
-export const RolloutSchedule = ({ deployment, innerRef, onAbort, onUpdateControlChange }) => {
-  const { classes } = useStyles();
-  const now = dayjs();
-  const { created: creationTime = now.toISOString(), filter, finished, status, update_control_map } = deployment;
+const getCurrentPhasePage = (phases: DisplayablePhase[], perPage: number): number => {
+  const index = phases.findIndex(({ status }) => status === DEPLOYMENT_STATES.inprogress);
+  return index < 0 ? 1 : Math.floor(index / perPage) + 1;
+};
 
-  const { phases, reversedPhases, totalDeviceCount } = getDeploymentPhasesInfo(deployment);
-
-  const start_time = phases[0].start_ts || creationTime;
-  const currentPhase = reversedPhases.find(phase => now.isAfter(phase.start_ts)) || phases[0];
-  const currentPhaseIndex = phases.findIndex(phase => phase.id === currentPhase.id);
-  const currentPhaseStartTime = getPhaseStartTime(phases, currentPhaseIndex, start_time);
-  let currentPhaseTime = 'N/A';
-  if (now.isSameOrAfter(currentPhaseStartTime)) {
-    currentPhaseTime = currentPhaseIndex + 1;
+const getRolloutPatternSummary = (deployment: Deployment): string => {
+  const { phases = [], uniform_phases } = deployment;
+  if (uniform_phases) {
+    const { batch_size, batch_size_devices = 0 } = uniform_phases;
+    return batch_size ? `Uniform, ${batch_size}% per phase` : `Uniform, ${batch_size_devices} ${pluralize('device', batch_size_devices)} per phase`;
   }
-  const endTime = finished ? <Time value={formatTime(finished)} /> : filter ? 'N/A' : '-';
+  if (phases.length < 2) {
+    return 'Standard (single phase)';
+  }
+  const prefix = `${phases.length} ${pluralize('phase', phases.length)}: `;
+  if (phases.some(({ batch_size_devices }) => !!batch_size_devices)) {
+    const lastSize = phases[phases.length - 1]?.batch_size_devices ?? 0;
+    return `${prefix}${phases.map(({ batch_size_devices }) => batch_size_devices).join(', ')} ${pluralize('device', lastSize)}`;
+  }
+  const remainder = getRemainder({ phases, numberDevices: phaseLimits.fullBatchPercentage, rolloutMode: rolloutModes.percentage.key });
+  return `${prefix}${phases.map(({ batch_size = 0 }, index) => `${index === phases.length - 1 ? remainder : batch_size}%`).join(', ')}`;
+};
+
+export const RolloutSchedule = ({ deployment, innerRef, onAbort, onUpdateControlChange }: RolloutScheduleProps) => {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(defaultPerPage);
+  const pagedDeploymentId = useRef<string | undefined>(undefined);
+  const { filter, finished, id, max_devices = 0, phases = [], update_control_map } = deployment;
+  const displayablePhases = useMemo(() => getDisplayablePhases(deployment), [deployment]);
+  const isPaginated = displayablePhases.length > defaultPerPage;
+
+  useEffect(() => {
+    if (!isPaginated || pagedDeploymentId.current === id) {
+      return;
+    }
+    pagedDeploymentId.current = id;
+    setPage(getCurrentPhasePage(displayablePhases, defaultPerPage));
+  }, [displayablePhases, id, isPaginated]);
+
+  const onChangeRowsPerPage = (newPerPage: number) => {
+    setPerPage(newPerPage);
+    setPage(getCurrentPhasePage(displayablePhases, newPerPage));
+  };
+
+  const isCapped = !!(filter?.name && !!max_devices);
+  const isMaybeGrowing = displayablePhases.some(({ isGrowing }) => isGrowing);
+  const visiblePhases = isPaginated ? displayablePhases.slice((page - 1) * perPage, page * perPage) : displayablePhases;
 
   return (
     <>
       <LinedHeader className="margin-top-large" heading="Schedule details" ref={innerRef} />
-      {phases.length > 1 || !update_control_map ? (
-        <>
-          <div className="flexbox">
-            <SynchronizedTwoColumnData
-              data={{
-                'Start time': <Time value={formatTime(start_time)} />,
-                'Current phase': currentPhaseTime
-              }}
-            />
-            <ArrowForward className={classes.phasesOverviewArrow} />
-            <SynchronizedTwoColumnData className={classes.phaseOverview} data={{ 'End time': endTime }} />
-          </div>
-          <RolloutProgressBar className="margin-top no-background" deployment={deployment} variant="report" />
-        </>
-      ) : (
-        <SubstateProgressBar deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />
+      <SynchronizedTwoColumnData
+        className="margin-bottom"
+        data={{
+          'Rollout pattern': getRolloutPatternSummary(deployment),
+          'Start time': <Time value={formatTime(getDeploymentStartTime(deployment))} />,
+          ...(finished ? { 'Finished time': <Time value={formatTime(finished)} /> } : {})
+        }}
+      />
+      {phases.length <= 1 && update_control_map && (
+        <SubstateProgressBar className="margin-bottom" deployment={deployment as Deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />
       )}
-      <div className="deployment-phases-report margin-top margin-bottom" style={{ gridTemplateColumns: `repeat(auto-fit, ${maxPhaseWidth}px)` }}>
-        {phases.map((phase, index) => {
-          const isPercentageMode = phase.hasOwnProperty(rolloutModes.percentage.batchKey);
-          const batchSize = isPercentageMode
-            ? phase.batch_size || getRemainder({ phases, numberDevices: totalDeviceCount, rolloutMode: rolloutModes.percentage.key })
-            : phase.batch_size_devices || getRemainder({ phases, numberDevices: totalDeviceCount, rolloutMode: rolloutModes.device_count.key });
-          const deviceCount = isPercentageMode ? getPhaseDeviceCount(totalDeviceCount, batchSize, batchSize, index === phases.length - 1) : batchSize;
-          const deviceCountText = !filter ? ` (${deviceCount} ${pluralize('device', deviceCount)})` : '';
-          const startTime = phase.start_ts ?? getPhaseStartTime(phases, index, start_time);
-          const phaseObject = {
-            'Phase start time': <Time value={startTime} />,
-            'Batch size': isPercentageMode ? `${batchSize}%${deviceCountText}` : `${batchSize} ${pluralize('device', deviceCount)}`
-          };
-          let phaseTitle = status !== DEPLOYMENT_STATES.scheduled ? <Typography variant="caption">Complete</Typography> : null;
-          let isCurrentPhase = false;
-          if (now.isBefore(startTime)) {
-            const duration = dayjs.duration(dayjs(startTime).diff(now));
-            phaseTitle = <div>{`Begins in ${duration.format('DD [days] HH [h] mm [m]')}`}</div>;
-          } else if (status === DEPLOYMENT_STATES.inprogress && phase.id === currentPhase.id) {
-            phaseTitle = <Typography variant="caption">Current phase</Typography>;
-            isCurrentPhase = true;
-          }
-          return (
-            <div className={`flexbox column padding-small ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
-              {phaseTitle}
-              <Chip className={classes.phaseIndex} size="small" label={`Phase ${index + 1}`} />
-              <TwoColumnData data={phaseObject} />
-            </div>
-          );
-        })}
-      </div>
+      <DetailsTable className="margin-bottom-none" columns={phaseColumns} items={visiblePhases} />
+      {isPaginated && (
+        <Pagination count={displayablePhases.length} onChangePage={setPage} onChangeRowsPerPage={onChangeRowsPerPage} page={page} rowsPerPage={perPage} />
+      )}
+      {isMaybeGrowing && (
+        <Alert className="margin-top" severity="info">
+          *This deployment targets a dynamic device group, so the final phase may adjust as devices change. The last phase stays active to keep all devices
+          updated. <DocsTextLink id="dynamicDeployments" typographyProps={{ variant: 'inherit' }} />
+        </Alert>
+      )}
+      {isCapped && (
+        <Alert className="margin-top" severity="info">
+          This deployment will finish at {max_devices.toLocaleString()} devices
+        </Alert>
+      )}
     </>
   );
 };
