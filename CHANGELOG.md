@@ -1,4 +1,7 @@
 ---
+## [4.0.5](https://github.com/mendersoftware/mender-server/compare/v4.0.4...v4.0.5) (2026-09-30)
+
+
 ## 4.0.4 - 2026-07-27
 
 
