@@ -16,7 +16,7 @@ package jwt
 import (
 	"crypto/rsa"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/pkg/errors"
 )
 
@@ -63,19 +63,13 @@ func (j *JWTHandlerRS256) Validate(tokstr string) error {
 			return &j.privKey.PublicKey, nil
 		},
 	)
-
-	// our Claims return Mender-specific validation errors
-	// go-jwt will wrap them in a generic ValidationError - unwrap and return directly
-	if jwttoken != nil && !jwttoken.Valid {
-		return ErrTokenInvalid
-	} else if err != nil {
-		err, ok := err.(*jwt.ValidationError)
-		if ok && err.Inner != nil {
-			return err.Inner
-		} else {
-			return err
+	if err != nil {
+		if errors.Is(err, jwt.ErrTokenExpired) {
+			return ErrTokenExpired
+		} else if jwttoken != nil && !jwttoken.Valid {
+			return ErrTokenInvalid
 		}
+		return err
 	}
-
 	return nil
 }

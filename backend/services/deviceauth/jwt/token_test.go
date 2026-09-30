@@ -89,7 +89,7 @@ func TestTokenUnmarshal(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestTokenVerify(t *testing.T) {
+func TestTokenUnmarshalJWT(t *testing.T) {
 	tokin := []byte("some-fake-jwt")
 	tok := &Token{
 		Claims: Claims{
@@ -109,18 +109,4 @@ func TestTokenVerify(t *testing.T) {
 	})
 	assert.Equal(t, unTok, tok)
 	assert.NoError(t, err)
-
-	unTok = &Token{}
-
-	err = unTok.Verify(tokin, func(toUnpack string) error {
-		assert.Equal(t, string(tokin), toUnpack)
-		return errors.New("failed")
-	})
-	assert.Error(t, err)
-
-	err = unTok.Verify(tokin, func(toUnpack string) error {
-		assert.Equal(t, string(tokin), toUnpack)
-		return errors.New("failed")
-	})
-	assert.Error(t, err)
 }

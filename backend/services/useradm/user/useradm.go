@@ -217,7 +217,7 @@ func (u *UserAdm) generateToken(subject, scope, tenant string,
 			Time: now.Add(time.Second * time.Duration(u.config.ExpirationTimeSeconds)),
 		}
 	}
-	return ret, ret.Claims.Valid()
+	return ret, ret.Claims.Validate()
 }
 
 func (u *UserAdm) SignToken(ctx context.Context, t *jwt.Token) (string, error) {

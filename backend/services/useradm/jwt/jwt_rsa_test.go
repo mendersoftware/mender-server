@@ -21,7 +21,7 @@ import (
 	"testing"
 	"time"
 
-	jwtgo "github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
@@ -77,7 +77,7 @@ func TestJWTHandlerRS256GenerateToken(t *testing.T) {
 
 		parsed := parseGeneratedTokenRS256(t, string(raw), tc.privKey)
 		if assert.NotNil(t, parsed) {
-			mc := parsed.Claims.(jwtgo.MapClaims)
+			mc := parsed.Claims.(jwt.MapClaims)
 			assert.Equal(t, tc.claims.Issuer, mc["iss"])
 			assert.Equal(t, tc.claims.Subject.String(), mc["sub"])
 			if tc.claims.Tenant != "" {
@@ -137,6 +137,35 @@ func TestJWTHandlerRS256FromJWT(t *testing.T) {
 						Time: time.Unix(12345678, 0),
 					},
 					Scope: "mender.*",
+				},
+			},
+		},
+		"ok/no expiry": {
+			privKey: key,
+
+			inToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9." +
+				"eyJqdGkiOiJiOTQ3NTMzNi1kZGU2LTU0OTctODA0NC01MWFhOWRkYz" +
+				"AyZjgiLCJzdWIiOiJiY2E5NWFkYi1iNWYxLTU2NGYtOTZhNy02MzU1" +
+				"YzUyZDFmYTciLCJhdWQiOiJNZW5kZXIiLCJpc3MiOiJNZW5kZXIiLC" +
+				"JzY3AiOiJtZW5kZXIuKiIsImlhdCI6MTIzNDU2N30.sVVODwlILIPg" +
+				"PjqJcL_qoNI_14QzBwOnllArB8ahOHkOj3DcgnfcbeBU1_usK0SWzw" +
+				"4d7tQcM84X3huBKUeaSA4Wthh05KkA0oMWP-KWtGuTUjNkT206Cx8E" +
+				"neV9R1pLvLZrwwe2v5jhdafWQO3WBksxBP3dM9tb8Vd7rNz1jY-5GB" +
+				"TGaySf16n6zSb-2ZeezeZxS2BEJH0Xl-ieyQd3xuncqfwouwfGuawn" +
+				"ACthtKuPzaZPHJqDvr48Ef7rw66fuRpAMConAN_Fy_RHa0nI2DIWKU" +
+				"F9RRQ5OXWqa-6WqFtQHTgOOjaWlDSCVul0ONLLvBFqPMFWqhAoVeas" +
+				"3uvUTA",
+
+			outToken: Token{
+				Claims: Claims{
+					ID:       oid.NewUUIDv5("someid"),
+					Subject:  oid.NewUUIDv5("foo"),
+					Audience: "Mender",
+					IssuedAt: Time{
+						Time: time.Unix(1234567, 0),
+					},
+					Issuer: "Mender",
+					Scope:  "mender.*",
 				},
 			},
 		},
@@ -201,19 +230,22 @@ func TestJWTHandlerRS256FromJWT(t *testing.T) {
 		"error - bad claims": {
 			privKey: key,
 
-			inToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGk" +
-				"iOm51bGwsInN1YiI6ImJjYTk1YWRiLWI1ZjEtNTY0Zi0" +
-				"5NmE3LTYzNTVjNTJkMWZhNyIsImV4cCI6MTY5NjQxNjU" +
-				"2NCwiaWF0IjotNjIxMzU1OTY4MDAsIm5iZiI6LTYyMTM" +
-				"1NTk2ODAwLCJtZW5kZXIudHJpYWwiOmZhbHNlfQ.LNRO" +
-				"1CzYVkOqU_-ikNva-MvFyvZTVLbR8irmecbPKPij-6cv" +
-				"h_DymOdbtupRCpABq2XFfLGAz68AOqGhc0Utp_AL-EY7" +
-				"kSH-QbPVdlFvnZO_T-gPHxOY2wNoZqnyusr-cpiRR413" +
-				"lySS5t5ZPsghFtlCSFHITdZ11sin79C1JJxd3cUnhjXj" +
-				"P-wL7YJmsfFR9KfSL4AEPtpDsQ98gPhcnqPRCBuLSFcU" +
-				"d3_w-pbc7PkbM0A_nO2jrwCJCaHvjMMvL9FHIZ2-xfUW" +
-				"qDB13KkPo0BrVwHLvhykLlCuhshNaNugzH0Tb4djrM__" +
-				"NCKofdozu3DowLLjesXp7oIYWRAKUQ",
+			inToken: func() string {
+				tok := jwt.NewWithClaims(jwt.SigningMethodRS256, Claims{
+					ExpiresAt: &Time{time.Now().Add(time.Hour)},
+					IssuedAt:  Time{time.Now()},
+					NotBefore: Time{time.Now().Add(time.Hour)},
+					Audience:  "test",
+					Subject:   oid.NewUUIDv5("tester"),
+					Issuer:    "tester",
+				})
+				token, err := tok.SignedString(key)
+				if err != nil {
+					t.Fatal(err)
+				}
+
+				return token
+			}(),
 
 			outErr: ErrTokenInvalid,
 		},
@@ -248,16 +280,18 @@ func TestJWTHandlerRS256FromJWT(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
-		t.Logf("test case: %s", name)
-		jwtHandler := NewJWTHandlerRS256(tc.privKey, 0)
+		t.Run(name, func(t *testing.T) {
+			jwtHandler := NewJWTHandlerRS256(tc.privKey, 0)
 
-		token, err := jwtHandler.FromJWT(tc.inToken)
-		if tc.outErr == nil {
-			assert.NoError(t, err)
-			assert.Equal(t, tc.outToken, *token)
-		} else {
-			assert.EqualError(t, tc.outErr, err.Error())
-		}
+			token, err := jwtHandler.FromJWT(tc.inToken)
+			if tc.outErr == nil {
+				if assert.NoError(t, err) {
+					assert.Equal(t, tc.outToken, *token)
+				}
+			} else {
+				assert.EqualError(t, err, tc.outErr.Error())
+			}
+		})
 	}
 }
 
@@ -276,9 +310,9 @@ func loadRSAPrivKey(path string, t *testing.T) *rsa.PrivateKey {
 	return key
 }
 
-func parseGeneratedTokenRS256(t *testing.T, token string, key *rsa.PrivateKey) *jwtgo.Token {
-	tokenParsed, err := jwtgo.Parse(token, func(token *jwtgo.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwtgo.SigningMethodRSA); !ok {
+func parseGeneratedTokenRS256(t *testing.T, token string, key *rsa.PrivateKey) *jwt.Token {
+	tokenParsed, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, errors.New("Unexpected signing method: " + token.Method.Alg())
 		}
 		return &key.PublicKey, nil
