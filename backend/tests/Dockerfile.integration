@@ -3,19 +3,17 @@ FROM ${REGISTRY}/library/python:3.14-trixie
 WORKDIR /tests
 
 # Install mender-artifact
-RUN \
-  apt-get update && \
-  apt-get install --assume-yes \
+RUN apt-get update
+RUN apt-get install --assume-yes \
   apt-transport-https \
   ca-certificates \
-  gnupg && \
-  curl -fsSL https://downloads.mender.io/repos/debian/gpg | tee /etc/apt/trusted.gpg.d/mender.asc | \
-  gpg --show-keys --with-fingerprint && \
-  sed -i.bak -e "\,https://downloads.mender.io/repos/workstation-tools,d" /etc/apt/sources.list \
-  echo "deb [arch=$(dpkg --print-architecture)] https://downloads.mender.io/repos/workstation-tools debian/trixie/stable main" | \
-  tee /etc/apt/sources.list.d/mender.list && \
-  apt-get update && \
-  apt-get install --assume-yes mender-artifact
+  gnupg
+RUN curl -fsSL https://downloads.mender.io/repos/debian/gpg | tee /etc/apt/trusted.gpg.d/mender.asc | \
+  gpg --show-keys --with-fingerprint
+RUN echo "deb [arch=$(dpkg --print-architecture)] https://downloads.mender.io/repos/workstation-tools debian/trixie/stable main" | \
+  tee /etc/apt/sources.list.d/mender.list
+RUN apt-get update
+RUN apt-get install --assume-yes mender-artifact
 
 # Install docker
 RUN \
