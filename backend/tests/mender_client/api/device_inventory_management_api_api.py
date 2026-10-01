@@ -46,7 +46,7 @@ class DeviceInventoryManagementAPIApi:
     @validate_call
     def add_devices_to_group(
         self,
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         request_body: Annotated[List[StrictStr], Field(description="JSON list of device IDs to append to the group.")],
         _request_timeout: Union[
             None,
@@ -120,7 +120,7 @@ class DeviceInventoryManagementAPIApi:
     @validate_call
     def add_devices_to_group_with_http_info(
         self,
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         request_body: Annotated[List[StrictStr], Field(description="JSON list of device IDs to append to the group.")],
         _request_timeout: Union[
             None,
@@ -194,7 +194,7 @@ class DeviceInventoryManagementAPIApi:
     @validate_call
     def add_devices_to_group_without_preload_content(
         self,
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         request_body: Annotated[List[StrictStr], Field(description="JSON list of device IDs to append to the group.")],
         _request_timeout: Union[
             None,
@@ -1278,7 +1278,7 @@ class DeviceInventoryManagementAPIApi:
     def clear_group(
         self,
         id: Annotated[StrictStr, Field(description="Device identifier.")],
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1351,7 +1351,7 @@ class DeviceInventoryManagementAPIApi:
     def clear_group_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="Device identifier.")],
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1424,7 +1424,7 @@ class DeviceInventoryManagementAPIApi:
     def clear_group_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="Device identifier.")],
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2656,7 +2656,7 @@ class DeviceInventoryManagementAPIApi:
         per_page: Annotated[Optional[StrictInt], Field(description="Maximum number of results per page.")] = None,
         sort: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
         has_group: Annotated[Optional[StrictBool], Field(description="Limit result to devices assigned to a group.")] = None,
-        group: Annotated[Optional[StrictStr], Field(description="Limits result to devices in the given group.")] = None,
+        group: Annotated[Optional[Annotated[str, Field(strict=True, max_length=256)]], Field(description="Limits result to devices in the given group.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2741,7 +2741,7 @@ class DeviceInventoryManagementAPIApi:
         per_page: Annotated[Optional[StrictInt], Field(description="Maximum number of results per page.")] = None,
         sort: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
         has_group: Annotated[Optional[StrictBool], Field(description="Limit result to devices assigned to a group.")] = None,
-        group: Annotated[Optional[StrictStr], Field(description="Limits result to devices in the given group.")] = None,
+        group: Annotated[Optional[Annotated[str, Field(strict=True, max_length=256)]], Field(description="Limits result to devices in the given group.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2826,7 +2826,7 @@ class DeviceInventoryManagementAPIApi:
         per_page: Annotated[Optional[StrictInt], Field(description="Maximum number of results per page.")] = None,
         sort: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
         has_group: Annotated[Optional[StrictBool], Field(description="Limit result to devices assigned to a group.")] = None,
-        group: Annotated[Optional[StrictStr], Field(description="Limits result to devices in the given group.")] = None,
+        group: Annotated[Optional[Annotated[str, Field(strict=True, max_length=256)]], Field(description="Limits result to devices in the given group.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3252,7 +3252,7 @@ class DeviceInventoryManagementAPIApi:
     @validate_call
     def remove_a_group(
         self,
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3322,7 +3322,7 @@ class DeviceInventoryManagementAPIApi:
     @validate_call
     def remove_a_group_with_http_info(
         self,
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3392,7 +3392,7 @@ class DeviceInventoryManagementAPIApi:
     @validate_call
     def remove_a_group_without_preload_content(
         self,
-        name: Annotated[StrictStr, Field(description="Group name.")],
+        name: Annotated[str, Field(strict=True, max_length=256, description="Group name.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],

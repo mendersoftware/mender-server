@@ -22,7 +22,7 @@ var _ MappedNullable = &Group{}
 // Group struct for Group
 type Group struct {
 	// Device group.
-	Group string `json:"group"`
+	Group string `json:"group" validate:"regexp=^[A-Za-z0-9._-]+$"`
 	AdditionalProperties map[string]interface{}
 }
 

@@ -1997,7 +1997,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("group: group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)."),
+				OutputBodyObject: RestError("group: group name can only contain: upper/lowercase alphanum, -(dash), _(underscore), .(period)."),
 			},
 			inventoryErr: nil,
 		},
@@ -2010,7 +2010,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("group: group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)."),
+				OutputBodyObject: RestError("group: group name can only contain: upper/lowercase alphanum, -(dash), _(underscore), .(period)."),
 			},
 			inventoryErr: nil,
 		},
@@ -2708,7 +2708,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
 				"error": "group name can only contain: upper/lowercase " +
-					"alphanum, -(dash), _(underscore)",
+					"alphanum, -(dash), _(underscore), .(period)",
 				"request_id": "test",
 			},
 		},
@@ -2832,7 +2832,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
 				"error": "group name can only contain: upper/lowercase " +
-					"alphanum, -(dash), _(underscore)",
+					"alphanum, -(dash), _(underscore), .(period)",
 				"request_id": "test",
 			},
 		},
@@ -2940,7 +2940,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 			OutputBodyObject: map[string]interface{}{
 				"error": "group name can only contain: " +
 					"upper/lowercase alphanum, " +
-					"-(dash), _(underscore)",
+					"-(dash), _(underscore), .(period)",
 				"request_id": "test",
 			},
 		},

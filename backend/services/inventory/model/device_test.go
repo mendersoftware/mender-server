@@ -270,9 +270,9 @@ func TestValidateGroupName(t *testing.T) {
 	t.Parallel()
 	group1 := GroupName(make([]byte, 257))
 	assert.EqualError(t, rules.DeviceGroupName(group1), "the length must be no more than 256")
-	group2 := GroupName("totally.legit")
+	group2 := GroupName("totally/legit")
 	assert.EqualError(t, rules.DeviceGroupName(group2), "group name can only contain: "+
-		"upper/lowercase alphanum, -(dash), _(underscore)")
+		"upper/lowercase alphanum, -(dash), _(underscore), .(period)")
 	group3 := GroupName("")
 	assert.EqualError(t, rules.DeviceGroupName(group3), "cannot be blank")
 	group4 := GroupName("test")

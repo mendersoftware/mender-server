@@ -310,6 +310,9 @@ func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiA
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.name) > 256 {
+		return localVarReturnValue, nil, reportError("name must have less than 256 elements")
+	}
 	if r.requestBody == nil {
 		return localVarReturnValue, nil, reportError("requestBody is required and must be specified")
 	}
@@ -925,6 +928,9 @@ func (a *DeviceInventoryManagementAPIAPIService) ClearGroupExecute(r ApiClearGro
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.name) > 256 {
+		return nil, reportError("name must have less than 256 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1927,6 +1933,9 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemove
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.name) > 256 {
+		return localVarReturnValue, nil, reportError("name must have less than 256 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
