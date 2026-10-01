@@ -47,7 +47,7 @@ test.describe('Deployments', () => {
 
     await page.getByRole('button', { name: 'Advanced filter' }).click();
     await page.getByRole('combobox', { name: 'Enter or Select tags...' }).click();
-    await page.getByRole('option', { name: 'sometag' }).click();
+    await page.getByRole('option', { name: releaseTag }).click();
     await page.waitForTimeout(timeouts.default);
     await expect(locateReleaseByName(page, releaseName)).toBeVisible();
 
@@ -117,7 +117,7 @@ test.describe('Deployments', () => {
     await checkTimeFilter(page, 'To', true);
   });
 
-  test('allows group deployments', async ({ page }) => {
+  test('allows group deployments', async ({ page, staticGroupName }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
     await navigateTo(page, 'deployments');
     await page.click(`button:has-text('Create a deployment')`);
@@ -128,7 +128,7 @@ test.describe('Deployments', () => {
     const deviceGroupSelect = await page.getByPlaceholder(/select a device group/i);
     await deviceGroupSelect.focus();
     await deviceGroupSelect.fill('test');
-    await page.click(`#deployment-device-group-selection-listbox li:has-text('testgroup')`);
+    await page.click(`#deployment-device-group-selection-listbox li:has-text('${staticGroupName}')`);
     await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
     const pageContent = page.locator('.rightFluid.container');
