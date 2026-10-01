@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
-import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
+import { ControlledCheckboxAutocomplete } from '@northern.tech/common-ui/forms/CheckboxAutocomplete';
 import ClickFilter from '@northern.tech/common-ui/forms/ClickFilter';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import { getIsEnterprise, getManifestTags, getManifestsListState } from '@northern.tech/store/selectors';
@@ -55,11 +55,11 @@ export const ManifestsFilters = ({ classes }: { classes: Record<string, string> 
           {
             key: 'tags',
             title: 'Tags',
-            Component: ChipSelect,
+            Component: ControlledCheckboxAutocomplete,
             componentProps: {
+              chipDisplay: true,
               options: existingTags,
-              placeholder: 'Select tags',
-              selection: selectedTags
+              placeholder: 'Select tags'
             }
           }
         ]}

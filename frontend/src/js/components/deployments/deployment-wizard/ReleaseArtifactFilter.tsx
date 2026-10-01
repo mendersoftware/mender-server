@@ -23,7 +23,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
+import { ControlledCheckboxAutocomplete } from '@northern.tech/common-ui/forms/CheckboxAutocomplete';
 import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import { BENEFITS } from '@northern.tech/store/constants';
 import type { SoftwareKind } from '@northern.tech/store/releasesSlice';
@@ -199,7 +199,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                   <Typography variant="subtitle2" className="margin-bottom-x-small">
                     Tags
                   </Typography>
-                  <ChipSelect label="" name="tags" placeholder="Enter or Select tags..." options={existingTags} />
+                  <ControlledCheckboxAutocomplete chipDisplay name="tags" placeholder="Select tags..." options={existingTags} />
                 </div>
                 {selectedKind !== softwareKindOptions.manifest.key && (
                   <div className={`flexbox column ${hasManifestsEnabled ? 'margin-top-small' : ''}`}>
