@@ -36,7 +36,7 @@ export const tenantNames = { main: 'test', secondary: 'secondary', serviceProvid
 
 export const expectedArtifactName = 'mender-demo-artifact';
 
-export const releaseTag = 'sometag';
+export const releaseTag = 'some.tag';
 
 export const storageFolder = 'storage';
 export const allowedToFailPath = `${storageFolder}/allowed-to-fail`;
