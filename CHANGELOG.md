@@ -1,4 +1,11 @@
 ---
+## [4.0.6](https://github.com/mendersoftware/mender-server/compare/v4.0.5...v4.0.6) (2026-10-01)
+
+
+### Bug Fixes
+
+* **deviceconnect:** only allow one connection per device at a time ([a339f1f](https://github.com/mendersoftware/mender-server/commit/a339f1f878d056353c9bc7eaed494977da5de9f0))
+
 ## [4.0.5](https://github.com/mendersoftware/mender-server/compare/v4.0.4...v4.0.5) (2026-09-30)
 
 
