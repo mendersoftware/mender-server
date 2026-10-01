@@ -386,4 +386,5 @@ components:
         letters, digits, underscores, periods and hyphens.
       items:
         type: string
+        maxLength: 256
       type: array

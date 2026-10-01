@@ -8664,6 +8664,7 @@ components:
             letters, digits, underscores, periods and hyphens.
           items:
             type: string
+            maxLength: 256
           type: array
         notes:
           description: |
@@ -9010,6 +9011,7 @@ components:
         letters, digits, underscores, periods and hyphens.
       items:
         type: string
+        maxLength: 256
       type: array
     ArtifactV2:
       description: Detailed artifact.
