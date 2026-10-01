@@ -55,11 +55,13 @@ func TestDeviceConnect(t *testing.T) {
 		IsDevice: true,
 	}
 	app := &app_mocks.App{}
-	app.On("RegisterShutdownCancel",
+	app.On("RegisterConnectionCancelHandle",
+		Identity.Subject,
 		mock.AnythingOfType("context.CancelFunc"),
+		true,
 	).Return(uint32(1))
-	app.On("UnregisterShutdownCancel",
-		mock.AnythingOfType("uint32"),
+	app.On("UnregisterConnectionCancelHandle",
+		uint32(1),
 	).Return()
 	app.On("SetDeviceConnected",
 		mock.MatchedBy(func(_ context.Context) bool {
