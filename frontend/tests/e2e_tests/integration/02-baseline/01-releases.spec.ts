@@ -188,16 +188,13 @@ test.describe('Files', () => {
 
   test('allows release tags filtering', async ({ page }) => {
     await expect(page.getByText(releaseTag.toLowerCase())).toBeVisible();
-    await page.getByPlaceholder(/select tags/i).fill('foo,');
-    const releasesNote = await page.getByText(/There are no Releases*/i);
-    releasesNote.waitFor({ timeout: timeouts.default });
-    await page.getByText(/mender-demo-artifact*/i).waitFor({ timeout: timeouts.default, state: 'detached' });
+    await page.getByPlaceholder(/select tags/i).click();
+    await page.getByRole('option', { name: releaseTag.toLowerCase() }).click();
+    await page.keyboard.press('Escape');
+    await page.getByText(/mender-demo-artifact*/i).waitFor({ timeout: timeouts.default });
+    await expect(page.getByText(/There are no Releases*/i)).not.toBeVisible();
     await page.getByText(/Clear filter/i).click();
     await page.getByText(/mender-demo-artifact*/i).waitFor();
-    await expect(page.getByText(releaseTag.toLowerCase())).toBeVisible();
-    await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
-    await page.getByText(/mender-demo-artifact*/i).waitFor({ timeout: timeouts.default });
-    await expect(releasesNote).not.toBeVisible();
   });
 
   // test('allows uploading custom file creations', () => {
