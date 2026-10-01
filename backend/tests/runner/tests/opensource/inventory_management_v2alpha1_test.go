@@ -181,8 +181,8 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 			SearchInventoryByIdentity(ctx).
 			SearchIdentityParams(client.SearchIdentityParams{
 				Scope: string(scope), Name: name, ValuePrefix: valuePrefix,
-				PerPage: client.PtrInt32(int32(pageSize)),
-				Page:    client.PtrInt32(int32(page)),
+				PerPage: new(int32(pageSize)),
+				Page:    new(int32(page)),
 			}).Execute()
 		require.NoError(err)
 		require.NotNil(res)

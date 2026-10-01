@@ -20,8 +20,6 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-
-	. "github.com/mendersoftware/mender-server/services/deployments/utils/pointers"
 )
 
 func TestNewDeviceDeployment(t *testing.T) {
@@ -101,7 +99,7 @@ func TestDeviceDeploymentValidate(t *testing.T) {
 			InputID:           "f826484e-1157-4109-af21-304e6d711560",
 			InputDeviceID:     "f826484e-1157-4109-af21-304e6d711560",
 			InputDeploymentID: "f826484e-1157-4109-af21-304e6d711560",
-			InputCreated:      TimeToPointer(time.Now()),
+			InputCreated:      new(time.Now()),
 			IsValid:           true,
 		},
 	}

@@ -34,7 +34,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/api/client"
 	oas_client "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
@@ -478,7 +477,7 @@ func TestGenerateImageSuccessful(t *testing.T) {
 			workflowsClient.EXPECT().
 				StartWorkflowExecute(expected).
 				Return(
-					&client.StartWorkflow201Response{Id: types.Pointer("123")},
+					&client.StartWorkflow201Response{Id: new("123")},
 					&http.Response{StatusCode: 201, Body: io.NopCloser(nil)},
 					nil,
 				).
@@ -560,7 +559,7 @@ func TestGenerateImageSuccessfulWithTenant(t *testing.T) {
 			workflowsClient.EXPECT().
 				StartWorkflowExecute(expected).
 				Return(
-					&client.StartWorkflow201Response{Id: types.Pointer("123")},
+					&client.StartWorkflow201Response{Id: new("123")},
 					&http.Response{StatusCode: 201, Body: io.NopCloser(nil)},
 					nil,
 				).

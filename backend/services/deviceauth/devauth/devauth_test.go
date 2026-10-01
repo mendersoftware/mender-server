@@ -29,7 +29,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/pkg/errors"
 
@@ -44,7 +43,6 @@ import (
 	mstore "github.com/mendersoftware/mender-server/services/deviceauth/store/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 	mtesting "github.com/mendersoftware/mender-server/services/deviceauth/utils/testing"
-	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
 )
 
 var (
@@ -2456,7 +2454,7 @@ func TestDevAuthDecommissionDevice(t *testing.T) {
 			db.On("UpdateDevice", ctx,
 				tc.devId,
 				model.DeviceUpdate{
-					Decommissioning: uto.BoolPtr(true),
+					Decommissioning: new(true),
 				}).Return(
 				tc.dbUpdateDeviceErr)
 			db.On("UpdateDevice", ctx,
@@ -3635,19 +3633,19 @@ func TestDevAuth_UpdateDevice(t *testing.T) {
 	}{{
 		name:      "ok",
 		deviceID:  "7e3ad3ee-1217-4c30-bc2d-c0971783880a",
-		update:    model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		update:    model.DeviceUpdate{Provisioned: new(true)},
 		updateErr: nil,
 		resErr:    nil,
 	}, {
 		name:      "not found error",
 		deviceID:  "7e3ad3ee-1217-4c30-bc2d-c0971783880a",
-		update:    model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		update:    model.DeviceUpdate{Provisioned: new(true)},
 		updateErr: store.ErrDevNotFound,
 		resErr:    ErrDeviceNotFound,
 	}, {
 		name:      "generic error",
 		deviceID:  "7e3ad3ee-1217-4c30-bc2d-c0971783880a",
-		update:    model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		update:    model.DeviceUpdate{Provisioned: new(true)},
 		updateErr: genericErr,
 		resErr:    genericErr,
 	}}

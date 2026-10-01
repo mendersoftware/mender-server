@@ -28,12 +28,7 @@ import (
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
-	. "github.com/mendersoftware/mender-server/services/deployments/utils/pointers"
 )
-
-func TimePtr(t time.Time) *time.Time {
-	return &t
-}
 
 func TestDeploymentStorageInsert(t *testing.T) {
 
@@ -1524,7 +1519,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 						},
 						Id:      "e8c32ff6-7c1b-43c7-aa31-2e4fc3a3c199",
 						Stats:   newTestStats(model.Stats{}),
-						Created: TimeToPointer(time.Now().UTC()),
+						Created: new(time.Now().UTC()),
 					})
 				assert.NoError(t, err)
 

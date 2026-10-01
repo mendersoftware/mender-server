@@ -202,7 +202,7 @@ func (d *Device) SubmitAuthRequest(
 	}
 
 	if d.tenantToken != "" {
-		authRequest.TenantToken = client.PtrString(d.tenantToken)
+		authRequest.TenantToken = new(d.tenantToken)
 	}
 
 	for _, o := range opts {
@@ -254,7 +254,7 @@ func (d *Device) SubmitAuthRequest(
 					Scope:     client.IDENTITY,
 					Attribute: attributeNameMAC,
 					Type:      "$eq",
-					Value:     client.AttributeValueRequest{String: client.PtrString(d.MAC)},
+					Value:     client.AttributeValueRequest{String: new(d.MAC)},
 				},
 			}
 

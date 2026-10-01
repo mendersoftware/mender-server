@@ -242,14 +242,6 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func timePtr(t time.Time) *time.Time {
-	return &t
-}
-
-func intPtr(i int) *int {
-	return &i
-}
-
 func TestDecommissionDevice(t *testing.T) {
 	testCases := map[string]struct {
 		inputDeviceId       string
@@ -309,7 +301,7 @@ func TestDecommissionDevice(t *testing.T) {
 				Id:           "bar",
 				DeploymentId: "bar",
 				Status:       model.DeviceDeploymentStatusSuccess,
-				Created:      timePtr(time.Now()),
+				Created:      new(time.Now()),
 			},
 		},
 		"ok 2": {},
@@ -322,8 +314,8 @@ func TestDecommissionDevice(t *testing.T) {
 			findNewerActiveDeploymentDeployment: &model.Deployment{
 				DeviceList:  []string{"foo"},
 				Id:          "foo",
-				Created:     timePtr(time.Now()),
-				DeviceCount: intPtr(0),
+				Created:     new(time.Now()),
+				DeviceCount: new(0),
 				MaxDevices:  1,
 				Stats:       model.Stats{},
 			},
@@ -334,8 +326,8 @@ func TestDecommissionDevice(t *testing.T) {
 			findNewerActiveDeploymentDeployment: &model.Deployment{
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
-				Created:     timePtr(time.Now()),
-				DeviceCount: intPtr(0),
+				Created:     new(time.Now()),
+				DeviceCount: new(0),
 				MaxDevices:  2,
 				Stats:       model.Stats{},
 			},
@@ -497,7 +489,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				Id:           "bar",
 				DeploymentId: "bar",
 				Status:       model.DeviceDeploymentStatusSuccess,
-				Created:      timePtr(time.Now()),
+				Created:      new(time.Now()),
 			},
 		},
 		"ok 2": {},
@@ -510,8 +502,8 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			findNewerActiveDeploymentDeployment: &model.Deployment{
 				DeviceList:  []string{"foo"},
 				Id:          "foo",
-				Created:     timePtr(time.Now()),
-				DeviceCount: intPtr(0),
+				Created:     new(time.Now()),
+				DeviceCount: new(0),
 				MaxDevices:  1,
 				Stats:       model.Stats{},
 			},
@@ -522,8 +514,8 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			findNewerActiveDeploymentDeployment: &model.Deployment{
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
-				Created:     timePtr(time.Now()),
-				DeviceCount: intPtr(0),
+				Created:     new(time.Now()),
+				DeviceCount: new(0),
 				MaxDevices:  1,
 				Stats:       model.Stats{},
 			},
@@ -534,8 +526,8 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			findNewerActiveDeploymentDeployment: &model.Deployment{
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
-				Created:     timePtr(time.Now()),
-				DeviceCount: intPtr(0),
+				Created:     new(time.Now()),
+				DeviceCount: new(0),
 				MaxDevices:  2,
 				Stats:       model.Stats{},
 			},

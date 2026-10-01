@@ -28,7 +28,6 @@ import (
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
-	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
 )
 
 type migration_1_5_0 struct {
@@ -70,7 +69,7 @@ func (m *migration_1_5_0) Up(from migrate.Version) error {
 			"$set": model.AuthSetUpdate{
 				IdDataStruct: idDataStruct,
 				IdDataSha256: hash.Sum(nil),
-				Timestamp:    uto.TimePtr(time.Now()),
+				Timestamp:    new(time.Now()),
 			},
 		}
 
@@ -127,7 +126,7 @@ func (m *migration_1_5_0) Up(from migrate.Version) error {
 			"$set": model.DeviceUpdate{
 				IdDataStruct: idDataStruct,
 				IdDataSha256: hash.Sum(nil),
-				UpdatedTs:    uto.TimePtr(time.Now().UTC()),
+				UpdatedTs:    new(time.Now().UTC()),
 			},
 		}
 
