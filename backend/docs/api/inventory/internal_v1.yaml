@@ -410,6 +410,8 @@ components:
           description: List of device's groups.
           items:
             type: string
+          maxLength: 256
+          pattern: '^[A-Za-z0-9._-]+$'
       example:
         groups:
         - test

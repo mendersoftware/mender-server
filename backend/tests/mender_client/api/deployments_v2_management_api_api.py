@@ -46,7 +46,7 @@ class DeploymentsV2ManagementAPIApi:
     def assign_release_tags(
         self,
         release_name: Annotated[StrictStr, Field(description="Name of the release")],
-        request_body: Optional[List[StrictStr]] = None,
+        request_body: Optional[List[Annotated[str, Field(strict=True, max_length=256)]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -121,7 +121,7 @@ class DeploymentsV2ManagementAPIApi:
     def assign_release_tags_with_http_info(
         self,
         release_name: Annotated[StrictStr, Field(description="Name of the release")],
-        request_body: Optional[List[StrictStr]] = None,
+        request_body: Optional[List[Annotated[str, Field(strict=True, max_length=256)]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -196,7 +196,7 @@ class DeploymentsV2ManagementAPIApi:
     def assign_release_tags_without_preload_content(
         self,
         release_name: Annotated[StrictStr, Field(description="Name of the release")],
-        request_body: Optional[List[StrictStr]] = None,
+        request_body: Optional[List[Annotated[str, Field(strict=True, max_length=256)]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],

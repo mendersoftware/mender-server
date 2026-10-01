@@ -88,6 +88,8 @@ paths:
         description: Limits result to devices in the given group.
         schema:
           type: string
+          maxLength: 256
+          pattern: '^[A-Za-z0-9._-]+$'
       responses:
         "200":
           description: Successful response.
@@ -402,6 +404,8 @@ paths:
         required: true
         schema:
           type: string
+          maxLength: 256
+          pattern: '^[A-Za-z0-9._-]+$'
       responses:
         "204":
           description: The device was successfully removed from the group.
@@ -463,6 +467,8 @@ paths:
         required: true
         schema:
           type: string
+          maxLength: 256
+          pattern: '^[A-Za-z0-9._-]+$'
       responses:
         "200":
           description: Successful response
@@ -606,6 +612,8 @@ paths:
         required: true
         schema:
           type: string
+          maxLength: 256
+          pattern: '^[A-Za-z0-9._-]+$'
       requestBody:
         description: JSON list of device IDs to append to the group.
         content:
@@ -689,5 +697,7 @@ components:
         group:
           type: string
           description: Device group.
+          maxLength: 256
+          pattern: '^[A-Za-z0-9._-]+$'
       example:
         group: staging

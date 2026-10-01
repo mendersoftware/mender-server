@@ -21,6 +21,7 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from mender_client.models.artifact_v1 import ArtifactV1
 from typing import Optional, Set
 from typing_extensions import Self
@@ -33,7 +34,7 @@ class ReleaseV1(BaseModel):
     modified: Optional[datetime] = Field(default=None, description="Last modification time for the release. ")
     artifacts: Optional[List[ArtifactV1]] = Field(default=None, description="List of artifacts for this release.", alias="Artifacts")
     artifacts_count: Optional[StrictInt] = Field(default=None, description="Number of artifacts.", alias="ArtifactsCount")
-    tags: Optional[List[StrictStr]] = Field(default=None, description="Tags assigned to the release used for filtering releases. Each tag must be valid a ASCII string and contain only lowercase and uppercase letters, digits, underscores, periods and hyphens.")
+    tags: Optional[List[Annotated[str, Field(strict=True, max_length=256)]]] = Field(default=None, description="Tags assigned to the release used for filtering releases. Each tag must be valid a ASCII string and contain only lowercase and uppercase letters, digits, underscores, periods and hyphens.")
     notes: Optional[StrictStr] = Field(default=None, description="Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field. ")
     __properties: ClassVar[List[str]] = ["Name", "modified", "Artifacts", "ArtifactsCount", "tags", "notes"]
 

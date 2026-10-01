@@ -89,7 +89,7 @@ func (tags *Tags) UnmarshalJSON(b []byte) error {
 type Tag string
 
 const (
-	TagMaxLength = 1024
+	TagMaxLength = 256
 )
 
 var (

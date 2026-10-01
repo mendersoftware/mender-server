@@ -18,8 +18,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +28,15 @@ class Group(BaseModel):
     """
     Group
     """ # noqa: E501
-    group: StrictStr = Field(description="Device group.")
+    group: Annotated[str, Field(strict=True, max_length=256)] = Field(description="Device group.")
     __properties: ClassVar[List[str]] = ["group"]
+
+    @field_validator('group')
+    def group_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[A-Za-z0-9._-]+$", value):
+            raise ValueError(r"must validate the regular expression /^[A-Za-z0-9._-]+$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
