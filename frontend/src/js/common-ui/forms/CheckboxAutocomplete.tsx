@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { ReactNode, Ref } from 'react';
-import { useMemo } from 'react';
 import type { FieldValues, Path } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -56,16 +55,7 @@ export const CheckboxAutocomplete = <T,>({
   value = [],
   ...remainder
 }: CheckboxAutocompleteProps<T>) => {
-  const sortedOptions = useMemo(() => {
-    const selectedSet = new Set(value);
-    return [...options].sort((a, b) => {
-      const aSelected = selectedSet.has(a);
-      const bSelected = selectedSet.has(b);
-      if (aSelected && !bSelected) return -1;
-      if (!aSelected && bSelected) return 1;
-      return 0;
-    });
-  }, [value, options]);
+  const { classes } = useStyles();
 
   return (
     <Autocomplete
@@ -75,7 +65,7 @@ export const CheckboxAutocomplete = <T,>({
       multiple
       value={value ?? []}
       onChange={(_e, data) => onChange(data)}
-      options={sortedOptions}
+      options={options}
       getOptionLabel={option => (typeof option === 'string' ? option : option[labelAttribute])}
       isOptionEqualToValue={(option, val) => option === val || (option[labelAttribute] != null && option[labelAttribute] === val[labelAttribute])}
       renderOption={({ key, ...optionProps }, option, { selected }) => (
