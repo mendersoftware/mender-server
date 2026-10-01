@@ -12,11 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { formRenderWrapper } from '@/testUtils';
+import { invalidCharactersError } from '@northern.tech/common-ui/forms/validations';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import GroupDefinition, { getGroupNameError, groupNameValidationRules } from './GroupDefinition';
-
-const invalidCharactersError = 'Invalid characters. Allowed: a-z, A-Z, 0-9, _ and -';
 
 describe('GroupDefinition Component', () => {
   it('renders correctly', async () => {
@@ -28,7 +27,6 @@ describe('GroupDefinition Component', () => {
 
   it('rejects group names with invalid characters', () => {
     expect(getGroupNameError('tæst')).toBe(invalidCharactersError);
-    expect(getGroupNameError('no.dots.allowed')).toBe(invalidCharactersError);
     expect(getGroupNameError('valid_name-12')).toBe('');
   });
 

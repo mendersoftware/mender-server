@@ -38,10 +38,10 @@ const getErrorMsg = (validateMethod, args) => {
       }
       break;
     case 'isAlphanumericLocator':
-      if (args[0] && validator.matches(args[0], /^[a-zA-Z0-9_-]+$/)) {
+      if (args[0] && hasValidTagCharacters(args[0])) {
         return '';
       } else {
-        return 'Invalid characters. Allowed: a-z, A-Z, 0-9, _ and -';
+        return invalidCharactersError;
       }
     case 'isNot':
       if (args[0] === args[1]) {
