@@ -18,10 +18,16 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import type { AutocompleteProps } from '@mui/material';
 import { Autocomplete, Checkbox, Chip, TextField } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { TruncatedTagList } from './helpers';
 
 const listboxMaxHeight = 304;
+
+const useStyles = makeStyles()(() => ({
+  optionLabel: { minWidth: 0, wordBreak: 'break-word' },
+  tagsSelect: { width: 270 }
+}));
 
 type CheckboxAutocompleteProps<T> = {
   chipDisplay?: boolean;
@@ -38,6 +44,7 @@ type CheckboxAutocompleteProps<T> = {
 
 export const CheckboxAutocomplete = <T,>({
   chipDisplay = false,
+  className = '',
   error,
   helperText,
   inputRef,
@@ -63,6 +70,7 @@ export const CheckboxAutocomplete = <T,>({
   return (
     <Autocomplete
       autoSelect={false}
+      className={`${chipDisplay ? classes.tagsSelect : ''} ${className}`}
       disableCloseOnSelect
       multiple
       value={value ?? []}
@@ -72,8 +80,8 @@ export const CheckboxAutocomplete = <T,>({
       isOptionEqualToValue={(option, val) => option === val || (option[labelAttribute] != null && option[labelAttribute] === val[labelAttribute])}
       renderOption={({ key, ...optionProps }, option, { selected }) => (
         <li key={key} {...optionProps}>
-          <Checkbox className="margin-right-x-small" checked={selected} />
-          {typeof option === 'string' ? option : option[labelAttribute]}
+          <Checkbox className="padding-none margin-right-x-small" checked={selected} />
+          <span className={classes.optionLabel}>{typeof option === 'string' ? option : option[labelAttribute]}</span>
         </li>
       )}
       renderValue={
