@@ -31,6 +31,7 @@ type TestFixtures = {
   page: Page;
   password: string;
   spTenantUsername: string;
+  staticGroupName: string;
   uniqueId: string;
   username: string;
 };
@@ -54,7 +55,8 @@ const defaultConfig = {
   username: 'mender-demo@example.com',
   password: 'mysecretpassword!123',
   demoDeviceName: 'theDeviceName',
-  demoDeviceSoftware: 'original'
+  demoDeviceSoftware: 'original',
+  staticGroupName: 'test.group'
 };
 
 const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures>({
@@ -96,7 +98,8 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
     await use(baseUrl);
   },
   demoDeviceName: defaultConfig.demoDeviceName,
-  demoDeviceSoftware: defaultConfig.demoDeviceSoftware
+  demoDeviceSoftware: defaultConfig.demoDeviceSoftware,
+  staticGroupName: defaultConfig.staticGroupName
 });
 
 export { expect };
