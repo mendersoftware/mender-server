@@ -15,15 +15,16 @@
 from typing import Dict
 from typing import Optional
 import pytest
+import json
 import logging
 import os
 import re
 import ssl
+import subprocess
 import uuid
 from base64 import b64decode
 
 import trustme
-from azure_iot_hub_api import IoTHubRegistryManager
 from pytest_httpserver import HTTPServer
 from redo import retrier, retriable
 from requests.models import Response
@@ -215,18 +216,52 @@ def azure_user(clean_mongo) -> Optional[User]:
     yield user
 
 
+class IoTHubRegistryManager:
+    def __init__(
+        self,
+        connection_string: str,
+    ):
+        self.connection_string = connection_string
+
+    def get_device(self, device_id: str) -> dict:
+        cmd = (
+            "az",
+            "iot",
+            "hub",
+            "device-identity",
+            "show",
+            "--device-id",
+            device_id,
+            "--login",
+            self.connection_string,
+        )
+        res = subprocess.run(cmd, stdout=subprocess.PIPE)
+        assert res.returncode == 0, "command failed with error"
+        return json.loads(res.stdout.decode())
+
+    def delete_device(self, device_id: str, etag: str | None = None):
+        cmd = [
+            "az",
+            "iot",
+            "hub",
+            "device-identity",
+            "delete",
+            "--device-id",
+            device_id,
+            "--login",
+            self.connection_string,
+        ]
+        if etag:
+            cmd += ["--etag", etag]
+
+        res = subprocess.run(cmd, stdout=subprocess.PIPE)
+        assert res.returncode == 0, "command failed with error"
+
+
 def get_azure_client():
     connection_string = get_connection_string()
-    azure_iot_hub_mock = os.environ.get("AZURE_IOTHUB_MOCK")
-    if azure_iot_hub_mock:
-        client = IoTHubRegistryManager(
-            connection_string=connection_string,
-            host="mock_host",
-            token_credential="test_token",
-        )
-        client.protocol.config.connection.verify = False
-        return client
-    return IoTHubRegistryManager.from_connection_string(connection_string)
+    # azure_iot_hub_mock = os.environ.get("AZURE_IOTHUB_MOCK")
+    return IoTHubRegistryManager(connection_string)
 
 
 class _TestAzureIoTHubDeviceLifecycleBase:
@@ -369,7 +404,7 @@ class _TestAzureIoTHubDeviceLifecycleBase:
         assert rsp.status_code == 200
         # check the status of the device in IoT Hub
         device = get_azure_client().get_device(device_id)
-        assert device.status == status
+        assert device.get("status") == status
 
     @pytest.mark.parametrize("status", ["rejected", "noauth"])
     def test_device_accept_and_reject_or_dismiss(
