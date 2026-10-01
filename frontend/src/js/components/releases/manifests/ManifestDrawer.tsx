@@ -327,7 +327,7 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
                 </>
               )}
               <ContentSection className="margin-bottom-medium" title="Name">
-                <TextInput id="name" required validations="isAlphanumericLocator,trim,isLength:1" />
+                <TextInput id="name" required validations="isAlphanumericLocator,trim,isLength:1:256" />
               </ContentSection>
             </>
           )}
