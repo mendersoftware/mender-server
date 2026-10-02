@@ -31,6 +31,7 @@ require (
 	github.com/stretchr/testify v1.12.1
 	github.com/thedevsaddam/gojsonq/v2 v2.5.2
 	github.com/urfave/cli v1.22.17
+	github.com/urfave/cli/v3 v3.14.0
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 	go.mongodb.org/mongo-driver/v2 v2.9.1
 	golang.org/x/crypto v0.57.0
