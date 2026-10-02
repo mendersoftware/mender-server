@@ -46,7 +46,7 @@ test.describe('Deployments', () => {
     await page.getByRole('button', { name: 'Select software' }).click();
 
     await page.getByRole('button', { name: 'Advanced filter' }).click();
-    await page.getByRole('combobox', { name: 'Enter or Select tags...' }).click();
+    await page.getByRole('combobox', { name: 'Select tags...' }).click();
     await page.getByRole('option', { name: 'sometag' }).click();
     await page.waitForTimeout(timeouts.default);
     await expect(locateReleaseByName(page, releaseName)).toBeVisible();
@@ -61,7 +61,10 @@ test.describe('Deployments', () => {
 
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
     await navigateTo(page, 'software');
-    await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
+    await page.getByPlaceholder(/select tags/i).click();
+    await page.getByRole('option', { name: releaseTag.toLowerCase() }).click();
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(timeouts.default);
     await navigateTo(page, 'deployments');
     await page
       .getByRole('button', { name: /create a deployment/i })
