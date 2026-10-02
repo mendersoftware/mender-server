@@ -143,14 +143,7 @@ func doMain(args []string) {
 }
 
 func cmdServer(ctx context.Context, cmd *cli.Command) error {
-	devSetup := cmd.Bool("dev")
-
 	l := log.New(log.Ctx{})
-
-	if devSetup {
-		l.Infof("setting up development configuration")
-		config.Config.Set(dconfig.SettingMiddleware, dconfig.EnvDev)
-	}
 
 	l.Print("Deployments Service starting up")
 	err := migrate("", cmd.Bool("automigrate"))
