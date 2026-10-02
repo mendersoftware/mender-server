@@ -51,7 +51,7 @@ test.describe('Admin panel tenants', () => {
     await expect(page.getByRole('heading', { name: `Tenant: ${tenant.name}` })).toBeVisible();
 
     const trialCheckbox = page.getByRole('checkbox', { name: 'Trial' });
-    const expiration = page.getByLabel('Trial Expiration');
+    const expiration = page.getByRole('group', { name: 'Trial Expiration' });
     // an expiration only means something on a trial, so the field follows the checkbox
     await expect(trialCheckbox).not.toBeChecked();
     await expect(expiration).toHaveCount(0);
