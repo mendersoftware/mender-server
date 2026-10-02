@@ -137,7 +137,7 @@ const tabs = {
 
 const type = DEPLOYMENT_STATES.scheduled;
 
-export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
+export const Scheduled = ({ createClick, openReport, ...remainder }) => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [tabIndex, setTabIndex] = useState(tabs.list.index);
   const timer = useRef();
@@ -217,7 +217,6 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(items), tabIndex]);
 
-  const abortDeployment = id => abort(id).then(refreshDeployments);
   const handleToggleChange = (_, newMode: string) => {
     setTabIndex(newMode);
   };
@@ -247,7 +246,6 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
           {tabIndex === tabs.list.index && (
             <DeploymentsList
               {...props}
-              abort={abortDeployment}
               headers={headers}
               type={type}
               onChangeRowsPerPage={perPage => dispatch(setDeploymentsState({ [DEPLOYMENT_STATES.scheduled]: { page: 1, perPage } }))}

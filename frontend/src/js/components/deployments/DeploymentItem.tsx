@@ -11,13 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
-
 // material ui
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -88,16 +85,12 @@ export const DeploymentSize = ({ deployment: { statistics } }: Pick<ColumnCompon
   </Typography>
 );
 
-const useStyles = makeStyles()(theme => ({
-  centered: { display: 'grid', placeSelf: 'center' },
-  compactConfirm: { marginTop: theme.spacing(-2), marginLeft: theme.spacing(-2) },
+const useStyles = makeStyles()(() => ({
   compactProgress: { minWidth: 270 },
   textWrapping: { whiteSpace: 'initial' }
 }));
 
 interface DeploymentItemCommonProps {
-  canConfigure?: boolean;
-  canDeploy?: boolean;
   className?: string;
   columnHeaders: ColumnHeader[];
   deployment: Deployment;
@@ -108,22 +101,16 @@ interface DeploymentItemCommonProps {
 }
 
 export interface DeploymentItemProps extends DeploymentItemCommonProps {
-  abort?: (id: string) => void;
   isCompact?: boolean;
   isEnterprise?: boolean;
 }
 
 interface DeploymentItemCompactProps extends DeploymentItemCommonProps {
-  abort: string | null;
-  abortDeployment: (id: string) => void;
   started: string;
-  toggleConfirm: (id: string) => void;
   wrappingClass: string;
 }
 
 export const DeploymentItemCompact = ({
-  abortDeployment,
-  abort,
   className = '',
   columnHeaders,
   deployment,
@@ -131,20 +118,12 @@ export const DeploymentItemCompact = ({
   idAttribute,
   openReport,
   started,
-  toggleConfirm,
   type,
   wrappingClass
 }: DeploymentItemCompactProps) => {
   useDeploymentDevice(deployment.name);
 
   const { classes } = useStyles();
-
-  const { id } = deployment;
-
-  let confirmation;
-  if (abort === id) {
-    confirmation = <Confirm classes={classes.compactConfirm} cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
-  }
 
   // Find the progress column to render it separately
   const { renderer: ProgressColumn, props: progressProps, title: progressTitle } = columnHeaders.find(col => col.renderer === DeploymentProgress) || {};
@@ -175,14 +154,12 @@ export const DeploymentItemCompact = ({
 
   return (
     <div className={`padding-small relative clickable ${className}`} role="listitem" onClick={() => openReport(type, deployment.id)}>
-      {!!confirmation && confirmation}
       <TwoColumnData data={deploymentInfo} />
     </div>
   );
 };
 
 export const DeploymentItem = ({
-  abort: abortDeployment,
   className = '',
   columnHeaders,
   deployment,
@@ -193,27 +170,18 @@ export const DeploymentItem = ({
   openReport,
   type
 }: DeploymentItemProps) => {
-  const [abort, setAbort] = useState(null);
   useDeploymentDevice(deployment.name);
 
   const { classes } = useStyles();
 
-  const toggleConfirm = id => setTimeout(() => setAbort(current => (current ? null : id)), 150);
+  const { created } = deployment;
 
-  const { created, id } = deployment;
-
-  let confirmation;
-  if (abort === id) {
-    confirmation = <Confirm cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
-  }
   const started = (isEnterprise && getDeploymentStartTime(deployment)) || created;
   const wrappingClass = `text-overflow ${type === DEPLOYMENT_STATES.inprogress ? classes.textWrapping : ''}`;
 
   if (isCompact) {
     return (
       <DeploymentItemCompact
-        abort={abort}
-        abortDeployment={abortDeployment}
         className={className}
         columnHeaders={columnHeaders}
         deployment={deployment}
@@ -222,7 +190,6 @@ export const DeploymentItem = ({
         idAttribute={idAttribute}
         openReport={openReport}
         started={started}
-        toggleConfirm={toggleConfirm}
         type={type}
         wrappingClass={wrappingClass}
       />
@@ -230,7 +197,6 @@ export const DeploymentItem = ({
   }
   return (
     <div className={`padding-small relative clickable ${className}`} role="listitem" onClick={() => openReport(type, deployment.id)}>
-      {!!confirmation && confirmation}
       {columnHeaders.map(({ renderer: ColumnComponent, class: columnClass = '', props }, i) => (
         <ColumnComponent
           key={`deploy-item-${i}`}

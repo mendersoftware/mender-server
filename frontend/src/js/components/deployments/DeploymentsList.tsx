@@ -65,13 +65,13 @@ const useStyles = makeStyles()(theme => ({
     gridColumnGap: theme.spacing(3),
     minWidth: 1300,
     [`&.${DEPLOYMENT_STATES.inprogress}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 4fr ${theme.spacing(6)}`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 4fr`
     },
     [`&.${DEPLOYMENT_STATES.pending}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 2fr ${theme.spacing(6)}`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 2fr`
     },
     [`&.${DEPLOYMENT_STATES.scheduled}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 1fr ${theme.spacing(6)}`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 1fr`
     },
     [`&.${DEPLOYMENT_STATES.finished}-item`]: {
       gridTemplateColumns: `${deploymentTypeCommonColumns} 2.5fr 1.25fr`
@@ -94,7 +94,6 @@ interface DeploymentsListProps extends DeploymentItemProps {
 }
 
 export const DeploymentsList = ({
-  abort,
   count,
   devices,
   headers = defaultHeaders,
@@ -132,7 +131,6 @@ export const DeploymentsList = ({
       )}
       {items.map(deployment => (
         <DeploymentItem
-          abort={abort}
           className={isCompact ? classes.row : `${classes.row} ${classes.rowState} ${type}-item`}
           columnHeaders={headers}
           deployment={deployment}
