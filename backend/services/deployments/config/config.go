@@ -109,9 +109,6 @@ const (
 	SettingWorkflows        = "mender-workflows"
 	SettingWorkflowsDefault = "http://mender-workflows-server:8080"
 
-	SettingMiddleware        = "middleware"
-	SettingMiddlewareDefault = EnvProd
-
 	SettingInventoryAddr        = "inventory_addr"
 	SettingInventoryAddrDefault = "http://mender-inventory:8080"
 
