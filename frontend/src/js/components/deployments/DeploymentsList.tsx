@@ -52,6 +52,11 @@ const useStyles = makeStyles()(theme => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     ':hover': {
       backgroundColor: theme.palette.action.hover
+    },
+    ':focus-visible': {
+      backgroundColor: theme.palette.action.hover,
+      outline: `2px solid ${theme.palette.primary.main}`,
+      outlineOffset: -2
     }
   },
   rowHeader: {
