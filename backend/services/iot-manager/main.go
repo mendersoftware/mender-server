@@ -33,7 +33,7 @@ import (
 	store "github.com/mendersoftware/mender-server/services/iot-manager/store/mongo"
 
 	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 
 	oas "github.com/mendersoftware/mender-server/pkg/api"
 	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
@@ -56,7 +56,7 @@ func main() {
 func doMain(args []string) {
 	var configPath string
 
-	app := &cli.App{
+	app := &cli.Command{
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name: "config",
@@ -72,7 +72,7 @@ func doMain(args []string) {
 				Value: "info",
 			},
 		},
-		Commands: []cli.Command{
+		Commands: []*cli.Command{
 			{
 				Name:   "server",
 				Usage:  "Run the HTTP API server",
@@ -94,11 +94,11 @@ func doMain(args []string) {
 				Usage:  helpReencrypt,
 				Action: cmdReencrypt,
 				Flags: []cli.Flag{
-					cli.StringFlag{
+					&cli.StringFlag{
 						Name:  "to-key",
 						Usage: "Override for the updated encryption key",
 					},
-					cli.StringFlag{
+					&cli.StringFlag{
 						Name:  "from-key",
 						Usage: "Override for the from encryption key.",
 					},
@@ -124,13 +124,13 @@ func doMain(args []string) {
 				Name:  "version",
 				Usage: "Show version information",
 				Flags: []cli.Flag{
-					cli.StringFlag{
+					&cli.StringFlag{
 						Name:  "output",
 						Usage: "Output format <json|text>",
 						Value: "text",
 					},
 				},
-				Action: func(args *cli.Context) error {
+				Action: func(ctx context.Context, args *cli.Command) error {
 					switch strings.ToLower(args.String("output")) {
 					case "text":
 						fmt.Print(appVersion)
@@ -148,16 +148,16 @@ func doMain(args []string) {
 	app.Usage = "IoT Manager"
 	app.Action = cmdServer
 
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, args *cli.Command) (context.Context, error) {
 		lvl, err := logrus.ParseLevel(args.String("log-level"))
 		if err != nil {
-			return err
+			return ctx, err
 		}
 		log.Log.Level = lvl
 
 		err = config.FromConfigFile(configPath, dconfig.Defaults)
 		if err != nil {
-			return cli.NewExitError(
+			return ctx, cli.Exit(
 				fmt.Sprintf("error loading configuration: %s", err),
 				1)
 		}
@@ -184,16 +184,16 @@ func doMain(args []string) {
 			config.Config.GetInt64(dconfig.SettingEventExpirationTimeout),
 		)
 
-		return err
+		return ctx, err
 	}
 
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 }
 
-func cmdServer(args *cli.Context) error {
+func cmdServer(ctx context.Context, args *cli.Command) error {
 	mgoConfig := store.NewConfig().SetAutomigrate(args.Bool("automigrate"))
 	dataStore, err := store.SetupDataStore(mgoConfig)
 	if err != nil {
@@ -203,7 +203,7 @@ func cmdServer(args *cli.Context) error {
 	return server.InitAndRun(config.Config, dataStore)
 }
 
-func cmdMigrate(args *cli.Context) error {
+func cmdMigrate(ctx context.Context, args *cli.Command) error {
 	mgoConfig := store.NewConfig().SetAutomigrate(true)
 	dataStore, err := store.SetupDataStore(mgoConfig)
 	if err != nil {
@@ -212,7 +212,7 @@ func cmdMigrate(args *cli.Context) error {
 	return dataStore.Close()
 }
 
-func cmdReencrypt(args *cli.Context) error {
+func cmdReencrypt(ctx context.Context, args *cli.Command) error {
 	mgoConfig := store.NewConfig().SetAutomigrate(args.Bool("automigrate"))
 	dataStore, err := store.SetupDataStore(mgoConfig)
 	if err != nil {
@@ -245,19 +245,18 @@ func cmdReencrypt(args *cli.Context) error {
 	return cmd.Reencrypt(dataStore)
 }
 
-func cmdSync(args *cli.Context) error {
+func cmdSync(ctx context.Context, args *cli.Command) error {
 	if bs := args.Int("batch-size"); bs <= 0 {
-		return cli.NewExitError(
+		return cli.Exit(
 			"invalid flag 'batch-size': must be a positive integer", 1,
 		)
 	} else if bs > 500 {
 		// This is the max page size from deviceauth
-		return cli.NewExitError(
+		return cli.Exit(
 			"invalid flag 'batch-size': must be less than 500", 1,
 		)
 	}
 	httpClient := new(http.Client)
-	ctx := context.Background()
 
 	wfCfg, err := oas.NewDefaultClientConfigurationFromURL(
 		config.Config.GetString(dconfig.SettingWorkflowsURL),
