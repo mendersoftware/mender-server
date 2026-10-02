@@ -20,6 +20,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -32,7 +33,16 @@ import (
 var appVersion = version.Get()
 
 func main() {
-	doMain(os.Args)
+	err := doMain(os.Args)
+	if err != nil {
+		var exitCoder cli.ExitCoder
+		log.NewEmpty().Error(err)
+		if errors.As(err, &exitCoder) {
+			os.Exit(exitCoder.ExitCode())
+		} else {
+			os.Exit(1)
+		}
+	}
 }
 
 const maintenanceDescription = `Run migrations in maintenance mode.
@@ -43,7 +53,7 @@ const maintenanceDescription = `Run migrations in maintenance mode.
        - DELETE /api/management/v1/inventory/devices/{id}/group/{name}
        - PATCH  /api/devices/v1/inventory/devices/attributes`
 
-func doMain(args []string) {
+func doMain(args []string) error {
 	var configPath string
 	var debug bool
 
@@ -156,7 +166,7 @@ func doMain(args []string) {
 		return ctx, nil
 	}
 
-	_ = app.Run(context.Background(), args)
+	return app.Run(context.Background(), args)
 }
 
 func makeDataStoreConfig() mongo.DataStoreMongoConfig {
