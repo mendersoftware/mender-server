@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { KeyboardEvent } from 'react';
+
 // material ui
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -90,6 +92,29 @@ const useStyles = makeStyles()(() => ({
   textWrapping: { whiteSpace: 'initial' }
 }));
 
+const onListItemKeyDown = (event: KeyboardEvent<HTMLDivElement>, onOpen: () => void) => {
+  if (event.target !== event.currentTarget) {
+    return;
+  }
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      onOpen();
+      break;
+    case 'ArrowDown':
+    case 'ArrowUp': {
+      event.preventDefault();
+      const items = Array.from(event.currentTarget.parentElement?.querySelectorAll<HTMLElement>(':scope > [role="listitem"]') ?? []);
+      const index = items.indexOf(event.currentTarget);
+      items[index + (event.key === 'ArrowDown' ? 1 : -1)]?.focus();
+      break;
+    }
+    default:
+      break;
+  }
+};
+
 interface DeploymentItemCommonProps {
   className?: string;
   columnHeaders: ColumnHeader[];
@@ -152,8 +177,16 @@ export const DeploymentItemCompact = ({
     );
   }
 
+  const onOpen = () => openReport(type, deployment.id);
+
   return (
-    <div className={`padding-small relative clickable ${className}`} role="listitem" onClick={() => openReport(type, deployment.id)}>
+    <div
+      className={`padding-small relative clickable ${className}`}
+      role="listitem"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={event => onListItemKeyDown(event, onOpen)}
+    >
       <TwoColumnData data={deploymentInfo} />
     </div>
   );
@@ -195,8 +228,16 @@ export const DeploymentItem = ({
       />
     );
   }
+  const onOpen = () => openReport(type, deployment.id);
+
   return (
-    <div className={`padding-small relative clickable ${className}`} role="listitem" onClick={() => openReport(type, deployment.id)}>
+    <div
+      className={`padding-small relative clickable ${className}`}
+      role="listitem"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={event => onListItemKeyDown(event, onOpen)}
+    >
       {columnHeaders.map(({ renderer: ColumnComponent, class: columnClass = '', props }, i) => (
         <ColumnComponent
           key={`deploy-item-${i}`}
