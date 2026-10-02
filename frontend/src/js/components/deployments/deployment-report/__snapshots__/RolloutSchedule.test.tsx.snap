@@ -265,7 +265,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           Phase start time
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-11"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium padding-top-none padding-bottom-none emotion-11"
           scope="col"
           style="min-width: 200px;"
         >
@@ -302,11 +302,11 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           </p>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none emotion-17"
           style="min-width: 200px;"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-5"
+            class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small emotion-5"
           >
             Pending
           </p>

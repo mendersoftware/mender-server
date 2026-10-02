@@ -309,6 +309,12 @@ exports[`Deployments Component > renders correctly 1`] = `
   background-color: rgba(0, 0, 0, 0.04);
 }
 
+.emotion-10:focus-visible {
+  background-color: rgba(0, 0, 0, 0.04);
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
 .emotion-11 {
   display: grid;
   grid-column-gap: 24px;
@@ -316,15 +322,15 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 .emotion-11.inprogress-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr;
 }
 
 .emotion-11.pending-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr;
 }
 
 .emotion-11.scheduled-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr;
 }
 
 .emotion-11.finished-item {
@@ -589,6 +595,7 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class="padding-small relative clickable emotion-10 emotion-11 inprogress-item"
             role="listitem"
+            tabindex="0"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 text-overflow emotion-21"
@@ -660,6 +667,7 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class="padding-small relative clickable emotion-10 emotion-11 inprogress-item"
             role="listitem"
+            tabindex="0"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 text-overflow emotion-21"
@@ -734,6 +742,7 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class="padding-small relative clickable emotion-10 emotion-11 inprogress-item"
             role="listitem"
+            tabindex="0"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 text-overflow emotion-21"
@@ -878,6 +887,7 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class="padding-small relative clickable emotion-10 emotion-11 pending-item"
             role="listitem"
+            tabindex="0"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 text-overflow emotion-23"
@@ -949,6 +959,7 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class="padding-small relative clickable emotion-10 emotion-11 pending-item"
             role="listitem"
+            tabindex="0"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 text-overflow emotion-23"
@@ -1023,6 +1034,7 @@ exports[`Deployments Component > renders correctly 1`] = `
           <div
             class="padding-small relative clickable emotion-10 emotion-11 pending-item"
             role="listitem"
+            tabindex="0"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 text-overflow emotion-23"

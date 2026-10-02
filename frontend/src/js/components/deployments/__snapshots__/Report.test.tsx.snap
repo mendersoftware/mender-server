@@ -862,7 +862,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </th>
               <th
-                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1orzuox-MuiTableCell-root"
                 scope="col"
                 style="min-width: 200px;"
               >
@@ -903,11 +903,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 </p>
               </td>
               <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
                 style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
                   Pending
                 </p>
@@ -1764,7 +1764,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </th>
               <th
-                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1orzuox-MuiTableCell-root"
                 scope="col"
                 style="min-width: 200px;"
               >
@@ -1801,11 +1801,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 </p>
               </td>
               <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
                 style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
                   Pending
                 </p>
@@ -1841,11 +1841,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 </p>
               </td>
               <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
                 style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
                   Pending
                 </p>
@@ -1881,11 +1881,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 </p>
               </td>
               <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
                 style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
                   Pending
                 </p>
@@ -1921,11 +1921,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 </p>
               </td>
               <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
                 style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
                   Pending
                 </p>
@@ -1966,11 +1966,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 </p>
               </td>
               <td
-                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
                 style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
                   Pending
                 </p>

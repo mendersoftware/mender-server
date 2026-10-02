@@ -1225,6 +1225,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
   background-color: rgba(0, 0, 0, 0.04);
 }
 
+.emotion-67:focus-visible {
+  background-color: rgba(0, 0, 0, 0.04);
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
 .emotion-68 {
   display: grid;
   grid-column-gap: 24px;
@@ -1232,15 +1238,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
 }
 
 .emotion-68.inprogress-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr;
 }
 
 .emotion-68.pending-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr;
 }
 
 .emotion-68.scheduled-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr;
 }
 
 .emotion-68.finished-item {
@@ -2244,6 +2250,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-102:focus::-ms-input
       <div
         class="padding-small relative clickable emotion-67 emotion-68 finished-item"
         role="listitem"
+        tabindex="0"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 text-overflow emotion-79"
