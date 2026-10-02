@@ -181,7 +181,7 @@ const getDeviceCountPhaseMessages = ({
       isDynamic
         ? {
             message: isUniform
-              ? 'Batch size exceeds group size. This runs as a single, unbatched phase. Lower the batch size or use percentage rollout.'
+              ? `Batch size exceeds ${deploymentDeviceCount > (maxDevices || 0) ? 'group size' : 'the maximum number of devices'}. This runs as a single, unbatched phase. Lower the batch size or use percentage rollout.`
               : `Rollout size exceeds the current target group size. Any new devices added to the group will join this phase until it's full`,
             severity: 'warning'
           }
