@@ -27,7 +27,7 @@ export const rolloutPatterns = {
   },
   uniform: {
     key: 'uniform',
-    title: 'Uniform (repeat until all devices deployed)',
+    title: 'Uniform',
     tip: 'Repeat all phases until all devices are deployed'
   }
 } as const;

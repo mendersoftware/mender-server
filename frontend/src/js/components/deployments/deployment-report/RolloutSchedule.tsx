@@ -56,7 +56,12 @@ const phaseColumns = [
       `${(initial_batch_device_count || device_count)?.toLocaleString()}${isGrowing ? '*' : ''}`
   },
   { key: 'startTs', title: 'Phase start time', cellProps: { align: 'right' }, render: ({ start_ts }: DisplayablePhase) => <MaybeTime value={start_ts} /> },
-  { key: 'status', title: 'Status', cellProps: { style: { minWidth: 200 } }, render: (phase: DisplayablePhase) => <PhaseStatus phase={phase} /> }
+  {
+    key: 'status',
+    title: 'Status',
+    cellProps: { className: 'padding-top-none padding-bottom-none', style: { minWidth: 200 } },
+    render: (phase: DisplayablePhase) => <PhaseStatus phase={phase} />
+  }
 ];
 
 interface RolloutScheduleProps {

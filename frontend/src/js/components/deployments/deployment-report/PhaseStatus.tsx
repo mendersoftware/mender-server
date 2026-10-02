@@ -18,18 +18,22 @@ import type { DeploymentPhase } from '@northern.tech/types/MenderTypes';
 
 export const PhaseStatus = ({ phase }: { phase: DeploymentPhase }) => {
   const { device_count = 0, initial_batch_device_count = 0, status = DEPLOYMENT_STATES.pending } = phase;
-  if (status && status !== DEPLOYMENT_STATES.inprogress) {
-    return <Typography variant="body2">{deploymentDisplayStates[status]}</Typography>;
+  if (status !== DEPLOYMENT_STATES.inprogress) {
+    return (
+      <Typography className="padding-top-small padding-bottom-small" variant="body2">
+        {deploymentDisplayStates[status]}
+      </Typography>
+    );
   }
   const progress = device_count ? Math.min((device_count / initial_batch_device_count) * 100, 100) : 0;
   return (
-    <>
+    <div className="padding-top-x-small padding-bottom-x-small">
       <div className="flexbox space-between">
         <Typography variant="body2">{deploymentDisplayStates[status]}</Typography>
         <Typography variant="body2">{`${device_count.toLocaleString()}/${initial_batch_device_count.toLocaleString()}`}</Typography>
       </div>
       <LinearProgress className="margin-top-x-small" variant="determinate" value={progress} />
-    </>
+    </div>
   );
 };
 

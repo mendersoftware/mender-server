@@ -66,7 +66,7 @@ export const DeploymentPhaseNotification = ({ className = '', deployment = {}, o
   );
 };
 
-export const DeploymentStatus = ({ className = '', deployment = {} }: { className: string; deployment?: Deployment }) => {
+export const DeploymentStatus = ({ className = '', deployment }: { className?: string; deployment: Deployment }) => {
   const { classes } = useStyles();
   const { device_count = 0, filter, finished, max_devices, retries = 0, status = 'pending', statistics = {} } = deployment;
   const { status: stats = {} } = statistics;
