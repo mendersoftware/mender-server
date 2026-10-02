@@ -12,13 +12,28 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import type { ColumnHeader, ListItemComponentProps } from '@northern.tech/common-ui/List';
 import { CommonList } from '@northern.tech/common-ui/List';
+import Time from '@northern.tech/common-ui/Time';
+import type { Tenant } from '@northern.tech/store/organizationSlice/types';
 import { tenants, undefineds } from '@northern.tech/testing/mockData';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { TenantListItem, columnHeaders } from '../components/tenants/TenantList';
+const columnHeaders: ColumnHeader<Tenant>[] = [
+  { title: 'Name', attribute: { name: 'name', scope: '' }, sortable: false, component: ({ item }) => <div>{item?.name}</div> },
+  { title: 'Created', attribute: { name: '', scope: '' }, sortable: false, component: ({ item }) => <Time value={item?.created_at} /> }
+];
+
+const TestListItem = ({ listItem, columnHeaders, onClick }: ListItemComponentProps<Tenant>) => (
+  <div onClick={() => onClick(listItem)} className="deviceListRow deviceListItem clickable" role="listitem">
+    {columnHeaders.map(column => {
+      const { component: Component } = column;
+      return <Component classes={{}} column={column} item={listItem} key={column.title} />;
+    })}
+  </div>
+);
 
 describe('List component', () => {
   it('renders correctly', () => {
@@ -30,7 +45,7 @@ describe('List component', () => {
     const onChangeRowsPerPage = vi.fn();
     const { baseElement } = render(
       <CommonList
-        ListItemComponent={TenantListItem}
+        ListItemComponent={TestListItem}
         listItems={tenants}
         listState={{ ...defaultState.organization.organization.tenantList, total: 10 }}
         columnHeaders={columnHeaders}
@@ -57,7 +72,7 @@ describe('List component', () => {
     const onChangeRowsPerPage = vi.fn();
     render(
       <CommonList
-        ListItemComponent={TenantListItem}
+        ListItemComponent={TestListItem}
         listItems={tenants}
         listState={{ ...defaultState.organization.organization.tenantList, total: 10 }}
         columnHeaders={columnHeaders}
@@ -71,7 +86,7 @@ describe('List component', () => {
       />
     );
 
-    await user.click(screen.getByText('View details'));
+    await user.click(screen.getByRole('listitem'));
     expect(onExpandClickMock).toHaveBeenCalled();
   });
 });
