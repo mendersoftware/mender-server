@@ -14,8 +14,8 @@
 import { Delete as DeleteIcon, FileCopy as FileIcon } from '@mui/icons-material';
 import { IconButton, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 
-import FileSize from '@northern.tech/common-ui/FileSize';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { getFormattedSize } from '@northern.tech/utils/helpers';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
@@ -56,7 +56,7 @@ export const FileInformation = ({ file, type, onRemove }) => {
         <ListItemAvatar className="align-self-center">
           <Icon color="action" />
         </ListItemAvatar>
-        <ListItemText primary={file.name} secondary={<FileSize fileSize={file.size} />} />
+        <ListItemText primary={file.name} secondary={getFormattedSize(file.size)} />
       </ListItem>
     </div>
   );

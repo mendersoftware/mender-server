@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { defaultState, render } from '@/testUtils';
+import { defaultState, render, waitForPendingRequests } from '@/testUtils';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
@@ -55,13 +55,17 @@ describe('Deployments Component', () => {
     const getDeviceLogSpy = vi.spyOn(DeploymentActions, 'getDeviceLog');
     const getSingleDeploymentSpy = vi.spyOn(DeploymentActions, 'getSingleDeployment');
 
-    render(<Deployments device={{ ...defaultState.devices.byId.a1, deploymentsCount: 1, deviceDeployments }} />);
+    const { id: deploymentId } = defaultState.deployments.byId.d1;
+    render(
+      <Deployments device={{ ...defaultState.devices.byId.a1, deploymentsCount: 1, deviceDeployments: [{ ...deviceDeployments[0], id: deploymentId }] }} />
+    );
 
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const logButton = screen.getByRole('button', { name: /log/i });
     await user.click(logButton);
 
-    expect(getDeviceLogSpy).toHaveBeenCalledWith({ deploymentId: 'deployment123', deviceId: 'a1' });
-    expect(getSingleDeploymentSpy).toHaveBeenCalledWith('deployment123');
+    expect(getDeviceLogSpy).toHaveBeenCalledWith({ deploymentId, deviceId: 'a1' });
+    expect(getSingleDeploymentSpy).toHaveBeenCalledWith(deploymentId);
+    await waitForPendingRequests();
   });
 });

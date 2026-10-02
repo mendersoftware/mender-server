@@ -19,7 +19,6 @@ import { Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
-import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
@@ -27,6 +26,7 @@ import type { IdAttribute } from '@northern.tech/store/constants';
 import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import type { Device } from '@northern.tech/store/devicesSlice';
 import { useDeploymentDevice } from '@northern.tech/store/useDeploymentDevice';
+import { getFormattedSize } from '@northern.tech/utils/helpers';
 
 import DeploymentStats from './DeploymentStatus';
 import type { ColumnHeader } from './DeploymentsList';
@@ -83,8 +83,8 @@ export const DeploymentStartTime = ({ className, direction = 'both', started }: 
 );
 
 export const DeploymentSize = ({ deployment: { statistics } }: Pick<ColumnComponentProps, 'deployment'>) => (
-  <Typography variant="body2" className="align-right" component="div">
-    {statistics.total_size ? <FileSize fileSize={statistics.total_size} /> : '-'}
+  <Typography variant="body2" className="align-right">
+    {statistics.total_size ? getFormattedSize(statistics.total_size) : '-'}
   </Typography>
 );
 

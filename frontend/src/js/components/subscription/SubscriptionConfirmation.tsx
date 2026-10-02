@@ -94,7 +94,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
         </div>
         {willLogout ? (
           <Alert severity="info" icon={false}>
-            <AlertTitle textAlign="center">Automatic logout in {count} seconds</AlertTitle>
+            <AlertTitle className="align-center">Automatic logout in {count} seconds</AlertTitle>
             <div className="flexbox column centered">
               <Typography className="margin-bottom-x-small align-center" variant="body2">
                 You will be logged out automatically, for your new subscription to take effect. <br />
@@ -116,7 +116,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
             }}
             className="flexbox space-between"
           >
-            <AlertTitle textAlign="center">Subscription Active</AlertTitle>
+            <AlertTitle className="align-center">Subscription Active</AlertTitle>
             <div className="flexbox column centered">
               <Typography className="margin-bottom-x-small align-center" variant="body2">
                 Your updated subscription is ready to use.{' '}

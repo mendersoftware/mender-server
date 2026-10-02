@@ -16,7 +16,7 @@ import { MemoryRouter } from 'react-router';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { defaultState } from '@/testUtils';
+import { defaultState, waitForPendingRequests } from '@/testUtils';
 import { DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { undefineds } from '@northern.tech/testing/mockData';
@@ -86,6 +86,7 @@ describe('DeviceGroups Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => vi.runAllTicks());
+    await waitForPendingRequests();
   });
 
   it('applies id filter with correct scope when navigating to URL with multiple device ids', async () => {
@@ -101,6 +102,7 @@ describe('DeviceGroups Component', () => {
       expect(idFilter!.scope).toBe(ATTRIBUTE_SCOPES.inventory);
       expect(idFilter!.value).toEqual(deviceIds);
     });
+    await waitForPendingRequests();
   });
 
   it('applies orchestrator manifest filter from an inventory scoped URL with the full key and inventory scope', async () => {
@@ -115,5 +117,6 @@ describe('DeviceGroups Component', () => {
       expect(manifestFilter!.operator).toBe(DEVICE_FILTERING_OPTIONS.$eq.key);
       expect(manifestFilter!.value).toEqual('rtos');
     });
+    await waitForPendingRequests();
   });
 });

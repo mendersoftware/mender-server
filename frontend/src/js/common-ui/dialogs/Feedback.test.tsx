@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render } from '@/testUtils';
+import { render, waitForPendingRequests } from '@/testUtils';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -30,5 +30,6 @@ describe('Feedback Component', () => {
     await user.type(screen.getByPlaceholderText(/your feedback/i), 'some feedback');
     await user.click(screen.getByRole('button', { name: /submit/i }));
     expect(screen.getByText(/Thank you/i)).toBeVisible();
+    await waitForPendingRequests();
   });
 });
