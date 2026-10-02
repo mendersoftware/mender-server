@@ -57,243 +57,129 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 }
 
 .emotion-8 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
-  margin-left: 32px;
-  margin-right: 32px;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.emotion-8 caption {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: left;
+  caption-side: bottom;
+}
+
+.emotion-9 {
+  display: table-header-group;
+}
+
+.emotion-9 .columnHeader {
+  display: table-cell;
+}
+
+.emotion-9 .columnHeader .sortIcon {
+  margin-bottom: -6px;
+}
+
+.emotion-9 .nonSortable {
+  cursor: initial;
 }
 
 .emotion-10 {
-  -webkit-align-items: baseline;
-  -webkit-box-align: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
+  color: inherit;
+  display: table-row;
+  vertical-align: middle;
+  outline: 0;
 }
 
-.emotion-13 {
-  background-color: #fff;
-  padding: 10px 20px;
-  border-radius: 4px;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  min-height: 70px;
+.emotion-10.MuiTableRow-hover:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-13 .progress-bar {
-  height: 4px;
+.emotion-10.Mui-selected {
+  background-color: rgba(25, 118, 210, 0.08);
 }
 
-.emotion-13 .chart-container {
-  min-height: 70px;
+.emotion-10.Mui-selected:hover {
+  background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-13 .progress-chart {
-  min-height: 45px;
+.emotion-11 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
 }
 
-.emotion-13 .progress-step {
-  min-height: 45px;
-}
-
-.emotion-13 .progress-step,
-.emotion-13 .progress-step-total {
-  position: absolute;
-  border-right-style: none;
-}
-
-.emotion-13 .progress-step-total .progress-bar {
-  background-color: #fafafa;
-}
-
-.emotion-13 .progress-step-number {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: -4px;
-}
-
-.emotion-13.no-background {
-  background: none;
-}
-
-.emotion-13.stepped-progress .progress-step-total {
-  margin-left: -0.25%;
-  width: 100.5%;
-}
-
-.emotion-13.stepped-progress .progress-step-total .progress-bar {
-  background-color: #fff;
-  border: 1px solid #424242;
-  border-radius: 2px;
-  height: 8px;
-}
-
-.emotion-13.stepped-progress .progress-step {
-  min-height: 20px;
-}
-
-.emotion-14 {
-  position: relative;
-  overflow: hidden;
-  display: block;
-  height: 4px;
-  z-index: 0;
-  background-color: rgb(167, 202, 237);
-}
-
-@media print {
-  .emotion-14 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
+.emotion-12 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
+  text-align: right;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .emotion-15 {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear 0ms;
-  transition: transform 0.2s linear 0ms;
-  transform-origin: left;
-  background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear 0ms;
-  transition: transform .4s linear 0ms;
-}
-
-.emotion-16 {
-  max-width: 270px;
-  border-radius: 5px;
-  padding-top: 8px;
-  padding-bottom: 24px;
+  display: table-row-group;
 }
 
 .emotion-17 {
-  margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.75rem;
-  line-height: 1.66;
-  letter-spacing: 0.03333em;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-18 {
-  max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-size: 0.8125rem;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 1.5;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
   color: rgba(0, 0, 0, 0.87);
-  background-color: rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  white-space: nowrap;
-  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: unset;
-  outline: 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border: 0;
-  padding: 0;
-  vertical-align: middle;
-  box-sizing: border-box;
-  height: 24px;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-bottom: 16px;
-  margin-top: 16px;
-}
-
-.emotion-18.Mui-disabled {
-  opacity: 0.38;
-  pointer-events: none;
-}
-
-.emotion-18 .MuiChip-avatar {
-  margin-left: 5px;
-  margin-right: -6px;
-  width: 24px;
-  height: 24px;
-  color: #616161;
-  font-size: 0.75rem;
-}
-
-.emotion-18 .MuiChip-icon {
-  margin-left: 5px;
-  margin-right: -6px;
-}
-
-.emotion-18 .MuiChip-deleteIcon {
-  -webkit-tap-highlight-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-  font-size: 22px;
-  cursor: pointer;
-  margin: 0 5px 0 -6px;
-}
-
-.emotion-18 .MuiChip-deleteIcon:hover {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.emotion-18 .MuiChip-avatar {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
-.emotion-18 .MuiChip-icon {
-  font-size: 18px;
-  margin-left: 4px;
-  margin-right: -4px;
-}
-
-.emotion-18 .MuiChip-deleteIcon {
-  font-size: 16px;
-  margin-right: 4px;
-  margin-left: -4px;
-}
-
-.emotion-18 .MuiChip-icon {
-  color: #616161;
-}
-
-.emotion-19 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-  padding-left: 8px;
-  padding-right: 8px;
+  text-align: right;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 <div>
@@ -310,173 +196,123 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
     />
   </div>
   <div
-    class="flexbox"
+    class="break-all two-columns emotion-3 column-data margin-bottom"
   >
-    <div
-      class="break-all two-columns emotion-3 column-data "
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
+      style="white-space: nowrap;"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
-        style="white-space: nowrap;"
+      Rollout pattern
+    </h6>
+    <div
+      class="flexbox align-items-center "
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-5"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        title="Standard (single phase)"
       >
-        Start time
-      </h6>
-      <div
-        class="flexbox align-items-center "
-      >
-        <div
-          class="MuiTypography-root MuiTypography-body2 emotion-5"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-          title="2019-01-01T12:25:00.000Z"
-        >
-          <time
-            datetime="2019-01-01T12:25:00+00:00"
-          >
-            2019-01-01 12:25
-          </time>
-        </div>
-      </div>
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
-        style="white-space: nowrap;"
-      >
-        Current phase
-      </h6>
-      <div
-        class="flexbox align-items-center "
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-5"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-          title="1"
-        >
-          1
-        </p>
-      </div>
+        Standard (single phase)
+      </p>
     </div>
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
-      data-testid="ArrowForwardIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
+      style="white-space: nowrap;"
     >
-      <path
-        d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-      />
-    </svg>
+      Start time
+    </h6>
     <div
-      class="break-all two-columns emotion-3 column-data emotion-10"
+      class="flexbox align-items-center "
     >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
-        style="white-space: nowrap;"
-      >
-        End time
-      </h6>
       <div
-        class="flexbox align-items-center "
+        class="MuiTypography-root MuiTypography-body2 emotion-5"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        title="2019-01-01T12:25:00.000Z"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-5"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-          title="-"
+        <time
+          datetime="2019-01-01T12:25:00+00:00"
         >
-          -
-        </p>
+          2019-01-01 12:25
+        </time>
       </div>
     </div>
   </div>
-  <div
-    class="relative flexbox column emotion-13 margin-top no-background"
+  <table
+    class="MuiTable-root margin-bottom margin-bottom-none emotion-8"
   >
-    <div
-      class="chart-container"
+    <thead
+      class="MuiTableHead-root emotion-9"
     >
-      <div
-        class="capitalized progress-step-number muted"
+      <tr
+        class="MuiTableRow-root MuiTableRow-head emotion-10"
       >
-        Phase 
-        1
-      </div>
-      <span
-        aria-valuemax="100"
-        aria-valuemin="0"
-        aria-valuenow="0"
-        class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-14"
-        role="progressbar"
-      >
-        <span
-          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-15"
-          style="transform: translateX(-100%);"
-        />
-      </span>
-    </div>
-  </div>
-  <div
-    class="deployment-phases-report margin-top margin-bottom"
-    style="grid-template-columns: repeat(auto-fit, 270px);"
-  >
-    <div
-      class="flexbox column padding-small emotion-16 "
-    >
-      <span
-        class="MuiTypography-root MuiTypography-caption emotion-17"
-      >
-        Complete
-      </span>
-      <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-18"
-      >
-        <span
-          class="MuiChip-label emotion-19"
+        <th
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-11"
+          scope="col"
         >
-          Phase 1
-        </span>
-      </div>
-      <div
-        class="break-all two-columns emotion-3 column-data "
-      >
-        <h6
-          class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
-          style="white-space: nowrap;"
-        >
-          Phase start time
-        </h6>
-        <div
-          class="flexbox align-items-center "
-        >
-          <div
-            class="MuiTypography-root MuiTypography-body2 emotion-5"
-            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-            title="2019-01-01T12:25:00.000Z"
-          >
-            <time
-              datetime="2019-01-01T12:25:00+00:00"
-            >
-              2019-01-01 12:25
-            </time>
-          </div>
-        </div>
-        <h6
-          class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
-          style="white-space: nowrap;"
+          Phases
+        </th>
+        <th
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-12"
+          scope="col"
         >
           Batch size
-        </h6>
-        <div
-          class="flexbox align-items-center "
+        </th>
+        <th
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-12"
+          scope="col"
+        >
+          Phase start time
+        </th>
+        <th
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium padding-top-none padding-bottom-none emotion-11"
+          scope="col"
+          style="min-width: 200px;"
+        >
+          Status
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="MuiTableBody-root emotion-15"
+    >
+      <tr
+        class="MuiTableRow-root MuiTableRow-hover emotion-10"
+      >
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+        >
+          <div>
+            Phase 
+            1
+          </div>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-18"
+        >
+          1
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-18"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-5"
-            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-            title="100% (1 device)"
           >
-            100% (1 device)
+            -
           </p>
-        </div>
-      </div>
-    </div>
-  </div>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none emotion-17"
+          style="min-width: 200px;"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small emotion-5"
+          >
+            Pending
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 `;

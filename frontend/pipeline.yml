@@ -212,10 +212,19 @@ test:frontend:acceptance:
 
 test:frontend:acceptance:enterprise:
   extends: .template:test:frontend:acceptance
+  needs:
+    - job: build:frontend:docker
+      artifacts: false
+    - job: build:backend:docker
+      artifacts: false
+      optional: true
+    - job: test:prep
+      artifacts: true
   rules:
     # This job can only run on protected branches
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
   script:
+    - mv mender-stress-test-client frontend/tests/e2e_tests/
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - |
       if echo "$CI_COMMIT_REF_NAME" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9x]+$'; then

@@ -30,8 +30,7 @@ import {
   getGroupNames,
   getIdAttribute,
   getMappedDeploymentSelection,
-  getOnboardingState,
-  getUserCapabilities
+  getOnboardingState
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
@@ -86,7 +85,6 @@ export const Past = props => {
 
   const { finished: pastSelectionState } = useSelector(getDeploymentsSelectionState);
   const past = useSelector(state => getMappedDeploymentSelection(state, type));
-  const { canConfigure, canDeploy } = useSelector(getUserCapabilities);
   const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
   const devices = useSelector(getDevicesById);
@@ -179,7 +177,7 @@ export const Past = props => {
 
   let onboardingComponent = null;
   if (deploymentsRef.current) {
-    const detailsButtons = deploymentsRef.current.getElementsByClassName('MuiButton-outlined');
+    const detailsButtons = deploymentsRef.current.getElementsByClassName(`${DEPLOYMENT_STATES.finished}-item`);
     const left = detailsButtons.length
       ? deploymentsRef.current.offsetLeft + detailsButtons[0].offsetLeft + detailsButtons[0].offsetWidth / 2 + 15
       : deploymentsRef.current.offsetWidth;
@@ -245,8 +243,6 @@ export const Past = props => {
         {!!past.length && (
           <DeploymentsList
             {...props}
-            canConfigure={canConfigure}
-            canDeploy={canDeploy}
             componentClass="margin-left-small"
             count={count}
             devices={devices}

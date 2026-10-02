@@ -47,6 +47,12 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   background-color: rgba(0, 0, 0, 0.04);
 }
 
+.emotion-0:focus-visible {
+  background-color: rgba(0, 0, 0, 0.04);
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
 .emotion-1 {
   display: grid;
   grid-column-gap: 24px;
@@ -54,19 +60,19 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
 }
 
 .emotion-1.inprogress-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr 1.5fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr;
 }
 
 .emotion-1.pending-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr 1.5fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr;
 }
 
 .emotion-1.scheduled-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr 1.5fr 48px;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr;
 }
 
 .emotion-1.finished-item {
-  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2.25fr 1fr 1.25fr;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2.5fr 1.25fr;
 }
 
 .emotion-2 {
@@ -99,63 +105,11 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 4px;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
   min-height: 70px;
-}
-
-.emotion-16 .progress-bar {
-  height: 4px;
-}
-
-.emotion-16 .chart-container {
-  min-height: 70px;
-}
-
-.emotion-16 .progress-chart {
-  min-height: 45px;
-}
-
-.emotion-16 .progress-step {
-  min-height: 45px;
-}
-
-.emotion-16 .progress-step,
-.emotion-16 .progress-step-total {
-  position: absolute;
-  border-right-style: none;
-}
-
-.emotion-16 .progress-step-total .progress-bar {
-  background-color: #fafafa;
-}
-
-.emotion-16 .progress-step-number {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: -4px;
-}
-
-.emotion-16.no-background {
-  background: none;
-}
-
-.emotion-16.stepped-progress .progress-step-total {
-  margin-left: -0.25%;
-  width: 100.5%;
-}
-
-.emotion-16.stepped-progress .progress-step-total .progress-bar {
-  background-color: #fff;
-  border: 1px solid #424242;
-  border-radius: 2px;
-  height: 8px;
-}
-
-.emotion-16.stepped-progress .progress-step {
-  min-height: 20px;
 }
 
 .emotion-17 {
@@ -166,10 +120,6 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.emotion-17 .progress-chart.detailed {
-  min-height: 20px;
 }
 
 .emotion-18 {
@@ -228,110 +178,7 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   letter-spacing: 0.03333em;
 }
 
-.emotion-24 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.75;
-  letter-spacing: 0.02857em;
-  text-transform: uppercase;
-  min-width: 64px;
-  padding: 6px 16px;
-  border: 0;
-  border-radius: 4px;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 5px 15px;
-  border: 1px solid currentColor;
-  border-color: var(--variant-outlinedBorder, currentColor);
-  background-color: var(--variant-outlinedBg);
-  color: var(--variant-outlinedColor);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
-  --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  display: grid;
-  place-self: center;
-}
-
-.emotion-24::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-24.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-24 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-24:hover {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-24.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-24.Mui-disabled {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-@media (hover: hover) {
-  .emotion-24:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
-  }
-}
-
-.emotion-24.MuiButton-loading {
-  color: transparent;
-}
-
-.emotion-33 {
+.emotion-32 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -346,11 +193,6 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: 1.5rem;
-}
-
-.emotion-44 {
-  border-right: 1px dashed;
-  z-index: 10;
 }
 
 <div
@@ -391,8 +233,9 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
     </p>
   </div>
   <div
-    class="padding-small relative emotion-0 emotion-1 pending-item"
+    class="padding-small relative clickable emotion-0 emotion-1 pending-item"
     role="listitem"
+    tabindex="0"
   >
     <p
       class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
@@ -466,17 +309,11 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
         </span>
       </div>
     </div>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-24"
-      tabindex="0"
-      type="button"
-    >
-      View details
-    </button>
   </div>
   <div
-    class="padding-small relative emotion-0 emotion-1 pending-item"
+    class="padding-small relative clickable emotion-0 emotion-1 pending-item"
     role="listitem"
+    tabindex="0"
   >
     <p
       class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
@@ -516,7 +353,7 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
         data-testid="PendingOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -546,17 +383,11 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
         Queued to start
       </span>
     </p>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-24"
-      tabindex="0"
-      type="button"
-    >
-      View details
-    </button>
   </div>
   <div
-    class="padding-small relative emotion-0 emotion-1 pending-item"
+    class="padding-small relative clickable emotion-0 emotion-1 pending-item"
     role="listitem"
+    tabindex="0"
   >
     <p
       class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
@@ -591,118 +422,17 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
       <div
         class="emotion-17"
       >
-        <div
-          class="progress-chart relative detailed"
+        <span
+          class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-18"
+          role="progressbar"
         >
-          <div
-            class="progress-step"
-            style="left: 0%; width: 2%;"
-          >
-            <div
-              style="display: contents;"
-            >
-              <div
-                class="progress-bar green"
-                style="width: 0%;"
-              />
-              <div
-                class="progress-bar warning"
-                style="left: 0%; width: 0%;"
-              />
-            </div>
-          </div>
-          <div
-            class="absolute emotion-44"
-            style="left: 0%;"
+          <span
+            class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-19"
           />
-          <div
-            class="progress-step"
-            style="left: 2%; width: 3%;"
-          >
-            <div
-              style="display: contents;"
-            >
-              <div
-                class="progress-bar green"
-                style="width: 0%;"
-              />
-              <div
-                class="progress-bar warning"
-                style="left: 0%; width: 0%;"
-              />
-            </div>
-          </div>
-          <div
-            class="absolute emotion-44"
-            style="left: 2%;"
+          <span
+            class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-20"
           />
-          <div
-            class="progress-step"
-            style="left: 5%; width: 5%;"
-          >
-            <div
-              style="display: contents;"
-            >
-              <div
-                class="progress-bar green"
-                style="width: 0%;"
-              />
-              <div
-                class="progress-bar warning"
-                style="left: 0%; width: 0%;"
-              />
-            </div>
-          </div>
-          <div
-            class="absolute emotion-44"
-            style="left: 5%;"
-          />
-          <div
-            class="progress-step"
-            style="left: 10%; width: 5%;"
-          >
-            <div
-              style="display: contents;"
-            >
-              <div
-                class="progress-bar green"
-                style="width: 0%;"
-              />
-              <div
-                class="progress-bar warning"
-                style="left: 0%; width: 0%;"
-              />
-            </div>
-          </div>
-          <div
-            class="absolute emotion-44"
-            style="left: 10%;"
-          />
-          <div
-            class="progress-step"
-            style="left: 15%; width: 85%;"
-          >
-            <div
-              style="display: contents;"
-            >
-              <div
-                class="progress-bar green"
-                style="width: 0%;"
-              />
-              <div
-                class="progress-bar warning"
-                style="left: 0%; width: 0%;"
-              />
-            </div>
-          </div>
-          <div
-            class="progress-step relative flexbox progress-step-total"
-          >
-            <div
-              class="progress-bar"
-            />
-          </div>
-        </div>
+        </span>
         <p
           class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-11"
           style="justify-content: flex-end;"
@@ -721,25 +451,10 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
         <span
           class="MuiTypography-root MuiTypography-caption emotion-22"
         >
-          <span>
-            Time until next phase: 
-          </span>
-          <span
-            class=""
-            data-mui-internal-clone-element="true"
-          >
-            21 days 22 h 45 m 09 s
-          </span>
+          Current phase: 1 of 5
         </span>
       </div>
     </div>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-24"
-      tabindex="0"
-      type="button"
-    >
-      View details
-    </button>
   </div>
   <div
     class="flexbox"

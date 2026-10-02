@@ -134,11 +134,18 @@ export type PhaseMessage = {
   severity: AlertProps['severity'];
 };
 
+type UniformPhaseSetup = {
+  batchSize?: number;
+  numberDevices: number;
+  rolloutMode: RolloutMode;
+};
+
 export interface PhaseMessagesProps {
   batchSize?: number;
   deploymentDeviceCount: number;
   isDynamic: boolean;
   isFinal?: boolean;
+  isUniform?: boolean;
   maxDevices?: number;
   remainder: number;
   rolloutMode: RolloutMode;
@@ -159,17 +166,27 @@ const getPercentagePhaseMessages = ({ batchSize, isFinal, remainder, deploymentD
   return messages;
 };
 
-const getDeviceCountPhaseMessages = ({ batchSize, isDynamic, isFinal, remainder, deploymentDeviceCount, maxDevices }: PhaseMessagesProps): PhaseMessage[] => {
+const getDeviceCountPhaseMessages = ({
+  batchSize,
+  isDynamic,
+  isFinal,
+  isUniform,
+  remainder,
+  deploymentDeviceCount,
+  maxDevices
+}: PhaseMessagesProps): PhaseMessage[] => {
   const messages: PhaseMessage[] = [];
   if (!!batchSize && batchSize > deploymentDeviceCount) {
-    if (isDynamic) {
-      messages.push({
-        message: `Rollout size exceeds the current target group size. Any new devices added to the group will join this phase until it's full`,
-        severity: 'warning'
-      });
-    } else {
-      messages.push({ message: 'Rollout size exceeds total target group size', severity: 'error' });
-    }
+    messages.push(
+      isDynamic
+        ? {
+            message: isUniform
+              ? `Batch size exceeds ${deploymentDeviceCount > (maxDevices || 0) ? 'group size' : 'the maximum number of devices'}. This runs as a single, unbatched phase. Lower the batch size or use percentage rollout.`
+              : `Rollout size exceeds the current target group size. Any new devices added to the group will join this phase until it's full`,
+            severity: 'warning'
+          }
+        : { message: 'Rollout size exceeds total target group size', severity: 'error' }
+    );
   }
   const effectiveSize = (isFinal ? remainder : batchSize) || 0;
   if (effectiveSize < 1) {
@@ -183,6 +200,39 @@ const getDeviceCountPhaseMessages = ({ batchSize, isDynamic, isFinal, remainder,
 
 export const getPhaseMessages = (props: PhaseMessagesProps): PhaseMessage[] =>
   props.rolloutMode === rolloutModes.percentage.key ? getPercentagePhaseMessages(props) : getDeviceCountPhaseMessages(props);
+
+export const getUniformBatchDevices = ({ batchSize = 0, numberDevices, rolloutMode }: UniformPhaseSetup) =>
+  rolloutMode === rolloutModes.percentage.key ? Math.round((batchSize * numberDevices) / phaseLimits.fullBatchPercentage) : batchSize;
+
+export const getUniformPhaseCount = (setup: UniformPhaseSetup) => {
+  const batchDevices = getUniformBatchDevices(setup);
+  if (setup.numberDevices < 1 || batchDevices < 1) {
+    return 0;
+  }
+  return Math.floor((setup.numberDevices - 1) / batchDevices) + 1;
+};
+
+export const getPhasesMessages = ({
+  rolloutPattern,
+  phases,
+  batchSize,
+  numberDevices,
+  rolloutMode
+}: Partial<UniformPhaseSetup> & { phases: PhaseDefinition[]; rolloutPattern: RolloutPattern }): PhaseMessage[] => {
+  let phaseCount = phases.length + 1;
+  const isUniform = rolloutPattern === rolloutPatterns.uniform.key;
+  if (isUniform) {
+    phaseCount = getUniformPhaseCount({ batchSize, numberDevices: numberDevices!, rolloutMode: rolloutMode! });
+  }
+  return phaseCount > phaseLimits.maxPhaseCount
+    ? [
+        {
+          message: `Total phase count (${phaseCount.toLocaleString()}) exceeds the maximum limit of ${phaseLimits.maxPhaseCount}. ${isUniform ? 'Increase your batch size' : 'Remove phases'} to reduce the total count.`,
+          severity: 'error'
+        }
+      ]
+    : [];
+};
 
 export const getPhasesMessage = ({
   filter,

@@ -13,24 +13,29 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 
-import { RolloutProgressBar } from './RolloutProgressBar';
+import { ListProgress, SimpleProgress } from './RolloutProgressBar';
 
-describe('RolloutProgressBar Component', () => {
-  it('renders correctly with list variant', async () => {
-    const { baseElement } = render(<RolloutProgressBar deployment={defaultState.deployments.byId.d2} variant="list" />);
+describe('ListProgress Component', () => {
+  it('renders correctly', async () => {
+    const { baseElement } = render(<ListProgress deployment={defaultState.deployments.byId.d2} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
-  it('renders correctly with report variant', async () => {
-    const { baseElement } = render(<RolloutProgressBar deployment={defaultState.deployments.byId.d2} variant="report" />);
+  it('renders correctly for phases', async () => {
+    const { baseElement } = render(<ListProgress deployment={{ ...defaultState.deployments.byId.d3, current_phase: 2 }} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+    expect(screen.getByText('Current phase: 2 of 5')).toBeInTheDocument();
   });
-  it('renders correctly for phases with list variant', async () => {
-    const { baseElement } = render(<RolloutProgressBar deployment={defaultState.deployments.byId.d3} variant="list" />);
+});
+
+describe('SimpleProgress Component', () => {
+  it('renders correctly', async () => {
+    const { baseElement } = render(<SimpleProgress deployment={defaultState.deployments.byId.d3} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

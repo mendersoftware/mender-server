@@ -19,6 +19,7 @@ import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { groupDeploymentStats, isDarkMode } from '@northern.tech/store/utils';
 
 const useStyles = makeStyles()(theme => ({
@@ -65,9 +66,9 @@ export const DeploymentPhaseNotification = ({ className = '', deployment = {}, o
   );
 };
 
-export const DeploymentStatus = ({ className = '', deployment = {} }) => {
+export const DeploymentStatus = ({ className = '', deployment }: { className?: string; deployment: Deployment }) => {
   const { classes } = useStyles();
-  const { finished, max_devices, retries = 0, status = 'pending', statistics = {} } = deployment;
+  const { device_count = 0, filter, finished, max_devices, retries = 0, status = 'pending', statistics = {} } = deployment;
   const { status: stats = {} } = statistics;
   const phaseStats = groupDeploymentStats(deployment, true);
 
@@ -93,6 +94,8 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
 
   const statsBasedDeviceCount = Object.values(phaseStats).reduce((sum, count) => sum + count, 0);
 
+  const maxDevices = filter?.name ? max_devices : max_devices || device_count;
+
   return (
     <>
       <div className={`padding-medium margin-bottom ${classes.progressStatus} ${className}`}>
@@ -104,7 +107,7 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
       </div>
       <SynchronizedTwoColumnData
         className="margin-bottom"
-        data={{ 'Update attempts per device': retries + 1, 'Maximum number of devices': max_devices || 'N/A' }}
+        data={{ 'Update attempts per device': retries + 1, 'Maximum number of devices': maxDevices ? maxDevices.toLocaleString() : '-' }}
         style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
     </>

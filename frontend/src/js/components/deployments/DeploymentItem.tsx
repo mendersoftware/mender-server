@@ -11,14 +11,12 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import type { KeyboardEvent } from 'react';
 
 // material ui
-import { Cancel as CancelIcon } from '@mui/icons-material';
-import { Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -32,6 +30,7 @@ import DeploymentStats from './DeploymentStatus';
 import type { ColumnHeader } from './DeploymentsList';
 import { getDeploymentTargetText } from './deployment-wizard/SoftwareDevices';
 import { DeploymentProgress } from './progress/DeploymentProgress';
+import { getDeploymentStartTime } from './progress/utils';
 
 interface ColumnComponentProps {
   className: string;
@@ -88,16 +87,35 @@ export const DeploymentSize = ({ deployment: { statistics } }: Pick<ColumnCompon
   </Typography>
 );
 
-const useStyles = makeStyles()(theme => ({
-  centered: { display: 'grid', placeSelf: 'center' },
-  compactConfirm: { marginTop: theme.spacing(-2), marginLeft: theme.spacing(-2) },
+const useStyles = makeStyles()(() => ({
   compactProgress: { minWidth: 270 },
   textWrapping: { whiteSpace: 'initial' }
 }));
 
+const onListItemKeyDown = (event: KeyboardEvent<HTMLDivElement>, onOpen: () => void) => {
+  if (event.target !== event.currentTarget) {
+    return;
+  }
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      onOpen();
+      break;
+    case 'ArrowDown':
+    case 'ArrowUp': {
+      event.preventDefault();
+      const items = Array.from(event.currentTarget.parentElement?.querySelectorAll<HTMLElement>(':scope > [role="listitem"]') ?? []);
+      const index = items.indexOf(event.currentTarget);
+      items[index + (event.key === 'ArrowDown' ? 1 : -1)]?.focus();
+      break;
+    }
+    default:
+      break;
+  }
+};
+
 interface DeploymentItemCommonProps {
-  canConfigure?: boolean;
-  canDeploy?: boolean;
   className?: string;
   columnHeaders: ColumnHeader[];
   deployment: Deployment;
@@ -108,24 +126,16 @@ interface DeploymentItemCommonProps {
 }
 
 export interface DeploymentItemProps extends DeploymentItemCommonProps {
-  abort?: (id: string) => void;
   isCompact?: boolean;
   isEnterprise?: boolean;
 }
 
 interface DeploymentItemCompactProps extends DeploymentItemCommonProps {
-  abort: string | null;
-  abortDeployment: (id: string) => void;
   started: string;
-  toggleConfirm: (id: string) => void;
   wrappingClass: string;
 }
 
 export const DeploymentItemCompact = ({
-  abortDeployment,
-  abort,
-  canConfigure,
-  canDeploy,
   className = '',
   columnHeaders,
   deployment,
@@ -133,20 +143,12 @@ export const DeploymentItemCompact = ({
   idAttribute,
   openReport,
   started,
-  toggleConfirm,
   type,
   wrappingClass
 }: DeploymentItemCompactProps) => {
   useDeploymentDevice(deployment.name);
 
   const { classes } = useStyles();
-
-  const { id } = deployment;
-
-  let confirmation;
-  if (abort === id) {
-    confirmation = <Confirm classes={classes.compactConfirm} cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
-  }
 
   // Find the progress column to render it separately
   const { renderer: ProgressColumn, props: progressProps, title: progressTitle } = columnHeaders.find(col => col.renderer === DeploymentProgress) || {};
@@ -174,33 +176,23 @@ export const DeploymentItemCompact = ({
       </div>
     );
   }
-  deploymentInfo[''] = (
-    <Button onClick={() => openReport(type, deployment.id)} variant="outlined" size="small">
-      View details
-    </Button>
-  );
-  if ((canDeploy || (canConfigure && deployment.type === DEPLOYMENT_TYPES.configuration)) && type !== DEPLOYMENT_STATES.finished) {
-    deploymentInfo[' '] = (
-      <Tooltip title="Abort" placement="top-start">
-        <IconButton onClick={() => toggleConfirm(id)} size="small">
-          <CancelIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-    );
-  }
+
+  const onOpen = () => openReport(type, deployment.id);
 
   return (
-    <div className={`padding-small relative ${className}`} role="listitem">
-      {!!confirmation && confirmation}
+    <div
+      className={`padding-small relative clickable ${className}`}
+      role="listitem"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={event => onListItemKeyDown(event, onOpen)}
+    >
       <TwoColumnData data={deploymentInfo} />
     </div>
   );
 };
 
 export const DeploymentItem = ({
-  abort: abortDeployment,
-  canConfigure,
-  canDeploy,
   className = '',
   columnHeaders,
   deployment,
@@ -211,29 +203,18 @@ export const DeploymentItem = ({
   openReport,
   type
 }: DeploymentItemProps) => {
-  const [abort, setAbort] = useState(null);
   useDeploymentDevice(deployment.name);
 
   const { classes } = useStyles();
 
-  const toggleConfirm = id => setTimeout(() => setAbort(current => (current ? null : id)), 150);
+  const { created } = deployment;
 
-  const { created, id, phases } = deployment;
-
-  let confirmation;
-  if (abort === id) {
-    confirmation = <Confirm cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
-  }
-  const started = isEnterprise && phases?.length >= 1 ? phases[0].start_ts || created : created;
+  const started = (isEnterprise && getDeploymentStartTime(deployment)) || created;
   const wrappingClass = `text-overflow ${type === DEPLOYMENT_STATES.inprogress ? classes.textWrapping : ''}`;
 
   if (isCompact) {
     return (
       <DeploymentItemCompact
-        abort={abort}
-        abortDeployment={abortDeployment}
-        canConfigure={canConfigure}
-        canDeploy={canDeploy}
         className={className}
         columnHeaders={columnHeaders}
         deployment={deployment}
@@ -242,15 +223,21 @@ export const DeploymentItem = ({
         idAttribute={idAttribute}
         openReport={openReport}
         started={started}
-        toggleConfirm={toggleConfirm}
         type={type}
         wrappingClass={wrappingClass}
       />
     );
   }
+  const onOpen = () => openReport(type, deployment.id);
+
   return (
-    <div className={`padding-small relative ${className}`} role="listitem">
-      {!!confirmation && confirmation}
+    <div
+      className={`padding-small relative clickable ${className}`}
+      role="listitem"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={event => onListItemKeyDown(event, onOpen)}
+    >
       {columnHeaders.map(({ renderer: ColumnComponent, class: columnClass = '', props }, i) => (
         <ColumnComponent
           key={`deploy-item-${i}`}
@@ -263,16 +250,6 @@ export const DeploymentItem = ({
           {...props}
         />
       ))}
-      <Button className={`nowrap ${classes.centered}`} onClick={() => openReport(type, deployment.id)} variant="outlined">
-        View details
-      </Button>
-      {(canDeploy || (canConfigure && deployment.type === DEPLOYMENT_TYPES.configuration)) && type !== DEPLOYMENT_STATES.finished && (
-        <Tooltip title="Abort" placement="top-start">
-          <IconButton className={classes.centered} onClick={() => toggleConfirm(id)} size="small">
-            <CancelIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      )}
     </div>
   );
 };

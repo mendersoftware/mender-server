@@ -52,6 +52,11 @@ const useStyles = makeStyles()(theme => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     ':hover': {
       backgroundColor: theme.palette.action.hover
+    },
+    ':focus-visible': {
+      backgroundColor: theme.palette.action.hover,
+      outline: `2px solid ${theme.palette.primary.main}`,
+      outlineOffset: -2
     }
   },
   rowHeader: {
@@ -65,16 +70,16 @@ const useStyles = makeStyles()(theme => ({
     gridColumnGap: theme.spacing(3),
     minWidth: 1300,
     [`&.${DEPLOYMENT_STATES.inprogress}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 4fr 1.5fr ${theme.spacing(6)}`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 4fr`
     },
     [`&.${DEPLOYMENT_STATES.pending}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 2fr 1.5fr ${theme.spacing(6)}`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 2fr`
     },
     [`&.${DEPLOYMENT_STATES.scheduled}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 1fr 1.5fr ${theme.spacing(6)}`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 1fr`
     },
     [`&.${DEPLOYMENT_STATES.finished}-item`]: {
-      gridTemplateColumns: `${deploymentTypeCommonColumns} 2.25fr 1fr 1.25fr`
+      gridTemplateColumns: `${deploymentTypeCommonColumns} 2.5fr 1.25fr`
     }
   }
 }));
@@ -94,9 +99,6 @@ interface DeploymentsListProps extends DeploymentItemProps {
 }
 
 export const DeploymentsList = ({
-  abort,
-  canDeploy,
-  canConfigure,
   count,
   devices,
   headers = defaultHeaders,
@@ -134,9 +136,6 @@ export const DeploymentsList = ({
       )}
       {items.map(deployment => (
         <DeploymentItem
-          abort={abort}
-          canConfigure={canConfigure}
-          canDeploy={canDeploy}
           className={isCompact ? classes.row : `${classes.row} ${classes.rowState} ${type}-item`}
           columnHeaders={headers}
           deployment={deployment}

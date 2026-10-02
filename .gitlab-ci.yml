@@ -777,7 +777,7 @@ test:prep:
   extends: .build:base
   image: ${MIRROR_REGISTRY}/library/docker
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
       when: on_success
   services:
     - name: ${MIRROR_REGISTRY}/library/docker:${DOCKER_VERSION}-dind

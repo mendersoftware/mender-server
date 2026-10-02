@@ -17,24 +17,8 @@ import { getDeploymentState } from '@northern.tech/store/utils';
 
 import DeploymentStats from '../DeploymentStatus';
 import { DeploymentStatusNotification } from './DeploymentStatusNotification';
+import { ListProgress, SimpleProgress } from './RolloutProgressBar';
 import type { ProgressVariant } from './RolloutProgressBar';
-import { RolloutProgressBar, SimpleProgress } from './RolloutProgressBar';
-import { SubstateProgressBar } from './SubstateProgressBar';
-
-interface ReportProgressProps {
-  className?: string;
-  deployment: Deployment;
-  onAbort: (id: string) => void;
-  onUpdateControlChange: (update: { states: Record<string, { action: string }> }) => void;
-}
-
-const ReportProgress = ({ className, deployment, onAbort, onUpdateControlChange }: ReportProgressProps) => {
-  const { phases = [], update_control_map } = deployment;
-  if (phases.length > 1 || !update_control_map) {
-    return <RolloutProgressBar className={className} deployment={deployment} variant="report" />;
-  }
-  return <SubstateProgressBar className={className} deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />;
-};
 
 /**
  * Smart router component that determines which progress display to show based on deployment state and variant.
@@ -42,22 +26,14 @@ const ReportProgress = ({ className, deployment, onAbort, onUpdateControlChange 
  * Variants:
  * - 'dashboard': Simple progress bar or deployment stats for finished deployments
  * - 'list': Full rollout progress with header, footer, and side panel
- * - 'report': Detailed progress view, either rollout phases or substate tracking
  */
-
 interface DeploymentProgressProps {
   className?: string;
   deployment: Deployment;
-  onAbort?: (id: string) => void;
-  onUpdateControlChange?: (update: { states: Record<string, { action: string }> }) => void;
-  variant: ProgressVariant;
+  variant?: ProgressVariant;
 }
 
-export const DeploymentProgress = ({ className, deployment, variant, onAbort, onUpdateControlChange }: DeploymentProgressProps) => {
-  if (variant === 'report' && onAbort && onUpdateControlChange) {
-    return <ReportProgress className={className} deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />;
-  }
-
+export const DeploymentProgress = ({ className, deployment, variant }: DeploymentProgressProps) => {
   const status = getDeploymentState(deployment);
 
   if (status === 'queued') {
@@ -66,9 +42,8 @@ export const DeploymentProgress = ({ className, deployment, variant, onAbort, on
   if (status === deploymentDisplayStates.finished) {
     return <DeploymentStats deployment={deployment} />;
   }
-  if (variant === 'list') {
-    return <RolloutProgressBar className={className} deployment={deployment} variant="list" />;
+  if (variant === 'dashboard') {
+    return <SimpleProgress deployment={deployment} />;
   }
-
-  return <SimpleProgress deployment={deployment} />;
+  return <ListProgress className={className} deployment={deployment} />;
 };

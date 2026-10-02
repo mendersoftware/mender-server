@@ -11,16 +11,32 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { Page } from '@playwright/test';
+import type { APIRequestContext, Page } from '@playwright/test';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
+import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
-import { getTokenFromStorage } from '../../utils/commands';
+import { getTokenFromStorage, startClient, tenantTokenRetrieval } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
 import { locateReleaseByName, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 dayjs.extend(isBetween);
+
+const stressTestClientPath = './mender-stress-test-client';
+// a dedicated mac prefix keeps the simulated devices apart from the demo device & other stress test clients
+const uniformClientMacPrefix = 'fe';
+const uniformClientCount = 6;
+const uniformGroup = 'uniformgroup';
+
+type AuthSet = { id: string; status: string };
+type DevauthDevice = { auth_sets: AuthSet[]; id: string; identity_data: { mac?: string } };
+
+const getUniformClientDevices = async (baseUrl: string, request: APIRequestContext, headers: Record<string, string>): Promise<DevauthDevice[]> => {
+  const response = await request.get(`${baseUrl}api/management/v2/devauth/devices?per_page=500`, { headers });
+  const devices: DevauthDevice[] = await response.json();
+  return devices.filter(({ identity_data }) => identity_data.mac?.startsWith(`${uniformClientMacPrefix}:`));
+};
 
 const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
   const input = page.getByRole('group', { name });
@@ -174,5 +190,75 @@ test.describe('Deployments', () => {
     }
     await expect(page.getByText(/-([5|6]\d) of \1/)).toBeVisible(); // depending on the deployment speed of other tests there might be slightly more than 50
     await expect(page.getByText(/queued to start/i).first()).toBeVisible();
+  });
+
+  test('allows uniform phased deployments', async ({ baseUrl, environment, page, request }) => {
+    test.skip(environment !== 'enterprise', 'phased deployments are not available in OS');
+    test.skip(!fs.existsSync(stressTestClientPath), 'requires the mender-stress-test-client to simulate a device fleet');
+    test.setTimeout(6 * timeouts.sixtySeconds);
+    const headers = { Authorization: `Bearer ${getTokenFromStorage(baseUrl)}` };
+    const tenantToken = await tenantTokenRetrieval(baseUrl, page);
+    const client = await startClient(baseUrl, tenantToken, uniformClientCount, [`--mac-address-prefix=${uniformClientMacPrefix}`]);
+    try {
+      let devices: DevauthDevice[] = [];
+      await expect(async () => {
+        devices = await getUniformClientDevices(baseUrl, request, headers);
+        expect(devices).toHaveLength(uniformClientCount);
+      }).toPass({ timeout: 2 * timeouts.sixtySeconds });
+      await Promise.all(
+        devices.flatMap(({ auth_sets, id }) =>
+          auth_sets
+            .filter(({ status }) => status === 'pending')
+            .map(authSet =>
+              request.put(`${baseUrl}api/management/v2/devauth/devices/${id}/auth/${authSet.id}/status`, { data: { status: 'accepted' }, headers })
+            )
+        )
+      );
+      const deviceIds = devices.map(({ id }) => id);
+      // accepted devices only show up in the inventory with a slight delay, so the grouping may have to be repeated
+      await expect(async () => {
+        await request.patch(`${baseUrl}api/management/v1/inventory/groups/${uniformGroup}/devices`, { data: deviceIds, headers });
+        const response = await request.get(`${baseUrl}api/management/v1/inventory/groups/${uniformGroup}/devices?per_page=500`, { headers });
+        expect(await response.json()).toHaveLength(uniformClientCount);
+      }).toPass({ timeout: timeouts.sixtySeconds });
+
+      await navigateTo(page, 'deployments');
+      await page
+        .getByRole('button', { name: /create a deployment/i })
+        .first()
+        .click();
+      await selectReleaseByName(page, 'mender-demo-artifact');
+      const deviceGroupSelect = page.getByPlaceholder(/select a device group/i);
+      await deviceGroupSelect.focus();
+      await deviceGroupSelect.fill(uniformGroup);
+      await page.click(`#deployment-device-group-selection-listbox li:has-text('${uniformGroup}')`);
+      await page.getByText(/show advanced options/i).click();
+      await page.getByRole('checkbox', { name: /select a rollout pattern/i }).check();
+      await page
+        .getByRole('combobox')
+        .filter({ hasText: /^custom$/i })
+        .click();
+      await page.getByText(/uniform/i).click();
+      await page.getByRole('radio', { name: /by number of devices/i }).check();
+      const batchSizeInput = page
+        .locator('table')
+        .filter({ hasText: /first phase begins/i })
+        .getByRole('textbox')
+        .first();
+      await batchSizeInput.clear();
+      await batchSizeInput.fill('2');
+      await batchSizeInput.press('Tab');
+      const deploymentId = await triggerDeploymentCreation(
+        page,
+        expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds })
+      );
+      await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
+      await expect(page.getByText('Uniform, 2 devices per phase')).toBeVisible({ timeout: timeouts.tenSeconds });
+      await expect(page.getByText('Phase 1', { exact: true })).toBeVisible();
+      await expect(page.getByText('Phase 3', { exact: true })).toBeVisible();
+      await expect(page.getByText('(Final phase)')).toHaveCount(1);
+    } finally {
+      client.kill();
+    }
   });
 });
