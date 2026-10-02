@@ -18,7 +18,6 @@ import { useLocation } from 'react-router';
 import { Alert, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import type { ColumnDefinition, ColumnRendererProps } from '@northern.tech/common-ui/DetailsTable';
 import Pagination from '@northern.tech/common-ui/Pagination';
@@ -102,8 +101,7 @@ const columns: ColumnDefinition<Tenant>[] = [
     key: 'created_at',
     title: 'Created',
     render: ({ created_at }) => <Time value={created_at} />
-  },
-  { key: 'details', title: '', render: () => <DetailsIndicator /> }
+  }
 ];
 
 export const TenantList = () => {
