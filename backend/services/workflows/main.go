@@ -23,7 +23,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/version"
@@ -45,7 +45,7 @@ func main() {
 func doMain(args []string) {
 	var configPath string
 
-	app := &cli.App{
+	app := &cli.Command{
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name: "config",
@@ -54,7 +54,7 @@ func doMain(args []string) {
 				Destination: &configPath,
 			},
 		},
-		Commands: []cli.Command{
+		Commands: []*cli.Command{
 			{
 				Name:   "server",
 				Usage:  "Run the HTTP API server",
@@ -90,20 +90,20 @@ func doMain(args []string) {
 				Usage:  "Run the migrations",
 				Action: cmdMigrate,
 				Flags: []cli.Flag{
-					cli.BoolFlag{
-						Name:   "skip-nats",
-						Usage:  "Skip migrating the NATS Jetstream configuration",
-						EnvVar: "WORKFLOWS_MIGRATION_SKIP_NATS",
+					&cli.BoolFlag{
+						Name:    "skip-nats",
+						Usage:   "Skip migrating the NATS Jetstream configuration",
+						Sources: cli.EnvVars("WORKFLOWS_MIGRATION_SKIP_NATS"),
 					},
-					cli.BoolFlag{
-						Name:   "skip-database",
-						Usage:  "Skip migrating the database",
-						EnvVar: "WORKFLOWS_MIGRATION_SKIP_DATABASE",
+					&cli.BoolFlag{
+						Name:    "skip-database",
+						Usage:   "Skip migrating the database",
+						Sources: cli.EnvVars("WORKFLOWS_MIGRATION_SKIP_DATABASE"),
 					},
-					cli.BoolFlag{
-						Name:   "nats-force",
-						Usage:  "Force the the consumers to migrate from push to pull mode",
-						EnvVar: "WORKFLOWS_MIGRATION_FORCE_NATS",
+					&cli.BoolFlag{
+						Name:    "nats-force",
+						Usage:   "Force the the consumers to migrate from push to pull mode",
+						Sources: cli.EnvVars("WORKFLOWS_MIGRATION_FORCE_NATS"),
 					},
 				},
 			},
@@ -112,11 +112,11 @@ func doMain(args []string) {
 				Usage:  "List jobs",
 				Action: cmdListJobs,
 				Flags: []cli.Flag{
-					cli.Int64Flag{
+					&cli.Int64Flag{
 						Name:  "page",
 						Usage: "page number to show",
 					},
-					cli.Int64Flag{
+					&cli.Int64Flag{
 						Name:  "perPage",
 						Usage: "number of results per page",
 					},
@@ -126,20 +126,20 @@ func doMain(args []string) {
 				Name:  "version",
 				Usage: "Show version information",
 				Flags: []cli.Flag{
-					cli.StringFlag{
+					&cli.StringFlag{
 						Name:  "output",
 						Usage: "Output format <json|text>",
 						Value: "text",
 					},
 				},
-				Action: func(args *cli.Context) error {
-					switch strings.ToLower(args.String("output")) {
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					switch strings.ToLower(cmd.String("output")) {
 					case "text":
 						fmt.Print(appVersion)
 					case "json":
 						_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 					default:
-						return fmt.Errorf("Unknown output format %q", args.String("output"))
+						return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 					}
 					return nil
 				},
@@ -150,10 +150,10 @@ func doMain(args []string) {
 	app.Usage = "Workflows"
 	app.Action = cmdServer
 
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		err := config.FromConfigFile(configPath, dconfig.Defaults)
 		if err != nil {
-			return cli.NewExitError(
+			return ctx, cli.Exit(
 				fmt.Sprintf("error loading configuration: %s", err),
 				1)
 		}
@@ -163,10 +163,10 @@ func doMain(args []string) {
 		config.Config.AutomaticEnv()
 		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 
-		return nil
+		return ctx, nil
 	}
 
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -202,8 +202,8 @@ func initJetstream(nc nats.Client, producer, upsert bool) (err error) {
 	return err
 }
 
-func cmdServer(args *cli.Context) error {
-	dataStore, err := store.SetupDataStore(args.Bool("automigrate"))
+func cmdServer(ctx context.Context, cmd *cli.Command) error {
+	dataStore, err := store.SetupDataStore(cmd.Bool("automigrate"))
 	if err != nil {
 		return err
 	}
@@ -215,15 +215,15 @@ func cmdServer(args *cli.Context) error {
 	}
 	defer nats.Close()
 
-	if err = initJetstream(nats, true, args.Bool("automigrate")); err != nil {
+	if err = initJetstream(nats, true, cmd.Bool("automigrate")); err != nil {
 		return errors.WithMessage(err, "failed to apply Jetstream migrations")
 	}
 
 	return server.InitAndRun(config.Config, dataStore, nats)
 }
 
-func cmdWorker(args *cli.Context) error {
-	dataStore, err := store.SetupDataStore(args.Bool("automigrate"))
+func cmdWorker(ctx context.Context, cmd *cli.Command) error {
+	dataStore, err := store.SetupDataStore(cmd.Bool("automigrate"))
 	if err != nil {
 		return err
 	}
@@ -235,18 +235,18 @@ func cmdWorker(args *cli.Context) error {
 	}
 	defer nats.Close()
 
-	if err = initJetstream(nats, false, args.Bool("automigrate")); err != nil {
+	if err = initJetstream(nats, false, cmd.Bool("automigrate")); err != nil {
 		return errors.WithMessage(err, "failed to apply Jetstream consumer migrations")
 	}
 
 	var included, excluded []string
 
-	includedWorkflows := args.String("workflows")
+	includedWorkflows := cmd.String("workflows")
 	if includedWorkflows != "" {
 		included = strings.Split(includedWorkflows, ",")
 	}
 
-	excludedWorkflows := args.String("excluded-workflows")
+	excludedWorkflows := cmd.String("excluded-workflows")
 	if excludedWorkflows != "" {
 		excluded = strings.Split(excludedWorkflows, ",")
 	}
@@ -258,21 +258,21 @@ func cmdWorker(args *cli.Context) error {
 	return worker.InitAndRun(config.Config, workflows, dataStore, nats)
 }
 
-func cmdMigrate(args *cli.Context) error {
+func cmdMigrate(ctx context.Context, cmd *cli.Command) error {
 	var err error
-	if !args.Bool("skip-database") {
+	if !cmd.Bool("skip-database") {
 		_, err = store.SetupDataStore(true)
 		if err != nil {
 			return err
 		}
 	}
-	if !args.Bool("skip-nats") {
+	if !cmd.Bool("skip-nats") {
 		var nc nats.Client
 		nc, err = getNatsClient()
 		if err != nil {
 			return err
 		}
-		if args.Bool("nats-force") {
+		if cmd.Bool("nats-force") {
 			durableName := config.Config.GetString(dconfig.SettingNatsSubscriberDurable)
 			// delete the consumer if it is push based
 			err := nc.DeleteConsumerByMode(durableName, nats.PushMode)
@@ -288,20 +288,20 @@ func cmdMigrate(args *cli.Context) error {
 	return err
 }
 
-func cmdListJobs(args *cli.Context) error {
+func cmdListJobs(ctx context.Context, cmd *cli.Command) error {
 	dataStore, err := store.SetupDataStore(false)
 	if err != nil {
 		return err
 	}
 	defer dataStore.Close()
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	var page int64
 	var perPage int64
-	page = args.Int64("page")
-	perPage = args.Int64("perPage")
+	page = cmd.Int64("page")
+	perPage = cmd.Int64("perPage")
 
 	if page < 1 {
 		page = 1
