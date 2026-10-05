@@ -17,7 +17,7 @@ import { act, cleanup, prettyDOM, screen, waitFor } from '@testing-library/react
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import DeploymentReport from './Report';
+import DeploymentReport, { DeploymentStateNotification } from './Report';
 
 const deploymentsState = {
   ...defaultState.deployments,
@@ -74,6 +74,27 @@ describe('DeploymentReport Component', () => {
       .replace(/(:?aria-labelledby|id)=":.*:"/g, '')
       .replace(/\\/g, '');
     expect(view).toMatchSnapshot();
+  });
+
+  describe('DeploymentStateNotification', () => {
+    const finishedDeployment = status => ({ finished: true, status: 'finished', statistics: { status } });
+    it('reports skipped devices instead of successes', () => {
+      render(<DeploymentStateNotification deployment={finishedDeployment({ noartifact: 1 })} totalDeviceCount={1} />);
+      expect(screen.getByText('1 device skipped')).toBeVisible();
+      expect(screen.queryByText(/updated successfully/i)).not.toBeInTheDocument();
+    });
+    it('mentions skipped devices alongside successful ones', () => {
+      render(<DeploymentStateNotification deployment={finishedDeployment({ success: 2, 'already-installed': 1 })} totalDeviceCount={3} />);
+      expect(screen.getByText('2 devices updated successfully, 1 device skipped')).toBeVisible();
+    });
+    it('reports all devices updated successfully', () => {
+      render(<DeploymentStateNotification deployment={finishedDeployment({ success: 2 })} totalDeviceCount={2} />);
+      expect(screen.getByText('All 2 devices updated successfully')).toBeVisible();
+    });
+    it('reports failures first', () => {
+      render(<DeploymentStateNotification deployment={finishedDeployment({ failure: 1, success: 1, noartifact: 1 })} totalDeviceCount={3} />);
+      expect(screen.getByText('1 device failed to update')).toBeVisible();
+    });
   });
 
   describe('AI Log Analysis functionality', () => {
