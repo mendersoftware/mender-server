@@ -34,22 +34,13 @@ interface TimeProps {
   relative?: boolean;
   titleFormat?: string;
   value?: string | Date | Dayjs;
-  valueFormat?: string;
 }
 
-export const Time = ({
-  value,
-  relative,
-  format = defaultTimeFormat,
-  valueFormat,
-  titleFormat = defaultTimeFormat,
-  Component = 'time',
-  ...remainingProps
-}: TimeProps) => {
+export const Time = ({ value, relative, format = defaultTimeFormat, titleFormat = defaultTimeFormat, Component = 'time', ...remainingProps }: TimeProps) => {
   if (!value) {
     value = dayjs();
   }
-  value = dayjs(value, valueFormat, true);
+  value = dayjs(value);
 
   const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ');
   const humanReadable = relative ? value.fromNow() : value.format(format);
