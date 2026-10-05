@@ -164,6 +164,7 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
         .then(manifest => {
           setParsedManifest(manifest?.manifest || null);
           setValue('name', `${name}-copy`);
+          setValue('tags', manifest?.tags || []);
         }),
     [dispatch, setValue]
   );
