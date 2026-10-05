@@ -94,23 +94,23 @@ test.describe('Devices', () => {
     await expect(testDeviceChip).toBeVisible();
   });
 
-  test('can group a device', async ({ page }) => {
+  test('can group a device', async ({ page, staticGroupName }) => {
     const groupList = await page.locator('.grouplist');
-    const wasGrouped = await groupList.getByText('testgroup').isVisible();
+    const wasGrouped = await groupList.getByText(staticGroupName).isVisible();
     test.skip(wasGrouped, 'looks like the device was grouped already, continue with the remaining tests');
     await page.click(selectors.deviceListCheckbox);
     await page.getByRole('button', { name: 'device-actions' }).click();
     await page.getByRole('menuitem', { name: /add selected/i }).click();
-    await page.getByPlaceholder(/type to create new/i).fill('testgroup');
+    await page.getByPlaceholder(/type to create new/i).fill(staticGroupName);
     await page.click('.MuiDialogTitle-root');
     const groupCreation = await page.getByRole('button', { name: /create group/i });
     const groupExtension = await page.getByRole('button', { name: /add to group/i });
     await groupCreation.or(groupExtension).first().click();
-    await groupList.getByText('testgroup').waitFor();
-    await expect(groupList.getByText('testgroup')).toBeVisible();
+    await groupList.getByText(staticGroupName).waitFor();
+    await expect(groupList.getByText(staticGroupName)).toBeVisible();
     await groupList.getByText('All devices');
     await page.click(selectors.deviceListCheckbox);
-    await groupList.getByText('testgroup').click();
+    await groupList.getByText(staticGroupName).click();
     await expect(page.locator(`css=${selectors.deviceListItem} >> text=/original/`)).toBeVisible();
   });
 

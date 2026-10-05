@@ -85,7 +85,7 @@ test.describe('RBAC functionality', () => {
     }
   });
   test.describe('configuration', () => {
-    test('allows role creation for static groups', async ({ page }) => {
+    test('allows role creation for static groups', async ({ page, staticGroupName }) => {
       await page.getByText(/roles/i).click();
       await page.getByRole('button', { name: 'Add a role' }).click();
       const dialog = await page.locator('.MuiPaper-root >> form');
@@ -97,7 +97,7 @@ test.describe('RBAC functionality', () => {
       await dialog.getByLabel(/Search groups/i).click({ force: true });
       // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
       // of the dialog tree
-      await page.getByRole('option', { name: 'testgroup' }).click();
+      await page.getByRole('option', { name: staticGroupName }).click();
       await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
       await page.getByText('Configure').click();
       await page.keyboard.press('Escape');
@@ -106,7 +106,7 @@ test.describe('RBAC functionality', () => {
       await dialog.getByRole('button', { name: /save/i }).click();
       await page.getByText(/role was created/i).waitFor();
     });
-    test('allows role creation for release tags', async ({ page }) => {
+    test('allows role creation for release tags', async ({ page, staticGroupName }) => {
       await page.getByText(/roles/i).click();
       for (const { name, permissions, tag } of releaseRoles) {
         await page.getByText('Add a role').click();
@@ -119,7 +119,7 @@ test.describe('RBAC functionality', () => {
         // of the dialog tree
         // grant deploy on a device group first (on the clean dialog) so the role can create deployments and reach the software picker
         await dialog.getByLabel(/Search groups/i).click({ force: true });
-        await page.getByRole('option', { name: 'testgroup' }).click();
+        await page.getByRole('option', { name: staticGroupName }).click();
         await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
         await page.getByRole('option', { name: 'Deploy', exact: true }).click();
         await page.keyboard.press('Escape');
