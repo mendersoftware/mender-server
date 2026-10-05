@@ -133,7 +133,8 @@
     {
       "matchManagers": ["gomod"],
       "groupName": "golang-dependencies",
-      "groupSlug": "golang-dependencies"
+      "groupSlug": "golang-dependencies",
+      "postUpdateOptions": ["gomodTidyAll"]
     },
 
     // Docker base images: one grouped PR. 9 services share golang:1.26.2; the

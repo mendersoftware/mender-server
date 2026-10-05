@@ -256,8 +256,8 @@ github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6T
 github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
 github.com/mattn/go-shellwords v1.0.13 h1:DC0OMEpGjm6LfNFU4ckYcvbQKyp2vE8atyFGXNtDcf4=
 github.com/mattn/go-shellwords v1.0.13/go.mod h1:EZzvwXDESEeg03EKmM+RmDnNOPKG4lLtQsUlTZDWQ8Y=
-github.com/mendersoftware/mender-artifact v0.0.0-20260916143838-1ed977e481bf h1:DwmmuQTNiH/20U2U1N5dKvJUjgALKAMtKXzlxbhUHwA=
-github.com/mendersoftware/mender-artifact v0.0.0-20260916143838-1ed977e481bf/go.mod h1:Z8NNwlknEmA6O0KE7+ThiDOf0I89aKumxBawNyRxfdA=
+github.com/mendersoftware/mender-artifact v0.0.0-20261001081632-9f97d176f94e h1:PGa/tYdiQpC3hirvx59ODoE/mYrTFZZDiTTZJXSXytw=
+github.com/mendersoftware/mender-artifact v0.0.0-20261001081632-9f97d176f94e/go.mod h1:Z8NNwlknEmA6O0KE7+ThiDOf0I89aKumxBawNyRxfdA=
 github.com/mendersoftware/openssl v1.1.1-0.20221101135106-cb94d0a179f8 h1:LO1M218stEQBF3bFaTyKQeyhj7xCZTzcZEvEmG++h7g=
 github.com/mendersoftware/openssl v1.1.1-0.20221101135106-cb94d0a179f8/go.mod h1:tikEC94q+Y0TU6r19L6mHzwruoTNYPEkrQPvsHEcQyU=
 github.com/mendersoftware/progressbar v0.0.4 h1:R2uO9WiNRwF4pL278KlzSFFeIq4GBK2bSg1uD9uy9MI=

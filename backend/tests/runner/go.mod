@@ -9,7 +9,7 @@ require (
 	github.com/docker/cli v29.5.2+incompatible
 	github.com/docker/compose/v5 v5.1.4
 	github.com/google/uuid v1.6.0
-	github.com/mendersoftware/mender-artifact v0.0.0-20260916143838-1ed977e481bf
+	github.com/mendersoftware/mender-artifact v0.0.0-20261001081632-9f97d176f94e
 	github.com/mendersoftware/mender-server v0.0.0-00010101000000-000000000000
 	github.com/moby/moby/api v1.54.2
 	github.com/moby/moby/client v0.4.1
