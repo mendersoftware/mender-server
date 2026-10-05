@@ -89,7 +89,7 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }: Re
 const cutoffDays = 14;
 export const ApproximateRelativeDate = ({ className, updateTime }: { className?: string; updateTime?: string | Date }) => {
   const updatedTime = updateTime ? dayjs(updateTime) : undefined;
-  const diff = updatedTime ? Math.abs(updatedTime.diff(dayjs(), 'days')) : 0;
+  const diff = updatedTime ? Math.max(0, dayjs().diff(updatedTime, 'days')) : 0;
   if (updatedTime && diff <= cutoffDays) {
     return (
       <Typography className={className} variant="body2" component="time" dateTime={updatedTime.format(defaultDateFormat)}>
