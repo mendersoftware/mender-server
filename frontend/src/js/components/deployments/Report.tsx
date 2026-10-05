@@ -22,7 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
-import { MaybeTime } from '@northern.tech/common-ui/Time';
+import Time from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import storeActions from '@northern.tech/store/actions';
@@ -274,7 +274,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
             <div className="flexbox centered margin-right" ref={onboardingTooltipAnchor}>
               <CheckCircleOutlineIcon fontSize="small" className="green margin-right-small" />
               <Typography variant="body2">
-                Finished at: <MaybeTime value={formatTime(deployment.finished)} />
+                Finished at: <Time value={formatTime(deployment.finished)} />
               </Typography>
             </div>
           )

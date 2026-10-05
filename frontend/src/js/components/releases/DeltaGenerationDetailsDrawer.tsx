@@ -25,7 +25,7 @@ import FileSize from '@northern.tech/common-ui/FileSize';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
-import { MaybeTime } from '@northern.tech/common-ui/Time';
+import Time from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -96,13 +96,13 @@ const statusColumns = [
     key: 'started',
     title: 'Started',
     cellProps: { style: { width: '15%' } },
-    render: ({ started }) => <MaybeTime value={formatTime(started)} />
+    render: ({ started }) => <Time value={formatTime(started)} />
   },
   {
     key: 'finished',
     title: 'Finished',
     cellProps: { style: { width: '15%' } },
-    render: ({ finished }) => <MaybeTime value={formatTime(finished)} />
+    render: ({ finished }) => <Time value={formatTime(finished)} />
   },
   {
     key: 'totalTime',

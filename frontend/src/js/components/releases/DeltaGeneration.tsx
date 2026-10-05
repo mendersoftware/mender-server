@@ -22,7 +22,7 @@ import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseN
 import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
-import { MaybeTime } from '@northern.tech/common-ui/Time';
+import Time from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import type { SortOptions } from '@northern.tech/store/constants';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
@@ -75,7 +75,7 @@ const deltaJobColumns = [
     title: 'Started',
     sortable: true,
     cellProps: { style: { width: '10%' } },
-    render: ({ started }) => <MaybeTime value={formatTime(started)} />
+    render: ({ started }) => <Time value={formatTime(started)} />
   },
   {
     key: 'status',

@@ -38,7 +38,7 @@ interface TimeProps {
 
 export const Time = ({ value, relative, format = defaultTimeFormat, titleFormat = defaultTimeFormat, Component = 'time', ...remainingProps }: TimeProps) => {
   if (!value) {
-    value = dayjs();
+    return <Component {...remainingProps}>-</Component>;
   }
   value = dayjs(value);
 
@@ -51,12 +51,6 @@ export const Time = ({ value, relative, format = defaultTimeFormat, titleFormat 
   );
 };
 
-export const MaybeTime = ({ className = '', value, ...remainingProps }: Omit<TimeProps, 'Component'>) => (
-  <Typography variant="body2" className={className}>
-    {value ? <Time value={value} {...remainingProps} /> : '-'}
-  </Typography>
-);
-
 interface RelativeTimeProps {
   className?: string;
   shouldCount?: 'both' | 'up' | 'down' | 'none';
@@ -66,7 +60,7 @@ interface RelativeTimeProps {
 const cutoff = -5 * 60;
 export const RelativeTime = ({ className, shouldCount = 'both', updateTime }: RelativeTimeProps) => {
   const updatedTime = updateTime ? dayjs(updateTime) : undefined;
-  let timeDisplay = <MaybeTime className={className} value={updatedTime} />;
+  let timeDisplay = <Time Component={Typography} component="time" variant="body2" className={className} value={updatedTime} />;
   const diffSeconds = updatedTime ? updatedTime.diff(dayjs(), 'seconds') : 0;
   if (
     updatedTime &&
@@ -97,7 +91,17 @@ export const ApproximateRelativeDate = ({ className, updateTime }: { className?:
       </Typography>
     );
   }
-  return <MaybeTime className={className} value={updatedTime} format={defaultDateFormat} titleFormat={defaultDateFormat} />;
+  return (
+    <Time
+      Component={Typography}
+      component="time"
+      variant="body2"
+      className={className}
+      value={updatedTime}
+      format={defaultDateFormat}
+      titleFormat={defaultDateFormat}
+    />
+  );
 };
 
 export default Time;
