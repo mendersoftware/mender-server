@@ -32,7 +32,7 @@ import FileSize from '@northern.tech/common-ui/FileSize';
 import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
-import { MaybeTime } from '@northern.tech/common-ui/Time';
+import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import {
@@ -135,8 +135,8 @@ const deviceListColumns = [
     },
     canShow
   },
-  { key: 'started', title: 'Started', render: ({ device: { started } }) => <MaybeTime value={formatTime(started)} />, sortable: false, canShow },
-  { key: 'finished', title: 'Finished', render: ({ device: { finished } }) => <MaybeTime value={formatTime(finished)} />, sortable: false, canShow },
+  { key: 'started', title: 'Started', render: ({ device: { started } }) => <Time value={formatTime(started)} />, sortable: false, canShow },
+  { key: 'finished', title: 'Finished', render: ({ device: { finished } }) => <Time value={formatTime(finished)} />, sortable: false, canShow },
   {
     key: 'artifact_size',
     title: 'Artifact size',

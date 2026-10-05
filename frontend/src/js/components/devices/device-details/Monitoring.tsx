@@ -138,9 +138,9 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
       postTitle={
         <>
           {!!monitors.length && (
-            <>
+            <Typography variant="body2" component="span">
               Latest update: <Time value={updated_ts} />{' '}
-            </>
+            </Typography>
           )}
           <EnterpriseNotification id={BENEFITS.deviceMonitor.id} />
         </>

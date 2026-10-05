@@ -825,17 +825,14 @@ exports[`Artifact Component > renders correctly 1`] = `
         >
           0 Bytes
         </p>
-        <p
+        <time
+          aria-label="Tue Jan 01 2019 00:00:00 GMT+0000"
           class="MuiTypography-root MuiTypography-body2 emotion-6"
+          data-mui-internal-clone-element="true"
+          datetime="2019-01-01T00:00:00+00:00"
         >
-          <time
-            aria-label="Tue Jan 01 2019 00:00:00 GMT+0000"
-            data-mui-internal-clone-element="true"
-            datetime="2019-01-01T00:00:00+00:00"
-          >
-            2019-01-01 00:00
-          </time>
-        </p>
+          2019-01-01 00:00
+        </time>
       </span>
       <span
         class="MuiAccordionSummary-expandIconWrapper emotion-9"

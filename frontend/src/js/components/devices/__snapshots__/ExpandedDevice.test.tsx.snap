@@ -1802,17 +1802,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
             class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
           >
             Latest activity:
-            <p
+            <time
+              aria-label="Tue Jan 01 2019 09:25:00 GMT+0000"
               class="MuiTypography-root MuiTypography-body2 margin-left-small emotion-5"
+              data-mui-internal-clone-element="true"
+              datetime="2019-01-01T09:25:00+00:00"
             >
-              <time
-                aria-label="Tue Jan 01 2019 09:25:00 GMT+0000"
-                data-mui-internal-clone-element="true"
-                datetime="2019-01-01T09:25:00+00:00"
-              >
-                2019-01-01 09:25
-              </time>
-            </p>
+              2019-01-01 09:25
+            </time>
           </div>
           <button
             aria-label="close"

@@ -639,11 +639,13 @@ exports[`UserManagement Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
-          <p
+          <time
+            aria-label=""
             class="MuiTypography-root MuiTypography-body2 emotion-19"
+            data-mui-internal-clone-element="true"
           >
             -
-          </p>
+          </time>
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
@@ -689,11 +691,13 @@ exports[`UserManagement Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
-          <p
+          <time
+            aria-label=""
             class="MuiTypography-root MuiTypography-body2 emotion-19"
+            data-mui-internal-clone-element="true"
           >
             -
-          </p>
+          </time>
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"

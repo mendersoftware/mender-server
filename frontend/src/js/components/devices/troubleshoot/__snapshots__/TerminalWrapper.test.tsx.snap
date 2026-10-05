@@ -33,7 +33,7 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-8 {
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -92,37 +92,37 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-8::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-8 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-8:hover {
+.emotion-7:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-7.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8.Mui-disabled {
+.emotion-7.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-8:hover {
+  .emotion-7:hover {
     --variant-containedBg: #c62828;
     --variant-textBg: rgba(211, 47, 47, 0.04);
     --variant-outlinedBorder: #d32f2f;
@@ -130,11 +130,11 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   }
 }
 
-.emotion-8.MuiButton-loading {
+.emotion-7.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-9 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -189,54 +189,54 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-9::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-9 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-9:hover {
+.emotion-8:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-9:hover {
+  .emotion-8:hover {
     --variant-containedBg: #f5f5f5;
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
 }
 
-.emotion-9.MuiButton-loading {
+.emotion-8.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: inherit;
   margin-right: -4px;
   margin-left: 8px;
 }
 
-.emotion-10>*:nth-of-type(1) {
+.emotion-9>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-11 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -286,15 +286,11 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
           <div
             class="MuiTypography-root MuiTypography-body2 margin-left-small emotion-2"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body2 emotion-2"
+            <time
+              datetime="2019-01-13T13:00:00+00:00"
             >
-              <time
-                datetime="2019-01-13T13:00:00+00:00"
-              >
-                2019-01-13 13:00
-              </time>
-            </p>
+              2019-01-13 13:00
+            </time>
           </div>
         </div>
         <div
@@ -525,7 +521,7 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
           class="flexbox"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-8"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-7"
             tabindex="0"
             type="button"
           >
@@ -533,17 +529,17 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
           </button>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-9"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-8"
           tabindex="0"
           type="button"
         >
           Quick commands
           <span
-            class="MuiButton-icon MuiButton-endIcon emotion-10"
+            class="MuiButton-icon MuiButton-endIcon emotion-9"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"

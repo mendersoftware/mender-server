@@ -335,9 +335,8 @@ exports[`Deployments Component > renders correctly 1`] = `
       >
         <time
           class="MuiTypography-root MuiTypography-caption slightly-smaller align-right emotion-17"
-          datetime="2019-01-13T13:00:00+00:00"
         >
-          2019-01-13 13:00
+          -
         </time>
         <div
           class="clickable emotion-2"

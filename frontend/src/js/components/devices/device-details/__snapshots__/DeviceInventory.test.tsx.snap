@@ -331,10 +331,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="MuiTypography-root MuiTypography-body2 emotion-2"
       >
         Last changed: 
-        <time
-          datetime="2019-01-13T13:00:00+00:00"
-        >
-          2019-01-13 13:00
+        <time>
+          -
         </time>
       </p>
     </div>

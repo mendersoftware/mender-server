@@ -20,7 +20,7 @@ import { Button, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
-import { MaybeTime } from '@northern.tech/common-ui/Time';
+import Time from '@northern.tech/common-ui/Time';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useSession } from '@northern.tech/store/sockethook';
@@ -67,7 +67,7 @@ const SessionInfo = ({ socketInitialized, startTime }) => {
     <div className="flexbox margin-top-x-small margin-bottom-x-small">
       {[
         { key: 'status', title: 'Session status', content: socketInitialized ? 'Connected' : 'Disconnected' },
-        { key: 'start', title: 'Connection start', content: <MaybeTime value={startTime} /> },
+        { key: 'start', title: 'Connection start', content: <Time value={startTime} /> },
         {
           key: 'duration',
           title: 'Duration',

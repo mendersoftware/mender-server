@@ -21,7 +21,7 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
-import { MaybeTime } from '@northern.tech/common-ui/Time';
+import Time from '@northern.tech/common-ui/Time';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
@@ -69,8 +69,8 @@ const columns = [
     key: 'release',
     Component: ({ deviceDeployment: { release } }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: release } })}>{release}</Link>
   },
-  { content: 'Started', key: 'created', Component: ({ deviceDeployment: { created } }) => <MaybeTime value={created} /> },
-  { content: 'Finished', key: 'finished', Component: ({ deviceDeployment: { finished } }) => <MaybeTime value={finished} /> },
+  { content: 'Started', key: 'created', Component: ({ deviceDeployment: { created } }) => <Time value={created} /> },
+  { content: 'Finished', key: 'finished', Component: ({ deviceDeployment: { finished } }) => <Time value={finished} /> },
   { content: 'Device status', key: 'status', Component: ({ deviceDeployment: { status } }) => status },
   {
     content: '',
