@@ -21,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import Loader from '@northern.tech/common-ui/Loader';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getRecaptchaKey } from '@northern.tech/store/selectors';
@@ -191,6 +192,7 @@ export const Signup = () => {
   }
   return (
     <>
+      <PageTitle segments={['Sign up']} />
       <div className="two-columns" style={{ zIndex: 100 }}>
         <div className={`flexbox align-items-center space-between margin-left-x-large margin-top-large ${classes.header}`}>
           <LoginLogo />

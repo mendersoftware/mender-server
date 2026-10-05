@@ -19,6 +19,7 @@ import { Button, Paper, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import { getSpLimits, getTenantListWithLimits } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getTenants } from '@northern.tech/store/thunks';
@@ -27,6 +28,7 @@ import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { DeviceLimit } from '../header/DeviceNotifications';
 import { TenantCreateForm } from './TenantCreateForm';
 import { TenantList } from './TenantList';
+import type { Tenant } from './types';
 
 interface TenantsEmptyStateProps {
   openModal: () => void;
@@ -60,12 +62,14 @@ export const TenantPage = () => {
   const [showCreate, setShowCreate] = useState<boolean>(false);
   const { classes } = useStyles();
 
-  const { tenants } = useSelector(getTenantListWithLimits);
+  const { selectedTenant, tenants } = useSelector(getTenantListWithLimits);
   const spLimits = useSelector(getSpLimits);
 
   const onToggleCreation = useCallback(() => setShowCreate(toggle), []);
+  const tenant = selectedTenant && tenants.find((tenant: Tenant) => selectedTenant === tenant.id);
   return (
     <div className="padding-right">
+      <PageTitle segments={[tenant?.name, 'Tenants']} />
       <Typography variant="h5">Tenant management</Typography>
       <Typography variant="subtitle1" className="margin-top-small">
         Device allocation

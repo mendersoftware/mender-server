@@ -18,6 +18,7 @@ import { Link as RouterLink } from 'react-router';
 import { Alert, Button, Paper, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -198,6 +199,7 @@ export const OAuthLink = () => {
   }, []);
   return (
     <>
+      <PageTitle segments={['Link account']} />
       <div className="margin-top-large" />
       <Paper elevation={0} className={`flexbox margin-top-large padding-small column ${classes.loginBox}`}>
         <LoginLogo className="margin-bottom-large" style={{ width: 210 }} />

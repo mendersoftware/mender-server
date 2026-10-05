@@ -18,6 +18,7 @@ import { buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -51,6 +52,7 @@ export const PasswordScreenContainer = ({ children, hasReturn = true, hasLocatio
   const { classes } = useStyles();
   return (
     <>
+      <PageTitle segments={[title]} />
       <div className={classes.headerWrapper}>
         <div className="margin-top-large margin-left-large">
           <Link href="https://mender.io/" external>

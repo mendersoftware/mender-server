@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import { Link } from '@northern.tech/common-ui/Link';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
 import { getToken } from '@northern.tech/store/auth';
 import { TIMEOUTS, useradmApiUrl } from '@northern.tech/store/constants';
@@ -176,6 +177,7 @@ export const Login = () => {
 
   return (
     <>
+      <PageTitle segments={['Log in']} />
       {isHosted ? <LocationWarning /> : <div />}
       <div className={`content ${classes.background}`}>
         <div className={`flexbox column centered ${classes.reset}`}>

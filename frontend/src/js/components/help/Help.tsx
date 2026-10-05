@@ -19,6 +19,7 @@ import { Launch as LaunchIcon } from '@mui/icons-material';
 import { ListItemIcon, useTheme } from '@mui/material';
 
 import LeftNav from '@northern.tech/common-ui/LeftNav';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import { getFeatures } from '@northern.tech/store/selectors';
 
 import Downloads from './Downloads';
@@ -120,6 +121,7 @@ export const Help = () => {
 
   return (
     <div className="help-container">
+      <PageTitle segments={[components[section]?.title, 'Help & support']} />
       <LeftNav sections={[{ itemClass: 'helpNav', items: links, title: 'Help & support' }]} />
       <div className="full-width">
         <div style={{ maxWidth: contentWidth }}>

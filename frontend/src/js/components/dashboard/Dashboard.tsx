@@ -19,6 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getCurrentUser, getShowSecurityAlert } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -109,6 +110,7 @@ export const Dashboard = () => {
 
   return (
     <>
+      <PageTitle segments={['Dashboard']} />
       {showSecurityAlert && (
         <Alert className="margin-bottom-small margin-right" onClose={dismissAlert} severity="warning">
           <>

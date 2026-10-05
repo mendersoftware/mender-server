@@ -19,6 +19,7 @@ import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification, { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, BENEFITS, SORTING_OPTIONS, SP_AUDIT_LOGS_TYPES, TIMEOUTS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
@@ -245,6 +246,7 @@ export const AuditLogs = () => {
         />
       }
     >
+      <PageTitle segments={['Audit log']} />
       {!!total && (
         <AuditLogsList
           items={events}

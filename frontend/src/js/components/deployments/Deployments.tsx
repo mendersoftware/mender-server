@@ -18,6 +18,7 @@ import { Link as RouterLink, useLocation } from 'react-router';
 
 import { Button, Tab, Tabs, Typography } from '@mui/material';
 
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, listDefaultsByState, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
@@ -27,6 +28,7 @@ import {
   getIsEnterprise,
   getOnboardingState,
   getReleasesById,
+  getSelectedDeploymentData,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -69,6 +71,7 @@ export const Deployments = () => {
   const pastCount = useSelector(state => state.deployments.byStatus.finished.total);
   const releases = useSelector(getReleasesById);
   const selectionState = useSelector(state => state.deployments.selectionState);
+  const { deployment: selectedDeployment } = useSelector(getSelectedDeploymentData);
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useAppDispatch();
 
@@ -215,9 +218,10 @@ export const Deployments = () => {
     });
   }
 
-  const ComponentToShow = routes[state].component;
+  const { component: ComponentToShow, title } = routes[state];
   return (
     <>
+      <PageTitle segments={[reportDialog ? selectedDeployment.name : undefined, title, 'Deployments']} />
       <div className="margin-right">
         <div className="flexbox space-between align-items-center margin-bottom">
           <Typography variant="h5">Deployments</Typography>
