@@ -69,19 +69,24 @@ export const DeploymentAbortButton = ({ deployment, setAborting }) => (
   </Tooltip>
 );
 
-const DeploymentStateNotification = ({ deployment, totalDeviceCount }) => {
+export const DeploymentStateNotification = ({ deployment, totalDeviceCount }) => {
   const finished = deployment.finished || deployment.status === DEPLOYMENT_STATES.finished;
-  const { failures, successes } = groupDeploymentStats(deployment);
+  const { failures, skipped, successes } = groupDeploymentStats(deployment, true);
   let content = getDeploymentState(deployment);
   let color = 'info';
   if (finished) {
+    const skippedNote = `${skipped} ${pluralize('devices', skipped)} skipped`;
     if (failures) {
       content = `${failures} ${pluralize('devices', failures)} failed to update`;
-    } else {
+      color = 'error';
+    } else if (successes) {
       const prefix = successes === totalDeviceCount && totalDeviceCount > 1 ? 'All ' : '';
-      content = `${prefix}${successes} ${pluralize('devices', successes)} updated successfully`;
+      content = `${prefix}${successes} ${pluralize('devices', successes)} updated successfully${skipped ? `, ${skippedNote}` : ''}`;
+      color = 'success';
+    } else if (skipped) {
+      content = skippedNote;
+      color = 'warning';
     }
-    color = failures ? 'error' : 'success';
   }
   return (
     <Alert severity={color} slotProps={{ message: { className: 'capitalized-start' } }}>
