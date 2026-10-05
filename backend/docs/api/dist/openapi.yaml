@@ -6364,6 +6364,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Event'
+          headers:
+            X-Total-Count:
+              description: |
+                The total number of events (up to 10000).
+              schema:
+                type: integer
         '400':
           $ref: '#/components/responses/InvalidRequestError'
         '401':
