@@ -873,11 +873,13 @@ exports[`Deployments Component > renders correctly 1`] = `
             >
               in 18 days
             </time>
-            <p
+            <time
+              aria-label=""
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
             >
               -
-            </p>
+            </time>
             <p
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
             >
@@ -1071,22 +1073,21 @@ exports[`Deployments Component > renders correctly 1`] = `
             >
               test deployment
             </p>
-            <p
+            <time
+              aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
+              datetime="2019-01-01T12:30:00+00:00"
             >
-              <time
-                aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
-                data-mui-internal-clone-element="true"
-                datetime="2019-01-01T12:30:00+00:00"
-              >
-                2019-01-01 12:30
-              </time>
-            </p>
-            <p
+              2019-01-01 12:30
+            </time>
+            <time
+              aria-label=""
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
             >
               -
-            </p>
+            </time>
             <p
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
             >
@@ -1174,22 +1175,21 @@ exports[`Deployments Component > renders correctly 1`] = `
             >
               test deployment 2
             </p>
-            <p
+            <time
+              aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
+              datetime="2019-01-01T12:25:00+00:00"
             >
-              <time
-                aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
-                data-mui-internal-clone-element="true"
-                datetime="2019-01-01T12:25:00+00:00"
-              >
-                2019-01-01 12:25
-              </time>
-            </p>
-            <p
+              2019-01-01 12:25
+            </time>
+            <time
+              aria-label=""
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
             >
               -
-            </p>
+            </time>
             <p
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
             >
@@ -1349,11 +1349,13 @@ exports[`Deployments Component > renders correctly 1`] = `
             >
               in 18 days
             </time>
-            <p
+            <time
+              aria-label=""
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
             >
               -
-            </p>
+            </time>
             <p
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
             >
@@ -1547,22 +1549,21 @@ exports[`Deployments Component > renders correctly 1`] = `
             >
               test deployment
             </p>
-            <p
+            <time
+              aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
+              datetime="2019-01-01T12:30:00+00:00"
             >
-              <time
-                aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
-                data-mui-internal-clone-element="true"
-                datetime="2019-01-01T12:30:00+00:00"
-              >
-                2019-01-01 12:30
-              </time>
-            </p>
-            <p
+              2019-01-01 12:30
+            </time>
+            <time
+              aria-label=""
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
             >
               -
-            </p>
+            </time>
             <p
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
             >
@@ -1650,22 +1651,21 @@ exports[`Deployments Component > renders correctly 1`] = `
             >
               test deployment 2
             </p>
-            <p
+            <time
+              aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
+              datetime="2019-01-01T12:25:00+00:00"
             >
-              <time
-                aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
-                data-mui-internal-clone-element="true"
-                datetime="2019-01-01T12:25:00+00:00"
-              >
-                2019-01-01 12:25
-              </time>
-            </p>
-            <p
+              2019-01-01 12:25
+            </time>
+            <time
+              aria-label=""
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
+              data-mui-internal-clone-element="true"
             >
               -
-            </p>
+            </time>
             <p
               class="MuiTypography-root MuiTypography-body2 align-right emotion-23"
             >
