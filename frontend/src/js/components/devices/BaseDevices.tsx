@@ -55,14 +55,11 @@ export const RelativeDeviceTime = ({ device }) => (
   </div>
 );
 
-export const DeviceCreationTime = ({ device }) =>
-  device.created_ts ? (
-    <div>
-      <Time value={device.created_ts} />
-    </div>
-  ) : (
-    '-'
-  );
+export const DeviceCreationTime = ({ device }) => (
+  <div>
+    <Time Component={Typography} component="time" variant="body2" value={device.created_ts} />
+  </div>
+);
 
 export const AcceptedEmptyState = ({ allCount }) => (
   <div className="dashboard-placeholder">
