@@ -757,17 +757,14 @@ func (h ManagementController) uploadFileResponse(
 	defer h.publishControlMessage(ctx, conn, sessionID, ws.MessageTypeClose, nil)
 
 	if proto == ws.ProtoTypeFileTransfer {
-		h.uploadFileV1(c, conn, request, sessionID)
+		err = h.uploadFileV1(c, conn, request, sessionID)
 	} else if proto == ws.ProtoTypeFileTransferV2 {
 		err = h.uploadFileV2(ctx, conn, request, idty.Subject, sessionID)
 	} else {
 		err = fmt.Errorf("unknown protocol")
 	}
-	if c.Writer.Written() {
-		return
-	}
 	if err != nil {
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		h.handleResponseError(c, err)
 	} else {
 		c.Status(http.StatusCreated)
 	}
@@ -921,7 +918,7 @@ func (h ManagementController) uploadFileV1(
 	conn stream.Conn,
 	request *model.UploadFileRequest,
 	sessionID string,
-) {
+) error {
 	ctx := c.Request.Context()
 	userID := identity.FromContext(ctx).Subject
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, fileTransferTimeout)
@@ -940,8 +937,7 @@ func (h ManagementController) uploadFileV1(
 		userID, sessionID,
 		wsft.MessageTypePut, req, 0,
 	); err != nil {
-		h.handleResponseError(c, err)
-		return
+		return err
 	}
 
 	var (
@@ -954,8 +950,7 @@ func (h ManagementController) uploadFileV1(
 		msg, msgBody, err = h.decodeFileTransferProtoMessage(data)
 	}
 	if err != nil {
-		h.handleResponseError(c, err)
-		return
+		return err
 	}
 
 	// process incoming messages from the device by type
@@ -968,8 +963,7 @@ func (h ManagementController) uploadFileV1(
 		if errorMsg.Code > 0 {
 			errorStatusCode = errorMsg.Code
 		}
-		rest.RenderError(c, errorStatusCode, NewError(errors.New(errorMsg.Error), errorStatusCode))
-		return
+		return NewError(errors.New(errorMsg.Error), errorStatusCode)
 
 	// you can continue the upload
 	case wsft.MessageTypeACK:
@@ -986,10 +980,9 @@ func (h ManagementController) uploadFileV1(
 		c, conn, userID, sessionID, request, errorChan, latestAckOffsets,
 	)
 	if err != nil {
-		h.handleResponseError(c, err)
-		return
+		return err
 	}
-	c.Status(http.StatusCreated)
+	return nil
 }
 
 func (h ManagementController) uploadFileResponseWriterV1(ctx context.Context,
