@@ -103,9 +103,10 @@ export const Activate = () => {
       });
   }, [code, dispatch, secretHash]);
 
+  const pageTitle = secretHash ? 'Email change' : 'Email verification';
   if (isVerifying) {
     return (
-      <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} title="">
+      <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} pageTitle={pageTitle} title="">
         <div className="flexbox centered">
           <CircularProgress />
           <Typography className="margin-left-small">Verifying your email address...</Typography>
@@ -115,7 +116,7 @@ export const Activate = () => {
   }
 
   return (
-    <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} title="">
+    <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} pageTitle={pageTitle} title="">
       <div className="flexbox column centered">
         <IconButton
           className="align-center"

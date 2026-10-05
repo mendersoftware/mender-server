@@ -21,10 +21,19 @@ import { Button, Tab, Tabs, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
-import { getActiveTab, getFeatures, getIsEnterprise, getReleaseListState, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
+import {
+  getActiveTab,
+  getFeatures,
+  getIsEnterprise,
+  getReleaseListState,
+  getSelectedManifest,
+  getSelectedRelease,
+  getUserCapabilities
+} from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -131,6 +140,7 @@ export const Releases = () => {
   const { searchTerm, sort = {}, page, perPage, selectedTags, type } = releasesListState;
   const tab = useSelector(getActiveTab);
   const selectedRelease = useSelector(getSelectedRelease);
+  const selectedManifest = useSelector(getSelectedManifest);
   const { canUploadReleases } = useSelector(getUserCapabilities);
   const features = useSelector(getFeatures);
   const dispatch = useAppDispatch();
@@ -226,10 +236,12 @@ export const Releases = () => {
 
   const onTabChanged = useCallback((_, changedTab: 'releases' | 'delta' | 'manifests') => dispatch(setActiveTab(changedTab)), [dispatch]);
 
-  const { Content: ContentComponent } = tabbedComponents[tab || tabbedComponents.releases.key];
+  const { Content: ContentComponent, key: tabKey, title } = tabbedComponents[tab || tabbedComponents.releases.key];
+  const detailTitles = { [tabbedComponents.releases.key]: selectedRelease.name, [tabbedComponents.manifests.key]: selectedManifest.name };
 
   return (
     <div className="margin-right">
+      <PageTitle segments={[detailTitles[tabKey], title.title, 'Software']} />
       <Typography className="margin-bottom-small" variant="h5">
         Software
       </Typography>

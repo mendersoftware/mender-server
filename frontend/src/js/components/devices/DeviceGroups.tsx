@@ -18,15 +18,28 @@ import { useLocation, useParams } from 'react-router';
 import { Alert, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import Link from '@northern.tech/common-ui/Link';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import {
+  ALL_DEVICE_STATES,
+  DEVICE_FILTERING_OPTIONS,
+  DEVICE_STATES,
+  SORTING_OPTIONS,
+  TIMEOUTS,
+  UNGROUPED_GROUP,
+  emptyFilter,
+  onboardingSteps
+} from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getCombinedLimit,
+  getDeviceById,
   getDeviceCountsByStatus,
   getDeviceFilters,
   getGroups as getGroupsSelector,
+  getIdAttribute,
   getIsEnterprise,
   getLimitMaxed,
   getOnboardingState,
@@ -65,6 +78,14 @@ import RemoveGroup from './group-management/RemoveGroup';
 import DeviceAdditionWidget from './widgets/DeviceAdditionWidget';
 
 const { setDeviceFilters, setShowConnectingDialog, setSnackbar } = storeActions;
+
+const deviceStateTitles = {
+  [ALL_DEVICE_STATES]: 'All',
+  [DEVICE_STATES.accepted]: 'Accepted',
+  [DEVICE_STATES.pending]: 'Pending',
+  [DEVICE_STATES.preauth]: 'Preauthorized',
+  [DEVICE_STATES.rejected]: 'Rejected'
+};
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -119,6 +140,8 @@ export const DeviceGroups = () => {
   });
 
   const { refreshTrigger, selectedId, state: selectedState } = deviceListState;
+  const selectedDevice = useSelector(state => getDeviceById(state, selectedId));
+  const idAttribute = useSelector(getIdAttribute);
 
   useEffect(() => {
     dispatch(getTestDeviceCount());
@@ -311,8 +334,10 @@ export const DeviceGroups = () => {
       onboardingComponent
     );
   }
+  const groupTitle = selectedGroup === UNGROUPED_GROUP.id ? UNGROUPED_GROUP.name : selectedGroup && decodeURIComponent(selectedGroup);
   return (
     <>
+      <PageTitle segments={[getDeviceIdentityText({ device: selectedDevice, idAttribute }), deviceStateTitles[selectedState], groupTitle, 'Devices']} />
       <div className={`flexbox align-items-center tab-container with-sub-panels margin-bottom ${classes.container}`}>
         <Typography variant="h5">Devices</Typography>
         <span className={`margin-right ${classes.header}`}>

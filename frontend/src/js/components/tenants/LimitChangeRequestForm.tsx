@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { getOrganization } from '@northern.tech/store/selectors';
@@ -68,6 +69,7 @@ export const LimitChangeRequestForm = () => {
     );
   return (
     <div className={classes.container}>
+      <PageTitle segments={['Device limit change request']} />
       <Typography variant="h5">Request a change to your device limits</Typography>
       <Typography className="padding-bottom-medium margin-top-medium">
         To request an adjustment to your overall device limits, please fill out the form below with details about your desired device tiers and quantities.

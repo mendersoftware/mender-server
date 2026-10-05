@@ -19,6 +19,7 @@ import { Navigate, useParams } from 'react-router';
 import { Payment as PaymentIcon } from '@mui/icons-material';
 
 import LeftNav from '@northern.tech/common-ui/LeftNav';
+import PageTitle from '@northern.tech/common-ui/PageTitle';
 import { TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import {
   getCurrentUser,
@@ -137,6 +138,7 @@ export const Settings = () => {
   const Component = section.component;
   return (
     <div className="tab-container with-sub-panels" style={{ minHeight: '95%' }}>
+      <PageTitle segments={[section.text({ organization }), 'Settings']} />
       <LeftNav sections={[{ itemClass: 'settingsNav', items: links, title: 'Settings' }]} />
       <div className="rightFluid padding-right-large" style={{ paddingBottom: '15%' }}>
         {loadingFinished && (
