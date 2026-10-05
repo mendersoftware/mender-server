@@ -67,7 +67,7 @@ type DataStore interface {
 	GetAllDevices(ctx context.Context) (Iterator, error)
 
 	// GetEvents returns list of event objects
-	GetEvents(ctx context.Context, fltr model.EventsFilter) ([]model.Event, error)
+	GetEvents(ctx context.Context, fltr model.EventsFilter) ([]model.Event, int64, error)
 	// SaveEvent saves the event in the database
 	SaveEvent(ctx context.Context, event model.Event) error
 	// DeleteTenantData removes all data belonging to a given tenant

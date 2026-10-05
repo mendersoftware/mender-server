@@ -1929,11 +1929,12 @@ func TestGetEvents(t *testing.T) {
 	ds := new(storeMocks.DataStore)
 	defer ds.AssertExpectations(t)
 	ds.On("GetEvents", contextMatcher, fltr).
-		Return([]model.Event{}, nil)
+		Return([]model.Event{}, int64(0), nil)
 	app := New(ds, nil, nil)
-	events, err := app.GetEvents(context.Background(), fltr)
+	events, totalCount, err := app.GetEvents(context.Background(), fltr)
 	assert.NoError(t, err)
 	assert.Len(t, events, 0)
+	assert.Equal(t, int64(0), totalCount)
 }
 
 func TestDeleteTenant(t *testing.T) {

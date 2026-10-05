@@ -17,6 +17,7 @@ package http
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -247,7 +248,7 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 		}
 	}
 
-	events, err := h.app.GetEvents(ctx, *filter)
+	events, totalCount, err := h.app.GetEvents(ctx, *filter)
 	if err != nil {
 		rest.RenderError(c,
 			http.StatusInternalServerError,
@@ -255,7 +256,7 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 		)
 		return
 	}
-
+	c.Header("X-Total-Count", strconv.FormatInt(totalCount, 10))
 	c.JSON(http.StatusOK, events)
 }
 

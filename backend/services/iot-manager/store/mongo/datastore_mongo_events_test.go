@@ -47,9 +47,10 @@ func TestGetEvents(t *testing.T) {
 
 		EventFilter model.EventsFilter
 
-		InEvents  []model.Event
-		OutEvents []model.Event
-		Error     error
+		InEvents    []model.Event
+		OutEvents   []model.Event
+		TotalEvents int64
+		Error       error
 	}
 	testCases := []testCase{
 		{
@@ -81,6 +82,7 @@ func TestGetEvents(t *testing.T) {
 					},
 				},
 			},
+			TotalEvents: 1,
 			OutEvents: []model.Event{
 				{
 					WebhookEvent: model.WebhookEvent{
@@ -140,6 +142,7 @@ func TestGetEvents(t *testing.T) {
 					},
 				},
 			},
+			TotalEvents: 3,
 			OutEvents: []model.Event{
 				{
 					WebhookEvent: model.WebhookEvent{
@@ -233,6 +236,7 @@ func TestGetEvents(t *testing.T) {
 					},
 				},
 			},
+			TotalEvents: 4,
 			OutEvents: []model.Event{
 				{
 					WebhookEvent: model.WebhookEvent{
@@ -315,6 +319,7 @@ func TestGetEvents(t *testing.T) {
 					},
 				},
 			},
+			TotalEvents: 1,
 			OutEvents: []model.Event{
 				{
 					WebhookEvent: model.WebhookEvent{
@@ -349,7 +354,7 @@ func TestGetEvents(t *testing.T) {
 			}
 			db := NewDataStoreWithClient(dbClient, NewConfig().
 				SetDbName(dbName))
-			events, err := db.GetEvents(tc.CTX, tc.EventFilter)
+			events, totalCount, err := db.GetEvents(tc.CTX, tc.EventFilter)
 			if tc.Error != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t,
@@ -364,6 +369,7 @@ func TestGetEvents(t *testing.T) {
 					events[i].ID = uuid.Nil
 					events[i].EventTS = time.Time{}
 				}
+				assert.EqualValues(t, tc.TotalEvents, totalCount)
 				assert.Equal(t, tc.OutEvents, events)
 			}
 		})
