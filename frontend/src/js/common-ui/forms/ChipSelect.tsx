@@ -111,7 +111,7 @@ export const ChipSelect = ({
               fullWidth
               slotProps={{
                 ...params.slotProps,
-                input: { ...params.slotProps.input, disableUnderline: true },
+                input: { ...params.slotProps.input, ...(disabled && { disableUnderline: true }) },
                 htmlInput: { ...params.slotProps.htmlInput, value }
               }}
               key={`${name}-input`}

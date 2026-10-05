@@ -83,8 +83,8 @@ export const DeploymentStartTime = ({ className, direction = 'both', started }: 
 );
 
 export const DeploymentSize = ({ deployment: { statistics } }: Pick<ColumnComponentProps, 'deployment'>) => (
-  <Typography variant="body2" className="align-right" component="div">
-    {statistics.total_size ? <FileSize fileSize={statistics.total_size} /> : '-'}
+  <Typography variant="body2" className="align-right">
+    {statistics.total_size ? <FileSize fileSize={statistics.total_size} component="span" /> : '-'}
   </Typography>
 );
 

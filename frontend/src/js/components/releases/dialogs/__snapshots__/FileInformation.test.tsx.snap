@@ -338,11 +338,11 @@ exports[`FileInformation Component > renders correctly 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-10"
         >
-          <p
+          <span
             class="MuiTypography-root MuiTypography-body2 emotion-11"
           >
             1.00 KB
-          </p>
+          </span>
         </p>
       </div>
       <div

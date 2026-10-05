@@ -50,6 +50,22 @@ process.on('unhandledRejection', err => {
 // Setup requests interception
 export const server = setupServer(...handlers);
 
+// track in-flight requests, so tests can wait for them before the server gets closed
+const pendingRequests = new Set<Request>();
+let startedRequests = 0;
+server.events.on('request:start', ({ request }) => {
+  startedRequests++;
+  pendingRequests.add(request);
+});
+server.events.on('request:end', ({ request }) => pendingRequests.delete(request));
+server.events.on('unhandledException', ({ request }) => pendingRequests.delete(request));
+const onUnhandledRequest = (request: Request, print: { error: () => void }) => {
+  pendingRequests.delete(request);
+  print.error();
+};
+export const getPendingRequestCount = () => pendingRequests.size;
+export const getStartedRequestCount = () => startedRequests;
+
 // ensure consistent snapshots across dev machines and CI
 // - module loading order prevents this from fitting into the regular hooks
 Object.defineProperty(process, 'platform', { value: 'linux', writable: true });
@@ -71,7 +87,7 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 beforeAll(async () => {
-  await server.listen({ onUnhandledRequest: 'error' });
+  await server.listen({ onUnhandledRequest });
   await ntBeforeAll({ expect, vi });
 });
 

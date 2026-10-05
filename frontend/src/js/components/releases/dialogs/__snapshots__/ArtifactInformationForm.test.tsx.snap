@@ -999,11 +999,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
             <p
               class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-11"
             >
-              <p
+              <span
                 class="MuiTypography-root MuiTypography-body2 emotion-12"
               >
                 1.00 KB
-              </p>
+              </span>
             </p>
           </div>
           <div
@@ -1853,11 +1853,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
             <p
               class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-11"
             >
-              <p
+              <span
                 class="MuiTypography-root MuiTypography-body2 emotion-12"
               >
                 1.00 KB
-              </p>
+              </span>
             </p>
           </div>
           <div
