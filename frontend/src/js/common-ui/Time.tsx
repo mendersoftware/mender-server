@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { ElementType } from 'react';
-import { useEffect, useState } from 'react';
 
 import { Tooltip, Typography } from '@mui/material';
 
@@ -75,12 +74,7 @@ interface RelativeTimeProps {
 
 const cutoff = -5 * 60;
 export const RelativeTime = ({ className, shouldCount = 'both', updateTime }: RelativeTimeProps) => {
-  const [updatedTime, setUpdatedTime] = useState<Dayjs>();
-
-  useEffect(() => {
-    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime) : updatedTime));
-  }, [updateTime]);
-
+  const updatedTime = updateTime ? dayjs(updateTime) : undefined;
   let timeDisplay = <MaybeTime className={className} value={updatedTime} />;
   const diffSeconds = updatedTime ? updatedTime.diff(dayjs(), 'seconds') : 0;
   if (
@@ -103,12 +97,7 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }: Re
 
 const cutoffDays = 14;
 export const ApproximateRelativeDate = ({ className, updateTime }: { className?: string; updateTime?: string | Date }) => {
-  const [updatedTime, setUpdatedTime] = useState<Dayjs>();
-
-  useEffect(() => {
-    setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime) : updatedTime));
-  }, [updateTime]);
-
+  const updatedTime = updateTime ? dayjs(updateTime) : undefined;
   const diff = updatedTime ? Math.abs(updatedTime.diff(dayjs(), 'days')) : 0;
   if (updatedTime && diff <= cutoffDays) {
     return (
