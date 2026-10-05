@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -44,12 +44,12 @@ func doMain(args []string) {
 
 	var configPath string
 
-	app := cli.NewApp()
+	app := new(cli.Command)
 	app.Usage = "Deployments Service"
 	app.Version = appVersion.Version
 
 	app.Flags = []cli.Flag{
-		cli.StringFlag{
+		&cli.StringFlag{
 			Name: "config",
 			Usage: "Configuration `FILE`." +
 				" Supports JSON, TOML, YAML and HCL formatted configs.",
@@ -57,12 +57,12 @@ func doMain(args []string) {
 		},
 	}
 
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:  "server",
 			Usage: "Run the service as a server",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "automigrate",
 					Usage: "Run database migrations before starting.",
 				},
@@ -74,7 +74,7 @@ func doMain(args []string) {
 			Name:  "migrate",
 			Usage: "Run migrations and exit",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant",
 					Usage: "Tenant ID (optional).",
 				},
@@ -86,14 +86,14 @@ func doMain(args []string) {
 			Name:  "storage-daemon",
 			Usage: "Start storage daemon cleaning up expired objects from storage",
 			Flags: []cli.Flag{
-				cli.DurationFlag{
+				&cli.DurationFlag{
 					Name: "interval",
 					Usage: "Time interval to run cleanup routine; " +
 						"a value of 0 runs the daemon for one " +
 						"iteration and terminates (cron mode).",
 					Value: 0,
 				},
-				cli.DurationFlag{
+				&cli.DurationFlag{
 					Name: "time-jitter",
 					Usage: "The time jitter added for expired links. " +
 						"Links must be expired for `DURATION` " +
@@ -107,20 +107,20 @@ func doMain(args []string) {
 			Name:  "version",
 			Usage: "Show version information",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "output",
 					Usage: "Output format <json|text>",
 					Value: "text",
 				},
 			},
-			Action: func(args *cli.Context) error {
-				switch strings.ToLower(args.String("output")) {
+			Action: func(ctx context.Context, cmd *cli.Command) error {
+				switch strings.ToLower(cmd.String("output")) {
 				case "text":
 					fmt.Print(appVersion)
 				case "json":
 					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 				default:
-					return fmt.Errorf("Unknown output format %q", args.String("output"))
+					return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 				}
 				return nil
 			},
@@ -128,32 +128,25 @@ func doMain(args []string) {
 	}
 
 	app.Action = cmdServer
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		if err := dconfig.Setup(configPath); err != nil {
-			return cli.NewExitError(err.Error(), 1)
+			return ctx, err
 		}
 
-		return nil
+		return ctx, nil
 	}
 
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		log.NewEmpty().Fatal(err.Error())
 	}
 }
 
-func cmdServer(args *cli.Context) error {
-	devSetup := args.GlobalBool("dev")
-
+func cmdServer(ctx context.Context, cmd *cli.Command) error {
 	l := log.New(log.Ctx{})
 
-	if devSetup {
-		l.Infof("setting up development configuration")
-		config.Config.Set(dconfig.SettingMiddleware, dconfig.EnvDev)
-	}
-
 	l.Print("Deployments Service starting up")
-	err := migrate("", args.Bool("automigrate"))
+	err := migrate("", cmd.Bool("automigrate"))
 	if err != nil {
 		return err
 	}
@@ -165,14 +158,14 @@ func cmdServer(args *cli.Context) error {
 	err = RunServer(setupContext)
 	cancel()
 	if err != nil {
-		return cli.NewExitError(err.Error(), 4)
+		return cli.Exit(err, 4)
 	}
 
 	return nil
 }
 
-func cmdMigrate(args *cli.Context) error {
-	tenant := args.String("tenant")
+func cmdMigrate(ctx context.Context, cmd *cli.Command) error {
+	tenant := cmd.String("tenant")
 	return migrate(tenant, true)
 }
 
@@ -181,7 +174,7 @@ func migrate(tenant string, automigrate bool) error {
 
 	dbClient, err := mongo.NewMongoClient(ctx, config.Config)
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to connect to db: %v", err),
 			3)
 	}
@@ -201,7 +194,7 @@ func migrate(tenant string, automigrate bool) error {
 		err = mongo.Migrate(ctx, dbVersion, dbClient, automigrate)
 	}
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),
 			3)
 	}
@@ -209,8 +202,7 @@ func migrate(tenant string, automigrate bool) error {
 	return nil
 }
 
-func cmdStorageDaemon(args *cli.Context) error {
-	ctx := context.Background()
+func cmdStorageDaemon(ctx context.Context, cmd *cli.Command) error {
 	objectStorage, err := SetupObjectStorage(ctx)
 	if err != nil {
 		return err
@@ -223,7 +215,7 @@ func cmdStorageDaemon(args *cli.Context) error {
 	app := app.NewDeployments(database, objectStorage, 0, false)
 	return app.CleanupExpiredUploads(
 		ctx,
-		args.Duration("interval"),
-		args.Duration("time-jitter"),
+		cmd.Duration("interval"),
+		cmd.Duration("time-jitter"),
 	)
 }

@@ -15,13 +15,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/version"
@@ -40,7 +41,7 @@ func main() {
 func doMain(args []string) {
 	var configPath string
 
-	app := &cli.App{
+	app := &cli.Command{
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name: "config",
@@ -50,7 +51,7 @@ func doMain(args []string) {
 				Destination: &configPath,
 			},
 		},
-		Commands: []cli.Command{
+		Commands: []*cli.Command{
 			{
 				Name:   "server",
 				Usage:  "Run the HTTP API server",
@@ -71,20 +72,20 @@ func doMain(args []string) {
 				Name:  "version",
 				Usage: "Show version information",
 				Flags: []cli.Flag{
-					cli.StringFlag{
+					&cli.StringFlag{
 						Name:  "output",
 						Usage: "Output format <json|text>",
 						Value: "text",
 					},
 				},
-				Action: func(args *cli.Context) error {
-					switch strings.ToLower(args.String("output")) {
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					switch strings.ToLower(cmd.String("output")) {
 					case "text":
 						fmt.Print(appVersion)
 					case "json":
 						_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 					default:
-						return fmt.Errorf("Unknown output format %q", args.String("output"))
+						return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 					}
 					return nil
 				},
@@ -95,12 +96,10 @@ func doMain(args []string) {
 	app.Usage = "Device Connect"
 	app.Action = cmdServer
 
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		err := config.FromConfigFile(configPath, dconfig.Defaults)
 		if err != nil {
-			return cli.NewExitError(
-				fmt.Sprintf("error loading configuration: %s", err),
-				1)
+			return ctx, fmt.Errorf("error loading configuration: %s", err)
 		}
 
 		// Enable setting config values by environment variables
@@ -108,17 +107,17 @@ func doMain(args []string) {
 		config.Config.AutomaticEnv()
 		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 
-		return nil
+		return ctx, nil
 	}
 
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func cmdServer(args *cli.Context) error {
-	dataStore, err := store.SetupDataStore(args.Bool("automigrate"))
+func cmdServer(ctx context.Context, cmd *cli.Command) error {
+	dataStore, err := store.SetupDataStore(cmd.Bool("automigrate"))
 	if err != nil {
 		return err
 	}
@@ -126,7 +125,7 @@ func cmdServer(args *cli.Context) error {
 	return server.InitAndRun(config.Config, dataStore)
 }
 
-func cmdMigrate(args *cli.Context) error {
+func cmdMigrate(ctx context.Context, cmd *cli.Command) error {
 	_, err := store.SetupDataStore(true)
 	if err != nil {
 		return err

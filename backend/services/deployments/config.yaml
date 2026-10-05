@@ -4,15 +4,6 @@
 
 # listen: :8080
 
-# HTTP Server middleware environment
-# Available values:
-#   dev - development environment
-#   prod - production environment
-# Defaults to: prod
-# Overwrite with environment variable: DEPLOYMENTS_MIDDLEWARE
-
-# middleware: prod
-
 # HTTPS configuration
 # To enable listening using HTTPS protocol please uncomment and configure following section.
 # All fields in https section are required if any set.

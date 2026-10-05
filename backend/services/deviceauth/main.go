@@ -20,7 +20,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 	"golang.org/x/time/rate"
 
 	oas "github.com/mendersoftware/mender-server/pkg/api"
@@ -44,29 +44,29 @@ func doMain(args []string) {
 	var configPath string
 	var debug bool
 
-	app := cli.NewApp()
+	app := new(cli.Command)
 	app.Usage = "Device Authentication Service"
 
 	app.Flags = []cli.Flag{
-		cli.StringFlag{
+		&cli.StringFlag{
 			Name: "config",
 			Usage: "Configuration `FILE`." +
 				" Supports JSON, TOML, YAML and HCL formatted configs.",
 			Destination: &configPath,
 		},
-		cli.BoolFlag{
+		&cli.BoolFlag{
 			Name:        "debug",
 			Usage:       "Enable debug logging",
 			Destination: &debug,
 		},
 	}
 
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:  "server",
 			Usage: "Run the service as a server",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "automigrate",
 					Usage: "Run database migrations before starting.",
 				},
@@ -78,11 +78,11 @@ func doMain(args []string) {
 			Name:  "migrate",
 			Usage: "Run migrations and exit",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant",
 					Usage: "Tenant ID (optional).",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "list-tenants",
 					Usage: "List Tenant IDs. Not performing migrations.",
 				},
@@ -94,15 +94,15 @@ func doMain(args []string) {
 			Name:  "propagate-inventory-statuses",
 			Usage: "Push device statuses to inventory",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant_id",
 					Usage: "Tenant ID (optional) - propagate for just a single tenant.",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "force-set-migration",
 					Usage: "Migration version to be stored in migration_info collection.",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name: "dry-run",
 					Usage: "Do not perform any inventory modifications," +
 						" just scan and print devices.",
@@ -115,11 +115,11 @@ func doMain(args []string) {
 			Name:  "propagate-inventory-id-data",
 			Usage: "Push device id_data to inventory",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant_id",
 					Usage: "Tenant ID (optional) - propagate for just a single tenant.",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name: "dry-run",
 					Usage: "Do not perform any inventory modifications," +
 						" just scan and print devices.",
@@ -132,15 +132,15 @@ func doMain(args []string) {
 			Name:  "maintenance",
 			Usage: "Run maintenance operations and exit",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "decommissioning-cleanup",
 					Usage: "Cleanup devauth database from leftovers after failed decommissioning",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant",
 					Usage: "Tenant ID (optional).",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name: "dry-run",
 					Usage: "Do not perform any modifications and serves" +
 						" only as a way to inspect changes and detect if any are necessary",
@@ -148,14 +148,14 @@ func doMain(args []string) {
 			},
 
 			Action: cmdMaintenance,
-			Subcommands: cli.Commands{{
+			Commands: []*cli.Command{{
 				Name:  "propagate-inventory",
 				Usage: "Propagates identity data and status to inventory service",
 				Flags: []cli.Flag{
-					cli.DurationFlag{
+					&cli.DurationFlag{
 						Name: "timeout",
 					},
-					cli.Float64Flag{
+					&cli.Float64Flag{
 						Name:  "rate-limit",
 						Value: 100.0,
 						Usage: "Rate limit (devices per second)",
@@ -168,20 +168,20 @@ func doMain(args []string) {
 			Name:  "version",
 			Usage: "Show version information",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "output",
 					Usage: "Output format <json|text>",
 					Value: "text",
 				},
 			},
-			Action: func(args *cli.Context) error {
-				switch strings.ToLower(args.String("output")) {
+			Action: func(ctx context.Context, cmd *cli.Command) error {
+				switch strings.ToLower(cmd.String("output")) {
 				case "text":
 					fmt.Print(appVersion)
 				case "json":
 					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 				default:
-					return fmt.Errorf("Unknown output format %q", args.String("output"))
+					return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 				}
 				return nil
 			},
@@ -190,12 +190,12 @@ func doMain(args []string) {
 
 	app.Version = appVersion.Version
 	app.Action = cmdServer
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		log.Setup(debug)
 
 		err := config.FromConfigFile(configPath, dconfig.Defaults)
 		if err != nil {
-			return cli.NewExitError(
+			return ctx, cli.Exit(
 				fmt.Sprintf("error loading configuration: %s", err),
 				1)
 		}
@@ -205,22 +205,22 @@ func doMain(args []string) {
 		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 		config.Config.AutomaticEnv()
 
-		return nil
+		return ctx, nil
 	}
 
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		log.NewEmpty().Fatal(err)
 		os.Exit(1)
 	}
 }
 
-func cmdServer(args *cli.Context) error {
+func cmdServer(ctx context.Context, args *cli.Command) error {
 	l := log.New(log.Ctx{})
 
 	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to connect to db: %v", err),
 			2)
 	}
@@ -229,10 +229,9 @@ func cmdServer(args *cli.Context) error {
 		db = db.WithAutomigrate().(*mongo.DataStoreMongo)
 	}
 
-	ctx := context.Background()
 	err = db.Migrate(ctx, mongo.DbVersion)
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),
 			3)
 	}
@@ -241,33 +240,33 @@ func cmdServer(args *cli.Context) error {
 
 	err = RunServer(config.Config)
 	if err != nil {
-		return cli.NewExitError(err.Error(), 4)
+		return cli.Exit(err.Error(), 4)
 	}
 
 	return nil
 }
 
-func cmdMigrate(args *cli.Context) error {
+func cmdMigrate(ctx context.Context, args *cli.Command) error {
 	err := cmd.Migrate(config.Config, args.String("tenant"), args.Bool("list-tenants"))
 	if err != nil {
-		return cli.NewExitError(err, 5)
+		return cli.Exit(err, 5)
 	}
 	return nil
 }
 
-func cmdMaintenance(args *cli.Context) error {
+func cmdMaintenance(ctx context.Context, args *cli.Command) error {
 	err := cmd.Maintenance(
 		args.Bool("decommissioning-cleanup"),
 		args.String("tenant"),
 		args.Bool("dry-run"),
 	)
 	if err != nil {
-		return cli.NewExitError(err, 6)
+		return cli.Exit(err, 6)
 	}
 	return nil
 }
 
-func cmdPropagateStatusesInventory(args *cli.Context) error {
+func cmdPropagateStatusesInventory(ctx context.Context, args *cli.Command) error {
 	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
 	if err != nil {
 		return err
@@ -287,13 +286,12 @@ func cmdPropagateStatusesInventory(args *cli.Context) error {
 		args.String("force-set-migration"),
 		args.Bool("dry-run"))
 	if err != nil {
-		return cli.NewExitError(err, 7)
+		return cli.Exit(err, 7)
 	}
 	return nil
 }
 
-func cmdPropagateInventory(args *cli.Context) error {
-	ctx := context.Background()
+func cmdPropagateInventory(ctx context.Context, args *cli.Command) error {
 	if args.IsSet("timeout") {
 		var cancel context.CancelFunc
 		ctx, cancel = context.WithTimeout(ctx, args.Duration("timeout"))
@@ -314,12 +312,12 @@ func cmdPropagateInventory(args *cli.Context) error {
 	rateLimiter := rate.NewLimiter(rate.Limit(args.Float64("rate-limit")), 1)
 	err = cmd.MaintenanceSyncDeviceInventory(ctx, db, c, rateLimiter)
 	if err != nil {
-		return cli.NewExitError(err, 1)
+		return cli.Exit(err, 1)
 	}
 	return nil
 }
 
-func cmdPropagateIdDataInventory(args *cli.Context) error {
+func cmdPropagateIdDataInventory(ctx context.Context, args *cli.Command) error {
 	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
 	if err != nil {
 		return err
@@ -338,7 +336,7 @@ func cmdPropagateIdDataInventory(args *cli.Context) error {
 		args.String("tenant_id"),
 		args.Bool("dry-run"))
 	if err != nil {
-		return cli.NewExitError(err, 7)
+		return cli.Exit(err, 7)
 	}
 	return nil
 }

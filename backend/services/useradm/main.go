@@ -20,7 +20,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -43,27 +43,27 @@ func doMain(args []string) error {
 	var debug bool
 	var configPath string
 
-	app := cli.NewApp()
+	app := new(cli.Command)
 	app.Usage = "user administration service"
 	app.Flags = []cli.Flag{
-		cli.StringFlag{
+		&cli.StringFlag{
 			Name: "config",
 			Usage: "Configuration `FILE`." +
 				" Supports JSON, TOML, YAML and HCL formatted configs.",
 			Destination: &configPath,
 		},
-		cli.BoolFlag{
+		&cli.BoolFlag{
 			Name:        "debug",
 			Usage:       "Enable debug logging",
 			Destination: &debug,
 		},
 	}
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:  "server",
 			Usage: "Run the service as a server",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "automigrate",
 					Usage: "Run database migrations before starting.",
 				},
@@ -75,20 +75,20 @@ func doMain(args []string) error {
 			Name:  "create-user",
 			Usage: "Create user",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:     "username",
 					Usage:    "Name of created user, must be an email address",
 					Required: true,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "password",
 					Usage: "User's password, leave empty to have it read from stdin",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "user-id",
 					Usage: "User ID, if already generated/available (optional).",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant-id",
 					Usage: "Tenant ID, if running a multitenant setup (optional).",
 				},
@@ -99,16 +99,16 @@ func doMain(args []string) error {
 			Name:  "set-password",
 			Usage: "Set password",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:     "username",
 					Usage:    "Name of created user, must be an email address",
 					Required: true,
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "password",
 					Usage: "User's password, leave empty to have it read from stdin",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant-id",
 					Usage: "Tenant ID, if running a multitenant setup (optional).",
 				},
@@ -119,7 +119,7 @@ func doMain(args []string) error {
 			Name:  "migrate",
 			Usage: "Run migrations",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant",
 					Usage: "Takes ID of specific tenant to migrate.",
 				},
@@ -131,20 +131,20 @@ func doMain(args []string) error {
 			Name:  "version",
 			Usage: "Show version information",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "output",
 					Usage: "Output format <json|text>",
 					Value: "text",
 				},
 			},
-			Action: func(args *cli.Context) error {
-				switch strings.ToLower(args.String("output")) {
+			Action: func(ctx context.Context, cmd *cli.Command) error {
+				switch strings.ToLower(cmd.String("output")) {
 				case "text":
 					fmt.Print(appVersion)
 				case "json":
 					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 				default:
-					return fmt.Errorf("Unknown output format %q", args.String("output"))
+					return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 				}
 				return nil
 			},
@@ -153,12 +153,12 @@ func doMain(args []string) error {
 
 	app.Version = appVersion.Version
 	app.Action = runServer
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		log.Setup(debug)
 
 		err := config.FromConfigFile(configPath, ConfigDefaults)
 		if err != nil {
-			return cli.NewExitError(
+			return ctx, cli.Exit(
 				fmt.Sprintf("error loading configuration: %s", err),
 				1)
 		}
@@ -176,85 +176,83 @@ func doMain(args []string) error {
 				config.Config.GetString(SettingPlanDefinitions),
 			)
 			if err != nil {
-				return fmt.Errorf(
+				return ctx, fmt.Errorf(
 					"failed to load Plans from config: %w",
 					err,
 				)
 			}
 		}
 
-		return nil
+		return ctx, nil
 	}
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		log.NewEmpty().Fatal(err)
 	}
 	return err
 }
 
-func runServer(args *cli.Context) error {
+func runServer(ctx context.Context, cmd *cli.Command) error {
 	l := log.New(log.Ctx{})
 
 	l.Print("User Administration Service starting up")
 
-	ctx := context.Background()
-
 	db, err := mongo.NewDataStoreMongo(dataStoreMongoConfigFromAppConfig(config.Config))
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to connect to db: %v", err),
 			2)
 	}
 
-	if args.Bool("automigrate") {
+	if cmd.Bool("automigrate") {
 		db = db.WithAutomigrate()
 	}
 
 	err = db.Migrate(ctx, mongo.DbVersion)
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),
 			3)
 	}
 
 	err = RunServer(config.Config)
 	if err != nil {
-		return cli.NewExitError(err.Error(), 4)
+		return cli.Exit(err.Error(), 4)
 	}
 	return nil
 }
 
-func runCreateUser(args *cli.Context) error {
-	email := model.Email(strings.ToLower(args.String("username")))
+func runCreateUser(ctx context.Context, cmd *cli.Command) error {
+	email := model.Email(strings.ToLower(cmd.String("username")))
 	err := commandCreateUser(
 		config.Config,
 		email,
-		args.String("password"),
-		args.String("user-id"),
-		args.String("tenant-id"),
+		cmd.String("password"),
+		cmd.String("user-id"),
+		cmd.String("tenant-id"),
 	)
 	if err != nil {
-		return cli.NewExitError(err.Error(), 5)
+		return cli.Exit(err.Error(), 5)
 	}
 	return nil
 }
 
-func runMigrate(args *cli.Context) error {
-	err := commandMigrate(config.Config, args.String("tenant"))
+func runMigrate(ctx context.Context, cmd *cli.Command) error {
+	err := commandMigrate(config.Config, cmd.String("tenant"))
 	if err != nil {
-		return cli.NewExitError(err.Error(), 6)
+		return cli.Exit(err.Error(), 6)
 	}
 	return nil
 }
 
-func runSetPassword(args *cli.Context) error {
-	email := model.Email(strings.ToLower(args.String("username")))
+func runSetPassword(ctx context.Context, cmd *cli.Command) error {
+	email := model.Email(strings.ToLower(cmd.String("username")))
 	err := commandSetPassword(
 		config.Config, email,
-		args.String("password"), args.String("tenant-id"),
+		cmd.String("password"), cmd.String("tenant-id"),
 	)
 	if err != nil {
-		return cli.NewExitError(err.Error(), 7)
+		return cli.Exit(err.Error(), 7)
 	}
 	return nil
 }

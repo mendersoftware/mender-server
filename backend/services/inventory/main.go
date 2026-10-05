@@ -20,7 +20,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/pkg/errors"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/version"
@@ -32,7 +33,16 @@ import (
 var appVersion = version.Get()
 
 func main() {
-	doMain(os.Args)
+	err := doMain(os.Args)
+	if err != nil {
+		var exitCoder cli.ExitCoder
+		log.NewEmpty().Error(err)
+		if errors.As(err, &exitCoder) {
+			os.Exit(exitCoder.ExitCode())
+		} else {
+			os.Exit(1)
+		}
+	}
 }
 
 const maintenanceDescription = `Run migrations in maintenance mode.
@@ -43,37 +53,37 @@ const maintenanceDescription = `Run migrations in maintenance mode.
        - DELETE /api/management/v1/inventory/devices/{id}/group/{name}
        - PATCH  /api/devices/v1/inventory/devices/attributes`
 
-func doMain(args []string) {
+func doMain(args []string) error {
 	var configPath string
 	var debug bool
 
-	app := cli.NewApp()
+	app := new(cli.Command)
 	app.Usage = "Device Authentication Service"
 
 	app.Flags = []cli.Flag{
-		cli.StringFlag{
+		&cli.StringFlag{
 			Name: "config",
 			Usage: "Configuration `FILE`." +
 				" Supports JSON, TOML, YAML and HCL formatted configs.",
 			Destination: &configPath,
 		},
-		cli.BoolFlag{
+		&cli.BoolFlag{
 			Name:  "dev",
 			Usage: "Use development setup",
 		},
-		cli.BoolFlag{
+		&cli.BoolFlag{
 			Name:        "debug",
 			Usage:       "Enable debug logging",
 			Destination: &debug,
 		},
 	}
 
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:  "server",
 			Usage: "Run the service as a server",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "automigrate",
 					Usage: "Run database migrations before starting.",
 				},
@@ -85,7 +95,7 @@ func doMain(args []string) {
 			Name:  "migrate",
 			Usage: "Run migrations",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "tenant",
 					Usage: "Takes ID of specific tenant to migrate.",
 				},
@@ -97,14 +107,14 @@ func doMain(args []string) {
 			Name:        "maintenance",
 			Description: maintenanceDescription,
 			Flags: []cli.Flag{
-				cli.StringSliceFlag{
+				&cli.StringSliceFlag{
 					Name: "tenant, t",
 					Usage: "Takes ID of specific " +
 						"tenant(s) to migrate. " +
 						"Flag can be provided " +
 						"multiple times.",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "version",
 					Usage: "Target version to migrate",
 					Value: mongo.DbVersion,
@@ -117,20 +127,20 @@ func doMain(args []string) {
 			Name:  "version",
 			Usage: "Show version information",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "output",
 					Usage: "Output format <json|text>",
 					Value: "text",
 				},
 			},
-			Action: func(args *cli.Context) error {
-				switch strings.ToLower(args.String("output")) {
+			Action: func(ctx context.Context, cmd *cli.Command) error {
+				switch strings.ToLower(cmd.String("output")) {
 				case "text":
 					fmt.Print(appVersion)
 				case "json":
 					_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 				default:
-					return fmt.Errorf("Unknown output format %q", args.String("output"))
+					return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 				}
 				return nil
 			},
@@ -139,12 +149,12 @@ func doMain(args []string) {
 
 	app.Version = appVersion.Version
 	app.Action = cmdServer
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		log.Setup(debug)
 
 		err := config.FromConfigFile(configPath, configDefaults)
 		if err != nil {
-			return cli.NewExitError(
+			return ctx, cli.Exit(
 				fmt.Sprintf("error loading configuration: %s", err),
 				1)
 		}
@@ -153,10 +163,10 @@ func doMain(args []string) {
 		config.Config.SetEnvPrefix("INVENTORY")
 		config.Config.AutomaticEnv()
 
-		return nil
+		return ctx, nil
 	}
 
-	_ = app.Run(args)
+	return app.Run(context.Background(), args)
 }
 
 func makeDataStoreConfig() mongo.DataStoreMongoConfig {
@@ -172,24 +182,23 @@ func makeDataStoreConfig() mongo.DataStoreMongoConfig {
 
 }
 
-func cmdServer(args *cli.Context) error {
+func cmdServer(ctx context.Context, cmd *cli.Command) error {
 	l := log.New(log.Ctx{})
 
 	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to connect to db: %v", err),
 			3)
 	}
 
-	if args.Bool("automigrate") {
+	if cmd.Bool("automigrate") {
 		db = db.WithAutomigrate()
 	}
 
-	ctx := context.Background()
 	err = db.Migrate(ctx, mongo.DbVersion)
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),
 			3)
 	}
@@ -198,14 +207,14 @@ func cmdServer(args *cli.Context) error {
 
 	err = RunServer(config.Config)
 	if err != nil {
-		return cli.NewExitError(err.Error(), 4)
+		return cli.Exit(err.Error(), 4)
 	}
 
 	return nil
 }
 
-func cmdMigrate(args *cli.Context) error {
-	tenantId := args.String("tenant")
+func cmdMigrate(ctx context.Context, cmd *cli.Command) error {
+	tenantId := cmd.String("tenant")
 
 	l := log.New(log.Ctx{})
 
@@ -220,7 +229,7 @@ func cmdMigrate(args *cli.Context) error {
 	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
 
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to connect to db: %v", err),
 			3)
 	}
@@ -228,15 +237,13 @@ func cmdMigrate(args *cli.Context) error {
 	// we want to apply migrations
 	db = db.WithAutomigrate()
 
-	ctx := context.Background()
-
 	if tenantId != "" {
 		err = db.MigrateTenant(ctx, mongo.DbVersion, tenantId)
 	} else {
 		err = db.Migrate(ctx, mongo.DbVersion)
 	}
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),
 			3)
 	}
@@ -244,9 +251,9 @@ func cmdMigrate(args *cli.Context) error {
 	return nil
 }
 
-func cmdMaintenence(args *cli.Context) error {
-	tenantIDs := args.StringSlice("tenant")
-	version := args.String("version")
+func cmdMaintenence(ctx context.Context, cmd *cli.Command) error {
+	tenantIDs := cmd.StringSlice("tenant")
+	version := cmd.String("version")
 
 	l := log.New(log.Ctx{})
 
@@ -258,7 +265,7 @@ func cmdMaintenence(args *cli.Context) error {
 	db, err := mongo.NewDataStoreMongo(makeDataStoreConfig())
 
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to connect to db: %v", err),
 			3)
 	}
@@ -266,11 +273,9 @@ func cmdMaintenence(args *cli.Context) error {
 	// we want to apply migrations
 	db = db.WithAutomigrate()
 
-	ctx := context.Background()
-
 	err = db.Maintenance(ctx, version, tenantIDs...)
 	if err != nil {
-		return cli.NewExitError(
+		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),
 			3)
 	}

@@ -23,7 +23,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
@@ -45,7 +45,7 @@ func main() {
 func doMain(args []string) {
 	var configPath string
 
-	app := &cli.App{
+	app := &cli.Command{
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name: "config",
@@ -55,7 +55,7 @@ func doMain(args []string) {
 				Destination: &configPath,
 			},
 		},
-		Commands: []cli.Command{
+		Commands: []*cli.Command{
 			{
 				Name:   "server",
 				Usage:  "Run the HTTP API server",
@@ -88,20 +88,20 @@ func doMain(args []string) {
 				Name:  "version",
 				Usage: "Show version information",
 				Flags: []cli.Flag{
-					cli.StringFlag{
+					&cli.StringFlag{
 						Name:  "output",
 						Usage: "Output format <json|text>",
 						Value: "text",
 					},
 				},
-				Action: func(args *cli.Context) error {
-					switch strings.ToLower(args.String("output")) {
+				Action: func(ctx context.Context, cmd *cli.Command) error {
+					switch strings.ToLower(cmd.String("output")) {
 					case "text":
 						fmt.Print(appVersion)
 					case "json":
 						_ = json.NewEncoder(os.Stdout).Encode(appVersion)
 					default:
-						return fmt.Errorf("Unknown output format %q", args.String("output"))
+						return fmt.Errorf("Unknown output format %q", cmd.String("output"))
 					}
 					return nil
 				},
@@ -112,10 +112,10 @@ func doMain(args []string) {
 	app.Usage = "Device Configure"
 	app.Action = cmdServer
 
-	app.Before = func(args *cli.Context) error {
+	app.Before = func(ctx context.Context, cmd *cli.Command) (context.Context, error) {
 		err := config.FromConfigFile(configPath, Defaults)
 		if err != nil {
-			return cli.NewExitError(
+			return ctx, cli.Exit(
 				fmt.Sprintf("error loading configuration: %s", err),
 				1)
 		}
@@ -127,10 +127,10 @@ func doMain(args []string) {
 
 		log.Setup(config.Config.GetBool(SettingDebugLog))
 
-		return nil
+		return ctx, nil
 	}
 
-	err := app.Run(args)
+	err := app.Run(context.Background(), args)
 	if err != nil {
 		log.Log.Fatal(err)
 	}
@@ -157,24 +157,22 @@ func initStoreFromConfig() (store.DataStore, error) {
 	return mongo.NewMongoStore(context.Background(), storeConfig)
 }
 
-func cmdServer(args *cli.Context) error {
-	ctx := context.Background()
+func cmdServer(ctx context.Context, cmd *cli.Command) error {
 	ds, err := initStoreFromConfig()
 	if err != nil {
 		return err
 	}
 	defer ds.Close(ctx)
-	err = ds.Migrate(ctx, mongo.DbVersion, args.Bool("automigrate"))
+	err = ds.Migrate(ctx, mongo.DbVersion, cmd.Bool("automigrate"))
 	if err != nil {
 		return err
 	}
 	return server.InitAndRun(ds)
 }
 
-func cmdMigrate(args *cli.Context) error {
-	ctx := context.Background()
-	version := args.String("db-version")
-	tenantID := args.String("tenant-id")
+func cmdMigrate(ctx context.Context, cmd *cli.Command) error {
+	version := cmd.String("db-version")
+	tenantID := cmd.String("tenant-id")
 	if tenantID != "" {
 		ctx = identity.WithContext(ctx, &identity.Identity{
 			Tenant: tenantID,
