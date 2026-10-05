@@ -254,7 +254,7 @@ func (_m *App) GetDeviceStateIoTHub(_a0 context.Context, _a1 string, _a2 *model.
 }
 
 // GetEvents provides a mock function with given fields: ctx, filter
-func (_m *App) GetEvents(ctx context.Context, filter model.EventsFilter) ([]model.Event, error) {
+func (_m *App) GetEvents(ctx context.Context, filter model.EventsFilter) ([]model.Event, int64, error) {
 	ret := _m.Called(ctx, filter)
 
 	if len(ret) == 0 {
@@ -262,8 +262,9 @@ func (_m *App) GetEvents(ctx context.Context, filter model.EventsFilter) ([]mode
 	}
 
 	var r0 []model.Event
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, model.EventsFilter) ([]model.Event, error)); ok {
+	var r1 int64
+	var r2 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.EventsFilter) ([]model.Event, int64, error)); ok {
 		return rf(ctx, filter)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context, model.EventsFilter) []model.Event); ok {
@@ -274,13 +275,21 @@ func (_m *App) GetEvents(ctx context.Context, filter model.EventsFilter) ([]mode
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, model.EventsFilter) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.EventsFilter) int64); ok {
 		r1 = rf(ctx, filter)
 	} else {
-		r1 = ret.Error(1)
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(int64)
+		}
 	}
 
-	return r0, r1
+	if rf, ok := ret.Get(2).(func(context.Context, model.EventsFilter) error); ok {
+		r2 = rf(ctx, filter)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
 }
 
 // GetIntegrationById provides a mock function with given fields: _a0, _a1

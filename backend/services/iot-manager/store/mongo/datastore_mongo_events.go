@@ -23,6 +23,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -48,11 +49,17 @@ func SetEventExpiration(exp int64) {
 func (db *DataStoreMongo) GetEvents(
 	ctx context.Context,
 	fltr model.EventsFilter,
-) ([]model.Event, error) {
+) ([]model.Event, int64, error) {
 	var (
-		err     error
-		results = []model.Event{}
+		err      error
+		results  = []model.Event{}
+		tenantID string
 	)
+
+	id := identity.FromContext(ctx)
+	if id != nil {
+		tenantID = id.Tenant
+	}
 
 	collEvents := db.Collection(CollNameLog)
 	findOpts := mopts.Find().
@@ -62,7 +69,10 @@ func (db *DataStoreMongo) GetEvents(
 		findOpts.SetLimit(fltr.Limit)
 	}
 
-	filter := bson.D{}
+	filter := bson.D{{
+		Key:   KeyTenantID,
+		Value: tenantID,
+	}}
 	if fltr.IntegrationID != nil {
 		filter = append(filter,
 			bson.E{
@@ -72,17 +82,17 @@ func (db *DataStoreMongo) GetEvents(
 		)
 	}
 	cur, err := collEvents.Find(ctx,
-		mongostore.WithTenantID(ctx, filter),
+		filter,
 		findOpts,
 	)
 	if err != nil {
-		return nil, errors.Wrap(err, "error executing log collection request")
+		return nil, 0, errors.Wrap(err, "error executing log collection request")
 	}
 	if err = cur.All(ctx, &results); err != nil {
-		return nil, errors.Wrap(err, "error retrieving log collection results")
+		return nil, 0, errors.Wrap(err, "error retrieving log collection results")
 	}
-
-	return results, nil
+	totalCount, err := collEvents.CountDocuments(ctx, filter, mopts.Count().SetLimit(10000))
+	return results, totalCount, err
 }
 
 func (db *DataStoreMongo) SaveEvent(

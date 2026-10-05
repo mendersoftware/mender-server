@@ -27,6 +27,7 @@ import (
 	"net/http/httptest"
 	"net/textproto"
 	"net/url"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -1018,7 +1019,8 @@ func TestGetEvents(t *testing.T) {
 
 		Url string
 
-		App func(t *testing.T) *mapp.App
+		App         func(t *testing.T) *mapp.App
+		TotalEvents int64
 
 		StatusCode int
 		Response   interface{}
@@ -1036,6 +1038,7 @@ func TestGetEvents(t *testing.T) {
 
 			Url: "http://localhost" + APIURLManagement + APIURLEvents,
 
+			TotalEvents: 1,
 			App: func(t *testing.T) *mapp.App {
 				app := new(mapp.App)
 				app.On("GetEvents", contextMatcher, model.EventsFilter{Limit: 20}).
@@ -1054,7 +1057,7 @@ func TestGetEvents(t *testing.T) {
 								return &i
 							}(),
 						}},
-					}}, nil)
+					}}, int64(1), nil)
 				return app
 			},
 
@@ -1084,6 +1087,7 @@ func TestGetEvents(t *testing.T) {
 
 			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + paramQueryIntegrationID + "=" + integrationId,
 
+			TotalEvents: 1,
 			App: func(t *testing.T) *mapp.App {
 				app := new(mapp.App)
 				app.On("GetEvents", contextMatcher, model.EventsFilter{Limit: 20, IntegrationID: &integrationId}).
@@ -1102,7 +1106,7 @@ func TestGetEvents(t *testing.T) {
 								return &i
 							}(),
 						}},
-					}}, nil)
+					}}, int64(1), nil)
 				return app
 			},
 
@@ -1132,6 +1136,7 @@ func TestGetEvents(t *testing.T) {
 
 			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?page=3&per_page=500",
 
+			TotalEvents: 1,
 			App: func(t *testing.T) *mapp.App {
 				app := new(mapp.App)
 				app.On("GetEvents", contextMatcher, model.EventsFilter{Skip: 1000, Limit: 500}).
@@ -1150,7 +1155,7 @@ func TestGetEvents(t *testing.T) {
 								return &i
 							}(),
 						}},
-					}}, nil)
+					}}, int64(1), nil)
 				return app
 			},
 
@@ -1233,6 +1238,14 @@ func TestGetEvents(t *testing.T) {
 			assert.Equal(t, tc.StatusCode, w.Code, "invalid HTTP status code")
 			b, _ := json.Marshal(tc.Response)
 			assert.JSONEq(t, string(b), w.Body.String())
+			if tc.StatusCode == http.StatusOK {
+				if assert.Contains(t, w.Header(), "X-Total-Count") {
+					count, err := strconv.ParseInt(w.Header().Get("X-Total-Count"), 10, 64)
+					if assert.NoError(t, err) {
+						assert.Equal(t, tc.TotalEvents, count)
+					}
+				}
+			}
 		})
 	}
 }

@@ -84,7 +84,7 @@ type App interface {
 
 	SyncDevices(context.Context, int, bool) error
 
-	GetEvents(ctx context.Context, filter model.EventsFilter) ([]model.Event, error)
+	GetEvents(ctx context.Context, filter model.EventsFilter) ([]model.Event, int64, error)
 	VerifyDeviceTwin(ctx context.Context, req model.PreauthRequest) error
 }
 
@@ -777,7 +777,9 @@ func (a *app) SetDeviceStateIntegration(
 	}
 }
 
-func (a *app) GetEvents(ctx context.Context, filter model.EventsFilter) ([]model.Event, error) {
+func (a *app) GetEvents(
+	ctx context.Context, filter model.EventsFilter,
+) ([]model.Event, int64, error) {
 	return a.store.GetEvents(ctx, filter)
 }
 
