@@ -449,11 +449,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -613,11 +613,11 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.FileInfo{
-							Path: string2pointer("/absolute/path"),
-							UID:  uint322pointer(0),
-							GID:  uint322pointer(0),
-							Mode: uint322pointer(777),
-							Size: int642pointer(10),
+							Path: new("/absolute/path"),
+							UID:  new(uint32(0)),
+							GID:  new(uint32(0)),
+							Mode: new(uint32(777)),
+							Size: new(int64(10)),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -859,8 +859,8 @@ func TestManagementDownloadFile(t *testing.T) {
 					Return(func(context.Context) ([]byte, error) {
 						// file info response
 						body := wsft.Error{
-							Error:       string2pointer("file not found"),
-							MessageType: string2pointer(wsft.MessageTypeStat),
+							Error:       new("file not found"),
+							MessageType: new(wsft.MessageTypeStat),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						return msgpack.Marshal(&ws.ProtoMsg{
@@ -2283,8 +2283,8 @@ func TestManagementUploadFile(t *testing.T) {
 					On("Recv", contextMatcher).
 					Return(func(ctx context.Context) ([]byte, error) {
 						body := wsft.Error{
-							Error:       string2pointer("file not writeable"),
-							MessageType: string2pointer(wsft.MessageTypePut),
+							Error:       new("file not writeable"),
+							MessageType: new(wsft.MessageTypePut),
 						}
 						bodyData, _ := msgpack.Marshal(body)
 						msg := &ws.ProtoMsg{
