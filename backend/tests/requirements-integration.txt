@@ -16,7 +16,7 @@ pluggy==1.6.0
 py==1.11.0
 pycparser==3.0
 pydantic==2.13.4
-pymongo==4.17.0
+pymongo==4.18.2
 pyotp==2.9.0
 pyparsing==3.3.2
 pytest==9.0.3
