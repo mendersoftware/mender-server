@@ -18,8 +18,6 @@ import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging } from '../../utils/commands';
 import { navigateTo } from '../../utils/utils';
 
-const manifestArtifactApiUrl =
-  'https://api.github.com/repos/mendersoftware/mender-server-enterprise/contents/backend/services/deployments/tests/data/test.manifest.mender?ref=main';
 const manifestFileLocation = 'fixtures/test.manifest.mender';
 const manifestYamlFileLocation = 'fixtures/manifest.yaml';
 
@@ -34,26 +32,16 @@ test.describe('Manifests', () => {
       return;
     }
 
-    console.log(`Downloading test manifest artifact via Github API...`);
-    // download the test manifest artifact from the enterprise repo via GitHub API
-    const { GITHUB_TOKEN: githubToken } = process.env;
-    const response = await fetch(manifestArtifactApiUrl, { headers: { Accept: 'application/vnd.github.raw+json', Authorization: `token ${githubToken}` } });
-    if (response.ok) {
-      const buffer = await response.arrayBuffer();
-      fs.writeFileSync(manifestFileLocation, Buffer.from(buffer));
-      // Dump the yaml file (manifest.yaml) from the manifest mender file
-      try {
-        execSync(`mender-artifact dump --files fixtures/ ${manifestFileLocation}`, { stdio: ['inherit', 'pipe', 'pipe'] });
-      } catch (e) {
-        if (fs.existsSync(manifestYamlFileLocation)) {
-          console.warn('mender-artifact dump exited non-zero, other worker created the file, continuing.');
-        } else {
-          console.error(e instanceof Error ? e.message : String(e));
-          throw e;
-        }
+    // Dump the yaml file (manifest.yaml) from the manifest mender file
+    try {
+      execSync(`mender-artifact dump --files fixtures/ ${manifestFileLocation}`, { stdio: ['inherit', 'pipe', 'pipe'] });
+    } catch (e) {
+      if (fs.existsSync(manifestYamlFileLocation)) {
+        console.warn('mender-artifact dump exited non-zero, other worker created the file, continuing.');
+      } else {
+        console.error(e instanceof Error ? e.message : String(e));
+        throw e;
       }
-    } else {
-      console.warn(`Failed to download manifest artifact (${response.status}) - upload tests will be skipped`);
     }
   });
 
