@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import type { ReactNode } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
@@ -32,11 +32,19 @@ const useStyles = makeStyles()(() => ({
   }
 }));
 
-export interface ColumnDefinition {
+export interface ColumnRendererProps<T, E = unknown> {
+  column: ColumnDefinition<T, E>;
+  extras?: E;
+  item: T;
+}
+
+export interface ColumnDefinition<T = unknown, E = unknown> {
   cellProps?: Record<string, string>;
+  component?: ComponentType<ColumnRendererProps<T, E>>;
+  extras?: E;
   key: string;
-  render: () => ReactNode | string;
-  renderTitle?: () => ReactNode | string;
+  render?: (item: T, extras: E) => ReactNode | string;
+  renderTitle?: (extras: E) => ReactNode | string;
   sortable?: boolean;
   title: string;
 }
@@ -109,16 +117,19 @@ export const DetailsTable = ({
                 <Checkbox checked={selectedRows.includes(index)} onChange={() => onRowSelection(index)} />
               </TableCell>
             )}
-            {columns.map(column => (
-              <TableCell
-                className={`relative ${column.sortable ? 'padding-right-large' : ''}`}
-                key={column.key}
-                onClick={() => (onItemClick ? onItemClick(item) : null)}
-                {...column.cellProps}
-              >
-                {column.render(item, column.extras)}
-              </TableCell>
-            ))}
+            {columns.map(column => {
+              const { component: Component, extras, render } = column;
+              return (
+                <TableCell
+                  className={`relative ${column.sortable ? 'padding-right-large' : ''}`}
+                  key={column.key}
+                  onClick={() => (onItemClick ? onItemClick(item) : null)}
+                  {...column.cellProps}
+                >
+                  {Component ? <Component column={column} extras={extras} item={item} /> : render?.(item, extras)}
+                </TableCell>
+              );
+            })}
           </TableRow>
         ))}
       </TableBody>

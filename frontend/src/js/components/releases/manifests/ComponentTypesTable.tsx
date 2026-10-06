@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
@@ -61,8 +60,7 @@ type ColumnExtras = {
   onReleaseEdit: (type: string) => void;
 };
 
-type ManifestColumnDefinition = Omit<ColumnDefinition, 'render'> & {
-  render: (item: ManifestComponent & { type: string }, extras: ColumnExtras) => ReactNode | string;
+type ManifestColumnDefinition = ColumnDefinition<ManifestComponent & { type: string }, ColumnExtras> & {
   sortProp: string;
 };
 

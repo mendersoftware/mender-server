@@ -18,25 +18,21 @@ import { useLocation } from 'react-router';
 import { Alert, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
-import type { ColumnHeader, ListItemComponentProps, RendererProp } from '@northern.tech/common-ui/List';
-import { CommonList } from '@northern.tech/common-ui/List';
+import DetailsTable from '@northern.tech/common-ui/DetailsTable';
+import type { ColumnDefinition, ColumnRendererProps } from '@northern.tech/common-ui/DetailsTable';
+import Pagination from '@northern.tech/common-ui/Pagination';
+import Time from '@northern.tech/common-ui/Time';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import { getDisabledTiers, getTenantListWithLimits } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
-import dayjs from 'dayjs';
 
 import { getLimitStatus } from '../header/DeviceNotifications';
 import { ExpandedTenant } from './ExpandedTenant';
 import type { Tenant } from './types';
 
 const useStyles = makeStyles()(theme => ({
-  container: {
-    borderRadius: theme.spacing(0.5),
-    padding: theme.spacing(0.5)
-  },
   error: {
     color: theme.palette.error.light
   },
@@ -56,25 +52,15 @@ const useStyles = makeStyles()(theme => ({
   },
   primary: {}
 }));
-export const defaultTextRender = (props: RendererProp<Tenant>) => {
-  const { column, item } = props;
-  const attributeValue = item?.[column.attribute.name];
-  return typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue;
-};
-
 const DeviceLimitNumbers = (props: { limit: number; total: number }) => {
   const { limit, total } = props;
   const { warning, error, percentageUsed, color } = getLimitStatus(total, limit);
   const { classes } = useStyles();
   if (limit === 0 && total === 0) {
-    return (
-      <Typography variant="body2" className="padding-left-small">
-        -
-      </Typography>
-    );
+    return <Typography variant="body2">-</Typography>;
   }
   return (
-    <div className={`${classes.container} flexbox align-items-center`}>
+    <div className="flexbox align-items-center">
       {warning || error ? (
         <Tooltip title={`${percentageUsed}% used${error ? ' - limit reached' : ''}`}>
           <Alert severity={color} classes={{ root: classes.alert, message: `${classes[color]} padding-none`, icon: classes.alertIcon }}>
@@ -82,7 +68,7 @@ const DeviceLimitNumbers = (props: { limit: number; total: number }) => {
           </Alert>
         </Tooltip>
       ) : (
-        <Typography variant="body2" className="padding-left-x-small">
+        <Typography variant="body2">
           {total}/{limit}
         </Typography>
       )}
@@ -90,113 +76,38 @@ const DeviceLimitNumbers = (props: { limit: number; total: number }) => {
   );
 };
 
-export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
-  const { column, item } = props;
-  if (!item?.device_limits[column.attribute.name]) {
+const DeviceLimitRender = ({ column, item }: ColumnRendererProps<Tenant>) => {
+  const deviceLimit = item.device_limits?.[column.key];
+  if (!deviceLimit) {
     return null;
   }
-  const attributeValue = item?.device_limits[column.attribute.name].limit ?? 0;
-  const deviceCount = item?.device_limits[column.attribute.name].current ?? 0;
-  return <DeviceLimitNumbers limit={Number(attributeValue)} total={Number(deviceCount)} />;
+  return <DeviceLimitNumbers limit={Number(deviceLimit.limit ?? 0)} total={Number(deviceLimit.current ?? 0)} />;
 };
 
-const AttributeRenderer = ({ content, textContent }) => (
-  <div title={typeof textContent === 'string' ? textContent : ''}>
-    <div className="text-overflow">{content}</div>
-  </div>
-);
-const DetailsButtonRenderer = props => (
-  <div className="padding-bottom-small padding-top-small">
-    <DetailsIndicator {...props} />
-  </div>
-);
-
-const DateRender = (props: RendererProp<Tenant>) => {
-  const { column, item } = props;
-  const attributeValue = dayjs(item?.[column.attribute.name]).format('YYYY-MM-DD HH:mm');
-  return <AttributeRenderer content={attributeValue} textContent={item?.[column.attribute.name]} />;
-};
-export const columnHeaders: ColumnHeader<Tenant>[] = [
+const columns: ColumnDefinition<Tenant>[] = [
   {
-    component: () => <></>,
+    key: 'name',
     title: 'Name',
-    attribute: {
-      name: 'name',
-      scope: ''
-    },
-    sortable: false,
-    textRender: defaultTextRender
+    render: ({ name }) => (
+      <div className="text-overflow" title={name}>
+        {name}
+      </div>
+    )
   },
+  { key: 'micro', title: 'Micro', component: DeviceLimitRender },
+  { key: 'standard', title: 'Standard', component: DeviceLimitRender },
+  { key: 'system', title: 'System', component: DeviceLimitRender },
   {
-    title: 'Micro',
-    attribute: {
-      name: 'micro',
-      scope: ''
-    },
-    sortable: false,
-    component: DeviceLimitRender
-  },
-  {
-    title: 'Standard',
-    attribute: {
-      name: 'standard',
-      scope: ''
-    },
-    sortable: false,
-    component: DeviceLimitRender
-  },
-  {
-    title: 'System',
-    attribute: {
-      name: 'system',
-      scope: ''
-    },
-    sortable: false,
-    component: DeviceLimitRender
-  },
-  {
+    key: 'created_at',
     title: 'Created',
-    attribute: {
-      name: 'created_at',
-      scope: ''
-    },
-    sortable: false,
-    component: DateRender
-  },
-  {
-    title: '',
-    attribute: {
-      name: '',
-      scope: ''
-    },
-    sortable: false,
-    component: DetailsButtonRenderer
+    render: ({ created_at }) => <Time value={created_at} />
   }
 ];
 
-export const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
-  const { listItem, columnHeaders, onClick } = props;
-  const handleOnClick = useCallback(() => {
-    onClick(listItem);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listItem.id, onClick]);
-
-  return (
-    <div onClick={handleOnClick} className="deviceListRow deviceListItem clickable">
-      {columnHeaders.map((column: ColumnHeader<Tenant>) => {
-        const { classes = {}, component: Component, textRender } = column;
-        if (textRender) {
-          return <AttributeRenderer content={textRender({ item: listItem, column })} key={column.title} textContent={textRender({ item: listItem, column })} />;
-        }
-        return <Component classes={classes} column={column} item={listItem} key={column.title} />;
-      })}
-    </div>
-  );
-};
 export const TenantList = () => {
   const disabledTiers: string[] = useSelector(getDisabledTiers);
   const tenantListState = useSelector(getTenantListWithLimits);
-  const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
+  const { tenants, page = 1, perPage, selectedTenant, sort = {}, total } = tenantListState;
   const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
@@ -208,7 +119,7 @@ export const TenantList = () => {
       sort: {}
     }
   });
-  const enabledHeaders = columnHeaders.filter(column => !disabledTiers.includes(column.attribute.name));
+  const enabledColumns = columns.filter(column => !disabledTiers.includes(column.key));
   useEffect(() => {
     if (shouldInitializeFromUrl) {
       isInitialized.current = false;
@@ -254,17 +165,14 @@ export const TenantList = () => {
   const tenant = selectedTenant && tenants.find((tenant: Tenant) => selectedTenant === tenant.id);
   return (
     <div className="margin-top-small">
-      <CommonList
-        columnHeaders={enabledHeaders}
-        listItems={tenants}
-        listState={tenantListState}
+      <DetailsTable columns={enabledColumns} items={tenants} onItemClick={onExpandClick} />
+      <Pagination
+        className="margin-top-none"
+        count={total}
+        rowsPerPage={perPage}
+        onChangePage={onChangePagination}
         onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
-        onExpandClick={onExpandClick}
-        onPageChange={onChangePagination}
-        onResizeColumns={false}
-        onSelect={false}
-        pageLoading={false}
-        ListItemComponent={TenantListItem}
+        page={page}
       />
       {selectedTenant && tenant && <ExpandedTenant onCloseClick={onCloseClick} tenant={tenant} />}
     </div>
