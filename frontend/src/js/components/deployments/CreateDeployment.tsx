@@ -336,7 +336,7 @@ export const CreateDeployment = ({
       // scrolling has to wait until the accordion has finished expanding
       return setIsExpanded(true);
     }
-    scrollToError();
+    setTimeout(scrollToError);
   };
 
   const hasReleases = !!Object.keys(releasesById).length;

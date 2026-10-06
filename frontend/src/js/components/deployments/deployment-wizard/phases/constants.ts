@@ -27,7 +27,7 @@ export const rolloutPatterns = {
   },
   uniform: {
     key: 'uniform',
-    title: 'Uniform (repeat until all devices deployed)',
+    title: 'Uniform',
     tip: 'Repeat all phases until all devices are deployed'
   }
 } as const;
@@ -58,5 +58,6 @@ export const phaseLimits = {
   maxPerBatchPercentage: 99,
   fullBatchPercentage: 100,
   maxDefaultBatchDevices: 2000,
-  fallbackDeviceCount: 100
+  fallbackDeviceCount: 100,
+  maxPhaseCount: 100
 };

@@ -84,13 +84,15 @@ export const triggerDeploymentCreation = async (page: Page, successCheck: Promis
   await creationButton.scrollIntoViewIfNeeded();
   const deploymentWatcher = page.waitForResponse(
     async response =>
-      response.url().match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i) &&
-      response.status() === 200 &&
-      response.request().method() === 'POST' &&
-      (await response.json()).status === 'finished'
+      response.status() === 201 &&
+      !!(await response.headerValue('location'))?.match(/\/api\/management\/v1\/deployments\/deployments\/.*/i) &&
+      response.request().method() === 'POST'
   );
   await creationButton.click();
-  return Promise.any([successCheck, deploymentWatcher]);
+  await successCheck;
+  const location = (await deploymentWatcher).headers().location;
+  const deploymentId = location.substring(location.lastIndexOf('/') + 1);
+  return deploymentId;
 };
 
 export const poll = async <T>({

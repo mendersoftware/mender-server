@@ -432,9 +432,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-              title="N/A"
+              title="1"
             >
-              N/A
+              1
             </p>
           </div>
         </div>
@@ -789,173 +789,124 @@ Devices that are in the middle of the deployment at the time of abort will finis
           />
         </div>
         <div
-          class="flexbox"
+          class="break-all two-columns css-7gpf1z-root column-data margin-bottom"
         >
-          <div
-            class="break-all two-columns css-7gpf1z-root column-data "
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
+            Rollout pattern
+          </h6>
+          <div
+            class="flexbox align-items-center "
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              title="Standard (single phase)"
             >
-              Start time
-            </h6>
+              Standard (single phase)
+            </p>
+          </div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
+          >
+            Start time
+          </h6>
+          <div
+            class="flexbox align-items-center "
+          >
             <div
-              class="flexbox align-items-center "
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              title="2019-01-01T12:30:00.000Z"
             >
-              <div
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="2019-01-01T12:30:00.000Z"
+              <time
+                datetime="2019-01-01T12:30:00+00:00"
+              >
+                2019-01-01 12:30
+              </time>
+            </div>
+          </div>
+        </div>
+        <table
+          class="MuiTable-root margin-bottom margin-bottom-none css-1xwxv7r-MuiTable-root"
+        >
+          <thead
+            class="MuiTableHead-root css-f2jk7z-MuiTableHead-root-header"
+          >
+            <tr
+              class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
+            >
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
+                scope="col"
+              >
+                Phases
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                scope="col"
+              >
+                Batch size
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                scope="col"
+              >
+                Phase start time
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1orzuox-MuiTableCell-root"
+                scope="col"
+                style="min-width: 200px;"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
+          >
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+              >
+                <div>
+                  Phase 
+                  1
+                </div>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+              >
+                1
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
                 <time
                   datetime="2019-01-01T12:30:00+00:00"
                 >
                   2019-01-01 12:30
                 </time>
-              </div>
-            </div>
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
-            >
-              Current phase
-            </h6>
-            <div
-              class="flexbox align-items-center "
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="1"
-              >
-                1
-              </p>
-            </div>
-          </div>
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ut2i8f-MuiSvgIcon-root-phasesOverviewArrow"
-            data-testid="ArrowForwardIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-            />
-          </svg>
-          <div
-            class="break-all two-columns css-7gpf1z-root column-data css-1083ul4-phaseOverview"
-          >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
-            >
-              End time
-            </h6>
-            <div
-              class="flexbox align-items-center "
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="-"
-              >
-                -
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="relative flexbox column css-7xxzsf-container margin-top no-background"
-        >
-          <div
-            class="chart-container"
-          >
-            <div
-              class="capitalized progress-step-number muted"
-            >
-              Phase 
-              1
-            </div>
-            <span
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate css-1txyin7-MuiLinearProgress-root"
-              role="progressbar"
-            >
-              <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-6brkbh-MuiLinearProgress-bar1"
-              />
-              <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1d57sst-MuiLinearProgress-bar2"
-              />
-            </span>
-          </div>
-        </div>
-        <div
-          class="deployment-phases-report margin-top margin-bottom"
-          style="grid-template-columns: repeat(auto-fit, 270px);"
-        >
-          <div
-            class="flexbox column padding-small css-1r3tzyq-phaseInfo "
-          >
-            <span
-              class="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
-            >
-              Complete
-            </span>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
-            >
-              <span
-                class="MuiChip-label css-eccknh-MuiChip-label"
-              >
-                Phase 1
-              </span>
-            </div>
-            <div
-              class="break-all two-columns css-7gpf1z-root column-data "
-            >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Phase start time
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2019-01-01T12:30:00.000Z"
-                >
-                  <time
-                    datetime="2019-01-01T12:30:00+00:00"
-                  >
-                    2019-01-01 12:30
-                  </time>
-                </div>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Batch size
-              </h6>
-              <div
-                class="flexbox align-items-center "
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
+                style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="100% (1 device)"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
-                  100% (1 device)
+                  Pending
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div
@@ -1395,9 +1346,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-              title="N/A"
+              title="100"
             >
-              N/A
+              100
             </p>
           </div>
         </div>
@@ -1732,528 +1683,271 @@ Devices that are in the middle of the deployment at the time of abort will finis
           />
         </div>
         <div
-          class="flexbox"
+          class="break-all two-columns css-7gpf1z-root column-data margin-bottom"
         >
-          <div
-            class="break-all two-columns css-7gpf1z-root column-data "
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
+            Rollout pattern
+          </h6>
+          <div
+            class="flexbox align-items-center "
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              title="5 phases: 2%, 3%, 5%, 5%, 85%"
             >
-              Start time
-            </h6>
-            <div
-              class="flexbox align-items-center "
-            >
-              <div
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="2019-01-31T12:59:30.020Z"
-              >
-                <time
-                  datetime="2019-01-31T12:59:30+00:00"
-                >
-                  2019-01-31 12:59
-                </time>
-              </div>
-            </div>
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
-            >
-              Current phase
-            </h6>
-            <div
-              class="flexbox align-items-center "
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="N/A"
-              >
-                N/A
-              </p>
-            </div>
+              5 phases: 2%, 3%, 5%, 5%, 85%
+            </p>
           </div>
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1ut2i8f-MuiSvgIcon-root-phasesOverviewArrow"
-            data-testid="ArrowForwardIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
           >
-            <path
-              d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-            />
-          </svg>
+            Start time
+          </h6>
           <div
-            class="break-all two-columns css-7gpf1z-root column-data css-1083ul4-phaseOverview"
+            class="flexbox align-items-center "
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
-            >
-              End time
-            </h6>
             <div
-              class="flexbox align-items-center "
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              title="2019-01-31T12:59:30.020Z"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="-"
+              <time
+                datetime="2019-01-31T12:59:30+00:00"
               >
-                -
-              </p>
+                2019-01-31 12:59
+              </time>
             </div>
           </div>
         </div>
-        <div
-          class="relative flexbox column css-7xxzsf-container margin-top no-background"
+        <table
+          class="MuiTable-root margin-bottom margin-bottom-none css-1xwxv7r-MuiTable-root"
         >
-          <div
-            class="chart-container"
+          <thead
+            class="MuiTableHead-root css-f2jk7z-MuiTableHead-root-header"
           >
-            <div
-              class="progress-chart relative detailed"
+            <tr
+              class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
             >
-              <div
-                class="progress-step"
-                style="left: 0%; width: 2%;"
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
+                scope="col"
               >
-                <div
-                  class="capitalized progress-step-number muted"
-                >
+                Phases
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                scope="col"
+              >
+                Batch size
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                scope="col"
+              >
+                Phase start time
+              </th>
+              <th
+                class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1orzuox-MuiTableCell-root"
+                scope="col"
+                style="min-width: 200px;"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
+          >
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+              >
+                <div>
                   Phase 
                   1
                 </div>
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="absolute css-1iwegd8-defaultDelimiter"
-                style="left: 0%;"
-              />
-              <div
-                class="progress-step"
-                style="left: 2%; width: 3%;"
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
-                <div
-                  class="capitalized progress-step-number muted"
+                2
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+              >
+                <time>
+                  -
+                </time>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
+                style="min-width: 200px;"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
+                  Pending
+                </p>
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+              >
+                <div>
                   Phase 
                   2
                 </div>
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="absolute css-1iwegd8-defaultDelimiter"
-                style="left: 2%;"
-              />
-              <div
-                class="progress-step"
-                style="left: 5%; width: 5%;"
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
-                <div
-                  class="capitalized progress-step-number muted"
+                3
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+              >
+                <time
+                  datetime="2019-02-04T11:45:10+00:00"
                 >
+                  2019-02-04 11:45
+                </time>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
+                style="min-width: 200px;"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
+                >
+                  Pending
+                </p>
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+              >
+                <div>
                   Phase 
                   3
                 </div>
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="absolute css-1iwegd8-defaultDelimiter"
-                style="left: 5%;"
-              />
-              <div
-                class="progress-step"
-                style="left: 10%; width: 5%;"
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
-                <div
-                  class="capitalized progress-step-number muted"
+                5
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+              >
+                <time
+                  datetime="2019-02-05T11:45:10+00:00"
                 >
+                  2019-02-05 11:45
+                </time>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
+                style="min-width: 200px;"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
+                >
+                  Pending
+                </p>
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+              >
+                <div>
                   Phase 
                   4
                 </div>
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="absolute css-1iwegd8-defaultDelimiter"
-                style="left: 10%;"
-              />
-              <div
-                class="progress-step"
-                style="left: 15%; width: 85%;"
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
-                <div
-                  class="capitalized progress-step-number muted"
+                5
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+              >
+                <time
+                  datetime="2019-02-06T11:45:10+00:00"
                 >
+                  2019-02-06 11:45
+                </time>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
+                style="min-width: 200px;"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
+                >
+                  Pending
+                </p>
+              </td>
+            </tr>
+            <tr
+              class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
+            >
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+              >
+                <div>
                   Phase 
                   5
                 </div>
-                <div
-                  style="display: contents;"
+                <span
+                  class="MuiTypography-root MuiTypography-caption css-mpaqru-MuiTypography-root"
                 >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step relative flexbox progress-step-total"
+                  (Final phase)
+                </span>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
-                <div
-                  class="progress-bar"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="deployment-phases-report margin-top margin-bottom"
-          style="grid-template-columns: repeat(auto-fit, 270px);"
-        >
-          <div
-            class="flexbox column padding-small css-1r3tzyq-phaseInfo "
-          >
-            <div>
-              Begins in 17 days 23 h 59 m
-            </div>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
-            >
-              <span
-                class="MuiChip-label css-eccknh-MuiChip-label"
+                0
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
               >
-                Phase 1
-              </span>
-            </div>
-            <div
-              class="break-all two-columns css-7gpf1z-root column-data "
-            >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Phase start time
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2019-01-31T12:59:30.020Z"
+                <time
+                  datetime="2019-02-21T11:45:10+00:00"
                 >
-                  <time
-                    datetime="2019-01-31T12:59:30+00:00"
-                  >
-                    2019-01-31 12:59
-                  </time>
-                </div>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Batch size
-              </h6>
-              <div
-                class="flexbox align-items-center "
+                  2019-02-21 11:45
+                </time>
+              </td>
+              <td
+                class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium padding-top-none padding-bottom-none css-1dc80h3-MuiTableCell-root"
+                style="min-width: 200px;"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2% (2 devices)"
+                  class="MuiTypography-root MuiTypography-body2 padding-top-small padding-bottom-small css-7ctihp-MuiTypography-root"
                 >
-                  2% (2 devices)
+                  Pending
                 </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="flexbox column padding-small css-1r3tzyq-phaseInfo "
-          >
-            <div>
-              Begins in 21 days 22 h 45 m
-            </div>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
-            >
-              <span
-                class="MuiChip-label css-eccknh-MuiChip-label"
-              >
-                Phase 2
-              </span>
-            </div>
-            <div
-              class="break-all two-columns css-7gpf1z-root column-data "
-            >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Phase start time
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2019-02-04T11:45:10.002Z"
-                >
-                  <time
-                    datetime="2019-02-04T11:45:10+00:00"
-                  >
-                    2019-02-04 11:45
-                  </time>
-                </div>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Batch size
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="3% (3 devices)"
-                >
-                  3% (3 devices)
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="flexbox column padding-small css-1r3tzyq-phaseInfo "
-          >
-            <div>
-              Begins in 22 days 22 h 45 m
-            </div>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
-            >
-              <span
-                class="MuiChip-label css-eccknh-MuiChip-label"
-              >
-                Phase 3
-              </span>
-            </div>
-            <div
-              class="break-all two-columns css-7gpf1z-root column-data "
-            >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Phase start time
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2019-02-05T11:45:10.002Z"
-                >
-                  <time
-                    datetime="2019-02-05T11:45:10+00:00"
-                  >
-                    2019-02-05 11:45
-                  </time>
-                </div>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Batch size
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="5% (5 devices)"
-                >
-                  5% (5 devices)
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="flexbox column padding-small css-1r3tzyq-phaseInfo "
-          >
-            <div>
-              Begins in 23 days 22 h 45 m
-            </div>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
-            >
-              <span
-                class="MuiChip-label css-eccknh-MuiChip-label"
-              >
-                Phase 4
-              </span>
-            </div>
-            <div
-              class="break-all two-columns css-7gpf1z-root column-data "
-            >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Phase start time
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2019-02-06T11:45:10.002Z"
-                >
-                  <time
-                    datetime="2019-02-06T11:45:10+00:00"
-                  >
-                    2019-02-06 11:45
-                  </time>
-                </div>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Batch size
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="5% (5 devices)"
-                >
-                  5% (5 devices)
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="flexbox column padding-small css-1r3tzyq-phaseInfo "
-          >
-            <div>
-              Begins in 08 days 12 h 45 m
-            </div>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
-            >
-              <span
-                class="MuiChip-label css-eccknh-MuiChip-label"
-              >
-                Phase 5
-              </span>
-            </div>
-            <div
-              class="break-all two-columns css-7gpf1z-root column-data "
-            >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Phase start time
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="2019-02-21T11:45:10.002Z"
-                >
-                  <time
-                    datetime="2019-02-21T11:45:10+00:00"
-                  >
-                    2019-02-21 11:45
-                  </time>
-                </div>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Batch size
-              </h6>
-              <div
-                class="flexbox align-items-center "
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="5% (5 devices)"
-                >
-                  5% (5 devices)
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div

@@ -422,9 +422,9 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-24"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-        title="N/A"
+        title="1"
       >
-        N/A
+        1
       </p>
     </div>
   </div>

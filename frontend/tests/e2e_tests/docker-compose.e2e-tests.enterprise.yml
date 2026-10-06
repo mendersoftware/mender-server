@@ -21,6 +21,8 @@ services:
       - nats
       - s3
       - traefik
+    volumes:
+      - ${GUI_REPOSITORY}/tests/e2e_tests/mender-stress-test-client:/e2e/mender-stress-test-client
 
   gui:
     environment:

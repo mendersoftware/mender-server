@@ -190,9 +190,9 @@ const clientArgs = [
   `--inventory-interval=${updateInterval}`,
   `--update-interval=${updateInterval}`
 ];
-export const startClient = async (baseUrl, token, count) => {
+export const startClient = async (baseUrl, token, count, extraArgs: string[] = []) => {
   const srippedBaseUrl = baseUrl.replace(/\/$/, '');
-  const args = [...clientArgs, `--count=${count}`, `--server-url=${srippedBaseUrl}`];
+  const args = [...clientArgs, ...extraArgs, `--count=${count}`, `--server-url=${srippedBaseUrl}`];
   if (token) {
     args.push(`--tenant-token=${token}`);
   }
@@ -210,6 +210,7 @@ export const startClient = async (baseUrl, token, count) => {
   child.on('close', code => {
     console.log(`child process exited with code ${code}`);
   });
+  return child;
 };
 
 export const startDockerClient = async (baseUrl, token) => {

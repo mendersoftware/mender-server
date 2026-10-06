@@ -236,7 +236,7 @@ export const Deployments = () => {
             <Tab component={RouterLink} key={route.route} label={route.title} to={route.route} value={route.key} />
           ))}
         </Tabs>
-        <ComponentToShow abort={onAbortDeployment} createClick={onCreationShow} openReport={showReport} isShowingDetails={reportDialog} />
+        <ComponentToShow createClick={onCreationShow} openReport={showReport} isShowingDetails={reportDialog} />
       </div>
       <Report open={!!reportDialog} abort={onAbortDeployment} onClose={closeReport} retry={retryDeployment} type={reportType} />
       <CreateDeployment

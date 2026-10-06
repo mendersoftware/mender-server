@@ -1,320 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`RolloutProgressBar Component > renders correctly for phases with list variant 1`] = `
+exports[`ListProgress Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 4px;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
   min-height: 70px;
-}
-
-.emotion-0 .progress-bar {
-  height: 4px;
-}
-
-.emotion-0 .chart-container {
-  min-height: 70px;
-}
-
-.emotion-0 .progress-chart {
-  min-height: 45px;
-}
-
-.emotion-0 .progress-step {
-  min-height: 45px;
-}
-
-.emotion-0 .progress-step,
-.emotion-0 .progress-step-total {
-  position: absolute;
-  border-right-style: none;
-}
-
-.emotion-0 .progress-step-total .progress-bar {
-  background-color: #fafafa;
-}
-
-.emotion-0 .progress-step-number {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: -4px;
-}
-
-.emotion-0.no-background {
-  background: none;
-}
-
-.emotion-0.stepped-progress .progress-step-total {
-  margin-left: -0.25%;
-  width: 100.5%;
-}
-
-.emotion-0.stepped-progress .progress-step-total .progress-bar {
-  background-color: #fff;
-  border: 1px solid #424242;
-  border-radius: 2px;
-  height: 8px;
-}
-
-.emotion-0.stepped-progress .progress-step {
-  min-height: 20px;
-}
-
-.emotion-1 {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-column-gap: 16px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.emotion-1 .progress-chart.detailed {
-  min-height: 20px;
-}
-
-.emotion-2 {
-  border-right: 1px dashed;
-  z-index: 10;
-}
-
-.emotion-6 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-}
-
-.emotion-7 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.75rem;
-  line-height: 1.66;
-  letter-spacing: 0.03333em;
-}
-
-<div>
-  <div
-    class="relative flexbox column emotion-0 "
-  >
-    <div
-      class="emotion-1"
-    >
-      <div
-        class="progress-chart relative detailed"
-      >
-        <div
-          class="progress-step"
-          style="left: 0%; width: 2%;"
-        >
-          <div
-            style="display: contents;"
-          >
-            <div
-              class="progress-bar green"
-              style="width: 0%;"
-            />
-            <div
-              class="progress-bar warning"
-              style="left: 0%; width: 0%;"
-            />
-          </div>
-        </div>
-        <div
-          class="absolute emotion-2"
-          style="left: 0%;"
-        />
-        <div
-          class="progress-step"
-          style="left: 2%; width: 3%;"
-        >
-          <div
-            style="display: contents;"
-          >
-            <div
-              class="progress-bar green"
-              style="width: 0%;"
-            />
-            <div
-              class="progress-bar warning"
-              style="left: 0%; width: 0%;"
-            />
-          </div>
-        </div>
-        <div
-          class="absolute emotion-2"
-          style="left: 2%;"
-        />
-        <div
-          class="progress-step"
-          style="left: 5%; width: 5%;"
-        >
-          <div
-            style="display: contents;"
-          >
-            <div
-              class="progress-bar green"
-              style="width: 0%;"
-            />
-            <div
-              class="progress-bar warning"
-              style="left: 0%; width: 0%;"
-            />
-          </div>
-        </div>
-        <div
-          class="absolute emotion-2"
-          style="left: 5%;"
-        />
-        <div
-          class="progress-step"
-          style="left: 10%; width: 5%;"
-        >
-          <div
-            style="display: contents;"
-          >
-            <div
-              class="progress-bar green"
-              style="width: 0%;"
-            />
-            <div
-              class="progress-bar warning"
-              style="left: 0%; width: 0%;"
-            />
-          </div>
-        </div>
-        <div
-          class="absolute emotion-2"
-          style="left: 10%;"
-        />
-        <div
-          class="progress-step"
-          style="left: 15%; width: 85%;"
-        >
-          <div
-            style="display: contents;"
-          >
-            <div
-              class="progress-bar green"
-              style="width: 0%;"
-            />
-            <div
-              class="progress-bar warning"
-              style="left: 0%; width: 0%;"
-            />
-          </div>
-        </div>
-        <div
-          class="progress-step relative flexbox progress-step-total"
-        >
-          <div
-            class="progress-bar"
-          />
-        </div>
-      </div>
-      <p
-        class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-6"
-        style="justify-content: flex-end;"
-      >
-        0 failures
-      </p>
-    </div>
-    <div
-      class="flexbox space-between"
-    >
-      <span
-        class="MuiTypography-root MuiTypography-caption emotion-7"
-      >
-        Devices in progress
-      </span>
-      <span
-        class="MuiTypography-root MuiTypography-caption emotion-7"
-      >
-        <span>
-          Time until next phase: 
-        </span>
-        <span
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          21 days 22 h 45 m 09 s
-        </span>
-      </span>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`RolloutProgressBar Component > renders correctly with list variant 1`] = `
-.emotion-0 {
-  background-color: #fff;
-  padding: 10px 20px;
-  border-radius: 4px;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  min-height: 70px;
-}
-
-.emotion-0 .progress-bar {
-  height: 4px;
-}
-
-.emotion-0 .chart-container {
-  min-height: 70px;
-}
-
-.emotion-0 .progress-chart {
-  min-height: 45px;
-}
-
-.emotion-0 .progress-step {
-  min-height: 45px;
-}
-
-.emotion-0 .progress-step,
-.emotion-0 .progress-step-total {
-  position: absolute;
-  border-right-style: none;
-}
-
-.emotion-0 .progress-step-total .progress-bar {
-  background-color: #fafafa;
-}
-
-.emotion-0 .progress-step-number {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: -4px;
-}
-
-.emotion-0.no-background {
-  background: none;
-}
-
-.emotion-0.stepped-progress .progress-step-total {
-  margin-left: -0.25%;
-  width: 100.5%;
-}
-
-.emotion-0.stepped-progress .progress-step-total .progress-bar {
-  background-color: #fff;
-  border: 1px solid #424242;
-  border-radius: 2px;
-  height: 8px;
-}
-
-.emotion-0.stepped-progress .progress-step {
-  min-height: 20px;
 }
 
 .emotion-1 {
@@ -351,10 +46,6 @@ exports[`RolloutProgressBar Component > renders correctly with list variant 1`] 
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.emotion-3 .progress-chart.detailed {
-  min-height: 20px;
 }
 
 .emotion-4 {
@@ -475,71 +166,63 @@ exports[`RolloutProgressBar Component > renders correctly with list variant 1`] 
 </div>
 `;
 
-exports[`RolloutProgressBar Component > renders correctly with report variant 1`] = `
+exports[`ListProgress Component > renders correctly for phases 1`] = `
+@keyframes animation-0 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
 .emotion-0 {
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 4px;
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
   min-height: 70px;
-}
-
-.emotion-0 .progress-bar {
-  height: 4px;
-}
-
-.emotion-0 .chart-container {
-  min-height: 70px;
-}
-
-.emotion-0 .progress-chart {
-  min-height: 45px;
-}
-
-.emotion-0 .progress-step {
-  min-height: 45px;
-}
-
-.emotion-0 .progress-step,
-.emotion-0 .progress-step-total {
-  position: absolute;
-  border-right-style: none;
-}
-
-.emotion-0 .progress-step-total .progress-bar {
-  background-color: #fafafa;
-}
-
-.emotion-0 .progress-step-number {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: -4px;
-}
-
-.emotion-0.no-background {
-  background: none;
-}
-
-.emotion-0.stepped-progress .progress-step-total {
-  margin-left: -0.25%;
-  width: 100.5%;
-}
-
-.emotion-0.stepped-progress .progress-step-total .progress-bar {
-  background-color: #fff;
-  border: 1px solid #424242;
-  border-radius: 2px;
-  height: 8px;
-}
-
-.emotion-0.stepped-progress .progress-step {
-  min-height: 20px;
 }
 
 .emotion-1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: 16px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-2 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -549,10 +232,168 @@ exports[`RolloutProgressBar Component > renders correctly with report variant 1`
 }
 
 @media print {
-  .emotion-1 {
+  .emotion-2 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
+}
+
+.emotion-3 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
+  transform-origin: left;
+  background-color: #1976d2;
+  width: auto;
+  -webkit-animation: animation-0 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: animation-0 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+.emotion-4 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
+  transform-origin: left;
+  --LinearProgressBar2-barColor: #1976d2;
+  background-color: var(--LinearProgressBar2-barColor, currentColor);
+  width: auto;
+  -webkit-animation: animation-1 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+  animation: animation-1 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+}
+
+.emotion-5 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-6 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+
+<div>
+  <div
+    class="relative flexbox column emotion-0 "
+  >
+    <div
+      class="emotion-1"
+    >
+      <span
+        class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-2"
+        role="progressbar"
+      >
+        <span
+          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-3"
+        />
+        <span
+          class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-4"
+        />
+      </span>
+      <p
+        class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-5"
+        style="justify-content: flex-end;"
+      >
+        0 failures
+      </p>
+    </div>
+    <div
+      class="flexbox space-between"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-caption emotion-6"
+      >
+        Devices in progress
+      </span>
+      <span
+        class="MuiTypography-root MuiTypography-caption emotion-6"
+      >
+        Current phase: 2 of 5
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SimpleProgress Component > renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
+.emotion-0 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(167, 202, 237);
+}
+
+@media print {
+  .emotion-0 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-1 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
+  transform-origin: left;
+  background-color: #1976d2;
+  width: auto;
+  -webkit-animation: animation-0 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: animation-0 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
 
 .emotion-2 {
@@ -564,37 +405,24 @@ exports[`RolloutProgressBar Component > renders correctly with report variant 1`
   -webkit-transition: -webkit-transform 0.2s linear 0ms;
   transition: transform 0.2s linear 0ms;
   transform-origin: left;
-  background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear 0ms;
-  transition: transform .4s linear 0ms;
+  --LinearProgressBar2-barColor: #1976d2;
+  background-color: var(--LinearProgressBar2-barColor, currentColor);
+  width: auto;
+  -webkit-animation: animation-1 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+  animation: animation-1 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 }
 
 <div>
-  <div
-    class="relative flexbox column emotion-0 "
+  <span
+    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-0"
+    role="progressbar"
   >
-    <div
-      class="chart-container"
-    >
-      <div
-        class="capitalized progress-step-number muted"
-      >
-        Phase 
-        1
-      </div>
-      <span
-        aria-valuemax="100"
-        aria-valuemin="0"
-        aria-valuenow="0"
-        class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-1"
-        role="progressbar"
-      >
-        <span
-          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-2"
-          style="transform: translateX(-100%);"
-        />
-      </span>
-    </div>
-  </div>
+    <span
+      class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-1"
+    />
+    <span
+      class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-2"
+    />
+  </span>
 </div>
 `;
