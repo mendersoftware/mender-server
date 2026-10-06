@@ -11,8 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { defaultState, render, waitForPendingRequests } from '@/testUtils';
+import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { act, cleanup, prettyDOM, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -182,6 +183,8 @@ describe('DeploymentReport Component', () => {
     });
 
     it('handles feedback submission correctly', async () => {
+      const { submitUserFeedback: submitSpy } = StoreThunks;
+      submitSpy.mockImplementationOnce(() => () => Promise.resolve());
       render(<DeploymentReport type="finished" open={true} />, {
         preloadedState: {
           ...defaultState,
@@ -207,7 +210,7 @@ describe('DeploymentReport Component', () => {
 
       expect(screen.getByText('Thank you for your feedback!')).toBeVisible();
       expect(screen.queryByText('Was this helpful?')).not.toBeInTheDocument();
-      await waitForPendingRequests();
+      expect(submitSpy).toHaveBeenCalledWith(expect.objectContaining({ formId: 'feat.ai', feedback: expect.objectContaining({ useful: true }) }));
     });
   });
 });

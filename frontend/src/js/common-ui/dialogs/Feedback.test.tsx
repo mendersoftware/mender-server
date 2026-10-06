@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render, waitForPendingRequests } from '@/testUtils';
+import { render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -20,6 +21,8 @@ import Feedback from './Feedback';
 
 describe('Feedback Component', () => {
   it('works as intended', async () => {
+    const { submitUserFeedback: submitSpy } = StoreThunks;
+    submitSpy.mockImplementationOnce(() => () => Promise.resolve());
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <Feedback />;
     const { rerender } = render(ui);
@@ -30,6 +33,6 @@ describe('Feedback Component', () => {
     await user.type(screen.getByPlaceholderText(/your feedback/i), 'some feedback');
     await user.click(screen.getByRole('button', { name: /submit/i }));
     expect(screen.getByText(/Thank you/i)).toBeVisible();
-    await waitForPendingRequests();
+    expect(submitSpy).toHaveBeenCalledWith({ formId: 'product', feedback: { score: 4, message: 'some feedback' } });
   });
 });

@@ -16,7 +16,7 @@ import { MemoryRouter } from 'react-router';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { defaultState, waitForPendingRequests } from '@/testUtils';
+import { defaultState } from '@/testUtils';
 import { DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { undefineds } from '@northern.tech/testing/mockData';
@@ -78,7 +78,7 @@ const renderWithRouter = (ui: React.ReactElement, { route = '/', preloadedState:
 describe('DeviceGroups Component', () => {
   it('renders correctly', async () => {
     const route = `/ui/devices/accepted?inventory=group:eq:${preloadedState.devices.groups.selectedGroup}`;
-    const { baseElement } = renderWithRouter(<DeviceGroups />, { route, preloadedState });
+    const { baseElement, store } = renderWithRouter(<DeviceGroups />, { route, preloadedState });
     // special snapshot handling here to work around unstable ids in mui code...
     const view = prettyDOM(baseElement.firstChild, 100000, { highlight: false })
       .replace(/(:?aria-labelledby|id)=":.*:"/g, '')
@@ -86,7 +86,7 @@ describe('DeviceGroups Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => vi.runAllTicks());
-    await waitForPendingRequests();
+    await waitFor(() => expect(store.getState().devices.deviceList.isLoading).toBe(false));
   });
 
   it('applies id filter with correct scope when navigating to URL with multiple device ids', async () => {
@@ -102,7 +102,7 @@ describe('DeviceGroups Component', () => {
       expect(idFilter!.scope).toBe(ATTRIBUTE_SCOPES.inventory);
       expect(idFilter!.value).toEqual(deviceIds);
     });
-    await waitForPendingRequests();
+    await waitFor(() => expect(store.getState().devices.deviceList.isLoading).toBe(false));
   });
 
   it('applies orchestrator manifest filter from an inventory scoped URL with the full key and inventory scope', async () => {
@@ -117,6 +117,6 @@ describe('DeviceGroups Component', () => {
       expect(manifestFilter!.operator).toBe(DEVICE_FILTERING_OPTIONS.$eq.key);
       expect(manifestFilter!.value).toEqual('rtos');
     });
-    await waitForPendingRequests();
+    await waitFor(() => expect(store.getState().devices.deviceList.isLoading).toBe(false));
   });
 });

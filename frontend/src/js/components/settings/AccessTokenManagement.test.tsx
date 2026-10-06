@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { defaultState, render, waitForPendingRequests } from '@/testUtils';
+import { defaultState, render } from '@/testUtils';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { accessTokens, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
@@ -84,11 +84,11 @@ describe('AccessTokenManagement Component', () => {
   it('allows revoking a token', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { revokeToken: revokeSpy } = StoreThunks;
+    revokeSpy.mockImplementationOnce(() => () => Promise.resolve());
     render(<AccessTokenManagement />, { preloadedState });
     await user.click(screen.getAllByRole('button', { name: /revoke/i })[0]);
     expect(screen.getByText(/are you sure you want to revoke the token/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /revoke token/i }));
     await waitFor(() => expect(revokeSpy).toHaveBeenCalled());
-    await waitForPendingRequests();
   });
 });

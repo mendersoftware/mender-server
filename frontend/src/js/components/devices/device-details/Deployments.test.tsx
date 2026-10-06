@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { defaultState, render, waitForPendingRequests } from '@/testUtils';
+import { defaultState, render } from '@/testUtils';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
@@ -66,6 +66,5 @@ describe('Deployments Component', () => {
 
     expect(getDeviceLogSpy).toHaveBeenCalledWith({ deploymentId, deviceId: 'a1' });
     expect(getSingleDeploymentSpy).toHaveBeenCalledWith(deploymentId);
-    await waitForPendingRequests();
   });
 });

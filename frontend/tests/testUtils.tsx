@@ -25,10 +25,6 @@ import { getConfiguredStore } from '@northern.tech/store/store';
 import { mockState as usersMockState } from '@northern.tech/store/usersSlice/mocks';
 import { token as mockToken } from '@northern.tech/testing/mockData';
 import { render } from '@northern.tech/testing/setupTests';
-import { act } from '@testing-library/react';
-import { vi } from 'vitest';
-
-import { getPendingRequestCount, getStartedRequestCount } from './setupTests';
 
 export const defaultState = {
   app: { ...appMockState },
@@ -54,16 +50,6 @@ export * from '@northern.tech/testing/setupTests';
 
 export { server } from './setupTests';
 export { customRender as render };
-
-// lets requests fired by the ui settle, so they don't fail against the closed server after the test ended
-export const waitForPendingRequests = async () => {
-  let started;
-  do {
-    started = getStartedRequestCount();
-    // processed responses may trigger follow-up requests
-    await act(() => vi.advanceTimersByTimeAsync(0));
-  } while (getPendingRequestCount() || started !== getStartedRequestCount());
-};
 
 export const formRenderWrapper = (ui: ReactNode, formConfig?: object) => {
   const Wrapper = ({ children }) => {
