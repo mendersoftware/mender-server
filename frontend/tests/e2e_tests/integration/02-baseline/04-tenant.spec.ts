@@ -51,7 +51,7 @@ test.describe('Tenant Functionality', () => {
     await expect(page.getByText('Child Tenant')).toBeVisible();
   });
   test('tenant edit', async ({ page }) => {
-    await page.getByRole('row').click();
+    await page.getByRole('row', { name: /Child Tenant/i }).click();
     await page.getByRole('button', { name: /manage device limit/i }).click();
 
     const microDeviceCheckbox = page.getByRole('checkbox', { name: 'micro device' });
@@ -63,7 +63,7 @@ test.describe('Tenant Functionality', () => {
     await expect(page.getByText('0/50')).toBeVisible();
   });
   test('tenant removal', async ({ page }) => {
-    await page.getByRole('row').click();
+    await page.getByRole('row', { name: /Child Tenant/i }).click();
     await page.getByRole('button', { name: /delete tenant/i }).click();
     const confirmInput = page.getByRole('textbox', { name: /delete/i });
     await confirmInput.fill('delete');
