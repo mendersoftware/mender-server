@@ -9,7 +9,7 @@ jsonschema<5.0
 msgpack >= 1.1.2
 opensearch-py >= 3.2.0, < 4.0.0
 pluggy==1.6.0
-pymongo==4.17.0
+pymongo==4.18.2
 pytz
 pytest-ordering==0.6
 pytest==9.0.3
