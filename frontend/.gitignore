@@ -13,4 +13,3 @@ src/main.css
 .DS_Store
 .eslintcache
 mender-demo-artifact.mender
-rtos-v2.mender

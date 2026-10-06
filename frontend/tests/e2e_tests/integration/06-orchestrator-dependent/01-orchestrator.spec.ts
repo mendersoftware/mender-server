@@ -11,13 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import * as fs from 'fs';
-
 import test, { expect } from '../../fixtures/fixtures';
 import { timeouts } from '../../utils/constants';
 import { acceptPendingDevice, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
-const rtosArtifactUrl = 'https://raw.githubusercontent.com/mendersoftware/mender-orchestrator-support/main/demo/premade-artifacts/rtos-v2.mender';
 const rtosArtifactLocation = 'fixtures/rtos-v2.mender';
 const manifestLocation = 'fixtures/manifest-rtos.yaml';
 
@@ -25,17 +22,6 @@ const targetComponentVersion = 'rtos-v2';
 const manifestName = 'system-core-rtos-v2';
 
 test.describe('Orchestrator device', () => {
-  test.beforeAll(async () => {
-    if (fs.existsSync(rtosArtifactLocation)) {
-      return;
-    }
-    const response = await fetch(rtosArtifactUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to download the rtos artifact (${response.status}) - cannot deploy a manifest without it`);
-    }
-    fs.writeFileSync(rtosArtifactLocation, Buffer.from(await response.arrayBuffer()));
-  });
-
   test.beforeEach(async ({ page }) => {
     const features = await page.evaluate(() => (window as any).mender_environment?.features);
     test.skip(!features || !features.hasManifestsEnabled, 'Manifests feature flag is not enabled');
