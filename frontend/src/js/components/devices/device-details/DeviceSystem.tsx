@@ -116,7 +116,7 @@ const ComponentTable = props => {
 
 export const DeviceSystem = ({ device }) => {
   const { attributes = {}, updated_ts: updateTime, isOffline } = device;
-  const { device_type: deviceTypes = [] } = attributes;
+  const { system_type: systemType } = attributes;
   const dispatch = useAppDispatch();
   const methods = useForm({ mode: 'onChange', defaultValues: { search: '' } });
   const searchTerm = useWatch({ control: methods.control, name: 'search' }).trim();
@@ -124,7 +124,6 @@ export const DeviceSystem = ({ device }) => {
   const [page, setPage] = useState(defaultPage);
   const [perPage, setPerPage] = useState(defaultPerPage);
   const manifestName = attributes[manifestVersion];
-  const systemType = deviceTypes.join(',') || '-';
   const manifestPath = `${generateReleasesPath({ pageState: {} })}?${formatReleases({ pageState: { tab: 'manifests', id: manifestName } })}`;
   const manifest = manifestName ? (
     <Link target="_blank" rel="noopener noreferrer" to={manifestPath}>

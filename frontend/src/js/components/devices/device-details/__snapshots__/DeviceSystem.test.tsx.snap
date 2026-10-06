@@ -929,9 +929,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
         <p
           class="MuiTypography-root MuiTypography-body2 emotion-4"
           style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-          title="raspberrypi4"
+          title="system-core"
         >
-          raspberrypi4
+          system-core
         </p>
       </div>
       <h6
