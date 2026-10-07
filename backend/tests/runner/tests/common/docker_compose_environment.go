@@ -11,7 +11,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"path"
 	"slices"
 	"strings"
 	"testing"
@@ -28,7 +27,6 @@ import (
 	oapi "github.com/mendersoftware/mender-server/pkg/api"
 	oapiclient "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/moby/moby/api/types/container"
-	"github.com/moby/moby/api/types/mount"
 	"github.com/moby/moby/client"
 	"github.com/stretchr/testify/require"
 )
@@ -334,68 +332,7 @@ func loadComposeProject(ctx context.Context, compose api.Compose, projectName st
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to load project: %w", err)
 	}
-
-	s3, ok := project.Services["s3"]
-	if !ok {
-		return project, nil, nil
-	}
-
-	// Replicate `docker compose up` workaround for config mapping in `s3` service.
-	//
-	// Mounting a `Config` object (e.g `s3-conf`) as a file in a container is not actually
-	// supported by the Docker Engine API unless you run docker compose in swarm mode (which we don't).
-	//
-	// The `docker compose up` CLI command works around this by mounting a temp file with
-	// the `Config` content as a BindMount volume instead behind the scenes - effectively "faking it".
-	//
-	// As the Compose SDK interacts directly with the Docker Engine API, we need to do the same thing.
-	config, ok := project.Configs["s3-conf"]
-	if !ok {
-		return nil, nil, fmt.Errorf("couldn't find s3-conf configuration object in project")
-	}
-
-	// We (unfortunately) can't use the tempfiles feature in `go test` because the docker-in-docker
-	// used in CI doesn't allow mounting files from `/tmp` as volumes in containers.
-	dir, err := os.Getwd()
-	if err != nil {
-		return nil, nil, fmt.Errorf("failed to get current working directory: %w", err)
-	}
-
-	source := path.Join(dir, "s3.conf")
-	err = os.WriteFile(source, []byte(config.Content), 0755)
-	if err != nil {
-		return nil, nil, fmt.Errorf("failed to write s3-conf to file: %w", err)
-	}
-
-	var target string
-	for _, c := range s3.Command {
-		if strings.HasPrefix(c, "-config=") {
-			target = strings.Split(c, "=")[1]
-		}
-	}
-
-	if target == "" {
-		return nil, nil, fmt.Errorf("failed to resolve target destination for s3.conf from command: `%v`", s3.Command)
-	}
-
-	project, err = project.WithServicesTransform(func(name string, s types.ServiceConfig) (types.ServiceConfig, error) {
-		if name == s3.Name {
-			s.Volumes = append(s3.Volumes, types.ServiceVolumeConfig{
-				Type:     string(mount.TypeBind),
-				Source:   source,
-				Target:   target,
-				ReadOnly: true,
-			})
-			s.Configs = nil
-		}
-		return s, nil
-	})
-
-	if err != nil {
-		return nil, nil, fmt.Errorf("failed to add volume mount to s3 service: %w", err)
-	}
-
-	return project, func() { os.Remove(source) }, nil
+	return project, func() {}, nil
 }
 
 func healthCheckComposeEnvironment(ctx context.Context, compose api.Compose, project *types.Project) error {

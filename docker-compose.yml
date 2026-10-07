@@ -1,6 +1,6 @@
 name: mender
 include:
-  - path: compose/docker-compose.seaweedfs.yml
+  - path: compose/docker-compose.rustfs.yml
 
 services:
   create-artifact-worker:
