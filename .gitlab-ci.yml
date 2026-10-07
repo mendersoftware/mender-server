@@ -240,7 +240,7 @@ build:backend:docker-acceptance:
   script:
     - make -j$(nproc) -C backend docker-acceptance MIRROR_REGISTRY="${MIRROR_REGISTRY}"
 
-build:backend:docker-integration-tester:
+build:backend:docker-testers:
   extends: .template:build:docker
   before_script:
     - *requires-docker
@@ -250,9 +250,12 @@ build:backend:docker-integration-tester:
     - unset DOCKER_PLATFORM
     - *buildx-builder-setup
   script:
+    - docker compose --project-dir backend/tests build --push
+      integration-tester
+      acceptance-tester
     - docker build ${DOCKER_BUILDARGS}
-        --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
-        -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
+        --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG}
+        -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG}
         --build-arg REGISTRY="${MIRROR_REGISTRY}"
         -f backend/tests/Dockerfile.integration
         backend/tests
@@ -613,7 +616,7 @@ test:backend:acceptance:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
-    - job: build:backend:docker-integration-tester
+    - job: build:backend:docker-testers
       artifacts: false
       optional: true
   before_script:
