@@ -37,9 +37,6 @@ services:
       - mongo
       - nats
       - s3
-      - s3-filer
-      - s3-master
-      - s3-volume
       - traefik
       - useradm
       - workflows
