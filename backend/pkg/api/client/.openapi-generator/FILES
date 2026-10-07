@@ -132,6 +132,7 @@ model_releases_delete_error.go
 model_remove_a_group_200_response.go
 model_scope.go
 model_search_identity_params.go
+model_search_identity_specific_attribute.go
 model_search_params.go
 model_select_attribute.go
 model_software.go

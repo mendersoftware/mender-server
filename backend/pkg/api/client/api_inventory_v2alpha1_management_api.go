@@ -32,7 +32,8 @@ the following values:
   - any `identity` scoped device attribute
 
 Please note that the `scope` of the system assigned device `id` is expected to be `identity`
-when used with this endpoint.
+when used with this endpoint and that searching for the "status" attribute is specifically
+unsupported and will always return no results.
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -74,7 +75,8 @@ the following values:
   - any `identity` scoped device attribute
 
 Please note that the `scope` of the system assigned device `id` is expected to be `identity`
-when used with this endpoint.
+when used with this endpoint and that searching for the "status" attribute is specifically
+unsupported and will always return no results.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().

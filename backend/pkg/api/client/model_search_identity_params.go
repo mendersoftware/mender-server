@@ -19,14 +19,11 @@ import (
 // checks if the SearchIdentityParams type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SearchIdentityParams{}
 
-// SearchIdentityParams Parameters for searching for inventory by their identity
+// SearchIdentityParams Parameters for searching for inventory with matching device identity attributes, optionally limiting the matching to a specific attribute. 
 type SearchIdentityParams struct {
-	// The scope of the attribute name used with the search.
-	Scope string `json:"scope"`
-	// The name of the attribute used with the search.
-	Name string `json:"name"`
-	// The prefix used to match against attribute values with 'scope' and 'name'.
+	// The prefix used to match against device identity attribute values (all or specific)
 	ValuePrefix string `json:"value_prefix"`
+	Attribute *SearchIdentitySpecificAttribute `json:"attribute,omitempty"`
 	// List of attributes to select and return
 	Attributes []SelectAttribute `json:"attributes,omitempty"`
 	// Starting page.
@@ -42,10 +39,8 @@ type _SearchIdentityParams SearchIdentityParams
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSearchIdentityParams(scope string, name string, valuePrefix string) *SearchIdentityParams {
+func NewSearchIdentityParams(valuePrefix string) *SearchIdentityParams {
 	this := SearchIdentityParams{}
-	this.Scope = scope
-	this.Name = name
 	this.ValuePrefix = valuePrefix
 	return &this
 }
@@ -56,54 +51,6 @@ func NewSearchIdentityParams(scope string, name string, valuePrefix string) *Sea
 func NewSearchIdentityParamsWithDefaults() *SearchIdentityParams {
 	this := SearchIdentityParams{}
 	return &this
-}
-
-// GetScope returns the Scope field value
-func (o *SearchIdentityParams) GetScope() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Scope
-}
-
-// GetScopeOk returns a tuple with the Scope field value
-// and a boolean to check if the value has been set.
-func (o *SearchIdentityParams) GetScopeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Scope, true
-}
-
-// SetScope sets field value
-func (o *SearchIdentityParams) SetScope(v string) {
-	o.Scope = v
-}
-
-// GetName returns the Name field value
-func (o *SearchIdentityParams) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *SearchIdentityParams) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value
-func (o *SearchIdentityParams) SetName(v string) {
-	o.Name = v
 }
 
 // GetValuePrefix returns the ValuePrefix field value
@@ -128,6 +75,38 @@ func (o *SearchIdentityParams) GetValuePrefixOk() (*string, bool) {
 // SetValuePrefix sets field value
 func (o *SearchIdentityParams) SetValuePrefix(v string) {
 	o.ValuePrefix = v
+}
+
+// GetAttribute returns the Attribute field value if set, zero value otherwise.
+func (o *SearchIdentityParams) GetAttribute() SearchIdentitySpecificAttribute {
+	if o == nil || IsNil(o.Attribute) {
+		var ret SearchIdentitySpecificAttribute
+		return ret
+	}
+	return *o.Attribute
+}
+
+// GetAttributeOk returns a tuple with the Attribute field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SearchIdentityParams) GetAttributeOk() (*SearchIdentitySpecificAttribute, bool) {
+	if o == nil || IsNil(o.Attribute) {
+		return nil, false
+	}
+	return o.Attribute, true
+}
+
+// HasAttribute returns a boolean if a field has been set.
+func (o *SearchIdentityParams) HasAttribute() bool {
+	if o != nil && !IsNil(o.Attribute) {
+		return true
+	}
+
+	return false
+}
+
+// SetAttribute gets a reference to the given SearchIdentitySpecificAttribute and assigns it to the Attribute field.
+func (o *SearchIdentityParams) SetAttribute(v SearchIdentitySpecificAttribute) {
+	o.Attribute = &v
 }
 
 // GetAttributes returns the Attributes field value if set, zero value otherwise.
@@ -236,9 +215,10 @@ func (o SearchIdentityParams) MarshalJSON() ([]byte, error) {
 
 func (o SearchIdentityParams) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["scope"] = o.Scope
-	toSerialize["name"] = o.Name
 	toSerialize["value_prefix"] = o.ValuePrefix
+	if !IsNil(o.Attribute) {
+		toSerialize["attribute"] = o.Attribute
+	}
 	if !IsNil(o.Attributes) {
 		toSerialize["attributes"] = o.Attributes
 	}
@@ -261,8 +241,6 @@ func (o *SearchIdentityParams) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"scope",
-		"name",
 		"value_prefix",
 	}
 
@@ -293,9 +271,8 @@ func (o *SearchIdentityParams) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "scope")
-		delete(additionalProperties, "name")
 		delete(additionalProperties, "value_prefix")
+		delete(additionalProperties, "attribute")
 		delete(additionalProperties, "attributes")
 		delete(additionalProperties, "page")
 		delete(additionalProperties, "per_page")

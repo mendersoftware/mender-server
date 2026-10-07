@@ -59,7 +59,7 @@ class InventoryV2alpha1ManagementAPIApi:
     ) -> List[DeviceInventoryResponse]:
         """Search inventory by identity
 
-        Search for inventory by device identity attribute. Supports prefix matching against  the following values:   - the system assigned device `id`   - the `tags` scoped attribute with name `\"name\"`   - any `identity` scoped device attribute  Please note that the `scope` of the system assigned device `id` is expected to be `identity` when used with this endpoint. 
+        Search for inventory by device identity attribute. Supports prefix matching against  the following values:   - the system assigned device `id`   - the `tags` scoped attribute with name `\"name\"`   - any `identity` scoped device attribute  Please note that the `scope` of the system assigned device `id` is expected to be `identity` when used with this endpoint and that searching for the \"status\" attribute is specifically unsupported and will always return no results. 
 
         :param search_identity_params: Identity search parameters
         :type search_identity_params: SearchIdentityParams
@@ -128,7 +128,7 @@ class InventoryV2alpha1ManagementAPIApi:
     ) -> ApiResponse[List[DeviceInventoryResponse]]:
         """Search inventory by identity
 
-        Search for inventory by device identity attribute. Supports prefix matching against  the following values:   - the system assigned device `id`   - the `tags` scoped attribute with name `\"name\"`   - any `identity` scoped device attribute  Please note that the `scope` of the system assigned device `id` is expected to be `identity` when used with this endpoint. 
+        Search for inventory by device identity attribute. Supports prefix matching against  the following values:   - the system assigned device `id`   - the `tags` scoped attribute with name `\"name\"`   - any `identity` scoped device attribute  Please note that the `scope` of the system assigned device `id` is expected to be `identity` when used with this endpoint and that searching for the \"status\" attribute is specifically unsupported and will always return no results. 
 
         :param search_identity_params: Identity search parameters
         :type search_identity_params: SearchIdentityParams
@@ -197,7 +197,7 @@ class InventoryV2alpha1ManagementAPIApi:
     ) -> RESTResponseType:
         """Search inventory by identity
 
-        Search for inventory by device identity attribute. Supports prefix matching against  the following values:   - the system assigned device `id`   - the `tags` scoped attribute with name `\"name\"`   - any `identity` scoped device attribute  Please note that the `scope` of the system assigned device `id` is expected to be `identity` when used with this endpoint. 
+        Search for inventory by device identity attribute. Supports prefix matching against  the following values:   - the system assigned device `id`   - the `tags` scoped attribute with name `\"name\"`   - any `identity` scoped device attribute  Please note that the `scope` of the system assigned device `id` is expected to be `identity` when used with this endpoint and that searching for the \"status\" attribute is specifically unsupported and will always return no results. 
 
         :param search_identity_params: Identity search parameters
         :type search_identity_params: SearchIdentityParams
