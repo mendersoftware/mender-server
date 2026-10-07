@@ -253,16 +253,12 @@ build:backend:docker-testers:
     - docker compose --project-directory backend/tests build --push
       integration-tester
       acceptance-tester
-    - docker build ${DOCKER_BUILDARGS}
-        --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG}
-        -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG}
-        --build-arg REGISTRY="${MIRROR_REGISTRY}"
-        -f backend/tests/Dockerfile.integration
-        backend/tests
   rules:
     - changes:
         paths:
-          - backend/tests/Dockerfile.integration
+          - backend/tests/Dockerfile
+          - backend/tests/docker-compose.yml
+          - backend/tests/requirements-acceptance.txt
           - backend/tests/requirements-integration.txt
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
