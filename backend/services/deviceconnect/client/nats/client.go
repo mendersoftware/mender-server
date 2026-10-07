@@ -33,7 +33,7 @@ const (
 
 // Client is the nats client
 //
-//go:generate ../../../../utils/mockgen.sh
+//mockery:generate: true
 type Client interface {
 	Publish(string, []byte) error
 	ChanSubscribe(string, chan *natsio.Msg) (*natsio.Subscription, error)

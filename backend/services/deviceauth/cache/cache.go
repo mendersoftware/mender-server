@@ -53,7 +53,7 @@ var (
 	ErrNegativeInteger   = errors.New("cannot be a negative integer")
 )
 
-//go:generate ../../../utils/mockgen.sh
+//mockery:generate: true
 type Cache interface {
 	// Throttle retrieves a cached token.
 	// These ops are bundled because the implementation will pipeline them for a single network

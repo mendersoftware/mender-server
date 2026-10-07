@@ -41,7 +41,7 @@ type UnsubscribeFunc func() error
 
 // Client is the nats client
 //
-//go:generate ../../../../utils/mockgen.sh
+//mockery:generate: true
 type Client interface {
 	Close()
 	StreamName() string

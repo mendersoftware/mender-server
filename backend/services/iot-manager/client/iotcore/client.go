@@ -52,7 +52,7 @@ const (
 )
 
 //nolint:lll
-//go:generate ../../../../utils/mockgen.sh
+//mockery:generate: true
 type Client interface {
 	GetDeviceShadow(ctx context.Context, creds model.AWSCredentials, id string) (*DeviceShadow, error)
 	UpdateDeviceShadow(

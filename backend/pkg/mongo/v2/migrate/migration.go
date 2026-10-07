@@ -17,7 +17,7 @@ package migrate
 // version. Current version of DB is passed as `from` parameter. Once migration
 // completes, DB will be in version Version().
 
-//go:generate ../../../../utils/mockgen.sh
+//mockery:generate: true
 type Migration interface {
 	Up(from Version) error
 	Version() Version

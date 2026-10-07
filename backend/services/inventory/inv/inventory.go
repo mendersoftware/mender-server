@@ -37,7 +37,7 @@ var (
 
 // this inventory service interface
 //
-//go:generate ../../../utils/mockgen.sh
+//mockery:generate: true
 type InventoryApp interface {
 	HealthCheck(ctx context.Context) error
 	ListDevices(ctx context.Context, q store.ListQuery) ([]model.Device, int, error)
