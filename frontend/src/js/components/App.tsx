@@ -24,9 +24,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { makeStyles } from 'tss-react/mui';
 
 import SharedSnackbar from '@northern.tech/common-ui/SharedSnackbar';
-import ConfirmDismissHelptips from '@northern.tech/common-ui/dialogs/ConfirmDismissHelpTips';
-import FeedbackDialog from '@northern.tech/common-ui/dialogs/Feedback';
-import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupNotification';
 import storeActions from '@northern.tech/store/actions';
 import type { SentryConfig } from '@northern.tech/store/appSlice';
 import { getSessionInfo, updateMaxAge } from '@northern.tech/store/auth';
@@ -58,6 +55,9 @@ import LeftNav from './LeftNav';
 import SearchResult from './SearchResult';
 import Uploads from './Uploads';
 import DeviceConnectionDialog from './devices/dialogs/DeviceConnectionDialog';
+import ConfirmDismissHelptips from './dialogs/ConfirmDismissHelpTips';
+import FeedbackDialog from './dialogs/Feedback';
+import StartupNotificationDialog from './dialogs/StartupNotification';
 import Header from './header/Header';
 
 const { setShowConnectingDialog, setSnackbar } = storeActions;
