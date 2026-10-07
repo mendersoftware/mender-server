@@ -144,23 +144,48 @@ func (f FilterPredicate) Validate() error {
 }
 
 type SearchIdentityParams struct {
-	Scope       string            `json:"scope"`
-	Name        string            `json:"name"`
-	ValuePrefix string            `json:"value_prefix"`
-	Attributes  []SelectAttribute `json:"attributes"`
-	Page        int               `json:"page"`
-	PerPage     int               `json:"per_page"`
+	ValuePrefix string                   `json:"value_prefix"`
+	Attribute   *SearchIdentityAttribute `json:"attribute,omitempty"`
+	Attributes  []SelectAttribute        `json:"attributes"`
+	Page        int                      `json:"page"`
+	PerPage     int                      `json:"per_page"`
 }
 
 func (s SearchIdentityParams) Validate() error {
+	err := validation.ValidateStruct(&s,
+		validation.Field(&s.ValuePrefix, validation.Required),
+		validation.Field(&s.Attribute),
+		validation.Field(&s.PerPage, validation.Max(rest.PerPageMax)),
+	)
+
+	if err != nil {
+		return err
+	}
+
+	for _, s := range s.Attributes {
+		err := validation.ValidateStruct(&s,
+			validation.Field(&s.Scope, validation.Required),
+			validation.Field(&s.Attribute, validation.Required))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+type SearchIdentityAttribute struct {
+	Scope string `json:"scope"`
+	Name  string `json:"name"`
+}
+
+func (s SearchIdentityAttribute) Validate() error {
 	err := validation.ValidateStruct(&s,
 		validation.Field(&s.Scope,
 			validation.Required,
 			validation.In(AttrScopeIdentity, AttrScopeTags),
 		),
 		validation.Field(&s.Name, validation.Required),
-		validation.Field(&s.ValuePrefix, validation.Required),
-		validation.Field(&s.PerPage, validation.Max(rest.PerPageMax)),
 	)
 
 	if err != nil {
@@ -176,15 +201,6 @@ func (s SearchIdentityParams) Validate() error {
 	if s.Scope == AttrScopeTags && s.Name != attrNameName {
 		return errors.Errorf("name: must be '%s' when scope is '%s'.",
 			attrNameName, AttrScopeTags)
-	}
-
-	for _, s := range s.Attributes {
-		err := validation.ValidateStruct(&s,
-			validation.Field(&s.Scope, validation.Required),
-			validation.Field(&s.Attribute, validation.Required))
-		if err != nil {
-			return err
-		}
 	}
 
 	return nil
