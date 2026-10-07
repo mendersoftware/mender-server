@@ -250,7 +250,7 @@ build:backend:docker-testers:
     - unset DOCKER_PLATFORM
     - *buildx-builder-setup
   script:
-    - docker compose --project-dir backend/tests build --push
+    - docker compose --project-directory backend/tests build --push
       integration-tester
       acceptance-tester
     - docker build ${DOCKER_BUILDARGS}
