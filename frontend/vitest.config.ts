@@ -88,13 +88,7 @@ export default defineConfig({
   ],
 
   resolve: {
-    tsconfigPaths: true,
-    alias: [
-      {
-        find: '@northern.tech/common-ui',
-        replacement: path.resolve(__dirname, 'src/js/common-ui')
-      }
-    ]
+    tsconfigPaths: true
   },
   test: {
     coverage: {
@@ -109,6 +103,13 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
+    server: {
+      deps: {
+        // common-ui ships untranspiled CSS imports (xterm) and relies on our module mocks (monaco),
+        // so it has to go through the vite pipeline instead of being externalized to node
+        inline: ['@northern.tech/common-ui']
+      }
+    },
     fakeTimers: {
       toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date', 'requestAnimationFrame', 'cancelAnimationFrame']
     },
