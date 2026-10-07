@@ -2343,6 +2343,118 @@ func TestManagementUploadFile(t *testing.T) {
 			HTTPStatus: http.StatusBadRequest,
 		},
 		{
+			Name:     "ko, error from device v2 with status code",
+			DeviceID: "1234567890",
+			Identity: &identity.Identity{
+				Subject: "00000000-0000-0000-0000-000000000000",
+				Tenant:  "000000000000000000000000",
+				IsUser:  true,
+			},
+			Body: map[string][]string{
+				fieldUploadPath: {"/absolute/path"},
+				fieldUploadUID:  {"0"},
+				fieldUploadGID:  {"0"},
+				fieldUploadMode: {"0644"},
+			},
+			File: []byte("1234567890"),
+
+			DeviceFunc: func(t *testing.T, client *nats_mocks.Client) {
+				conn := stream_mocks.NewConn(t)
+				var sessionID string
+				client.On("Connect", contextMatcher, mock.MatchedBy(func(srcAddr string) bool {
+					var (
+						tenantID string
+						ok       bool
+					)
+					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
+					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
+						assert.Equal(t, "000000000000000000000000", tenantID)
+				}), "000000000000000000000000:1234567890").
+					Return(conn, nil).
+					Once()
+				conn.On("Close", contextMatcher).
+					Return(nil).
+					Once().
+					On("Recv", contextMatcher).
+					Return(func(context.Context) ([]byte, error) {
+						// accept the open request
+						b, _ := msgpack.Marshal(ws.Accept{
+							Version:   ws.ProtocolVersion,
+							Protocols: []ws.ProtoType{ws.ProtoTypeFileTransfer, ws.ProtoTypeFileTransferV2},
+						})
+						msg := &ws.ProtoMsg{
+							Header: ws.ProtoHdr{
+								Proto:     ws.ProtoTypeControl,
+								MsgType:   ws.MessageTypeAccept,
+								SessionID: sessionID,
+							},
+							Body: b,
+						}
+						return msgpack.Marshal(msg)
+					}).
+					Once().
+					On("Recv", contextMatcher).
+					Return(func(ctx context.Context) ([]byte, error) {
+						bodyData, _ := msgpack.Marshal(ws.Error{
+							Error: "file not writeable",
+							Code:  http.StatusForbidden,
+						})
+						msg := &ws.ProtoMsg{
+							Header: ws.ProtoHdr{
+								Proto:     ws.ProtoTypeFileTransferV2,
+								MsgType:   wsft.MessageTypeError,
+								SessionID: sessionID,
+							},
+							Body: bodyData,
+						}
+						return msgpack.Marshal(msg)
+					}).
+					Once().
+					On("Send", contextMatcher, mock.Anything).
+					Return(func(ctx context.Context, data []byte) error {
+						msg := &ws.ProtoMsg{}
+						if assert.NoError(t, msgpack.Unmarshal(data, msg)) {
+							assert.Equal(t, sessionID, msg.Header.SessionID)
+							assert.Equal(t, ws.ProtoTypeControl, msg.Header.Proto)
+							assert.Equal(t, ws.MessageTypeOpen, msg.Header.MsgType)
+						}
+						return nil
+					}).
+					Once().
+					On("Send", contextMatcher, mock.Anything).
+					Return(func(ctx context.Context, data []byte) error {
+						msg := &ws.ProtoMsg{}
+						if assert.NoError(t, msgpack.Unmarshal(data, msg)) {
+							assert.Equal(t, sessionID, msg.Header.SessionID)
+							assert.Equal(t, ws.ProtoTypeFileTransferV2, msg.Header.Proto)
+							assert.Equal(t, wsft.MessageTypePut, msg.Header.MsgType)
+						}
+						return nil
+					}).
+					Once().
+					On("Send", contextMatcher, mock.Anything).
+					Return(func(ctx context.Context, data []byte) error {
+						<-ctx.Done()
+						return ctx.Err()
+					}).
+					Times(1).
+					On("Send", contextMatcher, mock.Anything).
+					Return(func(ctx context.Context, data []byte) error {
+						msg := &ws.ProtoMsg{}
+						if assert.NoError(t, msgpack.Unmarshal(data, msg)) {
+							assert.Equal(t, sessionID, msg.Header.SessionID)
+							assert.Equal(t, ws.ProtoTypeControl, msg.Header.Proto)
+							assert.Equal(t, ws.MessageTypeClose, msg.Header.MsgType)
+						}
+						return nil
+					}).
+					Once()
+			},
+			AppUploadFile: true,
+
+			HTTPStatus: http.StatusForbidden,
+		},
+		{
 			Name:     "ko, error from device after the first chunk",
 			DeviceID: "1234567890",
 			Identity: &identity.Identity{
