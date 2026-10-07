@@ -2340,7 +2340,7 @@ func TestManagementUploadFile(t *testing.T) {
 			},
 			AppUploadFile: true,
 
-			HTTPStatus: http.StatusInternalServerError,
+			HTTPStatus: http.StatusBadRequest,
 		},
 		{
 			Name:     "ko, error from device after the first chunk",

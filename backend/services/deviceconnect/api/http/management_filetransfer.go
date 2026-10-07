@@ -570,8 +570,11 @@ func (h ManagementController) downloadFileV2(
 			if err != nil {
 				return fmt.Errorf("malformed error message received from device: %w", err)
 			}
-			return NewError(fmt.Errorf("error from device: %s", body.Error),
-				http.StatusInternalServerError)
+			errCode := http.StatusBadRequest
+			if body.Code > 0 {
+				errCode = body.Code
+			}
+			return NewError(fmt.Errorf("error from device: %s", body.Error), errCode)
 		}
 	}
 }
@@ -798,7 +801,11 @@ func uploadFileV2HandleInboundError(
 		if errDecode != nil {
 			cancel(fmt.Errorf("error from device: %s", string(msg.Body)))
 		} else {
-			cancel(fmt.Errorf("error from device: %s", err.Error))
+			errCode := http.StatusBadRequest
+			if err.Code > 0 {
+				errCode = err.Code
+			}
+			cancel(NewError(fmt.Errorf("error from device: %s", err.Error), errCode))
 		}
 	} else {
 		cancel(fmt.Errorf("unexpected message type: %s", msg.Header.MsgType))
