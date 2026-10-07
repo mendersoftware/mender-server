@@ -22,7 +22,8 @@ paths:
           - any `identity` scoped device attribute
 
         Please note that the `scope` of the system assigned device `id` is expected to be `identity`
-        when used with this endpoint.
+        when used with this endpoint and that searching for the "status" attribute is specifically
+        unsupported and will always return no results.
       requestBody:
         description: Identity search parameters
         content:
@@ -77,27 +78,18 @@ components:
   schemas:
     SearchIdentityParams:
       type: object
-      description: Parameters for searching for inventory by their identity
+      description: |
+        Parameters for searching for inventory with matching device identity attributes, optionally
+        limiting the matching to a specific attribute.
       required:
-        - name
         - value_prefix
-        - scope
       properties:
-        scope:
-          description: The scope of the attribute name used with the search.
-          type: string
-          enum:
-            - identity
-            - tags
-          example: identity
-        name:
-          description: The name of the attribute used with the search.
-          type: string
-          example: mac
         value_prefix:
-          description: The prefix used to match against attribute values with 'scope' and 'name'.
+          description: The prefix used to match against device identity attribute values (all or specific)
           type: string
           example: '00:01:'
+        attribute:
+          $ref: "#/components/schemas/SearchIdentitySpecificAttribute"
         attributes:
           type: array
           description: List of attributes to select and return
@@ -115,3 +107,21 @@ components:
           description: Number of results per page.
           type: integer
           maximum: 500
+    SearchIdentitySpecificAttribute:
+      type: object
+      description: Parameters for limiting search matches to a specific attribute
+      required:
+        - name
+        - scope
+      properties:
+        scope:
+          description: The scope of the attribute to match against
+          type: string
+          enum:
+            - identity
+            - tags
+          example: identity
+        name:
+          description: The name of the attribute to match against
+          type: string
+          example: mac
