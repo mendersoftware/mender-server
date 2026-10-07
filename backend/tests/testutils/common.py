@@ -430,7 +430,7 @@ def wait_until_healthy(compose_project: str = "", timeout: int = 60):
         "mender-tenantadm": "/api/internal/v1/tenantadm/health",
         "mender-useradm": "/api/internal/v1/useradm/health",
         "mender-workflows": "/api/v1/health",
-        "s3": "/status",
+        "s3": "/health/ready",
     }
 
     containers = client.containers.list(all=True, **kwargs)
