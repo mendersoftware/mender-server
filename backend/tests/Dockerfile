@@ -1,6 +1,5 @@
 ARG REGISTRY=docker.io
-FROM ${REGISTRY}/library/python:3.14-trixie
-WORKDIR /tests
+FROM ${REGISTRY}/library/python:3.14-trixie AS builder
 
 # Install mender-artifact
 RUN \
@@ -34,11 +33,23 @@ RUN \
   apt-get update -q && \
   apt-get install --assume-yes docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
+
+FROM builder AS acceptance-tester
+LABEL last_refreshed="2026-10-07"
+
+WORKDIR /testing
+
+COPY requirements-acceptance.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+ENTRYPOINT ["pytest"]
+
+FROM builder AS integration-tester
+LABEL last_refreshed="2026-10-07"
+
 # Install python dependencies
 COPY requirements-integration.txt .
 RUN pip3 install --no-cache-dir -r requirements-integration.txt && \
   apt-get install --assume-yes libzbar0
 
-LABEL last_refreshed="2026-09-28"
-
+WORKDIR /tests
 ENTRYPOINT ["python3", "-m", "pytest"]
