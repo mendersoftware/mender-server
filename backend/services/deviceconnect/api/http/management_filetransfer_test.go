@@ -1834,6 +1834,7 @@ func TestManagementUploadFile(t *testing.T) {
 
 			DeviceFunc: func(t *testing.T, client *nats_mocks.Client) {
 				conn := stream_mocks.NewConn(t)
+				eofSent := make(chan struct{})
 				var sessionID string
 				client.On("Connect", contextMatcher, mock.MatchedBy(func(srcAddr string) bool {
 					var (
@@ -1871,8 +1872,14 @@ func TestManagementUploadFile(t *testing.T) {
 					On("Recv", contextMatcher).
 					Return(func(ctx context.Context) ([]byte, error) {
 						close(recvCalled)
-						<-ctx.Done()
-						return nil, ctx.Err()
+						b, _ := msgpack.Marshal(ws.ProtoMsg{
+							Header: ws.ProtoHdr{
+								Proto:   ws.ProtoTypeFileTransferV2,
+								MsgType: wsft.MessageTypeACK,
+							},
+						})
+						<-eofSent
+						return b, ctx.Err()
 					}).
 					Once().
 					On("Send", contextMatcher, mock.Anything).
@@ -1905,6 +1912,9 @@ func TestManagementUploadFile(t *testing.T) {
 							assert.Equal(t, sessionID, msg.Header.SessionID)
 							assert.Equal(t, ws.ProtoTypeFileTransferV2, msg.Header.Proto)
 							assert.Equal(t, wsft.MessageTypeChunk, msg.Header.MsgType)
+							if len(msg.Body) == 0 {
+								close(eofSent)
+							}
 						}
 						return nil
 					}).
