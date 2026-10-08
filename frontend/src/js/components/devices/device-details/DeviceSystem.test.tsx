@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 
 import { DeviceSystem } from './DeviceSystem';
 
@@ -29,11 +30,22 @@ const components = {
   ]
 };
 
+const device = {
+  ...defaultState.devices.byId.a1,
+  attributes: { ...defaultState.devices.byId.a1.attributes, device_type: ['gateway'], system_type: 'system-core' },
+  components
+};
+
 describe('DeviceSystem Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeviceSystem device={{ ...defaultState.devices.byId.a1, components }} />);
+    const { baseElement } = render(<DeviceSystem device={device} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('shows the system type instead of the device type', async () => {
+    render(<DeviceSystem device={device} />);
+    expect(screen.getByText('system-core')).toBeVisible();
+    expect(screen.queryByText('gateway')).not.toBeInTheDocument();
   });
 });
