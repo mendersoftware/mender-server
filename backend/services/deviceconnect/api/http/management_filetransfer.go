@@ -31,6 +31,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
 
+	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
@@ -290,6 +291,13 @@ func writeHeaders(c *gin.Context, fileInfo *wsft.FileInfo) {
 	}
 	c.Writer.WriteHeader(http.StatusOK)
 }
+
+func abortConnection(c *gin.Context) {
+	logContext := accesslog.GetContext(c.Request.Context())
+	logContext.SetField("status", accesslog.StatusServerAbortedConnection)
+	panic(http.ErrAbortHandler)
+}
+
 func (h ManagementController) handleResponseError(c *gin.Context, err error) {
 	l := log.FromContext(c.Request.Context())
 	l.Errorf("error handling request: %s", err.Error())
@@ -447,11 +455,13 @@ func (h ManagementController) downloadFileResponse(c *gin.Context, params *fileT
 		params.SessionID, params.UserID, deviceTopic,
 	)
 	if err != nil {
-		if !c.Writer.Written() {
-			h.handleResponseError(c, err)
-		}
 		log.FromContext(ctx).
 			Errorf("error downloading file from device: %s", err.Error())
+		if !c.Writer.Written() {
+			h.handleResponseError(c, err)
+		} else {
+			abortConnection(c)
+		}
 	}
 }
 

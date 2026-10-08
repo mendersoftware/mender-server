@@ -86,6 +86,8 @@ func TestManagementDownloadFile(t *testing.T) {
 		AppDownloadFile    bool
 		AppDownloadFileErr error
 
+		PanicValue any
+
 		HTTPStatus int
 		HTTPBody   []byte
 	}{
@@ -1217,7 +1219,14 @@ func TestManagementDownloadFile(t *testing.T) {
 			}
 
 			w := httptest.NewRecorder()
-			router.ServeHTTP(w, req)
+			if tc.PanicValue != nil {
+				assert.PanicsWithValue(t, tc.PanicValue, func() {
+					router.ServeHTTP(w, req)
+				})
+			} else {
+				router.ServeHTTP(w, req)
+
+			}
 			assert.Equal(t, tc.HTTPStatus, w.Code, w.Body.Bytes())
 			if tc.HTTPStatus == http.StatusOK {
 				assert.Equal(t, tc.HTTPBody, w.Body.Bytes())
