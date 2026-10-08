@@ -1238,6 +1238,9 @@ func (db *DataStoreMongo) SearchDevicesByIdentity(
 		// Match on all identities, sort by updated_ts
 		query = bson.M{DbDevIdentitiesName: prefixMatcher}
 		sort = bson.D{{Key: makeAttrField(DbDevUpdatedTs, model.AttrScopeSystem), Value: 1}}
+	} else if searchParams.Attribute.Name == model.AttrNameStatus {
+		// The status identity attribute is not supported with this search.
+		return []model.Device{}, 0, nil
 	} else if searchParams.Attribute.Name == model.AttrNameID {
 		// Using the `_id` index gives better performance than using
 		// the `identities` index, so we leverage it if we can

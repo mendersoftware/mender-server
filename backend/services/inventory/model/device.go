@@ -33,6 +33,7 @@ const (
 	AttrScopeMonitor   = "monitor"
 
 	AttrNameID             = "id"
+	AttrNameStatus         = "status"
 	AttrNameGroup          = "group"
 	AttrNameUpdated        = "updated_ts"
 	AttrNameCreated        = "created_ts"
