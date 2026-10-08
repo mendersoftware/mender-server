@@ -920,6 +920,7 @@ paths:
                     noartifact: 0
                     already-installed: 0
                     aborted: 0
+                    decommissioned: 0
                     pause_before_installing: 1
                     pause_before_rebooting: 1
                     pause_before_committing: 1
@@ -934,6 +935,7 @@ paths:
                     noartifact: 0
                     already-installed: 0
                     aborted: 0
+                    decommissioned: 0
                     pause_before_installing: 1
                     pause_before_rebooting: 1
                     pause_before_committing: 1
@@ -1116,6 +1118,7 @@ paths:
                 noartifact: 0
                 already-installed: 0
                 aborted: 0
+                decommissioned: 0
                 pause_before_installing: 1
                 pause_before_rebooting: 1
                 pause_before_committing: 1
@@ -8739,6 +8742,7 @@ components:
           noartifact: 0
           already-installed: 0
           aborted: 0
+          decommissioned: 0
           pause_before_installing: 0
           pause_before_rebooting: 0
           pause_before_committing: 0
@@ -8833,6 +8837,7 @@ components:
         noartifact: 0
         already-installed: 0
         aborted: 0
+        decommissioned: 0
         pause_before_installing: 0
         pause_before_rebooting: 0
         pause_before_committing: 0
@@ -8864,6 +8869,9 @@ components:
         aborted:
           description: Number of deployments aborted by user.
           type: integer
+        decommissioned:
+          description: Number of devices decommissioned during the deployment.
+          type: integer
         pause_before_installing:
           description: Number of deployments paused before install state.
           type: integer
@@ -8876,6 +8884,7 @@ components:
       required:
         - aborted
         - already-installed
+        - decommissioned
         - downloading
         - failure
         - installing
