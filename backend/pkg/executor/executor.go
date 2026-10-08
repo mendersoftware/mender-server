@@ -11,7 +11,7 @@ var (
 	ErrCommandNotAllowed = errors.New("command not allowed")
 )
 
-//go:generate ../../utils/mockgen.sh
+//mockery:generate: true
 type BinaryExecutor interface {
 	Command(ctx context.Context, binary string, arg ...string) (*exec.Cmd, error)
 }

@@ -237,7 +237,7 @@ func (m *streamMap) Delete(conn stream.Conn) {
 
 // WSConn is the subset of *websocket.Conn used by the connection routines.
 //
-//go:generate ../../../../utils/mockgen.sh
+//mockery:generate: true
 type WSConn interface {
 	ReadMessage() (messageType int, p []byte, err error)
 	WriteMessage(messageType int, data []byte) error

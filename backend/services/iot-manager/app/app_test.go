@@ -1377,9 +1377,9 @@ func TestSetDeviceStatus(t *testing.T) {
 					testIntegrations[model.ProviderIoTHub].
 						Credentials.ConnectionString,
 					self.DeviceID,
-					mock.MatchedBy(func(actual *iothub.Device) bool {
-						return actual.Status == iothub.StatusEnabled &&
-							actual.DeviceID == self.DeviceID
+					mock.MatchedBy(func(actual []*iothub.Device) bool {
+						return len(actual) == 1 && actual[0].Status == iothub.StatusEnabled &&
+							actual[0].DeviceID == self.DeviceID
 					})).
 				Run(func(args mock.Arguments) {
 					hubDev.Status = iothub.StatusEnabled

@@ -864,7 +864,7 @@ func TestRegisterWorkflowAlreadyExists(t *testing.T) {
 			func(_ context.Context) bool {
 				return true
 			}),
-		mocklib.AnythingOfType("model.Workflow"),
+		mocklib.AnythingOfType("[]model.Workflow"),
 	).Return(1, store.ErrWorkflowAlreadyExists)
 
 	payload := `{"name": "workflow"}`
@@ -900,8 +900,10 @@ func TestRegisterWorkflow(t *testing.T) {
 				return true
 			}),
 		mocklib.MatchedBy(
-			func(workflow model.Workflow) bool {
+			func(workflows []model.Workflow) bool {
 
+				assert.Len(t, workflows, 1)
+				workflow := workflows[0]
 				assert.Equal(t, "test_workflow", workflow.Name)
 				assert.Equal(t, "Test workflow", workflow.Description)
 				assert.Equal(t, 4, workflow.Version)

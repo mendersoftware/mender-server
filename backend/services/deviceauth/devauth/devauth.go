@@ -77,7 +77,7 @@ func MakeErrDevAuthBadRequest(e error) error {
 
 // this device auth service interface
 //
-//go:generate ../../../utils/mockgen.sh
+//mockery:generate: true
 type App interface {
 	HealthCheck(ctx context.Context) error
 	SubmitAuthRequest(ctx context.Context, r *model.AuthReq) (string, error)

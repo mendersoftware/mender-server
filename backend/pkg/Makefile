@@ -14,4 +14,4 @@ test:
 .PHONY: generate
 generate:
 	go generate ./...
-
+	go tool mockery

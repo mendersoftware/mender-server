@@ -60,7 +60,7 @@ const (
 	userIdMe              = "me"
 )
 
-//go:generate ../../../utils/mockgen.sh
+//mockery:generate: true
 type App interface {
 	HealthCheck(ctx context.Context) error
 	// Login accepts email/password, returns JWT

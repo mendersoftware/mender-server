@@ -22,7 +22,7 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
-//go:generate ../../../utils/mockgen.sh
+//mockery:generate: true
 type DataStore interface {
 	Ping(ctx context.Context) error
 	//releases

@@ -101,6 +101,7 @@ dist: $(binfile)
 .PHONY: generate
 generate:
 	go generate ./...
+	go tool mockery
 
 .PHONY: test-unit
 test-unit:

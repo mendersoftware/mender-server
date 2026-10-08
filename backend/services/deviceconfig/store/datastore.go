@@ -31,7 +31,7 @@ var (
 // DataStore interface for DataStore services
 //
 //nolint:lll - skip line length check for interface declaration.
-//go:generate ../../../utils/mockgen.sh
+//mockery:generate: true
 type DataStore interface {
 	Ping(ctx context.Context) error
 	Close(ctx context.Context) error
