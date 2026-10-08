@@ -61,7 +61,6 @@ import {
   getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { useAppInit } from '@northern.tech/store/storehooks';
 import {
   getAllDeviceCounts,
   getUserOrganization,
@@ -84,6 +83,7 @@ import enterpriseLogo from '../../../assets/img/headerlogo-enterprise.png';
 import logo from '../../../assets/img/headerlogo.png';
 import whiteEnterpriseLogo from '../../../assets/img/whiteheaderlogo-enterprise.png';
 import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
+import { useAppInit } from '../../store/appInit';
 import Tracking from '../../tracking';
 import Announcement from './Announcement';
 import DeploymentNotifications from './DeploymentNotifications';

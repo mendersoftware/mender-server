@@ -40,7 +40,6 @@ import {
   getUserSettings
 } from '@northern.tech/store/selectors';
 import { store, useAppDispatch } from '@northern.tech/store/store';
-import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
 import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
 import '@northern.tech/themes/Mender/styles/main.css';
@@ -49,6 +48,7 @@ import Cookies from 'universal-cookie';
 
 import ErrorBoundary from '../ErrorBoundary';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
+import { parseEnvironmentInfo } from '../store/appInit';
 import Tracking from '../tracking';
 import Footer from './Footer';
 import LeftNav from './LeftNav';
