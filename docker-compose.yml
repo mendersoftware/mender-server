@@ -413,7 +413,7 @@ services:
         aliases: [mender-nats]
 
   client:
-    image: mendersoftware/mender-client-docker-addons:client-main
+    image: mendersoftware/mender-client-docker-addons:latest
     scale: 0
     configs:
       - source: client_json
