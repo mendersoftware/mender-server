@@ -139,8 +139,9 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const isEditableTarget = (target: EventTarget | null) => {
-  const element = target as HTMLInputElement | null;
-  return !!element && (element.isContentEditable || (editableTags.includes(element.tagName) && !element.readOnly));
+  const element = target as (HTMLInputElement & { editContext?: unknown }) | null;
+  // monaco editor focuses a plain div that is neither an input nor contentEditable
+  return !!element && (element.isContentEditable || !!element.editContext || (editableTags.includes(element.tagName) && !element.readOnly));
 };
 
 const HighlightedMatch = ({ className, term, text }) => {
