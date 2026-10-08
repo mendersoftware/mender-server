@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { KeyboardEvent } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 // material ui
@@ -38,19 +38,18 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
+import { defaultTextRender, getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import { ApproximateRelativeDate } from '@northern.tech/common-ui/Time';
+import Select from '@northern.tech/common-ui/forms/Select';
 import { ALL_DEVICE_STATES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import type { Device } from '@northern.tech/store/devicesSlice';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
-import { getIdAttribute, getUserSettings } from '@northern.tech/store/selectors';
+import { getDeviceIdentityAttributes, getIdAttribute, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
 import { saveUserSettings, searchIdentities, setDeviceListState } from '@northern.tech/store/thunks';
 import { isDarkMode } from '@northern.tech/store/utils';
-import type { SearchIdentityParams } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { idAttributeTitleMap } from '../devices/AuthorizedDevices';
 import { getDeviceSoftwareText } from '../devices/BaseDevices';
 import DeviceStatus from '../devices/DeviceStatus';
 
@@ -66,24 +65,46 @@ interface SearchResultItem {
   device: Device;
   label: string;
   metadata: string;
+  value: string;
 }
 
-const toResult = (device: Device, idAttribute): SearchResultItem => ({
+const toOptionKey = ({ attribute, scope }) => `${scope}:${attribute}`;
+
+const findOption = (options, { attribute, scope }) => options.find(option => option.attribute === attribute && option.scope === scope);
+
+const toResult = (device: Device, idAttribute, { attribute, scope }): SearchResultItem => ({
   checkIn: device.check_in_time_exact ?? device.check_in_time_rounded,
   device,
   label: getDeviceIdentityText({ device, idAttribute }),
-  metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean).join(' · ')
+  metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean).join(' · '),
+  value: String(defaultTextRender({ column: { attribute: { name: attribute, scope } }, device }))
 });
 
 const useStyles = makeStyles()(theme => ({
   emptyState: { minHeight: 200 },
   highlight: { backgroundColor: theme.palette.highlight?.main },
   inlineTime: { display: 'inline', fontSize: 'inherit' },
+  italic: { fontStyle: 'italic' },
   inputPlaceholder: { '&::placeholder': { color: theme.palette.text.secondary, opacity: 1 } },
   subheader: { backgroundColor: 'transparent' },
   viewAll: { background: theme.palette.action.hover },
   listItemIcon: {
     [`&.${listItemIconClasses.root}`]: { minWidth: 'auto' }
+  },
+  chipSelect: {
+    borderRadius: 16,
+    minWidth: 'unset',
+    border: `1px solid ${theme.palette.action.selected}`,
+    '&:hover': { backgroundColor: theme.palette.action.focus },
+    '&&': {
+      '& .MuiSelect-select': {
+        minHeight: 'unset',
+        padding: '1px 25px 1px 12px',
+        borderRadius: 16
+      }
+    },
+    '& .MuiOutlinedInput-notchedOutline': { border: 0 },
+    '& .MuiSelect-icon': { right: 6, fontSize: 18 }
   },
   shortcut: {
     border: `1px solid ${theme.palette.divider}`,
@@ -182,15 +203,25 @@ const SearchDialog = ({ onClose, open }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const { attribute, scope: idScope } = useAppSelector(getIdAttribute);
-  const { searchHintDismissed } = useAppSelector(getUserSettings);
+  const idAttribute = useAppSelector(getIdAttribute);
+  const { searchHintDismissed, searchAttribute } = useAppSelector(getUserSettings);
+  const identityAttributes = useAppSelector(getDeviceIdentityAttributes);
+  const [pickedAttribute, setPickedAttribute] = useState<{ attribute: string; scope: string } | null>(null);
 
-  const scope = idScope as SearchIdentityParams['scope'];
+  const attributeOptions = useMemo(
+    () => identityAttributes.map(({ label, scope, value }) => ({ attribute: value, key: toOptionKey({ attribute: value, scope }), label, scope })),
+    [identityAttributes]
+  );
+  const selectedOption =
+    findOption(attributeOptions, pickedAttribute ?? searchAttribute ?? idAttribute) ?? findOption(attributeOptions, idAttribute) ?? attributeOptions[0];
+  const { attribute, scope } = selectedOption;
+
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const debouncedTerm = useDebounce(term, TIMEOUTS.debounceDefault);
 
-  const placeholder = `Search by ${idAttributeTitleMap[attribute] ?? attribute} starting with...`;
+  const placeholder = `Find devices by ${selectedOption.label} starting with...`;
+  const isIdAttributeSelected = idAttribute.scope === scope && idAttribute.attribute === attribute;
   const hasSearched = !!searchedTerm;
   const showResults = !!results.length;
   const showPlaceholder = !showResults && !!term;
@@ -205,10 +236,10 @@ const SearchDialog = ({ onClose, open }) => {
       return;
     }
     let isCurrent = true;
-    const idAttribute = { attribute, scope };
+    const searchedAttribute = { attribute, scope };
     dispatch(
       searchIdentities({
-        attributes: [idAttribute],
+        attributes: [idAttribute, searchedAttribute],
         name: attribute,
         per_page: resultsPerPage,
         scope,
@@ -220,13 +251,13 @@ const SearchDialog = ({ onClose, open }) => {
         if (!isCurrent) {
           return;
         }
-        setSearch({ results: devices.map(device => toResult(device, idAttribute)), term: debouncedTerm, total });
+        setSearch({ results: devices.map(device => toResult(device, idAttribute, searchedAttribute)), term: debouncedTerm, total });
       })
       .catch(() => isCurrent && setSearch({ results: [], term: debouncedTerm, total: 0 }));
     return () => {
       isCurrent = false;
     };
-  }, [attribute, debouncedTerm, dispatch, scope]);
+  }, [attribute, debouncedTerm, dispatch, idAttribute, scope]);
 
   useEffect(() => {
     setActiveIndex(0);
@@ -237,6 +268,17 @@ const SearchDialog = ({ onClose, open }) => {
   const closeAndNavigate = (to, options?) => {
     onClose();
     setTimeout(() => navigate(to, options), TIMEOUTS.debounceShort);
+  };
+
+  const onChangeAttribute = ({ target: { value } }) => {
+    const option = attributeOptions.find(({ key }) => key === value);
+    if (!option) {
+      return;
+    }
+    const nextAttribute = { attribute: option.attribute, scope: option.scope };
+    setSearch({ results: [], term: '', total: 0 });
+    setPickedAttribute(nextAttribute);
+    dispatch(saveUserSettings({ searchAttribute: nextAttribute }));
   };
 
   const onSelect = ({ id, status }: Device) => {
@@ -295,7 +337,20 @@ const SearchDialog = ({ onClose, open }) => {
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         slotProps={{ input: { className: classes.inputPlaceholder } }}
-        startAdornment={<SearchAdornment />}
+        startAdornment={
+          <div className="flexbox align-items-center margin-right-x-small">
+            <SearchAdornment />
+            <Select
+              className={classes.chipSelect}
+              labelAttribute="label"
+              onChange={onChangeAttribute}
+              options={attributeOptions}
+              selectionAttribute="key"
+              value={selectedOption.key}
+              width="auto"
+            />
+          </div>
+        }
         value={term}
       />
       <Divider />
@@ -311,13 +366,26 @@ const SearchDialog = ({ onClose, open }) => {
       )}
       {showResults && (
         <List disablePadding>
-          {results.map(({ checkIn, device, label, metadata }, index) => (
+          {results.map(({ checkIn, device, label, metadata, value }, index) => (
             <ListItemButton key={device.id} onClick={() => onSelect(device)} selected={index === activeIndex}>
               <ListItemIcon className={`margin-right-x-small ${classes.listItemIcon}`}>
                 <DeviceIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText
-                primary={<HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} />}
+                primary={
+                  isIdAttributeSelected ? (
+                    <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} />
+                  ) : (
+                    <>
+                      <Typography variant="subtitle2" component="span" className="margin-right-x-small">
+                        {label}
+                      </Typography>
+                      <span className={classes.italic}>
+                        ({attribute}: <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={value} />)
+                      </span>
+                    </>
+                  )
+                }
                 secondary={
                   <>
                     {metadata && `${metadata} · `}
@@ -336,7 +404,7 @@ const SearchDialog = ({ onClose, open }) => {
                 <ListItemText
                   primary={
                     <div className="flexbox align-items-center">
-                      View all {total} results
+                      View all {total.toLocaleString()} results
                       <ArrowForwardIcon fontSize="small" className="margin-left-x-small" />
                     </div>
                   }
