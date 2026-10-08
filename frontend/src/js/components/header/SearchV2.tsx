@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router';
 import { ArrowForward as ArrowForwardIcon, Close as CloseIcon, DeveloperBoard as DeviceIcon, Search as SearchIcon } from '@mui/icons-material';
 import {
   Alert,
+  Breadcrumbs,
   ButtonBase,
   Dialog,
   Divider,
@@ -33,6 +34,7 @@ import {
   ListSubheader,
   Skeleton,
   Typography,
+  breadcrumbsClasses,
   buttonBaseClasses,
   listItemIconClasses
 } from '@mui/material';
@@ -64,7 +66,7 @@ interface SearchResultItem {
   checkIn?: string;
   device: Device;
   label: string;
-  metadata: string;
+  metadata: string[];
   value: string;
 }
 
@@ -76,7 +78,7 @@ const toResult = (device: Device, idAttribute, { attribute, scope }): SearchResu
   checkIn: device.check_in_time_exact ?? device.check_in_time_rounded,
   device,
   label: getDeviceIdentityText({ device, idAttribute }),
-  metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean).join(' · '),
+  metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean),
   value: String(defaultTextRender({ column: { attribute: { name: attribute, scope } }, device }))
 });
 
@@ -88,8 +90,12 @@ const useStyles = makeStyles()(theme => ({
   inputPlaceholder: { '&::placeholder': { color: theme.palette.text.secondary, opacity: 1 } },
   subheader: { backgroundColor: 'transparent' },
   viewAll: { background: theme.palette.action.hover },
+  metadata: {
+    [`&.${breadcrumbsClasses.root}`]: { color: 'inherit', font: 'inherit', letterSpacing: 'inherit' },
+    [`& .${breadcrumbsClasses.separator}`]: { marginInline: theme.spacing(0.5) }
+  },
   listItemIcon: {
-    [`&.${listItemIconClasses.root}`]: { minWidth: 'auto' }
+    [`&.${listItemIconClasses.root}`]: { alignSelf: 'flex-start', marginTop: theme.spacing(1), minWidth: 'auto' }
   },
   chipSelect: {
     borderRadius: 16,
@@ -374,7 +380,9 @@ const SearchDialog = ({ onClose, open }) => {
               <ListItemText
                 primary={
                   isIdAttributeSelected ? (
-                    <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} />
+                    <Typography variant="subtitle2" component="span">
+                      <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} />
+                    </Typography>
                   ) : (
                     <>
                       <Typography variant="subtitle2" component="span" className="margin-right-x-small">
@@ -387,12 +395,16 @@ const SearchDialog = ({ onClose, open }) => {
                   )
                 }
                 secondary={
-                  <>
-                    {metadata && `${metadata} · `}
-                    Latest activity: <ApproximateRelativeDate className={classes.inlineTime} updateTime={checkIn} />
-                  </>
+                  <Breadcrumbs className={classes.metadata} component="div" separator="●">
+                    {metadata.map(item => (
+                      <span key={item}>{item}</span>
+                    ))}
+                    <span>
+                      Latest activity: <ApproximateRelativeDate className={classes.inlineTime} updateTime={checkIn} />
+                    </span>
+                  </Breadcrumbs>
                 }
-                slotProps={{ primary: { className: 'text-overflow', variant: 'body2' }, secondary: { className: 'text-overflow', variant: 'caption' } }}
+                slotProps={{ primary: { className: 'text-overflow', variant: 'body2' }, secondary: { component: 'div', variant: 'caption' } }}
               />
               <DeviceStatus device={{ ...device, isOffline: device.status !== DEVICE_STATES.pending && device.isOffline }} />
             </ListItemButton>
