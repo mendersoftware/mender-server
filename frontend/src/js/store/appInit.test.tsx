@@ -21,9 +21,8 @@ import { EXTERNAL_PROVIDER, timeUnits } from '@northern.tech/store/commonConstan
 import { DEVICE_STATES, locations } from '@northern.tech/store/constants';
 import { actions as onboardingActions } from '@northern.tech/store/onboardingSlice';
 import { actions as organizationActions } from '@northern.tech/store/organizationSlice';
-import { getOnboardingState, getUserOrganization, getUserSettings, saveUserSettings } from '@northern.tech/store/thunks';
+import { getOnboardingState, getUserOrganization, getUserSettings, initializeSelf, saveUserSettings } from '@northern.tech/store/thunks';
 import { actions as userActions } from '@northern.tech/store/usersSlice';
-import { userId } from '@northern.tech/testing/mockData';
 import { inventoryDevice } from '@northern.tech/testing/requestHandlers/deviceHandlers';
 import { tenantadmApiUrlv2 } from '@northern.tech/utils/constants';
 import { deepCompare } from '@northern.tech/utils/helpers';
@@ -155,7 +154,7 @@ it('should try to get all required app information', async () => {
     releases: { ...defaultState.releases, releasesList: { ...defaultState.releases.releasesList, page: 42 } }
   });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  const { result } = renderHook(() => useAppInit(), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
@@ -163,6 +162,20 @@ it('should try to get all required app information', async () => {
     const handledAction = storeActions.some(storeAction => Object.keys(initAction).every(key => deepCompare(storeAction[key], initAction[key])));
     expect(handledAction).toBeTruthy();
   });
+});
+it('should retrieve the current user and organization if only a session is available', async () => {
+  const store = mockStore({
+    ...defaultState,
+    users: { ...defaultState.users, currentSession: getSessionInfo(), currentUser: null, userSettingsInitialized: false }
+  });
+  const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
+  const { result } = renderHook(() => useAppInit(), { wrapper });
+  await vi.runAllTimersAsync();
+  const storeActions = store.getActions();
+  expect(storeActions.filter(action => action.type === initializeSelf.pending.type)).toHaveLength(1);
+  expect(storeActions.some(action => action.type === getUserOrganization.pending.type)).toBeTruthy();
+  // without a user the core initialization has to wait for the user information to be stored
+  expect(result.current.coreInitDone).toBeFalsy();
 });
 it('should execute the offline threshold migration for multi day thresholds', async () => {
   const store = mockStore({
@@ -180,7 +193,7 @@ it('should execute the offline threshold migration for multi day thresholds', as
     releases: { ...defaultState.releases, releasesList: { ...defaultState.releases.releasesList, page: 42 } }
   });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  const { result } = renderHook(() => useAppInit(), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
 
@@ -206,7 +219,7 @@ it('should trigger the offline threshold migration dialog', async () => {
   });
 
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  const { result } = renderHook(() => useAppInit(), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
@@ -256,7 +269,7 @@ const setFeaturesActionsFor = (storeActions, payload) =>
 it('should mark a non-hosted deployment with a reachable organization endpoint as multitenant enterprise', async () => {
   const store = makeCoreInitStore({ app: { features: { isHosted: false } } });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  const { result } = renderHook(() => useAppInit(), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
@@ -268,7 +281,7 @@ it('should mark a non-hosted deployment as OS when the organization endpoint is 
   server.use(http.get(`${tenantadmApiUrlv2}/tenants/me`, () => new HttpResponse(null, { status: 500 })));
   const store = makeCoreInitStore({ app: { features: { isHosted: false } } });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  const { result } = renderHook(() => useAppInit(), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
@@ -281,7 +294,7 @@ it('should keep hosted deployments enterprise/multitenant without overriding the
   window.location.hostname = locations.us.location;
   const store = makeCoreInitStore({ app: { features: { isHosted: true } } });
   const wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
-  const { result } = renderHook(() => useAppInit(userId), { wrapper });
+  const { result } = renderHook(() => useAppInit(), { wrapper });
   await waitFor(() => expect(result.current.coreInitDone).toBeTruthy());
   await vi.runAllTimersAsync();
   const storeActions = store.getActions();
