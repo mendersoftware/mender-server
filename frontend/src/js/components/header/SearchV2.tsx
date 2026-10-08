@@ -276,6 +276,12 @@ const SearchDialog = ({ onClose, open }) => {
     setTimeout(() => navigate(to, options), TIMEOUTS.debounceShort);
   };
 
+  const onClear = () => {
+    setTerm('');
+    setSearch({ results: [], term: '', total: 0 });
+    inputRef.current?.focus();
+  };
+
   const onChangeAttribute = ({ target: { value } }) => {
     const option = attributeOptions.find(({ key }) => key === value);
     if (!option) {
@@ -331,11 +337,13 @@ const SearchDialog = ({ onClose, open }) => {
       <InputBase
         className="padding-x-small padding-left-small"
         endAdornment={
-          <InputAdornment position="end">
-            <IconButton aria-label="close search" onClick={onClose} size="small">
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </InputAdornment>
+          !!term && (
+            <InputAdornment position="end">
+              <IconButton aria-label="clear search" onClick={onClear} size="small">
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </InputAdornment>
+          )
         }
         fullWidth
         inputRef={inputRef}
