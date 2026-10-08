@@ -16,7 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'react-router';
 
-import { Button, Tab, Tabs, Typography } from '@mui/material';
+import { Button, Tab, Tabs, Typography, tabClasses } from '@mui/material';
 
 import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
@@ -208,12 +208,12 @@ export const Deployments = () => {
   let onboardingComponent = null;
   // the pastCount prop is needed to trigger the rerender as the change in past deployments would otherwise not be noticed on this view
   if (pastCount && tabsRef.current && !reportDialog) {
-    const tabs = tabsRef.current.getElementsByClassName('MuiTab-root');
+    const tabs = tabsRef.current.getElementsByClassName(tabClasses.root);
     const finishedTab = tabs[tabs.length - 1];
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST, onboardingState, {
       anchor: {
-        left: tabsRef.current.offsetLeft + tabsRef.current.offsetWidth - finishedTab.offsetWidth / 2,
-        top: tabsRef.current.parentElement.offsetTop + finishedTab.offsetHeight
+        left: tabsRef.current.offsetLeft + finishedTab.offsetLeft + finishedTab.offsetWidth / 2,
+        top: tabsRef.current.offsetTop + finishedTab.offsetHeight
       }
     });
   }

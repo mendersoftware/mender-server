@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { TextField, Typography } from '@mui/material';
+import { TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
@@ -79,6 +79,8 @@ export const Past = props => {
   const [loading, setLoading] = useState(false);
   const deploymentsRef = useRef<HTMLElement>();
   const timer = useRef();
+  const theme = useTheme();
+  const isCompact = useMediaQuery(theme.breakpoints.down(1600));
 
   const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
@@ -177,21 +179,16 @@ export const Past = props => {
 
   let onboardingComponent = null;
   if (deploymentsRef.current) {
-    const detailsButtons = deploymentsRef.current.getElementsByClassName(`${DEPLOYMENT_STATES.finished}-item`);
-    const left = detailsButtons.length
-      ? deploymentsRef.current.offsetLeft + detailsButtons[0].offsetLeft + detailsButtons[0].offsetWidth / 2 + 15
-      : deploymentsRef.current.offsetWidth;
-    const anchor = { left: deploymentsRef.current.offsetWidth / 2, top: deploymentsRef.current.offsetTop };
+    const deploymentsList = deploymentsRef.current.getElementsByClassName('deployment-list-item');
+    const anchor = {
+      left: deploymentsRef.current.offsetWidth / 2,
+      top: deploymentsRef.current.offsetTop + deploymentsList[0]?.scrollHeight * (isCompact ? 1 : 2)
+    };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED, onboardingState, {
       anchor,
       setSnackbar: dispatchedSetSnackbar
     });
-    onboardingComponent = getOnboardingComponentFor(
-      onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE,
-      onboardingState,
-      { anchor: { left, top: detailsButtons[0].parentElement.offsetTop + detailsButtons[0].parentElement.offsetHeight } },
-      onboardingComponent
-    );
+    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE, onboardingState, { anchor }, onboardingComponent);
   }
 
   const onFiltersChange = useCallback(
