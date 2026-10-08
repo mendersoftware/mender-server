@@ -63,8 +63,6 @@ import {
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
   getAllDeviceCounts,
-  getUserOrganization,
-  initializeSelf,
   logoutUser,
   setAllTooltipsReadState,
   setFirstLoginAfterSignup,
@@ -72,7 +70,6 @@ import {
   setSearchState,
   switchUserOrganization
 } from '@northern.tech/store/thunks';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration.js';
@@ -291,7 +288,6 @@ const pickAUser = ({ jti, probability }) => {
 };
 export const Header = ({ isDarkMode }) => {
   const { classes } = useStyles();
-  const [gettingUser, setGettingUser] = useState(false);
   const [hasOfferCookie, setHasOfferCookie] = useState(false);
 
   const organization = useSelector(getOrganization);
@@ -309,21 +305,14 @@ export const Header = ({ isDarkMode }) => {
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
   const user = useSelector(getCurrentUser);
   const { token } = useSelector(getCurrentSession);
-  const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
   const isSp = useSelector(getIsServiceProvider);
   const dispatch = useAppDispatch();
   const deviceTimer = useRef();
   const feedbackTimer = useRef();
 
-  useAppInit(userId);
+  useAppInit();
 
   useEffect(() => {
-    if ((!userId || !user.email?.length || !userSettingInitialized) && !gettingUser && token) {
-      setGettingUser(true);
-      dispatch(getUserOrganization());
-      dispatch(initializeSelf());
-      return;
-    }
     Tracking.setTrackingEnabled(hasTrackingEnabled);
     if (hasTrackingEnabled && user.id && organization.id) {
       Tracking.setOrganizationUser(organization, user);
@@ -332,7 +321,7 @@ export const Header = ({ isDarkMode }) => {
         dispatch(setFirstLoginAfterSignup(false));
       }
     }
-  }, [dispatch, firstLoginAfterSignup, gettingUser, hasTrackingEnabled, organization, token, user, user.email, userId, userSettingInitialized]);
+  }, [dispatch, firstLoginAfterSignup, hasTrackingEnabled, organization, user]);
 
   useEffect(() => {
     const showOfferCookie = cookies.get('offer') === currentOffer.name;

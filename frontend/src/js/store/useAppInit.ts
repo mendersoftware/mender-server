@@ -19,6 +19,8 @@ import { getSessionInfo } from '@northern.tech/store/auth';
 import { DEPLOYMENT_STATES, DEVICE_STATES, locations, timeUnits } from '@northern.tech/store/constants';
 import type { DeviceSliceType } from '@northern.tech/store/devicesSlice';
 import {
+  getCurrentSession,
+  getCurrentUser,
   getDevicesByStatus as getDevicesByStatusSelector,
   getFeatures,
   getGlobalSettings as getGlobalSettingsSelector,
@@ -27,6 +29,7 @@ import {
   getOnboardingState as getOnboardingStateSelector,
   getSortedFilteringAttributes,
   getUserCapabilities,
+  getUserSettingsInitialized,
   getUserSettings as getUserSettingsSelector
 } from '@northern.tech/store/selectors';
 import { createAppAsyncThunk, useAppDispatch, useAppSelector } from '@northern.tech/store/store';
@@ -47,12 +50,14 @@ import {
   getRoles,
   getUserOrganization,
   getUserSettings,
+  initializeSelf,
   saveGlobalSettings,
   saveUserSettings
 } from '@northern.tech/store/thunks';
 import type { UserSettings, UserSliceType } from '@northern.tech/store/usersSlice';
 import { stringToBoolean } from '@northern.tech/store/utils';
 import { TIMEOUTS } from '@northern.tech/utils/constants';
+import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { extractErrorMessage } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration.js';
@@ -181,9 +186,13 @@ const maybeAddOnboardingTasks = ({ devicesByStatus, dispatch, onboardingState, t
   }, tasks);
 };
 
-export const useAppInit = (userId: string | undefined): { coreInitDone: boolean } => {
+export const useAppInit = (): { coreInitDone: boolean } => {
   const dispatch = useAppDispatch();
   const [coreInitDone, setCoreInitDone] = useState(false);
+  const user = useAppSelector(getCurrentUser);
+  const { token } = useAppSelector(getCurrentSession);
+  const userSettingInitialized = useAppSelector(getUserSettingsInitialized);
+  const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
   const { hasMultitenancy } = useAppSelector(getFeatures);
   const devicesByStatus = useAppSelector(getDevicesByStatusSelector);
   const onboardingState = useAppSelector(getOnboardingStateSelector);
@@ -193,6 +202,7 @@ export const useAppInit = (userId: string | undefined): { coreInitDone: boolean 
   const { id_attribute } = useAppSelector(getGlobalSettingsSelector);
   const { identityAttributes } = useAppSelector(getSortedFilteringAttributes);
   const isServiceProvider = useAppSelector(getIsServiceProvider);
+  const selfInitRunning = useRef(false);
   const coreInitRunning = useRef(false);
   const fullInitRunning = useRef(false);
 
@@ -301,6 +311,15 @@ export const useAppInit = (userId: string | undefined): { coreInitDone: boolean 
         .then(() => dispatch(getOnboardingState())),
     [dispatch, retrieveAppData, interpretAppData]
   );
+
+  useEffect(() => {
+    if (selfInitRunning.current || !token || (userId && user.email?.length && userSettingInitialized)) {
+      return;
+    }
+    selfInitRunning.current = true;
+    dispatch(getUserOrganization());
+    dispatch(initializeSelf());
+  }, [dispatch, token, user.email, userId, userSettingInitialized]);
 
   useEffect(() => {
     if (!userId || coreInitRunning.current) {
