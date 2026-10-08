@@ -2160,7 +2160,7 @@ func TestGetDeploymentsStats(t *testing.T) {
 				mock.MatchedBy(func(ctx context.Context) bool {
 					return true
 				}),
-				tc.deploymentIDs.IDs[0],
+				tc.deploymentIDs.IDs,
 			).Return(tc.mockedDeploymentStats, tc.mockedError)
 
 			restView := new(view.RESTView)
