@@ -149,6 +149,10 @@ type SearchIdentityParams struct {
 	Attributes  []SelectAttribute        `json:"attributes"`
 	Page        int                      `json:"page"`
 	PerPage     int                      `json:"per_page"`
+
+	// Temporary backwards compatibility with UI. Remove after MEN-10180 is merged.
+	Scope string `json:"scope"`
+	Name  string `json:"name"`
 }
 
 func (s SearchIdentityParams) Validate() error {
@@ -160,6 +164,15 @@ func (s SearchIdentityParams) Validate() error {
 
 	if err != nil {
 		return err
+	}
+
+	// Temporary backwards compatibility with UI. Remove after MEN-10180 is merged.
+	if s.Attribute == nil && (s.Scope != "" || s.Name != "") {
+		s.Attribute = &SearchIdentityAttribute{Scope: s.Scope, Name: s.Name}
+		err := s.Attribute.Validate()
+		if err != nil {
+			return err
+		}
 	}
 
 	for _, s := range s.Attributes {
