@@ -23,7 +23,8 @@ import (
 )
 
 const (
-	StatusClientClosedConnection = 499
+	StatusClientClosedConnection  = 499
+	StatusServerAbortedConnection = 599
 
 	envProxyDepth = "ACCESSLOG_PROXY_DEPTH"
 )
