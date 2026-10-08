@@ -780,6 +780,7 @@ func uploadFileV2HandleInboundError(
 	ctx context.Context,
 	conn stream.Conn,
 	cancel context.CancelCauseFunc,
+	done chan<- struct{},
 ) {
 	data, err := conn.Recv(ctx)
 	if err != nil {
@@ -807,6 +808,10 @@ func uploadFileV2HandleInboundError(
 			}
 			cancel(NewError(fmt.Errorf("error from device: %s", err.Error), errCode))
 		}
+	} else if msg.Header.Proto == ws.ProtoTypeFileTransferV2 &&
+		msg.Header.MsgType == wsft.MessageTypeACK {
+		close(done)
+		cancel(nil)
 	} else {
 		cancel(fmt.Errorf("unexpected message type: %s", msg.Header.MsgType))
 	}
@@ -850,8 +855,9 @@ func (h ManagementController) uploadFileV2(
 			cancel(context.DeadlineExceeded)
 		}
 	}()
+	done := make(chan struct{})
 	// Handle any inbound error message that may be returned by the other peer.
-	go uploadFileV2HandleInboundError(ctx, conn, cancel)
+	go uploadFileV2HandleInboundError(ctx, conn, cancel, done)
 
 	var (
 		buf    [4096]byte
@@ -913,7 +919,12 @@ func (h ManagementController) uploadFileV2(
 		if err != nil {
 			return fmt.Errorf("error sending data chunk to device: %w", err)
 		}
-		return nil
+		select {
+		case <-ctx.Done():
+			return context.Cause(ctx)
+		case <-done:
+			return nil
+		}
 	} else if errors.Is(err, context.Canceled) {
 		return context.Cause(ctx)
 	}
