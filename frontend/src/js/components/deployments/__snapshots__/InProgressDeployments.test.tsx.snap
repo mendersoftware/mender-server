@@ -272,7 +272,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
         </p>
       </div>
       <div
-        class="padding-small relative clickable emotion-1 emotion-2 inprogress-item"
+        class="padding-small relative clickable emotion-1 emotion-2 inprogress-item deployment-list-item"
         role="listitem"
         tabindex="0"
       >
@@ -420,7 +420,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
         </p>
       </div>
       <div
-        class="padding-small relative clickable emotion-1 emotion-2 pending-item"
+        class="padding-small relative clickable emotion-1 emotion-2 pending-item deployment-list-item"
         role="listitem"
         tabindex="0"
       >

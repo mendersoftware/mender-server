@@ -233,7 +233,7 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
     </p>
   </div>
   <div
-    class="padding-small relative clickable emotion-0 emotion-1 pending-item"
+    class="padding-small relative clickable emotion-0 emotion-1 pending-item deployment-list-item"
     role="listitem"
     tabindex="0"
   >
@@ -310,7 +310,7 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="padding-small relative clickable emotion-0 emotion-1 pending-item"
+    class="padding-small relative clickable emotion-0 emotion-1 pending-item deployment-list-item"
     role="listitem"
     tabindex="0"
   >
@@ -383,7 +383,7 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
     </p>
   </div>
   <div
-    class="padding-small relative clickable emotion-0 emotion-1 pending-item"
+    class="padding-small relative clickable emotion-0 emotion-1 pending-item deployment-list-item"
     role="listitem"
     tabindex="0"
   >

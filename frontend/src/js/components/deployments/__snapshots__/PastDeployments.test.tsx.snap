@@ -2248,7 +2248,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-102:focus::-ms-input
         </p>
       </div>
       <div
-        class="padding-small relative clickable emotion-67 emotion-68 finished-item"
+        class="padding-small relative clickable emotion-67 emotion-68 finished-item deployment-list-item"
         role="listitem"
         tabindex="0"
       >
