@@ -360,8 +360,13 @@ func TestSetDeviceStatusIoTHub(t *testing.T) {
 				hub.On("GetDevice", contextMatcher, connString, self.DeviceID).
 					Return(dev, nil).
 					On("UpsertDevice", contextMatcher, connString, self.DeviceID,
-						mock.MatchedBy(func(dev *iothub.Device) bool {
-							return dev.Status == iothub.StatusEnabled
+						mock.MatchedBy(func(devs []*iothub.Device) bool {
+							for _, dev := range devs {
+								if dev.Status != iothub.StatusEnabled {
+									return false
+								}
+							}
+							return true
 						})).
 					Return(dev, nil)
 				return hub
@@ -412,8 +417,13 @@ func TestSetDeviceStatusIoTHub(t *testing.T) {
 				hub.On("GetDevice", contextMatcher, connString, self.DeviceID).
 					Return(dev, nil).
 					On("UpsertDevice", contextMatcher, connString, self.DeviceID,
-						mock.MatchedBy(func(dev *iothub.Device) bool {
-							return dev.Status == iothub.StatusEnabled
+						mock.MatchedBy(func(devs []*iothub.Device) bool {
+							for _, dev := range devs {
+								if dev.Status != iothub.StatusEnabled {
+									return false
+								}
+							}
+							return true
 						})).
 					Return(nil, errors.New("failed to update IoT Hub device: hub: unexpected error"))
 				return hub
@@ -1034,7 +1044,7 @@ func TestSyncIoTHubDevices(t *testing.T) {
 						contextMatcher,
 						self.Integration.Credentials.ConnectionString,
 						id,
-						&devUpdate).
+						[]*iothub.Device{&devUpdate}).
 						Return(&devUpdate, nil).
 						Once()
 				}
@@ -1060,7 +1070,7 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				contextMatcher,
 				self.Integration.Credentials.ConnectionString,
 				self.DeviceIDs[0],
-				mock.AnythingOfType("*iothub.Device")).
+				mock.AnythingOfType("[]*iothub.Device")).
 				Return(devUpdate, nil).
 				Once()
 			hub.On("UpdateDeviceTwin",
@@ -1210,17 +1220,17 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				contextMatcher,
 				self.Integration.Credentials.ConnectionString,
 				"e4297565-ea38-4031-8287-664d52878890",
-				&devUpdated).
+				[]*iothub.Device{&devUpdated}).
 				Return(nil, errors.New("internal error")).
 				Once().
 				On("UpsertDevice",
 					contextMatcher,
 					self.Integration.Credentials.ConnectionString,
 					"8de57bea-be8a-45d5-9147-a148cddf4f09",
-					&iothub.Device{
+					[]*iothub.Device{{
 						DeviceID: "8de57bea-be8a-45d5-9147-a148cddf4f09",
 						Status:   iothub.StatusEnabled,
-					},
+					}},
 				).
 				Return(nil, errors.New("internal error"))
 
