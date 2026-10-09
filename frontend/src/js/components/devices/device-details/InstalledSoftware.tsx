@@ -16,11 +16,13 @@ import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
+import { Link } from '@northern.tech/common-ui/Link';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import { extractSoftware, isEmpty } from '@northern.tech/utils/helpers';
 
 import DeviceInventoryLoader from './DeviceInventoryLoader';
+import { SystemComponentNote, getSystemComponentId } from './DeviceSystem';
 
 const borderStyle = theme => ({ borderLeft: 'solid 1px', borderLeftColor: theme.palette.grey[500] });
 
@@ -127,10 +129,10 @@ const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) 
   </div>
 );
 
-export const InstalledSoftware = ({ device, setSnackbar }) => {
+export const InstalledSoftware = ({ device, setDetailsTab, setSnackbar }) => {
   const { classes } = useStyles();
-
-  const { attributes = {} } = device;
+  const { attributes = {}, components } = device;
+  const systemComponentId = getSystemComponentId(components);
 
   let softwareInformation = extractSoftwareInformation(attributes);
 
@@ -146,8 +148,9 @@ export const InstalledSoftware = ({ device, setSnackbar }) => {
 
   const waiting = !Object.values(attributes).some(i => i);
   return (
-    <ContentSection title="Installed software">
+    <ContentSection title="Installed software" titleEnd={systemComponentId && <Link onClick={() => setDetailsTab('system')}>View all components</Link>}>
       {waiting && <DeviceInventoryLoader />}
+      {systemComponentId && <SystemComponentNote componentId={systemComponentId} variant="software" />}
       <div className={classes.nestingBorders}>
         {Object.entries(softwareInformation).map(([key, layer]) => (
           <SoftwareLayer classes={classes} key={key} layer={layer} setSnackbar={setSnackbar} />
