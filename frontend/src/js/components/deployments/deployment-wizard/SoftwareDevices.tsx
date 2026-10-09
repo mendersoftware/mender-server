@@ -220,7 +220,7 @@ export const Devices = ({
 
 const MCU_ARTIFACT_SIZE_LIMIT = 5 * 1024 ** 2;
 
-export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, releases, releasesById }) => {
+export const Software = ({ commonClasses, releaseRef, releases, releasesById }) => {
   const [releaseFilterOpened, setReleaseFilterOpened] = useState(false);
   const [showSizeWarning, setShowSizeWarning] = useState(false);
   const deviceLimits = useSelector(getDeviceLimits);
@@ -273,29 +273,23 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
         <MenderHelpTooltip className="margin-left-small" small id={HELPTOOLTIPS.groupDeployment.id} />
       </div>
       <div ref={releaseRef} className={`margin-bottom ${classes.selection}`}>
-        {releaseSelectionLocked ? (
-          <TextField value={deploymentRelease?.name} label="Software" disabled className={classes.infoStyle} />
-        ) : (
-          <>
-            <SoftwareArtifactFilter
-              onSelect={onReleaseSelectionChange}
-              selectedSoftware={deploymentRelease?.name}
-              open={releaseFilterOpened}
-              onClose={() => setReleaseFilterOpened(false)}
-            />
-            <Button
-              size="large"
-              color={errors.release ? 'error' : 'neutral'}
-              variant="outlined"
-              className={classes.releaseSelect}
-              endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              onClick={() => setReleaseFilterOpened(!releaseFilterOpened)}
-            >
-              <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select software'}</span>
-            </Button>
-            {!!errors.release && <FormHelperText error>{errors.release.message}</FormHelperText>}
-          </>
-        )}
+        <SoftwareArtifactFilter
+          onSelect={onReleaseSelectionChange}
+          selectedSoftware={deploymentRelease ?? undefined}
+          open={releaseFilterOpened}
+          onClose={() => setReleaseFilterOpened(false)}
+        />
+        <Button
+          size="large"
+          color={errors.release ? 'error' : 'neutral'}
+          variant="outlined"
+          className={classes.releaseSelect}
+          endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          onClick={() => setReleaseFilterOpened(!releaseFilterOpened)}
+        >
+          <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select software'}</span>
+        </Button>
+        {!!errors.release && <FormHelperText error>{errors.release.message}</FormHelperText>}
         {!releaseItems.length ? (
           <ReleasesWarning lacksReleases />
         ) : (

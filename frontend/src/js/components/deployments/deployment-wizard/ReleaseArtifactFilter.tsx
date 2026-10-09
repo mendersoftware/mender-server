@@ -60,7 +60,7 @@ interface SoftwareArtifactFilterProps {
   onClose: () => void;
   onSelect: (item: Software) => void;
   open: boolean;
-  selectedSoftware?: string;
+  selectedSoftware?: Software;
 }
 
 type SoftwareKindOption = { disabled?: boolean; key: SoftwareKind; title: string };
@@ -134,6 +134,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
     disabled: option.key === softwareKindOptions.manifest.key && !isEnterprise
   }));
   const [tags, type, _, debouncedKind] = debouncedFilters;
+  const otherSoftwareItems = softwareItems.filter(({ name }) => name !== selectedSoftware?.name);
   const filterCount = tags.length + Number(debouncedKind !== softwareKindOptions.manifest.key && !!type) + Number(!!debouncedKind);
 
   return (
@@ -226,11 +227,20 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
           Results ({softwareItems.length})
         </Typography>
         <div className={classes.resultsContainer} id="deployment-release-container">
-          {softwareItems.length > 0 ? (
-            softwareItems.map(item => (
-              <SoftwareItem key={item.name + item.modified} selected={selectedSoftware === item.name} software={item} onClick={onSelectSoftware} />
-            ))
-          ) : (
+          {!!selectedSoftware && (
+            <>
+              <SoftwareItem
+                selected
+                software={softwareItems.find(({ name }) => name === selectedSoftware.name) ?? selectedSoftware}
+                onClick={onSelectSoftware}
+              />
+              <Divider className="margin-top-small" />
+            </>
+          )}
+          {otherSoftwareItems.map(item => (
+            <SoftwareItem key={item.name + item.modified} selected={false} software={item} onClick={onSelectSoftware} />
+          ))}
+          {!softwareItems.length && (
             <div className="flexbox column align-items-center margin-top-small">
               <Typography>No results to display.</Typography>
               <Typography className="margin-top-small">
