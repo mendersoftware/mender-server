@@ -209,17 +209,17 @@ export const Past = props => {
         filters={[
           {
             key: 'group',
-            title: 'Device group',
+            title: 'Target devices',
             Component: ControlledAutoComplete,
             componentProps: {
               ...autoCompleteProps,
               options: groupNames,
-              renderInput: params => <TextField {...params} label="Target devices" placeholder="Select a group" />
+              renderInput: params => <TextField {...params} placeholder="Group or device" />
             }
           },
           {
             key: 'type',
-            title: 'Contains Artifact type',
+            title: 'Deployment type',
             Component: ControlledSelect,
             componentProps: {
               options: deploymentTypeOptions,
