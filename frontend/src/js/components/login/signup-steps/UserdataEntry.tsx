@@ -32,9 +32,6 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
   const methods = useForm({ mode: 'onSubmit', defaultValues });
   const { handleSubmit, trigger, watch } = methods;
   const email = watch('email');
-  const password = watch('password');
-  const passwordConfirmation = watch('password_confirmation');
-  const isNotDefined = !(email && password && passwordConfirmation);
 
   const onFormBlur = ({ target: { id } }) => {
     if (id !== 'password_confirmation') {
@@ -66,7 +63,7 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
           className="margin-bottom-small margin-top-small"
         />
         <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8:256,isNot:${email}`} />
-        <Button className="full-width margin-top-medium" variant="contained" type="submit" disabled={isNotDefined}>
+        <Button className="full-width margin-top-medium" variant="contained" type="submit">
           Sign up
         </Button>
       </form>

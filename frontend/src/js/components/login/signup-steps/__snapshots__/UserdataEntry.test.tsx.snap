@@ -1089,9 +1089,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
       </div>
     </div>
     <button
-      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width margin-top-medium emotion-42"
-      disabled=""
-      tabindex="-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width margin-top-medium emotion-42"
+      tabindex="0"
       type="submit"
     >
       Sign up
