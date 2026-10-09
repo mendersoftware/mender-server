@@ -132,9 +132,6 @@ export const DeviceSystem = ({ device }) => {
   ) : (
     '-'
   );
-  useEffect(() => {
-    dispatch(getDeviceComponents(device.id));
-  }, [dispatch, device.id]);
 
   useEffect(() => {
     setPage(defaultPage);
