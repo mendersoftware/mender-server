@@ -158,8 +158,8 @@ test.describe('Deployments', () => {
   test('allows deployment filtering by name', async ({ demoDeviceName, page }) => {
     await navigateTo(page, 'deployments');
     await page.getByRole('tab', { name: /Finished/i }).click();
-    await page.getByRole('combobox', { name: /Target devices/i }).click();
-    await page.getByRole('combobox', { name: /Target devices/i }).fill(demoDeviceName);
+    await page.getByPlaceholder(/group or device/i).click();
+    await page.getByPlaceholder(/group or device/i).fill(demoDeviceName);
     await page.getByRole('listitem').first().waitFor({ timeout: timeouts.fiveSeconds });
     const deployments = await page.getByRole('listitem').all();
     expect(deployments.length).toBeTruthy();
