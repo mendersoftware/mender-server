@@ -29,15 +29,17 @@ export const DeviceInventory = ({ device, setDetailsTab, setSnackbar }) => {
     return accu;
   }, {});
 
+  const onShowSystemTab = () => setDetailsTab('system');
+
   const systemComponentId = getSystemComponentId(components);
   const waiting = !Object.values(attributes).some(i => i);
   return (
     <ContentSection
       postTitle={<LastChangedNote updateTime={updateTime} />}
       title="Device inventory"
-      titleEnd={systemComponentId && <Link onClick={() => setDetailsTab('system')}>View all components</Link>}
+      titleEnd={systemComponentId && <Link onClick={onShowSystemTab}>View all components</Link>}
     >
-      {systemComponentId && <SystemComponentNote componentId={systemComponentId} variant="inventory" />}
+      {systemComponentId && <SystemComponentNote componentId={systemComponentId} onShowSystemTab={onShowSystemTab} variant="inventory" />}
       {waiting ? <DeviceInventoryLoader /> : <InventoryTable config={deviceInventory} setSnackbar={setSnackbar} />}
     </ContentSection>
   );

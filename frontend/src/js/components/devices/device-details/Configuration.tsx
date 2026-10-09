@@ -20,6 +20,7 @@ import { Button, Checkbox, FormControlLabel, FormHelperText, Typography } from '
 
 import Confirm, { EditButton } from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
@@ -407,4 +408,18 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   );
 };
 
-export default DeviceConfiguration;
+export const ConfigurationTab = props =>
+  props.device.tier === 'system' ? (
+    <ContentSection isAddOn title="Device configuration">
+      <div className="margin-top flexbox centered align-center">
+        <Typography style={{ maxWidth: 500 }}>
+          The Configuration Add-on cannot be used with System tier devices. Please <DocsLink path="overview/device-tiers" title="see the documentation" /> to
+          learn how to change a device to a different tier.
+        </Typography>
+      </div>
+    </ContentSection>
+  ) : (
+    <DeviceConfiguration {...props} />
+  );
+
+export default ConfigurationTab;

@@ -44,6 +44,7 @@ import { createDownload } from '@northern.tech/utils/helpers';
 
 import FileTransfer from '../troubleshoot/FileTransfer';
 import TroubleshootContent from '../troubleshoot/TerminalWrapper';
+import { SystemDeviceAddonNotice } from './DeviceSystem';
 
 const { setSnackbar } = storeActions;
 
@@ -173,69 +174,72 @@ export const DeviceConnection = ({ device }) => {
   );
 
   return (
-    <ContentSection
-      isAddOn
-      postTitle={
-        <>
-          {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && tierEligible && <PortForwardLink />}
-          {hasDeviceConnect && canAuditlog && hasAuditlogs && (
-            <Button
-              component={RouterLink}
-              variant="text"
-              to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: device.id, startDate: BEGINNING_OF_TIME } }, {})}`}
-            >
-              List all log entries for this device
-            </Button>
-          )}
-          <EnterpriseNotification id={BENEFITS.deviceTroubleshoot.id} />
-        </>
-      }
-      title="Troubleshooting"
-    >
-      {hasDeviceConnect &&
-        (tierEligible ? (
-          <div className={`flexbox column ${classes.content}`}>
-            {!connectionStatus && (
-              <div className="flexbox centered">
-                <Loader show />
-              </div>
+    <>
+      <SystemDeviceAddonNotice device={device} />
+      <ContentSection
+        isAddOn
+        postTitle={
+          <>
+            {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && tierEligible && <PortForwardLink />}
+            {hasDeviceConnect && canAuditlog && hasAuditlogs && (
+              <Button
+                component={RouterLink}
+                variant="text"
+                to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: device.id, startDate: BEGINNING_OF_TIME } }, {})}`}
+              >
+                List all log entries for this device
+              </Button>
             )}
-            {connectionStatus === DEVICE_CONNECT_STATES.unknown && <DeviceConnectionMissingNote />}
-            {connectionStatus === DEVICE_CONNECT_STATES.disconnected && <DeviceDisconnectedNote lastConnectionTs={connect_updated_ts} />}
-            {availableTabs.map(({ Component, title, value }) => (
-              <div key={value}>
-                {title && (
-                  <Typography variant="subtitle1" className="margin-top-large">
-                    {title}
-                  </Typography>
-                )}
-                <Component
-                  device={device}
-                  downloadPath={downloadPath}
-                  file={file}
-                  onDownload={onDownloadClick}
-                  setDownloadPath={setDownloadPath}
-                  setFile={setFile}
-                  setSnackbar={dispatchedSetSnackbar}
-                  setSocketClosed={setSocketClosed}
-                  setSocketInitialized={setSocketInitialized}
-                  setUploadPath={setUploadPath}
-                  socketInitialized={socketInitialized}
-                  uploadPath={uploadPath}
-                  userCapabilities={userCapabilities}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="margin-top flexbox centered align-center">
-            <Typography className={classes.tierNotice}>
-              The Troubleshoot Add-on cannot be used with a Micro tier device. Please <DocsLink path="overview/device-tiers" title="see the documentation" /> to
-              learn how to change a device to the Standard tier.
-            </Typography>
-          </div>
-        ))}
-    </ContentSection>
+            <EnterpriseNotification id={BENEFITS.deviceTroubleshoot.id} />
+          </>
+        }
+        title="Troubleshooting"
+      >
+        {hasDeviceConnect &&
+          (tierEligible ? (
+            <div className={`flexbox column ${classes.content}`}>
+              {!connectionStatus && (
+                <div className="flexbox centered">
+                  <Loader show />
+                </div>
+              )}
+              {connectionStatus === DEVICE_CONNECT_STATES.unknown && <DeviceConnectionMissingNote />}
+              {connectionStatus === DEVICE_CONNECT_STATES.disconnected && <DeviceDisconnectedNote lastConnectionTs={connect_updated_ts} />}
+              {availableTabs.map(({ Component, title, value }) => (
+                <div key={value}>
+                  {title && (
+                    <Typography variant="subtitle1" className="margin-top-large">
+                      {title}
+                    </Typography>
+                  )}
+                  <Component
+                    device={device}
+                    downloadPath={downloadPath}
+                    file={file}
+                    onDownload={onDownloadClick}
+                    setDownloadPath={setDownloadPath}
+                    setFile={setFile}
+                    setSnackbar={dispatchedSetSnackbar}
+                    setSocketClosed={setSocketClosed}
+                    setSocketInitialized={setSocketInitialized}
+                    setUploadPath={setUploadPath}
+                    socketInitialized={socketInitialized}
+                    uploadPath={uploadPath}
+                    userCapabilities={userCapabilities}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="margin-top flexbox centered align-center">
+              <Typography className={classes.tierNotice}>
+                The Troubleshoot Add-on cannot be used with a Micro tier device. Please <DocsLink path="overview/device-tiers" title="see the documentation" />{' '}
+                to learn how to change a device to the Standard tier.
+              </Typography>
+            </div>
+          ))}
+      </ContentSection>
+    </>
   );
 };
 

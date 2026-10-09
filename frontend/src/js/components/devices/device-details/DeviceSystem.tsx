@@ -16,7 +16,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { KeyboardArrowDown as KeyboardArrowDownIcon, KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material';
 import type { ChipProps } from '@mui/material';
-import { Chip, Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, tableCellClasses } from '@mui/material';
+import { Alert, Chip, Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Typography, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
@@ -74,10 +74,30 @@ export const SystemDeviceChip = ({
   </Tooltip>
 );
 
-export const SystemComponentNote = ({ componentId, variant }: { componentId: string; variant: TooltipVariant }) => (
+export const SystemDeviceAddonNotice = ({ device }) => {
+  const systemComponentId = getSystemComponentId(device.components);
+  if (device.tier !== 'system') {
+    return null;
+  }
+  return (
+    <Alert className="margin-bottom-small" severity="info">
+      This add-on works with the system device component{systemComponentId ? ` (${systemComponentId})` : ''}, not the other components in the system.
+    </Alert>
+  );
+};
+
+export const SystemComponentNote = ({
+  componentId,
+  onShowSystemTab,
+  variant
+}: {
+  componentId: string;
+  onShowSystemTab: () => any;
+  variant: TooltipVariant;
+}) => (
   <div className="flexbox align-items-center margin-bottom-small gap-small">
     <Typography variant="body2">Component: {componentId}</Typography>
-    <SystemDeviceChip tooltipVariant={variant} />
+    <SystemDeviceChip onClick={onShowSystemTab} tooltipVariant={variant} />
   </div>
 );
 

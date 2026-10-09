@@ -146,11 +146,13 @@ export const InstalledSoftware = ({ device, setDetailsTab, setSnackbar }) => {
     ];
   }
 
+  const onShowSystemTab = () => setDetailsTab('system');
+
   const waiting = !Object.values(attributes).some(i => i);
   return (
-    <ContentSection title="Installed software" titleEnd={systemComponentId && <Link onClick={() => setDetailsTab('system')}>View all components</Link>}>
+    <ContentSection title="Installed software" titleEnd={systemComponentId && <Link onClick={onShowSystemTab}>View all components</Link>}>
       {waiting && <DeviceInventoryLoader />}
-      {systemComponentId && <SystemComponentNote componentId={systemComponentId} variant="software" />}
+      {systemComponentId && <SystemComponentNote componentId={systemComponentId} onShowSystemTab={onShowSystemTab} variant="software" />}
       <div className={classes.nestingBorders}>
         {Object.entries(softwareInformation).map(([key, layer]) => (
           <SoftwareLayer classes={classes} key={key} layer={layer} setSnackbar={setSnackbar} />

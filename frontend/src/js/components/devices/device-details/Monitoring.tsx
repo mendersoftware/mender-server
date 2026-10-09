@@ -31,6 +31,7 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceAlerts } from '@northern.tech/store/thunks';
 
 import MonitorDetailsDialog from '../dialogs/MonitorDetailsDialog';
+import { SystemDeviceAddonNotice } from './DeviceSystem';
 import { DeviceOfflineHeaderNotification } from './Notifications';
 
 const errorIcon = <ErrorIcon className="red" />;
@@ -196,6 +197,7 @@ export const MonitoringTab = ({ device }) => {
 
   return (
     <>
+      <SystemDeviceAddonNotice device={device} />
       <DeviceMonitoring device={device} onDetailsClick={setMonitorDetails} />
       <MonitorDetailsDialog alert={monitorDetails} onClose={() => setMonitorDetails(null)} />
     </>
