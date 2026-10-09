@@ -136,7 +136,7 @@ export const DeploymentsList = ({
       )}
       {items.map(deployment => (
         <DeploymentItem
-          className={isCompact ? classes.row : `${classes.row} ${classes.rowState} ${type}-item`}
+          className={isCompact ? `${classes.row} deployment-list-item` : `${classes.row} ${classes.rowState} ${type}-item deployment-list-item`}
           columnHeaders={headers}
           deployment={deployment}
           devices={devices}

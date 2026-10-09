@@ -593,7 +593,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </p>
           </div>
           <div
-            class="padding-small relative clickable emotion-10 emotion-11 inprogress-item"
+            class="padding-small relative clickable emotion-10 emotion-11 inprogress-item deployment-list-item"
             role="listitem"
             tabindex="0"
           >
@@ -667,7 +667,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="padding-small relative clickable emotion-10 emotion-11 inprogress-item"
+            class="padding-small relative clickable emotion-10 emotion-11 inprogress-item deployment-list-item"
             role="listitem"
             tabindex="0"
           >
@@ -741,7 +741,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="padding-small relative clickable emotion-10 emotion-11 inprogress-item"
+            class="padding-small relative clickable emotion-10 emotion-11 inprogress-item deployment-list-item"
             role="listitem"
             tabindex="0"
           >
@@ -885,7 +885,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </p>
           </div>
           <div
-            class="padding-small relative clickable emotion-10 emotion-11 pending-item"
+            class="padding-small relative clickable emotion-10 emotion-11 pending-item deployment-list-item"
             role="listitem"
             tabindex="0"
           >
@@ -959,7 +959,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="padding-small relative clickable emotion-10 emotion-11 pending-item"
+            class="padding-small relative clickable emotion-10 emotion-11 pending-item deployment-list-item"
             role="listitem"
             tabindex="0"
           >
@@ -1033,7 +1033,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="padding-small relative clickable emotion-10 emotion-11 pending-item"
+            class="padding-small relative clickable emotion-10 emotion-11 pending-item deployment-list-item"
             role="listitem"
             tabindex="0"
           >
