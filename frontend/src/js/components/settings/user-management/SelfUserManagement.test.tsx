@@ -84,6 +84,14 @@ describe('SelfUserManagement Component', () => {
     await act(async () => vi.runAllTicks());
   });
 
+  it('warns about sharing the session token once it is revealed', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    render(<SelfUserManagement />, { preloadedState: { ...defaultState, users: { ...defaultState.users, currentSession: { token: 'session-token' } } } });
+    expect(screen.queryByText(/do not share your session token/i)).not.toBeInTheDocument();
+    await user.click(screen.getByText('session-token'));
+    expect(screen.getByText(/do not share your session token/i)).toBeInTheDocument();
+  });
+
   it('changes the email through editUser on OS installations', async () => {
     const { editUser: editUserSpy } = StoreThunks;
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });

@@ -100,6 +100,7 @@ export const SelfUserManagement = () => {
   const isDarkMode = useTheme().palette.mode === DARK_MODE;
   const { token } = useSelector(getCurrentSession);
   const [showNotice, setShowNotice] = useState<string>('');
+  const [showTokenWarning, setShowTokenWarning] = useState(false);
   const { hasMultitenancy } = useSelector(getFeatures);
   const isOsInstallation = !hasMultitenancy;
 
@@ -357,11 +358,17 @@ export const SelfUserManagement = () => {
             component="div"
             disableGutters
             dividerDisabled
+            onExpansion={() => setShowTokenWarning(true)}
             secondary={token}
             textClasses={{ secondary: 'inventory-text tenant-token-text' }}
           />
         }
-        sideBarContent={<CopyTextToClipboard token={token} />}
+        sideBarContent={<CopyTextToClipboard onCopy={() => setShowTokenWarning(true)} token={token} />}
+        notification={
+          showTokenWarning && (
+            <Alert severity="warning">Do not share your session token. Anyone with access to it can act on your behalf until it expires.</Alert>
+          )
+        }
       />
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
