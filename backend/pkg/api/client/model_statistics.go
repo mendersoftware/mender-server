@@ -39,6 +39,8 @@ type Statistics struct {
 	AlreadyInstalled int32 `json:"already-installed"`
 	// Number of deployments aborted by user.
 	Aborted int32 `json:"aborted"`
+	// Number of devices decommissioned during the deployment.
+	Decommissioned int32 `json:"decommissioned"`
 	// Number of deployments paused before install state.
 	PauseBeforeInstalling int32 `json:"pause_before_installing"`
 	// Number of deployments paused before reboot phase.
@@ -54,7 +56,7 @@ type _Statistics Statistics
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStatistics(success int32, pending int32, downloading int32, rebooting int32, installing int32, failure int32, noartifact int32, alreadyInstalled int32, aborted int32, pauseBeforeInstalling int32, pauseBeforeRebooting int32, pauseBeforeCommitting int32) *Statistics {
+func NewStatistics(success int32, pending int32, downloading int32, rebooting int32, installing int32, failure int32, noartifact int32, alreadyInstalled int32, aborted int32, decommissioned int32, pauseBeforeInstalling int32, pauseBeforeRebooting int32, pauseBeforeCommitting int32) *Statistics {
 	this := Statistics{}
 	this.Success = success
 	this.Pending = pending
@@ -65,6 +67,7 @@ func NewStatistics(success int32, pending int32, downloading int32, rebooting in
 	this.Noartifact = noartifact
 	this.AlreadyInstalled = alreadyInstalled
 	this.Aborted = aborted
+	this.Decommissioned = decommissioned
 	this.PauseBeforeInstalling = pauseBeforeInstalling
 	this.PauseBeforeRebooting = pauseBeforeRebooting
 	this.PauseBeforeCommitting = pauseBeforeCommitting
@@ -295,6 +298,30 @@ func (o *Statistics) SetAborted(v int32) {
 	o.Aborted = v
 }
 
+// GetDecommissioned returns the Decommissioned field value
+func (o *Statistics) GetDecommissioned() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.Decommissioned
+}
+
+// GetDecommissionedOk returns a tuple with the Decommissioned field value
+// and a boolean to check if the value has been set.
+func (o *Statistics) GetDecommissionedOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Decommissioned, true
+}
+
+// SetDecommissioned sets field value
+func (o *Statistics) SetDecommissioned(v int32) {
+	o.Decommissioned = v
+}
+
 // GetPauseBeforeInstalling returns the PauseBeforeInstalling field value
 func (o *Statistics) GetPauseBeforeInstalling() int32 {
 	if o == nil {
@@ -386,6 +413,7 @@ func (o Statistics) ToMap() (map[string]interface{}, error) {
 	toSerialize["noartifact"] = o.Noartifact
 	toSerialize["already-installed"] = o.AlreadyInstalled
 	toSerialize["aborted"] = o.Aborted
+	toSerialize["decommissioned"] = o.Decommissioned
 	toSerialize["pause_before_installing"] = o.PauseBeforeInstalling
 	toSerialize["pause_before_rebooting"] = o.PauseBeforeRebooting
 	toSerialize["pause_before_committing"] = o.PauseBeforeCommitting
@@ -411,6 +439,7 @@ func (o *Statistics) UnmarshalJSON(data []byte) (err error) {
 		"noartifact",
 		"already-installed",
 		"aborted",
+		"decommissioned",
 		"pause_before_installing",
 		"pause_before_rebooting",
 		"pause_before_committing",
@@ -452,6 +481,7 @@ func (o *Statistics) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "noartifact")
 		delete(additionalProperties, "already-installed")
 		delete(additionalProperties, "aborted")
+		delete(additionalProperties, "decommissioned")
 		delete(additionalProperties, "pause_before_installing")
 		delete(additionalProperties, "pause_before_rebooting")
 		delete(additionalProperties, "pause_before_committing")

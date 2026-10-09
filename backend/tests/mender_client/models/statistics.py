@@ -36,10 +36,11 @@ class Statistics(BaseModel):
     noartifact: StrictInt = Field(description="Do not have appropriate artifact for device type.")
     already_installed: StrictInt = Field(description="Number of devices unaffected by upgrade, since they are already running the specified software version.", alias="already-installed")
     aborted: StrictInt = Field(description="Number of deployments aborted by user.")
+    decommissioned: StrictInt = Field(description="Number of devices decommissioned during the deployment.")
     pause_before_installing: StrictInt = Field(description="Number of deployments paused before install state.")
     pause_before_rebooting: StrictInt = Field(description="Number of deployments paused before reboot phase.")
     pause_before_committing: StrictInt = Field(description="Number of deployments paused before commit phase.")
-    __properties: ClassVar[List[str]] = ["success", "pending", "downloading", "rebooting", "installing", "failure", "noartifact", "already-installed", "aborted", "pause_before_installing", "pause_before_rebooting", "pause_before_committing"]
+    __properties: ClassVar[List[str]] = ["success", "pending", "downloading", "rebooting", "installing", "failure", "noartifact", "already-installed", "aborted", "decommissioned", "pause_before_installing", "pause_before_rebooting", "pause_before_committing"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +102,7 @@ class Statistics(BaseModel):
             "noartifact": obj.get("noartifact"),
             "already-installed": obj.get("already-installed"),
             "aborted": obj.get("aborted"),
+            "decommissioned": obj.get("decommissioned"),
             "pause_before_installing": obj.get("pause_before_installing"),
             "pause_before_rebooting": obj.get("pause_before_rebooting"),
             "pause_before_committing": obj.get("pause_before_committing")

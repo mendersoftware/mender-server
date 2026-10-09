@@ -181,6 +181,7 @@ paths:
                   noartifact: 0
                   already-installed: 0
                   aborted: 0
+                  decommissioned: 0
                   pause_before_installing: 1
                   pause_before_rebooting: 1
                   pause_before_committing: 1
@@ -195,6 +196,7 @@ paths:
                   noartifact: 0
                   already-installed: 0
                   aborted: 0
+                  decommissioned: 0
                   pause_before_installing: 1
                   pause_before_rebooting: 1
                   pause_before_committing: 1
@@ -377,6 +379,7 @@ paths:
                 noartifact: 0
                 already-installed: 0
                 aborted: 0
+                decommissioned: 0
                 pause_before_installing: 1
                 pause_before_rebooting: 1
                 pause_before_committing: 1
@@ -2000,6 +2003,7 @@ components:
           noartifact: 0
           already-installed: 0
           aborted: 0
+          decommissioned: 0
           pause_before_installing: 0
           pause_before_rebooting: 0
           pause_before_committing: 0
