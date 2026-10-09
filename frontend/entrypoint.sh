@@ -41,7 +41,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
       hasManifestsEnabled: "$HAVE_MANIFESTS_ENABLED",
       hasMonitor: "$HAVE_MONITOR",
       hasMCUEnabled: "$HAVE_MCU_ENABLED",
-      hasNewSearch: "$HAVE_NEW_SEARCH",
+      hasNewSearch: "$HAVE_NEW_SEARCH:-true",
       hasMultitenancy: "$HAVE_MULTITENANT",
       hasReleaseTags: "$HAVE_RELEASE_TAGS",
       hasReporting: "$HAVE_REPORTING",

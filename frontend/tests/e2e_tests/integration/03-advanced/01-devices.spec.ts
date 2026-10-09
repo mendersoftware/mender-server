@@ -23,7 +23,6 @@ import { acceptPendingDevice, navigateTo } from '../../utils/utils';
 
 const fileName = `${expectedArtifactName}.mender`;
 const rootfs = 'rootfs-image.version';
-const macPattern = /^([0-9a-f]{2}:){5}[0-9a-f]{2}$/i;
 
 // rely on `.MuiCollapse-entered` as signal for animation completion to ensure the filters are actionable to prevent flakiness in slower CI browsers
 const openFilters = async (page: Page) => {
@@ -169,20 +168,20 @@ test.describe('Devices', () => {
     const features = await page.evaluate(() => (window as any).mender_environment?.features);
     test.skip(!features?.hasNewSearch, 'the environment is configured to use the legacy search');
     await page.waitForSelector(selectors.deviceListItem);
-    const mac = await page.locator(selectors.deviceListItem).first().getByText(macPattern).innerText();
+    const identity = (await page.locator(`${selectors.deviceListItem} > div:not(:has(input[type="checkbox"]))`).first().innerText()).trim();
 
     await page.getByRole('button', { name: /find a device/i }).click();
     const searchDialog = page.getByRole('dialog');
     const searchField = searchDialog.getByPlaceholder(/starting with/i);
     await searchField.fill('nonExistentDevicePrefix');
     await expect(searchDialog.getByText(/no matching devices found/i)).toBeVisible({ timeout: timeouts.tenSeconds });
-    await searchField.fill(mac.slice(0, 4));
-    const result = searchDialog.getByText(mac);
+    await searchField.fill(identity.slice(0, 4));
+    const result = searchDialog.getByText(identity);
     await result.waitFor({ timeout: timeouts.tenSeconds });
     await result.click();
     await expect(searchField).not.toBeVisible();
     await page.getByText(/device information/i).waitFor();
-    await expect(page.locator('.expandedDevice')).toContainText(mac);
+    await expect(page.locator('.expandedDevice')).toContainText(identity);
   });
 
   test('can be filtered', async ({ demoDeviceSoftware, page }) => {

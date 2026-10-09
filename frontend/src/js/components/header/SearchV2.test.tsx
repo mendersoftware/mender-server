@@ -17,7 +17,7 @@ import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { defaultDeviceId } from '@northern.tech/testing/requestHandlers/deviceHandlers';
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -51,7 +51,11 @@ describe('SearchV2 Component', () => {
     const dialog = screen.getByRole('dialog');
     await waitFor(() => expect(dialog).toHaveTextContent(defaultDeviceId));
     expect(dialog.querySelector('mark')).toHaveTextContent(defaultDeviceId);
-    expect(dialog).toHaveTextContent('raspberrypi4 · - · Latest activity: 12 days ago');
+    expect(
+      within(dialog)
+        .getAllByRole('listitem')
+        .map(({ textContent }) => textContent)
+    ).toEqual(['raspberrypi4', '-', 'Latest activity: 12 days ago']);
 
     await user.keyboard('{Enter}');
     await act(async () => {
