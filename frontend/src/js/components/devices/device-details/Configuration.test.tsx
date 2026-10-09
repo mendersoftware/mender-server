@@ -145,4 +145,9 @@ describe('Configuration Component', () => {
     const successNote = await screen.findByText(/Configuration up-to-date on the device/i, {}, { timeout: 2000 });
     expect(successNote).toBeInTheDocument();
   });
+  it('informs that system devices are not supported', async () => {
+    render(<Configuration device={{ ...defaultState.devices.byId.a1, tier: 'system' }} />);
+    expect(screen.getByText(/cannot be used with System tier devices/i)).toBeVisible();
+    expect(screen.queryByRole('button', { name: /edit/i })).not.toBeInTheDocument();
+  });
 });
