@@ -36,7 +36,7 @@ export const CreateDynamicGroup = ({ onClose, onCreate }) => {
           <TextInput
             className="margin-top-x-small"
             helperText="Devices that match the filter will be automatically part of this group."
-            id="groupName"
+            name="groupName"
             InputLabelProps={{ shrink: true }}
             hint="Group name"
             rules={groupNameValidationRules({ existingGroups: groups, isDynamic: true })}

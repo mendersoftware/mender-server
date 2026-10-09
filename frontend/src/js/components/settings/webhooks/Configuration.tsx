@@ -41,12 +41,12 @@ export const availableScopes = {
 };
 
 const UrlInput = props => {
-  const watchedUrl = useWatch({ name: props.id });
+  const watchedUrl = useWatch({ name: props.name });
   const { errors } = useFormState();
   return (
     <>
       <TextInput {...props} />
-      {!errors[props.id] && watchedUrl.startsWith('http://') && (
+      {!errors[props.name] && watchedUrl.startsWith('http://') && (
         <Alert severity="warning">The endpoint you provided is not protected by HTTPS; all the data will be transferred in plain text</Alert>
       )}
     </>
@@ -61,7 +61,7 @@ const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }
     </Typography>
     <div className="flexbox column margin-left-small">
       {Object.values(availableScopes).map(({ canAccess, id, title }) => (
-        <FormCheckbox className="margin-top-none" disabled={!canAccess({ canSelectEvents })} key={id} id={id} label={title} />
+        <FormCheckbox className="margin-top-none" disabled={!canAccess({ canSelectEvents })} key={id} name={id} label={title} />
       ))}
     </div>
   </ContentSection>
@@ -129,13 +129,13 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
             InputLabelProps={{ shrink: true }}
             required
             requiredRendered={false}
-            id="url"
+            name="url"
             validations="isLength:1,isURL"
             helperText="This URL will receive the events."
           />
         </ContentSection>
         <ContentSection title="Description">
-          <TextInput hint="Description (optional)" InputLabelProps={{ shrink: true }} id="description" InputProps={{ multiline: true }} />
+          <TextInput hint="Description (optional)" InputLabelProps={{ shrink: true }} name="description" InputProps={{ multiline: true }} />
         </ContentSection>
         <WebhookEventsSelector canSelectEvents={canSelectEvents} />
         <ContentSection title="Secret">
@@ -147,7 +147,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
             <TextInput
               hint="Secret (optional)"
               InputLabelProps={{ shrink: true }}
-              id="secret"
+              name="secret"
               validations="isHexadecimal"
               helperText="The secret must be hexadecimal string (including only characters from A-F and 0-9)"
             />
