@@ -42,16 +42,16 @@ export const PlanExpandedForm = (props: PlanExpandedFormProp) => {
     <>
       <div className={className}>
         <Typography variant="subtitle1">Your billing details</Typography>
-        <TextInput {...commonInputProps} hint="Company name" label="Company name" id="name" validations="isLength:2:256,trim" />
-        <TextInput {...commonInputProps} hint="Billing email" label="Billing email" id="email" validations="isEmail,trim" />
+        <TextInput {...commonInputProps} hint="Company name" label="Company name" name="name" validations="isLength:2:256,trim" />
+        <TextInput {...commonInputProps} hint="Billing email" label="Billing email" name="email" validations="isEmail,trim" />
       </div>
       <Typography variant="subtitle2" className="margin-top margin-bottom-x-small">
         Address
       </Typography>
       <div className={className}>
-        <TextInput {...commonInputProps} hint="Address line 1" label="Address line 1" id="line1" validations="isLength:3,trim" />
-        <TextInput {...commonInputProps} hint="City" label="City" id="city" validations="isLength:2,trim" />
-        <TextInput {...commonInputProps} hint="Zip or Postal code" label="Zip or Postal code" id="postal_code" validations="isLength:4,trim" />
+        <TextInput {...commonInputProps} hint="Address line 1" label="Address line 1" name="line1" validations="isLength:3,trim" />
+        <TextInput {...commonInputProps} hint="City" label="City" name="city" validations="isLength:2,trim" />
+        <TextInput {...commonInputProps} hint="Zip or Postal code" label="Zip or Postal code" name="postal_code" validations="isLength:4,trim" />
         <ControlledCountrySelect required id="country" />
       </div>
     </>

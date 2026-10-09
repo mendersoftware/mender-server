@@ -100,7 +100,7 @@ export const AccessTokenCreationDialog = ({ onCancel, onGenerate, isEnterprise, 
             <Typography className="margin-bottom-small" variant="subtitle1">
               Name
             </Typography>
-            <TextInput id="name" label="Token name" disabled={!!token} validations="trim,isLength:1" required width="100%" />
+            <TextInput name="name" label="Token name" disabled={!!token} validations="trim,isLength:1" required width="100%" />
             <Typography className="margin-top-medium margin-bottom-small" variant="subtitle1">
               Expiration
             </Typography>

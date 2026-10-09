@@ -56,7 +56,7 @@ export const VersionInformation = ({ file, onRemove, type }) => {
       <FileInformation file={file} type={type} onRemove={onRemove} />
       <Typography variant="subtitle1">Version information</Typography>
       {versionFields.map(({ key, label }, index) => (
-        <TextInput key={key} id={key} InputProps={{ autoFocus: !index }} label={label} required width="100%" />
+        <TextInput key={key} name={key} InputProps={{ autoFocus: !index }} label={label} required width="100%" />
       ))}
     </div>
   );
@@ -96,7 +96,7 @@ export const ArtifactInformation = ({ deviceTypes = [], file, onRemove, type }) 
       <TextInput
         helperText={destinationHelperText}
         hint="Example: /opt/installed-by-single-file"
-        id="destination"
+        name="destination"
         InputProps={{ autoFocus: true }}
         label="Destination directory"
         required
@@ -106,7 +106,7 @@ export const ArtifactInformation = ({ deviceTypes = [], file, onRemove, type }) 
       <Typography variant="subtitle1">Artifact information</Typography>
       <TextInput
         hint="A descriptive name for the software"
-        id="name"
+        name="name"
         InputLabelProps={{ className: classes.releaseName, onClick: e => e.preventDefault() }}
         // the label carries the help tooltip, so it is rendered on top of the outline instead of in its notch - which requires suppressing the notch label
         InputProps={{ label: undefined }}

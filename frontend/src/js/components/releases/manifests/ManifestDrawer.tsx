@@ -328,7 +328,7 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
                 </>
               )}
               <ContentSection className="margin-bottom-medium" title="Name">
-                <TextInput id="name" required validations="isAlphanumericLocator,trim,isLength:1:256" />
+                <TextInput name="name" required validations="isAlphanumericLocator,trim,isLength:1:256" />
               </ContentSection>
             </>
           )}
@@ -344,7 +344,7 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
           )}
 
           <ContentSection className="margin-bottom-medium" title="Notes">
-            <TextInput id="description" hint="Add notes here" InputLabelProps={{ shrink: true }} InputProps={{ multiline: true, maxRows: 4 }} />
+            <TextInput name="description" hint="Add notes here" InputLabelProps={{ shrink: true }} InputProps={{ multiline: true, maxRows: 4 }} />
           </ContentSection>
           <ContentSection className="margin-bottom-medium" title="Tags">
             <ChipSelect

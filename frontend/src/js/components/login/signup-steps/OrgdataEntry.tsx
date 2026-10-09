@@ -61,7 +61,7 @@ const OrgDataContent = ({
       <TextInput
         className="margin-bottom-small"
         controlRef={inputRef}
-        id="name"
+        name="name"
         InputLabelProps={{ size: 'medium' }}
         InputProps={{ size: 'medium' }}
         label="Name*"
@@ -69,9 +69,11 @@ const OrgDataContent = ({
         required
         validations="isLength:1:256,trim"
       />
-      {!emailVerified && <TextInput className="margin-bottom-small" hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
+      {!emailVerified && (
+        <TextInput className="margin-bottom-small" hint="Email *" label="Email *" name="email" required validations="isLength:1,isEmail,trim" />
+      )}
       <FormCheckbox
-        id="tos"
+        name="tos"
         className="margin-right-none"
         label={
           <label htmlFor="tos" style={{ fontSize: 'smaller' }}>
@@ -88,7 +90,7 @@ const OrgDataContent = ({
         required={true}
       />
       <FormCheckbox
-        id="marketing"
+        name="marketing"
         label={
           <label htmlFor="marketing" style={{ fontSize: 'smaller' }}>
             Keep me updated on Mender news and releases. You can unsubscribe at any time.

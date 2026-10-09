@@ -54,7 +54,7 @@ export const DeviceLimit = ({ deploymentDeviceCount = 0, disabledReason = '' }: 
       />
       <Collapse in={shouldLimit}>
         {/* input validation needs to be handled via validation.ts due to the cross form checks */}
-        <NumberInput control={control} id={deploymentFormSections.maxDevices} width={120} showSteps size="small" />
+        <NumberInput control={control} name={deploymentFormSections.maxDevices} width={120} showSteps size="small" />
         <FormHelperText className="margin-left-small margin-top-x-small margin-bottom-small">
           The deployment will automatically finish after this many devices have attempted to update.
         </FormHelperText>
