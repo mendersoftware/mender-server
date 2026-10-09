@@ -56,7 +56,7 @@ const Failures = ({ failures }: { failures: number }) => (
 
 export const SimpleProgress = ({ deployment }: { deployment: Deployment }) => {
   const { phases = [] } = deployment;
-  const { failures } = groupDeploymentStats(deployment, false);
+  const { failures } = groupDeploymentStats(deployment, true);
   const status = getDeploymentState(deployment);
   const phaseFailures = phases.reduce((accu, phase) => {
     const { failures = 0 } = phase as { failures?: number };
@@ -71,7 +71,7 @@ export const ListProgress = ({ className = '', deployment }: { className?: strin
   const { classes } = useStyles();
   const { phases = [], current_phase = 1, phase_count } = deployment;
   const status = getDeploymentState(deployment);
-  const { failures } = groupDeploymentStats(deployment, false);
+  const { failures } = groupDeploymentStats(deployment, true);
 
   let currentPhase = current_phase;
   if (isUUID(`${currentPhase}`) && phases.length) {
