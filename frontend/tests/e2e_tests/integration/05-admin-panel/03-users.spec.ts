@@ -50,8 +50,7 @@ test.describe('Admin panel users', () => {
     // a subject means nothing without knowing which provider issued it
     await expect(ssoSubject).toBeDisabled();
 
-    // the provider select has no accessible name of its own yet, so it is addressed by position
-    const ssoProviderSelect = page.getByRole('combobox').first();
+    const ssoProviderSelect = page.getByRole('combobox', { name: 'SSO Provider' });
     await ssoProviderSelect.click();
     await page.getByRole('option', { name: 'google' }).click();
     await expect(ssoSubject).toBeEnabled();
