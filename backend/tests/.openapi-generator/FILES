@@ -136,6 +136,7 @@ mender_client/models/releases_delete_error.py
 mender_client/models/remove_a_group200_response.py
 mender_client/models/scope.py
 mender_client/models/search_identity_params.py
+mender_client/models/search_identity_specific_attribute.py
 mender_client/models/search_params.py
 mender_client/models/select_attribute.py
 mender_client/models/software.py

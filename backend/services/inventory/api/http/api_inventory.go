@@ -1190,8 +1190,10 @@ func parseSearchIdentityParams(c *gin.Context) (model.SearchIdentityParams, erro
 		return searchParams, errors.Wrap(err, "failed to decode request body")
 	}
 
-	searchParams.Name = strings.TrimSpace(searchParams.Name)
 	searchParams.ValuePrefix = strings.TrimSpace(searchParams.ValuePrefix)
+	if searchParams.Attribute != nil {
+		searchParams.Attribute.Name = strings.TrimSpace(searchParams.Attribute.Name)
+	}
 
 	if searchParams.Page < 1 {
 		searchParams.Page = utils.PageDefault

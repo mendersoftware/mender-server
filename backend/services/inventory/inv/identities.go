@@ -35,7 +35,7 @@ func (i inventory) setIdentities(
 
 	identities := make([]any, 0, len(newAttributes))
 	for i, v := range newAttributes {
-		if v.Scope == model.AttrScopeIdentity {
+		if v.Scope == model.AttrScopeIdentity && v.Name != model.AttrNameStatus {
 			identities = appendIdentity(identities, newAttributes[i].Value)
 		}
 		if v.Scope == model.AttrScopeTags && v.Name == IdentityNameAttribute {

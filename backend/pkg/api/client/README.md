@@ -379,6 +379,7 @@ Class | Method | HTTP request | Description
  - [RemoveAGroup200Response](docs/RemoveAGroup200Response.md)
  - [Scope](docs/Scope.md)
  - [SearchIdentityParams](docs/SearchIdentityParams.md)
+ - [SearchIdentitySpecificAttribute](docs/SearchIdentitySpecificAttribute.md)
  - [SearchParams](docs/SearchParams.md)
  - [SelectAttribute](docs/SelectAttribute.md)
  - [Software](docs/Software.md)

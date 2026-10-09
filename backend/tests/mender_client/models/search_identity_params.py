@@ -18,31 +18,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from mender_client.models.search_identity_specific_attribute import SearchIdentitySpecificAttribute
 from mender_client.models.select_attribute import SelectAttribute
 from typing import Optional, Set
 from typing_extensions import Self
 
 class SearchIdentityParams(BaseModel):
     """
-    Parameters for searching for inventory by their identity
+    Parameters for searching for inventory with matching device identity attributes, optionally limiting the matching to a specific attribute. 
     """ # noqa: E501
-    scope: StrictStr = Field(description="The scope of the attribute name used with the search.")
-    name: StrictStr = Field(description="The name of the attribute used with the search.")
-    value_prefix: StrictStr = Field(description="The prefix used to match against attribute values with 'scope' and 'name'.")
+    value_prefix: StrictStr = Field(description="The prefix used to match against device identity attribute values (all or specific)")
+    attribute: Optional[SearchIdentitySpecificAttribute] = None
     attributes: Optional[List[SelectAttribute]] = Field(default=None, description="List of attributes to select and return")
     page: Optional[StrictInt] = Field(default=None, description="Starting page.")
     per_page: Optional[Annotated[int, Field(le=500, strict=True)]] = Field(default=None, description="Number of results per page.")
-    __properties: ClassVar[List[str]] = ["scope", "name", "value_prefix", "attributes", "page", "per_page"]
-
-    @field_validator('scope')
-    def scope_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['identity', 'tags']):
-            raise ValueError("must be one of enum values ('identity', 'tags')")
-        return value
+    __properties: ClassVar[List[str]] = ["value_prefix", "attribute", "attributes", "page", "per_page"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,6 +76,9 @@ class SearchIdentityParams(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of attribute
+        if self.attribute:
+            _dict['attribute'] = self.attribute.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
         _items = []
         if self.attributes:
@@ -102,9 +98,8 @@ class SearchIdentityParams(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "scope": obj.get("scope"),
-            "name": obj.get("name"),
             "value_prefix": obj.get("value_prefix"),
+            "attribute": SearchIdentitySpecificAttribute.from_dict(obj["attribute"]) if obj.get("attribute") is not None else None,
             "attributes": [SelectAttribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
             "page": obj.get("page"),
             "per_page": obj.get("per_page")

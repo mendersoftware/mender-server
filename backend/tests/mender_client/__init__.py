@@ -159,6 +159,7 @@ __all__ = [
     "RemoveAGroup200Response",
     "Scope",
     "SearchIdentityParams",
+    "SearchIdentitySpecificAttribute",
     "SearchParams",
     "SelectAttribute",
     "Software",
@@ -333,6 +334,7 @@ from mender_client.models.releases_delete_error import ReleasesDeleteError as Re
 from mender_client.models.remove_a_group200_response import RemoveAGroup200Response as RemoveAGroup200Response
 from mender_client.models.scope import Scope as Scope
 from mender_client.models.search_identity_params import SearchIdentityParams as SearchIdentityParams
+from mender_client.models.search_identity_specific_attribute import SearchIdentitySpecificAttribute as SearchIdentitySpecificAttribute
 from mender_client.models.search_params import SearchParams as SearchParams
 from mender_client.models.select_attribute import SelectAttribute as SelectAttribute
 from mender_client.models.software import Software as Software

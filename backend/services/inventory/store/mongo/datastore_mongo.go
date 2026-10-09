@@ -1234,7 +1234,14 @@ func (db *DataStoreMongo) SearchDevicesByIdentity(
 		prefixMatcher = bson.Regex{Pattern: "^" + regexp.QuoteMeta(searchParams.ValuePrefix)}
 	)
 
-	if searchParams.Name == model.AttrNameID {
+	if searchParams.Attribute == nil {
+		// Match on all identities, sort by updated_ts
+		query = bson.M{DbDevIdentitiesName: prefixMatcher}
+		sort = bson.D{{Key: makeAttrField(DbDevUpdatedTs, model.AttrScopeSystem), Value: 1}}
+	} else if searchParams.Attribute.Name == model.AttrNameStatus {
+		// The status identity attribute is not supported with this search.
+		return []model.Device{}, 0, nil
+	} else if searchParams.Attribute.Name == model.AttrNameID {
 		// Using the `_id` index gives better performance than using
 		// the `identities` index, so we leverage it if we can
 		query = bson.M{DbDevId: prefixMatcher}
@@ -1243,7 +1250,9 @@ func (db *DataStoreMongo) SearchDevicesByIdentity(
 		// Search both the `identities` index _and_ the `attributes` array
 		// results in a significant performance increase. See more technical
 		// details in `MEN-9700`
-		field := makeAttrField(searchParams.Name, string(searchParams.Scope), DbDevAttributesValue)
+		field := makeAttrField(
+			searchParams.Attribute.Name, string(searchParams.Attribute.Scope), DbDevAttributesValue,
+		)
 		query = bson.M{DbDevIdentitiesName: prefixMatcher, field: prefixMatcher}
 		sort = bson.D{{Key: field, Value: 1}}
 	}

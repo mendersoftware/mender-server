@@ -54,15 +54,27 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		deviceCount = 4
 		devices     = make([]*common.Device, 0, deviceCount)
 
-		mac           = "mac"
-		nameTagName   = "name"
-		nameTagPrefix = rand.Text()
+		mac                  = "mac"
+		nameTagName          = "name"
+		customNameIDAttrName = "custom"
+		nameTagPrefix        = rand.Text()
 	)
 
 	{
 		require := require.New(u.T())
 		for idx := range deviceCount {
-			device, err := common.NewDevice(u.APIClient, u.Tenant.TenantToken)
+			// Used for search matching on tag "Name"
+			nameTag := fmt.Sprintf("%s-%d", nameTagPrefix, idx+1)
+			// Used to search for all, expecting to match on device with tag "Name" and
+			// different device different identity with same value
+			nameCustomID := fmt.Sprintf("%s-%d", nameTagPrefix, deviceCount-idx-1)
+
+			device, err := common.NewDevice(
+				u.APIClient,
+				u.Tenant.TenantToken,
+				common.WithIdentityAttributes(
+					map[string]any{customNameIDAttrName: nameCustomID}),
+			)
 			require.NoError(err, "failed to create device identity")
 
 			_, err = device.SubmitAuthRequest(ctx)
@@ -74,7 +86,7 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 			_, err = u.APIClient.DeviceInventoryManagementAPIAPI.
 				AddTags(ctx, device.ID).
 				Tag([]client.Tag{
-					{Name: nameTagName, Value: fmt.Sprintf("%s-%d", nameTagPrefix, idx+1)},
+					{Name: nameTagName, Value: nameTag},
 				}).
 				Execute()
 			require.NoError(err)
@@ -93,8 +105,7 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		results, _, err := u.APIClient.InventoryV2alpha1ManagementAPIAPI.
 			SearchInventoryByIdentity(ctx).
 			SearchIdentityParams(client.SearchIdentityParams{
-				Scope:       string(client.IDENTITY),
-				Name:        model.AttrNameID,
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(client.IDENTITY), model.AttrNameID),
 				ValuePrefix: valuePrefix,
 				Attributes: []client.SelectAttribute{
 					{Scope: client.IDENTITY, Attribute: mac},
@@ -144,7 +155,8 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		results, _, err := u.APIClient.InventoryV2alpha1ManagementAPIAPI.
 			SearchInventoryByIdentity(ctx).
 			SearchIdentityParams(client.SearchIdentityParams{
-				Scope: string(scope), Name: name, ValuePrefix: valuePrefix,
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(scope), name),
+				ValuePrefix: valuePrefix,
 			}).Execute()
 		require.NoError(err)
 
@@ -180,9 +192,10 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		results, res, err := u.APIClient.InventoryV2alpha1ManagementAPIAPI.
 			SearchInventoryByIdentity(ctx).
 			SearchIdentityParams(client.SearchIdentityParams{
-				Scope: string(scope), Name: name, ValuePrefix: valuePrefix,
-				PerPage: new(int32(pageSize)),
-				Page:    new(int32(page)),
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(scope), name),
+				ValuePrefix: valuePrefix,
+				PerPage:     new(int32(pageSize)),
+				Page:        new(int32(page)),
 			}).Execute()
 		require.NoError(err)
 		require.NotNil(res)
@@ -214,6 +227,63 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		// Check headers
 		require.Equal(strconv.Itoa(deviceCount), res.Header.Get(rest.HeaderXTotalCount))
 	})
+	u.Run("Success/Status", func() {
+		var (
+			require     = require.New(u.T())
+			valuePrefix = model.DeviceStatusAccepted
+
+			scope = client.IDENTITY
+			name  = model.AttrNameStatus
+		)
+
+		results, res, err := u.APIClient.InventoryV2alpha1ManagementAPIAPI.
+			SearchInventoryByIdentity(ctx).
+			SearchIdentityParams(client.SearchIdentityParams{
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(scope), name),
+				ValuePrefix: valuePrefix,
+			}).Execute()
+		require.NoError(err)
+		require.NotNil(res)
+
+		// Check that all devices in the result has name starting with the expected prefix
+		// and is part of the expected page
+		require.Len(results, 0, "expected 0 results searching for status")
+		// Check headers
+		require.Equal("0", res.Header.Get(rest.HeaderXTotalCount))
+	})
+
+	u.Run("Success/All", func() {
+		var (
+			require     = require.New(u.T())
+			valuePrefix = fmt.Sprintf("%s-%d", nameTagPrefix, 1)
+		)
+
+		results, res, err := u.APIClient.InventoryV2alpha1ManagementAPIAPI.
+			SearchInventoryByIdentity(ctx).
+			SearchIdentityParams(client.SearchIdentityParams{ValuePrefix: valuePrefix}).
+			Execute()
+		require.NoError(err)
+		require.NotNil(res)
+
+		// Check that all devices in the result has name or custom identity attribute
+		// starting with the expected prefix
+		for _, device := range results {
+			name := pickStringAttributeValue(device.GetAttributes(), client.TAGS, nameTagName)
+			custom := pickStringAttributeValue(device.GetAttributes(), client.IDENTITY, customNameIDAttrName)
+			require.True(
+				strings.HasPrefix(name, valuePrefix) || strings.HasPrefix(custom, valuePrefix),
+				"search found unexpected device",
+			)
+		}
+
+		// Check that the devices are consistently sorted
+		isSorted := slices.IsSortedFunc(results, func(a, b client.DeviceInventoryResponse) int {
+			identityA := pickStringAttributeValue(a.GetAttributes(), client.SYSTEM, model.AttrNameUpdated)
+			identityB := pickStringAttributeValue(b.GetAttributes(), client.SYSTEM, model.AttrNameUpdated)
+			return strings.Compare(identityA, identityB)
+		})
+		require.True(isSorted, "search results are not sorted correctly")
+	})
 
 	tcs := []struct {
 		name   string
@@ -222,43 +292,48 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		{
 			name: "MissingScope",
 			params: client.SearchIdentityParams{
-				Name: "irrelevant", ValuePrefix: "also-irrelevant",
+				Attribute:   client.NewSearchIdentitySpecificAttribute("", "irrelevant"),
+				ValuePrefix: "also-irrelevant",
 			},
 		},
 		{
 			name: "MissingName",
 			params: client.SearchIdentityParams{
-				Scope: string(client.IDENTITY), ValuePrefix: "also-irrelevant",
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(client.IDENTITY), ""),
+				ValuePrefix: "also-irrelevant",
 			},
 		},
 		{
 			name: "MissingValuePrefix",
 			params: client.SearchIdentityParams{
-				Scope: string(client.IDENTITY), Name: "irrelevant",
+				Attribute: client.NewSearchIdentitySpecificAttribute(string(client.IDENTITY), "irrelevant"),
 			},
 		},
 		{
 			name: "InvalidScope",
 			params: client.SearchIdentityParams{
-				Scope: "invalid", Name: "irrelevant", ValuePrefix: "also-irrelevant",
+				Attribute: client.NewSearchIdentitySpecificAttribute("invalid", "irrelevant"),
 			},
 		},
 		{
 			name: "InvalidScopeForSearch",
 			params: client.SearchIdentityParams{
-				Scope: string(client.INVENTORY), Name: "irrelevant", ValuePrefix: "also-irrelevant",
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(client.INVENTORY), "irrelevant"),
+				ValuePrefix: "also-irrelevant",
 			},
 		},
 		{
 			name: "WrongScopeForID",
 			params: client.SearchIdentityParams{
-				Scope: string(client.INVENTORY), Name: "id", ValuePrefix: "abc",
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(client.INVENTORY), "id"),
+				ValuePrefix: "abc",
 			},
 		},
 		{
 			name: "WrongNameForTag",
 			params: client.SearchIdentityParams{
-				Scope: string(client.TAGS), Name: "my-name", ValuePrefix: "abc",
+				Attribute:   client.NewSearchIdentitySpecificAttribute(string(client.TAGS), "my-name"),
+				ValuePrefix: "abc",
 			},
 		},
 	}
