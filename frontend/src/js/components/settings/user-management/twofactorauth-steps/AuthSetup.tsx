@@ -99,7 +99,13 @@ export const AuthSetup = ({ currentUser, handle2FAState, has2FA, onClose, qrImag
                 handleCancel={onClose}
                 submitLabel="Verify and Save"
               >
-                <TextInput className={classes.codeInput} hint="Verification code" label="Verification code" id="token2fa" validations="isLength:6,isNumeric" />
+                <TextInput
+                  className={classes.codeInput}
+                  hint="Verification code"
+                  label="Verification code"
+                  name="token2fa"
+                  validations="isLength:6,isNumeric"
+                />
               </Form>
               {validating2fa && (
                 <div className="flexbox">

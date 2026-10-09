@@ -104,7 +104,7 @@ const PasswordForgotRequest = ({ onSubmit }: { onSubmit: (formValues: PasswordRe
           className="full-width"
           controlRef={inputRef}
           hint="Your email"
-          id="email"
+          name="email"
           label="Your email"
           required
           validations="isLength:1,isEmail,trim"
