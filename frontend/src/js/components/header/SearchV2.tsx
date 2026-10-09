@@ -195,7 +195,7 @@ const ResultsSkeleton = () => {
   );
 };
 
-const SearchTrigger = ({ className, onOpen }) => {
+const SearchTrigger = ({ className, onOpen, term }) => {
   const { classes } = useStyles();
   return (
     <ButtonBase
@@ -206,22 +206,21 @@ const SearchTrigger = ({ className, onOpen }) => {
       onClick={onOpen}
     >
       <SearchIcon className="margin-right-x-small" color="inherit" fontSize="small" />
-      <Typography className={classes.triggerLabel} variant="body1">
-        {triggerPlaceholder}
+      <Typography className={`text-overflow ${classes.triggerLabel}`} color={term ? 'text.disabled' : 'inherit'} variant="body1">
+        {term || triggerPlaceholder}
       </Typography>
       <kbd className={classes.shortcut}>{shortcut}</kbd>
     </ButtonBase>
   );
 };
 
-const SearchDialog = ({ onClose, open }) => {
+const SearchDialog = ({ onClose, open, setTerm, term }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [{ results, term: searchedTerm, total }, setSearch] = useState<{ results: SearchResultItem[]; term: string; total: number }>({
     results: [],
     term: '',
     total: 0
   });
-  const [term, setTerm] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -484,6 +483,7 @@ const SearchDialog = ({ onClose, open }) => {
 
 export const SearchV2 = ({ className = '' }) => {
   const [open, setOpen] = useState(false);
+  const [term, setTerm] = useState('');
 
   useEffect(() => {
     if (open) {
@@ -502,8 +502,8 @@ export const SearchV2 = ({ className = '' }) => {
 
   return (
     <>
-      <SearchTrigger className={className} onOpen={() => setOpen(true)} />
-      <SearchDialog onClose={() => setOpen(false)} open={open} />
+      <SearchTrigger className={className} onOpen={() => setOpen(true)} term={term} />
+      <SearchDialog onClose={() => setOpen(false)} open={open} setTerm={setTerm} term={term} />
     </>
   );
 };
