@@ -17,6 +17,9 @@ import { Alert, Button, Typography } from '@mui/material';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { getBillingProfile, getCard, getOrganization } from '@northern.tech/store/organizationSlice/selectors';
+import { getCurrentUser } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { createBillingPortalSession } from '@northern.tech/store/thunks';
 
 import { CardDetails } from './Billing';
 
@@ -42,10 +45,24 @@ const Address = props => {
 
 export const BillingDetails = props => {
   const { setChangeBilling, hideCard, editDisabled } = props;
+  const dispatch = useAppDispatch();
   const card = useSelector(getCard);
   const organization = useSelector(getOrganization);
   const billing = useSelector(getBillingProfile);
+  const { id: currentUserId } = useSelector(getCurrentUser);
   const { trial: isTrial } = organization;
+
+  // gated on 1) an authenticated session (currentUserId is only set once logged in) and
+  // 2) an existing Stripe billing profile - opening a portal session makes no sense otherwise,
+  // since Stripe has no customer record to manage yet.
+  const canManageBilling = !!currentUserId && !!billing;
+
+  const onManageBillingClick = () =>
+    dispatch(createBillingPortalSession(undefined))
+      .unwrap()
+      .then(({ url }) => {
+        window.location.assign(url);
+      });
 
   return (
     <>
@@ -55,9 +72,16 @@ export const BillingDetails = props => {
             {billing.address && <Address address={billing.address} email={billing.email} name={billing.name} />}
             {card && !hideCard && <CardDetails card={card} containerClass={billing.address ? 'margin-left-x-large' : ''} />}
           </div>
-          <Button disabled={editDisabled} variant="outlined" className="margin-top-x-small" onClick={() => setChangeBilling(true)}>
-            Edit
-          </Button>
+          <div className="flexbox align-items-center" style={{ gap: 8 }}>
+            <Button disabled={editDisabled} variant="outlined" className="margin-top-x-small" onClick={() => setChangeBilling(true)}>
+              Edit
+            </Button>
+            {canManageBilling && (
+              <Button variant="outlined" className="margin-top-x-small" onClick={onManageBillingClick}>
+                Manage billing
+              </Button>
+            )}
+          </div>
         </div>
       )}
       {!billing && !isTrial && (
