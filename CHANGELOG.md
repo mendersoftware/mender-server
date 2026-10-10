@@ -1,4 +1,16 @@
 ---
+## 4.1.5 - 2026-10-10
+
+
+### Bug fixes
+
+- *(deviceauth)* Use mongo's error code to check for record duplication in AddDevice ([3779364](https://github.com/mendersoftware/mender-server/commit/37793644820d2e20a7954bd397676690cb09c9c5))
+
+### Dependency updates
+
+- *(deps)* Migrate azure tests to use CLI and bump cryptography ([80e5c6a](https://github.com/mendersoftware/mender-server/commit/80e5c6ae35f4e0bd39f41cf9127499e22e7d3251))
+- *(deps)* Bump cryptography from 47.0.0 to 50.0.0 in /backend/tests ([e32416b](https://github.com/mendersoftware/mender-server/commit/e32416b7966dc1674732251787d62ba5e324195b))
+
 ## 4.1.4 - 2026-09-30
 
 
