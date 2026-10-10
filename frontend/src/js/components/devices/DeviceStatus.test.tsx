@@ -14,6 +14,8 @@
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import DeviceStatus from './DeviceStatus';
 
@@ -32,5 +34,13 @@ describe('DeviceStatus Component', () => {
     render(ui);
     await waitFor(() => rerender(ui));
     expect(screen.getAllByText(/offline/i)[0]).toBeInTheDocument();
+  });
+  it('opens the monitoring details of a device with issues', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { store } = render(<DeviceStatus device={{ id: 'a1', monitor: { alerts: true } }} />);
+    await user.click(screen.getByText(/monitoring/i));
+    const { detailsTab, selectedId } = store.getState().devices.deviceList;
+    expect(selectedId).toBe('a1');
+    expect(detailsTab).toBe('monitor');
   });
 });
