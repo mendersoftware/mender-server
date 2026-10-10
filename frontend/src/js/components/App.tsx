@@ -24,9 +24,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { makeStyles } from 'tss-react/mui';
 
 import SharedSnackbar from '@northern.tech/common-ui/SharedSnackbar';
-import ConfirmDismissHelptips from '@northern.tech/common-ui/dialogs/ConfirmDismissHelpTips';
-import FeedbackDialog from '@northern.tech/common-ui/dialogs/Feedback';
-import StartupNotificationDialog from '@northern.tech/common-ui/dialogs/StartupNotification';
 import storeActions from '@northern.tech/store/actions';
 import type { SentryConfig } from '@northern.tech/store/appSlice';
 import { getSessionInfo, updateMaxAge } from '@northern.tech/store/auth';
@@ -42,8 +39,7 @@ import {
   getTrackerCode,
   getUserSettings
 } from '@northern.tech/store/selectors';
-import { store, useAppDispatch } from '@northern.tech/store/store';
-import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { logoutUser } from '@northern.tech/store/thunks';
 import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
 import '@northern.tech/themes/Mender/styles/main.css';
@@ -52,12 +48,17 @@ import Cookies from 'universal-cookie';
 
 import ErrorBoundary from '../ErrorBoundary';
 import { PrivateRoutes, PrivateSPRoutes, PublicRoutes } from '../config/routes';
+import { parseEnvironmentInfo } from '../store/appInit';
+import { store } from '../store/store';
 import Tracking from '../tracking';
 import Footer from './Footer';
 import LeftNav from './LeftNav';
 import SearchResult from './SearchResult';
 import Uploads from './Uploads';
 import DeviceConnectionDialog from './devices/dialogs/DeviceConnectionDialog';
+import ConfirmDismissHelptips from './dialogs/ConfirmDismissHelpTips';
+import FeedbackDialog from './dialogs/Feedback';
+import StartupNotificationDialog from './dialogs/StartupNotification';
 import Header from './header/Header';
 
 const { setShowConnectingDialog, setSnackbar } = storeActions;
