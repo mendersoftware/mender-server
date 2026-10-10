@@ -36,7 +36,9 @@ import {
   Typography,
   breadcrumbsClasses,
   buttonBaseClasses,
-  listItemIconClasses
+  listItemIconClasses,
+  outlinedInputClasses,
+  selectClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -65,28 +67,41 @@ const navigationOffsets = { ArrowDown: 1, ArrowUp: -1 };
 interface SearchResultItem {
   checkIn?: string;
   device: Device;
+  isIdMatch: boolean;
   label: string;
+  matches: { attribute: string; value: string }[];
   metadata: string[];
-  value: string;
 }
 
 const toOptionKey = ({ attribute, scope }) => `${scope}:${attribute}`;
 
-const findOption = (options, { attribute, scope }) => options.find(option => option.attribute === attribute && option.scope === scope);
+const allAttributesOption = { attribute: '', key: 'all', label: 'All', scope: '' };
+const allAttributesMenuLabel = 'All identity attributes';
 
-const toResult = (device: Device, idAttribute, { attribute, scope }): SearchResultItem => ({
-  checkIn: device.check_in_time_exact ?? device.check_in_time_rounded,
-  device,
-  label: getDeviceIdentityText({ device, idAttribute }),
-  metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean),
-  value: String(defaultTextRender({ column: { attribute: { name: attribute, scope } }, device }))
-});
+const isSameAttribute = (a, b) => a.attribute === b.attribute && a.scope === b.scope;
+
+const findOption = (options, target) => options.find(option => isSameAttribute(option, target));
+
+const getAttributeValue = (device: Device, { attribute, scope }) => String(defaultTextRender({ column: { attribute: { name: attribute, scope } }, device }));
+
+const toResult = (device: Device, idAttribute, searchedAttributes, term: string): SearchResultItem => {
+  const matched = searchedAttributes.filter(searched => getAttributeValue(device, searched).startsWith(term));
+  return {
+    checkIn: device.check_in_time_exact ?? device.check_in_time_rounded,
+    device,
+    isIdMatch: matched.some(searched => isSameAttribute(idAttribute, searched)),
+    label: getDeviceIdentityText({ device, idAttribute }),
+    matches: matched
+      .filter(searched => !isSameAttribute(idAttribute, searched))
+      .map(searched => ({ attribute: searched.attribute, value: getAttributeValue(device, searched) })),
+    metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean)
+  };
+};
 
 const useStyles = makeStyles()(theme => ({
   emptyState: { minHeight: 200 },
   highlight: { backgroundColor: theme.palette.highlight?.main },
   inlineTime: { display: 'inline', fontSize: 'inherit' },
-  italic: { fontStyle: 'italic' },
   inputPlaceholder: { '&::placeholder': { color: theme.palette.text.secondary, opacity: 1 } },
   subheader: { backgroundColor: 'transparent' },
   viewAll: { background: theme.palette.action.hover },
@@ -103,14 +118,14 @@ const useStyles = makeStyles()(theme => ({
     border: `1px solid ${theme.palette.action.selected}`,
     '&:hover': { backgroundColor: theme.palette.action.focus },
     '&&': {
-      '& .MuiSelect-select': {
+      [`& .${selectClasses.select}`]: {
         minHeight: 'unset',
         padding: '1px 25px 1px 12px',
         borderRadius: 16
       }
     },
-    '& .MuiOutlinedInput-notchedOutline': { border: 0 },
-    '& .MuiSelect-icon': { right: 6, fontSize: 18 }
+    [`& .${outlinedInputClasses.notchedOutline}`]: { border: 0 },
+    [`& .${selectClasses.icon}`]: { right: 6, fontSize: 18 }
   },
   shortcut: {
     border: `1px solid ${theme.palette.divider}`,
@@ -128,7 +143,7 @@ const useStyles = makeStyles()(theme => ({
     borderRadius: theme.shape.borderRadius,
     color: theme.palette.text.secondary,
     maxWidth: 400,
-    [`&.${buttonBaseClasses.root}`]: { justifyContent: 'start', padding: theme.spacing(1, 1.5) },
+    [`&.${buttonBaseClasses.root}`]: { justifyContent: 'start', padding: theme.spacing(0.75, 1.5) },
     '&:hover': { borderColor: theme.palette.text.secondary },
     [`&.${buttonBaseClasses.focusVisible}`]: {
       borderColor: theme.palette.primary.main,
@@ -180,7 +195,7 @@ const ResultsSkeleton = () => {
   );
 };
 
-const SearchTrigger = ({ className, onOpen }) => {
+const SearchTrigger = ({ className, onOpen, term }) => {
   const { classes } = useStyles();
   return (
     <ButtonBase
@@ -191,22 +206,21 @@ const SearchTrigger = ({ className, onOpen }) => {
       onClick={onOpen}
     >
       <SearchIcon className="margin-right-x-small" color="inherit" fontSize="small" />
-      <Typography className={classes.triggerLabel} variant="body1">
-        {triggerPlaceholder}
+      <Typography className={`text-overflow ${classes.triggerLabel}`} color={term ? 'text.disabled' : 'inherit'} variant="body1">
+        {term || triggerPlaceholder}
       </Typography>
       <kbd className={classes.shortcut}>{shortcut}</kbd>
     </ButtonBase>
   );
 };
 
-const SearchDialog = ({ onClose, open }) => {
+const SearchDialog = ({ onClose, open, setTerm, term }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [{ results, term: searchedTerm, total }, setSearch] = useState<{ results: SearchResultItem[]; term: string; total: number }>({
     results: [],
     term: '',
     total: 0
   });
-  const [term, setTerm] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -216,25 +230,34 @@ const SearchDialog = ({ onClose, open }) => {
   const [pickedAttribute, setPickedAttribute] = useState<{ attribute: string; scope: string } | null>(null);
 
   const attributeOptions = useMemo(
-    () => identityAttributes.map(({ label, scope, value }) => ({ attribute: value, key: toOptionKey({ attribute: value, scope }), label, scope })),
+    () => [
+      allAttributesOption,
+      ...identityAttributes.map(({ label, scope, value }) => ({ attribute: value, key: toOptionKey({ attribute: value, scope }), label, scope }))
+    ],
     [identityAttributes]
   );
   const selectedOption =
     findOption(attributeOptions, pickedAttribute ?? searchAttribute ?? idAttribute) ?? findOption(attributeOptions, idAttribute) ?? attributeOptions[0];
   const { attribute, scope } = selectedOption;
+  const searchedAttributes = useMemo(
+    () => (attribute ? [{ attribute, scope }] : attributeOptions.slice(1).map(option => ({ attribute: option.attribute, scope: option.scope }))),
+    [attribute, attributeOptions, scope]
+  );
 
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const debouncedTerm = useDebounce(term, TIMEOUTS.debounceDefault);
 
-  const placeholder = `Find devices by ${selectedOption.label} starting with...`;
-  const isIdAttributeSelected = idAttribute.scope === scope && idAttribute.attribute === attribute;
+  const isAllSelected = !attribute;
+  const placeholder = `Find devices by ${isAllSelected ? 'any attribute' : selectedOption.label} starting with...`;
   const hasSearched = !!searchedTerm;
   const showResults = !!results.length;
   const showPlaceholder = !showResults && !!term;
   const showSkeleton = showPlaceholder && !hasSearched;
   const showEmptyState = showPlaceholder && hasSearched;
-  const showViewAll = total > results.length;
+  const hasMoreResults = total > results.length;
+  const showViewAll = !isAllSelected && hasMoreResults;
+  const showRefineHint = isAllSelected && hasMoreResults;
   const optionCount = results.length + (showViewAll ? 1 : 0);
 
   useEffect(() => {
@@ -243,14 +266,12 @@ const SearchDialog = ({ onClose, open }) => {
       return;
     }
     let isCurrent = true;
-    const searchedAttribute = { attribute, scope };
     dispatch(
       searchIdentities({
-        attributes: [idAttribute, searchedAttribute],
-        name: attribute,
+        attributes: [idAttribute, ...searchedAttributes],
         per_page: resultsPerPage,
-        scope,
-        value_prefix: debouncedTerm
+        value_prefix: debouncedTerm,
+        ...(!!attribute && { attribute: { name: attribute, scope } })
       })
     )
       .unwrap()
@@ -258,13 +279,13 @@ const SearchDialog = ({ onClose, open }) => {
         if (!isCurrent) {
           return;
         }
-        setSearch({ results: devices.map(device => toResult(device, idAttribute, searchedAttribute)), term: debouncedTerm, total });
+        setSearch({ results: devices.map(device => toResult(device, idAttribute, searchedAttributes, debouncedTerm)), term: debouncedTerm, total });
       })
       .catch(() => isCurrent && setSearch({ results: [], term: debouncedTerm, total: 0 }));
     return () => {
       isCurrent = false;
     };
-  }, [attribute, debouncedTerm, dispatch, idAttribute, scope]);
+  }, [attribute, debouncedTerm, dispatch, idAttribute, scope, searchedAttributes]);
 
   useEffect(() => {
     setActiveIndex(0);
@@ -360,6 +381,8 @@ const SearchDialog = ({ onClose, open }) => {
               labelAttribute="label"
               onChange={onChangeAttribute}
               options={attributeOptions}
+              renderOption={option => (option.key === allAttributesOption.key ? allAttributesMenuLabel : option.label)}
+              renderValue={() => selectedOption.label}
               selectionAttribute="key"
               value={selectedOption.key}
               width="auto"
@@ -381,27 +404,23 @@ const SearchDialog = ({ onClose, open }) => {
       )}
       {showResults && (
         <List disablePadding>
-          {results.map(({ checkIn, device, label, metadata, value }, index) => (
+          {results.map(({ checkIn, device, isIdMatch, label, matches, metadata }, index) => (
             <ListItemButton key={device.id} onClick={() => onSelect(device)} selected={index === activeIndex}>
               <ListItemIcon className={`margin-right-x-small ${classes.listItemIcon}`}>
                 <DeviceIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText
                 primary={
-                  isIdAttributeSelected ? (
+                  <>
                     <Typography variant="subtitle2" component="span">
-                      <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} />
+                      {isIdMatch ? <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} /> : label}
                     </Typography>
-                  ) : (
-                    <>
-                      <Typography variant="subtitle2" component="span" className="margin-right-x-small">
-                        {label}
-                      </Typography>
-                      <span className={classes.italic}>
-                        ({attribute}: <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={value} />)
-                      </span>
-                    </>
-                  )
+                    {matches.map(({ attribute: matchedAttribute, value }) => (
+                      <i className="margin-left-x-small" key={matchedAttribute}>
+                        ({matchedAttribute}: <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={value} />)
+                      </i>
+                    ))}
+                  </>
                 }
                 secondary={
                   <Breadcrumbs className={classes.metadata} component="div" separator="●">
@@ -434,6 +453,17 @@ const SearchDialog = ({ onClose, open }) => {
               </ListItemButton>
             </>
           )}
+          {showRefineHint && (
+            <>
+              <Divider />
+              <ListItem className={classes.viewAll}>
+                <ListItemText
+                  primary={`Showing ${results.length} of ${total.toLocaleString()} results. Try typing more or select an identity attribute.`}
+                  slotProps={{ primary: { color: 'textSecondary', variant: 'body2' } }}
+                />
+              </ListItem>
+            </>
+          )}
         </List>
       )}
       {showSkeleton && <ResultsSkeleton />}
@@ -453,6 +483,7 @@ const SearchDialog = ({ onClose, open }) => {
 
 export const SearchV2 = ({ className = '' }) => {
   const [open, setOpen] = useState(false);
+  const [term, setTerm] = useState('');
 
   useEffect(() => {
     if (open) {
@@ -471,8 +502,8 @@ export const SearchV2 = ({ className = '' }) => {
 
   return (
     <>
-      <SearchTrigger className={className} onOpen={() => setOpen(true)} />
-      <SearchDialog onClose={() => setOpen(false)} open={open} />
+      <SearchTrigger className={className} onOpen={() => setOpen(true)} term={term} />
+      <SearchDialog onClose={() => setOpen(false)} open={open} setTerm={setTerm} term={term} />
     </>
   );
 };

@@ -23,6 +23,7 @@ import { acceptPendingDevice, navigateTo } from '../../utils/utils';
 
 const fileName = `${expectedArtifactName}.mender`;
 const rootfs = 'rootfs-image.version';
+const macPattern = /^([0-9a-f]{2}:){5}[0-9a-f]{2}$/i;
 
 // rely on `.MuiCollapse-entered` as signal for animation completion to ensure the filters are actionable to prevent flakiness in slower CI browsers
 const openFilters = async (page: Page) => {
@@ -168,20 +169,31 @@ test.describe('Devices', () => {
     const features = await page.evaluate(() => (window as any).mender_environment?.features);
     test.skip(!features?.hasNewSearch, 'the environment is configured to use the legacy search');
     await page.waitForSelector(selectors.deviceListItem);
-    const identity = (await page.locator(`${selectors.deviceListItem} > div:not(:has(input[type="checkbox"]))`).first().innerText()).trim();
+    await openDeviceDetails(page);
+    const expandedDevice = page.locator('.expandedDevice');
+    await expandedDevice.getByText(/device identity/i).waitFor();
+    await expandedDevice.getByText(macPattern).first().click();
+    await page.getByText(/copied to clipboard/i).waitFor();
+    const mac = await page.evaluate(() => navigator.clipboard.readText());
+    expect(mac).toMatch(macPattern);
+    await page.click('[aria-label="close"]');
+    await expect(expandedDevice).not.toBeVisible();
 
     await page.getByRole('button', { name: /find a device/i }).click();
     const searchDialog = page.getByRole('dialog');
     const searchField = searchDialog.getByPlaceholder(/starting with/i);
+    await searchDialog.getByRole('combobox').click();
+    await page.getByRole('option', { name: /^All/ }).click();
+    await expect(searchField).toHaveAttribute('placeholder', /by mac starting with/i);
     await searchField.fill('nonExistentDevicePrefix');
     await expect(searchDialog.getByText(/no matching devices found/i)).toBeVisible({ timeout: timeouts.tenSeconds });
-    await searchField.fill(identity.slice(0, 4));
-    const result = searchDialog.getByText(identity);
+    await searchField.fill(mac.slice(0, 8));
+    const result = searchDialog.getByText(`(mac: ${mac})`);
     await result.waitFor({ timeout: timeouts.tenSeconds });
     await result.click();
     await expect(searchField).not.toBeVisible();
     await page.getByText(/device information/i).waitFor();
-    await expect(page.locator('.expandedDevice')).toContainText(identity);
+    await expect(expandedDevice).toContainText(mac);
   });
 
   test('can be filtered', async ({ demoDeviceSoftware, page }) => {
