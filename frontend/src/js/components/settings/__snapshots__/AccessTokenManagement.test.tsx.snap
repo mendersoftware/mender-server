@@ -1202,7 +1202,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
           <div
             class="MuiAlert-message emotion-28"
           >
-            This is the only time you will be able to see the token, so make sure to store it in a safe place.
+            This is the only time you will be able to see the token, so make sure to store it in a safe place. Do not share it - anyone with access to it can act on your behalf.
           </div>
         </div>
       </div>
