@@ -12,7 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { SubstateProgressBar } from './SubstateProgressBar';
@@ -27,5 +29,10 @@ describe('SubstateProgressBar Component', () => {
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('does not count aborted devices as failures', async () => {
+    const abortedDeployment = { ...deployment, status: DEPLOYMENT_STATES.finished, statistics: { status: { aborted: 1, failure: 1, success: 1 } } };
+    render(<SubstateProgressBar deployment={abortedDeployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />);
+    expect(screen.getByText(/with 1 failure$/)).toBeInTheDocument();
   });
 });

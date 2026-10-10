@@ -213,7 +213,7 @@ export const SubstateProgressBar = ({ className = '', deployment, onAbort, onUpd
   const { id, device_count, max_devices, statistics = {}, update_control_map = {} } = deployment;
   const { status: stats = {} } = statistics;
   const { states = {} } = update_control_map;
-  const { failures: totalFailureCount, paused: totalPausedCount } = groupDeploymentStats(deployment);
+  const { failures: totalFailureCount, paused: totalPausedCount } = groupDeploymentStats(deployment, true);
   const totalDeviceCount = Math.max(device_count, max_devices);
 
   const status = getDeploymentState(deployment);
