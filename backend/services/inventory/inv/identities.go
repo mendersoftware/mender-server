@@ -29,11 +29,10 @@ func (i inventory) setIdentities(
 	deviceId model.DeviceID,
 	newAttributes model.DeviceAttributes,
 ) error {
-	if len(newAttributes) == 0 {
-		return nil
-	}
 
-	identities := make([]any, 0, len(newAttributes))
+	identities := make([]any, 0, len(newAttributes)+1)
+	identities = append(identities, deviceId)
+
 	for i, v := range newAttributes {
 		if v.Scope == model.AttrScopeIdentity && v.Name != model.AttrNameStatus {
 			identities = appendIdentity(identities, newAttributes[i].Value)
@@ -41,9 +40,6 @@ func (i inventory) setIdentities(
 		if v.Scope == model.AttrScopeTags && v.Name == IdentityNameAttribute {
 			identities = appendIdentity(identities, newAttributes[i].Value)
 		}
-	}
-	if len(identities) == 0 {
-		return nil
 	}
 
 	return i.db.SetIdentity(ctx, deviceId, identities)
