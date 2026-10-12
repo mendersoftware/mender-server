@@ -61,7 +61,7 @@ exports[`SearchV2 Component > renders correctly 1`] = `
   -ms-flex-pack: start;
   -webkit-justify-content: start;
   justify-content: start;
-  padding: 8px 12px;
+  padding: 6px 12px;
 }
 
 .emotion-0:hover {
@@ -139,7 +139,7 @@ exports[`SearchV2 Component > renders correctly 1`] = `
       />
     </svg>
     <p
-      class="MuiTypography-root MuiTypography-body1 emotion-2"
+      class="MuiTypography-root MuiTypography-body1 text-overflow emotion-2"
     >
       Find a device
     </p>
