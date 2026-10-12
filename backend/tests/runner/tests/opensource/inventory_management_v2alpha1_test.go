@@ -102,6 +102,7 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 			valuePrefix    = expectedDevice.ID[:6]
 		)
 
+		// Search by device id explicitly
 		results, _, err := u.APIClient.InventoryV2alpha1ManagementAPIAPI.
 			SearchInventoryByIdentity(ctx).
 			SearchIdentityParams(client.SearchIdentityParams{
@@ -140,6 +141,19 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 				), "expected attribute '%s' missing", a)
 			}
 		}
+
+		// Search for device id using in all identities
+		results, _, err = u.APIClient.InventoryV2alpha1ManagementAPIAPI.
+			SearchInventoryByIdentity(ctx).
+			SearchIdentityParams(client.SearchIdentityParams{
+				ValuePrefix: expectedDevice.ID,
+			}).Execute()
+		require.NoError(err)
+
+		require.True(slices.ContainsFunc(
+			results,
+			func(device client.DeviceInventoryResponse) bool { return expectedDevice.ID == device.GetId() },
+		), "search did not find expected device")
 	})
 
 	u.Run("Success/Mac", func() {
@@ -227,6 +241,7 @@ func (u *InventoryManagementV2Alpha1Suite) TestSearchByDeviceIdentities() {
 		// Check headers
 		require.Equal(strconv.Itoa(deviceCount), res.Header.Get(rest.HeaderXTotalCount))
 	})
+
 	u.Run("Success/Status", func() {
 		var (
 			require     = require.New(u.T())
