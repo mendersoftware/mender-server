@@ -183,7 +183,7 @@ test.describe('Devices', () => {
     const searchDialog = page.getByRole('dialog');
     const searchField = searchDialog.getByPlaceholder(/starting with/i);
     await searchDialog.getByRole('combobox').click();
-    await page.getByRole('option', { name: /^All/ }).click();
+    await page.getByRole('option', { name: /^Any/ }).click();
     await expect(searchField).toHaveAttribute('placeholder', /by any attribute starting with/i);
     await searchField.fill('nonExistentDevicePrefix');
     await expect(searchDialog.getByText(/no matching devices found/i)).toBeVisible({ timeout: timeouts.tenSeconds });

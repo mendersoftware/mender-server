@@ -75,8 +75,8 @@ interface SearchResultItem {
 
 const toOptionKey = ({ attribute, scope }) => `${scope}:${attribute}`;
 
-const allAttributesOption = { attribute: '', key: 'all', label: 'All', scope: '' };
-const allAttributesMenuLabel = 'All identity attributes';
+const anyAttributeOption = { attribute: '', key: 'any', label: 'Any', scope: '' };
+const anyAttributeMenuLabel = 'Any identity attribute';
 
 const isSameAttribute = (a, b) => a.attribute === b.attribute && a.scope === b.scope;
 
@@ -231,7 +231,7 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
 
   const attributeOptions = useMemo(
     () => [
-      allAttributesOption,
+      anyAttributeOption,
       ...identityAttributes.map(({ label, scope, value }) => ({ attribute: value, key: toOptionKey({ attribute: value, scope }), label, scope }))
     ],
     [identityAttributes]
@@ -248,16 +248,16 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
   const { classes } = useStyles();
   const debouncedTerm = useDebounce(term, TIMEOUTS.debounceDefault);
 
-  const isAllSelected = !attribute;
-  const placeholder = `Find devices by ${isAllSelected ? 'any attribute' : selectedOption.label} starting with...`;
+  const isAnySelected = !attribute;
+  const placeholder = `Find devices by ${isAnySelected ? 'any attribute' : selectedOption.label} starting with...`;
   const hasSearched = !!searchedTerm;
   const showResults = !!results.length;
   const showPlaceholder = !showResults && !!term;
   const showSkeleton = showPlaceholder && !hasSearched;
   const showEmptyState = showPlaceholder && hasSearched;
   const hasMoreResults = total > results.length;
-  const showViewAll = !isAllSelected && hasMoreResults;
-  const showRefineHint = isAllSelected && hasMoreResults;
+  const showViewAll = !isAnySelected && hasMoreResults;
+  const showRefineHint = isAnySelected && hasMoreResults;
   const optionCount = results.length + (showViewAll ? 1 : 0);
 
   useEffect(() => {
@@ -381,7 +381,7 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
               labelAttribute="label"
               onChange={onChangeAttribute}
               options={attributeOptions}
-              renderOption={option => (option.key === allAttributesOption.key ? allAttributesMenuLabel : option.label)}
+              renderOption={option => (option.key === anyAttributeOption.key ? anyAttributeMenuLabel : option.label)}
               renderValue={() => selectedOption.label}
               selectionAttribute="key"
               value={selectedOption.key}
