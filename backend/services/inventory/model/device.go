@@ -37,6 +37,7 @@ const (
 	AttrNameGroup          = "group"
 	AttrNameUpdated        = "updated_ts"
 	AttrNameCreated        = "created_ts"
+	AttrNameCheckInTime    = "check_in_time"
 	AttrNameTagsEtag       = "tags_etag"
 	AttrNameNumberOfAlerts = "alert_count"
 	AttrNameAlerts         = "alerts"
