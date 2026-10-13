@@ -360,13 +360,7 @@ export const CreateDeployment = ({
                 hasPending={hasPending}
                 idAttribute={idAttribute}
               />
-              <Software
-                commonClasses={classes}
-                releaseRef={releaseRef}
-                releaseSelectionLocked={deploymentObject.releaseSelectionLocked}
-                releases={releases}
-                releasesById={releasesById}
-              />
+              <Software commonClasses={classes} releaseRef={releaseRef} releases={releases} releasesById={releasesById} />
             </>
           )}
           <ScheduleRollout canSchedule={canSchedule} commonClasses={classes} />
