@@ -140,7 +140,10 @@ func (f FilterPredicate) Validate() error {
 		validation.Field(&f.Scope, validation.Required),
 		validation.Field(&f.Attribute, validation.Required),
 		validation.Field(&f.Type, validation.Required, validation.In(validSelectors...)),
-		validation.Field(&f.Value, validation.NotNil))
+		validation.Field(&f.Value, validation.NotNil, validation.By(func(interface{}) error {
+			_, err := f.TimeRanges()
+			return err
+		})))
 }
 
 type SearchIdentityParams struct {

@@ -1131,7 +1131,15 @@ func (db *DataStoreMongo) SearchDevices(
 			)
 			field = fmt.Sprintf("%s.%s.%s", DbDevAttributes, name, DbDevAttributesValue)
 		}
-		queryFilters = append(queryFilters, bson.M{field: bson.M{op: filter.Value}})
+		ranges, err := filter.TimeRanges()
+		if err != nil {
+			return nil, -1, errors.Wrap(err, "invalid filter")
+		}
+		if len(ranges) > 0 {
+			queryFilters = append(queryFilters, timeRangesToQuery(field, op, ranges))
+		} else {
+			queryFilters = append(queryFilters, bson.M{field: bson.M{op: filter.Value}})
+		}
 	}
 
 	// FIXME: remove after migrating ids to attributes
@@ -1218,6 +1226,44 @@ func (db *DataStoreMongo) SearchDevices(
 	}
 
 	return devices, int(count), nil
+}
+
+// timeRangesToQuery compares field against the periods described by a filter
+// value: $eq matches anywhere within the period, $gt only after its end, and
+// so on. $ne, $ltne and $nin keep matching devices without the field.
+func timeRangesToQuery(field, op string, ranges []model.TimeRange) bson.M {
+	within := func(r model.TimeRange) bson.M {
+		return bson.M{"$gte": r.Start, "$lt": r.End}
+	}
+	r := ranges[0]
+	switch op {
+	case "$ne":
+		return bson.M{field: bson.M{"$not": within(r)}}
+	case "$gt":
+		return bson.M{field: bson.M{"$gte": r.End}}
+	case "$gte":
+		return bson.M{field: bson.M{"$gte": r.Start}}
+	case "$lt":
+		return bson.M{field: bson.M{"$lt": r.Start}}
+	case "$lte":
+		return bson.M{field: bson.M{"$lt": r.End}}
+	case "$ltne":
+		return bson.M{"$or": []bson.M{
+			{field: bson.M{"$lt": r.Start}},
+			{field: bson.M{"$exists": false}},
+		}}
+	case "$in", "$nin":
+		matches := make([]bson.M, len(ranges))
+		for i, r := range ranges {
+			matches[i] = bson.M{field: within(r)}
+		}
+		if op == "$in" {
+			return bson.M{"$or": matches}
+		}
+		return bson.M{"$nor": matches}
+	default: // $eq
+		return bson.M{field: within(r)}
+	}
 }
 
 func (db *DataStoreMongo) SearchDevicesByIdentity(

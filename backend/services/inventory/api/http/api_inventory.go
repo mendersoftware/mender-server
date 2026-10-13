@@ -93,8 +93,8 @@ const (
 )
 
 const (
-	checkInTimeParamName  = "check_in_time"
-	checkInTimeParamScope = "system"
+	checkInTimeParamName  = model.AttrNameCheckInTime
+	checkInTimeParamScope = model.AttrScopeSystem
 )
 
 // model of device's group name response at /devices/:id/group endpoint
