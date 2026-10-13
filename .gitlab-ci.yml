@@ -692,7 +692,10 @@ test:backend:integration:ng:
   before_script:
     - !reference [.template:test:backend:integration, before_script]
     # Install go
-    - curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz" | tar -C /usr/local -xz
+    - docker pull golang:${GOLANG_VERSION}
+    - docker create --name golang-tmp golang:${GOLANG_VERSION}
+    - docker cp golang-tmp:/usr/local/go /usr/local/
+    - docker rm golang-tmp
     - export PATH="$PATH:/usr/local/go/bin"
     - export GOPATH="/go"
   script:
