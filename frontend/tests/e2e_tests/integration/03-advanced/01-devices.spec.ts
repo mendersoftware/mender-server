@@ -172,7 +172,7 @@ test.describe('Devices', () => {
     await openDeviceDetails(page);
     const expandedDevice = page.locator('.expandedDevice');
     await expandedDevice.getByText(/device identity/i).waitFor();
-    await expandedDevice.getByText(macPattern).first().click();
+    await expandedDevice.locator('.column-data').getByText(macPattern).first().click();
     await page.getByText(/copied to clipboard/i).waitFor();
     const mac = await page.evaluate(() => navigator.clipboard.readText());
     expect(mac).toMatch(macPattern);
