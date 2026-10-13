@@ -337,17 +337,16 @@ func TestInventoryUpsertAttributes(t *testing.T) {
 func TestInventoryUpsertAttributesWithUpdated(t *testing.T) {
 	t.Parallel()
 
+	const devID = model.DeviceID("devid")
 	dsResultFailed := model.UpdateResult{MatchedCount: 0}
 	dsResultsuccess := model.UpdateResult{
 		Devices: []*model.Device{
 			{
-				ID: "1",
+				ID: devID,
 			},
 		},
 		MatchedCount: 1,
 	}
-
-	const devID = model.DeviceID("devid")
 
 	testCases := map[string]struct {
 		getDevice       *model.Device
@@ -680,6 +679,7 @@ func TestInventoryUpsertAttributesWithUpdated(t *testing.T) {
 					utils.GetTextField(tc.datastoreResult.Devices[0]),
 				).Return(nil)
 			}
+			db.On("SetIdentity", ctx, devID, []interface{}{devID}).Maybe().Return(nil, nil)
 
 			i := invForTest(db).WithLimits(tc.limitAttributes, tc.limitTags)
 
@@ -1154,6 +1154,7 @@ func TestReplaceAttributes(t *testing.T) {
 					).Return(nil)
 				}
 			}
+			db.On("SetIdentity", ctx, tc.deviceID, []interface{}{tc.deviceID}).Maybe().Return(nil, nil)
 
 			i := invForTest(db).WithLimits(tc.limitAttributes, tc.limitTags)
 			err := i.ReplaceAttributes(ctx, tc.deviceID, tc.upsertAttrs, tc.scope, tc.etag)
