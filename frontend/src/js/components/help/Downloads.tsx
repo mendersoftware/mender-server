@@ -350,7 +350,6 @@ export const Downloads = () => {
 
   return (
     <div>
-      <h2>Downloads</h2>
       <p>To get the most out of Mender, download the tools listed below.</p>
       {availableTools.map(tool => (
         <DownloadSection key={tool.id} item={tool} isEnterprise={isEnterprise} onMenuClick={handleToggle} os={os} token={token} />

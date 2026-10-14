@@ -19,7 +19,6 @@ import hubLogo from '../../../assets/img/mender-hub-logo.png';
 
 const Support = () => (
   <div>
-    <h2>Contact support</h2>
     <p>Do you have a paid plan and need to contact support?</p>
     <p>
       Please reach out through our{' '}

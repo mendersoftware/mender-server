@@ -16,10 +16,11 @@ import { useSelector } from 'react-redux';
 import { Navigate, useLocation, useParams } from 'react-router';
 
 import { Launch as LaunchIcon } from '@mui/icons-material';
-import { ListItemIcon, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 
 import LeftNav from '@northern.tech/common-ui/LeftNav';
 import PageTitle from '@northern.tech/common-ui/PageTitle';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { getFeatures } from '@northern.tech/store/selectors';
 
 import Downloads from './Downloads';
@@ -51,14 +52,6 @@ const components = {
   }
 };
 
-const contentWidth = 780;
-
-const LinkIcon = () => (
-  <ListItemIcon style={{ 'verticalAlign': 'middle' }}>
-    <LaunchIcon style={{ 'fontSize': '1rem' }} />
-  </ListItemIcon>
-);
-
 // build array of link list components
 const eachRecursive = (obj, path, level, accu, isHosted, spacing) =>
   Object.entries(obj).reduce((bag, [key, value]) => {
@@ -74,7 +67,7 @@ const eachRecursive = (obj, path, level, accu, isHosted, spacing) =>
         hosted: value.hosted,
         style: { paddingLeft: `calc(${level} * ${spacing})` },
         exact: true,
-        secondaryAction: value.url ? <LinkIcon /> : null,
+        icon: value.url ? <LaunchIcon fontSize="small" /> : null,
         url: value.url ? value.url : ''
       });
       bag = eachRecursive(value, this_path, level + 1, bag, isHosted, spacing);
@@ -120,16 +113,13 @@ export const Help = () => {
   }
 
   return (
-    <div className="help-container">
+    <div className="tab-container with-sub-panels" style={{ minHeight: '95%', paddingTop: 0 }}>
       <PageTitle segments={[components[section]?.title, 'Help & support']} />
       <LeftNav sections={[{ itemClass: 'helpNav', items: links, title: 'Help & support' }]} />
-      <div className="full-width">
-        <div style={{ maxWidth: contentWidth }}>
-          <p className="muted">Help & support {breadcrumbs}</p>
-          <div className="help-content relative margin-top-small">
-            <ComponentToShow />
-          </div>
-        </div>
+      <div className="rightFluid padding-right-large" style={{ borderLeft: 'none', paddingBottom: '15%' }}>
+        <SettingsSection title={`Help & support ${breadcrumbs}`}>
+          <ComponentToShow />
+        </SettingsSection>
       </div>
     </div>
   );
