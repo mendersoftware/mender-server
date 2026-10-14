@@ -11,16 +11,37 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { getConfiguredStore } from '@northern.tech/store/store';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { light } from '@northern.tech/testing/theme/light';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import type { DeviceTypes } from './SubscriptionPage';
 import { SubscriptionPage } from './SubscriptionPage';
+
+const theme = createTheme(light);
+
+const renderWithRouter = (ui: React.ReactElement, { preloadedState }) => {
+  const store = getConfiguredStore({ preloadedState });
+  const Wrapper = ({ children }) => (
+    <ThemeProvider theme={theme}>
+      <MemoryRouter initialEntries={['/subscription']}>
+        <Provider store={store}>{children}</Provider>
+      </MemoryRouter>
+    </ThemeProvider>
+  );
+  return { store, ...render(ui, { wrapper: Wrapper }) };
+};
 
 export const standardDeviceTier: Partial<DeviceTypes> = {
   standard: { id: 'standard', stripeProductName: 'mender_standard', label: 'Standard devices', summaryLabel: 'Standard', tooltipId: 'standardDevice' }
@@ -75,7 +96,7 @@ const professionalReq300WithMonitor = {
 describe('Subscription Page component', () => {
   it('renders correctly', async () => {
     //
-    const { baseElement } = render(<SubscriptionPage />, {
+    const { baseElement } = renderWithRouter(<SubscriptionPage />, {
       preloadedState: {
         ...defaultState,
         organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, id: '6863115e67294908fbbd6dd0' } }
@@ -89,8 +110,7 @@ describe('Subscription Page component', () => {
   it('allows signing up', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { getBillingPreview, requestPlanChange: requestEnterprise } = StoreThunks;
-    const ui = <SubscriptionPage />;
-    render(ui, {
+    renderWithRouter(<SubscriptionPage />, {
       preloadedState: {
         ...defaultState,
         devices: { ...defaultState.devices, limits: { ...defaultState.devices.limits, standard: 10 } },
