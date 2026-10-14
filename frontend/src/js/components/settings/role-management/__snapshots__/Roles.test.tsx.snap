@@ -4,10 +4,10 @@ exports[`Roles Component > renders correctly 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.6;
-  letter-spacing: 0.0075em;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
 }
 
 .emotion-1 {
@@ -359,13 +359,28 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-9 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+}
+
+.emotion-10 {
+  max-width: 760px;
+}
+
+.emotion-11 {
   display: table;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.emotion-9 caption {
+.emotion-11 caption {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -377,42 +392,42 @@ exports[`Roles Component > renders correctly 1`] = `
   caption-side: bottom;
 }
 
-.emotion-10 {
+.emotion-12 {
   display: table-header-group;
 }
 
-.emotion-10 .columnHeader {
+.emotion-12 .columnHeader {
   display: table-cell;
 }
 
-.emotion-10 .columnHeader .sortIcon {
+.emotion-12 .columnHeader .sortIcon {
   margin-bottom: -6px;
 }
 
-.emotion-10 .nonSortable {
+.emotion-12 .nonSortable {
   cursor: initial;
 }
 
-.emotion-11 {
+.emotion-13 {
   color: inherit;
   display: table-row;
   vertical-align: middle;
   outline: 0;
 }
 
-.emotion-11.MuiTableRow-hover:hover {
+.emotion-13.MuiTableRow-hover:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-11.Mui-selected {
+.emotion-13.Mui-selected {
   background-color: rgba(25, 118, 210, 0.08);
 }
 
-.emotion-11.Mui-selected:hover {
+.emotion-13.Mui-selected:hover {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-12 {
+.emotion-14 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -428,11 +443,11 @@ exports[`Roles Component > renders correctly 1`] = `
   font-weight: 500;
 }
 
-.emotion-15 {
+.emotion-17 {
   display: table-row-group;
 }
 
-.emotion-17 {
+.emotion-19 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -446,7 +461,7 @@ exports[`Roles Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-20 {
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -505,37 +520,37 @@ exports[`Roles Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-20::-moz-focus-inner {
+.emotion-22::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-22.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-20 {
+  .emotion-22 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-20:hover {
+.emotion-22:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-22.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-20.Mui-disabled {
+.emotion-22.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-20:hover {
+  .emotion-22:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -543,22 +558,24 @@ exports[`Roles Component > renders correctly 1`] = `
   }
 }
 
-.emotion-20.MuiButton-loading {
+.emotion-22.MuiButton-loading {
   color: transparent;
 }
 
-<div>
+<section
+  class=""
+>
   <div
-    class="flexbox space-between align-items-center margin-bottom-medium"
+    class="flexbox space-between"
   >
     <div
       class="flexbox align-items-center"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-h6 emotion-0"
+      <h5
+        class="MuiTypography-root MuiTypography-h5 emotion-0"
       >
         Roles
-      </h6>
+      </h5>
       <div
         class="relative flexbox emotion-1  margin-left-small"
         data-mui-internal-clone-element="true"
@@ -580,7 +597,7 @@ exports[`Roles Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox align-items-center"
+      class="flexbox align-items-center gap-small"
     >
       <div
         class=""
@@ -599,7 +616,7 @@ exports[`Roles Component > renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary margin-left-small emotion-6"
+        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
         disabled=""
         tabindex="-1"
         type="button"
@@ -623,29 +640,35 @@ exports[`Roles Component > renders correctly 1`] = `
       </button>
     </div>
   </div>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth margin-bottom-medium margin-top-small emotion-9"
+  />
+  <div
+    class="emotion-10"
+  />
   <table
-    class="MuiTable-root margin-bottom emotion-9"
+    class="MuiTable-root margin-bottom emotion-11"
   >
     <thead
-      class="MuiTableHead-root emotion-10"
+      class="MuiTableHead-root emotion-12"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-head emotion-11"
+        class="MuiTableRow-root MuiTableRow-head emotion-13"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-12"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-14"
           scope="col"
         >
           Role
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-12"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-14"
           scope="col"
         >
           Description
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-12"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-14"
           scope="col"
         >
           Manage
@@ -653,26 +676,26 @@ exports[`Roles Component > renders correctly 1`] = `
       </tr>
     </thead>
     <tbody
-      class="MuiTableBody-root emotion-15"
+      class="MuiTableBody-root emotion-17"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-11"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Admin
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Full access
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -681,23 +704,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-11"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Read Access
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Intended for team leaders or limited tech support accounts, this role can see all Devices, Artifacts and Deployment reports but cannot make any changes.
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -706,23 +729,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-11"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Software Manager
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Intended for automation accounts building software (e.g. CI/CD systems), this role can only manage existing Releases and Manifests, including the creation of new Releases and Manifests. It does not have access to Devices or Deployments.
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -731,23 +754,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-11"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Deployments Manager
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Intended for users responsible for managing deployments, this role can create and abort deployments
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -756,23 +779,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-11"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Troubleshooting
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Access to the troubleshooting features: Remote Terminal, File Transfer, Port Forwarding
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -781,23 +804,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-11"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           test
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           test description
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-17"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -807,5 +830,5 @@ exports[`Roles Component > renders correctly 1`] = `
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 `;

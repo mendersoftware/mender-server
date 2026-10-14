@@ -87,19 +87,15 @@ exports[`Help Component > renders correctly 1`] = `
 }
 
 .emotion-17 {
-  margin: 0;
-  font: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  color: #1976d2;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  text-decoration-color: var(--Link-underlineColor);
-  --Link-underlineColor: rgba(25, 118, 210, 0.4);
-}
-
-.emotion-17:hover {
-  text-decoration-color: inherit;
+  min-width: 36px;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
 }
 
 .emotion-18 {
@@ -119,8 +115,49 @@ exports[`Help Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
+.emotion-19 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.emotion-20 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+}
+
+.emotion-21 {
+  max-width: 760px;
+}
+
+.emotion-22 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-22:hover {
+  text-decoration-color: inherit;
+}
+
 <div
-  class="help-container"
+  class="tab-container with-sub-panels"
+  style="min-height: 95%; padding-top: 0px;"
 >
   <ul
     class="MuiList-root MuiList-padding leftFixed emotion-0"
@@ -218,27 +255,46 @@ exports[`Help Component > renders correctly 1`] = `
           Documentation
         </span>
       </div>
+      <div
+        class="MuiListItemIcon-root emotion-17"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-18"
+          data-testid="LaunchIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+          />
+        </svg>
+      </div>
     </a>
   </ul>
   <div
-    class="full-width"
+    class="rightFluid padding-right-large"
+    style="border-left: medium; padding-bottom: 15%;"
   >
-    <div
-      style="max-width: 780px;"
+    <section
+      class=""
     >
-      <p
-        class="muted"
-      >
-        Help & support 
-          &gt;  Getting started
-      </p>
       <div
-        class="help-content relative margin-top-small"
+        class="flexbox space-between"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 emotion-19"
+        >
+          Help & support   &gt;  Getting started
+        </h5>
+      </div>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth margin-bottom-medium margin-top-small emotion-20"
+      />
+      <div
+        class="emotion-21"
       >
         <div>
-          <h2>
-            Getting started
-          </h2>
           <h3>
             Get Started guide
           </h3>
@@ -246,7 +302,7 @@ exports[`Help Component > renders correctly 1`] = `
             To quickly get started with the common use cases of Mender, follow the
              
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
               href="https://docs.mender.io/get-started"
               rel="noopener"
               target="_blank"
@@ -274,7 +330,7 @@ exports[`Help Component > renders correctly 1`] = `
             We support several ways of integrating your devices with Mender. For a detailed introduction read the
              
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
               href="https://docs.mender.io/client-installation"
               rel="noopener"
               target="_blank"
@@ -299,7 +355,7 @@ exports[`Help Component > renders correctly 1`] = `
             Integrations for different boards and operating systems can be found on
              
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
               href="https://hub.mender.io/c/board-integrations/6"
               rel="noopener noreferrer"
               target="_blank"
@@ -326,7 +382,7 @@ exports[`Help Component > renders correctly 1`] = `
             Everything you need to package your software for deployment with Mender can be found here:
              
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
               href="https://docs.mender.io/artifact-creation"
               rel="noopener"
               target="_blank"
@@ -349,7 +405,7 @@ exports[`Help Component > renders correctly 1`] = `
           </p>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </div>
 `;
@@ -931,9 +987,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
 }
 
 <div>
-  <h2>
-    Downloads
-  </h2>
   <p>
     To get the most out of Mender, download the tools listed below.
   </p>
@@ -3888,9 +3941,6 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
 }
 
 <div>
-  <h2>
-    Getting started
-  </h2>
   <h3>
     Get Started guide
   </h3>
@@ -4149,9 +4199,6 @@ exports[`Help Component > static components > renders Support correctly 1`] = `
 }
 
 <div>
-  <h2>
-    Contact support
-  </h2>
   <p>
     Do you have a paid plan and need to contact support?
   </p>

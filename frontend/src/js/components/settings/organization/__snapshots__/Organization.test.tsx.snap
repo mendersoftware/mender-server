@@ -1,37 +1,44 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`MyOrganization Component > renders correctly 1`] = `
-.emotion-0 {
-  max-width: 750px;
-}
-
 .emotion-0 .MuiTextField-root,
 .emotion-0 .MuiFormControl-root {
-  width: 550px;
+  width: 400px;
 }
 
 .emotion-0 .settings-item-main-content {
-  grid-template-columns: 750px max-content;
+  grid-template-columns: minmax(0, max-content) 1fr;
 }
 
 .emotion-1 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.6;
-  letter-spacing: 0.0075em;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
 }
 
 .emotion-2 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+}
+
+.emotion-3 {
+  max-width: 760px;
+}
+
+.emotion-4 {
   gap: 8px;
 }
 
-.emotion-4>* {
-  max-width: 750px;
-}
-
-.emotion-5 {
+.emotion-6 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -40,18 +47,17 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-align-items: baseline;
   -webkit-box-align: baseline;
   -ms-flex-align: baseline;
   align-items: baseline;
   display: grid;
-  grid-template-columns: 750px 1fr;
+  grid-template-columns: minmax(0, 760px) 1fr;
   grid-column-gap: 16px;
-  max-width: initial;
 }
 
-.emotion-7 {
+.emotion-8 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -60,7 +66,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-8 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -119,37 +125,37 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-8::-moz-focus-inner {
+.emotion-9::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-9.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-8 {
+  .emotion-9 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-8:hover {
+.emotion-9:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-9.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8.Mui-disabled {
+.emotion-9.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-8:hover {
+  .emotion-9:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -157,11 +163,11 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   }
 }
 
-.emotion-8.MuiButton-loading {
+.emotion-9.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-9 {
+.emotion-10 {
   display: inherit;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -171,17 +177,17 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   margin-left: -4px;
 }
 
-.emotion-9::before {
+.emotion-10::before {
   content: "\\200b";
   width: 0;
   overflow: hidden;
 }
 
-.emotion-9>*:nth-of-type(1) {
+.emotion-10>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-10 {
+.emotion-11 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -198,11 +204,11 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-26 {
+.emotion-25 {
   word-wrap: break-word;
 }
 
-.emotion-34 {
+.emotion-32 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -223,15 +229,15 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   margin-left: 16px;
 }
 
-.emotion-34.Mui-disabled {
+.emotion-32.Mui-disabled {
   cursor: default;
 }
 
-.emotion-34 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-32 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-35 {
+.emotion-33 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -250,13 +256,13 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-35 {
+  .emotion-33 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-36 {
+.emotion-34 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -300,79 +306,79 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-36::-moz-focus-inner {
+.emotion-34::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-36.Mui-disabled {
+.emotion-34.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-36 {
+  .emotion-34 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-36.Mui-checked {
+.emotion-34.Mui-checked {
   -webkit-transform: translateX(20px);
   -moz-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
 
-.emotion-36.Mui-disabled {
+.emotion-34.Mui-disabled {
   color: #f5f5f5;
 }
 
-.emotion-36.Mui-checked+.MuiSwitch-track {
+.emotion-34.Mui-checked+.MuiSwitch-track {
   opacity: 0.5;
 }
 
-.emotion-36.Mui-disabled+.MuiSwitch-track {
+.emotion-34.Mui-disabled+.MuiSwitch-track {
   opacity: 0.12;
 }
 
-.emotion-36 .MuiSwitch-input {
+.emotion-34 .MuiSwitch-input {
   left: -100%;
   width: 300%;
 }
 
-.emotion-36:hover {
+.emotion-34:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-36:hover {
+  .emotion-34:hover {
     background-color: transparent;
   }
 }
 
-.emotion-36.Mui-checked {
+.emotion-34.Mui-checked {
   color: #1976d2;
 }
 
-.emotion-36.Mui-checked:hover {
+.emotion-34.Mui-checked:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-36.Mui-checked:hover {
+  .emotion-34.Mui-checked:hover {
     background-color: transparent;
   }
 }
 
-.emotion-36.Mui-checked.Mui-disabled {
+.emotion-34.Mui-checked.Mui-disabled {
   color: rgb(167, 202, 237);
 }
 
-.emotion-36.Mui-checked+.MuiSwitch-track {
+.emotion-34.Mui-checked+.MuiSwitch-track {
   background-color: #1976d2;
 }
 
-.emotion-37 {
+.emotion-35 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -385,7 +391,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-38 {
+.emotion-36 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
   box-sizing: border-box;
@@ -395,7 +401,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-39 {
+.emotion-37 {
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -407,13 +413,13 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 }
 
 @media (forced-colors: active) {
-  .emotion-39 {
+  .emotion-37 {
     box-sizing: border-box;
     border: 1px solid ButtonBorder;
   }
 }
 
-.emotion-40 {
+.emotion-38 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -424,224 +430,235 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 
 <body>
   <div>
-    <div
-      class="margin-top-small emotion-0"
+    <section
+      class="emotion-0"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-h6 emotion-1"
-      >
-        My organization
-      </h6>
       <div
-        class="flexbox column"
+        class="flexbox space-between"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 emotion-1"
+        >
+          Organization
+        </h5>
+      </div>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth margin-bottom-medium margin-top-small emotion-2"
+      />
+      <div
+        class="emotion-3"
       >
         <div
-          class="flexbox column settings-item-base emotion-2 margin-top "
+          class="flexbox column"
         >
           <div
-            class="flexbox column settings-item-content emotion-2 emotion-4 "
+            class="flexbox column settings-item-base emotion-4 margin-top "
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
-            >
-              Organization ID
-            </h6>
             <div
-              class="settings-item-main-content emotion-6 "
+              class="flexbox column settings-item-content emotion-4 "
             >
-              <div
-                class="MuiTypography-root MuiTypography-body2 emotion-7"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
               >
-                1
-              </div>
-              <div>
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-icon MuiButton-startIcon emotion-9"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
-                      data-testid="FileCopyIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
-                      />
-                    </svg>
-                  </span>
-                  Copy to clipboard
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="flexbox column settings-item-base emotion-2 margin-top "
-        >
-          <div
-            class="flexbox column settings-item-content emotion-2 emotion-4 "
-          >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
-            >
-              Organization name
-            </h6>
-            <div
-              class="settings-item-main-content emotion-6 "
-            >
+                Organization ID
+              </h6>
               <div
-                class="MuiTypography-root MuiTypography-body2 emotion-7"
-              >
-                test
-              </div>
-              <div>
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-icon MuiButton-startIcon emotion-9"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
-                      data-testid="FileCopyIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
-                      />
-                    </svg>
-                  </span>
-                  Copy to clipboard
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="flexbox column settings-item-base emotion-2 margin-top "
-        >
-          <div
-            class="flexbox column settings-item-content emotion-2 emotion-4 "
-          >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
-            >
-              Organization token
-            </h6>
-            <p
-              class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-7"
-            >
-              The token is unique for your organization and ensures that only devices that you own are able to connect to your account.
-            </p>
-            <div
-              class="settings-item-main-content emotion-6 emotion-26"
-            >
-              <div
-                class="MuiTypography-root MuiTypography-body2 emotion-7"
+                class="settings-item-main-content emotion-7 "
               >
                 <div
-                  class="tenant-token-text"
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
                 >
-                  eyJhbGci...
+                  1
                 </div>
-                <div
-                  class="clickable link-color margin-top-x-small margin-left-x-small"
-                >
-                  <b>
-                    Show more
-                  </b>
-                </div>
-              </div>
-              <div>
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-icon MuiButton-startIcon emotion-9"
+                <div>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-9"
+                    tabindex="0"
+                    type="button"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
-                      data-testid="FileCopyIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
+                    <span
+                      class="MuiButton-icon MuiButton-startIcon emotion-10"
                     >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
-                      />
-                    </svg>
-                  </span>
-                  Copy to clipboard
-                </button>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                        data-testid="FileCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+                        />
+                      </svg>
+                    </span>
+                    Copy to clipboard
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="flexbox column settings-item-base emotion-2 margin-top "
-        >
           <div
-            class="flexbox column settings-item-content emotion-2 emotion-4 "
+            class="flexbox column settings-item-base emotion-4 margin-top "
           >
-            <label
-              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-34"
+            <div
+              class="flexbox column settings-item-content emotion-4 "
             >
-              <span
-                class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-35"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
+              >
+                Organization name
+              </h6>
+              <div
+                class="settings-item-main-content emotion-7 "
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
+                >
+                  test
+                </div>
+                <div>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-9"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-icon MuiButton-startIcon emotion-10"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                        data-testid="FileCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+                        />
+                      </svg>
+                    </span>
+                    Copy to clipboard
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flexbox column settings-item-base emotion-4 margin-top "
+          >
+            <div
+              class="flexbox column settings-item-content emotion-4 "
+            >
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
+              >
+                Organization token
+              </h6>
+              <p
+                class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-8"
+              >
+                The token is unique for your organization and ensures that only devices that you own are able to connect to your account.
+              </p>
+              <div
+                class="settings-item-main-content emotion-7 emotion-25"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
+                >
+                  <div
+                    class="tenant-token-text"
+                  >
+                    eyJhbGci...
+                  </div>
+                  <div
+                    class="clickable link-color margin-top-x-small margin-left-x-small"
+                  >
+                    <b>
+                      Show more
+                    </b>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-9"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-icon MuiButton-startIcon emotion-10"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                        data-testid="FileCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+                        />
+                      </svg>
+                    </span>
+                    Copy to clipboard
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flexbox column settings-item-base emotion-4 margin-top "
+          >
+            <div
+              class="flexbox column settings-item-content emotion-4 "
+            >
+              <label
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-32"
               >
                 <span
-                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-36"
+                  class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-33"
                 >
-                  <input
-                    class="PrivateSwitchBase-input MuiSwitch-input emotion-37"
-                    role="switch"
-                    type="checkbox"
-                  />
                   <span
-                    class="MuiSwitch-thumb emotion-38"
+                    class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-34"
+                  >
+                    <input
+                      class="PrivateSwitchBase-input MuiSwitch-input emotion-35"
+                      role="switch"
+                      type="checkbox"
+                    />
+                    <span
+                      class="MuiSwitch-thumb emotion-36"
+                    />
+                  </span>
+                  <span
+                    class="MuiSwitch-track emotion-37"
                   />
                 </span>
                 <span
-                  class="MuiSwitch-track emotion-39"
-                />
-              </span>
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-40"
-              >
-                <h6
-                  class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
+                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
                 >
-                  Enable Single Sign-On
-                </h6>
-              </span>
-            </label>
-            <div
-              class="settings-item-main-content emotion-6 "
-            >
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
+                  >
+                    Enable Single Sign-On
+                  </h6>
+                </span>
+              </label>
               <div
-                class="MuiTypography-root MuiTypography-body2 emotion-7"
+                class="settings-item-main-content emotion-7 "
               >
                 <div
-                  class="flexbox column"
-                />
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
+                >
+                  <div
+                    class="flexbox column"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
