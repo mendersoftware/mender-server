@@ -40,7 +40,7 @@ const DeviceListItem = ({ columnHeaders, listItem: device, listState: deviceList
 
   const handleOnClick = useCallback(
     event => {
-      if (event && event.target.closest('input')?.hasOwnProperty('checked')) {
+      if (event && (event.defaultPrevented || event.target.closest('input')?.hasOwnProperty('checked'))) {
         return;
       }
       onClick(device);

@@ -11,11 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { MouseEvent } from 'react';
+
 import { Error as ErrorIcon, ReportProblemOutlined } from '@mui/icons-material';
 import { Avatar, Chip, Tooltip, Typography, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_STATES } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { setDeviceListState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
 const NumberIcon = ({ className, value }) => <Avatar className={className}>{value}</Avatar>;
@@ -38,7 +42,7 @@ const statusTypes = {
     icon: WarningIcon,
     label: 'monitoring',
     notification: {
-      default: `This device has reported an issue. Click on the row to see more details`
+      default: `This device has reported an issue. Click to see more details`
     }
   },
   offline: {
@@ -60,11 +64,13 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const DeviceStatus = ({ device: { auth_sets = [], flags, isOffline, monitor = {}, status: deviceStatus } }) => {
+const DeviceStatus = ({ device: { auth_sets = [], flags, id, isOffline, monitor = {}, status: deviceStatus } }) => {
   const { classes } = useStyles();
+  const dispatch = useAppDispatch();
 
   let { color, icon, label } = statusTypes.default;
   let notification = statusTypes.default.notification.default;
+  let onClick;
 
   const pendingAuthSetsCount = auth_sets.filter(item => item.status === DEVICE_STATES.pending).length;
   if (pendingAuthSetsCount) {
@@ -74,6 +80,10 @@ const DeviceStatus = ({ device: { auth_sets = [], flags, isOffline, monitor = {}
   } else if (Object.values(monitor).some(Boolean)) {
     ({ color, icon, label } = statusTypes.monitor);
     notification = statusTypes.monitor.notification.default;
+    onClick = (event: MouseEvent) => {
+      event.preventDefault();
+      dispatch(setDeviceListState({ selectedId: id, detailsTab: 'monitor', setOnly: true }));
+    };
   } else if (isOffline) {
     ({ color, icon, label } = statusTypes.offline);
     notification = statusTypes.offline.notification.default;
@@ -82,7 +92,7 @@ const DeviceStatus = ({ device: { auth_sets = [], flags, isOffline, monitor = {}
     <div>
       {label ? (
         <Tooltip arrow title={notification} placement="bottom">
-          <Chip className="capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
+          <Chip className="capitalized" size="small" color={color} icon={icon} label={label} onClick={onClick} variant="outlined" />
         </Tooltip>
       ) : (
         <Typography className="capitalized" variant="body2">
