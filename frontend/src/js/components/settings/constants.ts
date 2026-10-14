@@ -12,8 +12,4 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-export const SETTINGS_CONTENT_MAX_WIDTH = 750;
 export const SETTINGS_FORM_MAX_WIDTH = 620;
-export const SETTINGS_INPUT_WIDTH = 550;
-export const SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY = 400;
-export const SETTINGS_SELECT_WIDTH = 240;

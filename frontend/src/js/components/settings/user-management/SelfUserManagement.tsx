@@ -21,7 +21,8 @@ import { makeStyles } from 'tss-react/mui';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsItem, ToggleSettingsItem, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
@@ -42,23 +43,21 @@ import type { PendingEmailChange } from '@northern.tech/types/MenderTypes';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import AccessTokenManagement from '../AccessTokenManagement';
-import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
 import TwoFactorAuthSetup from './TwoFactorAuthSetup';
 import { UserId, getUserSSOState } from './UserDefinition';
 import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerification';
 
 const useStyles = makeStyles()(theme => ({
-  formField: { width: SETTINGS_INPUT_WIDTH, maxWidth: '100%' },
+  formField: { width: settingsFieldWidths.large, maxWidth: '100%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
-  alert: { width: SETTINGS_INPUT_WIDTH },
+  alert: { width: settingsFieldWidths.large },
   widthLimit: {
-    maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
-    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH }
+    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: settingsFieldWidths.large }
   },
   buttonReset: { '.button-wrapper': { marginTop: theme.spacing(1.5) } },
   columnWidths: {
     '&.settings-item-main-content': {
-      gridTemplateColumns: `${SETTINGS_INPUT_WIDTH}px 1fr`
+      gridTemplateColumns: `minmax(0, ${settingsFieldWidths.large}px) 1fr`
     }
   }
 }));
@@ -179,10 +178,7 @@ export const SelfUserManagement = () => {
 
   const needsVerification = currentUser.email && !currentUser.verified;
   return (
-    <div className={`margin-top-small ${classes.widthLimit}`}>
-      <Typography variant="h6" className="margin-top-small">
-        My profile
-      </Typography>
+    <SettingsSection className={classes.widthLimit} title="My profile">
       {resetNotice && (
         <Alert className="margin-top-small margin-bottom-small" severity="warning" onClose={() => setResetNotice(false)}>
           We&rsquo;ve sent a reset password link. Please check your email.
@@ -372,7 +368,7 @@ export const SelfUserManagement = () => {
           checked={!!hasTrackingConsent}
         />
       )}
-    </div>
+    </SettingsSection>
   );
 };
 

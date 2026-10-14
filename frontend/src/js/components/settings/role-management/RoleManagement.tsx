@@ -22,6 +22,7 @@ import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { Loader } from '@northern.tech/common-ui/Loader';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { BENEFITS, emptyRole, settingsKeys } from '@northern.tech/store/constants';
 import {
   getGroupsByIdWithoutUngrouped,
@@ -102,20 +103,23 @@ export const RoleManagement = () => {
   };
 
   return (
-    <div>
-      <div className="flexbox space-between align-items-center margin-bottom-medium">
+    <SettingsSection
+      title={
         <div className="flexbox align-items-center">
-          <Typography variant="h6">Roles</Typography>
+          <Typography variant="h5">Roles</Typography>
           <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.rbacRoles.id} />
         </div>
-        <div className="flexbox align-items-center">
+      }
+      actions={
+        <>
           <EnterpriseNotification id={BENEFITS.rbac.id} />
-          <Button className="margin-left-small" color="primary" startIcon={<AddIcon />} onClick={addRole} disabled={!isEnterprise} variant="contained">
+          <Button color="primary" startIcon={<AddIcon />} onClick={addRole} disabled={!isEnterprise} variant="contained">
             Add a role
           </Button>
-        </div>
-      </div>
-      {rolesInitialized ? <DetailsTable columns={columns} items={items} onItemClick={onEditRole} /> : <Loader show={true} />}
+        </>
+      }
+      fullWidthContent={rolesInitialized ? <DetailsTable columns={columns} items={items} onItemClick={onEditRole} /> : <Loader show={true} />}
+    >
       <RoleDefinition
         adding={adding}
         editing={editing}
@@ -127,7 +131,7 @@ export const RoleManagement = () => {
         stateGroups={groups}
         stateSoftwareTags={softwareTags}
       />
-    </div>
+    </SettingsSection>
   );
 };
 

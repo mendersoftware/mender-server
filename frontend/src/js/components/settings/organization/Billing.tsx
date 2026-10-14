@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getDeviceLimits, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
@@ -35,7 +36,6 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 
 import { PlanExpanded } from '../PlanExpanded';
-import { SETTINGS_CONTENT_MAX_WIDTH } from '../constants';
 import CancelRequestDialog from '../dialogs/CancelRequest';
 import { BillingDetails } from './BillingDetails';
 
@@ -244,8 +244,7 @@ export const Billing = () => {
   };
 
   return (
-    <div style={{ maxWidth: SETTINGS_CONTENT_MAX_WIDTH }}>
-      <Typography variant="h6">Billing</Typography>
+    <SettingsSection title="Billing">
       <div className="flexbox column">
         <SettingsItem
           title="Current plan"
@@ -273,7 +272,7 @@ export const Billing = () => {
       {isAdmin && !cancelSubscriptionConfirmation && <CancelSubscription handleCancelSubscription={handleCancelSubscription} isTrial={isTrial} />}
       {cancelSubscriptionConfirmation && <CancelSubscriptionAlert />}
       {cancelSubscription && <CancelRequestDialog onCancel={() => setCancelSubscription(false)} onSubmit={cancelSubscriptionSubmit} />}
-    </div>
+    </SettingsSection>
   );
 };
 

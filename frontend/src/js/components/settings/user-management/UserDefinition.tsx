@@ -22,6 +22,7 @@ import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
 import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
 import { BENEFITS, rolesByName, twoFAStates, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
@@ -33,7 +34,7 @@ import { isEmpty } from '@northern.tech/utils/helpers';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
-import { SETTINGS_FORM_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } from '../constants';
+import { SETTINGS_FORM_MAX_WIDTH } from '../constants';
 import { UserRolesSelect } from './UserForm';
 
 const { setSnackbar } = actions;
@@ -42,10 +43,10 @@ const useStyles = makeStyles()(theme => ({
   oauthIcon: { fontSize: 36, marginRight: 10 },
   userIdWrapper: {
     '.copy-button': { marginTop: theme.spacing(0.25), whiteSpace: 'nowrap' },
-    [`&.profile-settings .${textFieldClasses.root}`]: { minWidth: SETTINGS_INPUT_WIDTH },
-    maxWidth: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY
+    maxWidth: settingsFieldWidths.large,
+    '&.profile-settings': { maxWidth: 'initial' }
   },
-  widthLimit: { maxWidth: SETTINGS_FORM_MAX_WIDTH, [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } }
+  widthLimit: { maxWidth: SETTINGS_FORM_MAX_WIDTH, [`.${textFieldClasses.root}`]: { width: settingsFieldWidths.large } }
 }));
 
 export const getUserSSOState = user => {

@@ -19,6 +19,7 @@ import { Alert, Button, Collapse, DialogActions, DialogContent } from '@mui/mate
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
@@ -29,14 +30,12 @@ import { getIsEnterprise } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 import validator from 'validator';
 
-import { SETTINGS_SELECT_WIDTH } from '../constants';
-
 const { isUUID } = validator;
 
 const defaultNewUser = { roles: [rolesByName.readOnly] };
 const defaultAdminUser = { roles: [rolesByName.admin] };
 
-export const UserRolesSelect = ({ currentUser, disabled, error = '', maxWidth = SETTINGS_SELECT_WIDTH, onSelect, roles, user }) => {
+export const UserRolesSelect = ({ currentUser, disabled, error = '', maxWidth = settingsFieldWidths.medium, onSelect, roles, user }) => {
   const isEnterprise = useSelector(getIsEnterprise);
   const relevantRolesById = useMemo(
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
@@ -187,7 +186,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
                 currentUser={currentUser}
                 disabled={!canSelectRoles}
                 error={hasEmptyRoleSelection ? 'Select at least one role.' : ''}
-                maxWidth={SETTINGS_SELECT_WIDTH}
+                maxWidth={settingsFieldWidths.medium}
                 onSelect={onSelect}
                 roles={roles}
                 user={defaultUser}

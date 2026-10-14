@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -20,6 +19,8 @@ import { Alert, Button, Divider, FormHelperText, Typography, alpha } from '@mui/
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { Select } from '@northern.tech/common-ui/forms/Select';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
@@ -29,7 +30,6 @@ import { changeIntegration, createIntegration, deleteIntegration, getIntegration
 import type { Integration } from '@northern.tech/types/MenderTypes';
 import { customSort } from '@northern.tech/utils/helpers';
 
-import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_SELECT_WIDTH } from './constants';
 import WebhookConfiguration from './webhooks/Configuration';
 import Webhooks from './webhooks/Webhooks';
 
@@ -40,17 +40,16 @@ const useStyles = makeStyles()(theme => ({
       textDecorationColor: alpha(theme.palette.primary.main, 0.4)
     }
   },
-  contentWidth: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
-  select: { minWidth: SETTINGS_SELECT_WIDTH },
+  select: { minWidth: settingsFieldWidths.medium },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
   textInput: { wordBreak: 'break-all' },
-  widthLimit: { width: SETTINGS_INPUT_WIDTH }
+  widthLimit: { width: settingsFieldWidths.large }
 }));
 
 const ConnectionDetailsInput = ({ isEditing }) => {
   const { classes } = useStyles();
 
-  const commonProps = { className: classes.textInput, disabled: !isEditing, width: SETTINGS_INPUT_WIDTH };
+  const commonProps = { className: classes.textInput, disabled: !isEditing, width: settingsFieldWidths.large };
   return (
     <div className={classes.formWrapper}>
       <TextInput {...commonProps} label="Key ID" id="aws.access_key_id" />
@@ -70,7 +69,7 @@ const ConnectionStringInput = ({ isEditing, title }) => {
       id="connection_string"
       InputProps={{ multiline: true }}
       label={`${title} connection string`}
-      width={SETTINGS_INPUT_WIDTH}
+      width={settingsFieldWidths.large}
     />
   );
 };
@@ -188,18 +187,6 @@ const determineAvailableIntegrations = (integrations, isPreRelease) =>
     return accu;
   }, []);
 
-const IntegrationsContainer = ({ children }: { children: ReactNode }) => {
-  const { classes } = useStyles();
-  return (
-    <div className={classes.contentWidth}>
-      <Typography variant="h6" className="margin-bottom-medium">
-        Integrations
-      </Typography>
-      {children}
-    </div>
-  );
-};
-
 export const Integrations = () => {
   const [availableIntegrations, setAvailableIntegrations] = useState([]);
   const [configuredIntegrations, setConfiguredIntegrations] = useState<Integration[]>([]);
@@ -256,7 +243,7 @@ export const Integrations = () => {
   const isConfiguring = configuredIntegrations.some(({ id }) => id === 'new');
   if (!!availableIntegrations.length && !integrations.length && !isConfiguring) {
     return (
-      <IntegrationsContainer>
+      <SettingsSection title="Integrations">
         <Select
           className={classes.select}
           label="Add an integration"
@@ -267,11 +254,11 @@ export const Integrations = () => {
           value=""
         />
         {isConfiguringWebhook && <WebhookConfiguration onCancel={onCancelClick} onSubmit={onSaveClick} />}
-      </IntegrationsContainer>
+      </SettingsSection>
     );
   }
   return (
-    <IntegrationsContainer>
+    <SettingsSection title="Integrations" fullWidthContent={<Webhooks />}>
       {!isConfiguring && (
         <Alert severity="info" className="margin-bottom-small">
           You can only have one active integration at a time. To use a different integration, you&#39;ll need to delete the current one first.
@@ -287,8 +274,7 @@ export const Integrations = () => {
           onSave={onSaveClick}
         />
       ))}
-      <Webhooks />
-    </IntegrationsContainer>
+    </SettingsSection>
   );
 };
 

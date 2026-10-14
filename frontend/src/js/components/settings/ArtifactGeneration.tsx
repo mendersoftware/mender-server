@@ -21,13 +21,12 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { Link } from '@northern.tech/common-ui/Link';
+import { SETTINGS_CONTENT_MAX_WIDTH } from '@northern.tech/common-ui/SettingsItem';
 import Form from '@northern.tech/common-ui/forms/Form';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
-
-import { SETTINGS_CONTENT_MAX_WIDTH } from './constants';
 
 const useStyles = makeStyles()(theme => ({
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), marginLeft: theme.spacing(2), maxWidth: 300 },
