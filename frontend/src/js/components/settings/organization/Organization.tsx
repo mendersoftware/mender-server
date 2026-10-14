@@ -24,7 +24,6 @@ import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { SettingsItem, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
 import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { Select } from '@northern.tech/common-ui/forms/Select';
-import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, SSO_TYPES, uiPermissionsById } from '@northern.tech/store/constants';
 import {
   getCurrentSession,
@@ -50,8 +49,6 @@ import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
 import { SSOConfig } from './SSOConfig';
-
-const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   tenantToken: { wordWrap: 'break-word' },
@@ -125,8 +122,6 @@ export const Organization = () => {
     }
   }, [ssoConfig]);
 
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-
   const onSaveSSOSettings = useCallback(
     (id, config) => {
       const { contentType } = SSO_TYPES[selectedSsoItem.type];
@@ -144,7 +139,10 @@ export const Organization = () => {
     setSelectedSsoItem(ssoConfig ? SSO_TYPES[ssoConfig.type] : undefined);
   };
 
-  const onDisableSSO = () => dispatch(deleteSsoConfig(ssoConfig)).then(() => setSelectedSsoItem(undefined));
+  const onDisableSSO = () =>
+    dispatch(deleteSsoConfig(ssoConfig))
+      .unwrap()
+      .then(() => setSelectedSsoItem(undefined));
 
   const onTokenExpansion = useCallback(() => setShowTokenWarning(true), []);
 
@@ -214,13 +212,7 @@ export const Organization = () => {
             secondary={
               hasSingleSignOn && !isEditingSSO && selectedSsoItem ? (
                 <div className="flexbox column gap-small">
-                  <SSOConfig
-                    ssoItem={selectedSsoItem}
-                    config={ssoConfig}
-                    onSave={onSaveSSOSettings}
-                    readOnly
-                    setSnackbar={dispatchedSetSnackbar}
-                  />
+                  <SSOConfig ssoItem={selectedSsoItem} config={ssoConfig} onSave={onSaveSSOSettings} readOnly />
                   <div className="flexbox gap-small">
                     <Button color="error" variant="outlined" onClick={() => setIsDisablingSSO(true)}>
                       Disable SSO
@@ -241,15 +233,10 @@ export const Organization = () => {
                     selectionAttribute="type"
                     value={selectedSsoItem?.type || ''}
                     width={settingsFieldWidths.medium}
-                  ></Select>
+                  />
                   {selectedSsoItem && (
                     <Collapse in={isConfiguringSSO}>
-                      <SSOConfig
-                        ssoItem={selectedSsoItem}
-                        config={ssoConfig}
-                        onSave={onSaveSSOSettings}
-                        setSnackbar={dispatchedSetSnackbar}
-                      />
+                      <SSOConfig ssoItem={selectedSsoItem} config={ssoConfig} onSave={onSaveSSOSettings} />
                     </Collapse>
                   )}
                   <Button className="align-self-start" color="info" variant="outlined" onClick={onCancelSSOSettings}>
@@ -262,12 +249,17 @@ export const Organization = () => {
             }
           />
         )}
+        {(canPreview || !isHosted) && isEnterprise && isAdmin && (
+          <SettingsItem
+            title="License report"
+            secondary={
+              <Button onClick={onDownloadReportClick} endIcon={<SaveAltIcon />}>
+                Download report
+              </Button>
+            }
+          />
+        )}
       </div>
-      {(canPreview || !isHosted) && isEnterprise && isAdmin && (
-        <Button className="margin-top" onClick={onDownloadReportClick} variant="contained">
-          Download license report
-        </Button>
-      )}
       {ssoConfirmation && (
         <ConfirmModal
           {...ssoConfirmation}
