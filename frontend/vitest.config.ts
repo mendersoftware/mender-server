@@ -42,7 +42,9 @@ const isolatedTestFiles = [
   'subscription/SubscriptionSummary.test.tsx',
   'tenants/ExpandedTenant.test.tsx',
   'tenants/TenantsForm.test.tsx'
-].map(test => `src/js/components/${test}`);
+]
+  .map(test => `src/js/components/${test}`)
+  .concat(['src/js/store/appInit.test.tsx']);
 
 // `@mui/icons-material` v9 has 10k+ strict-ESM files and per-icon package exports entries.
 // A barrel import drags all of them into the module graph, adding ~75s per test file on the current suite.
