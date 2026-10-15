@@ -15,7 +15,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Alert, Button, Chip, Collapse, Switch, Typography } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
@@ -25,19 +24,10 @@ import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailStart } from '@northern.tech/store/thunks';
 
-import { SETTINGS_INPUT_WIDTH } from '../constants';
 import AuthSetup from './twofactorauth-steps/AuthSetup';
 import EmailVerification from './twofactorauth-steps/EmailVerification';
 
 const { setSnackbar } = storeActions;
-
-const useStyles = makeStyles()(() => ({
-  columnWidths: {
-    '&.settings-item-content': {
-      width: SETTINGS_INPUT_WIDTH
-    }
-  }
-}));
 
 export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   const currentUser = useSelector(getCurrentUser);
@@ -48,7 +38,6 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   const [is2FAEnabled, setIs2FAEnabled] = useState(has2FA);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const dispatch = useAppDispatch();
-  const { classes } = useStyles();
 
   useEffect(() => {
     if ((currentUser.verified || currentUser.email?.endsWith('@example.com')) && is2FAEnabled && !has2FA) {
@@ -106,7 +95,6 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   return (
     <>
       <SettingsItem
-        classes={{ content: classes.columnWidths }}
         title={
           <div className="flexbox align-items-center">
             <Typography

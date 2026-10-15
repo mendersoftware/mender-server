@@ -1388,865 +1388,861 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
 }
 
 <div>
-  <div
-    class="padding-bottom-x-large"
+  <h4
+    class="MuiTypography-root MuiTypography-h4 margin-bottom-large emotion-0"
   >
-    <h4
-      class="MuiTypography-root MuiTypography-h4 margin-bottom-large emotion-0"
+    Upgrade your subscription
+  </h4>
+  <p
+    class="MuiTypography-root MuiTypography-body2 margin-bottom-small emotion-1"
+  >
+    Current plan: 
+    Basic
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body1 emotion-2"
+  >
+    Upgrade your plan or purchase an Add-on package to connect more devices, access more features and advanced support. 
+    <br />
+    See the full details of plans and features at
+     
+    <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+      href="https://mender.io/plans/pricing"
+      rel="noopener noreferrer"
+      target="_blank"
     >
-      Upgrade your subscription
-    </h4>
-    <p
-      class="MuiTypography-root MuiTypography-body2 margin-bottom-small emotion-1"
-    >
-      Current plan: 
-      Basic
-    </p>
-    <p
-      class="MuiTypography-root MuiTypography-body1 emotion-2"
-    >
-      Upgrade your plan or purchase an Add-on package to connect more devices, access more features and advanced support. 
-      <br />
-      See the full details of plans and features at
-       
-      <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
-        href="https://mender.io/plans/pricing"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        mender.io/plans/pricing
-      </a>
-    </p>
-    <form
-      autocomplete="off"
-      class=""
-      novalidate=""
+      mender.io/plans/pricing
+    </a>
+  </p>
+  <form
+    autocomplete="off"
+    class=""
+    novalidate=""
+  >
+    <div
+      class="flexbox"
     >
       <div
-        class="flexbox"
+        style="max-width: 550px;"
       >
-        <div
-          style="max-width: 550px;"
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-4"
         >
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-4"
-          >
-            1. Choose a plan
-          </h6>
-          <fieldset
-            class="MuiFormControl-root emotion-5"
-          >
-            <div
-              aria-labelledby="plan-selection"
-              class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row emotion-6"
-              role="radiogroup"
-            >
-              <label
-                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
-              >
-                <span
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-8"
-                >
-                  <input
-                    checked=""
-                    class="PrivateSwitchBase-input emotion-9"
-                    name="plan-selection-radio-group"
-                    type="radio"
-                    value="os"
-                  />
-                  <span
-                    class="emotion-10"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
-                      data-testid="RadioButtonUncheckedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                      />
-                    </svg>
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-12"
-                      data-testid="RadioButtonCheckedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                      />
-                    </svg>
-                  </span>
-                </span>
-                <span
-                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
-                >
-                  Basic
-                </span>
-              </label>
-              <label
-                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
-              >
-                <span
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-8"
-                >
-                  <input
-                    class="PrivateSwitchBase-input emotion-9"
-                    name="plan-selection-radio-group"
-                    type="radio"
-                    value="professional"
-                  />
-                  <span
-                    class="emotion-10"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
-                      data-testid="RadioButtonUncheckedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                      />
-                    </svg>
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
-                      data-testid="RadioButtonCheckedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                      />
-                    </svg>
-                  </span>
-                </span>
-                <span
-                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
-                >
-                  Professional
-                </span>
-              </label>
-              <label
-                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
-              >
-                <span
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-8"
-                >
-                  <input
-                    class="PrivateSwitchBase-input emotion-9"
-                    name="plan-selection-radio-group"
-                    type="radio"
-                    value="enterprise"
-                  />
-                  <span
-                    class="emotion-10"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
-                      data-testid="RadioButtonUncheckedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                      />
-                    </svg>
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
-                      data-testid="RadioButtonCheckedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                      />
-                    </svg>
-                  </span>
-                </span>
-                <span
-                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
-                >
-                  Enterprise
-                </span>
-              </label>
-            </div>
-          </fieldset>
-          <p
-            class="MuiTypography-root MuiTypography-body2 emotion-1"
-            style="min-height: 56px;"
-          >
-            The core features of Mender. To continue using Enterprise Trial features—like Delta updates, scheduled deployments, phased rollouts, device filtering, dynamic groups, RBAC, audit logs, and more—please upgrade to a higher plan.
-          </p>
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 margin-top margin-bottom-x-small emotion-4"
-          >
-            2. Set a device limit
-          </h6>
-          <div>
-            <label
-              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-7"
-            >
-              <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-31"
-              >
-                <input
-                  checked=""
-                  class="PrivateSwitchBase-input emotion-9"
-                  data-indeterminate="false"
-                  disabled=""
-                  type="checkbox"
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
-                  data-testid="CheckBoxIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                  />
-                </svg>
-              </span>
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-2"
-              >
-                <div
-                  class="flexbox"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-35"
-                  >
-                    micro devices
-                  </p>
-                  <div
-                    class="relative flexbox emotion-36  margin-left-small"
-                    data-mui-internal-clone-element="true"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-37"
-                      data-testid="HelpIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                      />
-                    </svg>
-                    <div
-                      class="emotion-38 "
-                    />
-                  </div>
-                </div>
-              </span>
-            </label>
-            <div
-              class="MuiFormControl-root emotion-5"
-              style="width: 100%;"
-            >
-              <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-40"
-                data-shrink="true"
-                for="micro"
-              >
-                Device limit
-              </label>
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-41"
-              >
-                <input
-                  aria-roledescription="Number field"
-                  autocomplete="off"
-                  autocorrect="off"
-                  class="MuiInputBase-input MuiOutlinedInput-input emotion-42"
-                  id="micro"
-                  inputmode="numeric"
-                  spellcheck="false"
-                  type="text"
-                  value="50"
-                />
-                <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
-                >
-                  <button
-                    aria-controls="base-ui-_r_X_"
-                    aria-disabled="false"
-                    aria-label="Increase"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
-                    style="-webkit-user-select: none; user-select: none;"
-                    tabindex="-1"
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-45"
-                      data-testid="KeyboardArrowUpIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    aria-controls="base-ui-_r_X_"
-                    aria-disabled="true"
-                    aria-label="Decrease"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
-                    data-disabled=""
-                    disabled=""
-                    style="-webkit-user-select: none; user-select: none;"
-                    tabindex="-1"
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-47"
-                      data-testid="KeyboardArrowDownIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline emotion-48"
-                >
-                  <legend
-                    class="emotion-49"
-                  >
-                    <span>
-                      Device limit
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-              <p
-                class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-50"
-              />
-            </div>
-            <input
-              aria-hidden="true"
-              min="50"
-              step="50"
-              style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
-              tabindex="-1"
-              type="number"
-              value="50"
-            />
-          </div>
-          <div>
-            <label
-              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-7"
-            >
-              <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-31"
-              >
-                <input
-                  checked=""
-                  class="PrivateSwitchBase-input emotion-9"
-                  data-indeterminate="false"
-                  disabled=""
-                  type="checkbox"
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
-                  data-testid="CheckBoxIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                  />
-                </svg>
-              </span>
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-2"
-              >
-                <div
-                  class="flexbox"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-35"
-                  >
-                    standard devices
-                  </p>
-                  <div
-                    class="relative flexbox emotion-36  margin-left-small"
-                    data-mui-internal-clone-element="true"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-37"
-                      data-testid="HelpIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                      />
-                    </svg>
-                    <div
-                      class="emotion-38 "
-                    />
-                  </div>
-                </div>
-              </span>
-            </label>
-            <div
-              class="MuiFormControl-root emotion-5"
-              style="width: 100%;"
-            >
-              <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-40"
-                data-shrink="true"
-                for="standard"
-              >
-                Device limit
-              </label>
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-41"
-              >
-                <input
-                  aria-roledescription="Number field"
-                  autocomplete="off"
-                  autocorrect="off"
-                  class="MuiInputBase-input MuiOutlinedInput-input emotion-42"
-                  id="standard"
-                  inputmode="numeric"
-                  spellcheck="false"
-                  type="text"
-                  value="500"
-                />
-                <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
-                >
-                  <button
-                    aria-controls="base-ui-_r_X_"
-                    aria-disabled="false"
-                    aria-label="Increase"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
-                    style="-webkit-user-select: none; user-select: none;"
-                    tabindex="-1"
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-45"
-                      data-testid="KeyboardArrowUpIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    aria-controls="base-ui-_r_X_"
-                    aria-disabled="true"
-                    aria-label="Decrease"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
-                    data-disabled=""
-                    disabled=""
-                    style="-webkit-user-select: none; user-select: none;"
-                    tabindex="-1"
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-47"
-                      data-testid="KeyboardArrowDownIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline emotion-48"
-                >
-                  <legend
-                    class="emotion-49"
-                  >
-                    <span>
-                      Device limit
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-              <p
-                class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-50"
-              />
-            </div>
-            <input
-              aria-hidden="true"
-              min="500"
-              step="50"
-              style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
-              tabindex="-1"
-              type="number"
-              value="500"
-            />
-          </div>
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-4"
-          >
-            3
-            . Choose Add-ons
-          </h6>
-          <span
-            class="MuiTypography-root MuiTypography-caption emotion-73"
-          >
-            Add-ons are currently available for Standard devices only.
-          </span>
+          1. Choose a plan
+        </h6>
+        <fieldset
+          class="MuiFormControl-root emotion-5"
+        >
           <div
-            class="margin-top-x-small"
+            aria-labelledby="plan-selection"
+            class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row emotion-6"
+            role="radiogroup"
           >
-            <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
+            <label
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
+            >
+              <span
+                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-8"
+              >
+                <input
+                  checked=""
+                  class="PrivateSwitchBase-input emotion-9"
+                  name="plan-selection-radio-group"
+                  type="radio"
+                  value="os"
+                />
+                <span
+                  class="emotion-10"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                    data-testid="RadioButtonUncheckedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-12"
+                    data-testid="RadioButtonCheckedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                    />
+                  </svg>
+                </span>
+              </span>
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
+              >
+                Basic
+              </span>
+            </label>
+            <label
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
+            >
+              <span
+                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-8"
+              >
+                <input
+                  class="PrivateSwitchBase-input emotion-9"
+                  name="plan-selection-radio-group"
+                  type="radio"
+                  value="professional"
+                />
+                <span
+                  class="emotion-10"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                    data-testid="RadioButtonUncheckedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
+                    data-testid="RadioButtonCheckedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                    />
+                  </svg>
+                </span>
+              </span>
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
+              >
+                Professional
+              </span>
+            </label>
+            <label
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
+            >
+              <span
+                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-8"
+              >
+                <input
+                  class="PrivateSwitchBase-input emotion-9"
+                  name="plan-selection-radio-group"
+                  type="radio"
+                  value="enterprise"
+                />
+                <span
+                  class="emotion-10"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                    data-testid="RadioButtonUncheckedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                    />
+                  </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
+                    data-testid="RadioButtonCheckedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                    />
+                  </svg>
+                </span>
+              </span>
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
+              >
+                Enterprise
+              </span>
+            </label>
+          </div>
+        </fieldset>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-1"
+          style="min-height: 56px;"
+        >
+          The core features of Mender. To continue using Enterprise Trial features—like Delta updates, scheduled deployments, phased rollouts, device filtering, dynamic groups, RBAC, audit logs, and more—please upgrade to a higher plan.
+        </p>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 margin-top margin-bottom-x-small emotion-4"
+        >
+          2. Set a device limit
+        </h6>
+        <div>
+          <label
+            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-7"
+          >
+            <span
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-31"
+            >
+              <input
+                checked=""
+                class="PrivateSwitchBase-input emotion-9"
+                data-indeterminate="false"
+                disabled=""
+                type="checkbox"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+                data-testid="CheckBoxIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-2"
             >
               <div
-                class="MuiCardContent-root padding-bottom-none emotion-75"
+                class="flexbox"
               >
-                <label
-                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
-                >
-                  <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
-                  >
-                    <input
-                      class="PrivateSwitchBase-input emotion-9"
-                      data-indeterminate="false"
-                      name="configure"
-                      type="checkbox"
-                      value="false"
-                    />
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
-                      data-testid="CheckBoxOutlineBlankIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
-                  >
-                    Configure
-                  </span>
-                </label>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
+                  class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-35"
                 >
-                  Seamlessly configure applications and devices remotely – configure each device to its environment.
-                </p>
-              </div>
-              <div
-                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
-              >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
-                  href="https://mender.io/pricing/add-ons/configure"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
-            <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
-            >
-              <div
-                class="MuiCardContent-root padding-bottom-none emotion-75"
-              >
-                <label
-                  class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
-                >
-                  <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
-                  >
-                    <input
-                      class="PrivateSwitchBase-input emotion-9"
-                      data-indeterminate="false"
-                      disabled=""
-                      name="monitor"
-                      type="checkbox"
-                      value="false"
-                    />
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
-                      data-testid="CheckBoxOutlineBlankIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-2"
-                  >
-                    Monitor
-                  </span>
-                </label>
-                <p
-                  class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
-                >
-                  Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.
+                  micro devices
                 </p>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-x-small emotion-92"
-                  role="alert"
-                  style="--Paper-shadow: none;"
+                  class="relative flexbox emotion-36  margin-left-small"
+                  data-mui-internal-clone-element="true"
                 >
-                  <div
-                    class="MuiAlert-icon emotion-93"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-37"
+                    data-testid="HelpIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-94"
-                      data-testid="InfoOutlinedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-                      />
-                    </svg>
-                  </div>
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
+                    />
+                  </svg>
                   <div
-                    class="MuiAlert-message emotion-95"
-                  >
-                    Monitor
-                     is not available on the 
-                    Basic
-                     plan.
-                  </div>
+                    class="emotion-38 "
+                  />
                 </div>
               </div>
-              <div
-                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
-              >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
-                  href="https://mender.io/pricing/add-ons/monitor"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
-            <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
+            </span>
+          </label>
+          <div
+            class="MuiFormControl-root emotion-5"
+            style="width: 100%;"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-40"
+              data-shrink="true"
+              for="micro"
             >
+              Device limit
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-41"
+            >
+              <input
+                aria-roledescription="Number field"
+                autocomplete="off"
+                autocorrect="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-42"
+                id="micro"
+                inputmode="numeric"
+                spellcheck="false"
+                type="text"
+                value="50"
+              />
               <div
-                class="MuiCardContent-root padding-bottom-none emotion-75"
+                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
               >
-                <label
-                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
+                <button
+                  aria-controls="base-ui-_r_X_"
+                  aria-disabled="false"
+                  aria-label="Increase"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
+                  style="-webkit-user-select: none; user-select: none;"
+                  tabindex="-1"
+                  type="button"
                 >
-                  <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-45"
+                    data-testid="KeyboardArrowUpIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <input
-                      class="PrivateSwitchBase-input emotion-9"
-                      data-indeterminate="false"
-                      name="troubleshoot"
-                      type="checkbox"
-                      value="false"
+                    <path
+                      d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
                     />
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
-                      data-testid="CheckBoxOutlineBlankIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
+                  </svg>
+                </button>
+                <button
+                  aria-controls="base-ui-_r_X_"
+                  aria-disabled="true"
+                  aria-label="Decrease"
+                  class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
+                  data-disabled=""
+                  disabled=""
+                  style="-webkit-user-select: none; user-select: none;"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-47"
+                    data-testid="KeyboardArrowDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    Troubleshoot
-                  </span>
-                </label>
-                <p
-                  class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
-                >
-                  Secure, remote access to your devices – quickly diagnose and fix issues in real time.
-                </p>
+                    <path
+                      d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                    />
+                  </svg>
+                </button>
               </div>
-              <div
-                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-48"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
-                  href="https://mender.io/pricing/add-ons/troubleshoot"
-                  rel="noopener noreferrer"
-                  target="_blank"
+                <legend
+                  class="emotion-49"
                 >
-                  Learn More
-                </a>
-              </div>
+                  <span>
+                    Device limit
+                  </span>
+                </legend>
+              </fieldset>
             </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-50"
+            />
           </div>
+          <input
+            aria-hidden="true"
+            min="50"
+            step="50"
+            style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
+            tabindex="-1"
+            type="number"
+            value="50"
+          />
         </div>
         <div>
-          <div
-            class="margin-top margin-left-x-large"
+          <label
+            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-7"
           >
-            <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root padding emotion-74"
-              style="min-width: 320px;"
+            <span
+              class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-31"
+            >
+              <input
+                checked=""
+                class="PrivateSwitchBase-input emotion-9"
+                data-indeterminate="false"
+                disabled=""
+                type="checkbox"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+                data-testid="CheckBoxIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-2"
             >
               <div
-                class="MuiCardHeader-root padding-none emotion-109"
-              >
-                <div
-                  class="MuiCardHeader-content emotion-110"
-                >
-                  <span
-                    class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title emotion-111"
-                  >
-                    <div
-                      class="flexbox space-between"
-                    >
-                      <h6
-                        class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
-                      >
-                        Your subscription:
-                      </h6>
-                      <div
-                        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary emotion-113"
-                      >
-                        <span
-                          class="MuiChip-label emotion-114"
-                        >
-                          New
-                        </span>
-                      </div>
-                    </div>
-                  </span>
-                </div>
-              </div>
-              <div
-                class="MuiCardContent-root padding-none emotion-75"
+                class="flexbox"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 margin-top-small emotion-1"
+                  class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-35"
                 >
-                  Plan: 
-                  Basic
+                  standard devices
                 </p>
                 <div
-                  class="flexbox space-between margin-top-small margin-bottom-small"
+                  class="relative flexbox emotion-36  margin-left-small"
+                  data-mui-internal-clone-element="true"
                 >
-                  <div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-117"
-                    >
-                      micro
-                    </p>
-                    <span
-                      class="MuiTypography-root MuiTypography-caption emotion-118"
-                    >
-                      x 
-                      0
-                       devices
-                    </span>
-                  </div>
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-37"
+                    data-testid="HelpIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    -
-                  </h6>
-                </div>
-                <div
-                  class="flexbox space-between margin-top-small margin-bottom-small"
-                >
-                  <div>
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-117"
-                    >
-                      standard
-                    </p>
-                    <span
-                      class="MuiTypography-root MuiTypography-caption emotion-118"
-                    >
-                      x 
-                      0
-                       devices
-                    </span>
-                  </div>
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
-                  >
-                    -
-                  </h6>
-                </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-middle margin-none emotion-123"
-                />
-                <div
-                  class="flexbox space-between margin-top-small"
-                >
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 emotion-124"
-                  >
-                    Monthly price
-                  </h6>
-                  <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-125"
-                  >
-                    -
-                  </h6>
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-38 "
+                  />
                 </div>
               </div>
-              <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
-                disabled=""
-                tabindex="-1"
-                type="button"
+            </span>
+          </label>
+          <div
+            class="MuiFormControl-root emotion-5"
+            style="width: 100%;"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-40"
+              data-shrink="true"
+              for="standard"
+            >
+              Device limit
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-41"
+            >
+              <input
+                aria-roledescription="Number field"
+                autocomplete="off"
+                autocorrect="off"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-42"
+                id="standard"
+                inputmode="numeric"
+                spellcheck="false"
+                type="text"
+                value="500"
+              />
+              <div
+                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
               >
-                Upgrade now
-              </button>
+                <button
+                  aria-controls="base-ui-_r_X_"
+                  aria-disabled="false"
+                  aria-label="Increase"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
+                  style="-webkit-user-select: none; user-select: none;"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-45"
+                    data-testid="KeyboardArrowUpIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  aria-controls="base-ui-_r_X_"
+                  aria-disabled="true"
+                  aria-label="Decrease"
+                  class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
+                  data-disabled=""
+                  disabled=""
+                  style="-webkit-user-select: none; user-select: none;"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-47"
+                    data-testid="KeyboardArrowDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-48"
+              >
+                <legend
+                  class="emotion-49"
+                >
+                  <span>
+                    Device limit
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <p
+              class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-50"
+            />
+          </div>
+          <input
+            aria-hidden="true"
+            min="500"
+            step="50"
+            style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
+            tabindex="-1"
+            type="number"
+            value="500"
+          />
+        </div>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-4"
+        >
+          3
+          . Choose Add-ons
+        </h6>
+        <span
+          class="MuiTypography-root MuiTypography-caption emotion-73"
+        >
+          Add-ons are currently available for Standard devices only.
+        </span>
+        <div
+          class="margin-top-x-small"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
+          >
+            <div
+              class="MuiCardContent-root padding-bottom-none emotion-75"
+            >
+              <label
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
+              >
+                <span
+                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
+                >
+                  <input
+                    class="PrivateSwitchBase-input emotion-9"
+                    data-indeterminate="false"
+                    name="configure"
+                    type="checkbox"
+                    value="false"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+                    data-testid="CheckBoxOutlineBlankIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
+                >
+                  Configure
+                </span>
+              </label>
+              <p
+                class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
+              >
+                Seamlessly configure applications and devices remotely – configure each device to its environment.
+              </p>
+            </div>
+            <div
+              class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+                href="https://mender.io/pricing/add-ons/configure"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Learn More
+              </a>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
+          >
+            <div
+              class="MuiCardContent-root padding-bottom-none emotion-75"
+            >
+              <label
+                class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
+              >
+                <span
+                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
+                >
+                  <input
+                    class="PrivateSwitchBase-input emotion-9"
+                    data-indeterminate="false"
+                    disabled=""
+                    name="monitor"
+                    type="checkbox"
+                    value="false"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+                    data-testid="CheckBoxOutlineBlankIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-2"
+                >
+                  Monitor
+                </span>
+              </label>
+              <p
+                class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
+              >
+                Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.
+              </p>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-x-small emotion-92"
+                role="alert"
+                style="--Paper-shadow: none;"
+              >
+                <div
+                  class="MuiAlert-icon emotion-93"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-94"
+                    data-testid="InfoOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiAlert-message emotion-95"
+                >
+                  Monitor
+                   is not available on the 
+                  Basic
+                   plan.
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+                href="https://mender.io/pricing/add-ons/monitor"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Learn More
+              </a>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
+          >
+            <div
+              class="MuiCardContent-root padding-bottom-none emotion-75"
+            >
+              <label
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
+              >
+                <span
+                  class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
+                >
+                  <input
+                    class="PrivateSwitchBase-input emotion-9"
+                    data-indeterminate="false"
+                    name="troubleshoot"
+                    type="checkbox"
+                    value="false"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+                    data-testid="CheckBoxOutlineBlankIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-2"
+                >
+                  Troubleshoot
+                </span>
+              </label>
+              <p
+                class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
+              >
+                Secure, remote access to your devices – quickly diagnose and fix issues in real time.
+              </p>
+            </div>
+            <div
+              class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+                href="https://mender.io/pricing/add-ons/troubleshoot"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Learn More
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </form>
-  </div>
+      <div>
+        <div
+          class="margin-top margin-left-x-large"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root padding emotion-74"
+            style="min-width: 320px;"
+          >
+            <div
+              class="MuiCardHeader-root padding-none emotion-109"
+            >
+              <div
+                class="MuiCardHeader-content emotion-110"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title emotion-111"
+                >
+                  <div
+                    class="flexbox space-between"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+                    >
+                      Your subscription:
+                    </h6>
+                    <div
+                      class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary emotion-113"
+                    >
+                      <span
+                        class="MuiChip-label emotion-114"
+                      >
+                        New
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </div>
+            </div>
+            <div
+              class="MuiCardContent-root padding-none emotion-75"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 margin-top-small emotion-1"
+              >
+                Plan: 
+                Basic
+              </p>
+              <div
+                class="flexbox space-between margin-top-small margin-bottom-small"
+              >
+                <div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-117"
+                  >
+                    micro
+                  </p>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption emotion-118"
+                  >
+                    x 
+                    0
+                     devices
+                  </span>
+                </div>
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
+                >
+                  -
+                </h6>
+              </div>
+              <div
+                class="flexbox space-between margin-top-small margin-bottom-small"
+              >
+                <div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-117"
+                  >
+                    standard
+                  </p>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption emotion-118"
+                  >
+                    x 
+                    0
+                     devices
+                  </span>
+                </div>
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
+                >
+                  -
+                </h6>
+              </div>
+              <hr
+                class="MuiDivider-root MuiDivider-middle margin-none emotion-123"
+              />
+              <div
+                class="flexbox space-between margin-top-small"
+              >
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle1 emotion-124"
+                >
+                  Monthly price
+                </h6>
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2 emotion-125"
+                >
+                  -
+                </h6>
+              </div>
+            </div>
+            <button
+              class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
+              disabled=""
+              tabindex="-1"
+              type="button"
+            >
+              Upgrade now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
 `;

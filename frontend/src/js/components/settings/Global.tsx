@@ -21,7 +21,8 @@ import { makeStyles } from 'tss-react/mui';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { Link } from '@northern.tech/common-ui/Link';
-import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsItem, ToggleSettingsItem, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
 import { Select } from '@northern.tech/common-ui/forms/Select';
@@ -46,12 +47,11 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { maxDeploymentRetries } from '../deployments/constants';
 import ArtifactGenerationSettings from './ArtifactGeneration';
 
-const maxWidth = 750;
 const maxOfflineIntervalDays = 1000;
 
 const useStyles = makeStyles()(() => ({
   formWrapper: { display: 'flex', flexDirection: 'column' },
-  offlineThresholdInput: { [`& .${outlinedInputClasses.root}`]: { width: 120 } }
+  offlineThresholdInput: { [`& .${outlinedInputClasses.root}`]: { width: settingsFieldWidths.small } }
 }));
 
 type DisplayableAttribute = {
@@ -75,29 +75,27 @@ export const IdAttributeSelection = ({ attributes, onSave, selectedAttribute = '
   };
 
   return (
-    <div style={{ maxWidth }}>
-      <SettingsItem
-        title="Device identity attribute"
-        description={
-          <>
-            Choose a device identity attribute to represent the devices throughout the UI.{' '}
-            <DocsTextLink id={DOCSTIPS.deviceIdentity.id} typographyProps={{ variant: 'body2' }}>
-              Learn how to add custom identity attributes.
-            </DocsTextLink>
-          </>
-        }
-        secondary={
-          <Select
-            className="margin-top-x-small"
-            labelAttribute="label"
-            onChange={onChangeIdAttribute}
-            options={attributes}
-            selectionAttribute="value"
-            value={selectedAttribute}
-          />
-        }
-      />
-    </div>
+    <SettingsItem
+      title="Device identity attribute"
+      description={
+        <>
+          Choose a device identity attribute to represent the devices throughout the UI.{' '}
+          <DocsTextLink id={DOCSTIPS.deviceIdentity.id} typographyProps={{ variant: 'body2' }}>
+            Learn how to add custom identity attributes.
+          </DocsTextLink>
+        </>
+      }
+      secondary={
+        <Select
+          className="margin-top-x-small"
+          labelAttribute="label"
+          onChange={onChangeIdAttribute}
+          options={attributes}
+          selectionAttribute="value"
+          value={selectedAttribute}
+        />
+      }
+    />
   );
 };
 
@@ -199,11 +197,8 @@ export const GlobalSettings = () => {
   const onToggleAiTrainingClick = ({ target: { checked } }) => dispatchedSaveGlobalSettings({ aiFeatures: { ...aiFeatures, trainingEnabled: checked } });
 
   return (
-    <div style={{ maxWidth }} className="margin-top-small">
-      <Typography variant="h6">Global settings</Typography>
-      <Typography className="margin-top-x-small" variant="body2">
-        Global settings are applied organization-wide. Modifying these settings will affect all users.
-      </Typography>
+    <SettingsSection title="Global settings">
+      <Typography variant="body2">Global settings are applied organization-wide. Modifying these settings will affect all users.</Typography>
       <div className={classes.formWrapper}>
         <IdAttributeSelection attributes={attributes} onSave={saveAttributeSetting} selectedAttribute={selectedAttribute} />
         {canManageUsers && (
@@ -319,6 +314,6 @@ export const GlobalSettings = () => {
         )}
       </div>
       <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />
-    </div>
+    </SettingsSection>
   );
 };

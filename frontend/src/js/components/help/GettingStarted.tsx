@@ -16,7 +16,6 @@ import { Link } from '@northern.tech/common-ui/Link';
 
 const GettingStarted = () => (
   <div>
-    <h2>Getting started</h2>
     <h3>Get Started guide</h3>
     <p>
       To quickly get started with the common use cases of Mender, follow the{' '}

@@ -14,12 +14,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import { Alert, Button, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup, Typography, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import { Loader } from '@northern.tech/common-ui/Loader';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -619,6 +621,8 @@ export const SubscriptionPageContent = () => {
   const [previewPrice, setPreviewPrice] = useState<PlanPreviewWithTotal>(initialPreviewPrice);
   const [order, setOrder] = useState();
   const [specialHandling, setSpecialHandling] = useState(false);
+  const location = useLocation();
+  const isStandalone = location.pathname.startsWith('/subscription');
 
   const tierInitialLimits = Object.fromEntries(
     Object.values(backendTiers).map(({ id, limitConstrains }) => [id, Math.max(limitConstrains[PLANS.os.id].min, currentDeviceTierLimits[id])])
@@ -672,11 +676,8 @@ export const SubscriptionPageContent = () => {
   // Form submission is handled by individual components within the form
   const onSubmit = (data: FormData) => console.log(JSON.stringify(data));
 
-  return (
-    <div className="padding-bottom-x-large">
-      <Typography variant="h4" className="margin-bottom-large">
-        Upgrade your subscription
-      </Typography>
+  const planInfo = (
+    <>
       <Typography className="margin-bottom-small" variant="body2">
         Current plan: {isTrial ? ' Free trial' : PLANS[currentPlan].name}
       </Typography>
@@ -687,7 +688,11 @@ export const SubscriptionPageContent = () => {
           mender.io/plans/pricing
         </Link>
       </Typography>
+    </>
+  );
 
+  const fullWidthContent = (
+    <>
       <Form initialValues={initialValues} defaultValues={defaultValues} onSubmit={onSubmit} autocomplete="off">
         <SubscriptionForm
           deviceTypes={deviceTypes}
@@ -701,7 +706,6 @@ export const SubscriptionPageContent = () => {
           specialHandling={specialHandling}
         />
       </Form>
-
       {loadingFinished && showUpgradeDrawer && (
         <Elements stripe={stripePromise}>
           <SubscriptionDrawer
@@ -717,7 +721,25 @@ export const SubscriptionPageContent = () => {
           />
         </Elements>
       )}
-    </div>
+    </>
+  );
+
+  if (isStandalone) {
+    return (
+      <>
+        <Typography variant="h4" className="margin-bottom-large">
+          Upgrade your subscription
+        </Typography>
+        {planInfo}
+        {fullWidthContent}
+      </>
+    );
+  }
+
+  return (
+    <SettingsSection className="padding-bottom-x-large" title={isTrial ? 'Upgrade to a plan' : 'Upgrades and add-ons'} fullWidthContent={fullWidthContent}>
+      {planInfo}
+    </SettingsSection>
   );
 };
 

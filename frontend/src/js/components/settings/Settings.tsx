@@ -137,10 +137,10 @@ export const Settings = () => {
   }
   const Component = section.component;
   return (
-    <div className="tab-container with-sub-panels" style={{ minHeight: '95%' }}>
+    <div className="tab-container with-sub-panels" style={{ minHeight: '95%', paddingTop: 0 }}>
       <PageTitle segments={[section.text({ organization }), 'Settings']} />
       <LeftNav sections={[{ itemClass: 'settingsNav', items: links, title: 'Settings' }]} />
-      <div className="rightFluid padding-right-large" style={{ paddingBottom: '15%' }}>
+      <div className="rightFluid padding-right-large" style={{ borderLeft: 'none', paddingBottom: '15%' }}>
         {loadingFinished && (
           <Elements stripe={stripePromise}>
             <Component />

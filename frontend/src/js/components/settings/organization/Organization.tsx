@@ -15,11 +15,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Typography, formControlClasses, textFieldClasses } from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, formControlClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsItem, ToggleSettingsItem, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { Select } from '@northern.tech/common-ui/forms/Select';
 import storeActions from '@northern.tech/store/actions';
@@ -47,7 +48,6 @@ import {
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
-import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
 import { SSOConfig } from './SSOConfig';
 
 const { setSnackbar } = storeActions;
@@ -55,9 +55,8 @@ const { setSnackbar } = storeActions;
 const useStyles = makeStyles()(() => ({
   tenantToken: { wordWrap: 'break-word' },
   widthLimit: {
-    maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
-    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH },
-    ['.settings-item-main-content']: { gridTemplateColumns: `${SETTINGS_CONTENT_MAX_WIDTH}px max-content` }
+    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: settingsFieldWidths.large },
+    ['.settings-item-main-content']: { gridTemplateColumns: 'minmax(0, max-content) 1fr' }
   }
 }));
 
@@ -173,8 +172,7 @@ export const Organization = () => {
     });
 
   return (
-    <div className={`margin-top-small ${classes.widthLimit}`}>
-      <Typography variant="h6">My organization</Typography>
+    <SettingsSection className={classes.widthLimit} title="Organization">
       <div className="flexbox column">
         <SettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
         <SettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
@@ -209,7 +207,7 @@ export const Organization = () => {
                       renderOption={item => <div className="capitalized-start">{item.title}</div>}
                       selectionAttribute="type"
                       value={selectedSsoItem?.type || ''}
-                      width={265}
+                      width={settingsFieldWidths.medium}
                     >
                       <MenuItem value="">Select type</MenuItem>
                     </Select>
@@ -248,7 +246,7 @@ export const Organization = () => {
         </Button>
       )}
       <ChangeSsoDialog dismiss={() => setNewSso(undefined)} open={!!newSso} submit={changeSSO} />
-    </div>
+    </SettingsSection>
   );
 };
 

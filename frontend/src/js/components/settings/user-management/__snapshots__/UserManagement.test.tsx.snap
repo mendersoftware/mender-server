@@ -4,10 +4,10 @@ exports[`UserManagement Component > renders correctly 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.6;
-  letter-spacing: 0.0075em;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
 }
 
 .emotion-1 {
@@ -167,13 +167,28 @@ exports[`UserManagement Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+}
+
+.emotion-5 {
+  max-width: 760px;
+}
+
+.emotion-6 {
   display: table;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.emotion-4 caption {
+.emotion-6 caption {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -185,42 +200,42 @@ exports[`UserManagement Component > renders correctly 1`] = `
   caption-side: bottom;
 }
 
-.emotion-5 {
+.emotion-7 {
   display: table-header-group;
 }
 
-.emotion-5 .columnHeader {
+.emotion-7 .columnHeader {
   display: table-cell;
 }
 
-.emotion-5 .columnHeader .sortIcon {
+.emotion-7 .columnHeader .sortIcon {
   margin-bottom: -6px;
 }
 
-.emotion-5 .nonSortable {
+.emotion-7 .nonSortable {
   cursor: initial;
 }
 
-.emotion-6 {
+.emotion-8 {
   color: inherit;
   display: table-row;
   vertical-align: middle;
   outline: 0;
 }
 
-.emotion-6.MuiTableRow-hover:hover {
+.emotion-8.MuiTableRow-hover:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-6.Mui-selected {
+.emotion-8.Mui-selected {
   background-color: rgba(25, 118, 210, 0.08);
 }
 
-.emotion-6.Mui-selected:hover {
+.emotion-8.Mui-selected:hover {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-7 {
+.emotion-9 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -236,11 +251,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-weight: 500;
 }
 
-.emotion-12 {
+.emotion-14 {
   display: table-row-group;
 }
 
-.emotion-14 {
+.emotion-16 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -254,7 +269,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-15 {
+.emotion-17 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -295,12 +310,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   border: 1px solid rgba(237, 108, 2, 0.7);
 }
 
-.emotion-15.Mui-disabled {
+.emotion-17.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-15 .MuiChip-avatar {
+.emotion-17 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -309,12 +324,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-15 .MuiChip-icon {
+.emotion-17 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-15 .MuiChip-deleteIcon {
+.emotion-17 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -322,11 +337,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-15 .MuiChip-deleteIcon:hover {
+.emotion-17 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-15 .MuiChip-avatar {
+.emotion-17 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -334,85 +349,85 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-15 .MuiChip-icon {
+.emotion-17 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-15 .MuiChip-deleteIcon {
+.emotion-17 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-15 .MuiChip-deleteIcon {
+.emotion-17 .MuiChip-deleteIcon {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-15 .MuiChip-deleteIcon:hover,
-.emotion-15 .MuiChip-deleteIcon:active {
+.emotion-17 .MuiChip-deleteIcon:hover,
+.emotion-17 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-15 .MuiChip-icon {
+.emotion-17 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-15 .MuiChip-icon {
+.emotion-17 .MuiChip-icon {
   color: inherit;
 }
 
-.emotion-15.MuiChip-clickable:hover {
+.emotion-17.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-15.Mui-focusVisible {
+.emotion-17.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-15 .MuiChip-avatar {
+.emotion-17 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-15 .MuiChip-icon {
+.emotion-17 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-15 .MuiChip-deleteIcon {
+.emotion-17 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-15 .MuiChip-avatar {
+.emotion-17 .MuiChip-avatar {
   margin-left: 2px;
 }
 
-.emotion-15 .MuiChip-icon {
+.emotion-17 .MuiChip-icon {
   margin-left: 2px;
 }
 
-.emotion-15 .MuiChip-deleteIcon {
+.emotion-17 .MuiChip-deleteIcon {
   margin-right: 3px;
 }
 
-.emotion-15.MuiChip-clickable:hover {
+.emotion-17.MuiChip-clickable:hover {
   background-color: rgba(237, 108, 2, 0.04);
 }
 
-.emotion-15.Mui-focusVisible {
+.emotion-17.Mui-focusVisible {
   background-color: rgba(237, 108, 2, 0.12);
 }
 
-.emotion-15 .MuiChip-deleteIcon {
+.emotion-17 .MuiChip-deleteIcon {
   color: rgba(237, 108, 2, 0.7);
 }
 
-.emotion-15 .MuiChip-deleteIcon:hover,
-.emotion-15 .MuiChip-deleteIcon:active {
+.emotion-17 .MuiChip-deleteIcon:hover,
+.emotion-17 .MuiChip-deleteIcon:active {
   color: #ed6c02;
 }
 
-.emotion-16 {
+.emotion-18 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -426,7 +441,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   padding-right: 7px;
 }
 
-.emotion-19 {
+.emotion-21 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -435,7 +450,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-22 {
+.emotion-24 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -494,37 +509,37 @@ exports[`UserManagement Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-22::-moz-focus-inner {
+.emotion-24::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-24.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-22 {
+  .emotion-24 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-22:hover {
+.emotion-24:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-24.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-22.Mui-disabled {
+.emotion-24.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-22:hover {
+  .emotion-24:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -532,77 +547,89 @@ exports[`UserManagement Component > renders correctly 1`] = `
   }
 }
 
-.emotion-22.MuiButton-loading {
+.emotion-24.MuiButton-loading {
   color: transparent;
 }
 
-<div>
+<section
+  class=""
+>
   <div
-    class="flexbox space-between align-items-center margin-bottom-medium"
+    class="flexbox space-between"
   >
-    <h6
-      class="MuiTypography-root MuiTypography-h6 emotion-0"
+    <h5
+      class="MuiTypography-root MuiTypography-h5 emotion-0"
     >
-      Users
-    </h6>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
-      tabindex="0"
-      type="button"
+      User management
+    </h5>
+    <div
+      class="flexbox align-items-center gap-small"
     >
-      <span
-        class="MuiButton-icon MuiButton-startIcon emotion-2"
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+        tabindex="0"
+        type="button"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
-          data-testid="AddIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <span
+          class="MuiButton-icon MuiButton-startIcon emotion-2"
         >
-          <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
-          />
-        </svg>
-      </span>
-      Add new user
-    </button>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
+            data-testid="AddIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+            />
+          </svg>
+        </span>
+        Add new user
+      </button>
+    </div>
   </div>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth margin-bottom-medium margin-top-small emotion-4"
+  />
+  <div
+    class="emotion-5"
+  />
   <table
-    class="MuiTable-root margin-bottom emotion-4"
+    class="MuiTable-root margin-bottom emotion-6"
   >
     <thead
-      class="MuiTableHead-root emotion-5"
+      class="MuiTableHead-root emotion-7"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-head emotion-6"
+        class="MuiTableRow-root MuiTableRow-head emotion-8"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-9"
           scope="col"
         >
           Email
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-9"
           scope="col"
         >
           Authentication
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-9"
           scope="col"
         >
           Last updated
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-9"
           scope="col"
         >
           Role
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-9"
           scope="col"
         >
           Manage
@@ -610,53 +637,53 @@ exports[`UserManagement Component > renders correctly 1`] = `
       </tr>
     </thead>
     <tbody
-      class="MuiTableBody-root emotion-12"
+      class="MuiTableBody-root emotion-14"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-6"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-8"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <span>
             a@b.com
           </span>
           <div
-            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning margin-left-x-small emotion-15"
+            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning margin-left-x-small emotion-17"
           >
             <span
-              class="MuiChip-label emotion-16"
+              class="MuiChip-label emotion-18"
             >
               No 2FA
             </span>
           </div>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           Password
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <time
             aria-label=""
-            class="MuiTypography-root MuiTypography-body2 emotion-19"
+            class="MuiTypography-root MuiTypography-body2 emotion-21"
             data-mui-internal-clone-element="true"
           >
             -
           </time>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           Admin
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-24"
             tabindex="0"
             type="button"
           >
@@ -665,50 +692,50 @@ exports[`UserManagement Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-6"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-8"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <span>
             a2@b.com
           </span>
           <div
-            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning margin-left-x-small emotion-15"
+            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning margin-left-x-small emotion-17"
           >
             <span
-              class="MuiChip-label emotion-16"
+              class="MuiChip-label emotion-18"
             >
               Not verified
             </span>
           </div>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           Password
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <time
             aria-label=""
-            class="MuiTypography-root MuiTypography-body2 emotion-19"
+            class="MuiTypography-root MuiTypography-body2 emotion-21"
             data-mui-internal-clone-element="true"
           >
             -
           </time>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           Admin
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-24"
             tabindex="0"
             type="button"
           >
@@ -718,5 +745,5 @@ exports[`UserManagement Component > renders correctly 1`] = `
       </tr>
     </tbody>
   </table>
-</div>
+</section>
 `;

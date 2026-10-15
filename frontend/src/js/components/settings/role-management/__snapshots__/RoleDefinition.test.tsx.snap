@@ -208,7 +208,7 @@ exports[`Roles Component > renders correctly 1`] = `
   flex-direction: column;
   gap: 24px;
   padding-top: 32px;
-  max-width: 750px;
+  max-width: 760px;
 }
 
 .emotion-7 .MuiSelect-root {

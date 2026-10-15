@@ -16,9 +16,10 @@ import { useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import storeActions from '@northern.tech/store/actions';
 import {
   getCurrentUser,
@@ -117,15 +118,16 @@ export const UserManagement = () => {
   const selectedUser = user.id ? usersById[user.id] : undefined;
 
   return (
-    <div>
-      <div className="flexbox space-between align-items-center margin-bottom-medium">
-        <Typography variant="h6">Users</Typography>
+    <SettingsSection
+      title="User management"
+      actions={
         <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} disabled={emailVerificationRequired} variant="contained">
           Add new user
         </Button>
-      </div>
+      }
+      fullWidthContent={<UserList {...props} editUser={openEdit} />}
+    >
       {emailVerificationRequired && <EmailVerificationWarning action="add a new user" />}
-      <UserList {...props} editUser={openEdit} />
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
         currentUser={currentUser}
@@ -149,7 +151,7 @@ export const UserManagement = () => {
         close={dialogDismiss}
         onConfirm={() => submit(user, 'remove', user.id)}
       />
-    </div>
+    </SettingsSection>
   );
 };
 

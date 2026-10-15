@@ -22,7 +22,6 @@ import { makeStyles } from 'tss-react/mui';
 
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
 import { Link } from '@northern.tech/common-ui/Link';
-import { maxWidth } from '@northern.tech/common-ui/SettingsItem';
 import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
@@ -32,7 +31,6 @@ import SSOEditor from './SSOEditor';
 
 const useStyles = makeStyles()(theme => ({
   configDetail: {
-    maxWidth,
     [`.${listItemTextClasses.primary}`]: {
       color: theme.palette.text.disabled,
       fontSize: 'smaller'
@@ -50,10 +48,10 @@ const useStyles = makeStyles()(theme => ({
     alignItems: 'start',
     columnGap: theme.spacing(2),
     display: 'grid',
-    gridTemplateColumns: `minmax(max-content, ${maxWidth}px) max-content max-content`,
+    gridTemplateColumns: 'minmax(0, 1fr) max-content max-content',
     position: 'relative',
     ['&.has-sso']: {
-      gridTemplateColumns: `${maxWidth - 45}px 1fr`
+      gridTemplateColumns: '1fr max-content'
     }
   }
 }));

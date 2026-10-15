@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { SETTINGS_CONTENT_MAX_WIDTH, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
@@ -39,7 +40,6 @@ import type { UiRoleDefinition } from '@northern.tech/utils/constants';
 import { deepCompare } from '@northern.tech/utils/helpers';
 import type { AsyncThunkAction } from '@reduxjs/toolkit';
 
-import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } from '../constants';
 import type { ItemScope, ItemSelectionType, ScopedUiPermissions } from './PermissionsItems';
 import { ItemSelection, PermissionsItem, emptyItemSelection } from './PermissionsItems';
 import type { PermissionsSelectionBaseProps } from './PermissionsSelect';
@@ -52,9 +52,9 @@ const useStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     paddingTop: theme.spacing(4),
     maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
-    [`.${selectClasses.root}`]: { minWidth: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY }
+    [`.${selectClasses.root}`]: { minWidth: settingsFieldWidths.large }
   },
-  inputWidth: { maxWidth: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY }
+  inputWidth: { maxWidth: settingsFieldWidths.large }
 }));
 
 type FormValues = FieldValues & {
