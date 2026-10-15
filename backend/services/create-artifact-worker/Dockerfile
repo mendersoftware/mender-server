@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.26.5 as builder
+FROM --platform=$BUILDPLATFORM golang:1.27.2 as builder
 ARG TARGETARCH
 ARG TARGETOS
 ARG BUILDFLAGS="-trimpath"
@@ -43,7 +43,7 @@ RUN \
   BUILDFLAGS="${BUILDFLAGS}" && \
   mkdir /var/cache/create-artifact-worker
 
-FROM alpine:3.23.5
+FROM alpine:3.24.2
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534:65534
