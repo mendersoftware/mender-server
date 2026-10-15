@@ -131,8 +131,6 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
   --variant-containedBg: #1976d2;
   padding: 4px 5px;
   font-size: 0.8125rem;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-5::-moz-focus-inner {
@@ -167,10 +165,6 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-5.MuiButton-loading {
-  color: transparent;
 }
 
 <div

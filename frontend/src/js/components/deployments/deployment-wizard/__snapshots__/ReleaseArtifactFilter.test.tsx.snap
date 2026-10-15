@@ -189,8 +189,6 @@ exports[`ReleaseArtifactFilter Component > renders correctly 1`] = `
   color: var(--variant-outlinedColor);
   padding: 3px 9px;
   font-size: 0.8125rem;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-8::-moz-focus-inner {
@@ -220,10 +218,6 @@ exports[`ReleaseArtifactFilter Component > renders correctly 1`] = `
 
 .emotion-8.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-8.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-9 {

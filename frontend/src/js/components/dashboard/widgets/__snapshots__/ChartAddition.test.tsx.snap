@@ -248,8 +248,6 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #e0e0e0;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -283,10 +281,6 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
-}
-
-.emotion-6.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-7 {

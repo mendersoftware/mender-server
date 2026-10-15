@@ -59,8 +59,6 @@ exports[`CardSection Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -95,10 +93,6 @@ exports[`CardSection Component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-1.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-2 {
@@ -154,8 +148,6 @@ exports[`CardSection Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #9c27b0;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-2::-moz-focus-inner {
@@ -214,10 +206,6 @@ exports[`CardSection Component > renders correctly 1`] = `
     --variant-outlinedBorder: #9c27b0;
     --variant-outlinedBg: rgba(156, 39, 176, 0.04);
   }
-}
-
-.emotion-2.MuiButton-loading {
-  color: transparent;
 }
 
 <form

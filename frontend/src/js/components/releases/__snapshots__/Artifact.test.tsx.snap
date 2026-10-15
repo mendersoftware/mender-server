@@ -344,8 +344,6 @@ exports[`Artifact Component > renders correctly 1`] = `
   --variant-containedBg: #e0e0e0;
   padding: 4px 5px;
   font-size: 0.8125rem;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-20::-moz-focus-inner {
@@ -379,10 +377,6 @@ exports[`Artifact Component > renders correctly 1`] = `
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
-}
-
-.emotion-20.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-21 {
@@ -629,8 +623,6 @@ exports[`Artifact Component > renders correctly 1`] = `
   border-color: var(--variant-outlinedBorder, currentColor);
   background-color: var(--variant-outlinedBg);
   color: var(--variant-outlinedColor);
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-69::-moz-focus-inner {
@@ -660,10 +652,6 @@ exports[`Artifact Component > renders correctly 1`] = `
 
 .emotion-69.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-69.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-70 {
@@ -741,8 +729,6 @@ exports[`Artifact Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(211, 47, 47, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #d32f2f;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-72::-moz-focus-inner {
@@ -781,10 +767,6 @@ exports[`Artifact Component > renders correctly 1`] = `
     --variant-outlinedBorder: #d32f2f;
     --variant-outlinedBg: rgba(211, 47, 47, 0.04);
   }
-}
-
-.emotion-72.MuiButton-loading {
-  color: transparent;
 }
 
 <div

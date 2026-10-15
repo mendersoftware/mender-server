@@ -455,6 +455,12 @@ exports[`Distribution Component > renders correctly 1`] = `
                   style="width: 100%; height: 100%; outline: none;"
                 />
               </div>
+              <div
+                aria-atomic="true"
+                aria-live="polite"
+                role="status"
+                style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; pointer-events: none;"
+              />
               <svg
                 aria-hidden="true"
                 class="MuiChartsSvgLayer-root emotion-12"
