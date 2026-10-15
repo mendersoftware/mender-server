@@ -88,7 +88,7 @@ exports[`Releases Component > renders correctly 1`] = `
           class="flexbox align-items-center"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-v0ljrj-MuiButtonBase-root-MuiButton-root-uploadButton"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-x7b6s7-MuiButtonBase-root-MuiButton-root-uploadButton"
             tabindex="0"
             type="button"
           >

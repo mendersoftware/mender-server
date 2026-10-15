@@ -443,8 +443,6 @@ exports[`ArtifactGeneration component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-24::-moz-focus-inner {
@@ -479,10 +477,6 @@ exports[`ArtifactGeneration component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-24.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-26 {
@@ -1026,8 +1020,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-71::-moz-focus-inner {
@@ -1086,10 +1078,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-71.MuiButton-loading {
-  color: transparent;
 }
 
 <body

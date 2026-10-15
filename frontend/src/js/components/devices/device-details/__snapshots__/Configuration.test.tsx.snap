@@ -128,8 +128,6 @@ exports[`Configuration Component > renders correctly 1`] = `
   --variant-containedBg: #e0e0e0;
   padding: 4px 5px;
   font-size: 0.8125rem;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -163,10 +161,6 @@ exports[`Configuration Component > renders correctly 1`] = `
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
-}
-
-.emotion-6.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-7 {
@@ -869,8 +863,6 @@ exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -931,10 +923,6 @@ exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
   }
 }
 
-.emotion-6.MuiButton-loading {
-  color: transparent;
-}
-
 .emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -985,8 +973,6 @@ exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
   border-color: var(--variant-outlinedBorder, currentColor);
   background-color: var(--variant-outlinedBg);
   color: var(--variant-outlinedColor);
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-7::-moz-focus-inner {
@@ -1016,10 +1002,6 @@ exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
 
 .emotion-7.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-7.MuiButton-loading {
-  color: transparent;
 }
 
 <div>
@@ -1260,8 +1242,6 @@ exports[`tiny components > renders ConfigUpdateFailureActions correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-0::-moz-focus-inner {
@@ -1300,10 +1280,6 @@ exports[`tiny components > renders ConfigUpdateFailureActions correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-0.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-1 {
@@ -1393,8 +1369,6 @@ exports[`tiny components > renders ConfigUpdateFailureActions correctly 1`] = `
   border-color: var(--variant-outlinedBorder, currentColor);
   background-color: var(--variant-outlinedBg);
   color: var(--variant-outlinedColor);
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -1424,10 +1398,6 @@ exports[`tiny components > renders ConfigUpdateFailureActions correctly 1`] = `
 
 .emotion-3.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-3.MuiButton-loading {
-  color: transparent;
 }
 
 <div>

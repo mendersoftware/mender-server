@@ -578,8 +578,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-30::-moz-focus-inner {
@@ -614,10 +612,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-30.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-31 {
@@ -675,8 +669,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-31::-moz-focus-inner {
@@ -715,10 +707,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-31.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-32 {
@@ -774,8 +762,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-32::-moz-focus-inner {
@@ -834,10 +820,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-32.MuiButton-loading {
-  color: transparent;
 }
 
 <div

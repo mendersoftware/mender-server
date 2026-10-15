@@ -603,7 +603,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-2rwryq-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-i572rh-MuiButtonBase-root-MuiButton-root"
         style="margin-left: 15px;"
         tabindex="0"
         type="button"
@@ -732,7 +732,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             2019-01-01 12:10
           </time>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-1hfnksx-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -780,7 +780,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             2019-01-01 12:16
           </time>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-1hfnksx-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -830,7 +830,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             2019-01-01 12:10
           </time>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-1hfnksx-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >

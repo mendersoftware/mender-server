@@ -363,8 +363,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-9::-moz-focus-inner {
@@ -390,10 +388,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 .emotion-9.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-9.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-10 {
@@ -484,8 +478,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #e0e0e0;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-12::-moz-focus-inner {
@@ -519,10 +511,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
-}
-
-.emotion-12.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-13 {

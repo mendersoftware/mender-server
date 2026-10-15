@@ -216,8 +216,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-7::-moz-focus-inner {
@@ -252,10 +250,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-7.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-12 {
@@ -347,8 +341,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(2, 136, 209, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #0288d1;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-18::-moz-focus-inner {
@@ -387,10 +379,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
     --variant-outlinedBorder: #0288d1;
     --variant-outlinedBg: rgba(2, 136, 209, 0.04);
   }
-}
-
-.emotion-18.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-19 {
@@ -446,8 +434,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-19::-moz-focus-inner {
@@ -506,10 +492,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-19.MuiButton-loading {
-  color: transparent;
 }
 
 <div

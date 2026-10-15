@@ -73,7 +73,7 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
             aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-qwvc5u-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-dky2w3-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
@@ -251,7 +251,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small css-dizc30-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small css-1259lrg-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -612,7 +612,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo nowrap css-4z3qqp-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo nowrap css-cawrbv-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -990,7 +990,7 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
             aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-qwvc5u-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-dky2w3-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
@@ -1166,7 +1166,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small css-dizc30-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small css-1259lrg-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >

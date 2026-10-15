@@ -19,14 +19,14 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         role="group"
       >
         <button
-          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButtonGroup-firstButton css-57foq8-MuiButtonBase-root-MuiButton-root-buttonStyle"
+          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButtonGroup-firstButton css-31q0dp-MuiButtonBase-root-MuiButton-root-buttonStyle"
           tabindex="0"
           type="button"
         >
           Connect a new device
         </button>
         <button
-          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton css-j11n8i-MuiButtonBase-root-MuiButton-root-buttonStyle"
+          class="MuiButtonBase-root MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton css-1ql6bu5-MuiButtonBase-root-MuiButton-root-buttonStyle"
           tabindex="0"
           type="button"
         >
@@ -150,7 +150,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         </div>
       </ul>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top css-fz451c-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top css-1gujc4h-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
@@ -272,7 +272,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               </h6>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary css-dizc30-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary css-1259lrg-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -299,7 +299,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           class="flexbox align-items-center space-between margin-top margin-bottom-x-small"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color flexbox css-mzh218-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color flexbox css-1htj5vi-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -321,7 +321,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             Filters
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit css-fz451c-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit css-1gujc4h-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >

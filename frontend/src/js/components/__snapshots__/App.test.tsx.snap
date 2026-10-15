@@ -488,8 +488,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
   --variant-outlinedBorder: rgba(29, 143, 175, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1d8faf;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
   box-shadow: none;
   text-transform: none;
@@ -529,10 +527,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
     --variant-outlinedBorder: #1d8faf;
     --variant-outlinedBg: rgba(29, 143, 175, 0.04);
   }
-}
-
-.emotion-12.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-12:hover:not(.MuiButton-colorInfo) {
@@ -734,8 +728,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #dededf;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
   box-shadow: none;
   text-transform: none;
@@ -772,10 +764,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
     --variant-textBg: rgba(31, 31, 32, 0.04);
     --variant-outlinedBg: rgba(31, 31, 32, 0.04);
   }
-}
-
-.emotion-19.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-19:hover:not(.MuiButton-colorInfo) {
@@ -833,8 +821,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #dededf;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
   box-shadow: none;
   text-transform: none;
@@ -872,10 +858,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
     --variant-textBg: rgba(31, 31, 32, 0.04);
     --variant-outlinedBg: rgba(31, 31, 32, 0.04);
   }
-}
-
-.emotion-23.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-23:hover:not(.MuiButton-colorInfo) {
@@ -2819,8 +2801,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
   --variant-outlinedBorder: rgba(29, 143, 175, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1d8faf;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
   box-shadow: none;
   text-transform: none;
@@ -2860,10 +2840,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
     --variant-outlinedBorder: #1d8faf;
     --variant-outlinedBg: rgba(29, 143, 175, 0.04);
   }
-}
-
-.emotion-12.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-12:hover:not(.MuiButton-colorInfo) {
@@ -3065,8 +3041,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #dededf;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
   box-shadow: none;
   text-transform: none;
@@ -3103,10 +3077,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
     --variant-textBg: rgba(31, 31, 32, 0.04);
     --variant-outlinedBg: rgba(31, 31, 32, 0.04);
   }
-}
-
-.emotion-19.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-19:hover:not(.MuiButton-colorInfo) {
@@ -3164,8 +3134,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #dededf;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
   box-shadow: none;
   text-transform: none;
@@ -3203,10 +3171,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-8:focus::-ms-input-p
     --variant-textBg: rgba(31, 31, 32, 0.04);
     --variant-outlinedBg: rgba(31, 31, 32, 0.04);
   }
-}
-
-.emotion-23.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-23:hover:not(.MuiButton-colorInfo) {

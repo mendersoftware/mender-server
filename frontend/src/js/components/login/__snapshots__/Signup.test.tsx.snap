@@ -99,8 +99,6 @@ exports[`Signup Component > renders correctly 1`] = `
   --variant-containedBg: #1976d2;
   padding: 4px 5px;
   font-size: 0.8125rem;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-4::-moz-focus-inner {
@@ -135,10 +133,6 @@ exports[`Signup Component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-4.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-5 {
@@ -273,8 +267,6 @@ exports[`Signup Component > renders correctly 1`] = `
   border-color: var(--variant-outlinedBorder, currentColor);
   background-color: var(--variant-outlinedBg);
   color: var(--variant-outlinedColor);
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-12::-moz-focus-inner {
@@ -304,10 +296,6 @@ exports[`Signup Component > renders correctly 1`] = `
 
 .emotion-12.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-12.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-13 {
@@ -947,8 +935,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-52::-moz-focus-inner {
@@ -1007,10 +993,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-52.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-53 {
@@ -1084,8 +1066,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-54:hover {
@@ -1124,10 +1104,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-54.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-55 {

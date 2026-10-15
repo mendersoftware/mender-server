@@ -91,8 +91,6 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -127,10 +125,6 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-3.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-4 {
@@ -428,8 +422,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -464,10 +456,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-3.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-4 {
@@ -669,8 +657,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-18::-moz-focus-inner {
@@ -731,10 +717,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   }
 }
 
-.emotion-18.MuiButton-loading {
-  color: transparent;
-}
-
 .emotion-19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -790,8 +772,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   --variant-outlinedBorder: rgba(211, 47, 47, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #d32f2f;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-19::-moz-focus-inner {
@@ -830,10 +810,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
     --variant-outlinedBorder: #d32f2f;
     --variant-outlinedBg: rgba(211, 47, 47, 0.04);
   }
-}
-
-.emotion-19.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-20 {
@@ -887,8 +863,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   color: inherit;
   border-color: currentColor;
   --variant-containedBg: #e0e0e0;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-20::-moz-focus-inner {
@@ -922,10 +896,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
-}
-
-.emotion-20.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-22 {
@@ -1450,8 +1420,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
   --variant-outlinedBorder: rgba(2, 136, 209, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #0288d1;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-46::-moz-focus-inner {
@@ -1490,10 +1458,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
     --variant-outlinedBorder: #0288d1;
     --variant-outlinedBg: rgba(2, 136, 209, 0.04);
   }
-}
-
-.emotion-46.MuiButton-loading {
-  color: transparent;
 }
 
 <div>
@@ -2116,8 +2080,6 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-3::-moz-focus-inner {
@@ -2152,10 +2114,6 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-3.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-4 {
@@ -2535,8 +2493,6 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
   --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -2571,10 +2527,6 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
     --variant-outlinedBorder: #1976d2;
     --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
-}
-
-.emotion-1.MuiButton-loading {
-  color: transparent;
 }
 
 .emotion-2 {
