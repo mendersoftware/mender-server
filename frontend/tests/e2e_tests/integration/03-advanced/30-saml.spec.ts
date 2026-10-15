@@ -50,12 +50,10 @@ test.describe('SAML Login via sso/id/login', () => {
     await page.goto(`${baseUrl}ui/settings/organization`);
     const isInitialized = await page.getByText('Entity ID').isVisible();
     if (!isInitialized) {
-      // Check input[type="checkbox"]
-      await page.getByLabel(/Enable Single Sign-On/i).click();
+      await page.getByRole('button', { name: /set up sso/i }).click();
       await page.getByRole('combobox').click();
       await page.getByRole('option', { name: 'SAML' }).click();
-      // Click text=input with the text editor
-      await page.getByText('input with the text editor').click();
+      await page.getByRole('button', { name: /upload or edit metadata/i }).click();
 
       const cleanedMetaData = metadata.replace(/(?:\r\n|\r|\n)/g, '');
       const editorLoadingIndicator = page.locator('.loaderContainer');
@@ -65,28 +63,20 @@ test.describe('SAML Login via sso/id/login', () => {
       console.log('typing metadata done.');
       // The screenshot saves the view of the typed metadata
       await page.screenshot({ 'path': './test-results/saml-edit-saving.png' });
-      // Click text=Save >> nth=1
-      await page.getByText('Save').nth(1).click();
+      await page.getByRole('button', { name: /save sso configuration/i }).click();
       await page.getByText('Entity ID').waitFor();
     }
 
-    await page.getByText('View metadata in the text editor').click();
-    // Click text=Download file
-    const downloadPromise = page.waitForEvent('download');
-    await page.getByRole('button', { name: /download file/i }).click();
-    const download = await downloadPromise;
-    const downloadTargetPath = await download.path();
-    expect(downloadTargetPath).toBeTruthy();
-    const dialog = await page.locator('text=SAML metadata >> .. >> ..');
-    await dialog.getByLabel('close').click();
-    const token = await getTokenFromStorage(baseUrl);
+    await expect(page.getByText('Uploaded', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: /disable sso/i })).toBeVisible();
+    const token = getTokenFromStorage(baseUrl);
     const options = { headers: { Authorization: `Bearer ${token}` } };
     const storedMetadataResponse = await request.get(`${baseUrl}api/management/v1/useradm/sso/idp/metadata`, options);
     const data = await storedMetadataResponse.json();
     const metadataId = data[0].id;
     console.log(`looking for config info for metadata id: ${metadataId}`);
     const expectedLoginUrl = `${baseUrl}api/management/v1/useradm/auth/sso/${metadataId}/login`;
-    const loginUrl = await page.getByText(expectedLoginUrl);
+    const loginUrl = page.getByText(expectedLoginUrl);
     await loginUrl.waitFor();
     await expect(loginUrl).toBeVisible();
     const expectedAcsUrl = `${baseUrl}api/management/v1/useradm/auth/sso/${metadataId}/acs`;
@@ -131,14 +121,10 @@ test.describe('SAML Login via sso/id/login', () => {
     await page.goto(`${baseUrl}ui/help`);
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/organization/i).click();
-    await page.getByText('View metadata in the text editor').waitFor({ timeout: timeouts.tenSeconds });
-    let loginUrl;
-    let loginThing = await page.locator('*:below(:text("Start URL"))').first();
-    loginUrl = await loginThing.getAttribute('title');
-    if (!loginUrl) {
-      loginThing = await page.locator(':text("Start URL") + *').first();
-      loginUrl = await loginThing.innerText();
-    }
+    const startUrlLabel = page.getByText('Start URL', { exact: true });
+    await startUrlLabel.waitFor({ timeout: timeouts.tenSeconds });
+    // the SSO details are a two column grid, so the value is the label's next sibling
+    const loginUrl = await startUrlLabel.locator('xpath=following-sibling::*[1]').innerText();
     console.log(`logging in via ${loginUrl} (using: ${samlSettings.credentials[browserName]})`);
     const context = await browser.newContext();
     const samlPage = await context.newPage();
