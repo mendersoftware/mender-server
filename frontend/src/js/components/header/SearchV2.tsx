@@ -69,7 +69,7 @@ interface SearchResultItem {
   device: Device;
   isIdMatch: boolean;
   label: string;
-  matches: { attribute: string; value: string }[];
+  matches: { attribute: string; label: string; value: string }[];
   metadata: string[];
 }
 
@@ -93,7 +93,7 @@ const toResult = (device: Device, idAttribute, searchedAttributes, term: string)
     label: getDeviceIdentityText({ device, idAttribute }),
     matches: matched
       .filter(searched => !isSameAttribute(idAttribute, searched))
-      .map(searched => ({ attribute: searched.attribute, value: getAttributeValue(device, searched) })),
+      .map(searched => ({ attribute: searched.attribute, label: searched.label, value: getAttributeValue(device, searched) })),
     metadata: [device.attributes.device_type?.join(', '), getDeviceSoftwareText(device.attributes)].filter(Boolean)
   };
 };
@@ -238,10 +238,13 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
   );
   const selectedOption =
     findOption(attributeOptions, pickedAttribute ?? searchAttribute ?? idAttribute) ?? findOption(attributeOptions, idAttribute) ?? attributeOptions[0];
-  const { attribute, scope } = selectedOption;
+  const { attribute, label, scope } = selectedOption;
   const searchedAttributes = useMemo(
-    () => (attribute ? [{ attribute, scope }] : attributeOptions.slice(1).map(option => ({ attribute: option.attribute, scope: option.scope }))),
-    [attribute, attributeOptions, scope]
+    () =>
+      attribute
+        ? [{ attribute, label, scope }]
+        : attributeOptions.slice(1).map(option => ({ attribute: option.attribute, label: option.label, scope: option.scope })),
+    [attribute, attributeOptions, label, scope]
   );
 
   const dispatch = useAppDispatch();
@@ -268,7 +271,7 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
     let isCurrent = true;
     dispatch(
       searchIdentities({
-        attributes: [idAttribute, ...searchedAttributes],
+        attributes: [idAttribute, ...searchedAttributes.map(searched => ({ attribute: searched.attribute, scope: searched.scope }))],
         per_page: resultsPerPage,
         value_prefix: debouncedTerm,
         ...(!!attribute && { attribute: { name: attribute, scope } })
@@ -415,9 +418,9 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
                     <Typography variant="subtitle2" component="span">
                       {isIdMatch ? <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={label} /> : label}
                     </Typography>
-                    {matches.map(({ attribute: matchedAttribute, value }) => (
+                    {matches.map(({ attribute: matchedAttribute, label: matchedLabel, value }) => (
                       <i className="margin-left-x-small" key={matchedAttribute}>
-                        ({matchedAttribute}: <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={value} />)
+                        ({matchedLabel}: <HighlightedMatch className={classes.highlight} term={debouncedTerm} text={value} />)
                       </i>
                     ))}
                   </>
@@ -434,7 +437,7 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
                 }
                 slotProps={{ primary: { className: 'text-overflow', variant: 'body2' }, secondary: { component: 'div', variant: 'caption' } }}
               />
-              <DeviceStatus device={{ ...device, isOffline: device.status !== DEVICE_STATES.pending && device.isOffline }} />
+              <DeviceStatus device={{ ...device, flags: undefined, isOffline: device.status !== DEVICE_STATES.pending && device.isOffline }} />
             </ListItemButton>
           ))}
           {showViewAll && (
