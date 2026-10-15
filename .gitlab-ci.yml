@@ -29,7 +29,7 @@ variables:
     value: "1.27.1"
     description: "Version of Golang to use in jobs"
   MONGO_VERSION:
-    value: "8.3"
+    value: "9.0"
     description: "Version of MongoDB to use in jobs"
   REDIS_VERSION:
     value: "8.10"
