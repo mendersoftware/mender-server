@@ -342,7 +342,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: ${MIRROR_REGISTRY:-docker.io}/library/traefik:v3.7.12
+    image: ${MIRROR_REGISTRY:-docker.io}/library/traefik:v3.7.14
     command:
       - --api=true
       - --api.insecure=true
@@ -401,7 +401,7 @@ services:
         aliases: [mender-mongo]
 
   nats:
-    image: ${MIRROR_REGISTRY:-docker.io}/library/nats:2.14-alpine
+    image: ${MIRROR_REGISTRY:-docker.io}/library/nats:2.15-alpine
     command: [-js, -m, '8222']
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8222/healthz | grep -q 'ok'"]
