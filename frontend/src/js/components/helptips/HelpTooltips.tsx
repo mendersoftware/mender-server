@@ -212,8 +212,6 @@ const MenderArtifactUpload = () => (
 
 const SingleFileUpload = () => <>This will generate a single file application update Artifact, which requires some additional metadata to be entered.</>;
 
-const SsoMetadata = () => <>Submit the metadata document from your Identity Provider</>;
-
 const RbacRoles = () => (
   <>
     Roles allow administrators to define and manage user permissions, and create custom roles with precise control over features such as device access, release
@@ -324,7 +322,6 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   rbacRoles: { id: 'rbacRoles', Component: RbacRoles },
   releaseName: { id: 'releaseName', Component: ReleaseName },
   resetHistory: { id: 'resetHistory', Component: ResetHistory },
-  ssoMetadata: { id: 'ssoMetadata', Component: SsoMetadata },
   scheduleDeployment: { id: 'scheduleDeployment', Component: ScheduleDeployment },
   singleFileUpload: { id: 'singleFileUpload', Component: SingleFileUpload },
   standardDevice: { id: 'standardDevice', Component: StandardDevice },
