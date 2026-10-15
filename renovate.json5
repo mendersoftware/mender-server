@@ -24,7 +24,7 @@
   "prHourlyLimit": 2,
   "prConcurrentLimit": 10,
 
-  "baseBranchPatterns": ["main", "4.0.x", "4.1.x"],
+  "baseBranchPatterns": ["main", "4.1.x"],
 
   // Security PRs bypass the schedule and automerge when CI is green.
   "vulnerabilityAlerts": {
