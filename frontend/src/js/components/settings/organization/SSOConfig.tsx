@@ -11,171 +11,108 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
-import Dropzone from 'react-dropzone';
+import { useCallback, useEffect, useState } from 'react';
 
 // material ui
-import { CloudUpload } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import { listItemTextClasses } from '@mui/material/ListItemText';
+import { CheckCircle, Edit } from '@mui/icons-material';
+import { Button, List, ListItem, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import { Link } from '@northern.tech/common-ui/Link';
-import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
-import { toggle } from '@northern.tech/utils/helpers';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import storeActions from '@northern.tech/store/actions';
+import { SSO_TYPES } from '@northern.tech/store/constants';
+import { getSsoEndpoint } from '@northern.tech/store/selectors';
+import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
+import { getSsoEndpoints } from '@northern.tech/store/thunks';
 
-import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
-import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import SSOEditor from './SSOEditor';
 
+const { setSnackbar } = storeActions;
+
+const getEndpointDetails = (type, ssoEndpoint) =>
+  Object.fromEntries(SSO_TYPES[type].configDetails.map(({ key, label }) => [label, ssoEndpoint?.[type]?.[key]]));
+
 const useStyles = makeStyles()(theme => ({
-  configDetail: {
-    [`.${listItemTextClasses.primary}`]: {
-      color: theme.palette.text.disabled,
-      fontSize: 'smaller'
-    }
+  list: {
+    listStyleType: 'decimal',
+    paddingLeft: theme.spacing(4)
   },
-  uploadIcon: {
-    marginBottom: theme.spacing(-0.5),
-    marginRight: theme.spacing()
+  listItem: {
+    display: 'list-item'
   },
-  tinyMargin: {
-    marginLeft: theme.spacing(0.5),
-    marginRight: theme.spacing(0.5)
-  },
-  wrapper: {
-    alignItems: 'start',
-    columnGap: theme.spacing(2),
-    display: 'grid',
-    gridTemplateColumns: 'minmax(0, 1fr) max-content max-content',
-    position: 'relative',
-    ['&.has-sso']: {
-      gridTemplateColumns: '1fr max-content'
-    }
+  setup: {
+    fontWeight: 600
   }
 }));
 
-export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, token }) => {
-  const [configDetails, setConfigDetails] = useState([]);
+export const SSOConfig = ({ ssoItem, config, onSave, readOnly = false }) => {
+  const [configDetails, setConfigDetails] = useState({});
   const [fileContent, setFileContentState] = useState('');
-  const [hasSSOConfig, setHasSSOConfig] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { id, type, ...content } = config || {};
+  const { type: selectedType } = ssoItem;
   const configContent = content.config || '';
-
+  const ssoEndpoint = useAppSelector(getSsoEndpoint);
+  const dispatch = useAppDispatch();
+  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
   // file content should be text, otherwise editor will fail
   const setFileContent = content => setFileContentState(typeof content === 'object' ? JSON.stringify(content) : content);
 
   const { classes } = useStyles();
 
   useEffect(() => {
-    setHasSSOConfig(!!config);
+    dispatch(getSsoEndpoints());
+  }, [dispatch]);
+
+  useEffect(() => {
     setFileContent(configContent);
     if (config?.id) {
-      setConfigDetails(SSO_TYPES[type].configDetails.map(item => ({ ...item, value: item.getValue(config.id) })));
+      setConfigDetails({
+        Type: SSO_TYPES[type].title,
+        ...getEndpointDetails(type, ssoEndpoint),
+        Metadata: (
+          <Typography variant="body2" className="flexbox align-items-center gap-x-small green">
+            Uploaded
+            <CheckCircle fontSize="small" />
+          </Typography>
+        )
+      });
     }
-  }, [config, configContent, type]);
-
-  const onCancelSSOSettings = () => {
-    setHasSSOConfig(!!config);
-    setFileContent(configContent);
-    setIsEditing(false);
-    onCancel();
-  };
+  }, [config, configContent, ssoEndpoint, type]);
 
   const onSaveSSOSettings = async () => {
-    try {
-      await onSave(id, fileContent);
-      setIsEditing(false);
-    } catch {
-      // error already handled in thunk - leave open
-    }
+    await onSave(id, fileContent);
+    setIsEditing(false);
   };
-
-  const onDrop = acceptedFiles => {
-    const reader = new FileReader();
-    reader.fileName = acceptedFiles[0].name;
-    reader.onerror = error => console.log('Error: ', error);
-    reader.onload = () => {
-      setIsEditing(true);
-      setFileContent(reader.result);
-    };
-    reader.readAsBinaryString(acceptedFiles[0]);
-  };
-
-  const onOpenEditorClick = () => setIsEditing(toggle);
-
-  // disable save button if there is no metadata content and metadata format is not xml that means SAML. As we allow to save empty SAML SSO config
-  const saveButtonDisabled = !fileContent && ssoItem.metadataFormat !== XML_METADATA_FORMAT;
-
   return (
     <>
-      <div className={`flexbox align-items-center ${classes.wrapper} ${hasSSOConfig ? 'has-sso' : ''}`}>
-        {hasSSOConfig ? (
-          <Link component="span" className="clickable" onClick={onOpenEditorClick}>
-            View metadata in the text editor
-          </Link>
-        ) : (
-          <>
-            <MenderHelpTooltip id={HELPTOOLTIPS.ssoMetadata.id} style={{ position: 'absolute', left: -35 }} placement="left" />
-            <Dropzone multiple={false} onDrop={onDrop}>
-              {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()} className="dropzone onboard dashboard-placeholder flexbox centered">
-                  <input {...getInputProps()} />
-                  <CloudUpload className={classes.uploadIcon} fontSize="small" /> Drag here or <Link className={classes.tinyMargin}>browse</Link> to upload a
-                  metadata document
-                </div>
-              )}
-            </Dropzone>
-            <div>
-              or{' '}
-              <Link component="span" className="clickable" onClick={onOpenEditorClick}>
-                input with the text editor
-              </Link>
-            </div>
-          </>
-        )}
-        <div className="flexbox">
-          {hasSSOConfig && !isEditing ? (
-            <Button onClick={onOpenEditorClick}>Edit</Button>
-          ) : (
-            <>
-              <Button onClick={onCancelSSOSettings}>Cancel</Button>
-              <Button className={classes.tinyMargin} onClick={onSaveSSOSettings} disabled={saveButtonDisabled} variant="contained">
-                Save
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
-      {hasSSOConfig && (
-        <div className="flexbox column margin-top">
-          {configDetails.map(item => (
-            <ExpandableAttribute
-              className={classes.configDetail}
-              copyToClipboard
-              key={item.key}
-              primary={item.label}
-              secondary={item.value}
-              setSnackbar={setSnackbar}
-              disableGutters
-              dividerDisabled
-            />
-          ))}
-        </div>
+      {readOnly ? (
+        <TwoColumnData className="margin-top-small" data={configDetails} setSnackbar={dispatchedSetSnackbar} />
+      ) : (
+        <>
+          <Typography className={classes.setup}>Setup:</Typography>
+          <List component="ol" className={classes.list}>
+            <ListItem className={classes.listItem}>
+              <Typography className="margin-bottom-small">Copy the details to your identity provider:</Typography>
+              <TwoColumnData data={getEndpointDetails(selectedType, ssoEndpoint)} setSnackbar={dispatchedSetSnackbar} />
+            </ListItem>
+            <ListItem className={classes.listItem}>Provide the connection metadata from your identity provider:</ListItem>
+          </List>
+          <div>
+            <Button onClick={() => setIsEditing(true)} endIcon={<Edit />}>
+              Upload or edit metadata
+            </Button>
+          </div>
+        </>
       )}
       <SSOEditor
         open={isEditing}
         ssoItem={ssoItem}
         config={configContent}
         fileContent={fileContent}
-        hasSSOConfig={hasSSOConfig}
-        onCancel={onCancelSSOSettings}
-        onClose={onOpenEditorClick}
+        onClose={() => setIsEditing(false)}
         onSave={onSaveSSOSettings}
         setFileContent={setFileContent}
-        token={token}
       />
     </>
   );
