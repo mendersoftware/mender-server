@@ -94,7 +94,7 @@ test.describe('RBAC functionality', () => {
       await nameInput.fill('test-groups-role');
       await nameInput.press('Tab');
       await dialog.getByLabel(/description/i).fill('some description');
-      await dialog.getByLabel(/Search groups/i).click({ force: true });
+      await dialog.getByLabel(/Search groups/i).click();
       // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
       // of the dialog tree
       await page.getByRole('option', { name: staticGroupName }).click();
@@ -118,7 +118,7 @@ test.describe('RBAC functionality', () => {
         // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
         // of the dialog tree
         // grant deploy on a device group first (on the clean dialog) so the role can create deployments and reach the software picker
-        await dialog.getByLabel(/Search groups/i).click({ force: true });
+        await dialog.getByLabel(/Search groups/i).click();
         await page.getByRole('option', { name: staticGroupName }).click();
         await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
         await page.getByRole('option', { name: 'Deploy', exact: true }).click();
@@ -126,11 +126,11 @@ test.describe('RBAC functionality', () => {
         // wait for the permissions menu backdrop to fully close before opening the next dropdown,
         // otherwise the click that should open the release-tags autocomplete gets swallowed by the backdrop
         await expect(page.getByRole('listbox')).toBeHidden();
-        await dialog.getByLabel(/Search software tags/i).click({ force: true });
+        await dialog.getByLabel(/Search software tags/i).click();
         if (tag) {
           await page.getByRole('option', { name: tag }).click();
         } else {
-          await page.getByRole('option', { name: /All software/i }).click({ force: true });
+          await page.getByRole('option', { name: /All software/i }).click();
         }
         await dialog.locator(`[id="mui-component-select-releases.0.uiPermissions"]`).click();
         for await (const permission of permissions) {

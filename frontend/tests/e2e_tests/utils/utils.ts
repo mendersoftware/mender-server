@@ -36,7 +36,7 @@ export const acceptPendingDevice = async (page: Page, deviceType = 'qemux86-64')
     await page.getByRole('button', { name: 'device-actions' }).click();
     await page.getByRole('menuitem', { name: /accept/i }).click();
   }
-  await page.locator(`input:near(:text("Status:"))`).first().click({ force: true });
+  await page.locator(`input:near(:text("Status:"))`).first().click();
   await page.click(`css=.MuiPaper-root >> text=/Accepted/i`);
   await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/${deviceType}/`, { timeout: 2 * timeouts.sixtySeconds });
 };
