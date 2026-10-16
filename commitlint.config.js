@@ -17,7 +17,8 @@ module.exports = {
   extends: ['@commitlint/config-conventional'],
   plugins: ['selective-scope'],
   rules: {
-    'body-max-line-length': [1, 'always', 100],
+    'body-max-line-length': [1, 'always', Infinity],
+    'footer-max-line-length': [1, 'always', Infinity],
     'selective-scope': [
       2,
       'always',
