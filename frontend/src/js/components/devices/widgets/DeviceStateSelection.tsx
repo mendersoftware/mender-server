@@ -30,11 +30,12 @@ export const DeviceStateSelection = ({ className = '', onStateChange, selectedSt
 
   return (
     <div className="flexbox align-items-center">
-      <Typography variant="body2" className="margin-right-x-small">
+      <Typography id="device-status-select-label" variant="body2" className="margin-right-x-small">
         Status:
       </Typography>
       <Select
         className={`capitalized ${className}`}
+        labelId="device-status-select-label"
         MenuItemProps={{ className: 'capitalized' }}
         onChange={e => onStateChange(e.target.value)}
         options={availableStates}

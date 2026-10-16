@@ -199,6 +199,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 margin-right-x-small css-7ctihp-MuiTypography-root"
+                  id="device-status-select-label"
                 >
                   Status:
                 </p>
@@ -211,6 +212,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
+                      aria-labelledby="device-status-select-label"
                       class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-jbz0k-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                       role="combobox"
                       tabindex="0"
