@@ -190,6 +190,95 @@ func TestNATSStreamSlowConsumerNoDrop(t *testing.T) {
 	}
 }
 
+// TestListenNATSDefaultAllowsMultipleListeners documents the historical,
+// non-exclusive behavior: with no options, two listeners may coexist on the
+// same addr.
+func TestListenNATSDefaultAllowsMultipleListeners(t *testing.T) {
+	t.Parallel()
+	nc := startTestNATS(t)
+	addr := uniqueAddr()
+
+	ln1, err := ListenNATS(nc, addr)
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = ln1.Close(context.Background()) })
+
+	ln2, err := ListenNATS(nc, addr)
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = ln2.Close(context.Background()) })
+}
+
+// TestListenNATSCloseIfOccupied covers the takeover exclusivity option: a
+// second ListenNATS call on the same addr must close the existing listener
+// (and its open connections) before taking over.
+func TestListenNATSCloseIfOccupied(t *testing.T) {
+	t.Parallel()
+	nc := startTestNATS(t)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	addr := uniqueAddr()
+
+	ln1, err := ListenNATS(nc, addr)
+	require.NoError(t, err)
+
+	ln1AcceptErr := make(chan error, 1)
+	go func() {
+		_, err := ln1.Accept(ctx)
+		ln1AcceptErr <- err
+	}()
+
+	ln2, err := ListenNATS(nc, addr, ListenOptionCloseIfOccupied)
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = ln2.Close(context.Background()) })
+
+	select {
+	case err := <-ln1AcceptErr:
+		require.ErrorIs(t, err, ErrClosed)
+	case <-time.After(5 * time.Second):
+		t.Fatal("timed out waiting for the original listener to be closed")
+	}
+
+	// The new listener must be usable in place of the old one.
+	srcAddr := uniqueAddr()
+	accepted := make(chan error, 1)
+	go func() {
+		_, err := ln2.Accept(ctx)
+		accepted <- err
+	}()
+	sender, err := ConnectNATS(ctx, nc, srcAddr, addr)
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = sender.Close(context.Background()) })
+	require.NoError(t, <-accepted)
+}
+
+// TestListenNATSCloseIfOccupiedIgnoresSelfEcho guards against a regression
+// where a listener's own takeover probe -- published to the same wildcard
+// listen subject it subscribes to, before any other listener exists -- gets
+// echoed back into its own subscription while ListenNATS waits for it, and
+// is mistaken for a takeover request against itself.
+func TestListenNATSCloseIfOccupiedIgnoresSelfEcho(t *testing.T) {
+	t.Parallel()
+	nc := startTestNATS(t)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	addr := uniqueAddr()
+
+	ln, err := ListenNATS(nc, addr, ListenOptionCloseIfOccupied)
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = ln.Close(context.Background()) })
+
+	srcAddr := uniqueAddr()
+	accepted := make(chan error, 1)
+	go func() {
+		_, err := ln.Accept(ctx)
+		accepted <- err
+	}()
+	sender, err := ConnectNATS(ctx, nc, srcAddr, addr)
+	require.NoError(t, err)
+	t.Cleanup(func() { _ = sender.Close(context.Background()) })
+
+	require.NoError(t, <-accepted)
+}
+
 // TestNATSStreamRoundTrip covers the basic bidirectional happy path.
 func TestNATSStreamRoundTrip(t *testing.T) {
 	t.Parallel()
