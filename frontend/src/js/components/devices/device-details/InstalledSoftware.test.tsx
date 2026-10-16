@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { manifestVersion } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
@@ -66,7 +67,7 @@ describe('extractSoftwareInformation function', () => {
         'even.more.dots.than.before.version': 'test-5',
         'even.more.dots.than.before.more': 'test-6',
         'gateway.G13.artifact_name': 'gateway-v4',
-        'gateway.G13.data-partition.mender-orchestrator-manifest.version': 'manifest-v5',
+        [`gateway.G13.${manifestVersion}`]: 'manifest-v5',
         'gateway.G13.rootfs-image.checksum': 'b31a03283704a8e772f946cdec3d2a0a89ada59eccbe64b6dcb62434372a8b67',
         'gateway.G13.rootfs-image.version': 'gateway-v4',
         'rtos.R456.device_type': 'rtos',

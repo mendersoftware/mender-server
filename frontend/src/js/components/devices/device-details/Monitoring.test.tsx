@@ -13,8 +13,10 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { prettyDOM } from '@testing-library/react';
+import { ATTRIBUTE_SCOPES } from '@northern.tech/utils/constants';
+import { prettyDOM, screen } from '@testing-library/react';
 
+import { systemComponentAttribute } from './DeviceSystem';
 import DeviceMonitoring, { DeviceMonitorsMissingNote } from './Monitoring';
 
 describe('tiny components', () => {
@@ -67,5 +69,10 @@ describe('DeviceMonitoring Component', () => {
       .replace(/\\/g, '');
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('points out the system device component for system devices', async () => {
+    const components = { T456: [{ name: systemComponentAttribute, value: 'true', scope: ATTRIBUTE_SCOPES.inventory }] };
+    render(<DeviceMonitoring device={{ ...defaultState.devices.byId.a1, components, tier: 'system' }} />);
+    expect(screen.getByText(/works with the system device component \(T456\)/i)).toBeVisible();
   });
 });

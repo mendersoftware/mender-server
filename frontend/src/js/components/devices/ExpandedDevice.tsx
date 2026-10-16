@@ -54,16 +54,16 @@ const deviceStatusCheck = ({ device: { status = DEVICE_STATES.accepted } }, stat
 const tabs = [
   { component: IdentityTab, title: () => 'Identity', value: 'identity', isApplicable: yes },
   {
-    component: DeviceInventory,
-    title: () => 'Inventory',
-    value: 'inventory',
-    isApplicable: deviceStatusCheck
-  },
-  {
     component: DeviceSystem,
     title: () => 'System',
     value: 'system',
     isApplicable: args => args.device.tier === 'system' && deviceStatusCheck(args)
+  },
+  {
+    component: DeviceInventory,
+    title: () => 'Inventory',
+    value: 'inventory',
+    isApplicable: deviceStatusCheck
   },
   {
     component: InstalledSoftware,
@@ -163,6 +163,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
     device,
     integrations,
     onDecommissionDevice,
+    setDetailsTab,
     setSnackbar: dispatchedSetSnackbar,
     userCapabilities
   };

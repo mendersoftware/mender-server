@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { softwareIndicator } from '@northern.tech/store/constants';
 import type { Artifact } from '@northern.tech/store/releasesSlice';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -104,7 +105,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }: Ar
   const softwareVersions = useMemo(() => {
     const { software } = extractSoftware(artifact.artifact_provides);
     return software
-      .filter(([path]) => path.endsWith('.version'))
+      .filter(([path]) => path.endsWith(softwareIndicator))
       .map(([path, version]) => {
         const parts = path.split('.');
         return { key: parts[0], name: parts.slice(1, -1).join('.'), version, nestingLevel: parts.length };
