@@ -115,7 +115,7 @@ func TestUploadFileRequestValidation(t *testing.T) {
 			Request: &UploadFileRequest{
 				Path: str2pointer("/absolute/path"),
 			},
-			Error: errors.New("file: cannot be blank."),
+			Error: errors.New("file: upload file is required."),
 		},
 	}
 

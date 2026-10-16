@@ -207,7 +207,7 @@ func TestSubmitAuditLog(t *testing.T) {
 
 		Error: errors.New(`^workflows: invalid AuditLog entry: ` +
 			`action: cannot be blank; ` +
-			`actor: \(.+\); object: \(.+\)\.$`,
+			`actor: (.+); object: (.+)\.$`,
 		),
 	}, {
 		Name: "error, invalid context",
