@@ -359,7 +359,10 @@ def s3_bucket(request):
             endpoint_url=endpoint,
         )
         s3.create_bucket(Bucket=bucket_name)
-    except s3.exceptions.BucketAlreadyExists:  # Exception: # boto3.BucketAlreadyExists:
+    except (
+        s3.exceptions.BucketAlreadyExists,
+        s3.exceptions.BucketAlreadyOwnedByYou,
+    ):  # Exception: # boto3.BucketAlreadyExists:
         pass
     bucket = boto3.resource(
         "s3",

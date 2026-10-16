@@ -323,7 +323,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: traefik:v3.7.1
+    image: traefik:v3.7.14
     command:
       - --api=true
       - --api.insecure=true
@@ -381,7 +381,7 @@ services:
         aliases: [mender-mongo]
 
   nats:
-    image: nats:2.14-alpine
+    image: nats:2.15-alpine
     command: [-js, -m, '8222']
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8222/healthz | grep -q 'ok'"]
