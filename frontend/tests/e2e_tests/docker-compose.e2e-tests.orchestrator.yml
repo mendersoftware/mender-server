@@ -6,7 +6,7 @@ services:
       - CLIENT_IP
 
   client:
-    image: registry.mender.io/mendersoftware/mender-orchestrator-qemu-commercial:client-main
+    image: registry.mender.io/mendersoftware/mender-orchestrator-qemu-commercial:main
     environment:
       - SERVER_URL=https://docker.mender.io
       - TENANT_TOKEN
