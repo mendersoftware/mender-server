@@ -63,6 +63,8 @@ func TestManagementDownloadFile(t *testing.T) {
 		AppDownloadFile    bool
 		AppDownloadFileErr error
 
+		PanicValue any
+
 		HTTPStatus int
 		HTTPBody   []byte
 	}{
@@ -572,7 +574,8 @@ func TestManagementDownloadFile(t *testing.T) {
 				Tenant:  "000000000000000000000000",
 				IsUser:  true,
 			},
-			Path: "/absolute/path",
+			Path:       "/absolute/path",
+			PanicValue: http.ErrAbortHandler,
 
 			DeviceFunc: func(t *testing.T, client *nats_mocks.Client) {
 				conn := stream_mocks.NewConn(t)
@@ -1665,7 +1668,14 @@ func TestManagementDownloadFile(t *testing.T) {
 			}
 
 			w := httptest.NewRecorder()
-			router.ServeHTTP(w, req)
+			if tc.PanicValue != nil {
+				assert.PanicsWithValue(t, tc.PanicValue, func() {
+					router.ServeHTTP(w, req)
+				})
+			} else {
+				router.ServeHTTP(w, req)
+
+			}
 			assert.Equal(t, tc.HTTPStatus, w.Code, w.Body.Bytes())
 			if tc.HTTPStatus == http.StatusOK {
 				assert.Equal(t, tc.HTTPBody, w.Body.Bytes())
