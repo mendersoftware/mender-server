@@ -203,6 +203,12 @@
       "matchBaseBranches": ["/^\\d+\\.\\d+\\.x$/"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    // Internal @northern.tech packages should not be backported on maintenance branches.
+    {
+      "matchBaseBranches": ["/^\\d+\\.\\d+\\.x$/"],
+      "matchPackageNames": ["@northern.tech/**"],
+      "enabled": false
     }
   ]
 }
