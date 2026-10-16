@@ -181,7 +181,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   letter-spacing: inherit;
   width: 182px;
   padding-top: 1px;
-  color: currentColor;
+  opacity: 0.42;
   opacity: 0;
   padding: 16.5px 0;
   padding: 8.5px 0;
@@ -211,6 +211,16 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   width: -moz-fit-content;
   width: fit-content;
   outline: none;
+}
+
+@supports (-webkit-app-region: drag) {
+  .MuiPickersInputBase-root:not(:focus-within) .emotion-8 {
+    -webkit-user-modify: read-only;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 }
 
 .emotion-18 {
