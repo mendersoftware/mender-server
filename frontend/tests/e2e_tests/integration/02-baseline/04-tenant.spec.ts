@@ -108,7 +108,7 @@ test.describe('Multi tenant access', () => {
       .locator('..')
       .locator('..')
       .getByRole('button', { name: /copy to clipboard/i })
-      .click({ force: true });
+      .click();
     const content = await newPage.evaluateHandle(() => navigator.clipboard.readText());
     userId = await content.jsonValue();
     expect(userId).toBeTruthy();
@@ -160,7 +160,7 @@ test.describe('Multi tenant access', () => {
     await newPage.getByRole('button', { name: secondaryUser }).click();
     await expect(newPage.getByRole('menuitem', { name: /secondary/i })).toBeVisible();
     await newPage.screenshot({ path: './test-results/switch-try-switch.png' });
-    await newPage.getByRole('button', { name: /switch organization/i }).click({ force: true });
+    await newPage.getByRole('button', { name: /switch organization/i }).click();
     const tenantSwitch = await newPage.getByRole('menuitem', { name: /test/i });
     await tenantSwitch.waitFor({ timeout: timeouts.default });
     await tenantSwitch.click();

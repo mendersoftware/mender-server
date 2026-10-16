@@ -44,7 +44,7 @@ test.describe('Settings', () => {
       const tokenName = `aNewToken-${retry}`;
       await page.getByText(/Create new token/i).waitFor();
       await page.getByLabel(/token name/i).fill(tokenName);
-      await page.getByText(/a year/i).click({ force: true });
+      await page.getByText(/a year/i).click();
       await page.getByRole('option', { name: '7 days' }).click();
       await page.getByRole('button', { name: /Create token/i }).click();
       await page.getByRole('button', { name: /Close/i }).click();
