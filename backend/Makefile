@@ -26,6 +26,8 @@ OAPI_CLIENT := backend/pkg/api/client
 SPEC_FILES := $(shell find docs/api -name '*.yaml' -and -not -path 'docs/api/dist/*')
 OPENAPI_GENERATOR_VERSION := v7.20.0
 
+export LC_ALL=C
+
 docs/api/dist/openapi.yaml: $(SPEC_FILES)
 	@echo "Regenerating combined OpenAPI spec..."
 	@cd docs/api && $(REDOCLY) join --prefix-tags-with-info-prop title \
