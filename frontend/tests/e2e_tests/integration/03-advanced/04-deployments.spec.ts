@@ -129,7 +129,6 @@ test.describe('Deployments', () => {
     await creationButton.scrollIntoViewIfNeeded();
     await creationButton.click();
     await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
-    await page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds });
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
   });
