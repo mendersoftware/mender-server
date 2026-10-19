@@ -429,6 +429,9 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactDependsProvidesValid() 
 }
 
 func (s *DeploymentsManagementV1Suite) testUploadArtifactProvidesDependsIgnoredInOpenSource() {
+	if s.Tenant.TenantToken != "" {
+		s.T().Skip("enterprise honors artifact depends/provides")
+	}
 	require := require.New(s.T())
 	ctx := common.JWTAuthContext(s.T().Context(), s.JWT)
 
