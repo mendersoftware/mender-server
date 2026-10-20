@@ -114,7 +114,7 @@ model_login_options.go
 model_new_configuration_deployment.go
 model_new_configuration_deployment_response.go
 model_new_deployment.go
-model_new_deployment_for_group.go
+model_new_deployment_spec.go
 model_new_device_internal_provision.go
 model_new_tenant.go
 model_own_user_update_v2.go

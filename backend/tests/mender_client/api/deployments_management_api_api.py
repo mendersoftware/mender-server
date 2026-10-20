@@ -31,7 +31,7 @@ from mender_client.models.device_deployment_v1 import DeviceDeploymentV1
 from mender_client.models.device_with_image import DeviceWithImage
 from mender_client.models.direct_upload_metadata import DirectUploadMetadata
 from mender_client.models.new_deployment import NewDeployment
-from mender_client.models.new_deployment_for_group import NewDeploymentForGroup
+from mender_client.models.new_deployment_spec import NewDeploymentSpec
 from mender_client.models.release_v1 import ReleaseV1
 from mender_client.models.statistics import Statistics
 from mender_client.models.storage_limit import StorageLimit
@@ -924,7 +924,7 @@ class DeploymentsManagementAPIApi:
     def create_deployment_for_a_group_of_devices(
         self,
         name: Annotated[StrictStr, Field(description="Device group name.")],
-        new_deployment_for_group: Annotated[NewDeploymentForGroup, Field(description="New deployment that needs to be created.")],
+        new_deployment_spec: Annotated[NewDeploymentSpec, Field(description="New deployment that needs to be created.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -944,8 +944,8 @@ class DeploymentsManagementAPIApi:
 
         :param name: Device group name. (required)
         :type name: str
-        :param new_deployment_for_group: New deployment that needs to be created. (required)
-        :type new_deployment_for_group: NewDeploymentForGroup
+        :param new_deployment_spec: New deployment that needs to be created. (required)
+        :type new_deployment_spec: NewDeploymentSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -970,7 +970,7 @@ class DeploymentsManagementAPIApi:
 
         _param = self._create_deployment_for_a_group_of_devices_serialize(
             name=name,
-            new_deployment_for_group=new_deployment_for_group,
+            new_deployment_spec=new_deployment_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1000,7 +1000,7 @@ class DeploymentsManagementAPIApi:
     def create_deployment_for_a_group_of_devices_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Device group name.")],
-        new_deployment_for_group: Annotated[NewDeploymentForGroup, Field(description="New deployment that needs to be created.")],
+        new_deployment_spec: Annotated[NewDeploymentSpec, Field(description="New deployment that needs to be created.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1020,8 +1020,8 @@ class DeploymentsManagementAPIApi:
 
         :param name: Device group name. (required)
         :type name: str
-        :param new_deployment_for_group: New deployment that needs to be created. (required)
-        :type new_deployment_for_group: NewDeploymentForGroup
+        :param new_deployment_spec: New deployment that needs to be created. (required)
+        :type new_deployment_spec: NewDeploymentSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1046,7 +1046,7 @@ class DeploymentsManagementAPIApi:
 
         _param = self._create_deployment_for_a_group_of_devices_serialize(
             name=name,
-            new_deployment_for_group=new_deployment_for_group,
+            new_deployment_spec=new_deployment_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1076,7 +1076,7 @@ class DeploymentsManagementAPIApi:
     def create_deployment_for_a_group_of_devices_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Device group name.")],
-        new_deployment_for_group: Annotated[NewDeploymentForGroup, Field(description="New deployment that needs to be created.")],
+        new_deployment_spec: Annotated[NewDeploymentSpec, Field(description="New deployment that needs to be created.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1096,8 +1096,8 @@ class DeploymentsManagementAPIApi:
 
         :param name: Device group name. (required)
         :type name: str
-        :param new_deployment_for_group: New deployment that needs to be created. (required)
-        :type new_deployment_for_group: NewDeploymentForGroup
+        :param new_deployment_spec: New deployment that needs to be created. (required)
+        :type new_deployment_spec: NewDeploymentSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1122,7 +1122,7 @@ class DeploymentsManagementAPIApi:
 
         _param = self._create_deployment_for_a_group_of_devices_serialize(
             name=name,
-            new_deployment_for_group=new_deployment_for_group,
+            new_deployment_spec=new_deployment_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1147,7 +1147,7 @@ class DeploymentsManagementAPIApi:
     def _create_deployment_for_a_group_of_devices_serialize(
         self,
         name,
-        new_deployment_for_group,
+        new_deployment_spec,
         _request_auth,
         _content_type,
         _headers,
@@ -1175,8 +1175,8 @@ class DeploymentsManagementAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if new_deployment_for_group is not None:
-            _body_params = new_deployment_for_group
+        if new_deployment_spec is not None:
+            _body_params = new_deployment_spec
 
 
         # set the HTTP header `Accept`

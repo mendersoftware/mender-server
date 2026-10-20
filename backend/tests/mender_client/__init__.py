@@ -141,7 +141,7 @@ __all__ = [
     "NewConfigurationDeployment",
     "NewConfigurationDeploymentResponse",
     "NewDeployment",
-    "NewDeploymentForGroup",
+    "NewDeploymentSpec",
     "NewDeviceInternalProvision",
     "NewTenant",
     "OwnUserUpdateV2",
@@ -316,7 +316,7 @@ from mender_client.models.login_options import LoginOptions as LoginOptions
 from mender_client.models.new_configuration_deployment import NewConfigurationDeployment as NewConfigurationDeployment
 from mender_client.models.new_configuration_deployment_response import NewConfigurationDeploymentResponse as NewConfigurationDeploymentResponse
 from mender_client.models.new_deployment import NewDeployment as NewDeployment
-from mender_client.models.new_deployment_for_group import NewDeploymentForGroup as NewDeploymentForGroup
+from mender_client.models.new_deployment_spec import NewDeploymentSpec as NewDeploymentSpec
 from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision as NewDeviceInternalProvision
 from mender_client.models.new_tenant import NewTenant as NewTenant
 from mender_client.models.own_user_update_v2 import OwnUserUpdateV2 as OwnUserUpdateV2

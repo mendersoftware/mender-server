@@ -29,10 +29,10 @@ class NewDeployment(BaseModel):
     """ # noqa: E501
     name: StrictStr = Field(description="Name of the deployment")
     artifact_name: StrictStr = Field(description="Name of the artifact to deploy")
+    force_installation: Optional[StrictBool] = Field(default=None, description="Force the installation of the Artifact disabling the `already-installed` check.")
     devices: Optional[List[StrictStr]] = Field(default=None, description="An array of devices' identifiers.")
     all_devices: Optional[StrictBool] = Field(default=None, description="When set, the deployment will be created for all currently accepted devices. ")
-    force_installation: Optional[StrictBool] = Field(default=None, description="Force the installation of the Artifact disabling the `already-installed` check.")
-    __properties: ClassVar[List[str]] = ["name", "artifact_name", "devices", "all_devices", "force_installation"]
+    __properties: ClassVar[List[str]] = ["name", "artifact_name", "force_installation", "devices", "all_devices"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,9 +87,9 @@ class NewDeployment(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "artifact_name": obj.get("artifact_name"),
+            "force_installation": obj.get("force_installation"),
             "devices": obj.get("devices"),
-            "all_devices": obj.get("all_devices"),
-            "force_installation": obj.get("force_installation")
+            "all_devices": obj.get("all_devices")
         })
         return _obj
 

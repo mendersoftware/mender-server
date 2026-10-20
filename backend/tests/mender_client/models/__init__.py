@@ -101,7 +101,7 @@ from mender_client.models.login_options import LoginOptions
 from mender_client.models.new_configuration_deployment import NewConfigurationDeployment
 from mender_client.models.new_configuration_deployment_response import NewConfigurationDeploymentResponse
 from mender_client.models.new_deployment import NewDeployment
-from mender_client.models.new_deployment_for_group import NewDeploymentForGroup
+from mender_client.models.new_deployment_spec import NewDeploymentSpec
 from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision
 from mender_client.models.new_tenant import NewTenant
 from mender_client.models.own_user_update_v2 import OwnUserUpdateV2

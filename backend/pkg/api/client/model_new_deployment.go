@@ -25,12 +25,12 @@ type NewDeployment struct {
 	Name string `json:"name"`
 	// Name of the artifact to deploy
 	ArtifactName string `json:"artifact_name"`
+	// Force the installation of the Artifact disabling the `already-installed` check.
+	ForceInstallation *bool `json:"force_installation,omitempty"`
 	// An array of devices' identifiers.
 	Devices []string `json:"devices,omitempty"`
 	// When set, the deployment will be created for all currently accepted devices. 
 	AllDevices *bool `json:"all_devices,omitempty"`
-	// Force the installation of the Artifact disabling the `already-installed` check.
-	ForceInstallation *bool `json:"force_installation,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -103,6 +103,38 @@ func (o *NewDeployment) SetArtifactName(v string) {
 	o.ArtifactName = v
 }
 
+// GetForceInstallation returns the ForceInstallation field value if set, zero value otherwise.
+func (o *NewDeployment) GetForceInstallation() bool {
+	if o == nil || IsNil(o.ForceInstallation) {
+		var ret bool
+		return ret
+	}
+	return *o.ForceInstallation
+}
+
+// GetForceInstallationOk returns a tuple with the ForceInstallation field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NewDeployment) GetForceInstallationOk() (*bool, bool) {
+	if o == nil || IsNil(o.ForceInstallation) {
+		return nil, false
+	}
+	return o.ForceInstallation, true
+}
+
+// HasForceInstallation returns a boolean if a field has been set.
+func (o *NewDeployment) HasForceInstallation() bool {
+	if o != nil && !IsNil(o.ForceInstallation) {
+		return true
+	}
+
+	return false
+}
+
+// SetForceInstallation gets a reference to the given bool and assigns it to the ForceInstallation field.
+func (o *NewDeployment) SetForceInstallation(v bool) {
+	o.ForceInstallation = &v
+}
+
 // GetDevices returns the Devices field value if set, zero value otherwise.
 func (o *NewDeployment) GetDevices() []string {
 	if o == nil || IsNil(o.Devices) {
@@ -167,38 +199,6 @@ func (o *NewDeployment) SetAllDevices(v bool) {
 	o.AllDevices = &v
 }
 
-// GetForceInstallation returns the ForceInstallation field value if set, zero value otherwise.
-func (o *NewDeployment) GetForceInstallation() bool {
-	if o == nil || IsNil(o.ForceInstallation) {
-		var ret bool
-		return ret
-	}
-	return *o.ForceInstallation
-}
-
-// GetForceInstallationOk returns a tuple with the ForceInstallation field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *NewDeployment) GetForceInstallationOk() (*bool, bool) {
-	if o == nil || IsNil(o.ForceInstallation) {
-		return nil, false
-	}
-	return o.ForceInstallation, true
-}
-
-// HasForceInstallation returns a boolean if a field has been set.
-func (o *NewDeployment) HasForceInstallation() bool {
-	if o != nil && !IsNil(o.ForceInstallation) {
-		return true
-	}
-
-	return false
-}
-
-// SetForceInstallation gets a reference to the given bool and assigns it to the ForceInstallation field.
-func (o *NewDeployment) SetForceInstallation(v bool) {
-	o.ForceInstallation = &v
-}
-
 func (o NewDeployment) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -211,14 +211,14 @@ func (o NewDeployment) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["artifact_name"] = o.ArtifactName
+	if !IsNil(o.ForceInstallation) {
+		toSerialize["force_installation"] = o.ForceInstallation
+	}
 	if !IsNil(o.Devices) {
 		toSerialize["devices"] = o.Devices
 	}
 	if !IsNil(o.AllDevices) {
 		toSerialize["all_devices"] = o.AllDevices
-	}
-	if !IsNil(o.ForceInstallation) {
-		toSerialize["force_installation"] = o.ForceInstallation
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -266,9 +266,9 @@ func (o *NewDeployment) UnmarshalJSON(data []byte) (err error) {
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "artifact_name")
+		delete(additionalProperties, "force_installation")
 		delete(additionalProperties, "devices")
 		delete(additionalProperties, "all_devices")
-		delete(additionalProperties, "force_installation")
 		o.AdditionalProperties = additionalProperties
 	}
 

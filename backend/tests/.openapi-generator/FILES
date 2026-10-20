@@ -118,7 +118,7 @@ mender_client/models/login_options.py
 mender_client/models/new_configuration_deployment.py
 mender_client/models/new_configuration_deployment_response.py
 mender_client/models/new_deployment.py
-mender_client/models/new_deployment_for_group.py
+mender_client/models/new_deployment_spec.py
 mender_client/models/new_device_internal_provision.py
 mender_client/models/new_tenant.py
 mender_client/models/own_user_update_v2.py
