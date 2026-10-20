@@ -31,7 +31,7 @@ func NewEventLimiter(q int, i time.Duration) EventLimiter {
 	}
 }
 
-func (lim *eventLimiter) ReserveEvent(ctx context.Context, eventID string) (Reservation, error) {
+func (lim *eventLimiter) ReserveEvent(ctx context.Context, eventID string, weight float64) (Reservation, error) {
 	fmt.Fprintf(os.Stderr, "ReserveEvent(ctx, %q)\n", eventID)
 	lim.mu.Lock()
 	if lim.limiters == nil {
@@ -45,7 +45,7 @@ func (lim *eventLimiter) ReserveEvent(ctx context.Context, eventID string) (Rese
 		lim.limiters[eventID] = l
 	}
 	lim.mu.Unlock()
-	return l.Reserve(ctx)
+	return l.ReserveN(ctx, weight)
 }
 
 func newHTTPLimiterForTesting(t *testing.T) *HTTPLimiter {
@@ -138,6 +138,30 @@ func TestHTTPLimiter(t *testing.T) {
 			t.Error("the request was not expected to be rate limited")
 		}
 	})
+	t.Run("ReserveN", func(t *testing.T) {
+		t.Parallel()
+		req, _ := http.NewRequest("GET", "http://localhost/", nil)
+		req.Header.Set("X-Userid", "reverse_weighted_user")
+
+		// Consume 4 tokens
+		res, _ := limiter.ReserveN(req, 4)
+		if !res.OK() {
+			t.Error("expected first 4 tokens to be OK")
+		}
+
+		// Consume 5 tokens (total = 9)
+		res, _ = limiter.ReserveN(req, 5)
+		if !res.OK() {
+			t.Error("expected next 5 tokens to be OK")
+		}
+
+		// Consume 2 tokens
+		res, _ = limiter.ReserveN(req, 2)
+		if res.OK() {
+			t.Error("expected reservation of 2 tokens to fail")
+		}
+	})
+
 	const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
 		"eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9" +
 		"lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0." +
@@ -174,6 +198,35 @@ func TestHTTPLimiter(t *testing.T) {
 		if w.Code != http.StatusInternalServerError {
 			t.Errorf("unexpected status code: %d, expected: %d", w.Code, http.StatusInternalServerError)
 			t.Error("expected template execution to fail")
+		}
+	})
+
+	t.Run("AllowRequest&AllowRequestN", func(t *testing.T) {
+		limiterGin := newHTTPLimiterForTesting(t)
+		limiterGin.WithTemplateDataFunc(func(r *http.Request) any {
+			return r
+		})
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+		c.Request, _ = http.NewRequest("GET", "http://localhost/", nil)
+		c.Request.Header.Set("X-Userid", "allow_request_user")
+
+		// Consume 7 tokens with AllowRequestN
+		if !limiterGin.AllowRequestN(c, 7) {
+			t.Error("expected to allow request with weight 7")
+		}
+
+		// Consume 1 token with AllowRequest (total = 8)
+		if !limiterGin.AllowRequest(c) {
+			t.Error("expected to allow request with weight 1")
+		}
+
+		// Attempt to consume 3 weight
+		if limiterGin.AllowRequestN(c, 3) {
+			t.Error("expected reservation of 3 tokens to fail")
+		}
+		if w.Code != http.StatusTooManyRequests {
+			t.Errorf("unexpected status code: %d, expected: %d", w.Code, http.StatusTooManyRequests)
 		}
 	})
 }
