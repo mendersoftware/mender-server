@@ -260,7 +260,7 @@ test:frontend:acceptance:enterprise:qemu:
       - runner_system_failure
       - unknown_failure
 
-.test:frontend:acceptance:enterprise:orchestrator:
+test:frontend:acceptance:enterprise:orchestrator:
   extends: test:frontend:acceptance:enterprise:qemu
   variables:
     TEST_VARIANT: orchestrator

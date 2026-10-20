@@ -11,11 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { existsSync, unlinkSync } from 'fs';
+
 import test, { expect } from '../../fixtures/fixtures';
+import { extractArtifactFromDevice } from '../../utils/commands';
 import { timeouts } from '../../utils/constants';
 import { acceptPendingDevice, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 const rtosArtifactLocation = 'fixtures/rtos-v2.mender';
+const rootfsArtifactName = 'snapshot-test';
+const rootfsArtifactLocation = 'fixtures/snapshot-test.mender';
 const manifestLocation = 'fixtures/manifest-rtos.yaml';
 
 const targetComponentVersion = 'rtos-v2';
@@ -43,12 +48,22 @@ test.describe('Orchestrator device', () => {
 
   test('uploads the artifact and the manifest referring to it', async ({ page }) => {
     test.setTimeout(6 * timeouts.sixtySeconds);
+    const { CLIENT_IP: targetHost = 'qemu-client' } = process.env;
+    await extractArtifactFromDevice(targetHost, rootfsArtifactLocation);
+    expect(existsSync(rootfsArtifactLocation)).toBeTruthy();
+
     await navigateTo(page, 'software');
-    await page.getByRole('button', { name: 'Upload an artifact' }).click();
-    const artifactDialog = page.locator('.MuiDialog-paper');
-    await artifactDialog.locator('.dropzone input').setInputFiles(rtosArtifactLocation);
-    await artifactDialog.getByRole('button', { name: 'Upload artifact' }).click();
-    await expect(page.getByText(targetComponentVersion)).toBeVisible({ timeout: 2 * timeouts.sixtySeconds });
+    for (const [location, name] of [
+      [rtosArtifactLocation, targetComponentVersion],
+      [rootfsArtifactLocation, rootfsArtifactName]
+    ]) {
+      await page.getByRole('button', { name: 'Upload an artifact' }).click();
+      const artifactDialog = page.locator('.MuiDialog-paper');
+      await artifactDialog.locator('.dropzone input').setInputFiles(location);
+      await artifactDialog.getByRole('button', { name: 'Upload artifact' }).click();
+      await expect(page.getByText(name)).toBeVisible({ timeout: 2 * timeouts.sixtySeconds });
+    }
+    unlinkSync(rootfsArtifactLocation);
 
     await page.getByRole('tab', { name: /manifests/i }).click();
     await page.getByRole('button', { name: /upload a manifest/i }).click();
