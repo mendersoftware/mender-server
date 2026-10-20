@@ -14,12 +14,14 @@
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { InventoryTable } from '@northern.tech/common-ui/InventoryTable';
 import { LastChangedNote } from '@northern.tech/common-ui/LastChangedNote';
+import { Link } from '@northern.tech/common-ui/Link';
 import { extractSoftware } from '@northern.tech/utils/helpers';
 
 import DeviceInventoryLoader from './DeviceInventoryLoader';
+import { SystemComponentNote, getSystemComponentId } from './DeviceSystem';
 
-export const DeviceInventory = ({ device, setSnackbar }) => {
-  const { attributes = {}, updated_ts: updateTime } = device;
+export const DeviceInventory = ({ device, setDetailsTab, setSnackbar }) => {
+  const { attributes = {}, components, updated_ts: updateTime } = device;
   const { nonSoftware } = extractSoftware(attributes);
   const deviceInventory = nonSoftware.reduce((accu, [key, value]) => {
     const attributeValue = Array.isArray(value) ? value.join(',') : value;
@@ -27,9 +29,17 @@ export const DeviceInventory = ({ device, setSnackbar }) => {
     return accu;
   }, {});
 
+  const onShowSystemTab = () => setDetailsTab('system');
+
+  const systemComponentId = getSystemComponentId(components);
   const waiting = !Object.values(attributes).some(i => i);
   return (
-    <ContentSection postTitle={<LastChangedNote updateTime={updateTime} />} title="Device Inventory">
+    <ContentSection
+      postTitle={<LastChangedNote updateTime={updateTime} />}
+      title="Device inventory"
+      titleEnd={systemComponentId && <Link onClick={onShowSystemTab}>View all components</Link>}
+    >
+      {systemComponentId && <SystemComponentNote componentId={systemComponentId} onShowSystemTab={onShowSystemTab} variant="inventory" />}
       {waiting ? <DeviceInventoryLoader /> : <InventoryTable config={deviceInventory} setSnackbar={setSnackbar} />}
     </ContentSection>
   );

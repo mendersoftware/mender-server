@@ -325,7 +325,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
       <h6
         class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
       >
-        Device Inventory
+        Device inventory
       </h6>
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"

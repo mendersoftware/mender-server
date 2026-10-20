@@ -13,9 +13,13 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { ATTRIBUTE_SCOPES } from '@northern.tech/utils/constants';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import DeviceInventory from './DeviceInventory';
+import { systemComponentAttribute } from './DeviceSystem';
 
 describe('DeviceInventory Component', () => {
   it('renders correctly', async () => {
@@ -34,5 +38,16 @@ describe('DeviceInventory Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('points to the other components for system devices', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const setDetailsTab = vi.fn();
+    const components = { T456: [{ name: systemComponentAttribute, value: 'true', scope: ATTRIBUTE_SCOPES.inventory }] };
+    const device = { ...defaultState.devices.byId.a1, components, tier: 'system' };
+    render(<DeviceInventory device={device} setDetailsTab={setDetailsTab} setSnackbar={vi.fn} />);
+    expect(screen.getByText(/component: T456/i)).toBeVisible();
+    expect(screen.getByText('System device')).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'View all components' }));
+    expect(setDetailsTab).toHaveBeenCalledWith('system');
   });
 });
