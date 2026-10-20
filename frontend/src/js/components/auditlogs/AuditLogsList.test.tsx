@@ -33,12 +33,12 @@ describe('AuditlogsList Component', () => {
         setAuditlogsState={vi.fn}
         userCapabilities={adminUserCapabilities}
         auditLogColumns={[
-          { title: 'Performed by', sortable: false, render: UserDescriptor },
-          { title: 'Action', sortable: false, render: ActionDescriptor },
-          { title: 'Type', sortable: false, render: TypeDescriptor },
-          { title: 'Changed', sortable: false, render: ChangeDescriptor },
-          { title: 'More details', sortable: false, render: ChangeDetailsDescriptor },
-          { title: 'Time', sortable: true, render: TimeWrapper }
+          { key: 'user', title: 'Performed by', sortable: false, render: UserDescriptor },
+          { key: 'action', title: 'Action', sortable: false, render: ActionDescriptor },
+          { key: 'type', title: 'Type', sortable: false, render: TypeDescriptor },
+          { key: 'change', title: 'Changed', sortable: false, render: ChangeDescriptor },
+          { key: 'changeDetails', title: 'More details', sortable: false, render: ChangeDetailsDescriptor },
+          { key: 'time', title: 'Time', sortable: true, render: TimeWrapper }
         ]}
       />,
       { state }
