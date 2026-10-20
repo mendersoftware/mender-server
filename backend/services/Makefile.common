@@ -71,12 +71,12 @@ ifndef NOASK
 docker-publish:
 	echo "About to publish $(DOCKER_TAG) to $(DOCKER_TAG_PUBLISH)"
 	echo -n "Continue? [y/N] " && read answer && test "$${answer:-N}" = "y"
-	skopeo copy --multi-arch all $(SKOPEO_ARGS) \
+	skopeo copy --multi-arch all --preserve-digests $(SKOPEO_ARGS) \
 		docker://$(DOCKER_TAG) \
 		docker://$(DOCKER_TAG_PUBLISH)
 else
 docker-publish:
-	skopeo copy --multi-arch all $(SKOPEO_ARGS) \
+	skopeo copy --multi-arch all --preserve-digests $(SKOPEO_ARGS) \
 		docker://$(DOCKER_TAG) \
 		docker://$(DOCKER_TAG_PUBLISH)
 endif
