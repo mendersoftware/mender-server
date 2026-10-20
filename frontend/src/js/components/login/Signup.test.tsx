@@ -45,11 +45,12 @@ describe('Signup Component', () => {
     );
     const { container, store } = render(ui);
     expect(screen.getByText('Sign up with:')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /sign up/i }));
+    await waitFor(() => expect(screen.getAllByText(/password is required/i)).toHaveLength(2));
     await user.type(screen.getByLabelText(/Email/i), 'test@example.com');
     const passwordInput = screen.getByLabelText('Password *');
     const passwordConfirmationInput = screen.getByLabelText(/confirm password/i);
     await user.type(passwordInput, 'mysecretpassword!123');
-    expect(screen.getByRole('button', { name: /sign up/i })).toBeDisabled();
     await user.type(passwordConfirmationInput, 'mysecretpassword!123');
     await act(async () => {
       vi.runAllTicks();
