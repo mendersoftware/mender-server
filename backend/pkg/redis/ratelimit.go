@@ -73,9 +73,9 @@ func fixedWindowKey(prefix, eventID string, epoch int64) string {
 		prefix = "ratelimit"
 	}
 	if eventID == "" {
-		return fmt.Sprintf("%s:e:%d:c", prefix, epoch)
+		return fmt.Sprintf("%s:e:%d:v2:c", prefix, epoch)
 	} else {
-		return fmt.Sprintf("%s:%s:e:%d:c", prefix, eventID, epoch)
+		return fmt.Sprintf("%s:%s:e:%d:v2:c", prefix, eventID, epoch)
 	}
 }
 
