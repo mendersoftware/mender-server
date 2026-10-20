@@ -252,7 +252,7 @@ const SearchDialog = ({ onClose, open, setTerm, term }) => {
   const debouncedTerm = useDebounce(term, TIMEOUTS.debounceDefault);
 
   const isAnySelected = !attribute;
-  const placeholder = `Find devices by ${isAnySelected ? 'any attribute' : selectedOption.label} starting with...`;
+  const placeholder = `Find devices by ${isAnySelected ? 'any identity attribute' : selectedOption.label} starting with...`;
   const hasSearched = !!searchedTerm;
   const showResults = !!results.length;
   const showPlaceholder = !showResults && !!term;
