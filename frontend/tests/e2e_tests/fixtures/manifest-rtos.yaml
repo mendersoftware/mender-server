@@ -4,6 +4,10 @@ name: "system-core-rtos-v2"
 system_types_compatible: ["system-core"]
 
 component_types:
+  qemux86-64:
+    artifact_name: snapshot-test
+    update_strategy:
+      order: 100
   rtos:
     artifact_name: rtos-v2
     update_strategy:
