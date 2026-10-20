@@ -41,7 +41,7 @@ func TestLimiter(t *testing.T) {
 			t.Error("a denied reservation should have a non-zero delay")
 		}
 		if resDenied.Tokens() > 0 {
-			t.Errorf("a deneied reservation should not report free tokens, got: %d", resDenied.Tokens())
+			t.Errorf("a deneied reservation should not report free tokens, got: %v", resDenied.Tokens())
 		}
 	}
 }

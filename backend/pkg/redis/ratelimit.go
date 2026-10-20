@@ -2,11 +2,9 @@ package redis
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"math"
 	"time"
-
-	"github.com/redis/go-redis/v9"
 
 	"github.com/mendersoftware/mender-server/pkg/rate"
 )
@@ -47,7 +45,7 @@ type FixedWindowRateLimiter struct {
 type simpleReservation struct {
 	// tokens count the number of tokens (events) remaining after
 	// reservation has been made.
-	tokens int64
+	tokens float64
 	// delay is the time the client would need to wait for a token (event)
 	// to become available. If 0 or negative, the reservation is accepted
 	// that is, (*simpleReservation).OK() == true.
@@ -62,7 +60,7 @@ func (r simpleReservation) Delay() time.Duration {
 	return r.delay
 }
 
-func (r simpleReservation) Tokens() int64 {
+func (r simpleReservation) Tokens() float64 {
 	return r.tokens
 }
 
@@ -84,24 +82,34 @@ func fixedWindowKey(prefix, eventID string, epoch int64) string {
 func (rl *FixedWindowRateLimiter) ReserveEvent(
 	ctx context.Context,
 	eventID string,
+	weight float64,
 ) (rate.Reservation, error) {
 	now := rl.nowFunc()
 	epoch := epoch(now, rl.interval)
-	key := fixedWindowKey(rl.keyPrefix, eventID, epoch)
-	count := int64(1)
 
-	err := rl.client.SetArgs(ctx, key, count, redis.SetArgs{
-		TTL:  rl.interval,
-		Mode: `NX`,
-	}).Err()
-	if errors.Is(err, redis.Nil) {
-		count, err = rl.client.Incr(ctx, key).Result()
+	if weight == 0.0 {
+		return simpleReservation{tokens: float64(rl.quota), delay: 0}, nil
 	}
+
+	if math.IsNaN(weight) || weight < 0 {
+		return simpleReservation{tokens: -1, delay: math.MaxInt64}, nil
+	}
+
+	key := fixedWindowKey(rl.keyPrefix, eventID, epoch)
+
+	pipe := rl.client.TxPipeline()
+	cmd := pipe.IncrByFloat(ctx, key, weight)
+	pipe.Expire(ctx, key, rl.interval)
+
+	_, err := pipe.Exec(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("redis: error computing rate limit: %w", err)
 	}
+
+	count := cmd.Val()
+
 	res := simpleReservation{
-		tokens: rl.quota - count,
+		tokens: float64(rl.quota) - count,
 	}
 	if res.tokens < 0 {
 		nextEpoch := time.UnixMilli((epoch + 1) * rl.interval.Milliseconds())
@@ -111,5 +119,12 @@ func (rl *FixedWindowRateLimiter) ReserveEvent(
 }
 
 func (rl *FixedWindowRateLimiter) Reserve(ctx context.Context) (rate.Reservation, error) {
-	return rl.ReserveEvent(ctx, "")
+	return rl.ReserveEvent(ctx, "", 1)
+}
+
+func (rl *FixedWindowRateLimiter) ReserveN(
+	ctx context.Context,
+	weight float64,
+) (rate.Reservation, error) {
+	return rl.ReserveEvent(ctx, "", weight)
 }

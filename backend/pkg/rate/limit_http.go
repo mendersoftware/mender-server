@@ -161,11 +161,11 @@ type matcher struct {
 	groupTemplate *template.Template
 }
 
-func (h *HTTPLimiter) handleRequest(r *http.Request) error {
+func (h *HTTPLimiter) handleRequest(r *http.Request, weight float64) error {
 	if h.rewriteRequests {
 		r = rest.RewriteForwardedRequest(r)
 	}
-	res, err := h.Reserve(r)
+	res, err := h.ReserveN(r, weight)
 	if err != nil {
 		return err
 	}
@@ -204,7 +204,7 @@ func handleError(ctx context.Context, w http.ResponseWriter, err error) {
 // as a handler for the mux. It will only write on errors and is expected
 // to continue to the actual handler on success.
 func (h *HTTPLimiter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	err := h.handleRequest(r)
+	err := h.handleRequest(r, 1)
 	if err != nil {
 		handleError(r.Context(), w, err)
 	}
@@ -213,27 +213,41 @@ func (h *HTTPLimiter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // MiddlewareGin implements rate limiting as a middleware for gin-gonic
 // web framework.
 func (h *HTTPLimiter) MiddlewareGin(c *gin.Context) {
-	err := h.handleRequest(c.Request)
+	h.AllowRequest(c)
+}
+
+func (h *HTTPLimiter) AllowRequest(c *gin.Context) bool {
+	return h.AllowRequestN(c, 1)
+}
+
+func (h *HTTPLimiter) AllowRequestN(c *gin.Context, weight float64) bool {
+	err := h.handleRequest(c.Request, weight)
 	if err != nil {
 		_ = c.Error(err)
 		handleError(c.Request.Context(), c.Writer, err)
 		c.Abort()
+		return false
 	}
+	return true
 }
 
 type okReservation struct{}
 
 func (k okReservation) OK() bool             { return true }
 func (k okReservation) Delay() time.Duration { return 0 }
-func (k okReservation) Tokens() int64        { return math.MaxInt64 }
+func (k okReservation) Tokens() float64      { return math.MaxFloat64 }
 
 type rejectReservation struct{}
 
 func (k rejectReservation) OK() bool             { return false }
 func (k rejectReservation) Delay() time.Duration { return math.MaxInt64 }
-func (k rejectReservation) Tokens() int64        { return -1 }
+func (k rejectReservation) Tokens() float64      { return -1 }
 
 func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
+	return m.ReserveN(r, 1)
+}
+
+func (m *HTTPLimiter) ReserveN(r *http.Request, weight float64) (Reservation, error) {
 	var b bytes.Buffer
 	var eventLimiter *templateEventLimiter
 	templateData := m.templateDataCallback(r)
@@ -257,5 +271,5 @@ func (m *HTTPLimiter) Reserve(r *http.Request) (Reservation, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error executing template for event ID: %w", err)
 	}
-	return eventLimiter.limiter.ReserveEvent(ctx, b.String())
+	return eventLimiter.limiter.ReserveEvent(ctx, b.String(), weight)
 }
