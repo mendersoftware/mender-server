@@ -339,23 +339,45 @@ publish:frontend:docker:
   variables:
     MENDER_PUBLISH_REGISTRY: docker.io
   script:
-    - export MENDER_PUBLISH_IMAGE="${MENDER_PUBLISH_REGISTRY}/${FRONTEND_REPOSITORY}"
-    - echo "About to publish ${MENDER_IMAGE_GUI} to ${MENDER_PUBLISH_IMAGE}:${MENDER_PUBLISH_TAG}"
     - |
-      skopeo copy --multi-arch all \
-        --digestfile .digests/gui \
-        docker://${MENDER_IMAGE_GUI} \
-        docker://${MENDER_PUBLISH_IMAGE}:${MENDER_PUBLISH_TAG} # covers vX.Y.Z + -fragment/ -build tags
-    - |
+      tags="${MENDER_PUBLISH_TAG}" # covers vX.Y.Z + -fragment/ -build tags
       if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
-        skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)
-        skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}:$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)
-
+        tags="${tags} $(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2) $(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)"
         if .gitlab/check_publish_latest.sh; then
-            echo "Updating 'latest' reference: ${MENDER_PUBLISH_IMAGE}:latest"
-            skopeo copy --multi-arch all docker://${MENDER_IMAGE_GUI} docker://${MENDER_PUBLISH_IMAGE}:latest
+          tags="${tags} latest"
         fi
       fi
+
+      # publish_gui_to <registry> [extra skopeo args]
+      publish_gui_to() {
+        registry="$1"; shift
+        for tag in ${tags}; do
+          echo "Publishing ${MENDER_IMAGE_GUI} to ${registry}/${FRONTEND_REPOSITORY}:${tag}"
+          skopeo copy --multi-arch all --preserve-digests "$@" \
+            docker://${MENDER_IMAGE_GUI} \
+            docker://${registry}/${FRONTEND_REPOSITORY}:${tag}
+        done
+      }
+
+      publish_gui_to "${MENDER_PUBLISH_REGISTRY}" --digestfile .digests/gui
+
+      # Extra ECR registries from the MENDER_PUBLISH_ECR_TARGETS project
+      # variable, one "role_arn|region|registry" per line. Unset upstream.
+      printf '%s\n' "${MENDER_PUBLISH_ECR_TARGETS}" | while IFS='|' read -r role_arn region registry; do
+        [ -n "${registry}" ] || continue
+        creds=$(env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN -- \
+          aws sts assume-role-with-web-identity \
+          --role-arn "${role_arn}" \
+          --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
+          --web-identity-token "${GITLAB_OIDC_TOKEN}" \
+          --duration-seconds 1800 \
+          --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text)
+        set -- ${creds}
+        AWS_ACCESS_KEY_ID="$1" AWS_SECRET_ACCESS_KEY="$2" AWS_SESSION_TOKEN="$3" \
+          aws ecr get-login-password --region "${region}" |
+          skopeo login --username AWS --password-stdin "${registry}"
+        publish_gui_to "${registry}"
+      done
   artifacts:
     when: on_success
     expire_in: 1w
