@@ -361,7 +361,7 @@ Class | Method | HTTP request | Description
  - [NewConfigurationDeployment](docs/NewConfigurationDeployment.md)
  - [NewConfigurationDeploymentResponse](docs/NewConfigurationDeploymentResponse.md)
  - [NewDeployment](docs/NewDeployment.md)
- - [NewDeploymentForGroup](docs/NewDeploymentForGroup.md)
+ - [NewDeploymentSpec](docs/NewDeploymentSpec.md)
  - [NewDeviceInternalProvision](docs/NewDeviceInternalProvision.md)
  - [NewTenant](docs/NewTenant.md)
  - [OwnUserUpdateV2](docs/OwnUserUpdateV2.md)

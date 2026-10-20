@@ -307,7 +307,7 @@ func (s *DeploymentsManagementV1Suite) runDeploymentStatusUpdate(deployToGroup s
 	if deployToGroup != "" {
 		r, err = s.APIClient.DeploymentsManagementAPIAPI.
 			CreateDeploymentForAGroupOfDevices(ctx, deployToGroup).
-			NewDeploymentForGroup(client.NewDeploymentForGroup{
+			NewDeploymentSpec(client.NewDeploymentSpec{
 				Name:         depName,
 				ArtifactName: artifactName,
 			}).Execute()

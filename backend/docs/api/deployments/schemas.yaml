@@ -316,6 +316,23 @@ components:
             its size will be counted multiple times.
           type: integer
       type: object
+    NewDeploymentSpec:
+      description: Properties common to all new deployment requests.
+      properties:
+        name:
+          description: Name of the deployment
+          type: string
+        artifact_name:
+          description: Name of the artifact to deploy
+          type: string
+        force_installation:
+          description: Force the installation of the Artifact disabling the `already-installed`
+            check.
+          type: boolean
+      required:
+      - artifact_name
+      - name
+      type: object
     Update:
       description: |
         Single updated to be applied.

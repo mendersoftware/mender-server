@@ -242,7 +242,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewDeploymentForGroup'
+              $ref: './schemas.yaml#/components/schemas/NewDeploymentSpec'
         description: New deployment that needs to be created.
         required: true
       responses:
@@ -1504,50 +1504,20 @@ components:
         artifact_name: Application 0.0.1
         devices:
         - 00a0c91e6-7dec-11d0-a765-f81d4faebf6
-      properties:
-        name:
-          description: Name of the deployment
-          type: string
-        artifact_name:
-          description: Name of the artifact to deploy
-          type: string
-        devices:
-          description: An array of devices' identifiers.
-          items:
-            type: string
-          type: array
-        all_devices:
-          description: |
-            When set, the deployment will be created for all
-            currently accepted devices.
-          type: boolean
-        force_installation:
-          description: Force the installation of the Artifact disabling the `already-installed`
-            check.
-          type: boolean
-      required:
-      - artifact_name
-      - name
-      type: object
-    NewDeploymentForGroup:
-      example:
-        name: production
-        artifact_name: Application 0.0.1
-      properties:
-        name:
-          description: Name of the deployment
-          type: string
-        artifact_name:
-          description: Name of the artifact to deploy
-          type: string
-        force_installation:
-          description: Force the installation of the Artifact disabling the `already-installed`
-            check.
-          type: boolean
-      required:
-      - artifact_name
-      - name
-      type: object
+      allOf:
+        - $ref: './schemas.yaml#/components/schemas/NewDeploymentSpec'
+        - type: object
+          properties:
+            devices:
+              description: An array of devices' identifiers.
+              items:
+                type: string
+              type: array
+            all_devices:
+              description: |
+                When set, the deployment will be created for all
+                currently accepted devices.
+              type: boolean
     DeploymentV1:
       example:
         created: 2016-02-11T13:03:17.063493443Z

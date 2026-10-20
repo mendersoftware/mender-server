@@ -905,12 +905,12 @@ type ApiCreateDeploymentForAGroupOfDevicesRequest struct {
 	ctx context.Context
 	ApiService DeploymentsManagementAPIAPI
 	name string
-	newDeploymentForGroup *NewDeploymentForGroup
+	newDeploymentSpec *NewDeploymentSpec
 }
 
 // New deployment that needs to be created.
-func (r ApiCreateDeploymentForAGroupOfDevicesRequest) NewDeploymentForGroup(newDeploymentForGroup NewDeploymentForGroup) ApiCreateDeploymentForAGroupOfDevicesRequest {
-	r.newDeploymentForGroup = &newDeploymentForGroup
+func (r ApiCreateDeploymentForAGroupOfDevicesRequest) NewDeploymentSpec(newDeploymentSpec NewDeploymentSpec) ApiCreateDeploymentForAGroupOfDevicesRequest {
+	r.newDeploymentSpec = &newDeploymentSpec
 	return r
 }
 
@@ -962,8 +962,8 @@ func (a *DeploymentsManagementAPIAPIService) CreateDeploymentForAGroupOfDevicesE
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.newDeploymentForGroup == nil {
-		return nil, reportError("newDeploymentForGroup is required and must be specified")
+	if r.newDeploymentSpec == nil {
+		return nil, reportError("newDeploymentSpec is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -984,7 +984,7 @@ func (a *DeploymentsManagementAPIAPIService) CreateDeploymentForAGroupOfDevicesE
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.newDeploymentForGroup
+	localVarPostBody = r.newDeploymentSpec
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

@@ -16,11 +16,11 @@ import (
 	"fmt"
 )
 
-// checks if the NewDeploymentForGroup type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &NewDeploymentForGroup{}
+// checks if the NewDeploymentSpec type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NewDeploymentSpec{}
 
-// NewDeploymentForGroup struct for NewDeploymentForGroup
-type NewDeploymentForGroup struct {
+// NewDeploymentSpec Properties common to all new deployment requests.
+type NewDeploymentSpec struct {
 	// Name of the deployment
 	Name string `json:"name"`
 	// Name of the artifact to deploy
@@ -30,29 +30,29 @@ type NewDeploymentForGroup struct {
 	AdditionalProperties map[string]interface{}
 }
 
-type _NewDeploymentForGroup NewDeploymentForGroup
+type _NewDeploymentSpec NewDeploymentSpec
 
-// NewNewDeploymentForGroup instantiates a new NewDeploymentForGroup object
+// NewNewDeploymentSpec instantiates a new NewDeploymentSpec object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNewDeploymentForGroup(name string, artifactName string) *NewDeploymentForGroup {
-	this := NewDeploymentForGroup{}
+func NewNewDeploymentSpec(name string, artifactName string) *NewDeploymentSpec {
+	this := NewDeploymentSpec{}
 	this.Name = name
 	this.ArtifactName = artifactName
 	return &this
 }
 
-// NewNewDeploymentForGroupWithDefaults instantiates a new NewDeploymentForGroup object
+// NewNewDeploymentSpecWithDefaults instantiates a new NewDeploymentSpec object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewNewDeploymentForGroupWithDefaults() *NewDeploymentForGroup {
-	this := NewDeploymentForGroup{}
+func NewNewDeploymentSpecWithDefaults() *NewDeploymentSpec {
+	this := NewDeploymentSpec{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *NewDeploymentForGroup) GetName() string {
+func (o *NewDeploymentSpec) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -63,7 +63,7 @@ func (o *NewDeploymentForGroup) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *NewDeploymentForGroup) GetNameOk() (*string, bool) {
+func (o *NewDeploymentSpec) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -71,12 +71,12 @@ func (o *NewDeploymentForGroup) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *NewDeploymentForGroup) SetName(v string) {
+func (o *NewDeploymentSpec) SetName(v string) {
 	o.Name = v
 }
 
 // GetArtifactName returns the ArtifactName field value
-func (o *NewDeploymentForGroup) GetArtifactName() string {
+func (o *NewDeploymentSpec) GetArtifactName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *NewDeploymentForGroup) GetArtifactName() string {
 
 // GetArtifactNameOk returns a tuple with the ArtifactName field value
 // and a boolean to check if the value has been set.
-func (o *NewDeploymentForGroup) GetArtifactNameOk() (*string, bool) {
+func (o *NewDeploymentSpec) GetArtifactNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -95,12 +95,12 @@ func (o *NewDeploymentForGroup) GetArtifactNameOk() (*string, bool) {
 }
 
 // SetArtifactName sets field value
-func (o *NewDeploymentForGroup) SetArtifactName(v string) {
+func (o *NewDeploymentSpec) SetArtifactName(v string) {
 	o.ArtifactName = v
 }
 
 // GetForceInstallation returns the ForceInstallation field value if set, zero value otherwise.
-func (o *NewDeploymentForGroup) GetForceInstallation() bool {
+func (o *NewDeploymentSpec) GetForceInstallation() bool {
 	if o == nil || IsNil(o.ForceInstallation) {
 		var ret bool
 		return ret
@@ -110,7 +110,7 @@ func (o *NewDeploymentForGroup) GetForceInstallation() bool {
 
 // GetForceInstallationOk returns a tuple with the ForceInstallation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *NewDeploymentForGroup) GetForceInstallationOk() (*bool, bool) {
+func (o *NewDeploymentSpec) GetForceInstallationOk() (*bool, bool) {
 	if o == nil || IsNil(o.ForceInstallation) {
 		return nil, false
 	}
@@ -118,7 +118,7 @@ func (o *NewDeploymentForGroup) GetForceInstallationOk() (*bool, bool) {
 }
 
 // HasForceInstallation returns a boolean if a field has been set.
-func (o *NewDeploymentForGroup) HasForceInstallation() bool {
+func (o *NewDeploymentSpec) HasForceInstallation() bool {
 	if o != nil && !IsNil(o.ForceInstallation) {
 		return true
 	}
@@ -127,11 +127,11 @@ func (o *NewDeploymentForGroup) HasForceInstallation() bool {
 }
 
 // SetForceInstallation gets a reference to the given bool and assigns it to the ForceInstallation field.
-func (o *NewDeploymentForGroup) SetForceInstallation(v bool) {
+func (o *NewDeploymentSpec) SetForceInstallation(v bool) {
 	o.ForceInstallation = &v
 }
 
-func (o NewDeploymentForGroup) MarshalJSON() ([]byte, error) {
+func (o NewDeploymentSpec) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -139,7 +139,7 @@ func (o NewDeploymentForGroup) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o NewDeploymentForGroup) ToMap() (map[string]interface{}, error) {
+func (o NewDeploymentSpec) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["artifact_name"] = o.ArtifactName
@@ -154,7 +154,7 @@ func (o NewDeploymentForGroup) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NewDeploymentForGroup) UnmarshalJSON(data []byte) (err error) {
+func (o *NewDeploymentSpec) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -177,15 +177,15 @@ func (o *NewDeploymentForGroup) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varNewDeploymentForGroup := _NewDeploymentForGroup{}
+	varNewDeploymentSpec := _NewDeploymentSpec{}
 
-	err = json.Unmarshal(data, &varNewDeploymentForGroup)
+	err = json.Unmarshal(data, &varNewDeploymentSpec)
 
 	if err != nil {
 		return err
 	}
 
-	*o = NewDeploymentForGroup(varNewDeploymentForGroup)
+	*o = NewDeploymentSpec(varNewDeploymentSpec)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -199,38 +199,38 @@ func (o *NewDeploymentForGroup) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableNewDeploymentForGroup struct {
-	value *NewDeploymentForGroup
+type NullableNewDeploymentSpec struct {
+	value *NewDeploymentSpec
 	isSet bool
 }
 
-func (v NullableNewDeploymentForGroup) Get() *NewDeploymentForGroup {
+func (v NullableNewDeploymentSpec) Get() *NewDeploymentSpec {
 	return v.value
 }
 
-func (v *NullableNewDeploymentForGroup) Set(val *NewDeploymentForGroup) {
+func (v *NullableNewDeploymentSpec) Set(val *NewDeploymentSpec) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableNewDeploymentForGroup) IsSet() bool {
+func (v NullableNewDeploymentSpec) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableNewDeploymentForGroup) Unset() {
+func (v *NullableNewDeploymentSpec) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableNewDeploymentForGroup(val *NewDeploymentForGroup) *NullableNewDeploymentForGroup {
-	return &NullableNewDeploymentForGroup{value: val, isSet: true}
+func NewNullableNewDeploymentSpec(val *NewDeploymentSpec) *NullableNewDeploymentSpec {
+	return &NullableNewDeploymentSpec{value: val, isSet: true}
 }
 
-func (v NullableNewDeploymentForGroup) MarshalJSON() ([]byte, error) {
+func (v NullableNewDeploymentSpec) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableNewDeploymentForGroup) UnmarshalJSON(src []byte) error {
+func (v *NullableNewDeploymentSpec) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

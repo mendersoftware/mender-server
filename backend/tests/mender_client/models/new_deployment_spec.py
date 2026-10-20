@@ -23,9 +23,9 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class NewDeploymentForGroup(BaseModel):
+class NewDeploymentSpec(BaseModel):
     """
-    NewDeploymentForGroup
+    Properties common to all new deployment requests.
     """ # noqa: E501
     name: StrictStr = Field(description="Name of the deployment")
     artifact_name: StrictStr = Field(description="Name of the artifact to deploy")
@@ -50,7 +50,7 @@ class NewDeploymentForGroup(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of NewDeploymentForGroup from a JSON string"""
+        """Create an instance of NewDeploymentSpec from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +75,7 @@ class NewDeploymentForGroup(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of NewDeploymentForGroup from a dict"""
+        """Create an instance of NewDeploymentSpec from a dict"""
         if obj is None:
             return None
 
