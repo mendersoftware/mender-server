@@ -115,11 +115,34 @@ log_info "Deploying SeaweedFS for artifact storage..."
 SEAWEEDFS_NAME_OVERRIDE="seaweedfs-${NAMESPACE}"
 SEAWEEDFS_S3_HOST="seaweedfs-${SEAWEEDFS_NAME_OVERRIDE}-s3.${NAMESPACE}.svc.cluster.local"
 
-# Generate random access keys for SeaweedFS (like Vagrantfile does)
-ADMIN_KEY=$(openssl rand -hex 16)
-ADMIN_SECRET=$(openssl rand -hex 32)
-READ_KEY=$(openssl rand -hex 16)
-READ_SECRET=$(openssl rand -hex 32)
+# Reuse the keys on re-deploy: SeaweedFS only reads its identities at startup
+# and helm upgrade does not restart it, so rotating them here makes every
+# Mender pod started afterwards fail with "insufficient permissions".
+ADMIN_KEY=""
+ADMIN_SECRET=""
+READ_KEY=""
+READ_SECRET=""
+if kubectl get secret seaweedfs-mender-s3-secret -n "${NAMESPACE}" &> /dev/null; then
+    s3_secret_value() {
+        kubectl get secret seaweedfs-mender-s3-secret -n "${NAMESPACE}" \
+            -o jsonpath="{.data.$1}" | base64 -d
+    }
+    ADMIN_KEY=$(s3_secret_value admin_access_key_id)
+    ADMIN_SECRET=$(s3_secret_value admin_secret_access_key)
+    READ_KEY=$(s3_secret_value read_access_key_id)
+    READ_SECRET=$(s3_secret_value read_secret_access_key)
+fi
+
+if [ -n "$ADMIN_KEY" ] && [ -n "$ADMIN_SECRET" ] && [ -n "$READ_KEY" ] && [ -n "$READ_SECRET" ]; then
+    log_info "Reusing existing SeaweedFS S3 keys"
+else
+    # Generate random access keys for SeaweedFS (like Vagrantfile does)
+    log_info "Generating new SeaweedFS S3 keys"
+    ADMIN_KEY=$(openssl rand -hex 16)
+    ADMIN_SECRET=$(openssl rand -hex 32)
+    READ_KEY=$(openssl rand -hex 16)
+    READ_SECRET=$(openssl rand -hex 32)
+fi
 
 # Create SeaweedFS S3 configuration
 SEAWEEDFS_CONFIG=$(cat <<EOF
