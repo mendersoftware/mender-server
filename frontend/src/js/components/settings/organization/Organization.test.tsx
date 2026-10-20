@@ -13,11 +13,13 @@
 //    limitations under the License.
 import { drawerClasses } from '@mui/material';
 
-import { defaultState, render } from '@/testUtils';
+import { defaultState, render, server } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { token, undefineds } from '@northern.tech/testing/mockData';
-import { act, screen, waitFor } from '@testing-library/react';
+import { ssoIdpApiUrlv1 } from '@northern.tech/utils/constants';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { HttpResponse, http } from 'msw';
 import { vi } from 'vitest';
 
 import { CancelSubscription, CancelSubscriptionAlert, DeviceLimitExpansionNotification, PlanDescriptor } from './Billing';
@@ -110,6 +112,7 @@ describe('MyOrganization Component', () => {
     const blob = new Blob([str]);
     const file = new File([blob], 'values.xml', { type: 'application/xml' });
     File.prototype.text = vi.fn().mockResolvedValue(str);
+    server.use(http.get(ssoIdpApiUrlv1, () => HttpResponse.json([{ id: '1', issuer: 'https://samltest.id/saml/idp', valid_until: '2038-08-24T21:14:09Z' }])));
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <MyOrganization />;
     const { rerender } = render(ui, { preloadedState: { ...preloadedState, users: { ...preloadedState.users, currentSession: getSessionInfo() } } });
@@ -117,20 +120,22 @@ describe('MyOrganization Component', () => {
       vi.runAllTicks();
       vi.runOnlyPendingTimers();
     });
-    await waitFor(() => expect(screen.getByText(/text editor/i)).toBeVisible());
-    expect(screen.getByText(/text editor/i)).toBeVisible();
-    await user.click(screen.getByText(/text editor/i));
-    expect(screen.getByText(/import from a file/i)).toBeVisible();
-    await act(async () => await user.upload(screen.getByText(/import from a file/i).previousSibling, file));
+    await waitFor(() => expect(screen.getByText(/uploaded/i)).toBeVisible());
+    expect(screen.getByText(/openid connect/i)).toBeVisible();
+    await user.click(screen.getByRole('button', { name: /edit/i }));
+    await user.click(screen.getByRole('button', { name: /upload or edit metadata/i }));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).toBeVisible());
+    await act(async () => await user.upload(screen.getByLabelText(/import from file/i), file));
+    await waitFor(() => expect(screen.getByRole('button', { name: /save sso configuration/i })).toBeEnabled());
     await user.click(screen.getByRole('button', { name: 'close' }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(document.querySelector(`.${drawerClasses.root}`)).not.toBeInTheDocument());
-    await waitFor(() => expect(screen.getByRole('switch')).toBeChecked());
-    while (screen.queryByText(/entity id/i)) {
-      await user.click(screen.getByRole('switch'));
-      await user.click(screen.getByRole('button', { name: /save/i }));
-    }
+    await user.click(screen.getByRole('button', { name: /cancel/i }));
+    await user.click(screen.getByRole('button', { name: /disable sso/i }));
+    const dialog = screen.getByRole('dialog');
+    await user.type(within(dialog).getByLabelText(/disable/i), 'disable');
+    await user.click(within(dialog).getByRole('button', { name: /disable sso/i }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /set up sso/i })).toBeVisible());
   });
 });
 
