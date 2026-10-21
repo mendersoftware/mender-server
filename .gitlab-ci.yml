@@ -897,6 +897,37 @@ publish:backend:coverage:
         --flag "${coverfile%.cover}";
       done
 
+# MENDER_PUBLISH_ECR_TARGETS: one "role_arn|region|registry" per line
+.publish:helpers:
+  script:
+    - |
+      tags="${MENDER_PUBLISH_TAG}" # covers vX.Y.Z + -fragment/ -build tags
+      if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+        tags="${tags} $(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2) $(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)"
+        if .gitlab/check_publish_latest.sh; then
+          tags="${tags} latest"
+        fi
+      fi
+
+      for_each_ecr_target() {
+        callback="$1"
+        printf '%s\n' "${MENDER_PUBLISH_ECR_TARGETS}" | while IFS='|' read -r role_arn region registry; do
+          [ -n "${registry}" ] || continue
+          creds=$(env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN -- \
+            aws sts assume-role-with-web-identity \
+            --role-arn "${role_arn}" \
+            --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
+            --web-identity-token "${GITLAB_OIDC_TOKEN}" \
+            --duration-seconds 1800 \
+            --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text)
+          set -- ${creds}
+          AWS_ACCESS_KEY_ID="$1" AWS_SECRET_ACCESS_KEY="$2" AWS_SESSION_TOKEN="$3" \
+            aws ecr get-login-password --region "${region}" |
+            skopeo login --username AWS --password-stdin "${registry}"
+          "${callback}" "${registry}"
+        done
+      }
+
 publish:backend:docker:
   stage: publish
   image:
@@ -920,21 +951,21 @@ publish:backend:docker:
         export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
       fi
   script:
-    - echo "About to publish tag ${MENDER_PUBLISH_TAG}"
+    - !reference [.publish:helpers, script]
     - |
-      make -C backend -j 4 docker-publish NOASK=y \
+      publish_backend_to() {
+        registry="$1"; shift
+        for tag in ${tags}; do
+          echo "Publishing backend images to ${registry:-the default registry} with tag ${tag}"
+          make -C backend -j 4 docker-publish NOASK=y \
+            ${registry:+MENDER_PUBLISH_REGISTRY="${registry}"} \
+            MENDER_PUBLISH_TAG="${tag}" "$@"
+        done
+      }
+
+      publish_backend_to "${MENDER_PUBLISH_REGISTRY}" \
         SKOPEO_ARGS='--digestfile '"${CI_PROJECT_DIR}"'/.digests/$(COMPONENT)'
-    - |
-      if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
-        make -C backend -j 4 docker-publish NOASK=y \
-          MENDER_PUBLISH_TAG="$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)"
-        make -C backend -j 4 docker-publish NOASK=y \
-          MENDER_PUBLISH_TAG="$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)"
-        if .gitlab/check_publish_latest.sh; then
-          echo "This is the latest version, publishing..."
-          make -C backend -j 4 docker-publish NOASK=y MENDER_PUBLISH_TAG=latest
-        fi
-      fi
+      for_each_ecr_target publish_backend_to
   artifacts:
     when: on_success
     expire_in: 1w
