@@ -190,6 +190,19 @@ default:
   tags:
     - k8s
 
+.go-mod-cache:
+  variables:
+    GOMODCACHE: ${CI_PROJECT_DIR}/.gomodcache
+    GOFLAGS: -modcacherw
+  cache:
+    key:
+      prefix: go-mod
+      files:
+        - backend/go.sum
+        - backend/tests/runner/go.sum
+    paths:
+      - .gomodcache/
+
 .template:build:docker:
   stage: build
   extends: .build:base
@@ -557,6 +570,7 @@ test:backend:validate-open-api:
       junit: $CI_PROJECT_DIR/spectral-report.xml
 
 test:backend:unit:
+  extends: .go-mod-cache
   # FIXME: Using deployments build stage since we're running all tests
   image: "${CI_REGISTRY_IMAGE}/deployments:${MENDER_IMAGE_TAG_BUILDER}"
   stage: test
@@ -688,7 +702,11 @@ test:backend:integration:
       junit: backend/tests/logs/results_integration_*.xml
 
 test:backend:integration:ng:
-  extends: .template:test:backend:integration
+  extends:
+    - .template:test:backend:integration
+    - .go-mod-cache
+  cache:
+    policy: pull
   before_script:
     - !reference [.template:test:backend:integration, before_script]
     # Install go
