@@ -595,6 +595,7 @@ test:backend:unit:
     TEST_REDIS_URL: "redis://redis:6379"
   before_script:
     - mkdir -p $GOCOVERDIR
+    - s=$(date +%s); go -C backend mod download; echo "go mod download took $(( $(date +%s) - s ))s"
   script:
     - |
       make -C backend test-unit \
