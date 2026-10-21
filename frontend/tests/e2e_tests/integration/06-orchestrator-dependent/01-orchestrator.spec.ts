@@ -27,11 +27,6 @@ const targetComponentVersion = 'rtos-v2';
 const manifestName = 'system-core-rtos-v2';
 
 test.describe('Orchestrator device', () => {
-  test.beforeEach(async ({ page }) => {
-    const features = await page.evaluate(() => (window as any).mender_environment?.features);
-    test.skip(!features || !features.hasManifestsEnabled, 'Manifests feature flag is not enabled');
-  });
-
   test('lists the components reported by the orchestrator', async ({ page }) => {
     test.setTimeout(8 * timeouts.sixtySeconds);
     await acceptPendingDevice(page);

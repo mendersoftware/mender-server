@@ -57,6 +57,40 @@ exports[`Releases Component > renders correctly 1`] = `
                     class="MuiTypography-root MuiTypography-button css-14t7pgs-MuiTypography-root"
                     style="text-transform: none;"
                   >
+                    Manifests
+                  </span>
+                  <div
+                    class=""
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable margin-left-small css-k8mde6-MuiButtonBase-root-MuiChip-root"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <span
+                        class="MuiChip-label css-1dybbl5-MuiChip-label"
+                      >
+                        Enterprise
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+              <button
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-1a6igjw-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                <div
+                  class="flexbox align-items-center"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-button css-14t7pgs-MuiTypography-root"
+                    style="text-transform: none;"
+                  >
                     Delta Artifacts generation
                   </span>
                   <div

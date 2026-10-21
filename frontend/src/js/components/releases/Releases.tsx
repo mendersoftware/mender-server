@@ -91,7 +91,7 @@ const tabbedComponents: Record<string, TabDefinition> = {
     upload: { buttonProps: { variant: 'contained' }, tooltipId: HELPTOOLTIPS.artifactUpload.id, title: 'Upload an artifact' }
   },
   manifests: {
-    canAccess: ({ hasManifestsEnabled }) => !!hasManifestsEnabled,
+    canAccess,
     Content: ManifestsList,
     key: 'manifests',
     title: { title: 'Manifests', benefitId: BENEFITS.manifests.id },

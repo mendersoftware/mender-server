@@ -26,11 +26,6 @@ test.describe('Manifests', () => {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto(baseUrl);
-    const features = await page.evaluate(() => (window as any).mender_environment?.features);
-    if (!features?.hasManifestsEnabled) {
-      console.log(`Manifest feature disabled - no artifact download...`);
-      return;
-    }
 
     // Dump the yaml file (manifest.yaml) from the manifest mender file
     try {
@@ -46,8 +41,6 @@ test.describe('Manifests', () => {
   });
 
   test.beforeEach(async ({ environment, page }) => {
-    const features = await page.evaluate(() => (window as any).mender_environment?.features);
-    test.skip(!features || !features.hasManifestsEnabled, 'Manifests feature flag is not enabled');
     test.skip(!isEnterpriseOrStaging(environment), 'Manifests are only available in enterprise or staging environments');
 
     await navigateTo(page, 'software');
