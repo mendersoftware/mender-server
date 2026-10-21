@@ -4250,6 +4250,127 @@ func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentLogForDeviceExecute_Call)
 	return _c
 }
 
+// GetDeploymentSoftware provides a mock function for the type MockDeploymentsManagementAPIAPI
+func (_mock *MockDeploymentsManagementAPIAPI) GetDeploymentSoftware(ctx context.Context) client.ApiGetDeploymentSoftwareRequest {
+	ret := _mock.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetDeploymentSoftware")
+	}
+
+	var r0 client.ApiGetDeploymentSoftwareRequest
+	if returnFunc, ok := ret.Get(0).(func(context.Context) client.ApiGetDeploymentSoftwareRequest); ok {
+		r0 = returnFunc(ctx)
+	} else {
+		r0 = ret.Get(0).(client.ApiGetDeploymentSoftwareRequest)
+	}
+	return r0
+}
+
+// MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetDeploymentSoftware'
+type MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call struct {
+	*mock.Call
+}
+
+// GetDeploymentSoftware is a helper method to define mock.On call
+//   - ctx context.Context
+func (_e *MockDeploymentsManagementAPIAPI_Expecter) GetDeploymentSoftware(ctx interface{}) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call {
+	return &MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call{Call: _e.mock.On("GetDeploymentSoftware", ctx)}
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call) Run(run func(ctx context.Context)) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call) Return(apiGetDeploymentSoftwareRequest client.ApiGetDeploymentSoftwareRequest) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call {
+	_c.Call.Return(apiGetDeploymentSoftwareRequest)
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call) RunAndReturn(run func(ctx context.Context) client.ApiGetDeploymentSoftwareRequest) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftware_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetDeploymentSoftwareExecute provides a mock function for the type MockDeploymentsManagementAPIAPI
+func (_mock *MockDeploymentsManagementAPIAPI) GetDeploymentSoftwareExecute(r client.ApiGetDeploymentSoftwareRequest) ([]client.Software, *http.Response, error) {
+	ret := _mock.Called(r)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetDeploymentSoftwareExecute")
+	}
+
+	var r0 []client.Software
+	var r1 *http.Response
+	var r2 error
+	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeploymentSoftwareRequest) ([]client.Software, *http.Response, error)); ok {
+		return returnFunc(r)
+	}
+	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeploymentSoftwareRequest) []client.Software); ok {
+		r0 = returnFunc(r)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]client.Software)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(client.ApiGetDeploymentSoftwareRequest) *http.Response); ok {
+		r1 = returnFunc(r)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*http.Response)
+		}
+	}
+	if returnFunc, ok := ret.Get(2).(func(client.ApiGetDeploymentSoftwareRequest) error); ok {
+		r2 = returnFunc(r)
+	} else {
+		r2 = ret.Error(2)
+	}
+	return r0, r1, r2
+}
+
+// MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetDeploymentSoftwareExecute'
+type MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call struct {
+	*mock.Call
+}
+
+// GetDeploymentSoftwareExecute is a helper method to define mock.On call
+//   - r client.ApiGetDeploymentSoftwareRequest
+func (_e *MockDeploymentsManagementAPIAPI_Expecter) GetDeploymentSoftwareExecute(r interface{}) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
+	return &MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call{Call: _e.mock.On("GetDeploymentSoftwareExecute", r)}
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call) Run(run func(r client.ApiGetDeploymentSoftwareRequest)) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 client.ApiGetDeploymentSoftwareRequest
+		if args[0] != nil {
+			arg0 = args[0].(client.ApiGetDeploymentSoftwareRequest)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call) Return(softwares []client.Software, response *http.Response, err error) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
+	_c.Call.Return(softwares, response, err)
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call) RunAndReturn(run func(r client.ApiGetDeploymentSoftwareRequest) ([]client.Software, *http.Response, error)) *MockDeploymentsManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListAllDevicesInDeployment provides a mock function for the type MockDeploymentsManagementAPIAPI
 func (_mock *MockDeploymentsManagementAPIAPI) ListAllDevicesInDeployment(ctx context.Context, deploymentId string) client.ApiListAllDevicesInDeploymentRequest {
 	ret := _mock.Called(ctx, deploymentId)
@@ -4869,6 +4990,127 @@ func (_c *MockDeploymentsManagementAPIAPI_ListReleasesExecute_Call) Return(relea
 }
 
 func (_c *MockDeploymentsManagementAPIAPI_ListReleasesExecute_Call) RunAndReturn(run func(r client.ApiListReleasesRequest) ([]client.ReleaseV1, *http.Response, error)) *MockDeploymentsManagementAPIAPI_ListReleasesExecute_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListSoftwareTags provides a mock function for the type MockDeploymentsManagementAPIAPI
+func (_mock *MockDeploymentsManagementAPIAPI) ListSoftwareTags(ctx context.Context) client.ApiListSoftwareTagsRequest {
+	ret := _mock.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListSoftwareTags")
+	}
+
+	var r0 client.ApiListSoftwareTagsRequest
+	if returnFunc, ok := ret.Get(0).(func(context.Context) client.ApiListSoftwareTagsRequest); ok {
+		r0 = returnFunc(ctx)
+	} else {
+		r0 = ret.Get(0).(client.ApiListSoftwareTagsRequest)
+	}
+	return r0
+}
+
+// MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSoftwareTags'
+type MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call struct {
+	*mock.Call
+}
+
+// ListSoftwareTags is a helper method to define mock.On call
+//   - ctx context.Context
+func (_e *MockDeploymentsManagementAPIAPI_Expecter) ListSoftwareTags(ctx interface{}) *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call {
+	return &MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call{Call: _e.mock.On("ListSoftwareTags", ctx)}
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call) Run(run func(ctx context.Context)) *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call) Return(apiListSoftwareTagsRequest client.ApiListSoftwareTagsRequest) *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call {
+	_c.Call.Return(apiListSoftwareTagsRequest)
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call) RunAndReturn(run func(ctx context.Context) client.ApiListSoftwareTagsRequest) *MockDeploymentsManagementAPIAPI_ListSoftwareTags_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListSoftwareTagsExecute provides a mock function for the type MockDeploymentsManagementAPIAPI
+func (_mock *MockDeploymentsManagementAPIAPI) ListSoftwareTagsExecute(r client.ApiListSoftwareTagsRequest) ([]string, *http.Response, error) {
+	ret := _mock.Called(r)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListSoftwareTagsExecute")
+	}
+
+	var r0 []string
+	var r1 *http.Response
+	var r2 error
+	if returnFunc, ok := ret.Get(0).(func(client.ApiListSoftwareTagsRequest) ([]string, *http.Response, error)); ok {
+		return returnFunc(r)
+	}
+	if returnFunc, ok := ret.Get(0).(func(client.ApiListSoftwareTagsRequest) []string); ok {
+		r0 = returnFunc(r)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]string)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(client.ApiListSoftwareTagsRequest) *http.Response); ok {
+		r1 = returnFunc(r)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*http.Response)
+		}
+	}
+	if returnFunc, ok := ret.Get(2).(func(client.ApiListSoftwareTagsRequest) error); ok {
+		r2 = returnFunc(r)
+	} else {
+		r2 = ret.Error(2)
+	}
+	return r0, r1, r2
+}
+
+// MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSoftwareTagsExecute'
+type MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call struct {
+	*mock.Call
+}
+
+// ListSoftwareTagsExecute is a helper method to define mock.On call
+//   - r client.ApiListSoftwareTagsRequest
+func (_e *MockDeploymentsManagementAPIAPI_Expecter) ListSoftwareTagsExecute(r interface{}) *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call {
+	return &MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call{Call: _e.mock.On("ListSoftwareTagsExecute", r)}
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call) Run(run func(r client.ApiListSoftwareTagsRequest)) *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 client.ApiListSoftwareTagsRequest
+		if args[0] != nil {
+			arg0 = args[0].(client.ApiListSoftwareTagsRequest)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call) Return(strings []string, response *http.Response, err error) *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call {
+	_c.Call.Return(strings, response, err)
+	return _c
+}
+
+func (_c *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call) RunAndReturn(run func(r client.ApiListSoftwareTagsRequest) ([]string, *http.Response, error)) *MockDeploymentsManagementAPIAPI_ListSoftwareTagsExecute_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5595,275 +5837,6 @@ func (_c *MockDeploymentsManagementAPIAPI_UploadArtifactExecute_Call) Return(res
 }
 
 func (_c *MockDeploymentsManagementAPIAPI_UploadArtifactExecute_Call) RunAndReturn(run func(r client.ApiUploadArtifactRequest) (*http.Response, error)) *MockDeploymentsManagementAPIAPI_UploadArtifactExecute_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// NewMockDeploymentsV1alpha1ManagementAPIAPI creates a new instance of MockDeploymentsV1alpha1ManagementAPIAPI. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
-// The first argument is typically a *testing.T value.
-func NewMockDeploymentsV1alpha1ManagementAPIAPI(t interface {
-	mock.TestingT
-	Cleanup(func())
-}) *MockDeploymentsV1alpha1ManagementAPIAPI {
-	mock := &MockDeploymentsV1alpha1ManagementAPIAPI{}
-	mock.Mock.Test(t)
-
-	t.Cleanup(func() { mock.AssertExpectations(t) })
-
-	return mock
-}
-
-// MockDeploymentsV1alpha1ManagementAPIAPI is an autogenerated mock type for the DeploymentsV1alpha1ManagementAPIAPI type
-type MockDeploymentsV1alpha1ManagementAPIAPI struct {
-	mock.Mock
-}
-
-type MockDeploymentsV1alpha1ManagementAPIAPI_Expecter struct {
-	mock *mock.Mock
-}
-
-func (_m *MockDeploymentsV1alpha1ManagementAPIAPI) EXPECT() *MockDeploymentsV1alpha1ManagementAPIAPI_Expecter {
-	return &MockDeploymentsV1alpha1ManagementAPIAPI_Expecter{mock: &_m.Mock}
-}
-
-// GetDeploymentSoftware provides a mock function for the type MockDeploymentsV1alpha1ManagementAPIAPI
-func (_mock *MockDeploymentsV1alpha1ManagementAPIAPI) GetDeploymentSoftware(ctx context.Context) client.ApiGetDeploymentSoftwareRequest {
-	ret := _mock.Called(ctx)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetDeploymentSoftware")
-	}
-
-	var r0 client.ApiGetDeploymentSoftwareRequest
-	if returnFunc, ok := ret.Get(0).(func(context.Context) client.ApiGetDeploymentSoftwareRequest); ok {
-		r0 = returnFunc(ctx)
-	} else {
-		r0 = ret.Get(0).(client.ApiGetDeploymentSoftwareRequest)
-	}
-	return r0
-}
-
-// MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetDeploymentSoftware'
-type MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call struct {
-	*mock.Call
-}
-
-// GetDeploymentSoftware is a helper method to define mock.On call
-//   - ctx context.Context
-func (_e *MockDeploymentsV1alpha1ManagementAPIAPI_Expecter) GetDeploymentSoftware(ctx interface{}) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call {
-	return &MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call{Call: _e.mock.On("GetDeploymentSoftware", ctx)}
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call) Run(run func(ctx context.Context)) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		run(
-			arg0,
-		)
-	})
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call) Return(apiGetDeploymentSoftwareRequest client.ApiGetDeploymentSoftwareRequest) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call {
-	_c.Call.Return(apiGetDeploymentSoftwareRequest)
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call) RunAndReturn(run func(ctx context.Context) client.ApiGetDeploymentSoftwareRequest) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftware_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// GetDeploymentSoftwareExecute provides a mock function for the type MockDeploymentsV1alpha1ManagementAPIAPI
-func (_mock *MockDeploymentsV1alpha1ManagementAPIAPI) GetDeploymentSoftwareExecute(r client.ApiGetDeploymentSoftwareRequest) ([]client.Software, *http.Response, error) {
-	ret := _mock.Called(r)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetDeploymentSoftwareExecute")
-	}
-
-	var r0 []client.Software
-	var r1 *http.Response
-	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeploymentSoftwareRequest) ([]client.Software, *http.Response, error)); ok {
-		return returnFunc(r)
-	}
-	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeploymentSoftwareRequest) []client.Software); ok {
-		r0 = returnFunc(r)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]client.Software)
-		}
-	}
-	if returnFunc, ok := ret.Get(1).(func(client.ApiGetDeploymentSoftwareRequest) *http.Response); ok {
-		r1 = returnFunc(r)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*http.Response)
-		}
-	}
-	if returnFunc, ok := ret.Get(2).(func(client.ApiGetDeploymentSoftwareRequest) error); ok {
-		r2 = returnFunc(r)
-	} else {
-		r2 = ret.Error(2)
-	}
-	return r0, r1, r2
-}
-
-// MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetDeploymentSoftwareExecute'
-type MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call struct {
-	*mock.Call
-}
-
-// GetDeploymentSoftwareExecute is a helper method to define mock.On call
-//   - r client.ApiGetDeploymentSoftwareRequest
-func (_e *MockDeploymentsV1alpha1ManagementAPIAPI_Expecter) GetDeploymentSoftwareExecute(r interface{}) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
-	return &MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call{Call: _e.mock.On("GetDeploymentSoftwareExecute", r)}
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call) Run(run func(r client.ApiGetDeploymentSoftwareRequest)) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 client.ApiGetDeploymentSoftwareRequest
-		if args[0] != nil {
-			arg0 = args[0].(client.ApiGetDeploymentSoftwareRequest)
-		}
-		run(
-			arg0,
-		)
-	})
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call) Return(softwares []client.Software, response *http.Response, err error) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
-	_c.Call.Return(softwares, response, err)
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call) RunAndReturn(run func(r client.ApiGetDeploymentSoftwareRequest) ([]client.Software, *http.Response, error)) *MockDeploymentsV1alpha1ManagementAPIAPI_GetDeploymentSoftwareExecute_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// ListSoftwareTags provides a mock function for the type MockDeploymentsV1alpha1ManagementAPIAPI
-func (_mock *MockDeploymentsV1alpha1ManagementAPIAPI) ListSoftwareTags(ctx context.Context) client.ApiListSoftwareTagsRequest {
-	ret := _mock.Called(ctx)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ListSoftwareTags")
-	}
-
-	var r0 client.ApiListSoftwareTagsRequest
-	if returnFunc, ok := ret.Get(0).(func(context.Context) client.ApiListSoftwareTagsRequest); ok {
-		r0 = returnFunc(ctx)
-	} else {
-		r0 = ret.Get(0).(client.ApiListSoftwareTagsRequest)
-	}
-	return r0
-}
-
-// MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSoftwareTags'
-type MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call struct {
-	*mock.Call
-}
-
-// ListSoftwareTags is a helper method to define mock.On call
-//   - ctx context.Context
-func (_e *MockDeploymentsV1alpha1ManagementAPIAPI_Expecter) ListSoftwareTags(ctx interface{}) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call {
-	return &MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call{Call: _e.mock.On("ListSoftwareTags", ctx)}
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call) Run(run func(ctx context.Context)) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		run(
-			arg0,
-		)
-	})
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call) Return(apiListSoftwareTagsRequest client.ApiListSoftwareTagsRequest) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call {
-	_c.Call.Return(apiListSoftwareTagsRequest)
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call) RunAndReturn(run func(ctx context.Context) client.ApiListSoftwareTagsRequest) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTags_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// ListSoftwareTagsExecute provides a mock function for the type MockDeploymentsV1alpha1ManagementAPIAPI
-func (_mock *MockDeploymentsV1alpha1ManagementAPIAPI) ListSoftwareTagsExecute(r client.ApiListSoftwareTagsRequest) ([]string, *http.Response, error) {
-	ret := _mock.Called(r)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ListSoftwareTagsExecute")
-	}
-
-	var r0 []string
-	var r1 *http.Response
-	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(client.ApiListSoftwareTagsRequest) ([]string, *http.Response, error)); ok {
-		return returnFunc(r)
-	}
-	if returnFunc, ok := ret.Get(0).(func(client.ApiListSoftwareTagsRequest) []string); ok {
-		r0 = returnFunc(r)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]string)
-		}
-	}
-	if returnFunc, ok := ret.Get(1).(func(client.ApiListSoftwareTagsRequest) *http.Response); ok {
-		r1 = returnFunc(r)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*http.Response)
-		}
-	}
-	if returnFunc, ok := ret.Get(2).(func(client.ApiListSoftwareTagsRequest) error); ok {
-		r2 = returnFunc(r)
-	} else {
-		r2 = ret.Error(2)
-	}
-	return r0, r1, r2
-}
-
-// MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSoftwareTagsExecute'
-type MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call struct {
-	*mock.Call
-}
-
-// ListSoftwareTagsExecute is a helper method to define mock.On call
-//   - r client.ApiListSoftwareTagsRequest
-func (_e *MockDeploymentsV1alpha1ManagementAPIAPI_Expecter) ListSoftwareTagsExecute(r interface{}) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call {
-	return &MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call{Call: _e.mock.On("ListSoftwareTagsExecute", r)}
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call) Run(run func(r client.ApiListSoftwareTagsRequest)) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 client.ApiListSoftwareTagsRequest
-		if args[0] != nil {
-			arg0 = args[0].(client.ApiListSoftwareTagsRequest)
-		}
-		run(
-			arg0,
-		)
-	})
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call) Return(strings []string, response *http.Response, err error) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call {
-	_c.Call.Return(strings, response, err)
-	return _c
-}
-
-func (_c *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call) RunAndReturn(run func(r client.ApiListSoftwareTagsRequest) ([]string, *http.Response, error)) *MockDeploymentsV1alpha1ManagementAPIAPI_ListSoftwareTagsExecute_Call {
 	_c.Call.Return(run)
 	return _c
 }
