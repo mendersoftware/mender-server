@@ -52,6 +52,7 @@ const ChangeFallback = props => {
   } = props;
   return <TextOverflowMultiline variant="body2">{change}</TextOverflowMultiline>;
 };
+const EmptyComponent = () => <div />;
 
 const FallbackFormatter = props => <Typography variant="body2">{stringifyEvent(props)}</Typography>;
 
@@ -64,15 +65,17 @@ const TenantFormatter = ({ tenant }) => <TextOverflowMultiline variant="body2">{
 
 const defaultAccess = canAccess;
 const changeMap = {
-  default: { component: 'div', actionFormatter: FallbackFormatter, title: 'defaultTitle', accessCheck: defaultAccess },
-  artifact: { actionFormatter: ArtifactFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
-  software: { actionFormatter: SoftwareFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
+  default: { component: EmptyComponent, actionFormatter: FallbackFormatter, title: 'defaultTitle', accessCheck: defaultAccess },
+  artifactDeleted: { actionFormatter: ArtifactFormatter, component: EmptyComponent, accessCheck: defaultAccess },
+  artifactGeneral: { actionFormatter: ArtifactFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
+  softwareDeleted: { actionFormatter: SoftwareFormatter, component: EmptyComponent, accessCheck: defaultAccess },
+  softwareGeneral: { actionFormatter: SoftwareFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
   deployment: {
     actionFormatter: DeploymentFormatter,
     component: DeploymentLink,
     accessCheck: ({ canReadDeployments }) => canReadDeployments
   },
-  deviceDecommissioned: { actionFormatter: DeviceFormatter, component: 'div', accessCheck: defaultAccess },
+  deviceDecommissioned: { actionFormatter: DeviceFormatter, component: EmptyComponent, accessCheck: defaultAccess },
   deviceRejected: { actionFormatter: DeviceFormatter, component: DeviceRejectedLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
@@ -85,6 +88,14 @@ const mapChangeToContent = item => {
   let content = changeMap[item.object.type];
   if (content) {
     return content;
+  } else if (item.object.type === 'artifact' && item.action === 'delete') {
+    content = changeMap.artifactDeleted;
+  } else if (item.object.type === 'artifact') {
+    content = changeMap.artifactGeneral;
+  } else if (item.object.type === 'software' && item.action === 'delete') {
+    content = changeMap.softwareDeleted;
+  } else if (item.object.type === 'software') {
+    content = changeMap.softwareGeneral;
   } else if (item.object.type === 'device' && item.action.includes('terminal')) {
     content = changeMap.deviceTerminalSession;
   } else if (item.object.type === 'device' && item.action.includes('reject')) {
