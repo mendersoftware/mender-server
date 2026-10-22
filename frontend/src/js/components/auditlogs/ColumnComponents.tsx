@@ -26,7 +26,10 @@ const SoftwareLink = ({ item }) => {
   const { artifact, id, software } = item.object;
   if (software?.kind === 'manifest') {
     return (
-      <Link to={{ pathname: generateReleasesPath({ pageState: {} }), search: formatReleases({ pageState: { tab: 'manifests', id: encodeURIComponent(id) } }) }}>
+      <Link
+        to={{ pathname: generateReleasesPath({ pageState: {} }), search: formatReleases({ pageState: { tab: 'manifests', id: encodeURIComponent(id) } }) }}
+        state={{ internal: true }}
+      >
         View software
       </Link>
     );
@@ -37,6 +40,7 @@ const SoftwareLink = ({ item }) => {
         pathname: generateReleasesPath({ pageState: { selectedRelease: artifact?.name ?? id } }),
         search: formatReleases({ pageState: { tab: 'releases' } })
       }}
+      state={{ internal: true }}
     >
       View software
     </Link>

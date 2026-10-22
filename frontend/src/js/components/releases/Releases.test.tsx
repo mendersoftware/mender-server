@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Link, Route, Routes } from 'react-router';
+
 import { defaultState, render } from '@/testUtils';
 import GeneralApi from '@northern.tech/store/api/general-api';
 import { TIMEOUTS, apiUrl } from '@northern.tech/store/constants';
@@ -38,6 +40,45 @@ describe('Releases Component', () => {
       vi.runOnlyPendingTimers();
       vi.runAllTicks();
     });
+  });
+
+  it('initializes from the url when navigated to from within the app', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { store } = render(
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Link to="/software/r1" state={{ internal: true }}>
+              linked
+            </Link>
+          }
+        />
+        <Route path="/software/*" element={<Releases />} />
+      </Routes>
+    );
+    await user.click(screen.getByRole('link', { name: 'linked' }));
+    await waitFor(() => expect(store.getState().releases.selectedRelease).toEqual('r1'));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+  });
+
+  it('keeps the stored state when navigated to without internal state', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { store } = render(
+      <Routes>
+        <Route path="/" element={<Link to="/software/r1">plain</Link>} />
+        <Route path="/software/*" element={<Releases />} />
+      </Routes>
+    );
+    await user.click(screen.getByRole('link', { name: 'plain' }));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    expect(store.getState().releases.selectedRelease).toBeFalsy();
   });
 
   it('clears release selection on unmount', async () => {

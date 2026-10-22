@@ -202,7 +202,7 @@ export const Releases = () => {
   ]);
 
   useEffect(() => {
-    if (isInitialized.current || !shouldInitializeFromUrl) {
+    if (!location.state?.internal && (isInitialized.current || !shouldInitializeFromUrl)) {
       isInitialized.current = true;
       return;
     }
@@ -228,7 +228,7 @@ export const Releases = () => {
     }
     isInitialized.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
+  }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl, location.state?.internal]);
 
   const onUploadClick = () => {
     if (tab === tabbedComponents.releases.key) {
