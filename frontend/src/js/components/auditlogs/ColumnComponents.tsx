@@ -60,6 +60,7 @@ const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline variant="body
 const SoftwareFormatter = ({ id }) => <TextOverflowMultiline variant="body2">{id}</TextOverflowMultiline>;
 const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline variant="body2">{deployment.name}</TextOverflowMultiline>;
 const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
+const TokenFormatter = ({ id, user_access_token: token }) => <TextOverflowMultiline variant="body2">{token?.name ?? id}</TextOverflowMultiline>;
 const UserFormatter = ({ user }) => <TextOverflowMultiline variant="body2">{user.email}</TextOverflowMultiline>;
 const TenantFormatter = ({ tenant }) => <TextOverflowMultiline variant="body2">{tenant.name}</TextOverflowMultiline>;
 
@@ -80,7 +81,7 @@ const changeMap = {
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
   user: { actionFormatter: UserFormatter, component: ChangeFallback, accessCheck: defaultAccess },
-  user_access_token: { actionFormatter: FallbackFormatter, component: ChangeFallback, accessCheck: defaultAccess },
+  user_access_token: { actionFormatter: TokenFormatter, component: ChangeFallback, accessCheck: defaultAccess },
   tenant: { actionFormatter: TenantFormatter, component: ChangeFallback, accessCheck: defaultAccess }
 };
 
