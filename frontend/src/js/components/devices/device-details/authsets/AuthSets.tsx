@@ -19,7 +19,7 @@ import { Button } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getCombinedLimit, getDeviceCountsByStatus, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -78,21 +78,19 @@ export const Authsets = ({ decommission, device, listRef }) => {
       />
       {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} />}
       {![DEVICE_STATES.preauth, DEVICE_STATES.pending].includes(device.status) && canManageDevices && (
-        <div className="margin-top-small flexbox relative">
-          {confirmDecommission ? (
-            <Confirm
-              action={() => decommission(device.id)}
-              cancel={() => setConfirmDecommission(false)}
-              classes="margin-top-x-small margin-bottom-x-small"
-              type="decommissioning"
-            />
-          ) : (
-            <Button color="error" variant="outlined" onClick={() => setConfirmDecommission(true)}>
-              Decommission device
-            </Button>
-          )}
-        </div>
+        <Button className="margin-top-small" color="error" variant="outlined" onClick={() => setConfirmDecommission(true)}>
+          Decommission device
+        </Button>
       )}
+      <ConfirmModal
+        open={confirmDecommission}
+        close={() => setConfirmDecommission(false)}
+        header="Decommission device?"
+        description="Decommissioning this device will remove all of its data from the server. This cannot be undone. Are you sure you want to continue?"
+        confirmButtonText="Decommission"
+        onConfirm={() => decommission(device.id)}
+        isCritical
+      />
     </div>
   );
 };
