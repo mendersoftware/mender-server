@@ -158,7 +158,7 @@ const VerifyStep = ({ classes, provider, email, onCancel }: VerifyStepProps) => 
             <Typography className="margin-top-small">
               To finish linking your account, please enter the code from your authenticator app for your Mender account.
             </Typography>
-            <TextInput className="margin-top-small" hint="Verification code" id="token2fa" label="Verification code" validations="isLength:6,isNumeric" />
+            <TextInput className="margin-top-small" hint="Verification code" name="token2fa" label="Verification code" validations="isLength:6,isNumeric" />
           </>
         ) : (
           <>
@@ -166,8 +166,8 @@ const VerifyStep = ({ classes, provider, email, onCancel }: VerifyStepProps) => 
               Verify your identity by entering your password for your Mender account below.
             </Alert>
             <Typography className="margin-top-small">This is the {provider} email address we matched to your Mender account.</Typography>
-            <TextInput className="margin-top-small" disabled hint="Your email" id="email" label="Your email" />
-            <PasswordInput className="margin-top-small" id="password" label="Password" required />
+            <TextInput className="margin-top-small" disabled hint="Your email" name="email" label="Your email" />
+            <PasswordInput className="margin-top-small" name="password" label="Password" required />
           </>
         )}
         <div className="margin-top-medium flexbox">

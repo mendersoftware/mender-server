@@ -272,7 +272,7 @@ export const SelfUserManagement = () => {
             >
               <TextInput
                 hint="Email"
-                id="email"
+                name="email"
                 label="New email address"
                 helperText="Ensure to enter your new email address correctly."
                 validations="isLength:1,isEmail,trim"
@@ -285,7 +285,7 @@ export const SelfUserManagement = () => {
               <Form onSubmit={onConfirmEmailChange} showButtons={false}>
                 <DialogContent>
                   <Typography className="margin-bottom-small">Please enter your password to continue.</Typography>
-                  <PasswordInput id="current_password" label="Password" required />
+                  <PasswordInput name="current_password" label="Password" required />
                 </DialogContent>
                 <DialogActions>
                   <Button variant="outlined" color="info" onClick={() => setPendingEmail('')}>
@@ -319,11 +319,11 @@ export const SelfUserManagement = () => {
                   showButtons={editPass}
                   validationMode="onSubmit"
                 >
-                  <PasswordInput className="margin-bottom-medium" id="current_password" label="Current password *" required width={null} />
-                  <PasswordInput id="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create required width={null} />
+                  <PasswordInput className="margin-bottom-medium" name="current_password" label="Current password *" required width={null} />
+                  <PasswordInput name="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create required width={null} />
                   <PasswordInput
                     className="margin-top-x-small"
-                    id="password_confirmation"
+                    name="password_confirmation"
                     label="Confirm new password *"
                     validations={`isLength:8:256,isNot:${email}`}
                     required

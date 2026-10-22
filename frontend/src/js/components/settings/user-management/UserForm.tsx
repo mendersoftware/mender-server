@@ -125,7 +125,7 @@ const UserIdentifier = ({ userIdAllowed, onHasUserId, hasMultitenancy }) => {
             ? 'Use an email address to invite a new user, or a User ID to add an existing one.'
             : `Use an email address to ${hasMultitenancy ? 'invite' : 'create'} a new user.`
         }
-        id="email"
+        name="email"
         validations={userIdAllowed ? 'isLength:1,isUUID||isEmail,trim' : 'isLength:1,isEmail,trim'}
         required
         requiredRendered={false}
@@ -171,7 +171,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
           <Collapse in={!isAddingExistingUser}>
             {!hasMultitenancy && (
               <PasswordInput
-                id="password"
+                name="password"
                 autocomplete="off"
                 create
                 InputLabelProps={{ shrink: false }}

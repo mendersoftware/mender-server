@@ -144,7 +144,7 @@ export const RolloutPatternSelection = ({
   return (
     <>
       <FormCheckbox
-        id={deploymentFormSections.usesPattern}
+        name={deploymentFormSections.usesPattern}
         disabled={!isEnterprise || deploymentDeviceCount === 0 || !!disabledReason}
         handleClick={onUsesPatternClick}
         label={
