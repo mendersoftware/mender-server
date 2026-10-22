@@ -1014,6 +1014,7 @@ func getMetaFromArchive(r *io.Reader, skipVerify bool) (*model.ArtifactMeta, err
 
 	aReader := areader.NewReader(*r)
 	aReader.WarnOnEmptyTypeInfo(noArtifactLogs{})
+	aReader.WarnOnValidationErrors(noArtifactLogs{})
 
 	// There is no signature verification here.
 	// It is just simple check if artifact is signed or not.
