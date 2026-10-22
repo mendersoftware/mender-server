@@ -147,6 +147,12 @@ func NewRouter(
 	InternalRoutes(internalAPIs, deploymentsHandlers)
 	ReleasesRoutes(withAuth, deploymentsHandlers)
 
+	// Software routes
+	mgmtV1 := withAuth.Group(ApiUrlManagement)
+	mgmtV1.GET(APIPathSoftwareTags, deploymentsHandlers.GetSoftwareTags)
+	mgmtV1.GET(APIPathSoftware, deploymentsHandlers.ListSoftware)
+
+	// MEN-10232: Remove alpha handler after gui is updated
 	alpha := withAuth.Group(ApiUrlManagementV1Alpha1)
 	alpha.GET(APIPathSoftwareTags, deploymentsHandlers.GetSoftwareTags)
 	alpha.GET(APIPathSoftware, deploymentsHandlers.ListSoftware)

@@ -19,6 +19,7 @@ import (
 	"net/url"
 	"strings"
 	"os"
+	"reflect"
 )
 
 
@@ -297,6 +298,22 @@ in text/plain format.
 	GetDeploymentLogForDeviceExecute(r ApiGetDeploymentLogForDeviceRequest) (string, *http.Response, error)
 
 	/*
+	GetDeploymentSoftware Get Mender Software
+
+	Returns software information according to the specified parameters.
+"Software" in this context refers to base information shared across both Releases and Manifests.
+Note that the operation between the `name` and `kind` parameters is an AND operation.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetDeploymentSoftwareRequest
+	*/
+	GetDeploymentSoftware(ctx context.Context) ApiGetDeploymentSoftwareRequest
+
+	// GetDeploymentSoftwareExecute executes the request
+	//  @return []Software
+	GetDeploymentSoftwareExecute(r ApiGetDeploymentSoftwareRequest) ([]Software, *http.Response, error)
+
+	/*
 	ListAllDevicesInDeployment please use the /deployments/{deployment_id}/devices/list end-point instead. 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -373,6 +390,18 @@ in text/plain format.
 	//  @return []ReleaseV1
 	// Deprecated
 	ListReleasesExecute(r ApiListReleasesRequest) ([]ReleaseV1, *http.Response, error)
+
+	/*
+	ListSoftwareTags Lists all available tags for software (releases and/or manifests). 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSoftwareTagsRequest
+	*/
+	ListSoftwareTags(ctx context.Context) ApiListSoftwareTagsRequest
+
+	// ListSoftwareTagsExecute executes the request
+	//  @return []string
+	ListSoftwareTagsExecute(r ApiListSoftwareTagsRequest) ([]string, *http.Response, error)
 
 	/*
 	RequestDirectUpload Request link for uploading artifact directly to the storage backend. This is an on-prem endpoint only, not available on Hosted Mender.
@@ -3144,6 +3173,254 @@ func (a *DeploymentsManagementAPIAPIService) GetDeploymentLogForDeviceExecute(r 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetDeploymentSoftwareRequest struct {
+	ctx context.Context
+	ApiService DeploymentsManagementAPIAPI
+	name *[]string
+	namePrefix *string
+	kind *string
+	tag *[]string
+	updateType *string
+	page *int32
+	perPage *int32
+	sort *string
+}
+
+// Software name filter. Can be repeated to query a set of entries. Mutually exclusive with &#x60;name_prefix&#x60;.
+func (r ApiGetDeploymentSoftwareRequest) Name(name []string) ApiGetDeploymentSoftwareRequest {
+	r.name = &name
+	return r
+}
+
+// Software name prefix filter. Mutually exclusive with &#x60;name&#x60;.
+func (r ApiGetDeploymentSoftwareRequest) NamePrefix(namePrefix string) ApiGetDeploymentSoftwareRequest {
+	r.namePrefix = &namePrefix
+	return r
+}
+
+// Software kind filter.
+func (r ApiGetDeploymentSoftwareRequest) Kind(kind string) ApiGetDeploymentSoftwareRequest {
+	r.kind = &kind
+	return r
+}
+
+// Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).
+func (r ApiGetDeploymentSoftwareRequest) Tag(tag []string) ApiGetDeploymentSoftwareRequest {
+	r.tag = &tag
+	return r
+}
+
+// Update type filter.
+func (r ApiGetDeploymentSoftwareRequest) UpdateType(updateType string) ApiGetDeploymentSoftwareRequest {
+	r.updateType = &updateType
+	return r
+}
+
+// Starting page.
+func (r ApiGetDeploymentSoftwareRequest) Page(page int32) ApiGetDeploymentSoftwareRequest {
+	r.page = &page
+	return r
+}
+
+// Maximum number of results per page.
+func (r ApiGetDeploymentSoftwareRequest) PerPage(perPage int32) ApiGetDeploymentSoftwareRequest {
+	r.perPage = &perPage
+	return r
+}
+
+// Sort the Software list by the specified field and direction.
+func (r ApiGetDeploymentSoftwareRequest) Sort(sort string) ApiGetDeploymentSoftwareRequest {
+	r.sort = &sort
+	return r
+}
+
+func (r ApiGetDeploymentSoftwareRequest) Execute() ([]Software, *http.Response, error) {
+	return r.ApiService.GetDeploymentSoftwareExecute(r)
+}
+
+/*
+GetDeploymentSoftware Get Mender Software
+
+Returns software information according to the specified parameters.
+"Software" in this context refers to base information shared across both Releases and Manifests.
+Note that the operation between the `name` and `kind` parameters is an AND operation.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetDeploymentSoftwareRequest
+*/
+func (a *DeploymentsManagementAPIAPIService) GetDeploymentSoftware(ctx context.Context) ApiGetDeploymentSoftwareRequest {
+	return ApiGetDeploymentSoftwareRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return []Software
+func (a *DeploymentsManagementAPIAPIService) GetDeploymentSoftwareExecute(r ApiGetDeploymentSoftwareRequest) ([]Software, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []Software
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsManagementAPIAPIService.GetDeploymentSoftware")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/management/v1/deployments/software"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.name != nil {
+		t := *r.name
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "name", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "name", t, "form", "multi")
+		}
+	}
+	if r.namePrefix != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name_prefix", r.namePrefix, "form", "")
+	}
+	if r.kind != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "kind", r.kind, "form", "")
+	}
+	if r.tag != nil {
+		t := *r.tag
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "tag", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "tag", t, "form", "multi")
+		}
+	}
+	if r.updateType != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "update_type", r.updateType, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 1
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
+		r.page = &defaultValue
+	}
+	if r.perPage != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", r.perPage, "form", "")
+	} else {
+		var defaultValue int32 = 20
+		parameterAddToHeaderOrQuery(localVarQueryParams, "per_page", defaultValue, "form", "")
+		r.perPage = &defaultValue
+	}
+	if r.sort != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sort", r.sort, "form", "")
+	} else {
+		var defaultValue string = "name:asc"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sort", defaultValue, "form", "")
+		r.sort = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiListAllDevicesInDeploymentRequest struct {
 	ctx context.Context
 	ApiService DeploymentsManagementAPIAPI
@@ -3911,6 +4188,152 @@ func (a *DeploymentsManagementAPIAPIService) ListReleasesExecute(r ApiListReleas
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListSoftwareTagsRequest struct {
+	ctx context.Context
+	ApiService DeploymentsManagementAPIAPI
+	kind *string
+}
+
+// Only list tags used on software of a particular kind
+func (r ApiListSoftwareTagsRequest) Kind(kind string) ApiListSoftwareTagsRequest {
+	r.kind = &kind
+	return r
+}
+
+func (r ApiListSoftwareTagsRequest) Execute() ([]string, *http.Response, error) {
+	return r.ApiService.ListSoftwareTagsExecute(r)
+}
+
+/*
+ListSoftwareTags Lists all available tags for software (releases and/or manifests). 
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiListSoftwareTagsRequest
+*/
+func (a *DeploymentsManagementAPIAPIService) ListSoftwareTags(ctx context.Context) ApiListSoftwareTagsRequest {
+	return ApiListSoftwareTagsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return []string
+func (a *DeploymentsManagementAPIAPIService) ListSoftwareTagsExecute(r ApiListSoftwareTagsRequest) ([]string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsManagementAPIAPIService.ListSoftwareTags")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/management/v1/deployments/software/tags"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.kind != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "kind", r.kind, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
 			var v Error

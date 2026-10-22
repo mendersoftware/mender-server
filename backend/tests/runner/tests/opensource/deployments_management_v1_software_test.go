@@ -16,46 +16,14 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/stretchr/testify/suite"
 )
-
-type DeploymentsManagementV1Alpha1Suite struct {
-	suite.Suite
-
-	APIClient *client.APIClient
-	User      common.User
-	Tenant    common.Tenant
-
-	JWT string
-}
-
-func (i *BackendIntegrationSuite) TestDeploymentsManagementV1Alpha1() {
-	suite.Run(i.T(), &DeploymentsManagementV1Alpha1Suite{
-		APIClient: i.environment.APIClient(),
-		User:      i.user,
-		Tenant:    i.tenant,
-	})
-}
-
-func (u *DeploymentsManagementV1Alpha1Suite) SetupTest() {
-	require := require.New(u.T())
-
-	ctx := common.BasicAuthContext(u.T().Context(), u.User)
-	token, r, err := u.APIClient.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
-
-	require.NoError(err)
-	require.NotNil(r)
-	require.NotEmpty(token)
-	require.Equal(http.StatusOK, r.StatusCode)
-	u.JWT = token
-}
 
 func generateLinkHeader(uri, query, linkName string) string {
 	linkTmpl := "<%s?%s>; rel=\"%s\""
 	return fmt.Sprintf(linkTmpl, uri, query, linkName)
 }
 
-func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
+func (u *DeploymentsManagementV1Suite) TestListSoftwareTags() {
 
 	// Create two releases and tag them so we have something to list
 	allTags := []string{"tag1", "tag2", "tag3"}
@@ -85,7 +53,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 
 	u.Run("Success/NoFilter", func() {
 		ctx := u.T().Context()
-		softwareTags, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwareTags, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
 			Execute()
 		require.NoError(u.T(), err)
@@ -94,7 +62,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 
 	u.Run("Success/FilterReleases", func() {
 		ctx := u.T().Context()
-		softwareTags, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwareTags, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
 			Kind(dmodel.ReleaseKindRelease).
 			Execute()
@@ -104,7 +72,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 
 	u.Run("Success/FilterManifest", func() {
 		ctx := u.T().Context()
-		softwareTags, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwareTags, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
 			Kind(dmodel.ReleaseKindManifest).
 			Execute()
@@ -114,7 +82,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 
 	u.Run("Failure/InvalidKind", func() {
 		ctx := u.T().Context()
-		_, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		_, res, err := u.APIClient.DeploymentsManagementAPIAPI.
 			ListSoftwareTags(common.JWTAuthContext(ctx, u.JWT)).
 			Kind("invalid-kind").
 			Execute()
@@ -123,7 +91,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 	})
 }
 
-func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
+func (u *DeploymentsManagementV1Suite) TestListSoftware() {
 	allSoftwares := []client.Software{}
 	{
 		t := u.T()
@@ -146,9 +114,10 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		i := handlers.NewModuleImage("definitely-not-a-manifest")
 		artifact, err := common.CreateArtifact(name, t, common.WithModuleImage(i))
 		require.NoError(err)
-		res, err := u.uploadArtifact(ctx, artifact, new("don't trust me? check it yourself!"))
+
+		_, err = u.uploadArtifact(ctx, artifact, "don't trust me? check it yourself!")
 		require.NoError(err)
-		require.Equal(res.StatusCode, http.StatusCreated)
+
 		allSoftwares = append(allSoftwares, client.Software{
 			Name: name,
 			Kind: dmodel.ReleaseKindRelease,
@@ -174,7 +143,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/NoFilter", func() {
 		ctx := u.T().Context()
-		softwares, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, res, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Execute()
 		require.NoError(u.T(), err)
@@ -200,10 +169,10 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 			common.WithCompatibleDevices([]string{"device-type-2"}),
 		)
 		require.NoError(err)
-		_, err = u.uploadArtifact(ctx, artifact, nil)
+		_, err = u.uploadArtifact(ctx, artifact, "")
 		require.NoError(err)
 
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(ctx).
 			Name([]string{allSoftwares[0].Name}).
 			Execute()
@@ -217,7 +186,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterExactName", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Name([]string{allSoftwares[0].Name}).
 			Execute()
@@ -229,7 +198,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterMultipleExactNames", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Name([]string{allSoftwares[0].Name, allSoftwares[1].Name}).
 			Execute()
@@ -241,7 +210,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterNamePrefix", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			NamePrefix("test-list-software").
 			Execute()
@@ -253,7 +222,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Failure/FilterNamePrefix&ExactName", func() {
 		ctx := u.T().Context()
-		_, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		_, res, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			NamePrefix("test-list-software").
 			Name([]string{allSoftwares[2].Name}).
@@ -266,7 +235,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterReleases", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Kind(dmodel.ReleaseKindRelease).
 			NamePrefix("test-list-software"). // filter so we dont collide with other tests
@@ -279,7 +248,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterManifest", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Kind(dmodel.ReleaseKindManifest).
 			Execute()
@@ -290,7 +259,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterKind&Name", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Kind(dmodel.ReleaseKindRelease).
 			Name([]string{allSoftwares[2].Name}).
@@ -311,7 +280,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 			Execute()
 		require.NoError(u.T(), err)
 
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(ctx).
 			Kind(dmodel.ReleaseKindRelease).
 			Tag(tags).
@@ -324,7 +293,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/Paging", func() {
 		ctx := u.T().Context()
-		softwares, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, res, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Name([]string{allSoftwares[0].Name, allSoftwares[1].Name, allSoftwares[2].Name}).
 			Page(2).
@@ -353,7 +322,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/FilterUpdateType", func() {
 		ctx := u.T().Context()
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			UpdateType("definitely-not-a-manifest").
 			Execute()
@@ -362,7 +331,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		err = compareSoftwares(softwares, allSoftwares[2])
 		require.NoError(u.T(), err)
 
-		softwares, _, err = u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err = u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			UpdateType("single-file").
 			NamePrefix("test-list-software"). // filter so we dont collide with other tests
@@ -378,7 +347,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 		// name:asc is the default, we don't need to test it
 		nameDescOrder := []client.Software{allSoftwares[1], allSoftwares[0]}
-		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err := u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Sort("name:desc").
 			NamePrefix("test-list-software"). // filter so we dont collide with other tests
@@ -388,7 +357,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		err = compareSoftwares(softwares, nameDescOrder...)
 		require.NoError(u.T(), err)
 
-		softwares, _, err = u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err = u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Sort("modified:asc").
 			NamePrefix("test-list-software").
@@ -400,7 +369,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		require.NoError(u.T(), err)
 
 		updatedDescOrder := []client.Software{allSoftwares[0], allSoftwares[1]}
-		softwares, _, err = u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+		softwares, _, err = u.APIClient.DeploymentsManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Sort("modified:desc").
 			NamePrefix("test-list-software").
@@ -412,7 +381,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 	})
 }
 
-func (u *DeploymentsManagementV1Alpha1Suite) createReleaseArtifact(
+func (u *DeploymentsManagementV1Suite) createReleaseArtifact(
 	ctx context.Context,
 	t interface{ TempDir() string },
 	name string) (*os.File, error) {
@@ -460,25 +429,4 @@ func (u *DeploymentsManagementV1Alpha1Suite) createReleaseArtifact(
 		return nil, errors.New("artifact not created in time")
 	}
 	return file, nil
-}
-
-func (u *DeploymentsManagementV1Alpha1Suite) uploadArtifact(
-	ctx context.Context,
-	artifact *os.File,
-	description *string,
-) (*http.Response, error) {
-	defer artifact.Close()
-
-	req := u.APIClient.DeploymentsManagementAPIAPI.
-		UploadArtifact(ctx).
-		Artifact(artifact)
-
-	if description != nil {
-		req = req.Description(*description)
-	}
-	r, err := req.Execute()
-	if r == nil {
-		return nil, errors.New("got no response from upload artifact")
-	}
-	return r, err
 }
