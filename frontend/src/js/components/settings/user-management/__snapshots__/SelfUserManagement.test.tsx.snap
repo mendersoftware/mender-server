@@ -1081,11 +1081,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-51 {
-  height: 15px;
-}
-
-.emotion-56 {
+.emotion-55 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1140,33 +1136,33 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
   --variant-containedBg: #1976d2;
 }
 
-.emotion-56::-moz-focus-inner {
+.emotion-55::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-56.Mui-disabled {
+.emotion-55.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-56 {
+  .emotion-55 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-56:hover {
+.emotion-55:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-56.Mui-disabled {
+.emotion-55.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-56:hover {
+  .emotion-55:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -1470,9 +1466,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
               </span>
               Copy to clipboard
             </button>
-            <p
-              class="emotion-51"
-            />
           </div>
         </div>
       </div>
@@ -1492,7 +1485,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
           class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-44"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-56"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-55"
             tabindex="0"
             type="button"
           >

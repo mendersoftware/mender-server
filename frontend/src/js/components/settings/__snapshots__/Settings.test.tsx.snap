@@ -1099,10 +1099,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-82 {
-  height: 15px;
-}
-
 <div
   class="tab-container with-sub-panels"
   style="min-height: 95%; padding-top: 0px;"
@@ -1560,9 +1556,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                   </span>
                   Copy to clipboard
                 </button>
-                <p
-                  class="emotion-82"
-                />
               </div>
             </div>
           </div>
