@@ -72,20 +72,26 @@ func (a AccessLogger) LogFunc(
 	if lc != nil {
 		lc.addFields(logCtx)
 	}
+	var isAbort bool
 	if r := recover(); r != nil {
-		trace := log.CollectTrace()
-		logCtx["trace"] = trace
-		logCtx["panic"] = r
+		if r == http.ErrAbortHandler {
+			// Defer the panic until after accesslog is emitted
+			isAbort = true
+		} else {
+			trace := log.CollectTrace()
+			logCtx["trace"] = trace
+			logCtx["panic"] = r
 
-		func() {
-			// Try to respond with an internal server error.
-			// If the connection is broken it might panic again.
-			defer func() { recover() }() // nolint:errcheck
-			rest.RenderError(c,
-				http.StatusInternalServerError,
-				errors.New("internal error"),
-			)
-		}()
+			func() {
+				// Try to respond with an internal server error.
+				// If the connection is broken it might panic again.
+				defer func() { recover() }() // nolint:errcheck
+				rest.RenderError(c,
+					http.StatusInternalServerError,
+					errors.New("internal error"),
+				)
+			}()
+		}
 	} else if a.DisableLog != nil && a.DisableLog(c) {
 		return
 	}
@@ -134,6 +140,9 @@ func (a AccessLogger) LogFunc(
 	log.FromContext(c.Request.Context()).
 		WithFields(logCtx).
 		Log(logLevel)
+	if isAbort {
+		panic(http.ErrAbortHandler)
+	}
 }
 
 // Middleware implementsa gin compatible MiddlewareFunc
