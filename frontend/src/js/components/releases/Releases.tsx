@@ -29,13 +29,14 @@ import {
   getActiveTab,
   getFeatures,
   getIsEnterprise,
+  getManifestsListState,
   getReleaseListState,
   getSelectedManifest,
   getSelectedRelease,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import { selectManifest, selectRelease, setManifestsListState, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
@@ -137,8 +138,12 @@ const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
 
 export const Releases = () => {
   const releasesListState = useSelector(getReleaseListState);
-  const { searchTerm, sort = {}, page, perPage, selectedTags, type } = releasesListState;
+  const manifestsListState = useSelector(getManifestsListState);
   const tab = useSelector(getActiveTab);
+  const isManifestsTab = tab === tabbedComponents.manifests.key;
+  const listState = isManifestsTab ? manifestsListState : releasesListState;
+  const { searchTerm, sort = {}, page, perPage, selectedTags } = listState;
+  const { type } = releasesListState;
   const selectedRelease = useSelector(getSelectedRelease);
   const selectedManifest = useSelector(getSelectedManifest);
   const { canUploadReleases } = useSelector(getUserCapabilities);
@@ -176,7 +181,10 @@ export const Releases = () => {
     if (!isInitialized.current) {
       return;
     }
-    setLocationParams({ pageState: { ...releasesListState, tab, selectedRelease: selectedRelease.name } });
+    const pageState = isManifestsTab
+      ? { ...manifestsListState, tab, id: selectedManifest.name }
+      : { ...releasesListState, tab, selectedRelease: selectedRelease.name };
+    setLocationParams({ pageState });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     debouncedSearchTerm,
@@ -186,6 +194,7 @@ export const Releases = () => {
     page,
     perPage,
     selectedRelease.name,
+    selectedManifest.name,
     setLocationParams,
     tab,
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -210,7 +219,13 @@ export const Releases = () => {
     if (urlTab) {
       dispatch(setActiveTab(urlTab));
     }
-    dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
+    if (urlTab === tabbedComponents.manifests.key) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { type: releaseType, ...manifestsRemainder } = remainder;
+      dispatch(setManifestsListState({ ...manifestsRemainder, selectedTags: tags }));
+    } else {
+      dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
+    }
     isInitialized.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
