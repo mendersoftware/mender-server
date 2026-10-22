@@ -34,10 +34,6 @@ services:
       # FIXME: QA-1457 - Setup mail server to verify email
       USERADM_INSECURE_DISABLE_EMAIL_VERIFICATION: "true"
 
-  deployments:
-    environment:
-      DEPLOYMENTS_ORCHESTRATOR_MANIFESTS_ENABLED: "true"
-
   iot-manager:
     environment:
       - IOT_MANAGER_DOMAIN_SKIPVERIFY=true
