@@ -102,8 +102,8 @@ export const SystemComponentNote = ({
 );
 
 const columnsConfig = [
-  { title: 'ID', prop: 'id', isVisible: true, isSearchable: false },
-  { title: 'Component type', prop: 'component_type', isVisible: true, isSearchable: false },
+  { title: 'ID', prop: 'id', isVisible: true, isSearchable: true },
+  { title: 'Component type', prop: 'component_type', isVisible: true, isSearchable: true },
   { title: 'Software version', prop: 'version', isVisible: true, isSearchable: false }
 ];
 
