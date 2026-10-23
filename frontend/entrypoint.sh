@@ -38,7 +38,6 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
       hasDeviceFlags: "$HAVE_DEVICE_FLAGS",
       hasDeltaProgress: "$HAVE_DELTA_PROGRESS",
       hasFeedbackEnabled: "$HAVE_FEEDBACK_ENABLED",
-      hasManifestsEnabled: "$HAVE_MANIFESTS_ENABLED",
       hasMonitor: "$HAVE_MONITOR",
       hasMCUEnabled: "$HAVE_MCU_ENABLED",
       hasNewSearch: "${HAVE_NEW_SEARCH:-true}",

@@ -22,7 +22,3 @@ services:
   deviceauth:
     environment:
       - DEVICEAUTH_ENABLE_TIERS=true
-
-  inventory:
-    environment:
-      - INVENTORY_ORCHESTRATOR_ATTRIBUTES_PROCESSING_ENABLED=true

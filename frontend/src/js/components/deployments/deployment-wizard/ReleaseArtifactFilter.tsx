@@ -27,7 +27,7 @@ import { ControlledCheckboxAutocomplete } from '@northern.tech/common-ui/forms/C
 import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import { BENEFITS } from '@northern.tech/store/constants';
 import type { SoftwareKind } from '@northern.tech/store/releasesSlice';
-import { getFeatures, getIsEnterprise, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
+import { getIsEnterprise, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getSoftwareList } from '@northern.tech/store/thunks';
 import type { Software } from '@northern.tech/types/MenderTypes';
@@ -84,7 +84,6 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   const updateTypes = useSelector(getUpdateTypes);
   const [softwareItems, setSoftwareItems] = useState<Software[]>([]);
   const isEnterprise = useSelector(getIsEnterprise);
-  const { hasManifestsEnabled } = useSelector(getFeatures);
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
   const { formState, reset, setFocus } = methods;
   const filterValues = useWatch({ control: methods.control, name: ['tags', 'type', 'searchTerm', 'kind'] });
@@ -167,34 +166,32 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
           <form noValidate>
             {showAdvancedFilters && (
               <div className="two-columns margin-top-small">
-                {hasManifestsEnabled && (
-                  <div className="flexbox column">
-                    <div className="flexbox align-items-center margin-bottom-x-small">
-                      <Typography variant="subtitle2">Software type</Typography>
-                    </div>
-                    <ControlledSelect
-                      MenuProps={{ slotProps: { paper: { className: classes.kindMenu } } }}
-                      name="kind"
-                      disabled={!!kind}
-                      options={kindOptions}
-                      selectionAttribute="key"
-                      labelAttribute="title"
-                      placeholder="Select type"
-                      width={270}
-                      getOptionDisabled={(option: SoftwareKindOption) => option.disabled}
-                      renderOption={(option: SoftwareKindOption) => (
-                        <div className="flexbox align-items-center">
-                          <Typography className="margin-right-x-small" color={option.disabled ? 'textDisabled' : 'inherit'}>
-                            {option.title}
-                          </Typography>
-                          {option.key === softwareKindOptions.manifest.key && (
-                            <EnterpriseNotification className={classes.enterpriseChip} id={BENEFITS.manifests.id} size="small" />
-                          )}
-                        </div>
-                      )}
-                    />
+                <div className="flexbox column">
+                  <div className="flexbox align-items-center margin-bottom-x-small">
+                    <Typography variant="subtitle2">Software type</Typography>
                   </div>
-                )}
+                  <ControlledSelect
+                    MenuProps={{ slotProps: { paper: { className: classes.kindMenu } } }}
+                    name="kind"
+                    disabled={!!kind}
+                    options={kindOptions}
+                    selectionAttribute="key"
+                    labelAttribute="title"
+                    placeholder="Select type"
+                    width={270}
+                    getOptionDisabled={(option: SoftwareKindOption) => option.disabled}
+                    renderOption={(option: SoftwareKindOption) => (
+                      <div className="flexbox align-items-center">
+                        <Typography className="margin-right-x-small" color={option.disabled ? 'textDisabled' : 'inherit'}>
+                          {option.title}
+                        </Typography>
+                        {option.key === softwareKindOptions.manifest.key && (
+                          <EnterpriseNotification className={classes.enterpriseChip} id={BENEFITS.manifests.id} size="small" />
+                        )}
+                      </div>
+                    )}
+                  />
+                </div>
                 <div className="flexbox column">
                   <Typography variant="subtitle2" className="margin-bottom-x-small">
                     Tags
@@ -202,7 +199,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                   <ControlledCheckboxAutocomplete chipDisplay name="tags" placeholder="Select tags..." options={existingTags} />
                 </div>
                 {selectedKind !== softwareKindOptions.manifest.key && (
-                  <div className={`flexbox column ${hasManifestsEnabled ? 'margin-top-small' : ''}`}>
+                  <div className="flexbox column margin-top-small">
                     <Typography variant="subtitle2" className="margin-bottom-x-small">
                       Contains Artifact type
                     </Typography>
