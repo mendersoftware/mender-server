@@ -230,7 +230,7 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
   const staticDetailsLeft = {
     'To Release': <PageLink area="releases" target={combinedData.toRelease} />,
     'From Release': <PageLink area="releases" target={combinedData.fromRelease} />,
-    'Device types compatible': combinedData.devices_types_compatible?.join(', ') || '-'
+    'Device types compatible': (combinedData.device_types_compatible || combinedData.devices_types_compatible || []).join(', ') || '-'
   };
   const staticDetailsRight = {
     'From deployment': <PageLink area="deployments" target={combinedData.deployment_id} />
