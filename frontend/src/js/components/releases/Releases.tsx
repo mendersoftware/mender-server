@@ -23,18 +23,22 @@ import { makeStyles } from 'tss-react/mui';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
-import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
+import type { SortOptions } from '@northern.tech/store/constants';
+import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getActiveTab,
+  getDeltaJobsListState,
   getFeatures,
   getIsEnterprise,
   getManifestsListState,
   getReleaseListState,
+  getSelectedJob,
   getSelectedManifest,
   getSelectedRelease,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import type { AppDispatch, RootState } from '@northern.tech/store/store';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { selectManifest, selectRelease, setManifestsListState, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -49,7 +53,9 @@ import { AddManifestDrawer } from './manifests/ManifestDrawer';
 import { ManifestsFilters } from './manifests/ManifestsFilters';
 import { ManifestsList } from './manifests/ManifestsList';
 
-const { setActiveTab, setSelectedJob } = storeActions;
+const { setActiveTab, setDeltaJobsListState, setSelectedJob } = storeActions;
+
+const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
 type TitleDefinition = { benefitId?: string; title: string };
 
@@ -73,11 +79,25 @@ const Upload = ({ classes, onUploadClick, tooltipId, title, buttonProps, disable
   </div>
 );
 
+type TabListState = {
+  page?: number;
+  perPage?: number;
+  searchTerm?: string;
+  selectedTags?: string[];
+  sort?: SortOptions;
+  type?: string;
+};
+
+const setDeltaListState = (dispatch: AppDispatch, { page = defaultPage, perPage = defaultPerPage, sort }: TabListState) =>
+  dispatch(setDeltaJobsListState({ page, perPage, ...(sort && { sort }) }));
+
 type TabDefinition = {
   canAccess: (flags: Record<string, boolean>) => boolean;
   Content: ({ className, onFileUploadClick }: { className?: string; onFileUploadClick: (file?: File) => void }) => ReactNode;
   Filters?: ({ classes }: { classes: Record<string, string> }) => ReactNode;
+  getListState: (state: RootState) => TabListState;
   key: string;
+  setListState: (dispatch: AppDispatch, listState: TabListState) => void;
   title: TitleDefinition;
   upload?: UploadDefinition;
 };
@@ -86,7 +106,9 @@ const tabbedComponents: Record<string, TabDefinition> = {
   releases: {
     canAccess,
     Content: ReleasesList,
+    getListState: getReleaseListState,
     key: 'releases',
+    setListState: (dispatch, listState) => dispatch(setReleasesListState(listState)),
     title: { title: 'Releases' },
     Filters: ReleasesFilters,
     upload: { buttonProps: { variant: 'contained' }, tooltipId: HELPTOOLTIPS.artifactUpload.id, title: 'Upload an artifact' }
@@ -94,7 +116,9 @@ const tabbedComponents: Record<string, TabDefinition> = {
   manifests: {
     canAccess,
     Content: ManifestsList,
+    getListState: getManifestsListState,
     key: 'manifests',
+    setListState: (dispatch, listState) => dispatch(setManifestsListState(listState)),
     title: { title: 'Manifests', benefitId: BENEFITS.manifests.id },
     Filters: ManifestsFilters,
     upload: { buttonProps: { variant: 'outlined' }, tooltipId: HELPTOOLTIPS.manifestUpload.id, title: 'Upload a Manifest' }
@@ -102,7 +126,9 @@ const tabbedComponents: Record<string, TabDefinition> = {
   delta: {
     canAccess,
     Content: DeltaProgress,
+    getListState: getDeltaJobsListState,
     key: 'delta',
+    setListState: setDeltaListState,
     title: { title: 'Delta Artifacts generation', benefitId: BENEFITS.deltaGeneration.id }
   }
 };
@@ -137,15 +163,12 @@ const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
 };
 
 export const Releases = () => {
-  const releasesListState = useSelector(getReleaseListState);
-  const manifestsListState = useSelector(getManifestsListState);
   const tab = useSelector(getActiveTab);
-  const isManifestsTab = tab === tabbedComponents.manifests.key;
-  const listState = isManifestsTab ? manifestsListState : releasesListState;
-  const { searchTerm, sort = {}, page, perPage, selectedTags } = listState;
-  const { type } = releasesListState;
+  const listState = useSelector(tabbedComponents[tab || tabbedComponents.releases.key].getListState);
+  const { searchTerm, sort = {}, page, perPage, selectedTags, type } = listState;
   const selectedRelease = useSelector(getSelectedRelease);
   const selectedManifest = useSelector(getSelectedManifest);
+  const selectedJob = useSelector(getSelectedJob);
   const { canUploadReleases } = useSelector(getUserCapabilities);
   const features = useSelector(getFeatures);
   const dispatch = useAppDispatch();
@@ -181,10 +204,8 @@ export const Releases = () => {
     if (!isInitialized.current) {
       return;
     }
-    const pageState = isManifestsTab
-      ? { ...manifestsListState, tab, id: selectedManifest.name }
-      : { ...releasesListState, tab, selectedRelease: selectedRelease.name };
-    setLocationParams({ pageState });
+    const selectedIds = { [tabbedComponents.delta.key]: selectedJob?.id, [tabbedComponents.manifests.key]: selectedManifest.name };
+    setLocationParams({ pageState: { ...listState, tab, id: selectedIds[tab], selectedRelease: selectedRelease.name } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     debouncedSearchTerm,
@@ -195,6 +216,7 @@ export const Releases = () => {
     perPage,
     selectedRelease.name,
     selectedManifest.name,
+    selectedJob?.id,
     setLocationParams,
     tab,
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -219,13 +241,8 @@ export const Releases = () => {
     if (urlTab) {
       dispatch(setActiveTab(urlTab));
     }
-    if (urlTab === tabbedComponents.manifests.key) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { type: releaseType, ...manifestsRemainder } = remainder;
-      dispatch(setManifestsListState({ ...manifestsRemainder, selectedTags: tags }));
-    } else {
-      dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
-    }
+    const { setListState } = tabbedComponents[urlTab] ?? tabbedComponents.releases;
+    setListState(dispatch, { ...remainder, selectedTags: tags });
     isInitialized.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
