@@ -9,7 +9,7 @@
     ":semanticCommitTypeAll(chore)"
   ],
 
-  "ignorePaths": ["**/node_modules/**", "**/vendor/**"]
+  "ignorePaths": ["**/node_modules/**", "**/vendor/**"],
 
   // CODEOWNERS drives reviewer assignment. Keep CODEOWNERS complete.
   "reviewersFromCodeOwners": true,
