@@ -161,7 +161,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
     [onNotify, setSocketClosed, setSocketInitialized, socketInitialized]
   );
 
-  const [connect, sendMessage, close, sessionState] = useSession({
+  const [connect, sendMessage, close, sessionState, sessionId] = useSession({
     onClose: onSocketClose,
     onHealthCheckFailed,
     onMessageReceived,
@@ -267,7 +267,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
             <Terminal
               onDownloadClick={onDownload}
               sendMessage={sendMessage}
-              socketInitialized={socketInitialized}
+              socketInitialized={socketInitialized && !!sessionId}
               style={{ position: 'absolute', width: '100%', height: '100%', ...visibilityToggle }}
               xtermRef={termRef}
             />

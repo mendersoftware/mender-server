@@ -305,7 +305,7 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
           style="position: absolute; width: 100%; height: 100%;"
         >
           <div
-            class="terminal xterm xterm-dom-renderer-owner-1 focus"
+            class="terminal xterm xterm-dom-renderer-owner-1"
             dir="ltr"
           >
             <div
@@ -351,7 +351,7 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
                       class="xterm-char-measure-element"
                       style="font-weight: normal;"
                     >
-                                                      
+                      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
                     </span>
                     <span
                       class="xterm-char-measure-element"
@@ -375,18 +375,12 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
                 </style>
                 <div
                   aria-hidden="true"
-                  class="xterm-rows xterm-focus"
+                  class="xterm-rows"
                   style="line-height: normal; letter-spacing: 0px;"
                 >
                   <div
                     style="width: 0px; height: 0px; line-height: 0px; overflow: hidden;"
-                  >
-                    <span
-                      class="xterm-cursor xterm-cursor-blink xterm-cursor-block"
-                    >
-                       
-                    </span>
-                  </div>
+                  />
                   <div
                     style="width: 0px; height: 0px; line-height: 0px; overflow: hidden;"
                   />
