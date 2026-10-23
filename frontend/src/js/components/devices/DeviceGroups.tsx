@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 
 import { Alert, Button, Typography } from '@mui/material';
@@ -48,7 +47,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
-import { useAppDispatch } from '@northern.tech/store/store';
+import { useAppDispatch, useAppSelector as useSelector } from '@northern.tech/store/store';
 import {
   addDynamicGroup,
   addStaticGroup,
@@ -335,9 +334,14 @@ export const DeviceGroups = () => {
     );
   }
   const groupTitle = selectedGroup === UNGROUPED_GROUP.id ? UNGROUPED_GROUP.name : selectedGroup && decodeURIComponent(selectedGroup);
+  const pageTitleSegments = [deviceStateTitles[selectedState], groupTitle, 'Devices'];
+  let deviceIdentifier = getDeviceIdentityText({ device: selectedDevice, idAttribute });
+  if (selectedDevice.id && deviceIdentifier === '-') {
+    deviceIdentifier = `${selectedDevice.id.substring(0, 6)}...`;
+  }
   return (
     <>
-      <PageTitle segments={[getDeviceIdentityText({ device: selectedDevice, idAttribute }), deviceStateTitles[selectedState], groupTitle, 'Devices']} />
+      <PageTitle segments={selectedDevice.id ? [deviceIdentifier, ...pageTitleSegments] : pageTitleSegments} />
       <div className={`flexbox align-items-center tab-container with-sub-panels margin-bottom ${classes.container}`}>
         <Typography variant="h5">Devices</Typography>
         <span className={`margin-right ${classes.header}`}>
