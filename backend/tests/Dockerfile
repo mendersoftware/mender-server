@@ -1,5 +1,5 @@
 ARG REGISTRY=docker.io
-FROM ${REGISTRY}/library/python:3.14-trixie AS builder
+FROM ${REGISTRY}/library/python:3.15-trixie AS builder
 
 # Install mender-artifact
 RUN \
