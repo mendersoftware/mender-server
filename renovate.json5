@@ -18,16 +18,8 @@
   "semanticCommits": "enabled",
   "semanticCommitScope": "deps",
 
-  // Render commit body as:
-  //   chore(deps): Update <dependency-group> (abc1234)
-  //
-  //   - dependency1 v1.9.4 -> v1.10.2
-  //   - dependency2 v0.45.0 -> v0.46.0
-  //   - etc v1.2.3 -> v1.2.4
-  //
-  //   Changelog: Commit
-  //   Signed-off-by: Foobar <rip@bar.com>
-  "commitBody": "{{#each upgrades}}- {{{packageName}}} {{{currentVersion}}} -> {{{newVersion}}}\n{{/each}}\n\nChangelog: Commit",
+  // Append a table in the commit message body describing all updates in the commit.
+  "commitBodyTable": true,
 
   // Only rebase open PRs when they actually conflict. Rebasing every time the
   // base branch moves restarts a pipeline for every open PR on each merge.
