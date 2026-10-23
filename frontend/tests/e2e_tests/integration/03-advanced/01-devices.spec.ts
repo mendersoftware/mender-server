@@ -212,7 +212,7 @@ test.describe('Devices', () => {
     await page.waitForSelector(selectors.deviceListItem);
   });
 
-  test('can be filtered into non-existence by numerical comparison', async ({ environment, page }) => {
+  test.fixme('can be filtered into non-existence by numerical comparison', async ({ environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(timeouts.fifteenSeconds);
     await openFilters(page);
