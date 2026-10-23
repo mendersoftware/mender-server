@@ -20,6 +20,7 @@
 
   // Append a table in the commit message body describing all updates in the commit.
   "commitBodyTable": true,
+  "commitTrailers": ["Changelog: Commit"],
 
   // Only rebase open PRs when they actually conflict. Rebasing every time the
   // base branch moves restarts a pipeline for every open PR on each merge.
