@@ -673,8 +673,6 @@ exports[`Helptooltips Components > renders ScheduleDeployment correctly 1`] = `T
 
 exports[`Helptooltips Components > renders SingleFileUpload correctly 1`] = `This will generate a single file application update Artifact, which requires some additional metadata to be entered.`;
 
-exports[`Helptooltips Components > renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
-
 exports[`Helptooltips Components > renders StandardDevice correctly 1`] = `
 NodeList [
   These are typically Linux-based devices that need larger, more frequent updates. Artifacts can be bigger and device polling intervals are more frequent.,

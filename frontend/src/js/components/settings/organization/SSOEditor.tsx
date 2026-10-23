@@ -12,24 +12,35 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
-import Dropzone from 'react-dropzone';
+import type { ChangeEvent } from 'react';
 
 // material ui
-import { CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
-import { Button, Typography } from '@mui/material';
+import { UploadFile } from '@mui/icons-material';
+import { Alert, Button, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
-import { createFileDownload } from '@northern.tech/utils/helpers';
-import copy from 'copy-to-clipboard';
 
-export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, onCancel, onClose, onSave, setFileContent, token }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const useStyles = makeStyles()(() => ({
+  editor: {
+    maxHeight: '500px'
+  }
+}));
+
+const editorDescriptions = {
+  [XML_METADATA_FORMAT]: 'Import your SAML metadata document as an .xml file, or paste and edit the XML configuration directly below.',
+  [JSON_METADATA_FORMAT]: 'Import your OpenID Connect metadata document as a .json file, or paste and edit the JSON configuration directly below.'
+};
+
+export const SSOEditor = ({ ssoItem, config, fileContent, open, onClose, onSave, setFileContent }) => {
   const [isMetadataValid, setIsMetadataValid] = useState(false);
-  const isReadOnly = hasSSOConfig && !isEditing;
-
+  const [saveError, setSaveError] = useState('');
+  const { classes } = useStyles();
   useEffect(() => {
+    setSaveError('');
+    setIsMetadataValid(false);
     if (!fileContent) {
       return;
     }
@@ -53,47 +64,31 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
     setIsMetadataValid(valid);
   }, [fileContent, ssoItem.metadataFormat]);
 
-  const onEditClick = () => setIsEditing(true);
-
-  const onDownloadClick = () => createFileDownload(fileContent, `metadata.${ssoItem.metadataFormat}`, token);
-
   const onCancelClick = useCallback(() => {
-    if (isEditing) {
-      setFileContent(config);
-      if (!hasSSOConfig) {
-        return onCancel();
-      }
-      return setIsEditing(false);
-    }
+    setFileContent(config);
+    setSaveError('');
     onClose();
-  }, [config, hasSSOConfig, isEditing, onCancel, setFileContent, onClose]);
+  }, [config, setFileContent, onClose]);
 
   const onSubmitClick = async () => {
+    setSaveError('');
     try {
       await onSave();
-      setIsEditing(false);
-    } catch {
-      // error already handled in thunk - leave open
+    } catch (error) {
+      setSaveError(typeof error === 'string' ? error : 'There was an error saving the SSO configuration.');
     }
   };
 
-  const onCopyClick = () => copy(fileContent);
-
-  const onDrop = acceptedFiles => {
-    const reader = new FileReader();
-    reader.fileName = acceptedFiles[0].name;
-    reader.onerror = error => {
-      console.log('Error: ', error);
-      setIsEditing(false);
-    };
-    reader.onload = () => {
-      setFileContent(reader.result);
-      setIsEditing(true);
-    };
-    reader.readAsBinaryString(acceptedFiles[0]);
+  const onFileChange = async ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const [file] = target.files ?? [];
+    target.value = ''; // reset so picking the same file again still fires onChange
+    if (!file) {
+      return;
+    }
+    setFileContent(await file.text());
   };
 
-  const handleEditorDidMount = (editor, monaco) => {
+  const handleEditorDidMount = (_, monaco) => {
     monaco.languages.html.registerHTMLLanguageService(ssoItem.metadataFormat, {}, { documentFormattingEdits: true });
   };
 
@@ -107,48 +102,33 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         header: {
           title: `${ssoItem.title} metadata`,
           preCloser: (
-            <Dropzone multiple={false} onDrop={onDrop}>
-              {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <Button startIcon={<CloudUpload fontSize="small" />}>Import from a file</Button>
-                </div>
-              )}
-            </Dropzone>
+            <Button component="label" startIcon={<UploadFile fontSize="small" />}>
+              Import from file
+              <input hidden type="file" accept={`.${ssoItem.metadataFormat}`} onChange={onFileChange} />
+            </Button>
           )
         }
       }}
     >
-      <CodeEditor
-        className="full-height"
-        language={ssoItem.editorLanguage}
-        readOnly={isReadOnly}
-        onChange={setFileContent}
-        onMount={handleEditorDidMount}
-        value={fileContent}
-      />
+      <Typography>{editorDescriptions[ssoItem.metadataFormat]}</Typography>
+      <CodeEditor className={classes.editor} language={ssoItem.editorLanguage} onChange={setFileContent} onMount={handleEditorDidMount} value={fileContent} />
       {!isMetadataValid && fileContent.length > 4 && (
-        <Typography variant="body2" className="red">
+        <Typography className="margin-bottom-small red" variant="body2">
           There was an error parsing the metadata.
         </Typography>
       )}
-      <div>
-        {hasSSOConfig && !isEditing ? (
-          <div className="flexbox align-items-center">
-            <Button onClick={onEditClick}>Edit</Button>
-            <Button onClick={onDownloadClick}>Download file</Button>
-            <Button onClick={onCopyClick} startIcon={<CopyPasteIcon />}>
-              Copy to clipboard
-            </Button>
-          </div>
-        ) : (
-          <>
-            <Button onClick={onCancelClick}>Cancel</Button>
-            <Button variant="contained" disabled={!isMetadataValid} onClick={onSubmitClick} style={{ marginLeft: 10 }}>
-              Save
-            </Button>
-          </>
-        )}
+      {saveError && (
+        <Alert className="margin-bottom-small" severity="error">
+          {saveError}
+        </Alert>
+      )}
+      <div className="flexbox align-items-center gap-x-small">
+        <Button variant="outlined" color="info" onClick={onCancelClick}>
+          Cancel
+        </Button>
+        <Button variant="contained" disabled={!isMetadataValid} onClick={onSubmitClick}>
+          Save SSO configuration
+        </Button>
       </div>
     </BaseDrawer>
   );

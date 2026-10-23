@@ -14,16 +14,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { SaveAlt as SaveAltIcon } from '@mui/icons-material';
 // material ui
-import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, formControlClasses, textFieldClasses } from '@mui/material';
+import { Alert, Button, Chip, Collapse, Typography, formControlClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { SettingsItem, ToggleSettingsItem, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsItem, settingsFieldWidths } from '@northern.tech/common-ui/SettingsItem';
 import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
-import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { Select } from '@northern.tech/common-ui/forms/Select';
-import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, SSO_TYPES, uiPermissionsById } from '@northern.tech/store/constants';
 import {
   getCurrentSession,
@@ -50,8 +50,6 @@ import dayjs from 'dayjs';
 
 import { SSOConfig } from './SSOConfig';
 
-const { setSnackbar } = storeActions;
-
 const useStyles = makeStyles()(() => ({
   tenantToken: { wordWrap: 'break-word' },
   widthLimit: {
@@ -59,6 +57,11 @@ const useStyles = makeStyles()(() => ({
     ['.settings-item-main-content']: { gridTemplateColumns: 'minmax(0, max-content) 1fr' }
   }
 }));
+
+const ssoConfirmations = {
+  change: { header: 'Change Single Sign-On type?', confirmButtonText: 'Change SSO type' },
+  disable: { header: 'Disable Single Sign-On?', confirmButtonText: 'Disable SSO' }
+};
 
 // unlike the ExpandableAttribute, the token should not be visible by default - thus a separate component
 const TenantToken = ({ expanded, onClick, token }: { expanded: boolean; onClick: () => void; token: string }) => (
@@ -75,7 +78,8 @@ const TenantToken = ({ expanded, onClick, token }: { expanded: boolean; onClick:
 export const Organization = () => {
   const [hasSingleSignOn, setHasSingleSignOn] = useState(false);
   const [isConfiguringSSO, setIsConfiguringSSO] = useState(false);
-  const [isResettingSSO, setIsResettingSSO] = useState(false);
+  const [isEditingSSO, setIsEditingSSO] = useState(false);
+  const [isDisablingSSO, setIsDisablingSSO] = useState(false);
   const [showTokenWarning, setShowTokenWarning] = useState(false);
   const [newSso, setNewSso] = useState('');
   const [selectedSsoItem, setSelectedSsoItem] = useState(undefined);
@@ -112,31 +116,33 @@ export const Organization = () => {
   useEffect(() => {
     setHasSingleSignOn(!!ssoConfig);
     setIsConfiguringSSO(!!ssoConfig);
+    setIsEditingSSO(false);
     if (ssoConfig) {
       setSelectedSsoItem(SSO_TYPES[ssoConfig.type]);
     }
   }, [ssoConfig]);
 
-  const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-
   const onSaveSSOSettings = useCallback(
     (id, config) => {
       const { contentType } = SSO_TYPES[selectedSsoItem.type];
-      if (isResettingSSO) {
-        return dispatch(deleteSsoConfig(ssoConfig)).then(() => setIsResettingSSO(false));
-      }
       if (id) {
-        return dispatch(changeSsoConfig({ config: { config, id }, contentType }));
+        return dispatch(changeSsoConfig({ config: { config, id }, contentType })).unwrap();
       }
-      return dispatch(storeSsoConfig({ config, contentType }));
+      return dispatch(storeSsoConfig({ config, contentType })).unwrap();
     },
-    [isResettingSSO, dispatch, ssoConfig, selectedSsoItem]
+    [dispatch, selectedSsoItem]
   );
 
   const onCancelSSOSettings = () => {
-    setIsResettingSSO(false);
+    setIsEditingSSO(false);
     setIsConfiguringSSO(hasSingleSignOn);
+    setSelectedSsoItem(ssoConfig ? SSO_TYPES[ssoConfig.type] : undefined);
   };
+
+  const onDisableSSO = () =>
+    dispatch(deleteSsoConfig(ssoConfig))
+      .unwrap()
+      .then(() => setSelectedSsoItem(undefined));
 
   const onTokenExpansion = useCallback(() => setShowTokenWarning(true), []);
 
@@ -145,13 +151,7 @@ export const Organization = () => {
       .unwrap()
       .then(report => createFileDownload(report, `Mender-license-report-${dayjs().format('YYYY-MM-DD')}`, token));
 
-  const onSSOClick = () => {
-    if (hasSingleSignOn) {
-      setIsConfiguringSSO(false);
-      return setIsResettingSSO(true);
-    }
-    setIsConfiguringSSO(toggle);
-  };
+  const onSSOClick = () => setIsConfiguringSSO(toggle);
 
   const onSsoSelect = useCallback(
     ({ target: { value: type = '' } }) => {
@@ -170,6 +170,13 @@ export const Organization = () => {
       setIsConfiguringSSO(true);
       setNewSso('');
     });
+
+  const ssoConfirmation = newSso ? ssoConfirmations.change : isDisablingSSO ? ssoConfirmations.disable : undefined;
+
+  const onSsoConfirmationClose = () => {
+    setNewSso('');
+    setIsDisablingSSO(false);
+  };
 
   return (
     <SettingsSection className={classes.widthLimit} title="Organization">
@@ -194,74 +201,77 @@ export const Organization = () => {
           />
         )}
         {isEnterprise && isAdmin && (
-          <ToggleSettingsItem
-            title="Enable Single Sign-On"
-            secondary={
-              <div className="flexbox column">
-                {isConfiguringSSO && (
-                  <div>
-                    <Select
-                      displayEmpty
-                      onChange={onSsoSelect}
-                      options={Object.values(SSO_TYPES)}
-                      renderOption={item => <div className="capitalized-start">{item.title}</div>}
-                      selectionAttribute="type"
-                      value={selectedSsoItem?.type || ''}
-                      width={settingsFieldWidths.medium}
-                    >
-                      <MenuItem value="">Select type</MenuItem>
-                    </Select>
-                  </div>
-                )}
-                {isResettingSSO && !isConfiguringSSO && (
-                  <div className="flexbox align-items-center">
-                    <Button onClick={onCancelSSOSettings}>Cancel</Button>
-                    <Button onClick={onSaveSSOSettings} disabled={!hasSingleSignOn} variant="contained">
-                      Save
-                    </Button>
-                  </div>
-                )}
+          <SettingsItem
+            title={
+              <div className="flexbox align-items-center gap-small">
+                <Typography variant="subtitle1">Single Sign-On</Typography>
+                {hasSingleSignOn && <Chip size="small" label="Enabled" variant="outlined" color="success" />}
               </div>
             }
-            onClick={onSSOClick}
-            checked={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)}
+            description="Allow users to sign in with your company’s identity provider."
+            secondary={
+              hasSingleSignOn && !isEditingSSO && selectedSsoItem ? (
+                <div className="flexbox column gap-small">
+                  <SSOConfig ssoItem={selectedSsoItem} config={ssoConfig} onSave={onSaveSSOSettings} readOnly />
+                  <div className="flexbox gap-small">
+                    <Button color="error" variant="outlined" onClick={() => setIsDisablingSSO(true)}>
+                      Disable SSO
+                    </Button>
+                    <Button variant="outlined" color="info" onClick={() => setIsEditingSSO(true)}>
+                      Edit
+                    </Button>
+                  </div>
+                </div>
+              ) : isConfiguringSSO ? (
+                <div className="flexbox column gap-small">
+                  <Select
+                    displayEmpty
+                    placeholder="Select type"
+                    onChange={onSsoSelect}
+                    options={Object.values(SSO_TYPES)}
+                    renderOption={item => <div className="capitalized-start">{item.title}</div>}
+                    selectionAttribute="type"
+                    value={selectedSsoItem?.type || ''}
+                    width={settingsFieldWidths.medium}
+                  />
+                  {selectedSsoItem && (
+                    <Collapse in={isConfiguringSSO}>
+                      <SSOConfig ssoItem={selectedSsoItem} config={ssoConfig} onSave={onSaveSSOSettings} />
+                    </Collapse>
+                  )}
+                  <Button className="align-self-start" color="info" variant="outlined" onClick={onCancelSSOSettings}>
+                    Cancel
+                  </Button>
+                </div>
+              ) : (
+                <Button onClick={onSSOClick}>Set up SSO</Button>
+              )
+            }
+          />
+        )}
+        {(canPreview || !isHosted) && isEnterprise && isAdmin && (
+          <SettingsItem
+            title="License report"
+            secondary={
+              <Button onClick={onDownloadReportClick} endIcon={<SaveAltIcon />}>
+                Download report
+              </Button>
+            }
           />
         )}
       </div>
-      {selectedSsoItem && (
-        <Collapse className="margin-top" in={isConfiguringSSO}>
-          <SSOConfig
-            ssoItem={selectedSsoItem}
-            config={ssoConfig}
-            onSave={onSaveSSOSettings}
-            onCancel={onCancelSSOSettings}
-            setSnackbar={dispatchedSetSnackbar}
-            token={token}
-          />
-        </Collapse>
+      {ssoConfirmation && (
+        <ConfirmModal
+          {...ssoConfirmation}
+          description="The current SSO configuration will be deleted, and users will not be able to sign in with your identity provider until SSO is set up again."
+          toType="disable"
+          open
+          close={onSsoConfirmationClose}
+          onConfirm={newSso ? changeSSO : onDisableSSO}
+        />
       )}
-      {(canPreview || !isHosted) && isEnterprise && isAdmin && (
-        <Button className="margin-top" onClick={onDownloadReportClick} variant="contained">
-          Download license report
-        </Button>
-      )}
-      <ChangeSsoDialog dismiss={() => setNewSso(undefined)} open={!!newSso} submit={changeSSO} />
     </SettingsSection>
   );
 };
-
-const ChangeSsoDialog = ({ dismiss, open, submit }) => (
-  <BaseDialog open={open} title="Change Single Sign-On type" onClose={dismiss}>
-    <DialogContent style={{ overflow: 'hidden' }}>Are you sure you want to change SSO type? This will lose your current settings.</DialogContent>
-    <DialogActions>
-      <Button style={{ marginRight: 10 }} onClick={dismiss}>
-        Cancel
-      </Button>
-      <Button variant="contained" color="primary" onClick={() => submit()}>
-        Change
-      </Button>
-    </DialogActions>
-  </BaseDialog>
-);
 
 export default Organization;
