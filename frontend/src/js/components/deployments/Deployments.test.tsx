@@ -197,6 +197,7 @@ describe('Deployments Component', () => {
     expect(post).toHaveBeenCalledWith('/api/management/v2/deployments/deployments', {
       artifact_name: releaseId,
       filter_id: 'filter1',
+      force_installation: false,
       max_devices: 123,
       name: 'testGroupDynamic'
     });

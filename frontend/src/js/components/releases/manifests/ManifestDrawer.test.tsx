@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { render, server } from '@/testUtils';
-import { deploymentsApiUrlV1alpha1 } from '@northern.tech/store/constants';
+import { deploymentsApiUrl } from '@northern.tech/store/constants';
 import * as ReleasesThunks from '@northern.tech/store/releasesSlice/thunks';
 import { mockApiResponses, undefineds } from '@northern.tech/testing/mockData';
 import { screen } from '@testing-library/react';
@@ -146,7 +146,7 @@ name: missing-required-fields
   it('prefills name and tags when copying an existing manifest and submits them with the copy', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const sourceManifest = { ...mockApiResponses.manifests.byId.m1000, tags: ['copied-tag'] };
-    server.use(http.get(`${deploymentsApiUrlV1alpha1}/manifests/:name`, () => HttpResponse.json(sourceManifest), { once: true }));
+    server.use(http.get(`${deploymentsApiUrl}/manifests/:name`, () => HttpResponse.json(sourceManifest), { once: true }));
     render(<AddManifestDrawer open onClose={vi.fn()} copyFromManifest={sourceManifest.name} />);
 
     expect(await screen.findByDisplayValue('m1000-copy')).toBeInTheDocument();
