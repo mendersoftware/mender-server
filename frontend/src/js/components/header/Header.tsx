@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
@@ -38,7 +38,6 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
-import Search from '@northern.tech/common-ui/Search';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
@@ -54,7 +53,6 @@ import {
   getIsServiceProvider,
   getOrganization,
   getReadAllHelptips,
-  getSearchState,
   getTooltipsById,
   getUserRoles,
   getUserSettings,
@@ -67,7 +65,6 @@ import {
   setAllTooltipsReadState,
   setFirstLoginAfterSignup,
   setHideAnnouncement,
-  setSearchState,
   switchUserOrganization
 } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -299,8 +296,7 @@ export const Header = ({ isDarkMode }) => {
   const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
-  const { hasFeedbackEnabled, isHosted, hasNewSearch } = useSelector(getFeatures);
-  const { searchTerm, refreshTrigger } = useSelector(getSearchState);
+  const { hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
   const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
   const user = useSelector(getCurrentUser);
@@ -350,19 +346,13 @@ export const Header = ({ isDarkMode }) => {
     });
   }, [dispatch, feedbackCollectedAt, feedbackProbability, hasFeedbackEnabled, isAdmin, userSettingInitialized, token, firstLoginTimestamp]);
 
-  const onSearch = useCallback((searchTerm, refreshTrigger) => dispatch(setSearchState({ refreshTrigger, searchTerm, page: 1 })), [dispatch]);
-
   const setHideOffer = () => {
     cookies.set('offer', currentOffer.name, { path: '/', maxAge: 2629746 });
     setHasOfferCookie(true);
   };
 
   const showOffer =
-    hasNewSearch &&
-    isHosted &&
-    dayjs().isBefore(currentOffer.expires) &&
-    (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) &&
-    !hasOfferCookie;
+    isHosted && dayjs().isBefore(currentOffer.expires) && (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) && !hasOfferCookie;
 
   const headerLogo = isDarkMode ? (isEnterprise ? whiteEnterpriseLogo : whiteLogo) : isEnterprise ? enterpriseLogo : logo;
 
@@ -393,11 +383,7 @@ export const Header = ({ isDarkMode }) => {
           </div>
         ) : (
           <>
-            {hasNewSearch ? (
-              <SearchV2 className={classes.searchV2} />
-            ) : (
-              <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-            )}
+            <SearchV2 className={classes.searchV2} />
             <div className="flexbox align-items-center">
               <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
               <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
