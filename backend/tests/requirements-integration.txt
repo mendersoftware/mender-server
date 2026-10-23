@@ -6,7 +6,7 @@ cffi==2.0.0
 cryptography==48.0.0
 docker==7.1.0
 execnet==2.1.2
-filelock==3.29.0
+filelock==4.2.1
 idna==3.18
 iniconfig==2.3.0
 kubernetes==36.0.2
