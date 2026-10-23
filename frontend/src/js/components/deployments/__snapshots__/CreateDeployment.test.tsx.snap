@@ -14282,6 +14282,10 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   grid-row: 2/3;
 }
 
+.emotion-5 .MuiPickersLayout-actionBar {
+  grid-column: 2/4;
+}
+
 .emotion-5 .MuiMultiSectionDigitalClock-root {
   width: 320px;
 }
@@ -16378,6 +16382,10 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 .emotion-5 .MuiPickersLayout-shortcuts {
   grid-column: 1;
   grid-row: 2/3;
+}
+
+.emotion-5 .MuiPickersLayout-actionBar {
+  grid-column: 2/4;
 }
 
 .emotion-5 .MuiMultiSectionDigitalClock-root {
