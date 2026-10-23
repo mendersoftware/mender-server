@@ -13,7 +13,7 @@ services:
       - deviceconnect
 
   mmock:
-    image: "jordimartin/mmock:v3.0.0"
+    image: "jordimartin/mmock:v3.1.6"
     networks:
       default:
         aliases:
