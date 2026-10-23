@@ -1,4 +1,37 @@
 ---
+## 4.1.5 - 2026-10-23
+
+
+### Bug fixes
+
+- *(deviceauth)* Use mongo's error code to check for record duplication in AddDevice ([3779364](https://github.com/mendersoftware/mender-server/commit/37793644820d2e20a7954bd397676690cb09c9c5))
+- *(pkg)* Accesslog handles panic(http.ErrAbortHandler) ([803d647](https://github.com/mendersoftware/mender-server/commit/803d6474e04ec9e4db904d01ac55b8357b4db5d4))
+- *(deviceconnect)* Abort download on error if headers are flushed ([MEN-10237](https://northerntech.atlassian.net/browse/MEN-10237)) ([f942fcd](https://github.com/mendersoftware/mender-server/commit/f942fcd35ab6b00a6840d2e49a28e3affad3b21b))
+
+### Dependency updates
+
+- *(deps)* Migrate azure tests to use CLI and bump cryptography ([80e5c6a](https://github.com/mendersoftware/mender-server/commit/80e5c6ae35f4e0bd39f41cf9127499e22e7d3251))
+- *(deps)* Bump cryptography from 47.0.0 to 50.0.0 in /backend/tests ([e32416b](https://github.com/mendersoftware/mender-server/commit/e32416b7966dc1674732251787d62ba5e324195b))
+- *(deps)* Update docker-base-images ([45f4d5d](https://github.com/mendersoftware/mender-server/commit/45f4d5db2216d54241e8aeeb5743785c382908aa))
+- *(deps)* Update docker docker tag to v29.9 ([ca01b27](https://github.com/mendersoftware/mender-server/commit/ca01b2740e2bfa30100ceb8103b4ceab656eede8))
+- *(deps)* Update dependency mendersoftware/mender-artifact to v4.4.2 ([c93f84c](https://github.com/mendersoftware/mender-server/commit/c93f84c0ec4581a17751ac3794e15c78ae803fbc))
+- *(deps)* Update mongo docker tag to v8.3 ([f246f98](https://github.com/mendersoftware/mender-server/commit/f246f981d13b5ba9fd7804e3cfb2d50f49acd5ca))
+- *(deps)* Update docker-compose ([92f7388](https://github.com/mendersoftware/mender-server/commit/92f7388d21910d742f5c955a4d9fbd2277fd858e))
+- *(deps)* Update dependency @mui/x-date-pickers to v8.29.4 ([3535023](https://github.com/mendersoftware/mender-server/commit/3535023b95ad24a22689577037e1a5df89aa0a6b))
+- *(deps)* Update npm-dev-dependencies ([c686f5c](https://github.com/mendersoftware/mender-server/commit/c686f5cd5af2f4d47f4ae2ad5ac071c5f8ce4edc))
+- *(deps)* Update golang-dependencies ([ba463d8](https://github.com/mendersoftware/mender-server/commit/ba463d880428c5fdc731dce18f30a582da0bbeb8))
+- *(deps)* Update traefik docker tag to v3.7.15 ([3ba6b3d](https://github.com/mendersoftware/mender-server/commit/3ba6b3d11ae4cdddaa6b29d957e25d01e3b2b51c))
+- *(deps)* Update npm-prod-dependencies ([11effa7](https://github.com/mendersoftware/mender-server/commit/11effa7348fabfad5ad8b04384f1544d75c1a793))
+- *(deps)* Update dependency @mui/x-date-pickers to v8.29.5 ([09228e8](https://github.com/mendersoftware/mender-server/commit/09228e80c0dfa79ca122cfc9d01f9bf5c30bb4e7))
+
+---
+### All tickets resolved in this release
+
+| Ticket |
+|---|
+| [MEN-10237](https://northerntech.atlassian.net/browse/MEN-10237) |
+
+
 ## 4.1.4 - 2026-09-30
 
 
