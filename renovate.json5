@@ -27,7 +27,7 @@
   //
   //   Changelog: Commit
   //   Signed-off-by: Foobar <rip@bar.com>
-  "commitBody": "{{#each upgrades}}- {{{depName}}} {{{currentVersion}}} -> {{{newVersion}}}\n{{/each}}\n\nChangelog: Commit",
+  "commitBody": "{{#each upgrades}}- {{{packageName}}} {{{currentVersion}}} -> {{{newVersion}}}\n{{/each}}\n\nChangelog: Commit",
 
   // Only rebase open PRs when they actually conflict. Rebasing every time the
   // base branch moves restarts a pipeline for every open PR on each merge.
@@ -64,6 +64,7 @@
         "MENDER_ARTIFACT_VERSION=\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "mendersoftware/mender-artifact",
+      "packageNameTemplate": "mender-artifact",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "versioningTemplate": "semver"
@@ -76,6 +77,7 @@
         "DOCKER_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "docker",
+      "packageNameTemplate": "docker",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -93,6 +95,7 @@
         "library/mongo:\\$\\{MONGO_VERSION:-(?<currentValue>[\\d\\.]+)\\}"
       ],
       "depNameTemplate": "mongo",
+      "packageNameTemplate": "mongo",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -104,6 +107,7 @@
         "REDIS_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "redis",
+      "packageNameTemplate": "redis",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -120,6 +124,7 @@
         "denoland/deno:(?<currentValue>[^\\s\"']+)"
       ],
       "depNameTemplate": "denoland/deno",
+      "packageNameTemplate": "deno",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -130,6 +135,7 @@
       "matchStrings": [
         "NODE_IMAGE:[\\s\\S]*?value:\\s*[\"']?(?<depName>[^:\"']+):(?<currentValue>[^\"']+)[\"']?"
       ],
+      "packageNameTemplate": "node",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     }
