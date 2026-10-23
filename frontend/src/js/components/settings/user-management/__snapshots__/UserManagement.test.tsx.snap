@@ -671,7 +671,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-24"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo clickable nowrap emotion-24"
             tabindex="0"
             type="button"
           >
@@ -723,7 +723,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-24"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo clickable nowrap emotion-24"
             tabindex="0"
             type="button"
           >

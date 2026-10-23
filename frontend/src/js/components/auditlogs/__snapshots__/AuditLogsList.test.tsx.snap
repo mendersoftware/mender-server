@@ -123,7 +123,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           2019-01-01 12:10
         </time>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo clickable nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
@@ -171,7 +171,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           2019-01-01 12:16
         </time>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo clickable nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
@@ -221,7 +221,252 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           2019-01-01 12:10
         </time>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo clickable nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          View details
+        </button>
+      </div>
+      <div
+        class="auditlogs-list-item "
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          string@example.com
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          upload
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Artifact
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          some artifact
+        </p>
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+          data-discover="true"
+          href="/software/some%20artifact?tab=releases"
+        >
+          View software
+        </a>
+        <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          datetime="2019-01-01T12:20:22+00:00"
+        >
+          2019-01-01 12:20
+        </time>
+        <div />
+      </div>
+      <div
+        class="auditlogs-list-item "
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          string@example.com
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          upload
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Software
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          my release
+        </p>
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+          data-discover="true"
+          href="/software/my%20release?tab=releases"
+        >
+          View software
+        </a>
+        <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          datetime="2019-01-01T12:21:22+00:00"
+        >
+          2019-01-01 12:21
+        </time>
+        <div />
+      </div>
+      <div
+        class="auditlogs-list-item "
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          string@example.com
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          upload
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Software
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          my manifest
+        </p>
+        <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+          data-discover="true"
+          href="/software?tab=manifests&id=my%20manifest"
+        >
+          View software
+        </a>
+        <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          datetime="2019-01-01T12:22:22+00:00"
+        >
+          2019-01-01 12:22
+        </time>
+        <div />
+      </div>
+      <div
+        class="auditlogs-list-item "
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          string@example.com
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          delete
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Artifact
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          gone artifact
+        </p>
+        <div />
+        <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          datetime="2019-01-01T12:23:22+00:00"
+        >
+          2019-01-01 12:23
+        </time>
+        <div />
+      </div>
+      <div
+        class="auditlogs-list-item "
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          string@example.com
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          delete
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Software
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          gone release
+        </p>
+        <div />
+        <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          datetime="2019-01-01T12:24:22+00:00"
+        >
+          2019-01-01 12:24
+        </time>
+        <div />
+      </div>
+      <div
+        class="auditlogs-list-item clickable"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          string@example.com
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          create
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Personal Access Token
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          my token
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+        >
+          Created PAT my token (t1).
+        </p>
+        <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          datetime="2019-01-01T12:25:22+00:00"
+        >
+          2019-01-01 12:25
+        </time>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo clickable nowrap css-bk5qco-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >

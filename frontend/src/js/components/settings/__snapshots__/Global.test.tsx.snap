@@ -46,6 +46,7 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
 
 .emotion-5 {
   gap: 8px;
+  margin-top: 40px;
 }
 
 .emotion-7 {
@@ -1172,7 +1173,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       class="emotion-4"
     >
       <div
-        class="flexbox column settings-item-base emotion-5 margin-top "
+        class="flexbox column settings-item-base emotion-5 "
       >
         <div
           class="flexbox column settings-item-content emotion-5 "
@@ -1262,7 +1263,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         </div>
       </div>
       <div
-        class="flexbox column settings-item-base emotion-5 margin-top "
+        class="flexbox column settings-item-base emotion-5 "
       >
         <div
           class="flexbox column settings-item-content emotion-5 "
@@ -1307,7 +1308,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         </div>
       </div>
       <div
-        class="flexbox column settings-item-base emotion-5 margin-top "
+        class="flexbox column settings-item-base emotion-5 "
       >
         <div
           class="flexbox column settings-item-content emotion-5 "
@@ -1433,7 +1434,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         </div>
       </div>
       <div
-        class="flexbox column settings-item-base emotion-5 margin-top "
+        class="flexbox column settings-item-base emotion-5 "
       >
         <div
           class="flexbox column settings-item-content emotion-5 "
@@ -1480,7 +1481,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         </div>
       </div>
       <div
-        class="flexbox column settings-item-base emotion-5 margin-top "
+        class="flexbox column settings-item-base emotion-5 "
       >
         <div
           class="flexbox column settings-item-content emotion-5 "

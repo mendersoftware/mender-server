@@ -36,6 +36,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 
 .emotion-4 {
   gap: 8px;
+  margin-top: 40px;
 }
 
 .emotion-6 {
@@ -315,7 +316,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
           class="flexbox column"
         >
           <div
-            class="flexbox column settings-item-base emotion-4 margin-top "
+            class="flexbox column settings-item-base emotion-4 "
           >
             <div
               class="flexbox column settings-item-content emotion-4 "
@@ -361,7 +362,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox column settings-item-base emotion-4 margin-top "
+            class="flexbox column settings-item-base emotion-4 "
           >
             <div
               class="flexbox column settings-item-content emotion-4 "
@@ -407,7 +408,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox column settings-item-base emotion-4 margin-top "
+            class="flexbox column settings-item-base emotion-4 "
           >
             <div
               class="flexbox column settings-item-content emotion-4 "
@@ -469,7 +470,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox column settings-item-base emotion-4 margin-top "
+            class="flexbox column settings-item-base emotion-4 "
           >
             <div
               class="flexbox column settings-item-content emotion-4 "
