@@ -161,7 +161,7 @@
     // docker-compose: root + compose/*.yml + nested compose files in one PR.
     {
       "matchManagers": ["docker-compose"],
-      "matchFileNames": ["**/docker-compose+(.*.|.)+(yml|yaml)"],
+      "matchFileNames": ["**/docker-compose+(.*.|.)+(yml|yaml)", "!**/docker-compose.*compat*.yml"],
       "groupName": "docker-compose",
       "groupSlug": "docker-compose"
     },
