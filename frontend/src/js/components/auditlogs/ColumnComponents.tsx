@@ -18,11 +18,30 @@ import { Link } from '@northern.tech/common-ui/Link';
 import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultiline';
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
-import { generateReleasesPath } from '@northern.tech/store/locationutils';
+import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 
 import { stringifyEvent } from './eventdetails/utils';
 
-const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View software</Link>;
+const SoftwareLink = ({ item }) => {
+  const { artifact, id, software } = item.object;
+  if (software?.kind === 'manifest') {
+    return (
+      <Link to={{ pathname: generateReleasesPath({ pageState: {} }), search: formatReleases({ pageState: { tab: 'manifests', id: encodeURIComponent(id) } }) }}>
+        View software
+      </Link>
+    );
+  }
+  return (
+    <Link
+      to={{
+        pathname: generateReleasesPath({ pageState: { selectedRelease: artifact?.name ?? id } }),
+        search: formatReleases({ pageState: { tab: 'releases' } })
+      }}
+    >
+      View software
+    </Link>
+  );
+};
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
 const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
@@ -37,6 +56,7 @@ const ChangeFallback = props => {
 const FallbackFormatter = props => <Typography variant="body2">{stringifyEvent(props)}</Typography>;
 
 const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline variant="body2">{artifact.name}</TextOverflowMultiline>;
+const SoftwareFormatter = ({ id }) => <TextOverflowMultiline variant="body2">{id}</TextOverflowMultiline>;
 const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline variant="body2">{deployment.name}</TextOverflowMultiline>;
 const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
 const UserFormatter = ({ user }) => <TextOverflowMultiline variant="body2">{user.email}</TextOverflowMultiline>;
@@ -45,7 +65,8 @@ const TenantFormatter = ({ tenant }) => <TextOverflowMultiline variant="body2">{
 const defaultAccess = canAccess;
 const changeMap = {
   default: { component: 'div', actionFormatter: FallbackFormatter, title: 'defaultTitle', accessCheck: defaultAccess },
-  artifact: { actionFormatter: ArtifactFormatter, component: ArtifactLink, accessCheck: ({ canReadReleases }) => canReadReleases },
+  artifact: { actionFormatter: ArtifactFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
+  software: { actionFormatter: SoftwareFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
   deployment: {
     actionFormatter: DeploymentFormatter,
     component: DeploymentLink,
