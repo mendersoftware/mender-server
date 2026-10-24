@@ -1017,15 +1017,17 @@ publish:licenses:docs-site:
       artifacts: true
     - job: publish:frontend:licenses
       artifacts: true
+  variables:
+    GH_APP_PERMISSIONS: '{"contents":"write","pull_requests":"write"}'
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export GH_APP_REPOSITORIES="${GITHUB_DOCS_REPO_URL#*/}"
+    - !reference [.github-token, script]
   script:
-    - git clone https://x-access-token:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_DOCS_REPO_URL}
+    - git clone https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_DOCS_REPO_URL}
     - cd ${GITHUB_DOCS_REPO_URL#*/}
     - git checkout -b licenses-${CI_JOB_ID}
     - cat ../.licenses_header.md > ${LICENSE_REMOTE_FILE}
@@ -1036,8 +1038,6 @@ publish:licenses:docs-site:
       git commit -s -m "chore: add mender-server open source licenses"
     - git push origin licenses-${CI_JOB_ID}
     - gh pr create --title "${CI_COMMIT_TAG} Release - update Mender Server licenses" --body "Automated change to the Mender Server Licenses during ${CI_COMMIT_TAG} release" --base master --head licenses-${CI_JOB_ID}
-  after_script:
-    - git remote remove licenses-${CI_JOB_ID}
 
 
 # GitHub App token when GH_APP_ID is set, else the bot PAT (mender-server-enterprise)
@@ -1174,20 +1174,22 @@ release:mender-docs-changelog:
     # Only make available for stable branches
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
+  variables:
+    GH_APP_PERMISSIONS: '{"contents":"write","pull_requests":"write"}'
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export GH_APP_REPOSITORIES="${GITHUB_CHANGELOG_REPO_URL#*/}"
+    - !reference [.github-token, script]
     - if [[ "${CI_PROJECT_NAME}" == "mender-server-enterprise" ]]; then
       export CHANGELOG_SUFFIX="-enterprise";
       else
       export CHANGELOG_SUFFIX="";
       fi;
   script:
-    - git clone https://x-access-token:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
+    - git clone https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
     - cat ../.docs_header.md > "${CHANGELOG_REMOTE_FILE}"; grep -v -E '^---$' "../CHANGELOG${CHANGELOG_SUFFIX}.md" >> "${CHANGELOG_REMOTE_FILE}"
@@ -1211,8 +1213,8 @@ release:mender-docs-changelog:saas:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export GH_APP_REPOSITORIES="${GITHUB_CHANGELOG_REPO_URL#*/}"
+    - !reference [.github-token, script]
     - export CHANGELOG_SUFFIX="-saas"
     - cp .docs_header_saas.md .docs_header.md
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
@@ -1237,16 +1239,19 @@ release:mender-docs-changelog:saas:
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/aws-k8s-toolbox:master
   variables:
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
+    GH_APP_PERMISSIONS: '{"contents":"write"}'
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
+    - export GH_APP_REPOSITORIES="${GITHUB_HELM_REPO#*/}"
+    - !reference [.github-token, script]
     - export DIGESTS_FOLDER=$(pwd)/.digests
     - export PROJECT_FOLDER=$(pwd)
   script:
-    - git clone https://x-access-token:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO} /tmp/helm
+    - git clone https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_HELM_REPO} /tmp/helm
     - cd /tmp/helm
-    - git remote add github-${CI_JOB_ID} https://x-access-token:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO}
+    - git remote add github-${CI_JOB_ID} https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_HELM_REPO}
     - git fetch github-${CI_JOB_ID} ${SYNC_ENVIRONMENT:-staging}:overlay-version-bump-${CI_JOB_ID}
     - git checkout overlay-version-bump-${CI_JOB_ID}
     - echo "INFO - checking values files"
