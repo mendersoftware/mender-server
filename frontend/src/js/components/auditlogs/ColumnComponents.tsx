@@ -18,11 +18,34 @@ import { Link } from '@northern.tech/common-ui/Link';
 import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultiline';
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
-import { generateReleasesPath } from '@northern.tech/store/locationutils';
+import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 
 import { stringifyEvent } from './eventdetails/utils';
 
-const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View software</Link>;
+const SoftwareLink = ({ item }) => {
+  const { artifact, id, software } = item.object;
+  if (software?.kind === 'manifest') {
+    return (
+      <Link
+        to={{ pathname: generateReleasesPath({ pageState: {} }), search: formatReleases({ pageState: { tab: 'manifests', id: encodeURIComponent(id) } }) }}
+        state={{ internal: true }}
+      >
+        View software
+      </Link>
+    );
+  }
+  return (
+    <Link
+      to={{
+        pathname: generateReleasesPath({ pageState: { selectedRelease: artifact?.name ?? id } }),
+        search: formatReleases({ pageState: { tab: 'releases' } })
+      }}
+      state={{ internal: true }}
+    >
+      View software
+    </Link>
+  );
+};
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
 const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
@@ -33,30 +56,36 @@ const ChangeFallback = props => {
   } = props;
   return <TextOverflowMultiline variant="body2">{change}</TextOverflowMultiline>;
 };
+const EmptyComponent = () => <div />;
 
 const FallbackFormatter = props => <Typography variant="body2">{stringifyEvent(props)}</Typography>;
 
 const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline variant="body2">{artifact.name}</TextOverflowMultiline>;
+const SoftwareFormatter = ({ id }) => <TextOverflowMultiline variant="body2">{id}</TextOverflowMultiline>;
 const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline variant="body2">{deployment.name}</TextOverflowMultiline>;
 const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
+const TokenFormatter = ({ id, user_access_token: token }) => <TextOverflowMultiline variant="body2">{token?.name ?? id}</TextOverflowMultiline>;
 const UserFormatter = ({ user }) => <TextOverflowMultiline variant="body2">{user.email}</TextOverflowMultiline>;
 const TenantFormatter = ({ tenant }) => <TextOverflowMultiline variant="body2">{tenant.name}</TextOverflowMultiline>;
 
 const defaultAccess = canAccess;
 const changeMap = {
-  default: { component: 'div', actionFormatter: FallbackFormatter, title: 'defaultTitle', accessCheck: defaultAccess },
-  artifact: { actionFormatter: ArtifactFormatter, component: ArtifactLink, accessCheck: ({ canReadReleases }) => canReadReleases },
+  default: { component: EmptyComponent, actionFormatter: FallbackFormatter, title: 'defaultTitle', accessCheck: defaultAccess },
+  artifactDeleted: { actionFormatter: ArtifactFormatter, component: EmptyComponent, accessCheck: defaultAccess },
+  artifactGeneral: { actionFormatter: ArtifactFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
+  softwareDeleted: { actionFormatter: SoftwareFormatter, component: EmptyComponent, accessCheck: defaultAccess },
+  softwareGeneral: { actionFormatter: SoftwareFormatter, component: SoftwareLink, accessCheck: ({ canReadReleases }) => canReadReleases },
   deployment: {
     actionFormatter: DeploymentFormatter,
     component: DeploymentLink,
     accessCheck: ({ canReadDeployments }) => canReadDeployments
   },
-  deviceDecommissioned: { actionFormatter: DeviceFormatter, component: 'div', accessCheck: defaultAccess },
+  deviceDecommissioned: { actionFormatter: DeviceFormatter, component: EmptyComponent, accessCheck: defaultAccess },
   deviceRejected: { actionFormatter: DeviceFormatter, component: DeviceRejectedLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
   user: { actionFormatter: UserFormatter, component: ChangeFallback, accessCheck: defaultAccess },
-  user_access_token: { actionFormatter: FallbackFormatter, component: ChangeFallback, accessCheck: defaultAccess },
+  user_access_token: { actionFormatter: TokenFormatter, component: ChangeFallback, accessCheck: defaultAccess },
   tenant: { actionFormatter: TenantFormatter, component: ChangeFallback, accessCheck: defaultAccess }
 };
 
@@ -64,6 +93,14 @@ const mapChangeToContent = item => {
   let content = changeMap[item.object.type];
   if (content) {
     return content;
+  } else if (item.object.type === 'artifact' && item.action === 'delete') {
+    content = changeMap.artifactDeleted;
+  } else if (item.object.type === 'artifact') {
+    content = changeMap.artifactGeneral;
+  } else if (item.object.type === 'software' && item.action === 'delete') {
+    content = changeMap.softwareDeleted;
+  } else if (item.object.type === 'software') {
+    content = changeMap.softwareGeneral;
   } else if (item.object.type === 'device' && item.action.includes('terminal')) {
     content = changeMap.deviceTerminalSession;
   } else if (item.object.type === 'device' && item.action.includes('reject')) {

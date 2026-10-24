@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useIdleTimer, workerTimers } from 'react-idle-timer';
 import { Provider, useSelector } from 'react-redux';
 import { BrowserRouter, useLocation, useNavigate } from 'react-router';
@@ -53,7 +53,6 @@ import { parseEnvironmentInfo } from '../store/useAppInit';
 import Tracking from '../tracking';
 import Footer from './Footer';
 import LeftNav from './LeftNav';
-import SearchResult from './SearchResult';
 import Uploads from './Uploads';
 import DeviceConnectionDialog from './devices/dialogs/DeviceConnectionDialog';
 import ConfirmDismissHelptips from './dialogs/ConfirmDismissHelpTips';
@@ -133,7 +132,6 @@ const THEME = {
 const preferredMode = window.localStorage.getItem(settingsKeys.colorScheme) === DARK_MODE ? DARK_MODE : LIGHT_MODE;
 
 export const AppRoot = () => {
-  const [showSearchResult, setShowSearchResult] = useState(false);
   const navigate = useNavigate();
   const { pathname = '', hash } = useLocation();
 
@@ -228,9 +226,6 @@ export const AppRoot = () => {
 
   useIdleTimer({ crossTab: true, onAction: updateExpiryDate, onActive: updateExpiryDate, onIdle, syncTimers: 400, timeout, timers: workerTimers });
 
-  const onOpenSearchResult = useCallback(() => setShowSearchResult(true), []);
-  const onCloseSearchResult = useCallback(() => setShowSearchResult(false), []);
-
   const isDarkMode = mode === DARK_MODE;
   const theme = useMemo(() => createTheme(THEME[mode] || THEME[LIGHT_MODE]), [mode]);
 
@@ -250,10 +245,7 @@ export const AppRoot = () => {
             <Header isDarkMode={isDarkMode} />
             <LeftNav />
             <div className="rightFluid container">
-              <ErrorBoundary>
-                <SearchResult onOpenSearchResult={onOpenSearchResult} onCloseSearchResult={onCloseSearchResult} open={showSearchResult} />
-                {isSP ? <PrivateSPRoutes /> : <PrivateRoutes />}
-              </ErrorBoundary>
+              <ErrorBoundary>{isSP ? <PrivateSPRoutes /> : <PrivateRoutes />}</ErrorBoundary>
             </div>
             {showDismissHelptipsDialog && <ConfirmDismissHelptips />}
             {showDeviceConnectionDialog && <DeviceConnectionDialog onCancel={() => dispatch(setShowConnectingDialog(false))} />}

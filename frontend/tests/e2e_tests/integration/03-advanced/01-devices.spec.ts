@@ -146,28 +146,7 @@ test.describe('Devices', () => {
     });
   });
 
-  test('can be found', async ({ demoDeviceSoftware, page }) => {
-    const features = await page.evaluate(() => (window as any).mender_environment?.features);
-    test.skip(features?.hasNewSearch, 'the environment is configured to use new search enpoint');
-    const searchField = await page.getByPlaceholder(/search devices/i);
-    await searchField.fill(demoDeviceSoftware.slice(0, 6));
-    await page.waitForSelector(selectors.deviceListItem);
-    const slideOut = page.locator('.MuiPaper-root');
-    await expect(slideOut.locator(`:text("${demoDeviceSoftware}")`)).toBeVisible();
-    await expect(slideOut.getByText('1-1 of 1')).toBeVisible();
-    await openDeviceDetails(page);
-    await page.getByText(/device information/i).waitFor();
-    await expect(page.getByText(/Authentication sets/i)).toBeVisible();
-    await page.click('[aria-label="close"]');
-    await expect(page.getByText(/table options/i)).toBeVisible();
-    await navigateTo(page, 'software');
-    await searchField.press('Enter');
-    await expect(page.getByText(/device found/i)).toBeVisible();
-  });
-
   test('can be found through the new search', async ({ page }) => {
-    const features = await page.evaluate(() => (window as any).mender_environment?.features);
-    test.skip(!features?.hasNewSearch, 'the environment is configured to use the legacy search');
     await page.waitForSelector(selectors.deviceListItem);
     await openDeviceDetails(page);
     const expandedDevice = page.locator('.expandedDevice');
