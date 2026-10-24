@@ -19,13 +19,23 @@ import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultilin
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
+import type { AuditLog } from '@northern.tech/types/MenderTypes';
 
 import { stringifyEvent } from './eventdetails/utils';
 
-const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View software</Link>;
-const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
-const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
-const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
+// navigating links shouldn't also trigger the row click that opens the details drawer
+const StoppedLink = ({ children, to }) => (
+  <Link onClick={event => event.stopPropagation()} to={to}>
+    {children}
+  </Link>
+);
+
+const ArtifactLink = ({ item }) => (
+  <StoppedLink to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View software</StoppedLink>
+);
+const DeploymentLink = ({ item }) => <StoppedLink to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</StoppedLink>;
+const DeviceLink = ({ item }) => <StoppedLink to={`/devices?id=${item.object.id}`}>View device</StoppedLink>;
+const DeviceRejectedLink = ({ item }) => <StoppedLink to={`/devices/rejected?id=${item.object.id}`}>View device</StoppedLink>;
 const TerminalSessionLink = () => <Link>View session log</Link>;
 const ChangeFallback = props => {
   const {
@@ -83,28 +93,23 @@ const actorMap = {
   device: 'id'
 };
 
-export const UserDescriptor = (item, index) => (
-  <TextOverflowMultiline key={`${item.time}-${index}`} variant="body2">
-    {item.actor[actorMap[item.actor.type]]}
-  </TextOverflowMultiline>
-);
-export const ActionDescriptor = (item, index) => (
-  <TextOverflowMultiline className="uppercased" key={`${item.time}-${index}`} variant="body2">
+export const UserDescriptor = (item: AuditLog) => <TextOverflowMultiline variant="body2">{item.actor[actorMap[item.actor.type]]}</TextOverflowMultiline>;
+export const ActionDescriptor = (item: AuditLog) => (
+  <TextOverflowMultiline className="uppercased" variant="body2">
     {item.action}
   </TextOverflowMultiline>
 );
-export const TypeDescriptor = (item, index) => (
-  <TextOverflowMultiline className="capitalized" key={`${item.time}-${index}`} variant="body2">
+export const TypeDescriptor = (item: AuditLog) => (
+  <TextOverflowMultiline className="capitalized" variant="body2">
     {auditlogTypes[item.object.type]?.title ?? item.object.type}
   </TextOverflowMultiline>
 );
-export const ChangeDescriptor = (item, index) => {
+export const ChangeDescriptor = (item: AuditLog) => {
   const FormatterComponent = mapChangeToContent(item).actionFormatter;
-  return <FormatterComponent key={`${item.time}-${index}`} {...item.object} />;
+  return <FormatterComponent {...item.object} />;
 };
-export const ChangeDetailsDescriptor = (item, index, userCapabilities) => {
+export const ChangeDetailsDescriptor = (item: AuditLog, userCapabilities) => {
   const { component: Comp, accessCheck } = mapChangeToContent(item);
-  const key = `${item.time}-${index}`;
-  return accessCheck(userCapabilities) ? <Comp key={key} item={item} /> : <div key={key} />;
+  return accessCheck(userCapabilities) ? <Comp item={item} /> : null;
 };
-export const TimeWrapper = (item, index) => <Time key={`${item.time}-${index}`} value={item.time} Component={Typography} component="time" variant="body2" />;
+export const TimeWrapper = (item: AuditLog) => <Time value={item.time} Component={Typography} component="time" variant="body2" />;

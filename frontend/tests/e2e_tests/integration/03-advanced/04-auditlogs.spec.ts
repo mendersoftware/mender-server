@@ -108,7 +108,7 @@ test.describe('Auditlogs', () => {
     await page.click('[aria-label="close"]'); // short-form
     await navigateTo(page, 'auditlog');
 
-    await page.click(`.auditlogs-list-item :text('CLOSE_TERMINAL')`);
+    await page.click(`.auditlogs-list :text('CLOSE_TERMINAL')`);
     const drawer = page.locator(`.MuiDrawer-paper`);
     await expect(drawer.locator(`a:has-text('Download'), button:has-text('Download')`)).toBeVisible();
     await drawer.getByRole('button', { name: 'Play', exact: true }).click();
