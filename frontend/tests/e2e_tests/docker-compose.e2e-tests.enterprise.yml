@@ -2,7 +2,6 @@ services:
   gui-tests-runner:
     environment:
       SMTP4DEV_URL: "http://smtp4dev"
-      GITHUB_TOKEN:
     depends_on:
       - auditlogs
       - client
