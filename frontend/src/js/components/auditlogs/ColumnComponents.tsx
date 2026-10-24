@@ -22,33 +22,37 @@ import { formatReleases, generateReleasesPath } from '@northern.tech/store/locat
 
 import { stringifyEvent } from './eventdetails/utils';
 
+const InternalLink = ({ children, to }) => (
+  <Link state={{ internal: true }} to={to}>
+    {children}
+  </Link>
+);
+
 const SoftwareLink = ({ item }) => {
   const { artifact, id, software } = item.object;
   if (software?.kind === 'manifest') {
     return (
-      <Link
+      <InternalLink
         to={{ pathname: generateReleasesPath({ pageState: {} }), search: formatReleases({ pageState: { tab: 'manifests', id: encodeURIComponent(id) } }) }}
-        state={{ internal: true }}
       >
         View software
-      </Link>
+      </InternalLink>
     );
   }
   return (
-    <Link
+    <InternalLink
       to={{
         pathname: generateReleasesPath({ pageState: { selectedRelease: artifact?.name ?? id } }),
         search: formatReleases({ pageState: { tab: 'releases' } })
       }}
-      state={{ internal: true }}
     >
       View software
-    </Link>
+    </InternalLink>
   );
 };
-const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
-const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
-const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
+const DeploymentLink = ({ item }) => <InternalLink to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</InternalLink>;
+const DeviceLink = ({ item }) => <InternalLink to={`/devices?id=${item.object.id}`}>View device</InternalLink>;
+const DeviceRejectedLink = ({ item }) => <InternalLink to={`/devices/rejected?id=${item.object.id}`}>View device</InternalLink>;
 const TerminalSessionLink = () => <Link>View session log</Link>;
 const ChangeFallback = props => {
   const {
