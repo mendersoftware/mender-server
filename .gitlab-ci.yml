@@ -75,6 +75,9 @@ variables:
   GITHUB_USER_EMAIL:
     description: "The Github user email for release-please"
     value: "mender@northern.tech"
+  RELEASE_PR_AUTHORS:
+    description: "Space-separated logins allowed to own release PRs, default GITHUB_USER_NAME"
+    value: ""
   GIT_CLIFF:
     description: "Run git cliff to override the release-please changelog"
     value: "true"
@@ -1070,7 +1073,17 @@ changelog:
     - test $GIT_CLIFF == "false" && echo "INFO - Skipping git-cliff" && exit 0
     - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true # Ignore already existing remote
     - gh repo set-default https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL}
-    - RELEASE_PLEASE_PR=$(gh pr list --author "${GITHUB_USER_NAME}" --head "release-please--branches--${CI_COMMIT_REF_NAME}" --json number | jq -r '.[0].number // empty')
+    - |
+      RELEASE_PR_AUTHORS="${RELEASE_PR_AUTHORS:-${GITHUB_USER_NAME}}"
+      all_prs=$(gh pr list --head "release-please--branches--${CI_COMMIT_REF_NAME}" --state open \
+        --json number,author,isCrossRepository | jq -c '[.[] | select(.isCrossRepository | not)]')
+      RELEASE_PLEASE_PR=$(echo "${all_prs}" | jq -r --arg authors "${RELEASE_PR_AUTHORS}" \
+        '[.[] | select((.author.login as $a | $authors | split(" ") | index($a)) != null) | .number][0] // empty')
+      if [ -z "${RELEASE_PLEASE_PR}" ] && [ "$(echo "${all_prs}" | jq 'length')" -ne 0 ]; then
+        echo "ERROR - open release PR authored by '$(echo "${all_prs}" | jq -r '[.[].author.login] | join(" ")')'," \
+          "not in RELEASE_PR_AUTHORS '${RELEASE_PR_AUTHORS}'"
+        exit 1
+      fi
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
     - for filename in $(ls CHANGELOG*.md); do cp "${filename}" "${filename}.${CI_COMMIT_SHA}"; done
     - gh pr checkout --force $RELEASE_PLEASE_PR
