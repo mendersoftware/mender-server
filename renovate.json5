@@ -18,16 +18,9 @@
   "semanticCommits": "enabled",
   "semanticCommitScope": "deps",
 
-  // Render commit body as:
-  //   chore(deps): Update <dependency-group> (abc1234)
-  //
-  //   - dependency1 v1.9.4 -> v1.10.2
-  //   - dependency2 v0.45.0 -> v0.46.0
-  //   - etc v1.2.3 -> v1.2.4
-  //
-  //   Changelog: Commit
-  //   Signed-off-by: Foobar <rip@bar.com>
-  "commitBody": "{{#each upgrades}}- {{{depName}}} {{{currentVersion}}} -> {{{newVersion}}}\n{{/each}}\n\nChangelog: Commit",
+  // Append a table in the commit message body describing all updates in the commit.
+  "commitBodyTable": true,
+  "commitTrailers": ["Changelog: Commit"],
 
   // Only rebase open PRs when they actually conflict. Rebasing every time the
   // base branch moves restarts a pipeline for every open PR on each merge.
@@ -64,6 +57,7 @@
         "MENDER_ARTIFACT_VERSION=\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "mendersoftware/mender-artifact",
+      "packageNameTemplate": "mender-artifact",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "versioningTemplate": "semver"
@@ -76,6 +70,7 @@
         "DOCKER_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "docker",
+      "packageNameTemplate": "docker",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -93,6 +88,7 @@
         "library/mongo:\\$\\{MONGO_VERSION:-(?<currentValue>[\\d\\.]+)\\}"
       ],
       "depNameTemplate": "mongo",
+      "packageNameTemplate": "mongo",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -104,6 +100,7 @@
         "REDIS_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
       "depNameTemplate": "redis",
+      "packageNameTemplate": "redis",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -120,6 +117,7 @@
         "denoland/deno:(?<currentValue>[^\\s\"']+)"
       ],
       "depNameTemplate": "denoland/deno",
+      "packageNameTemplate": "deno",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
@@ -130,6 +128,7 @@
       "matchStrings": [
         "NODE_IMAGE:[\\s\\S]*?value:\\s*[\"']?(?<depName>[^:\"']+):(?<currentValue>[^\"']+)[\"']?"
       ],
+      "packageNameTemplate": "node",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     }
@@ -161,7 +160,7 @@
     // docker-compose: root + compose/*.yml + nested compose files in one PR.
     {
       "matchManagers": ["docker-compose"],
-      "matchFileNames": ["**/docker-compose+(.*.|.)+(yml|yaml)"],
+      "matchFileNames": ["**/docker-compose+(.*.|.)+(yml|yaml)", "!**/docker-compose.*compat*.yml"],
       "groupName": "docker-compose",
       "groupSlug": "docker-compose"
     },
