@@ -3,7 +3,7 @@ services:
     command:
       - integration_compat
   mender-client-2-0:
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.0.1
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
     scale: 1
     stdin_open: true
     tty: true
@@ -22,27 +22,27 @@ services:
   mender-client-2-1:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.1.3
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
   mender-client-2-2:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.2.1
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
   mender-client-2-3:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.3.2
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
   mender-client-2-4:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.4.2
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
   mender-client-2-5:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.5.4
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
   mender-client-2-6:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:2.6.1
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:3.1.1
   mender-client-3-0:
     extends:
       service: mender-client-2-0

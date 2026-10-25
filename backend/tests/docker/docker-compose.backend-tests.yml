@@ -62,7 +62,7 @@ services:
     volumes:
       - ${GOCOVERDIR:-cover}:/cover
   mock-httpd:
-    image: ${MIRROR_REGISTRY:-docker.io}/mockserver/mockserver:5.15.0
+    image: ${MIRROR_REGISTRY:-docker.io}/mockserver/mockserver:9.1.0
 
 volumes:
   cover: {}

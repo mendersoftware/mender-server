@@ -14,7 +14,7 @@ services:
       - deviceconnect
 
   mmock:
-    image: "${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v3.0.0"
+    image: "${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v4.3.12"
     networks:
       default:
         aliases:
