@@ -46,7 +46,7 @@ services:
           - deployments
 
   opensearch:
-    image: opensearchproject/opensearch:2.4.0
+    image: opensearchproject/opensearch:2.19.7
     networks:
       - default
     environment:
