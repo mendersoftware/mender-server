@@ -89,6 +89,7 @@ services:
       DEVICEAUTH_TENANTADM_ADDR: "http://tenantadm:8080"
       DEVICEAUTH_HAVE_ADDONS: "1"
       DEVICEAUTH_ENABLE_AUDIT: "1"
+      DEVICEAUTH_ENABLE_TIERS: "true"
 
   deviceconfig:
     build:
