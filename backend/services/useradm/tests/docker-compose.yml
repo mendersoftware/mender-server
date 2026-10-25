@@ -5,7 +5,7 @@ include:
     - docker-compose.acceptance.yml
 services:
   mmock:
-    image: ${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v2.7.6
+    image: ${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v4.3.12
     command:
       - -server-ip
       - 0.0.0.0
