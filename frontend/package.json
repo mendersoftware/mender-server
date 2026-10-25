@@ -59,7 +59,7 @@
     "@northern.tech/eslint-config": "0.7.2",
     "@northern.tech/prettier-config": "0.2.1",
     "@northern.tech/testing": "0.19.2",
-    "@northern.tech/types": "0.7.9",
+    "@northern.tech/types": "0.7.11",
     "@northern.tech/typescript-config": "0.3.2",
     "@rspack/cli": "^2.0.8",
     "@rspack/core": "^2.0.8",
