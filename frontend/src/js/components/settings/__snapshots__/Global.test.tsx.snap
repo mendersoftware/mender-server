@@ -49,6 +49,10 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   margin-top: 40px;
 }
 
+.emotion-6 {
+  gap: 8px;
+}
+
 .emotion-7 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -1176,7 +1180,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         class="flexbox column settings-item-base emotion-5 "
       >
         <div
-          class="flexbox column settings-item-content emotion-5 "
+          class="flexbox column settings-item-content emotion-6 "
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-7"
@@ -1266,7 +1270,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         class="flexbox column settings-item-base emotion-5 "
       >
         <div
-          class="flexbox column settings-item-content emotion-5 "
+          class="flexbox column settings-item-content emotion-6 "
         >
           <label
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-22"
@@ -1311,7 +1315,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         class="flexbox column settings-item-base emotion-5 "
       >
         <div
-          class="flexbox column settings-item-content emotion-5 "
+          class="flexbox column settings-item-content emotion-6 "
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-7"
@@ -1437,7 +1441,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         class="flexbox column settings-item-base emotion-5 "
       >
         <div
-          class="flexbox column settings-item-content emotion-5 "
+          class="flexbox column settings-item-content emotion-6 "
         >
           <div
             class="flexbox align-items-center"
@@ -1484,7 +1488,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
         class="flexbox column settings-item-base emotion-5 "
       >
         <div
-          class="flexbox column settings-item-content emotion-5 "
+          class="flexbox column settings-item-content emotion-6 "
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-7"

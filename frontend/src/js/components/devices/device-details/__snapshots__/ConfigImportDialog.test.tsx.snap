@@ -752,7 +752,7 @@ exports[`ConfigImportDialog Component > renders correctly 1`] = `
                 >
                   <input
                     aria-label="file upload"
-                    style="border: 0px; display: block; height: 0px; margin: 0px; opacity: 0; overflow: hidden; padding: 0px; width: 0px;"
+                    style="border: 0px; display: block; height: 0px; margin: 0px; max-width: 0px; opacity: 0; overflow: hidden; padding: 0px; width: 0px;"
                     tabindex="-1"
                     type="file"
                   />

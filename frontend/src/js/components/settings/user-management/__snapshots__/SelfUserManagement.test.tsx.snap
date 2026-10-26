@@ -780,6 +780,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
   margin-top: 40px;
 }
 
+.emotion-30 {
+  gap: 8px;
+}
+
 .emotion-31 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1367,7 +1371,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
       class="flexbox column settings-item-base emotion-29 "
     >
       <div
-        class="flexbox column settings-item-content emotion-29 "
+        class="flexbox column settings-item-content emotion-30 "
       >
         <label
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-31"
@@ -1407,7 +1411,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
       class="flexbox column settings-item-base emotion-29 "
     >
       <div
-        class="flexbox column settings-item-content emotion-29 "
+        class="flexbox column settings-item-content emotion-30 "
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-38"
@@ -1475,7 +1479,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
       class="flexbox column settings-item-base emotion-29 "
     >
       <div
-        class="flexbox column settings-item-content emotion-29 "
+        class="flexbox column settings-item-content emotion-30 "
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-38"
