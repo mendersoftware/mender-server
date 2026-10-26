@@ -870,6 +870,16 @@ func (h ManagementController) uploadFileV2(
 	done := make(chan struct{})
 	// Handle any inbound error message that may be returned by the other peer.
 	go uploadFileV2HandleInboundError(ctx, conn, cancel, done)
+	// sendError gives the device a chance to explain a failed send: an error
+	// response from the device takes precedence over the send error.
+	sendError := func(err error) error {
+		<-ctx.Done()
+		var statusErr *Error
+		if cause := context.Cause(ctx); errors.As(cause, &statusErr) {
+			return cause
+		}
+		return err
+	}
 
 	var (
 		buf    [4096]byte
@@ -910,7 +920,7 @@ func (h ManagementController) uploadFileV2(
 		}
 		err = conn.Send(ctx, data)
 		if err != nil {
-			err = fmt.Errorf("error sending data chunk to device: %w", err)
+			err = sendError(fmt.Errorf("error sending data chunk to device: %w", err))
 			break
 		}
 		timeout.Reset(defaultTimeout)
@@ -929,7 +939,7 @@ func (h ManagementController) uploadFileV2(
 		}
 		err = conn.Send(ctx, data)
 		if err != nil {
-			return fmt.Errorf("error sending data chunk to device: %w", err)
+			return sendError(fmt.Errorf("error sending data chunk to device: %w", err))
 		}
 		select {
 		case <-ctx.Done():
