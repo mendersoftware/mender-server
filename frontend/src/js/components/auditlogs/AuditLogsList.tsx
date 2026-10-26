@@ -11,39 +11,27 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Sort as SortIcon } from '@mui/icons-material';
-import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
+import type { ColumnDefinition } from '@northern.tech/common-ui/DetailsTable';
+import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
-import { SORTING_OPTIONS } from '@northern.tech/store/constants';
+import type { AuditLog } from '@northern.tech/types/MenderTypes';
 
-const useStyles = makeStyles()(theme => ({
-  auditlogsList: {
-    '& .auditlogs-list-item': {
-      display: 'grid',
-      gridTemplateColumns: '2fr 1fr 1fr 2fr 2fr 1.75fr 120px',
-      gridColumnGap: theme.spacing(4),
-      padding: `5px ${theme.spacing(2)}`,
-      borderBottom: `1px solid ${theme.palette.border?.main ?? theme.palette.divider}`,
-      minHeight: theme.spacing(6),
-      maxHeight: theme.spacing(12),
-      alignItems: 'center',
-      '& > *': {
-        display: 'flex',
-        alignItems: 'center',
-        maxHeight: theme.spacing(12),
-        overflow: 'hidden'
-      },
-      '&.auditlogs-list-item-header': {
-        cursor: 'initial',
-        padding: `10px ${theme.spacing(2)}`,
-        position: 'relative'
-      }
-    }
-  }
+const allowsExpansion = (item: AuditLog) =>
+  !!item.change || item.action.includes('terminal') || item.action.includes('portforward') || item.action.includes('file');
+
+const detailsColumn: ColumnDefinition<AuditLog> = {
+  key: 'details',
+  title: '',
+  render: item => (allowsExpansion(item) ? <DetailsIndicator /> : null),
+  cellProps: { style: { minWidth: 120 } }
+};
+
+const useStyles = makeStyles()(() => ({
+  table: { 'tr.clickable': { cursor: 'inherit' } }
 }));
 
 export const AuditLogsList = ({
@@ -59,55 +47,34 @@ export const AuditLogsList = ({
   const { page, perPage, sort = {}, total: count, isLoading } = selectionState;
   const { classes } = useStyles();
 
+  if (!items.length) {
+    return null;
+  }
+
+  const columns: ColumnDefinition<AuditLog>[] = [...auditLogColumns.map(column => ({ ...column, extras: userCapabilities })), detailsColumn];
+
   return (
-    !!items.length && (
-      <div className={`fadeIn deploy-table-contain auditlogs-list ${classes.auditlogsList}`}>
-        <div className="auditlogs-list-item auditlogs-list-item-header">
-          {auditLogColumns.map((column, index) => (
-            <div
-              className="columnHeader"
-              key={`columnHeader-${index}`}
-              onClick={() => (column.sortable ? onChangeSorting() : null)}
-              style={column.sortable ? {} : { cursor: 'initial' }}
-            >
-              <Typography variant="subtitle1">{column.title}</Typography>
-              {column.sortable ? <SortIcon className={`sortIcon ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} /> : null}
-            </div>
-          ))}
-          <div />
-        </div>
-        <div className="auditlogs-list">
-          {items.map(item => {
-            const allowsExpansion = !!item.change || item.action.includes('terminal') || item.action.includes('portforward') || item.action.includes('file');
-            return (
-              <div
-                className={`auditlogs-list-item ${allowsExpansion ? 'clickable' : ''}`}
-                key={`event-${item.time}`}
-                onClick={({ target }) => {
-                  if (!(target as HTMLElement).closest('a')) {
-                    onIssueSelection(allowsExpansion ? item : undefined);
-                  }
-                }}
-              >
-                {auditLogColumns.map((column, index) => column.render(item, index, userCapabilities))}
-                {allowsExpansion ? <DetailsIndicator /> : <div />}
-              </div>
-            );
-          })}
-        </div>
-        <div>
-          <Pagination
-            className="margin-top-none"
-            count={count}
-            rowsPerPage={perPage}
-            onChangeRowsPerPage={onChangeRowsPerPage}
-            page={page}
-            onChangePage={onChangePage}
-          />
-          <Loader show={isLoading} small />
-        </div>
+    <div className="fadeIn deploy-table-contain">
+      <DetailsTable
+        className={`auditlogs-list ${classes.table}`}
+        columns={columns}
+        items={items}
+        onChangeSorting={onChangeSorting}
+        onItemClick={item => onIssueSelection(allowsExpansion(item) ? item : undefined)}
+        sort={{ ...sort, key: 'time' }}
+      />
+      <div>
+        <Pagination
+          className="margin-top-none"
+          count={count}
+          rowsPerPage={perPage}
+          onChangeRowsPerPage={onChangeRowsPerPage}
+          page={page}
+          onChangePage={onChangePage}
+        />
+        <Loader show={isLoading} small />
       </div>
-    )
+    </div>
   );
 };
 
