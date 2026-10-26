@@ -1219,6 +1219,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 exports[`AccessTokenManagement Component > renders correctly 1`] = `
 .emotion-0 {
   gap: 8px;
+  margin-top: 40px;
 }
 
 .emotion-2 {
@@ -1415,7 +1416,7 @@ exports[`AccessTokenManagement Component > renders correctly 1`] = `
 }
 
 <div
-  class="flexbox column settings-item-base emotion-0 margin-top "
+  class="flexbox column settings-item-base emotion-0 "
 >
   <div
     class="flexbox column settings-item-content emotion-0 "

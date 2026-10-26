@@ -27,6 +27,7 @@ exports[`Billing Component > renders correctly 1`] = `
 
 .emotion-3 {
   gap: 8px;
+  margin-top: 40px;
 }
 
 .emotion-5 {
@@ -516,7 +517,7 @@ exports[`Billing Component > renders correctly 1`] = `
           class="flexbox column"
         >
           <div
-            class="flexbox column settings-item-base emotion-3 margin-top "
+            class="flexbox column settings-item-base emotion-3 "
           >
             <div
               class="flexbox column settings-item-content emotion-3 "
@@ -555,7 +556,7 @@ exports[`Billing Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox column settings-item-base emotion-3 margin-top "
+            class="flexbox column settings-item-base emotion-3 "
           >
             <div
               class="flexbox column settings-item-content emotion-3 "
@@ -580,7 +581,7 @@ exports[`Billing Component > renders correctly 1`] = `
             class="padding-small padding-top-none margin-top margin-bottom emotion-13"
           >
             <div
-              class="flexbox column settings-item-base emotion-3 margin-top "
+              class="flexbox column settings-item-base emotion-3 "
             >
               <div
                 class="flexbox column settings-item-content emotion-3 "

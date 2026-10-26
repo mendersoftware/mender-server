@@ -104,7 +104,7 @@ export default defineConfig({
     },
     environment: 'jsdom',
     globals: true,
-    setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
+    setupFiles: path.resolve(import.meta.dirname, 'tests', 'setupTests.ts'),
     server: {
       deps: {
         // common-ui ships untranspiled CSS imports (xterm) and relies on our module mocks (monaco),

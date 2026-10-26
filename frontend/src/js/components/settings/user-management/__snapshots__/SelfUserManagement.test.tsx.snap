@@ -777,6 +777,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
 
 .emotion-29 {
   gap: 8px;
+  margin-top: 40px;
 }
 
 .emotion-31 {
@@ -1363,7 +1364,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
       </button>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-29 margin-top "
+      class="flexbox column settings-item-base emotion-29 "
     >
       <div
         class="flexbox column settings-item-content emotion-29 "
@@ -1403,7 +1404,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-29 margin-top "
+      class="flexbox column settings-item-base emotion-29 "
     >
       <div
         class="flexbox column settings-item-content emotion-29 "
@@ -1471,7 +1472,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-29 margin-top "
+      class="flexbox column settings-item-base emotion-29 "
     >
       <div
         class="flexbox column settings-item-content emotion-29 "
