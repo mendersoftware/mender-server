@@ -124,7 +124,9 @@ test.describe('SAML Login via sso/id/login', () => {
     const startUrlLabel = page.getByText('Start URL', { exact: true });
     await startUrlLabel.waitFor({ timeout: timeouts.tenSeconds });
     // the SSO details are a two column grid, so the value is the label's next sibling
-    const loginUrl = await startUrlLabel.locator('xpath=following-sibling::*[1]').innerText();
+    const startUrlValue = startUrlLabel.locator('xpath=following-sibling::*[1]');
+    await expect(startUrlValue).toHaveText(/\/login$/, { timeout: timeouts.tenSeconds });
+    const loginUrl = await startUrlValue.innerText();
     console.log(`logging in via ${loginUrl} (using: ${samlSettings.credentials[browserName]})`);
     const context = await browser.newContext();
     const samlPage = await context.newPage();
