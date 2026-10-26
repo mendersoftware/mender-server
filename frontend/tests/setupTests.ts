@@ -11,11 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { WebSocketInterceptor } from '@mswjs/interceptors/WebSocket';
+import { XMLHttpRequestInterceptor } from '@mswjs/interceptors/XMLHttpRequest/web';
 import { cleanUp } from '@northern.tech/store/auth';
+import { deploymentsApiUrl, headerNames } from '@northern.tech/store/constants';
+import { mockApiResponses } from '@northern.tech/testing/mockData';
 import handlers from '@northern.tech/testing/requestHandlers/requestHandlers';
 import { afterAll as ntAfterAll, afterEach as ntAfterEach, beforeAll as ntBeforeAll, beforeEach as ntBeforeEach } from '@northern.tech/testing/setupTests';
 import '@testing-library/jest-dom/vitest';
-import { setupServer } from 'msw/node';
+import { HttpResponse, http } from 'msw';
+import { InterceptorSource, defineNetwork } from 'msw/experimental';
 import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest';
 
 import Tracking from '../src/js/tracking';
@@ -48,7 +53,30 @@ process.on('unhandledRejection', err => {
 });
 
 // Setup requests interception
-export const server = setupServer(...handlers);
+// @mswjs/interceptors returns mocked responses without a body early, so the handlers that only return a `location` header are repeated here with an empty body
+const headerOnlyHandlers = [
+  http.post(
+    `${deploymentsApiUrl}/artifacts/generate`,
+    () =>
+      new HttpResponse('', {
+        headers: { [headerNames.location]: `${deploymentsApiUrl}/artifacts/generate/${mockApiResponses.releases.byId.r1.artifacts[0].id}` }
+      })
+  ),
+  http.post(
+    `${deploymentsApiUrl}/manifests`,
+    () => new HttpResponse('', { status: 201, headers: { [headerNames.location]: `${deploymentsApiUrl}/manifests/m1000` } })
+  ),
+  http.post(
+    `${deploymentsApiUrl}/manifests/generate`,
+    () => new HttpResponse('', { status: 202, headers: { [headerNames.location]: `${deploymentsApiUrl}/manifests/m1000` } })
+  )
+];
+export const server = defineNetwork({
+  sources: [new InterceptorSource({ interceptors: [new XMLHttpRequestInterceptor(), new WebSocketInterceptor()] })],
+  handlers: [...headerOnlyHandlers, ...handlers],
+  onUnhandledFrame: 'error',
+  context: { quiet: true }
+});
 
 // ensure consistent snapshots across dev machines and CI
 // - module loading order prevents this from fitting into the regular hooks
@@ -71,7 +99,7 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 beforeAll(async () => {
-  await server.listen({ onUnhandledRequest: 'error' });
+  await server.enable();
   await ntBeforeAll({ expect, vi });
 });
 
@@ -91,6 +119,6 @@ afterEach(async () => {
 
 afterAll(async () => {
   // Clean up once the tests are done.
-  await server.close();
+  await server.disable();
   await ntAfterAll({ vi });
 });
