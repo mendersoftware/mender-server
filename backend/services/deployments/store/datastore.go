@@ -183,7 +183,6 @@ type DataStore interface {
 		artifactNames []string,
 	) ([]string, error)
 
-	GetTenantDbs() ([]string, error)
 	SaveLastDeviceDeploymentStatus(
 		ctx context.Context,
 		deviceDeployment model.DeviceDeployment,

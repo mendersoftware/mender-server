@@ -35,15 +35,11 @@ type MigrationEntry struct {
 	Timestamp time.Time `bson:"timestamp"`
 }
 
-// GetMigrationInfo retrieves a list of migrations applied to the db.
-// On success the function returns the MigrationEntries present in the db
-// sorted by the version in decending order.
-func GetMigrationInfo(
+func GetDatabaseMigrationInfo(
 	ctx context.Context,
-	sess *mongo.Client,
-	db string,
+	db *mongo.Database,
 ) ([]MigrationEntry, error) {
-	c := sess.Database(db).Collection(DbMigrationsColl)
+	c := db.Collection(DbMigrationsColl)
 	findOpts := mopts.Find()
 	findOpts.SetSort(bson.D{{
 		Key: "version.major", Value: -1,
@@ -63,6 +59,17 @@ func GetMigrationInfo(
 	var infoArray []MigrationEntry
 	err = cursor.All(ctx, &infoArray)
 	return infoArray, err
+}
+
+// GetMigrationInfo retrieves a list of migrations applied to the db.
+// On success the function returns the MigrationEntries present in the db
+// sorted by the version in decending order.
+func GetMigrationInfo(
+	ctx context.Context,
+	sess *mongo.Client,
+	db string,
+) ([]MigrationEntry, error) {
+	return GetDatabaseMigrationInfo(ctx, sess.Database(db))
 }
 
 // UpdateMigrationInfo inserts a migration entry in the migration info collection.

@@ -21,7 +21,6 @@ import (
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -41,6 +40,8 @@ func (db *DataStoreMongo) SaveLastDeviceDeploymentStatus(
 	}
 	filter := bson.M{
 		"_id": deviceDeployment.DeviceId,
+
+		StorageKeyTenantId: tenantId,
 	}
 
 	lastStatus := model.DeviceDeploymentLastStatus{
@@ -51,8 +52,7 @@ func (db *DataStoreMongo) SaveLastDeviceDeploymentStatus(
 		TenantId:               tenantId,
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevicesLastStatus)
+	collDevs := db.database.Collection(CollectionDevicesLastStatus)
 	var err error
 	replaceOptions := mopts.Replace()
 	replaceOptions.SetUpsert(true)
@@ -64,8 +64,7 @@ func (db *DataStoreMongo) GetLastDeviceDeploymentStatus(
 	ctx context.Context,
 	devicesIds []string,
 ) ([]model.DeviceDeploymentLastStatus, error) {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevicesLastStatus)
+	collDevs := db.database.Collection(CollectionDevicesLastStatus)
 
 	tenantId := ""
 	id := identity.FromContext(ctx)

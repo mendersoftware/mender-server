@@ -17,34 +17,24 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/v2/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
-	ctx_store "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 const (
-	DbVersion        = "1.2.17"
+	DbVersion        = "2.0.0"
 	DbMinimumVersion = "1.2.17"
-	DbName           = "deployment_service"
+	DefaultDbName    = "deployments"
 )
 
-func Migrate(ctx context.Context,
+func (mgo *DataStoreMongo) Migrate(
+	ctx context.Context,
 	version string,
-	client *mongo.Client,
-	automigrate bool) error {
+	automigrate bool,
+) error {
 
 	l := log.FromContext(ctx)
-
-	dbs, err := migrate.GetTenantDbs(ctx, client, ctx_store.IsTenantDb(DbName))
-	if err != nil {
-		return errors.Wrap(err, "failed go retrieve tenant DBs")
-	}
-
-	if len(dbs) == 0 {
-		dbs = []string{DbName}
-	}
 
 	if automigrate {
 		l.Infof("automigrate is ON, will apply migrations")
@@ -52,24 +42,7 @@ func Migrate(ctx context.Context,
 		l.Infof("automigrate is OFF, will check db version compatibility")
 	}
 
-	for _, d := range dbs {
-		err := MigrateSingle(ctx, d, version, client, automigrate)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func MigrateSingle(ctx context.Context,
-	db string,
-	version string,
-	client *mongo.Client,
-	automigrate bool) error {
-	l := log.FromContext(ctx)
-
-	l.Infof("migrating %s", db)
+	l.Infof("migrating %s", mgo.database.Name())
 
 	ver, err := migrate.NewVersion(version)
 	if err != nil {
@@ -77,73 +50,15 @@ func MigrateSingle(ctx context.Context,
 	}
 
 	m := migrate.SimpleMigrator{
-		Client:      client,
-		Db:          db,
+		// FIXME: SimplerMigrator that swaps Client and Db with *mongo.Database
+		Client:      mgo.database.Client(),
+		Db:          mgo.database.Name(),
 		Automigrate: automigrate,
 	}
 
-	migrations := []migrate.Migration{
-		&migration_1_2_1{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_2{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_3{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_4{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_5{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_6{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_7{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_9{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_10{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_11{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_13{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_14{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_15{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_16{
-			client: client,
-			db:     db,
-		},
-		&migration_1_2_17{
-			client: client,
-			db:     db,
-		},
-	}
+	// FIXME: Insert BIG migration initializing collections and transforming existing data
+	//      - Can purge existing migrations from codebase but require last version is either nil or DbMinimumVersion
+	migrations := []migrate.Migration{}
 
 	err = m.Apply(ctx, *ver, migrations)
 	if err != nil {

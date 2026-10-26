@@ -23,7 +23,6 @@ import (
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -34,8 +33,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifactDescription(
 	artifactToEdit *model.Image,
 	releaseName string,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collReleases := database.Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	update := bson.M{
 		"$set": bson.M{
@@ -47,7 +45,10 @@ func (db *DataStoreMongo) UpdateReleaseArtifactDescription(
 	_, err := collReleases.UpdateOne(
 		ctx,
 		bson.M{
-			StorageKeyReleaseKind:        bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+			StorageKeyReleaseKind: bson.M{
+				StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+				"$in":              bson.A{nil, model.ReleaseKindRelease},
+			},
 			StorageKeyReleaseName:        releaseName,
 			StorageKeyReleaseArtifactsId: artifactToEdit.Id,
 		},
@@ -65,8 +66,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 	artifactToRemove *model.Image,
 	releaseName string,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collReleases := database.Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	opt := mopts.UpdateOne()
 	update := bson.M{
@@ -93,6 +93,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 	_, err := collReleases.UpdateOne(
 		ctx,
 		bson.M{
+			StorageKeyTenantId:    identity.FromContext(ctx).GetTenantID(),
 			StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 			StorageKeyReleaseName: releaseName,
 		},
@@ -120,10 +121,11 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 
 func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, error) {
 	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 	}
-	res := db.client.
-		Database(mstore.DbFromContext(ctx, DatabaseName)).
+	res := db.database.
 		Collection(CollectionReleases).
 		Distinct(ctx, StorageKeyReleaseTags, filter)
 
@@ -149,9 +151,7 @@ func (db *DataStoreMongo) ReplaceReleaseTags(
 		return model.ErrTooManyUniqueTags
 	}
 
-	collReleases := db.client.
-		Database(mstore.DbFromContext(ctx, DatabaseName)).
-		Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	// Check if added tags will exceed limits
 	if len(tags) > 0 {
@@ -173,6 +173,7 @@ func (db *DataStoreMongo) ReplaceReleaseTags(
 
 	// Update release tags
 	res, err := collReleases.UpdateOne(ctx, bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyReleaseKind, Value: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}}},
 		{Key: StorageKeyReleaseName, Value: releaseName},
 	}, bson.D{{
@@ -192,9 +193,7 @@ func (db *DataStoreMongo) UpdateRelease(
 	releaseName string,
 	release model.ReleasePatch,
 ) error {
-	collReleases := db.client.
-		Database(mstore.DbFromContext(ctx, DatabaseName)).
-		Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	err := release.Validate()
 	if err != nil {
@@ -205,6 +204,8 @@ func (db *DataStoreMongo) UpdateRelease(
 	// it is on purpose that we take only this field explicitly,
 	// once there is a need we can extend
 	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 		StorageKeyReleaseName: releaseName,
 	}
@@ -232,8 +233,7 @@ func (db *DataStoreMongo) UpdateRelease(
 
 // Save the possibly new update types
 func (db *DataStoreMongo) SaveUpdateTypes(ctx context.Context, updateTypes []string) error {
-	database := db.client.Database(DatabaseName)
-	c := database.Collection(CollectionUpdateTypes)
+	c := db.database.Collection(CollectionUpdateTypes)
 
 	if len(updateTypes) < 1 {
 		return nil
@@ -264,8 +264,7 @@ func (db *DataStoreMongo) SaveUpdateTypes(ctx context.Context, updateTypes []str
 
 // Get the update types
 func (db *DataStoreMongo) GetUpdateTypes(ctx context.Context) ([]string, error) {
-	database := db.client.Database(DatabaseName)
-	c := database.Collection(CollectionUpdateTypes)
+	c := db.database.Collection(CollectionUpdateTypes)
 
 	tenantId := ""
 	if id := identity.FromContext(ctx); id != nil {
@@ -293,9 +292,10 @@ func (db *DataStoreMongo) GetUpdateTypes(ctx context.Context) ([]string, error) 
 }
 
 func (db *DataStoreMongo) DeleteReleasesByNames(ctx context.Context, names []string) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionReleases)
+	collDevs := db.database.Collection(CollectionReleases)
 	query := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 		StorageKeyReleaseName: bson.M{
 			"$in": names,
@@ -310,11 +310,12 @@ func (db *DataStoreMongo) GetRelease(
 	releaseName string,
 ) (*model.Release, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collReleases := database.Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	release := new(model.Release)
 	if err := collReleases.FindOne(ctx, bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 		StorageKeyId:          releaseName,
 	}).
