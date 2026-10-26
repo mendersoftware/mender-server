@@ -1,5 +1,5 @@
 boto3==1.43.20
-certifi >= 2026.5.20
+certifi >= 2026.10.19
 chardet >= 6.0.0.post1
 cryptography==50.0.0
 docker==7.1.0
