@@ -39,6 +39,10 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   margin-top: 40px;
 }
 
+.emotion-5 {
+  gap: 8px;
+}
+
 .emotion-6 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -319,7 +323,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-base emotion-4 "
           >
             <div
-              class="flexbox column settings-item-content emotion-4 "
+              class="flexbox column settings-item-content emotion-5 "
             >
               <h6
                 class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
@@ -365,7 +369,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-base emotion-4 "
           >
             <div
-              class="flexbox column settings-item-content emotion-4 "
+              class="flexbox column settings-item-content emotion-5 "
             >
               <h6
                 class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
@@ -411,7 +415,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-base emotion-4 "
           >
             <div
-              class="flexbox column settings-item-content emotion-4 "
+              class="flexbox column settings-item-content emotion-5 "
             >
               <h6
                 class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-6"
@@ -473,7 +477,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-base emotion-4 "
           >
             <div
-              class="flexbox column settings-item-content emotion-4 "
+              class="flexbox column settings-item-content emotion-5 "
             >
               <div
                 class="flexbox align-items-center gap-small"

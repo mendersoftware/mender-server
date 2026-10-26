@@ -6,6 +6,10 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   margin-top: 40px;
 }
 
+.emotion-1 {
+  gap: 8px;
+}
+
 .emotion-2 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -453,7 +457,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   class="flexbox column settings-item-base emotion-0 "
 >
   <div
-    class="flexbox column settings-item-content emotion-0 "
+    class="flexbox column settings-item-content emotion-1 "
   >
     <div
       class="flexbox align-items-center"
