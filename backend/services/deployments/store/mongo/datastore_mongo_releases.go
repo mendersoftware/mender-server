@@ -89,6 +89,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 		update["$inc"] = bson.M{
 			StorageKeyReleaseArtifactsCount: 1,
 		}
+		update["$setOnInsert"] = bson.M{StorageKeyReleaseCreated: time.Now()}
 	}
 	_, err := collReleases.UpdateOne(
 		ctx,
