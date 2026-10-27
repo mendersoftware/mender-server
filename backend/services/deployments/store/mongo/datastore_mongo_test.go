@@ -76,7 +76,7 @@ func TestInsertUploadIntent(t *testing.T) {
 		// verify that record exist in database
 		var actual model.UploadLink
 		err := mgoClient.
-			Database(DatabaseName).
+			Database(DefaultDbName).
 			Collection(CollectionUploadIntents).
 			FindOne(ctx, bson.D{}).
 			Decode(&actual)
@@ -140,7 +140,7 @@ func TestFindUploadLinks(t *testing.T) {
 	for i := range links {
 		ins[i] = links[i]
 	}
-	_, err := mgoClient.Database(DatabaseName).
+	_, err := mgoClient.Database(DefaultDbName).
 		Collection(CollectionUploadIntents).
 		InsertMany(ctx, ins)
 	if err != nil {
@@ -186,7 +186,7 @@ func TestUpdateUploadIntentStatus(t *testing.T) {
 	ctx := context.Background()
 	mgoClient := db.Client()
 	ds := NewDataStoreMongoWithClient(mgoClient)
-	mgoClient.Database(DatabaseName).
+	mgoClient.Database(DefaultDbName).
 		Collection(CollectionUploadIntents).
 		InsertMany(ctx, []interface{}{model.UploadLink{
 			ArtifactID: artifactIDOS,
@@ -404,7 +404,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 			}
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if testCase.InputDeploymentsCollection != nil {
@@ -1476,7 +1476,7 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if tc.inputDeploymentsCollection != nil {
@@ -1558,7 +1558,7 @@ func TestExistUnfinishedByArtifactId(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if tc.inputDeploymentsCollection != nil {
@@ -1644,7 +1644,7 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if tc.inputDeploymentsCollection != nil {
@@ -1739,7 +1739,7 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 			ctx := context.Background()
 
 			collDeviceDeps := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDevices)
 
 			if tc.inputDeviceDeployments != nil {
@@ -1880,7 +1880,7 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if tc.inputDeploymentsCollection != nil {
@@ -2337,7 +2337,7 @@ func TestGetActiveDeploymentIDsByArtifactNames(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if tc.inputDeployments != nil {
@@ -2631,7 +2631,7 @@ func TestFindDeployments(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if tc.inputDeployments != nil {

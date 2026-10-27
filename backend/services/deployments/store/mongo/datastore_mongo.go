@@ -36,7 +36,6 @@ import (
 )
 
 const (
-	DatabaseName                   = "deployment_service"
 	CollectionLimits               = "limits"
 	CollectionDeployments          = "deployments"
 	CollectionDeviceDeploymentLogs = "devices.logs"

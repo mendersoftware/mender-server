@@ -1652,7 +1652,7 @@ func TestDeleteReleasesByNames(t *testing.T) {
 			ctx := context.Background()
 
 			collReleases := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionReleases)
 
 			if tc.inputReleases != nil {

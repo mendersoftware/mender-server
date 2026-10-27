@@ -210,7 +210,7 @@ func TestArtifactUpdate(t *testing.T) {
 	db.Wipe()
 	client := db.Client()
 
-	collection := client.Database(DatabaseName).Collection(CollectionImages)
+	collection := client.Database(DefaultDbName).Collection(CollectionImages)
 	_, err := collection.InsertOne(ctx, img)
 	assert.NoError(t, err)
 

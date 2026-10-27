@@ -96,7 +96,7 @@ func TestDeploymentStorageInsert(t *testing.T) {
 				assert.NoError(t, err)
 
 				collDep := client.Database(mstore.
-					DbFromContext(ctx, DatabaseName)).
+					DbFromContext(ctx, DefaultDbName)).
 					Collection(CollectionDeployments)
 				count, err := collDep.CountDocuments(
 					ctx, bson.D{})
@@ -105,7 +105,7 @@ func TestDeploymentStorageInsert(t *testing.T) {
 
 				if testCase.InputTenant != "" {
 					collDefaultDep := client.
-						Database(DatabaseName).
+						Database(DefaultDbName).
 						Collection(CollectionDeployments)
 					indefault, err := collDefaultDep.
 						CountDocuments(ctx, bson.D{})
@@ -187,7 +187,7 @@ func TestDeploymentStorageDelete(t *testing.T) {
 			}
 
 			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 			if testCase.InputDeploymentsCollection != nil {
 				_, err := collDep.InsertMany(ctx,
@@ -209,7 +209,7 @@ func TestDeploymentStorageDelete(t *testing.T) {
 
 				if testCase.InputTenant != "" {
 					collDefaultDep := client.
-						Database(DatabaseName).
+						Database(DefaultDbName).
 						Collection(CollectionDeployments)
 					indefault, err := collDefaultDep.
 						CountDocuments(ctx, bson.D{})
@@ -378,7 +378,7 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 			}
 
 			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 			if testCase.InputDeploymentsCollection != nil {
 				_, err := collDep.InsertMany(
@@ -599,7 +599,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 			}
 
 			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			if testCase.InputDeploymentsCollection != nil {
@@ -836,7 +836,7 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			}
 
 			if tc.InputDeployment != nil {
-				collDefaultDep := client.Database(DatabaseName).
+				collDefaultDep := client.Database(DefaultDbName).
 					Collection(CollectionDeployments)
 				_, err := collDefaultDep.InsertOne(ctx,
 					tc.InputDeployment)
@@ -847,7 +847,7 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 				if tc.InputTenant != "" {
 					collDep := client.Database(mstore.
 						DbFromContext(ctx,
-							DatabaseName)).
+							DefaultDbName)).
 						Collection(CollectionDeployments)
 
 					_, err = collDep.InsertOne(ctx,
@@ -870,7 +870,7 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 				if tc.InputTenant != "" && tc.InputDeployment != nil {
 					var defDeployment *model.Deployment
 					collDefaultDep := client.
-						Database(DatabaseName).
+						Database(DefaultDbName).
 						Collection(CollectionDeployments)
 					err := collDefaultDep.FindOne(ctx,
 						bson.M{"_id": tc.InputID}).
@@ -970,7 +970,7 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 			}
 
 			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 			if tc.dep != nil {
 				_, err := collDep.InsertOne(
@@ -1464,7 +1464,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				// Ensure that storage indexes are present
 				// before inserting deployment.
 				err := store.EnsureIndexes(
-					mstore.DbFromContext(ctx, DatabaseName),
+					mstore.DbFromContext(ctx, DefaultDbName),
 					CollectionDeployments, StorageIndexes)
 				assert.NoError(t, err)
 				d.Created = &createdTime
@@ -1507,7 +1507,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 
 				// Ensure that storage indexes are present
 				// before creating deployment
-				err := store.EnsureIndexes(DatabaseName,
+				err := store.EnsureIndexes(DefaultDbName,
 					CollectionDeployments, StorageIndexes)
 				assert.NoError(t, err)
 				err = store.InsertDeployment(context.Background(),
@@ -1589,7 +1589,7 @@ func TestDeviceDeploymentCounting(t *testing.T) {
 			ctx := context.Background()
 
 			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDevices)
 			for _, d := range tc.InputDeviceDeployment {
 				_, err := collDep.InsertOne(ctx, d)
@@ -1651,7 +1651,7 @@ func TestDeploymentSetStatus(t *testing.T) {
 			}
 
 			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeployments)
 
 			_, err := collDep.InsertOne(ctx, deployment)
