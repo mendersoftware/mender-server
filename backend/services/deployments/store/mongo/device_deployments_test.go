@@ -116,7 +116,7 @@ func TestDeviceDeploymentStorageInsert(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 				collection := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
+					DbFromContext(ctx, DefaultDbName)).
 					Collection(CollectionDevices)
 				count, err := collection.CountDocuments(
 					ctx, bson.D{})
@@ -128,7 +128,7 @@ func TestDeviceDeploymentStorageInsert(t *testing.T) {
 					// deployment was added to tenant's DB,
 					// make sure it's not in default DB
 					collectionDefault := client.Database(
-						DatabaseName).Collection(CollectionDevices)
+						DefaultDbName).Collection(CollectionDevices)
 					count, err = collectionDefault.
 						CountDocuments(ctx, bson.D{})
 					assert.NoError(t, err)
@@ -315,7 +315,7 @@ func TestUpdateDeviceDeploymentStatus(t *testing.T) {
 				// these checks only make sense if there are any deployments in database
 				var deployment *model.DeviceDeployment
 				collDevs := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
+					DbFromContext(ctx, DefaultDbName)).
 					Collection(CollectionDevices)
 				query := bson.M{
 					StorageKeyDeviceDeploymentDeviceId:     testCase.InputDeviceID,
@@ -574,7 +574,7 @@ func TestUpdateDeviceDeploymentLogAvailability(t *testing.T) {
 					StorageKeyDeviceDeploymentDeploymentID: testCase.InputDeploymentID,
 				}
 				collDevs := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
+					DbFromContext(ctx, DefaultDbName)).
 					Collection(CollectionDevices)
 
 				err := collDevs.FindOne(ctx, query).
@@ -1243,7 +1243,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			if testCase.InputDeviceDeployment != nil {
 				// these checks only make sense if there are any deployments in database
 				var deploymentList []model.DeviceDeployment
-				collDevs := client.Database(DatabaseName).
+				collDevs := client.Database(DefaultDbName).
 					Collection(CollectionDevices)
 				query := bson.M{
 					StorageKeyDeviceDeploymentDeploymentID: testCase.InputDeploymentID,
@@ -1331,7 +1331,7 @@ func TestDecommissionDeviceDeployments(t *testing.T) {
 			if testCase.InputDeviceDeployment != nil {
 				// these checks only make sense if there are any deployments in database
 				var deploymentList []model.DeviceDeployment
-				collDevs := client.Database(DatabaseName).
+				collDevs := client.Database(DefaultDbName).
 					Collection(CollectionDevices)
 				query := bson.M{
 					StorageKeyDeviceDeploymentDeviceId: testCase.InputDeviceId,
@@ -1428,7 +1428,7 @@ func TestSaveDeviceDeploymentRequest(t *testing.T) {
 				assert.NoError(t, err)
 				var deployment *model.DeviceDeployment
 				collDevs := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
+					DbFromContext(ctx, DefaultDbName)).
 					Collection(CollectionDevices)
 				query := bson.M{
 					StorageKeyId: dd.Id,

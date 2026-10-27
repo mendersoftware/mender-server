@@ -138,7 +138,7 @@ func TestSaveLastDeviceDeploymentStatus(t *testing.T) {
 				assert.NoError(t, err)
 			}
 			if len(tc.deviceDeployments) > 0 {
-				c := client.Database(DatabaseName).Collection(CollectionDevicesLastStatus)
+				c := client.Database(DefaultDbName).Collection(CollectionDevicesLastStatus)
 				cursor, err := c.Find(ctx, bson.M{})
 				assert.NoError(t, err)
 				var results []model.DeviceDeploymentLastStatus

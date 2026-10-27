@@ -137,7 +137,7 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 			// no errors, so we should be able to find the log in DB
 			var dlog model.DeploymentLog
 			collDepLogs := client.Database(ctxstore.
-				DbFromContext(ctx, DatabaseName)).
+				DbFromContext(ctx, DefaultDbName)).
 				Collection(CollectionDeviceDeploymentLogs)
 			err := collDepLogs.FindOne(ctx, bson.M{
 				StorageKeyDeviceDeploymentDeviceId: testCase.
@@ -158,7 +158,7 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 				// that they are not found in default DB
 				var tmp interface{}
 				collDefaultDepLogs := client.
-					Database(DatabaseName).
+					Database(DefaultDbName).
 					Collection(CollectionDeviceDeploymentLogs)
 				err := collDefaultDepLogs.FindOne(ctx, bson.M{
 					StorageKeyDeviceDeploymentDeviceId: testCase.
