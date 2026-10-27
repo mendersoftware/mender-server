@@ -19,6 +19,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	pkgmongo "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
@@ -49,18 +50,10 @@ func (mgo *DataStoreMongo) Migrate(
 		return errors.Wrap(err, "failed to parse service version")
 	}
 
-	m := migrate.SimpleMigrator{
-		// FIXME: SimplerMigrator that swaps Client and Db with *mongo.Database
-		Client:      mgo.database.Client(),
-		Db:          mgo.database.Name(),
-		Automigrate: automigrate,
-	}
-
-	// FIXME: Insert BIG migration initializing collections and transforming existing data
-	//      - Can purge existing migrations from codebase but require last version is either nil or DbMinimumVersion
-	migrations := []migrate.Migration{}
-
-	err = m.Apply(ctx, *ver, migrations)
+	err = pkgmongo.ApplyMigrations(ctx, mgo.database, []pkgmongo.Migration{
+		migration_2_0_0{},
+	},
+		pkgmongo.WithTargetVersion(*ver))
 	if err != nil {
 		return errors.Wrap(err, "failed to apply migrations")
 	}
