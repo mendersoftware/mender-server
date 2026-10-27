@@ -16,17 +16,161 @@ package mongo
 
 import (
 	"context"
+	"fmt"
+	"slices"
+	"strings"
 
+	"github.com/mendersoftware/mender-server/pkg/log"
+	pkgmongo "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	"github.com/mendersoftware/mender-server/services/deployments/model"
 
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo/readpref"
 )
 
 var _ pkgmongo.MigrationMajor = migration_2_0_0{}
 
 type migration_2_0_0 struct{}
 
+const legacyDbNamePrefix = "deployment_service-"
+
+type legacyReleaseExt struct {
+	model.Release `bson:"inline"`
+	// The legacy release used the name in the primary index
+	LegacyName string `bson:"_id,omitempty"`
+	TenantID   string `bson:"tenant_id"`
+}
+
+func (migration_2_0_0) migrateReleaseDocuments(ctx context.Context, dst, src *mongo.Collection) error {
+	databaseName := src.Database().Name()
+	_, tenantID, found := strings.Cut(databaseName, legacyDbNamePrefix)
+	if !found {
+		return nil
+	}
+
+	cur, err := src.Find(ctx, bson.D{})
+	if err != nil {
+		return fmt.Errorf("failed to copy release documents: %w", err)
+	}
+	defer cur.Close(ctx)
+	for cur.Next(ctx) {
+		var release legacyReleaseExt
+		err := cur.Decode(&release)
+		if err != nil {
+			return fmt.Errorf("failed to decode release document: %w", err)
+		}
+		release.Name = release.LegacyName
+		release.LegacyName = ""
+		release.TenantID = tenantID
+		// Initialize with best possible value from data.
+		release.Created = slices.MinFunc(release.Artifacts, func(a, b model.Image) int {
+			return int(min(a.Modified.Unix(), b.Modified.Unix()))
+		}).Modified
+
+		_, err = dst.InsertOne(ctx, release)
+		if err != nil {
+			return fmt.Errorf("failed to copy release document: %w", err)
+		}
+	}
+	return nil
+}
+
 func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrate.Version) error {
+	logger := log.FromContext(ctx)
+	var indexes = map[string][]mongo.IndexModel{
+		CollectionReleases: {
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseArtifactsId, Value: 1},
+					// WARN: (enterprise) manifest model needs a face-lift 🗿
+				},
+				Options: options.Index().
+					SetUnique(true).
+					SetPartialFilterExpression(bson.D{
+						{Key: StorageKeyReleaseArtifactsId, Value: bson.D{
+							{Key: "$exists", Value: true},
+						}},
+					}),
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseName, Value: 1},
+				},
+				Options: options.Index().
+					SetUnique(true),
+			},
+			{
+				Keys: bson.D{ // Base sorting by newest
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseTags, Value: 1},
+					{Key: StorageKeyReleaseCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseArtifactsUpdateTypes, Value: 1},
+					{Key: StorageKeyReleaseCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseArtifactsUpdateTypes, Value: 1},
+					{Key: StorageKeyReleaseCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyReleaseArtifactsCount, Value: 1},
+					{Key: StorageKeyReleaseCreated, Value: -1},
+				},
+			},
+		},
+	}
+	for _, coll := range []string{
+		// CollectionDeployments,
+		// CollectionDevices,
+		CollectionReleases,
+	} {
+		_, err := db.Collection(coll).
+			Indexes().
+			CreateMany(ctx, indexes[coll])
+		if err != nil {
+			return fmt.Errorf("failed to create indexes [%s.%s]: %w", db.Name(), coll, err)
+		}
+	}
+
+	// Migrate existing documents
+	dbClient := db.Client()
+	dbNames, err := dbClient.ListDatabaseNames(ctx,
+		bson.M{"name": bson.M{"$regex": "^" + legacyDbNamePrefix}},
+		options.ListDatabases().SetNameOnly(true))
+	if err != nil {
+		return fmt.Errorf("failed to list existing databases: %w", err)
+	}
+	collReleases := db.Collection(CollectionReleases)
+	for _, dbName := range dbNames {
+		logger.Debugf("migrating database documents from %q", dbName)
+		legacyDB := dbClient.Database(dbName,
+			options.Database().SetReadPreference(readpref.Nearest()))
+		err := m.migrateReleaseDocuments(ctx, collReleases, legacyDB.Collection(CollectionReleases))
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate releases: %w", dbName, err)
+		}
+	}
 	return nil
 }
 
