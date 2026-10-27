@@ -340,6 +340,7 @@ const (
 	StorageKeyReleaseName                      = "name"
 	StorageKeyReleaseKind                      = "kind"
 	StorageKeyReleaseModified                  = "modified"
+	StorageKeyReleaseCreated                   = "created"
 	StorageKeyReleaseTags                      = "tags"
 	StorageKeyReleaseNotes                     = "notes"
 	StorageKeyReleaseArtifacts                 = "artifacts"
