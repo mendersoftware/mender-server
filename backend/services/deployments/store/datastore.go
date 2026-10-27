@@ -53,22 +53,12 @@ type DataStore interface {
 	// images
 	Exists(ctx context.Context, id string) (bool, error)
 	Update(ctx context.Context, image *model.Image) (bool, error)
-	InsertImage(ctx context.Context, image *model.Image) error
 	FindImageByID(ctx context.Context, id string) (*model.Image, error)
-	IsArtifactUnique(ctx context.Context, artifactName string,
-		deviceTypesCompatible []string) (bool, error)
-	DeleteImage(ctx context.Context, id string) error
 	ListImages(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]*model.Image, int, error)
 	ListImagesV2(ctx context.Context, filt *model.ImageFilter) ([]*model.Image, error)
-	DeleteImagesByNames(ctx context.Context, names []string) error
 
-	//artifact getter
-	ImagesByName(ctx context.Context,
-		artifactName string) ([]*model.Image, error)
 	ImageByIdsAndDeviceType(ctx context.Context,
 		ids []string, deviceType string) (*model.Image, error)
-	ImageByNameAndDeviceType(ctx context.Context,
-		name, deviceType string) (*model.Image, error)
 
 	// upload intents
 	InsertUploadIntent(ctx context.Context, link *model.UploadLink) error

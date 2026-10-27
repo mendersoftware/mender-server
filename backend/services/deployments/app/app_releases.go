@@ -135,9 +135,6 @@ func (d *Deployments) DeleteReleases(
 	if err != nil || len(ids) > 0 {
 		return ids, err
 	}
-	if err := d.db.DeleteImagesByNames(ctx, releaseNames); err != nil {
-		return ids, err
-	}
 	err = d.db.DeleteReleasesByNames(ctx, releaseNames)
 	return ids, err
 }

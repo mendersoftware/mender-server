@@ -215,7 +215,7 @@ func (kind *ReleaseKind) UnmarshalText(b []byte) error {
 }
 
 type ReleaseBase struct {
-	Name     string      `json:"name" bson:"_id"`
+	Name     string      `json:"name" bson:"name"`
 	Modified *time.Time  `json:"modified,omitempty" bson:"modified,omitempty"`
 	Tags     Tags        `json:"tags" bson:"tags,omitempty"`
 	Notes    Notes       `json:"notes" bson:"notes,omitempty"`

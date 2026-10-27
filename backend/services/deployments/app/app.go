@@ -373,7 +373,6 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 	metadata *model.DirectUploadMetadata,
 ) (string, error) {
 
-	l := log.FromContext(ctx)
 	ctx, err := d.contextWithStorageSettings(ctx)
 	if err != nil {
 		return "", err
@@ -470,28 +469,11 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 		size,
 	)
 
-	// save image structure in the system
-	if err = d.db.InsertImage(ctx, image); err != nil {
-		// Try to remove the storage from s3.
-		if errDelete := d.objectStorage.DeleteObject(
-			ctx, model.ImagePathFromContext(ctx, artifactID),
-		); errDelete != nil {
-			l.Errorf(
-				"failed to clean up artifact storage after failure: %s",
-				errDelete,
-			)
-		}
-		if idxErr, ok := err.(*model.ConflictError); ok {
-			return artifactID, idxErr
-		}
-		return artifactID, errors.Wrap(err, "Fail to store the metadata")
-	}
-	d.saveUpdateTypes(ctx, image)
-
 	// update release
 	if err := d.updateRelease(ctx, image, nil); err != nil {
 		return "", err
 	}
+	d.saveUpdateTypes(ctx, image)
 
 	if err := d.UpdateDeploymentsWithArtifactName(ctx, metaArtifactConstructor.Name); err != nil {
 		return "", errors.Wrap(err, "fail to update deployments")
@@ -610,20 +592,6 @@ func (d *Deployments) handleRawFile(ctx context.Context,
 	multipartMsg.ArtifactID = artifactID
 	filePath = model.ImagePathFromContext(ctx, artifactID+fileSuffixTmp)
 
-	// check if artifact is unique
-	// artifact is considered to be unique if there is no artifact with the same name
-	// and supporting the same platform in the system
-	isArtifactUnique, err := d.db.IsArtifactUnique(ctx,
-		multipartMsg.Name,
-		multipartMsg.DeviceTypesCompatible,
-	)
-	if err != nil {
-		return "", errors.Wrap(err, "Fail to check if artifact is unique")
-	}
-	if !isArtifactUnique {
-		return "", ErrModelArtifactNotUnique
-	}
-
 	ctx, err = d.contextWithStorageSettings(ctx)
 	if err != nil {
 		return "", err
@@ -723,11 +691,6 @@ func (d *Deployments) DeleteImage(ctx context.Context, imageID string) error {
 	imagePath := model.ImagePathFromContext(ctx, imageID)
 	if err := d.objectStorage.DeleteObject(ctx, imagePath); err != nil {
 		return errors.Wrap(err, "Deleting image file")
-	}
-
-	// Delete metadata
-	if err := d.db.DeleteImage(ctx, imageID); err != nil {
-		return errors.Wrap(err, "Deleting image metadata")
 	}
 
 	// update release
@@ -1098,7 +1061,7 @@ func getMetaFromArchive(r *io.Reader, skipVerify bool) (*model.ArtifactMeta, err
 	return metaArtifact, nil
 }
 
-func getArtifactIDs(artifacts []*model.Image) []string {
+func getArtifactIDs(artifacts []model.Image) []string {
 	artifactIDs := make([]string, 0, len(artifacts))
 	for _, artifact := range artifacts {
 		artifactIDs = append(artifactIDs, artifact.Id)
@@ -1235,19 +1198,18 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 		return "", errors.Wrap(err, "failed to create deployment")
 	}
 
-	// Assign artifacts to the deployment.
+	// Assign release to the deployment.
 	// When new artifact(s) with the artifact name same as the one in the deployment
 	// will be uploaded to the backend, it will also become part of this deployment.
-	artifacts, err := d.db.ImagesByName(ctx, deployment.ArtifactName)
+	release, err := d.db.GetRelease(ctx, deployment.ArtifactName)
 	if err != nil {
+		if errors.Is(err, store.ErrNotFound) {
+			return "", ErrNoArtifact
+		}
 		return "", errors.Wrap(err, "Finding artifact with given name")
 	}
 
-	if len(artifacts) == 0 {
-		return "", ErrNoArtifact
-	}
-
-	deployment.Artifacts = getArtifactIDs(artifacts)
+	deployment.Artifacts = getArtifactIDs(release.Artifacts)
 	deployment.DeviceList = constructor.Devices
 	deployment.MaxDevices = len(constructor.Devices)
 	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
@@ -2219,15 +2181,15 @@ func (d *Deployments) UpdateDeploymentsWithArtifactName(
 		return nil
 	}
 
-	// Assign artifacts to the deployments with given artifact name
-	artifacts, err := d.db.ImagesByName(ctx, artifactName)
+	// Assign release to the deployments with given artifact name
+	release, err := d.db.GetRelease(ctx, artifactName)
 	if err != nil {
+		if errors.Is(err, store.ErrNotFound) {
+			return ErrNoArtifact
+		}
 		return errors.Wrap(err, "Finding artifact with given name")
 	}
 
-	if len(artifacts) == 0 {
-		return ErrNoArtifact
-	}
-	artifactIDs := getArtifactIDs(artifacts)
+	artifactIDs := getArtifactIDs(release.Artifacts)
 	return d.db.UpdateDeploymentsWithArtifactName(ctx, artifactName, artifactIDs)
 }
