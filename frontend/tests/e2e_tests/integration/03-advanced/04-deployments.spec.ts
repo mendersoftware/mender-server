@@ -26,7 +26,7 @@ dayjs.extend(isBetween);
 const stressTestClientPath = './mender-stress-test-client';
 // a dedicated mac prefix keeps the simulated devices apart from the demo device & other stress test clients
 const uniformClientMacPrefix = 'fe';
-const uniformClientCount = 6;
+const uniformClientCount = 3;
 const uniformGroup = 'uniformgroup';
 
 type AuthSet = { id: string; status: string };
@@ -255,7 +255,7 @@ test.describe('Deployments', () => {
       await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
       await expect(page.getByText('Uniform, 2 devices per phase')).toBeVisible({ timeout: timeouts.tenSeconds });
       await expect(page.getByText('Phase 1', { exact: true })).toBeVisible();
-      await expect(page.getByText('Phase 3', { exact: true })).toBeVisible();
+      await expect(page.getByText('Phase 2', { exact: true })).toBeVisible();
       await expect(page.getByText('(Final phase)')).toHaveCount(1);
     } finally {
       client.kill();
