@@ -18,16 +18,12 @@ import { Link } from '@northern.tech/common-ui/Link';
 import Time from '@northern.tech/common-ui/Time';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
-import { generateReleasesPath } from '@northern.tech/store/locationutils';
+import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
+import type { Software } from '@northern.tech/types/MenderTypes';
 
 import { getDeploymentTargetText, getDevicesLink } from '../deployment-wizard/SoftwareDevices';
 
-const defaultLinkProps = {
-  target: '_blank',
-  rel: 'noopener noreferrer'
-};
-
-export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribute, onScheduleClick }) => {
+export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribute, onScheduleClick, software = {} }) => {
   const {
     artifact_name,
     created: creationTime = new Date().toISOString(),
@@ -35,13 +31,17 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
     filter,
     group,
     name = '',
-
     type = DEPLOYMENT_TYPES.software
   } = deployment;
   const isSoftwareDeployment = type === DEPLOYMENT_TYPES.software;
 
+  const softwareTarget =
+    (software as Software).kind === 'release'
+      ? `${generateReleasesPath({ pageState: { selectedRelease: encodeURIComponent(artifact_name) } })}?${formatReleases({ pageState: { tab: 'releases' } })}`
+      : `${generateReleasesPath({ pageState: {} })}?${formatReleases({ pageState: { tab: 'manifests', id: encodeURIComponent(artifact_name) } })}`;
+
   const deploymentRelease = isSoftwareDeployment ? (
-    <Link {...defaultLinkProps} to={generateReleasesPath({ pageState: { selectedRelease: artifact_name } })}>
+    <Link to={softwareTarget} state={{ internal: true }}>
       {artifact_name}
     </Link>
   ) : (
@@ -57,9 +57,7 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
   });
   const targetDevices = (
     <div className="flexbox">
-      <Link {...defaultLinkProps} to={devicesLink}>
-        {getDeploymentTargetText({ deployment, devicesById, idAttribute })}
-      </Link>
+      <Link to={devicesLink}>{getDeploymentTargetText({ deployment, devicesById, idAttribute })}</Link>
       <Chip className="margin-left-small" label={filter?.name ? 'Dynamic' : 'Static'} size="small" />
     </div>
   );

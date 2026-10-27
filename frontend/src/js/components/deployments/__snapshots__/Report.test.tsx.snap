@@ -168,8 +168,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
-                  href="/software/r1"
-                  target="_blank"
+                  href="/software/r1?tab=releases"
                 >
                   r1
                 </a>
@@ -195,7 +194,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
                     data-discover="true"
                     href="/devices"
-                    target="_blank"
                   >
                     test deployment
                   </a>
@@ -1085,9 +1083,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 <a
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
-                  href="/software"
-                  target="_blank"
-                />
+                  href="/software/r1?tab=releases"
+                >
+                  r1
+                </a>
               </div>
             </div>
             <h6
@@ -1110,7 +1109,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
                     data-discover="true"
                     href="/devices"
-                    target="_blank"
                   >
                     Test
                   </a>

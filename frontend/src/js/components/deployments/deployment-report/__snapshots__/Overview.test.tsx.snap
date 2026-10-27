@@ -279,8 +279,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
           data-discover="true"
-          href="/software/test"
-          target="_blank"
+          href="/software?tab=manifests&id=test"
         >
           test
         </a>
@@ -306,7 +305,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
             data-discover="true"
             href="/devices?inventory=group:eq:testGroup"
-            target="_blank"
           >
             testGroup
           </a>
