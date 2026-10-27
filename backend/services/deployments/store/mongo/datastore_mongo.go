@@ -16,9 +16,7 @@ package mongo
 import (
 	"context"
 	"crypto/tls"
-	"math"
 	"regexp"
-	"sort"
 	"strings"
 	"time"
 
@@ -31,8 +29,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
-	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -66,8 +62,6 @@ const (
 const (
 	mongoOpSet = "$set"
 )
-
-var currentDbVersion map[string]*migrate.Version
 
 var (
 	// Indexes (version: 1.2.2)
@@ -473,189 +467,7 @@ func (db *DataStoreMongo) Ping(ctx context.Context) error {
 	return res.Err()
 }
 
-func (db *DataStoreMongo) setCurrentDbVersion(
-	ctx context.Context,
-) error {
-	versions, err := migrate.GetDatabaseMigrationInfo(ctx, db.database)
-	if err != nil {
-		return errors.Wrap(err, "failed to list applied migrations")
-	}
-	var current migrate.Version
-	if len(versions) > 0 {
-		// sort applied migrations wrt. version
-		sort.Slice(versions, func(i int, j int) bool {
-			return !migrate.VersionIsLess(versions[i].Version, versions[j].Version)
-		})
-		current = versions[0].Version
-	}
-	if currentDbVersion == nil {
-		currentDbVersion = map[string]*migrate.Version{}
-	}
-	currentDbVersion[mstore.DbFromContext(ctx, DatabaseName)] = &current
-	return nil
-}
-
-func (db *DataStoreMongo) getCurrentDbVersion(
-	ctx context.Context,
-) (*migrate.Version, error) {
-	if currentDbVersion == nil ||
-		currentDbVersion[mstore.DbFromContext(ctx, DatabaseName)] == nil {
-		if err := db.setCurrentDbVersion(ctx); err != nil {
-			return nil, err
-		}
-	}
-	return currentDbVersion[mstore.DbFromContext(ctx, DatabaseName)], nil
-}
-
 func (db *DataStoreMongo) GetReleases(
-	ctx context.Context,
-	filt *model.ReleaseOrImageFilter,
-) ([]model.Release, int, error) {
-	current, err := db.getCurrentDbVersion(ctx)
-	if err != nil {
-		return []model.Release{}, 0, err
-	} else if current == nil {
-		return []model.Release{}, 0, errors.New("couldn't get current database version")
-	}
-	if migrate.VersionIsLess(*current, migrate.Version{
-		Major: 1, Minor: 2, Patch: 15,
-	}) {
-		return db.getReleases_1_2_14(ctx, filt)
-	} else {
-		return db.getReleases_1_2_15(ctx, filt)
-	}
-}
-
-func (db *DataStoreMongo) getReleases_1_2_14(
-	ctx context.Context,
-	filt *model.ReleaseOrImageFilter,
-) ([]model.Release, int, error) {
-	l := log.FromContext(ctx)
-	l.Infof("get releases method version 1.2.14")
-	var pipe []bson.D
-	id := identity.FromContext(ctx)
-
-	pipe = []bson.D{{{Key: "$match", Value: bson.M{
-		"tenant_id": id.GetTenantID(),
-	}}}}
-	if filt != nil && filt.Name != "" {
-		pipe = append(pipe, bson.D{
-			{Key: "$match", Value: bson.M{
-				StorageKeyImageName: bson.M{
-					"$regex": bson.Regex{
-						Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
-						Options: "i",
-					},
-				},
-			}},
-		})
-	}
-
-	pipe = append(pipe, bson.D{
-		// Remove (possibly expensive) sub-documents from pipeline
-		{
-			Key: "$project",
-			Value: bson.M{
-				StorageKeyImageDependsIdx:  0,
-				StorageKeyImageProvidesIdx: 0,
-			},
-		},
-	})
-
-	pipe = append(pipe, bson.D{
-		{Key: "$group", Value: bson.D{
-			{Key: "_id", Value: "$" + StorageKeyImageName},
-			{Key: "name", Value: bson.M{"$first": "$" + StorageKeyImageName}},
-			{Key: "artifacts", Value: bson.M{"$push": "$$ROOT"}},
-			{Key: "modified", Value: bson.M{"$max": "$modified"}},
-		}},
-	})
-
-	if filt != nil && filt.Description != "" {
-		pipe = append(pipe, bson.D{
-			{Key: "$match", Value: bson.M{
-				"artifacts." + StorageKeyImageDescription: bson.M{
-					"$regex": bson.Regex{
-						Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
-						Options: "i",
-					},
-				},
-			}},
-		})
-	}
-	if filt != nil && filt.DeviceType != "" {
-		pipe = append(pipe, bson.D{
-			{Key: "$match", Value: bson.M{
-				"artifacts." + StorageKeyImageDeviceTypes: bson.M{
-					"$regex": bson.Regex{
-						Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
-						Options: "i",
-					},
-				},
-			}},
-		})
-	}
-
-	sortField := "name"
-	sortOrder := 1
-	if filt != nil {
-		field, order := getReleaseSortFieldAndOrder(filt.Sort)
-
-		if field != "" {
-			sortField = field
-		}
-		if order != 0 {
-			sortOrder = order
-		}
-	}
-
-	page := 1
-	perPage := math.MaxInt64
-	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		page = filt.Page
-		perPage = filt.PerPage
-	}
-	pipe = append(pipe,
-		bson.D{{Key: "$facet", Value: bson.D{
-			{Key: "results", Value: []bson.D{
-				{
-					{Key: "$sort", Value: bson.D{
-						{Key: sortField, Value: sortOrder},
-						{Key: "_id", Value: 1},
-					}},
-				},
-				{{Key: "$skip", Value: int64((page - 1) * perPage)}},
-				{{Key: "$limit", Value: int64(perPage)}},
-			}},
-			{Key: "count", Value: []bson.D{
-				{{Key: "$count", Value: "count"}},
-			}},
-		}}},
-	)
-
-	collImg := db.database.Collection(CollectionImages)
-
-	cursor, err := collImg.Aggregate(ctx, pipe)
-	if err != nil {
-		return []model.Release{}, 0, err
-	}
-	defer cursor.Close(ctx)
-
-	result := struct {
-		Results []model.Release       `bson:"results"`
-		Count   []struct{ Count int } `bson:"count"`
-	}{}
-	if !cursor.Next(ctx) {
-		return []model.Release{}, 0, nil
-	} else if err = cursor.Decode(&result); err != nil {
-		return []model.Release{}, 0, err
-	} else if len(result.Count) == 0 {
-		return []model.Release{}, 0, err
-	}
-	return result.Results, result.Count[0].Count, nil
-}
-
-func (db *DataStoreMongo) getReleases_1_2_15(
 	ctx context.Context,
 	filt *model.ReleaseOrImageFilter,
 ) ([]model.Release, int, error) {
