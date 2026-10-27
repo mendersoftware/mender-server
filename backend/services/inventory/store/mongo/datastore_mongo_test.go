@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"reflect"
 	"sort"
+	"sync"
 	"testing"
 	"time"
 
@@ -5078,6 +5079,47 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestMongoUpsertDevicesAttributesWithRevisionRace(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping TestMongoUpsertDevicesAttributesWithRevisionRace in short mode.")
+	}
+
+	db.Wipe()
+	d := NewDataStoreMongoWithSession(db.Client())
+	ctx := identity.WithContext(db.CTX(), &identity.Identity{Tenant: "tenant"})
+
+	attrs := model.DeviceAttributes{{
+		Scope: model.AttrScopeIdentity,
+		Name:  "status",
+		Value: "pending",
+	}}
+	for i := 0; i < 200; i++ {
+		id := model.DeviceID(fmt.Sprintf("race-%d", i))
+		start := make(chan struct{})
+		var wg sync.WaitGroup
+		var statusErr, identityErr error
+		wg.Add(2)
+		go func() {
+			defer wg.Done()
+			<-start
+			_, statusErr = d.UpsertDevicesAttributesWithRevision(
+				ctx, []model.DeviceUpdate{{Id: id, Revision: 1}}, attrs,
+			)
+		}()
+		go func() {
+			defer wg.Done()
+			<-start
+			_, identityErr = d.UpsertDevicesAttributesWithUpdated(
+				ctx, []model.DeviceID{id}, attrs, model.AttrScopeIdentity, "",
+			)
+		}()
+		close(start)
+		wg.Wait()
+		require.NoError(t, identityErr)
+		require.NoError(t, statusErr)
 	}
 }
 

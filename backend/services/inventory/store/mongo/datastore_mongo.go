@@ -437,8 +437,13 @@ func (db *DataStoreMongo) upsertAttributes(
 		}
 
 		device := &model.Device{}
-		res := c.FindOneAndUpdate(ctx, filter, update, updateOpts)
-		err = res.Decode(device)
+		for attempt := 0; ; attempt++ {
+			res := c.FindOneAndUpdate(ctx, filter, update, updateOpts)
+			err = res.Decode(device)
+			if !mongo.IsDuplicateKeyError(err) || attempt >= 2 {
+				break
+			}
+		}
 		if err != nil {
 			if mongo.IsDuplicateKeyError(err) {
 				return nil, store.ErrWriteConflict
