@@ -51,6 +51,8 @@ const (
 	legacyCollectionImages = "images" // Replaced by releases
 )
 
+var _ store.DataStore = &DataStoreMongo{}
+
 const DefaultDocumentLimit = 20
 const maxCountDocuments = int64(10000)
 
