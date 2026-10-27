@@ -38,7 +38,6 @@ import (
 const (
 	DatabaseName                   = "deployment_service"
 	CollectionLimits               = "limits"
-	CollectionImages               = "images"
 	CollectionDeployments          = "deployments"
 	CollectionDeviceDeploymentLogs = "devices.logs"
 	CollectionDevices              = "devices"
@@ -47,6 +46,10 @@ const (
 	CollectionUploadIntents        = "uploads"
 	CollectionReleases             = "releases"
 	CollectionUpdateTypes          = "update_types"
+)
+
+const (
+	legacyCollectionImages = "images" // Replaced by releases
 )
 
 const DefaultDocumentLimit = 20
@@ -333,13 +336,14 @@ const (
 	StorageKeyImageModified    = "modified"
 
 	// releases
-	StorageKeyReleaseName                      = "_id"
+	StorageKeyReleaseName                      = "name"
 	StorageKeyReleaseKind                      = "kind"
 	StorageKeyReleaseModified                  = "modified"
 	StorageKeyReleaseTags                      = "tags"
 	StorageKeyReleaseNotes                     = "notes"
 	StorageKeyReleaseArtifacts                 = "artifacts"
 	StorageKeyReleaseArtifactsCount            = "artifacts_count"
+	StorageKeyReleaseArtifactsSize             = "artifacts.size"
 	StorageKeyReleaseArtifactsIndexDescription = StorageKeyReleaseArtifacts + ".$." +
 		StorageKeyImageDescription
 	StorageKeyReleaseArtifactsDescription = StorageKeyReleaseArtifacts + "." +
@@ -597,10 +601,11 @@ func (db *DataStoreMongo) Exists(ctx context.Context, id string) (bool, error) {
 		return false, ErrImagesStorageInvalidID
 	}
 
-	collImg := db.database.Collection(CollectionImages)
+	collImg := db.database.Collection(CollectionReleases)
 
 	if err := collImg.FindOne(ctx, bson.M{
-		"_id":              id,
+		StorageKeyReleaseArtifactsId: id,
+
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 	}).
 		Decode(&result); err != nil {
@@ -622,14 +627,21 @@ func (db *DataStoreMongo) Update(ctx context.Context,
 		return false, err
 	}
 
-	collImg := db.database.Collection(CollectionImages)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	// add special representation of artifact provides
 	image.ArtifactMeta.ProvidesIdx = model.ProvidesIdx(image.ArtifactMeta.Provides)
 
 	image.SetModified(time.Now())
-	if res, err := collImg.ReplaceOne(
-		ctx, bson.M{"_id": image.Id}, image,
+	if res, err := collReleases.UpdateOne(
+		ctx, bson.M{
+			StorageKeyReleaseArtifacts: bson.M{"$elemMatch": bson.M{
+				StorageKeyId: image.Id,
+			}},
+			StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+		}, bson.M{
+			"$set": bson.M{"artifacts.$": image},
+		},
 	); err != nil {
 		return false, err
 	} else if res.MatchedCount == 0 {
@@ -637,44 +649,6 @@ func (db *DataStoreMongo) Update(ctx context.Context,
 	}
 
 	return true, nil
-}
-
-// ImageByNameAndDeviceType finds image with specified application name and target device type
-func (db *DataStoreMongo) ImageByNameAndDeviceType(ctx context.Context,
-	name, deviceType string) (*model.Image, error) {
-
-	if len(name) == 0 {
-		return nil, ErrImagesStorageInvalidArtifactName
-	}
-
-	if len(deviceType) == 0 {
-		return nil, ErrImagesStorageInvalidDeviceType
-	}
-
-	// equal to device type & software version (application name + version)
-	query := bson.M{
-		StorageKeyImageName:        name,
-		StorageKeyImageDeviceTypes: deviceType,
-		StorageKeyTenantId:         identity.FromContext(ctx).GetTenantID(),
-	}
-
-	// If multiple entries matches, pick the smallest one.
-	findOpts := mopts.FindOne()
-	findOpts.SetSort(bson.D{{Key: StorageKeyImageSize, Value: 1}})
-
-	collImg := db.database.Collection(CollectionImages)
-
-	// Both we lookup unique object, should be one or none.
-	var image model.Image
-	if err := collImg.FindOne(ctx, query, findOpts).
-		Decode(&image); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &image, nil
 }
 
 // ImageByIdsAndDeviceType finds image with id from ids and target device type
@@ -690,57 +664,34 @@ func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
 	}
 
 	query := bson.D{
-		{Key: StorageKeyId, Value: bson.M{"$in": ids}},
-		{Key: StorageKeyImageDeviceTypes, Value: deviceType},
+		{Key: StorageKeyReleaseArtifactsId, Value: bson.M{"$in": ids}},
+
 		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+
+		{Key: StorageKeyReleaseArtifactsDeviceTypes, Value: deviceType},
 	}
 
-	collImg := db.database.Collection(CollectionImages)
+	collImg := db.database.Collection(CollectionReleases)
 
 	// If multiple entries matches, pick the smallest one
 	findOpts := mopts.FindOne()
-	findOpts.SetSort(bson.D{{Key: StorageKeyImageSize, Value: 1}})
+	findOpts.SetSort(bson.D{{Key: "artifacts.$.size", Value: 1}}).
+		SetProjection(bson.M{"artifacts.$": 1})
 
 	// Both we lookup unique object, should be one or none.
-	var image model.Image
+	var release model.Release
 	if err := collImg.FindOne(ctx, query, findOpts).
-		Decode(&image); err != nil {
+		Decode(&release); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
 	}
-
-	return &image, nil
-}
-
-// ImagesByName finds images with specified artifact name
-func (db *DataStoreMongo) ImagesByName(
-	ctx context.Context, name string) ([]*model.Image, error) {
-
-	var images []*model.Image
-
-	if len(name) == 0 {
-		return nil, ErrImagesStorageInvalidName
+	if len(release.Artifacts) == 0 {
+		return nil, nil
 	}
 
-	// equal to artifact name
-	query := bson.M{
-		StorageKeyImageName: name,
-		StorageKeyTenantId:  identity.FromContext(ctx).GetTenantID(),
-	}
-
-	collImg := db.database.Collection(CollectionImages)
-	cursor, err := collImg.Find(ctx, query)
-	if err != nil {
-		return nil, err
-	}
-	// Both we lookup unique object, should be one or none.
-	if err = cursor.All(ctx, &images); err != nil {
-		return nil, err
-	}
-
-	return images, nil
+	return &release.Artifacts[0], nil
 }
 
 func newDependsConflictError(mgoErr mongo.WriteError) *model.ConflictError {
@@ -761,47 +712,6 @@ func newDependsConflictError(mgoErr mongo.WriteError) *model.ConflictError {
 		}
 	}
 	return conflictErr
-}
-
-// Insert persists object
-func (db *DataStoreMongo) InsertImage(ctx context.Context, image *model.Image) error {
-
-	if image == nil {
-		return ErrImagesStorageInvalidImage
-	}
-
-	if err := image.Validate(); err != nil {
-		return err
-	}
-
-	collImg := db.database.Collection(CollectionImages)
-	type Image struct {
-		*model.Image `bson:",inline"`
-		TenantID     string `bson:"tenant_id"`
-	}
-	type ImageAlias Image
-
-	// add special representation of artifact provides
-	image.ArtifactMeta.ProvidesIdx = model.ProvidesIdx(image.ArtifactMeta.Provides)
-
-	_, err := collImg.InsertOne(ctx, ImageAlias{
-		Image:    image,
-		TenantID: identity.FromContext(ctx).GetTenantID(),
-	})
-	if err != nil {
-		var wExc mongo.WriteException
-		if errors.As(err, &wExc) {
-			for _, wErr := range wExc.WriteErrors {
-				if !mongo.IsDuplicateKeyError(wErr) {
-					continue
-				}
-				return newDependsConflictError(wErr)
-			}
-		}
-		return err
-	}
-
-	return nil
 }
 
 func (db *DataStoreMongo) InsertUploadIntent(ctx context.Context, link *model.UploadLink) error {
@@ -881,108 +791,29 @@ func (db *DataStoreMongo) FindImageByID(ctx context.Context,
 		return nil, ErrImagesStorageInvalidID
 	}
 
-	collImg := db.database.Collection(CollectionImages)
+	collImg := db.database.Collection(CollectionReleases)
 	projection := bson.M{
-		StorageKeyImageDependsIdx:  0,
-		StorageKeyImageProvidesIdx: 0,
+		StorageKeyReleaseArtifacts + ".$": 1,
 	}
 	findOptions := mopts.FindOne()
 	findOptions.SetProjection(projection)
 
-	var image model.Image
+	var release model.Release
 	if err := collImg.FindOne(ctx, bson.M{
-		"_id":              id,
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+		StorageKeyReleaseArtifacts: bson.M{"$elemMatch": bson.M{StorageKeyId: id}},
+		StorageKeyTenantId:         identity.FromContext(ctx).GetTenantID(),
 	}, findOptions).
-		Decode(&image); err != nil {
+		Decode(&release); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
 	}
-
-	return &image, nil
-}
-
-// IsArtifactUnique checks if there is no artifact with the same artifactName
-// supporting one of the device types from deviceTypesCompatible list.
-// Returns true, nil if artifact is unique;
-// false, nil if artifact is not unique;
-// false, error in case of error.
-func (db *DataStoreMongo) IsArtifactUnique(ctx context.Context,
-	artifactName string, deviceTypesCompatible []string) (bool, error) {
-
-	if len(artifactName) == 0 {
-		return false, ErrImagesStorageInvalidArtifactName
+	if len(release.Artifacts) == 0 {
+		return nil, nil
 	}
 
-	collImg := db.database.Collection(CollectionImages)
-
-	query := bson.M{
-		"$and": []bson.M{
-			{
-				StorageKeyImageName: artifactName,
-			},
-			{
-				StorageKeyImageDeviceTypes: bson.M{
-					"$in": deviceTypesCompatible},
-			},
-			{
-				StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-			},
-		},
-	}
-
-	// do part of the job manually
-	// if candidate images have any extra 'depends' - guaranteed non-overlap
-	// otherwise it's a match
-	cur, err := collImg.Find(ctx, query)
-	if err != nil {
-		return false, err
-	}
-
-	var images []model.Image
-	err = cur.All(ctx, &images)
-	if err != nil {
-		return false, err
-	}
-
-	for _, i := range images {
-		// the artifact already has same name and overlapping dev type
-		// if there are no more depends than dev type - it's not unique
-		if len(i.ArtifactMeta.Depends) == 1 {
-			if _, ok := i.ArtifactMeta.Depends["device_type"]; ok {
-				return false, nil
-			}
-		} else if len(i.ArtifactMeta.Depends) == 0 {
-			return false, nil
-		}
-	}
-
-	return true, nil
-}
-
-// Delete image specified by ID
-// Noop on if not found.
-func (db *DataStoreMongo) DeleteImage(ctx context.Context, id string) error {
-
-	if len(id) == 0 {
-		return ErrImagesStorageInvalidID
-	}
-
-	collImg := db.database.Collection(CollectionImages)
-
-	if res, err := collImg.DeleteOne(ctx, bson.M{
-		"_id":              id,
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-	}); err != nil {
-		if res != nil && res.DeletedCount == 0 {
-			return nil
-		}
-		return err
-	}
-
-	return nil
+	return &release.Artifacts[0], nil
 }
 
 func getReleaseSortFieldAndOrder(sortOption string) (string, int) {
@@ -1010,20 +841,20 @@ func (db *DataStoreMongo) ListImages(
 	filt *model.ReleaseOrImageFilter,
 ) ([]*model.Image, int, error) {
 
-	collImg := db.database.Collection(CollectionImages)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	filters := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
 	if filt != nil {
 		if filt.Name != "" {
-			filters[StorageKeyImageName] = bson.M{
-				"$regex": bson.Regex{
+			filters[StorageKeyReleaseName] = bson.M{
+				"name": bson.M{"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 					Options: "i",
-				},
+				}},
 			}
 		}
 		if filt.Description != "" {
-			filters[StorageKeyImageDescription] = bson.M{
+			filters[StorageKeyReleaseArtifactsDescription] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 					Options: "i",
@@ -1031,7 +862,7 @@ func (db *DataStoreMongo) ListImages(
 			}
 		}
 		if filt.DeviceType != "" {
-			filters[StorageKeyImageDeviceTypes] = bson.M{
+			filters[StorageKeyReleaseArtifactsDeviceTypes] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 					Options: "i",
@@ -1041,18 +872,8 @@ func (db *DataStoreMongo) ListImages(
 
 	}
 
-	projection := bson.M{
-		StorageKeyImageDependsIdx:  0,
-		StorageKeyImageProvidesIdx: 0,
-	}
-	findOptions := mopts.Find()
-	findOptions.SetProjection(projection)
-	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
-		findOptions.SetLimit(int64(filt.PerPage))
-	}
-
-	sortField := StorageKeyImageName
+	filterPipe := mongo.Pipeline{}
+	sortField := StorageKeyReleaseName
 	sortOrder := 1
 	if filt != nil {
 		field, order := getReleaseSortFieldAndOrder(filt.Sort)
@@ -1064,31 +885,45 @@ func (db *DataStoreMongo) ListImages(
 			sortOrder = order
 		}
 	}
-	findOptions.SetSort(bson.D{
-		{Key: sortField, Value: sortOrder},
-		{Key: "_id", Value: sortOrder},
-	})
+	filterPipe = append(filterPipe, bson.D{{Key: "$sort", Value: bson.M{
+		sortField:    sortOrder,
+		StorageKeyId: sortOrder,
+	}}})
+	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
+		filterPipe = append(filterPipe, bson.D{{Key: "$skip", Value: int64((filt.Page - 1) * filt.PerPage)}})
+		filterPipe = append(filterPipe, bson.D{{Key: "$limit", Value: int64(filt.PerPage)}})
+	}
 
-	cursor, err := collImg.Find(ctx, filters, findOptions)
+	combinedPipe := mongo.Pipeline{{
+		{Key: "$match", Value: filters},
+		{Key: "$unwind", Value: StorageKeyReleaseArtifacts},
+		{Key: "$facet", Value: bson.M{
+			"artifacts": filterPipe,
+			"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
+		}},
+	}}
+	cursor, err := collReleases.Aggregate(ctx, combinedPipe)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	// NOTE: cursor.All closes the cursor before returning
-	var images []*model.Image
-	if err := cursor.All(ctx, &images); err != nil {
+	var result []struct {
+		Artifacts []*model.Image `bson:"artifacts"`
+		Count     struct {
+			N int64 `bson:"n"`
+		} `bson:"count"`
+	}
+	if err := cursor.All(ctx, &result); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, 0, nil
 		}
 		return nil, 0, err
+	} else if len(result) == 0 {
+		return nil, 0, nil
 	}
 
-	count, err := collImg.CountDocuments(ctx, filters)
-	if err != nil {
-		return nil, -1, ErrDevicesCountFailed
-	}
-
-	return images, int(count), nil
+	return result[0].Artifacts, int(result[0].Count.N), nil
 }
 
 /*
@@ -1117,67 +952,49 @@ func (db *DataStoreMongo) ListImagesV2(
 	ctx context.Context,
 	filt *model.ImageFilter,
 ) ([]*model.Image, error) {
-	collImg := db.database.Collection(CollectionImages)
-
+	collReleases := db.database.Collection(CollectionReleases)
 	filters := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
-
 	if filt != nil {
-
 		if len(filt.ExactNames) > 0 {
-			filters[StorageKeyImageName] = bson.M{"$in": filt.ExactNames}
+			filters[StorageKeyReleaseName] = bson.M{"$in": filt.ExactNames}
 		} else if len(filt.NamePrefixes) == 1 {
 			name := filt.NamePrefixes[0]
-			filters[StorageKeyImageName] = bson.M{
+			filters[StorageKeyReleaseName] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: "^" + regexp.QuoteMeta(name) + ".*",
 					Options: "i",
 				},
 			}
 		}
-
 		if filt.Description != "" {
-			if strings.HasSuffix(filt.Description, `\*`) {
-				description := strings.TrimSuffix(filt.Description, `\*`) + "*"
-				filters[StorageKeyImageDescription] = description
-
-			} else if strings.HasSuffix(filt.Description, "*") {
+			if strings.HasSuffix(filt.Description, "*") && !strings.HasSuffix(filt.Description, `\*`) {
 				description := strings.TrimSuffix(filt.Description, "*")
-				filters[StorageKeyImageDescription] = bson.M{
+				filters[StorageKeyReleaseArtifactsDescription] = bson.M{
 					"$regex": bson.Regex{
 						Pattern: "^" + regexp.QuoteMeta(description) + ".*",
 						Options: "i",
 					},
 				}
 			} else {
-				filters[StorageKeyImageDescription] = filt.Description
+				filters[StorageKeyReleaseArtifactsDescription] = filt.Description
 			}
 		}
-
 		if filt.DeviceType != "" {
-			if strings.HasSuffix(filt.DeviceType, `\*`) {
-				deviceType := strings.TrimSuffix(filt.DeviceType, `\*`) + "*"
-				filters[StorageKeyImageDeviceTypes] = deviceType
-
-			} else if strings.HasSuffix(filt.DeviceType, "*") {
+			if strings.HasSuffix(filt.DeviceType, "*") && !strings.HasSuffix(filt.DeviceType, `\*`) {
 				deviceType := strings.TrimSuffix(filt.DeviceType, "*")
-				filters[StorageKeyImageDeviceTypes] = bson.M{
+				filters[StorageKeyReleaseArtifactsDeviceTypes] = bson.M{
 					"$regex": bson.Regex{
 						Pattern: "^" + regexp.QuoteMeta(deviceType) + ".*",
 						Options: "i",
 					},
 				}
 			} else {
-				filters[StorageKeyImageDeviceTypes] = filt.DeviceType
+				filters[StorageKeyReleaseArtifactsDeviceTypes] = filt.DeviceType
 			}
 		}
 	}
 
-	projection := bson.M{
-		StorageKeyImageDependsIdx:  0,
-		StorageKeyImageProvidesIdx: 0,
-	}
 	findOptions := mopts.Find()
-	findOptions.SetProjection(projection)
 	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
 		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
 		if filt.Limit > 0 {
@@ -1186,22 +1003,12 @@ func (db *DataStoreMongo) ListImagesV2(
 			findOptions.SetLimit(int64(filt.PerPage))
 		}
 	}
-	/*
-		sortField, sortOrder := getImagesSortFieldAndOrder(filt)
-		if sortField == "" || sortField == "name" {
-			sortField = StorageKeyImageName
-		}
-		if sortOrder == 0 {
-			sortOrder = 1
-		}
-	*/
-	sortField := StorageKeyImageName
 	sortOrder := 1
 	findOptions.SetSort(bson.D{
-		{Key: sortField, Value: sortOrder},
+		{Key: StorageKeyReleaseName, Value: sortOrder},
 	})
 
-	cursor, err := collImg.Find(ctx, filters, findOptions)
+	cursor, err := collReleases.Find(ctx, filters, findOptions)
 	if err != nil {
 		return nil, err
 	}
@@ -1216,18 +1023,6 @@ func (db *DataStoreMongo) ListImagesV2(
 	}
 
 	return images, nil
-}
-
-func (db *DataStoreMongo) DeleteImagesByNames(ctx context.Context, names []string) error {
-	collDevs := db.database.Collection(CollectionImages)
-	query := bson.M{
-		StorageKeyImageName: bson.M{
-			"$in": names,
-		},
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-	}
-	_, err := collDevs.DeleteMany(ctx, query)
-	return err
 }
 
 // device deployment log
