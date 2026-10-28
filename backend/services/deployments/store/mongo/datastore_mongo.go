@@ -578,22 +578,54 @@ func (db *DataStoreMongo) GetReleases(
 
 // limits
 func (db *DataStoreMongo) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
-
 	collLim := db.database.Collection(CollectionLimits)
 
-	limit := new(model.Limit)
-	if err := collLim.FindOne(ctx, bson.M{
-		"_id":              name,
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-	}).
-		Decode(limit); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, ErrLimitNotFound
-		}
-		return nil, err
+	var result struct {
+		Limits []model.Limit `bson:"limits"`
+	}
+	err := collLim.FindOne(ctx,
+		bson.M{
+			"_id":         identity.FromContext(ctx).GetTenantID(),
+			"limits.name": name,
+		},
+		mopts.FindOne().SetProjection(bson.M{"limits.$": 1}),
+	).Decode(&result)
+
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		return nil, ErrLimitNotFound
+	} else if err != nil {
+		return nil, errors.Wrap(err, "failed to get limit")
+	}
+	if len(result.Limits) == 0 {
+		return nil, ErrLimitNotFound
+	}
+	return &result.Limits[0], nil
+}
+
+func (db *DataStoreMongo) SetLimit(ctx context.Context, lim model.Limit) error {
+	collLim := db.database.Collection(CollectionLimits)
+	pipeline := mongo.Pipeline{
+		{{Key: "$set", Value: bson.M{"limits": bson.M{
+			"$concatArrays": bson.A{
+				bson.M{"$filter": bson.M{
+					"input": bson.M{"$ifNull": bson.A{"$limits", bson.A{}}},
+					"cond":  bson.M{"$ne": bson.A{"$$this.name", lim.Name}},
+				}},
+				bson.A{bson.M{"$literal": lim}},
+			},
+		}}}},
 	}
 
-	return limit, nil
+	_, err := collLim.UpdateOne(
+		ctx,
+		bson.M{"_id": identity.FromContext(ctx).GetTenantID()},
+		pipeline,
+		mopts.UpdateOne().SetUpsert(true),
+	)
+	if err != nil {
+		return errors.Wrap(err, "failed to set or update limit")
+	}
+	return nil
 }
 
 func (db *DataStoreMongo) ProvisionTenant(ctx context.Context, tenantId string) error {
