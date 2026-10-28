@@ -1945,9 +1945,7 @@ func (d *Deployments) SaveDeviceDeploymentLog(ctx context.Context, deviceID stri
 
 	// repack to temporary deployment log and validate
 	dlog := model.DeploymentLog{
-		DeviceID:     deviceID,
-		DeploymentID: deploymentID,
-		Messages:     logs,
+		Messages: logs,
 	}
 	if err := dlog.Validate(); err != nil {
 		return errors.Wrap(err, ErrStorageInvalidLog.Error())
@@ -1961,7 +1959,7 @@ func (d *Deployments) SaveDeviceDeploymentLog(ctx context.Context, deviceID stri
 		}
 	}
 
-	if err := d.db.SaveDeviceDeploymentLog(ctx, dlog); err != nil {
+	if err := d.db.SaveDeviceDeploymentLog(ctx, deviceID, deploymentID, dlog); err != nil {
 		return err
 	}
 

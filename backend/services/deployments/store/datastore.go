@@ -66,7 +66,9 @@ type DataStore interface {
 	FindUploadLinks(ctx context.Context, expired time.Time) (Iterator[model.UploadLink], error)
 
 	//device deployment log
-	SaveDeviceDeploymentLog(ctx context.Context, log model.DeploymentLog) error
+	SaveDeviceDeploymentLog(
+		ctx context.Context, deviceID, deploymentID string, log model.DeploymentLog,
+	) error
 	GetDeviceDeploymentLog(ctx context.Context,
 		deviceID, deploymentID string) (*model.DeploymentLog, error)
 
