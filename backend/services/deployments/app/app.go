@@ -1467,7 +1467,6 @@ func (d *Deployments) createDeviceDeploymentWithStatus(
 
 	deviceDeployment = model.NewDeviceDeployment(deviceID, deployment.Id)
 	deviceDeployment.Status = status
-	deviceDeployment.Active = status.Active()
 	deviceDeployment.Created = deployment.Created
 
 	if err := d.setDeploymentDeviceCountIfUnset(ctx, deployment); err != nil {
