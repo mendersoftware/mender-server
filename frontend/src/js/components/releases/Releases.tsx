@@ -23,9 +23,9 @@ import { makeStyles } from 'tss-react/mui';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import PageTitle from '@northern.tech/common-ui/PageTitle';
 import storeActions from '@northern.tech/store/actions';
-import type { SortOptions } from '@northern.tech/store/constants';
-import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
+import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
+import type { CommonSoftwareList } from '@northern.tech/store/releasesSlice';
 import {
   getActiveTab,
   getDeltaJobsListState,
@@ -38,7 +38,7 @@ import {
   getSelectedRelease,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
-import type { AppDispatch, RootState } from '@northern.tech/store/store';
+import type { RootState } from '@northern.tech/store/store';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { selectManifest, selectRelease, setManifestsListState, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -54,8 +54,6 @@ import { ManifestsFilters } from './manifests/ManifestsFilters';
 import { ManifestsList } from './manifests/ManifestsList';
 
 const { setActiveTab, setDeltaJobsListState, setSelectedJob } = storeActions;
-
-const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
 type TitleDefinition = { benefitId?: string; title: string };
 
@@ -79,25 +77,13 @@ const Upload = ({ classes, onUploadClick, tooltipId, title, buttonProps, disable
   </div>
 );
 
-type TabListState = {
-  page?: number;
-  perPage?: number;
-  searchTerm?: string;
-  selectedTags?: string[];
-  sort?: SortOptions;
-  type?: string;
-};
-
-const setDeltaListState = (dispatch: AppDispatch, { page = defaultPage, perPage = defaultPerPage, sort }: TabListState) =>
-  dispatch(setDeltaJobsListState({ page, perPage, ...(sort && { sort }) }));
-
 type TabDefinition = {
   canAccess: (flags: Record<string, boolean>) => boolean;
   Content: ({ className, onFileUploadClick }: { className?: string; onFileUploadClick: (file?: File) => void }) => ReactNode;
   Filters?: ({ classes }: { classes: Record<string, string> }) => ReactNode;
-  getListState: (state: RootState) => TabListState;
+  getListState: (state: RootState) => Partial<CommonSoftwareList>;
   key: string;
-  setListState: (dispatch: AppDispatch, listState: TabListState) => void;
+  setListState: (listState: Partial<CommonSoftwareList>) => void;
   title: TitleDefinition;
   upload?: UploadDefinition;
 };
@@ -108,7 +94,7 @@ const tabbedComponents: Record<string, TabDefinition> = {
     Content: ReleasesList,
     getListState: getReleaseListState,
     key: 'releases',
-    setListState: (dispatch, listState) => dispatch(setReleasesListState(listState)),
+    setListState: setReleasesListState,
     title: { title: 'Releases' },
     Filters: ReleasesFilters,
     upload: { buttonProps: { variant: 'contained' }, tooltipId: HELPTOOLTIPS.artifactUpload.id, title: 'Upload an artifact' }
@@ -118,7 +104,7 @@ const tabbedComponents: Record<string, TabDefinition> = {
     Content: ManifestsList,
     getListState: getManifestsListState,
     key: 'manifests',
-    setListState: (dispatch, listState) => dispatch(setManifestsListState(listState)),
+    setListState: setManifestsListState,
     title: { title: 'Manifests', benefitId: BENEFITS.manifests.id },
     Filters: ManifestsFilters,
     upload: { buttonProps: { variant: 'outlined' }, tooltipId: HELPTOOLTIPS.manifestUpload.id, title: 'Upload a Manifest' }
@@ -128,7 +114,7 @@ const tabbedComponents: Record<string, TabDefinition> = {
     Content: DeltaProgress,
     getListState: getDeltaJobsListState,
     key: 'delta',
-    setListState: setDeltaListState,
+    setListState: setDeltaJobsListState,
     title: { title: 'Delta Artifacts generation', benefitId: BENEFITS.deltaGeneration.id }
   }
 };
@@ -163,8 +149,8 @@ const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
 };
 
 export const Releases = () => {
-  const tab = useSelector(getActiveTab);
-  const listState = useSelector(tabbedComponents[tab || tabbedComponents.releases.key].getListState);
+  const tab = useSelector(getActiveTab) ?? tabbedComponents.releases.key;
+  const listState = useSelector(tabbedComponents[tab].getListState);
   const { searchTerm, sort = {}, page, perPage, selectedTags, type } = listState;
   const selectedRelease = useSelector(getSelectedRelease);
   const selectedManifest = useSelector(getSelectedManifest);
@@ -228,7 +214,7 @@ export const Releases = () => {
       isInitialized.current = true;
       return;
     }
-    const { selectedRelease, selectedJob, selectedManifest, tab: urlTab, tags, ...remainder } = locationParams;
+    const { selectedRelease, selectedJob, selectedManifest, tab: urlTab = tabbedComponents.releases.key, tags, ...remainder } = locationParams;
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
     }
@@ -241,8 +227,8 @@ export const Releases = () => {
     if (urlTab) {
       dispatch(setActiveTab(urlTab));
     }
-    const { setListState } = tabbedComponents[urlTab] ?? tabbedComponents.releases;
-    setListState(dispatch, { ...remainder, selectedTags: tags });
+    const { setListState } = tabbedComponents[urlTab];
+    dispatch(setListState({ ...remainder, selectedTags: tags }));
     isInitialized.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl, location.state?.internal]);
@@ -268,7 +254,7 @@ export const Releases = () => {
 
   const onTabChanged = useCallback((_, changedTab: 'releases' | 'delta' | 'manifests') => dispatch(setActiveTab(changedTab)), [dispatch]);
 
-  const { Content: ContentComponent, key: tabKey, title } = tabbedComponents[tab || tabbedComponents.releases.key];
+  const { Content: ContentComponent, key: tabKey, title } = tabbedComponents[tab];
   const detailTitles = { [tabbedComponents.releases.key]: selectedRelease.name, [tabbedComponents.manifests.key]: selectedManifest.name };
 
   return (

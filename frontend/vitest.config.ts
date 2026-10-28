@@ -28,12 +28,14 @@ const isolatedTestFiles = [
   'login/OAuthLink.test.tsx',
   'login/Password.test.tsx',
   'login/PasswordReset.test.tsx',
+  'releases/DeltaGeneration.test.tsx',
   'releases/Releases.test.tsx',
   'releases/dialogs/AddArtifact.test.tsx',
   'releases/manifests/ManifestQuickActions.test.tsx',
   'settings/AccessTokenManagement.test.tsx',
   'settings/ArtifactGeneration.test.tsx',
   'settings/organization/Billing.test.tsx',
+  'settings/organization/Organization.test.tsx',
   'settings/role-management/Roles.test.tsx',
   'settings/user-management/UserManagement.test.tsx',
   'subscription/SubscriptionConfirmation.test.tsx',
@@ -44,7 +46,7 @@ const isolatedTestFiles = [
   'tenants/TenantsForm.test.tsx'
 ]
   .map(test => `src/js/components/${test}`)
-  .concat(['src/js/store/appInit.test.tsx']);
+  .concat(['src/js/store/useAppInit.test.tsx']);
 
 // `@mui/icons-material` v9 has 10k+ strict-ESM files and per-icon package exports entries.
 // A barrel import drags all of them into the module graph, adding ~75s per test file on the current suite.
