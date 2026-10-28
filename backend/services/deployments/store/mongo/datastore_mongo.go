@@ -36,14 +36,13 @@ import (
 )
 
 const (
-	CollectionLimits            = "limits"
-	CollectionDeployments       = "deployments"
-	CollectionDevices           = "devices"
-	CollectionDevicesLastStatus = "devices_last_status"
-	CollectionStorageSettings   = "settings"
-	CollectionUploadIntents     = "uploads"
-	CollectionReleases          = "releases"
-	CollectionUpdateTypes       = "update_types"
+	CollectionLimits          = "limits"
+	CollectionDeployments     = "deployments"
+	CollectionDevices         = "devices"
+	CollectionStorageSettings = "settings"
+	CollectionUploadIntents   = "uploads"
+	CollectionReleases        = "releases"
+	CollectionUpdateTypes     = "update_types"
 )
 
 const (
@@ -1809,17 +1808,7 @@ func (db *DataStoreMongo) DeleteDeviceDeploymentsHistory(ctx context.Context,
 		},
 	}
 
-	if _, err := collDevs.UpdateMany(ctx, selector, update); err != nil {
-		return err
-	}
-
-	collDevs = db.database.Collection(CollectionDevicesLastStatus)
-	_, err := collDevs.DeleteMany(ctx, bson.M{
-		StorageKeyDeviceDeploymentDeviceId: deviceID,
-
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-	})
-
+	_, err := collDevs.UpdateMany(ctx, selector, update)
 	return err
 }
 
