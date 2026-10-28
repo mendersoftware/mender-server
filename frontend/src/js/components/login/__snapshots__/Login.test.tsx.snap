@@ -1759,6 +1759,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               <input
                 class="PrivateSwitchBase-input emotion-53"
                 data-indeterminate="false"
+                id="noExpiry"
                 name="noExpiry"
                 type="checkbox"
               />

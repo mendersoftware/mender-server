@@ -13,7 +13,7 @@
     "@mui/material": "9.5.0",
     "@mui/x-charts": "9.16.0",
     "@mui/x-date-pickers": "9.16.0",
-    "@northern.tech/common-ui": "0.10.2",
+    "@northern.tech/common-ui": "0.11.0",
     "@northern.tech/store": "0.49.5",
     "@northern.tech/themes": "0.18.2",
     "@northern.tech/utils": "^0.15.3",

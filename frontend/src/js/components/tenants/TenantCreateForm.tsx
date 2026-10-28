@@ -101,7 +101,7 @@ const UserInputs = (props: UserInputsProps) => {
       <TextInput
         validations="isEmail,trim"
         required
-        id="email"
+        name="email"
         label="Admin user"
         width={430}
         helperText="This user will have the admin role for this tenant. It can be an existing Mender account, or a brand new user."
@@ -170,7 +170,7 @@ export const DeviceLimitsInput = props => {
             className="margin-top-x-small"
             label="Device limit"
             disabled={!deviceTierEnabled[limit.id]}
-            id={limit.id}
+            name={limit.id}
             required={deviceTierEnabled[limit.id]}
             min={0}
             max={limit.quotaLeft}
@@ -268,7 +268,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <Typography className="margin-bottom-x-small" variant="subtitle1">
             Tenant name
           </Typography>
-          <TextInput validations="isLength:3:256,trim" required id="name" hint="Name" label="Name" width={430} />
+          <TextInput validations="isLength:3:256,trim" required name="name" hint="Name" label="Name" width={430} />
         </div>
         <div>
           <Typography className="margin-bottom-x-small" variant="subtitle1">
@@ -292,7 +292,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
             <Link target="_blank" to="/settings/organization" color="inherit">
               View your SSO settings{' '}
             </Link>
-            <FormCheckbox className="margin-top-x-small margin-left-small" id="sso" label="Use Service Provider's SSO settings" />
+            <FormCheckbox className="margin-top-x-small margin-left-small" name="sso" label="Use Service Provider's SSO settings" />
           </div>
         )}
       </Form>

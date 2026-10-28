@@ -52,10 +52,10 @@ const ConnectionDetailsInput = ({ isEditing }) => {
   const commonProps = { className: classes.textInput, disabled: !isEditing, width: settingsFieldWidths.large };
   return (
     <div className={classes.formWrapper}>
-      <TextInput {...commonProps} label="Key ID" id="aws.access_key_id" />
-      <TextInput {...commonProps} label="Key Secret" id="aws.secret_access_key" />
-      <TextInput {...commonProps} label="Region" id="aws.region" />
-      <TextInput {...commonProps} label="Device Policy Name" id="aws.device_policy_name" />
+      <TextInput {...commonProps} label="Key ID" name="aws.access_key_id" />
+      <TextInput {...commonProps} label="Key Secret" name="aws.secret_access_key" />
+      <TextInput {...commonProps} label="Region" name="aws.region" />
+      <TextInput {...commonProps} label="Device Policy Name" name="aws.device_policy_name" />
     </div>
   );
 };
@@ -66,7 +66,7 @@ const ConnectionStringInput = ({ isEditing, title }) => {
     <TextInput
       className={classes.textInput}
       disabled={!isEditing}
-      id="connection_string"
+      name="connection_string"
       InputProps={{ multiline: true }}
       label={`${title} connection string`}
       width={settingsFieldWidths.large}

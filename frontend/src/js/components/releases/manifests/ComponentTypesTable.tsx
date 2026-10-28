@@ -115,7 +115,7 @@ const columns: ManifestColumnDefinition[] = [
           width={72}
           max={100}
           showSteps
-          id={type}
+          name={type}
           size="small"
           defaultValue={update_strategy?.order ?? null}
           rules={{
