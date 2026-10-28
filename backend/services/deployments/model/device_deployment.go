@@ -212,10 +212,6 @@ func (state DeviceDeploymentState) Validate() error {
 }
 
 type DeviceDeployment struct {
-	// Active says whether the device's deployment status is in an active
-	// state - in progress or pending.
-	Active bool `json:"-" bson:"active"`
-
 	// Internal field of initial creation of deployment
 	Created *time.Time `json:"created" bson:"created"`
 
@@ -267,7 +263,6 @@ func NewDeviceDeployment(deviceId, deploymentId string) *DeviceDeployment {
 	id := uid.String()
 
 	return &DeviceDeployment{
-		Active:         true,
 		Status:         DeviceDeploymentStatusPending,
 		DeviceId:       deviceId,
 		DeploymentId:   deploymentId,
@@ -287,13 +282,6 @@ func (d DeviceDeployment) Validate() error {
 	)
 	if err != nil {
 		return err
-	}
-	if d.Status.Active() {
-		if !d.Active {
-			return ErrDeviceDeploymentStatusMismatch
-		}
-	} else if d.Active {
-		return ErrDeviceDeploymentStatusMismatch
 	}
 	return nil
 }

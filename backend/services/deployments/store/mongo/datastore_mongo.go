@@ -249,7 +249,7 @@ var (
 	IndexDeviceDeploymentsActiveCreated      = "active_deviceid_created"
 	IndexDeviceDeploymentsActiveCreatedModel = mongo.IndexModel{
 		Keys: bson.D{
-			{Key: StorageKeyDeviceDeploymentActive, Value: 1},
+			{Key: legacyStorageKeyDeviceDeploymentActive, Value: 1},
 			{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
 			{Key: StorageKeyDeviceDeploymentCreated, Value: 1},
 		},
@@ -291,6 +291,13 @@ var (
 			SetName(IndexNameDeploymentName),
 	}
 )
+
+func deviceDeploymentFilterStatusActive() bson.D {
+	return bson.D{
+		{Key: "$gte", Value: model.DeviceDeploymentStatusActiveLow},
+		{Key: "$lte", Value: model.DeviceDeploymentStatusActiveHigh},
+	}
+}
 
 // Errors
 var (
@@ -369,7 +376,8 @@ const (
 	StorageKeyDeviceDeploymentAssignedImageId = StorageKeyDeviceDeploymentAssignedImage +
 		"." + StorageKeyId
 
-	StorageKeyDeviceDeploymentActive         = "active"
+	legacyStorageKeyDeviceDeploymentActive = "active"
+
 	StorageKeyDeviceDeploymentCreated        = "created"
 	StorageKeyDeviceDeploymentDeviceId       = "deviceid"
 	StorageKeyDeviceDeploymentStatus         = "status"
@@ -1198,7 +1206,7 @@ func (db *DataStoreMongo) FindOldestActiveDeviceDeployment(
 	// Device should know only about deployments that are not finished
 	query := bson.D{
 		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
-		{Key: StorageKeyDeviceDeploymentActive, Value: true},
+		{Key: StorageKeyDeviceDeploymentStatus, Value: deviceDeploymentFilterStatusActive()},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
 			{Key: "$exists", Value: false},
@@ -1239,7 +1247,9 @@ func (db *DataStoreMongo) FindLatestInactiveDeviceDeployment(
 
 	query := bson.D{
 		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
-		{Key: StorageKeyDeviceDeploymentActive, Value: false},
+		{Key: StorageKeyDeviceDeploymentStatus, Value: bson.M{
+			"$not": deviceDeploymentFilterStatusActive(),
+		}},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
 			{Key: "$exists", Value: false},
@@ -1297,7 +1307,6 @@ func (db *DataStoreMongo) UpdateDeviceDeploymentStatus(
 	// update status field
 	set := bson.M{
 		StorageKeyDeviceDeploymentStatus: ddState.Status,
-		StorageKeyDeviceDeploymentActive: ddState.Status.Active(),
 	}
 	// and finish time if provided
 	if ddState.FinishTime != nil {
@@ -1544,10 +1553,10 @@ func (db *DataStoreMongo) GetDevicesListForDeployment(ctx context.Context,
 			query = append(query, bson.E{
 				Key: "status", Value: bson.D{{
 					Key:   "$gte",
-					Value: model.DeviceDeploymentStatusPauseBeforeInstall,
+					Value: model.DeviceDeploymentStatusActiveLow,
 				}, {
 					Key:   "$lte",
-					Value: model.DeviceDeploymentStatusPending,
+					Value: model.DeviceDeploymentStatusActiveHigh,
 				}},
 			})
 		} else if *q.Status == model.DeviceDeploymentStatusFinishedStr {
@@ -1759,7 +1768,7 @@ func (db *DataStoreMongo) AbortDeviceDeployments(ctx context.Context,
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 
 		StorageKeyDeviceDeploymentDeploymentID: deploymentId,
-		StorageKeyDeviceDeploymentActive:       true,
+		StorageKeyDeviceDeploymentStatus:       deviceDeploymentFilterStatusActive(),
 		StorageKeyDeviceDeploymentDeleted: bson.D{
 			{Key: "$exists", Value: false},
 		},
@@ -1768,7 +1777,6 @@ func (db *DataStoreMongo) AbortDeviceDeployments(ctx context.Context,
 	update := bson.M{
 		"$set": bson.M{
 			StorageKeyDeviceDeploymentStatus: model.DeviceDeploymentStatusAborted,
-			StorageKeyDeviceDeploymentActive: false,
 		},
 	}
 
@@ -1786,7 +1794,9 @@ func (db *DataStoreMongo) DeleteDeviceDeploymentsHistory(ctx context.Context,
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 
 		StorageKeyDeviceDeploymentDeviceId: deviceID,
-		StorageKeyDeviceDeploymentActive:   false,
+		StorageKeyDeviceDeploymentStatus: bson.M{
+			"$not": deviceDeploymentFilterStatusActive(),
+		},
 		StorageKeyDeviceDeploymentDeleted: bson.M{
 			"$exists": false,
 		},
@@ -1825,7 +1835,7 @@ func (db *DataStoreMongo) DecommissionDeviceDeployments(ctx context.Context,
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 
 		StorageKeyDeviceDeploymentDeviceId: deviceId,
-		StorageKeyDeviceDeploymentActive:   true,
+		StorageKeyDeviceDeploymentStatus:   deviceDeploymentFilterStatusActive(),
 		StorageKeyDeviceDeploymentDeleted: bson.D{
 			{Key: "$exists", Value: false},
 		},
@@ -1834,7 +1844,6 @@ func (db *DataStoreMongo) DecommissionDeviceDeployments(ctx context.Context,
 	update := bson.M{
 		"$set": bson.M{
 			StorageKeyDeviceDeploymentStatus: model.DeviceDeploymentStatusDecommissioned,
-			StorageKeyDeviceDeploymentActive: false,
 		},
 	}
 
@@ -1899,7 +1908,13 @@ func (db *DataStoreMongo) GetDeviceDeployments(
 		filter[StorageKeyDeviceDeploymentDeviceId] = deviceID
 	}
 	if active != nil {
-		filter[StorageKeyDeviceDeploymentActive] = *active
+		if *active {
+			filter[StorageKeyDeviceDeploymentStatus] = deviceDeploymentFilterStatusActive()
+		} else {
+			filter[StorageKeyDeviceDeploymentStatus] = bson.M{
+				"$not": deviceDeploymentFilterStatusActive(),
+			}
+		}
 	}
 
 	opts := mopts.Find()
