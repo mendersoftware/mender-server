@@ -1665,13 +1665,16 @@ components:
       properties:
         id:
           description: Deployment identifier
-          type: string
+          allOf:
+            - $ref: '../common/schemas.yaml#/components/schemas/Identifier'
         name:
           description: Name of the deployment
-          type: string
+          allOf:
+            - $ref: '../common/schemas.yaml#/components/schemas/Name'
         artifact_name:
           description: Name of the artifact to deploy
-          type: string
+          allOf:
+            - $ref: '../common/schemas.yaml#/components/schemas/Text'
         created:
           description: Deployment's creation date and time
           format: date-time
