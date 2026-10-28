@@ -192,7 +192,6 @@ type DataStore interface {
 		release model.ReleasePatch,
 	) error
 	ListReleaseTags(ctx context.Context) (model.Tags, error)
-	SaveUpdateTypes(ctx context.Context, updateTypes []string) error
 	GetUpdateTypes(ctx context.Context) ([]string, error)
 	DeleteReleasesByNames(ctx context.Context, names []string) error
 

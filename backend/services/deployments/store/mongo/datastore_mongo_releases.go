@@ -232,63 +232,21 @@ func (db *DataStoreMongo) UpdateRelease(
 	return nil
 }
 
-// Save the possibly new update types
-func (db *DataStoreMongo) SaveUpdateTypes(ctx context.Context, updateTypes []string) error {
-	c := db.database.Collection(CollectionUpdateTypes)
-
-	if len(updateTypes) < 1 {
-		return nil
-	}
-
-	tenantId := ""
-	if id := identity.FromContext(ctx); id != nil {
-		tenantId = id.Tenant
-	}
-	options := mopts.UpdateOne()
-	options.SetUpsert(true)
-	_, err := c.UpdateOne(
-		ctx,
-		bson.M{
-			StorageKeyTenantId: tenantId,
-		},
-		bson.M{
-			"$addToSet": bson.M{
-				StorageKeyStorageReleaseUpdateTypes: bson.M{
-					"$each": updateTypes,
-				},
-			},
-		},
-		options,
-	)
-	return err
-}
-
 // Get the update types
 func (db *DataStoreMongo) GetUpdateTypes(ctx context.Context) ([]string, error) {
-	c := db.database.Collection(CollectionUpdateTypes)
-
-	tenantId := ""
-	if id := identity.FromContext(ctx); id != nil {
-		tenantId = id.Tenant
-	}
-	result := c.FindOne(
-		ctx,
-		bson.M{
-			StorageKeyTenantId: tenantId,
-		},
-	)
-	type updateType struct {
-		UpdateTypes []string `bson:"update_types"`
-	}
-	var updateTypes updateType
-	err := result.Decode(&updateTypes)
+	c := db.database.Collection(CollectionReleases)
+	var result []string
+	err := c.Distinct(ctx, StorageKeyReleaseArtifactsUpdateTypes, bson.M{
+		StorageKeyTenantId:                    identity.FromContext(ctx).GetTenantID(),
+		StorageKeyReleaseArtifactsUpdateTypes: bson.M{"$type": "string"},
+	}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		return []string{}, nil
 	}
 	if err != nil {
 		return []string{}, err
 	} else {
-		return updateTypes.UpdateTypes, nil
+		return result, nil
 	}
 }
 

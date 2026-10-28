@@ -342,28 +342,6 @@ func (d *Deployments) CreateImage(ctx context.Context,
 	return d.handleArtifact(ctx, multipartUploadMsg, false, nil)
 }
 
-func (d *Deployments) saveUpdateTypes(ctx context.Context, image *model.Image) {
-	l := log.FromContext(ctx)
-	if image != nil && image.ArtifactMeta != nil && len(image.ArtifactMeta.Updates) > 0 {
-		i := 0
-		updateTypes := make([]string, len(image.ArtifactMeta.Updates))
-		for _, t := range image.ArtifactMeta.Updates {
-			if t.TypeInfo.Type == nil {
-				continue
-			}
-			updateTypes[i] = *t.TypeInfo.Type
-			i++
-		}
-		err := d.db.SaveUpdateTypes(ctx, updateTypes[:i])
-		if err != nil {
-			l.Errorf(
-				"error while saving the update types for the artifact: %s",
-				err.Error(),
-			)
-		}
-	}
-}
-
 // handleArtifact parses artifact and uploads artifact file to the file storage - in parallel,
 // and creates image structure in the system.
 // Returns image ID, artifact file ID and nil on success.
@@ -473,7 +451,6 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 	if err := d.updateRelease(ctx, image, nil); err != nil {
 		return "", err
 	}
-	d.saveUpdateTypes(ctx, image)
 
 	if err := d.UpdateDeploymentsWithArtifactName(ctx, metaArtifactConstructor.Name); err != nil {
 		return "", errors.Wrap(err, "fail to update deployments")
