@@ -175,10 +175,6 @@ type DataStore interface {
 		artifactNames []string,
 	) ([]string, error)
 
-	SaveLastDeviceDeploymentStatus(
-		ctx context.Context,
-		deviceDeployment model.DeviceDeployment,
-	) error
 	GetLastDeviceDeploymentStatus(
 		ctx context.Context,
 		devicesIds []string,

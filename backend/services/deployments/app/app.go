@@ -1710,19 +1710,6 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		}
 	}
 
-	if !ddState.Status.Active() {
-		l := log.FromContext(ctx)
-		ldd := model.DeviceDeployment{
-			DeviceId:     dd.DeviceId,
-			DeploymentId: dd.DeploymentId,
-			Id:           dd.Id,
-			Status:       ddState.Status,
-		}
-		if err := d.db.SaveLastDeviceDeploymentStatus(ctx, ldd); err != nil {
-			l.Error(errors.Wrap(err, "failed to save last device deployment status").Error())
-		}
-	}
-
 	return nil
 }
 
