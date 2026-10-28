@@ -2742,9 +2742,7 @@ func (db *DataStoreMongo) GetStorageSettings(ctx context.Context) (*model.Storag
 	settings := new(model.StorageSettings)
 	// supposed that it's only one document in the collection
 	query := bson.M{
-		"_id": StorageKeyStorageSettingsDefaultID,
-
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+		"_id": identity.FromContext(ctx).GetTenantID(),
 	}
 	if err := collection.FindOne(ctx, query).Decode(settings); err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -2763,15 +2761,21 @@ func (db *DataStoreMongo) SetStorageSettings(
 	var err error
 	collection := db.database.Collection(CollectionStorageSettings)
 
+	tenantID := identity.FromContext(ctx).GetTenantID()
 	filter := bson.M{
-		"_id": StorageKeyStorageSettingsDefaultID,
-
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+		"_id": tenantID,
+	}
+	type StorageSettings struct {
+		model.StorageSettings `bson:"inline"`
+		TenantID              string `bson:"_id"`
 	}
 	if storageSettings != nil {
 		replaceOptions := mopts.Replace()
 		replaceOptions.SetUpsert(true)
-		_, err = collection.ReplaceOne(ctx, filter, storageSettings, replaceOptions)
+		_, err = collection.ReplaceOne(ctx, filter, StorageSettings{
+			StorageSettings: *storageSettings,
+			TenantID:        tenantID,
+		}, replaceOptions)
 	} else {
 		_, err = collection.DeleteOne(ctx, filter)
 	}
