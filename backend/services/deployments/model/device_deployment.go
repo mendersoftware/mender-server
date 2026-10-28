@@ -251,6 +251,9 @@ type DeviceDeployment struct {
 
 	// Device reported substate
 	SubState string `json:"substate,omitempty" bson:"substate,omitempty"`
+
+	// Deployment logs
+	Log DeploymentLog `json:"-" bson:"log,omitempty"`
 }
 
 func NewDeviceDeployment(deviceId, deploymentId string) *DeviceDeployment {

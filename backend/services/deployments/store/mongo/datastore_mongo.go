@@ -36,19 +36,19 @@ import (
 )
 
 const (
-	CollectionLimits               = "limits"
-	CollectionDeployments          = "deployments"
-	CollectionDeviceDeploymentLogs = "devices.logs"
-	CollectionDevices              = "devices"
-	CollectionDevicesLastStatus    = "devices_last_status"
-	CollectionStorageSettings      = "settings"
-	CollectionUploadIntents        = "uploads"
-	CollectionReleases             = "releases"
-	CollectionUpdateTypes          = "update_types"
+	CollectionLimits            = "limits"
+	CollectionDeployments       = "deployments"
+	CollectionDevices           = "devices"
+	CollectionDevicesLastStatus = "devices_last_status"
+	CollectionStorageSettings   = "settings"
+	CollectionUploadIntents     = "uploads"
+	CollectionReleases          = "releases"
+	CollectionUpdateTypes       = "update_types"
 )
 
 const (
-	legacyCollectionImages = "images" // Replaced by releases
+	legacyCollectionDeviceDeploymentLogs = "devices.logs" // Replaced by devices
+	legacyCollectionImages               = "images"       // Replaced by releases
 )
 
 var _ store.DataStore = &DataStoreMongo{}
@@ -363,7 +363,7 @@ const (
 	StorageKeyReleaseImageProvidesIdx = StorageKeyReleaseArtifacts + "." +
 		StorageKeyImageProvidesIdx
 
-	StorageKeyDeviceDeploymentLogMessages = "messages"
+	StorageKeyDeviceDeploymentLogMessages = "log.messages"
 
 	StorageKeyDeviceDeploymentAssignedImage   = "image"
 	StorageKeyDeviceDeploymentAssignedImageId = StorageKeyDeviceDeploymentAssignedImage +
@@ -1028,20 +1028,23 @@ func (db *DataStoreMongo) ListImagesV2(
 }
 
 // device deployment log
-func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
-	log model.DeploymentLog) error {
+func (db *DataStoreMongo) SaveDeviceDeploymentLog(
+	ctx context.Context,
+	deviceID string,
+	deploymentID string,
+	log model.DeploymentLog,
+) error {
 
 	if err := log.Validate(); err != nil {
 		return err
 	}
 
-	collLogs := db.database.Collection(CollectionDeviceDeploymentLogs)
-
+	collDevs := db.database.Collection(CollectionDevices)
 	query := bson.D{
 		{Key: StorageKeyDeviceDeploymentDeviceId,
-			Value: log.DeviceID},
+			Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeploymentID,
-			Value: log.DeploymentID},
+			Value: deploymentID},
 		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 	}
 
@@ -1052,11 +1055,11 @@ func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
 			StorageKeyDeviceDeploymentLogMessages: log.Messages,
 		}},
 	}
-	updateOptions := mopts.UpdateOne()
-	updateOptions.SetUpsert(true)
-	if _, err := collLogs.UpdateOne(
-		ctx, query, update, updateOptions); err != nil {
+	if res, err := collDevs.UpdateOne(
+		ctx, query, update); err != nil {
 		return err
+	} else if res.MatchedCount == 0 {
+		return store.ErrNotFound
 	}
 
 	return nil
@@ -1065,7 +1068,7 @@ func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
 func (db *DataStoreMongo) GetDeviceDeploymentLog(ctx context.Context,
 	deviceID, deploymentID string) (*model.DeploymentLog, error) {
 
-	collLogs := db.database.Collection(CollectionDeviceDeploymentLogs)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	query := bson.M{
 		StorageKeyDeviceDeploymentDeviceId:     deviceID,
@@ -1074,15 +1077,17 @@ func (db *DataStoreMongo) GetDeviceDeploymentLog(ctx context.Context,
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 	}
 
-	var depl model.DeploymentLog
-	if err := collLogs.FindOne(ctx, query).Decode(&depl); err != nil {
+	var depl model.DeviceDeployment
+	if err := collDevs.FindOne(ctx, query, mopts.FindOne().
+		SetProjection(bson.M{"log": 1})).
+		Decode(&depl); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
 	}
 
-	return &depl, nil
+	return &depl.Log, nil
 }
 
 // device deployments
