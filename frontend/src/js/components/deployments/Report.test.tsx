@@ -65,6 +65,7 @@ describe('DeploymentReport Component', () => {
         ...defaultState,
         deployments: {
           ...deploymentsState,
+          byId: { ...deploymentsState.byId, d3: { ...deploymentsState.byId.d3, artifact_name: 'r1' } },
           selectionState: {
             selectedId: defaultState.deployments.byId.d3.id
           }

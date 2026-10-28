@@ -31,7 +31,12 @@ describe('DeploymentOverview Component', () => {
     };
     const { baseElement } = render(
       <ColumnWidthProvider>
-        <DeploymentOverview devicesById={{}} deployment={deployment} tenantCapabilities={{ hasFullFiltering: true }} />
+        <DeploymentOverview
+          devicesById={{}}
+          deployment={deployment}
+          tenantCapabilities={{ hasFullFiltering: true }}
+          software={{ test: { ...defaultState.releases.softwareById.r1 } }}
+        />
       </ColumnWidthProvider>
     );
     const view = baseElement.firstChild.firstChild;
@@ -51,7 +56,12 @@ describe('DeploymentOverview Component', () => {
     };
     const { getByRole } = render(
       <ColumnWidthProvider>
-        <DeploymentOverview devicesById={{}} deployment={deployment} tenantCapabilities={{ hasFullFiltering: true }} />
+        <DeploymentOverview
+          devicesById={{}}
+          deployment={deployment}
+          tenantCapabilities={{ hasFullFiltering: true }}
+          software={{ test: { ...defaultState.releases.softwareById.m1000, id: 'test' } }}
+        />
       </ColumnWidthProvider>
     );
     expect(getByRole('link', { name: RegExp(filter.name, 'i') })).toHaveAttribute('href', '/devices?inventory=group:eq:filter1&system=group:eq:things');

@@ -28,18 +28,18 @@ import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {
-  getDeploymentRelease,
   getDevicesById,
   getFeatures,
   getIdAttribute,
   getIsPreview,
   getOnboardingState,
   getSelectedDeploymentData,
+  getSoftwareById,
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getAuditLogs, getDeploymentDevices, getDeviceLog, getRelease, getSingleDeployment, updateDeploymentControlMap } from '@northern.tech/store/thunks';
+import { getAuditLogs, getDeploymentDevices, getDeviceLog, getSingleDeployment, getSoftware, updateDeploymentControlMap } from '@northern.tech/store/thunks';
 import { getDeploymentState, groupDeploymentStats, statCollector } from '@northern.tech/store/utils';
 import { formatTime } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
@@ -106,7 +106,8 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   const { deployment, selectedDevices } = useSelector(getSelectedDeploymentData);
   const devicesById = useSelector(getDevicesById);
   const idAttribute = useSelector(getIdAttribute);
-  const release = useSelector(getDeploymentRelease);
+  const softwareById = useSelector(getSoftwareById);
+  const software = softwareById[deployment.artifact_name] || {};
   const { hasAiEnabled, isHosted } = useSelector(getFeatures);
   const isPreview = useSelector(getIsPreview);
   const tenantCapabilities = useSelector(getTenantCapabilities);
@@ -146,8 +147,8 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
     if (!deployment.finished || new Date(deployment.finished) > now) {
       timer.current = past ? null : setInterval(refreshDeployment, TIMEOUTS.fiveSeconds);
     }
-    if ((deployment.type === DEPLOYMENT_TYPES.software || !release.device_types_compatible.length) && deployment.artifact_name) {
-      dispatch(getRelease(deployment.artifact_name));
+    if ((deployment.type === DEPLOYMENT_TYPES.software || !software.compatible_types?.length) && deployment.artifact_name) {
+      dispatch(getSoftware({ name: deployment.artifact_name, page: 1, perPage: 1 }));
     }
     if (hasAuditlogs && canAuditlog) {
       dispatch(
@@ -177,7 +178,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
     hasAuditlogs,
     past,
     refreshDeployment,
-    release.device_types_compatible.length
+    software.compatible_types?.length
   ]);
 
   useEffect(() => {
@@ -292,7 +293,14 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
       <div>
         <ColumnWidthProvider>
           <DeploymentPhaseNotification deployment={deployment} onReviewClick={scrollToBottom} />
-          <DeploymentOverview creator={creator} deployment={deployment} devicesById={devicesById} idAttribute={idAttribute} onScheduleClick={scrollToBottom} />
+          <DeploymentOverview
+            creator={creator}
+            deployment={deployment}
+            devicesById={devicesById}
+            idAttribute={idAttribute}
+            onScheduleClick={scrollToBottom}
+            software={software}
+          />
           {isConfigurationDeployment && (
             <>
               <LinedHeader heading="Configuration" />
