@@ -42,7 +42,6 @@ const (
 	CollectionStorageSettings = "settings"
 	CollectionUploadIntents   = "uploads"
 	CollectionReleases        = "releases"
-	CollectionUpdateTypes     = "update_types"
 )
 
 const (
@@ -415,8 +414,6 @@ const (
 	StorageKeyStorageSettingsToken          = "token"
 	StorageKeyStorageSettingsForcePathStyle = "force_path_style"
 	StorageKeyStorageSettingsUseAccelerate  = "use_accelerate"
-
-	StorageKeyStorageReleaseUpdateTypes = "update_types"
 
 	ArtifactDependsDeviceType = "device_type"
 )
