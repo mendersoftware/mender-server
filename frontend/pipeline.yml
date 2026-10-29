@@ -341,17 +341,20 @@ publish:frontend:docker:
   script:
     - !reference [.publish:helpers, script]
     - |
+      pin_digest "${MENDER_IMAGE_GUI}" .digests/gui
+      source_image="${MENDER_IMAGE_GUI%:*}@$(cat .digests/gui)"
+
       publish_gui_to() {
         registry="$1"; shift
         for tag in ${tags}; do
-          echo "Publishing ${MENDER_IMAGE_GUI} to ${registry}/${FRONTEND_REPOSITORY}:${tag}"
+          echo "Publishing ${source_image} to ${registry}/${FRONTEND_REPOSITORY}:${tag}"
           skopeo copy --multi-arch all --preserve-digests "$@" \
-            docker://${MENDER_IMAGE_GUI} \
+            docker://${source_image} \
             docker://${registry}/${FRONTEND_REPOSITORY}:${tag}
         done
       }
 
-      publish_gui_to "${MENDER_PUBLISH_REGISTRY}" --digestfile .digests/gui
+      publish_gui_to "${MENDER_PUBLISH_REGISTRY}"
       for_each_ecr_target publish_gui_to
   artifacts:
     when: on_success
