@@ -18,6 +18,39 @@ func HasUnderlyingType(input interface{}, kind reflect.Kind) bool {
 	return v.Kind() == kind
 }
 
+func Identifier(value interface{}) error {
+	if !HasUnderlyingType(value, reflect.String) {
+		return fmt.Errorf("invalid type %T for identifier", value)
+	}
+
+	return validation.Validate(value,
+		identifierSize,
+		identifierPattern,
+	)
+}
+
+func Name(value interface{}) error {
+	if !HasUnderlyingType(value, reflect.String) {
+		return fmt.Errorf("invalid type %T for name", value)
+	}
+
+	return validation.Validate(value,
+		nameSize,
+		namePattern,
+	)
+}
+
+func Text(value interface{}) error {
+	if !HasUnderlyingType(value, reflect.String) {
+		return fmt.Errorf("invalid type %T for text", value)
+	}
+
+	return validation.Validate(value,
+		textSize,
+		textPattern,
+	)
+}
+
 func DeviceGroupName(value interface{}) error {
 	if !HasUnderlyingType(value, reflect.String) {
 		return fmt.Errorf("invalid type %T for device group", value)
