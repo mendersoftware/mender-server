@@ -120,9 +120,12 @@ const actorMap = {
   device: 'id'
 };
 
+// admins are Northern.tech staff acting through the admin panel, so they are not among the tenant's users
+const getActorDescriptor = ({ actor }) => (actor.type === 'admin' ? `Mender support (${actor.email ?? actor.id})` : actor[actorMap[actor.type]]);
+
 export const UserDescriptor = (item, index) => (
   <TextOverflowMultiline key={`${item.time}-${index}`} variant="body2">
-    {item.actor[actorMap[item.actor.type]]}
+    {getActorDescriptor(item)}
   </TextOverflowMultiline>
 );
 export const ActionDescriptor = (item, index) => (
