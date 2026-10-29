@@ -118,17 +118,18 @@ test.describe('Files', () => {
 
   test('allows release notes manipulation', async ({ page }) => {
     await page.getByText(/terminalimage/i).click();
-    const releaseNotesTitle = page.getByRole('heading', { name: /Release notes/i });
+    const drawer = page.locator('.MuiDrawer-paper');
+    const releaseNotesTitle = drawer.getByRole('heading', { name: /Release notes/i });
     await expect(releaseNotesTitle).toBeVisible();
-    const hasNotes = await page.getByText('foo notes');
+    const hasNotes = await drawer.getByText('foo notes');
     if (await hasNotes.isVisible()) {
       return;
     }
     // layout based locators are not an option here, since the edit button is also visible on the nearby tags section
     await releaseNotesTitle.locator('..').getByRole('button', { name: /edit/i }).click();
-    const input = await page.getByLabel(/release notes/i);
+    const input = await drawer.getByLabel(/release notes/i);
     await input.fill('foo notes');
-    await page.getByRole('button', { name: 'confirm' }).click();
+    await drawer.getByRole('button', { name: 'confirm' }).click();
     await expect(input).not.toBeVisible();
     await expect(hasNotes).toBeVisible();
   });
