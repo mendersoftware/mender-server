@@ -87,7 +87,6 @@ func NewDeploymentWithID(ID string) (*Deployment, error) {
 	return &Deployment{
 		Created: &now,
 		Id:      ID,
-		Stats:   NewDeviceDeploymentStats(),
 		Status:  DeploymentStatusPending,
 	}, nil
 }
@@ -112,8 +111,7 @@ func NewDeploymentFromConfigurationDeploymentConstructor(
 		ArtifactName: constructor.Name,
 	}
 
-	deviceCount := 0
-	deployment.DeviceCount = &deviceCount
+	deployment.DeviceCount = new(int64(0))
 
 	return deployment, nil
 }

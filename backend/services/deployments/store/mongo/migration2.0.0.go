@@ -81,6 +81,95 @@ func (migration_2_0_0) migrateReleaseDocuments(ctx context.Context, dst, src *mo
 func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrate.Version) error {
 	logger := log.FromContext(ctx)
 	var indexes = map[string][]mongo.IndexModel{
+		CollectionDeployments: {
+			{
+				Keys: bson.D{ // Base sorting
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentName, Value: 1},
+					{Key: StorageKeyDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentStats + ".$**", Value: 1},
+					{Key: StorageKeyDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentActive, Value: 1},
+					{Key: StorageKeyDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				// NOTE: Can potentially replace the previous index as active
+				// deployment has `finished == null`
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentFinished, Value: 1},
+					{Key: StorageKeyDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentStatus, Value: 1},
+					{Key: StorageKeyDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentConstructorChecksum, Value: 1},
+				},
+				Options: options.Index().
+					SetUnique(true).
+					SetPartialFilterExpression(bson.M{
+						StorageKeyDeploymentFinished: nil,
+					}),
+			},
+		},
+		CollectionDevices: {
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentDeploymentID, Value: 1},
+					{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
+				},
+				Options: options.Index().SetUnique(true),
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentStatus, Value: -1},
+					{Key: StorageKeyDeviceDeploymentCreated, Value: -1},
+				},
+			},
+			{
+				// For getting the last status
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
+					{Key: StorageKeyDeviceDeploymentFinished, Value: -1},
+				},
+			},
+		},
 		CollectionReleases: {
 			{
 				Keys: bson.D{
@@ -127,29 +216,34 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 			{
 				Keys: bson.D{
 					{Key: StorageKeyTenantId, Value: 1},
-					{Key: StorageKeyReleaseArtifactsUpdateTypes, Value: 1},
-					{Key: StorageKeyReleaseCreated, Value: -1},
-				},
-			},
-			{
-				Keys: bson.D{
-					{Key: StorageKeyTenantId, Value: 1},
 					{Key: StorageKeyReleaseArtifactsCount, Value: 1},
 					{Key: StorageKeyReleaseCreated, Value: -1},
 				},
 			},
 		},
+		// CollectionUploadIntents only use primary index (artifact ID)
+		// CollectionUploadLimits only use primary index (tenant ID)
+		// CollectionUploadStorageSettings only use primary index (tenant ID)
 	}
 	for _, coll := range []string{
-		// CollectionDeployments,
-		// CollectionDevices,
+		CollectionDeployments,
+		CollectionDevices,
+		CollectionLimits,
 		CollectionReleases,
+		CollectionStorageSettings,
+		CollectionUploadIntents,
 	} {
-		_, err := db.Collection(coll).
-			Indexes().
-			CreateMany(ctx, indexes[coll])
+		err := db.CreateCollection(ctx, coll)
 		if err != nil {
-			return fmt.Errorf("failed to create indexes [%s.%s]: %w", db.Name(), coll, err)
+			return fmt.Errorf("failed to create collection: %w", err)
+		}
+		if indexModels, ok := indexes[coll]; ok {
+			_, err = db.Collection(coll).
+				Indexes().
+				CreateMany(ctx, indexModels)
+			if err != nil {
+				return fmt.Errorf("failed to create indexes [%s.%s]: %w", db.Name(), coll, err)
+			}
 		}
 	}
 

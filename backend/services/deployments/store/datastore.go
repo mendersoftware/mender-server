@@ -101,7 +101,7 @@ type DataStore interface {
 		artifact *model.Image,
 	) error
 	AggregateDeviceDeploymentByStatus(ctx context.Context,
-		id string) (model.Stats, error)
+		id string) (*model.Stats, error)
 	GetDeviceStatusesForDeployment(ctx context.Context,
 		deploymentID string) ([]model.DeviceDeployment, error)
 	GetDevicesListForDeployment(ctx context.Context,
@@ -141,7 +141,7 @@ type DataStore interface {
 		id string,
 		stateFrom,
 		stateTo model.DeviceDeploymentStatus,
-	) (model.Stats, error)
+	) (*model.Stats, error)
 	UpdateStats(ctx context.Context,
 		id string, stats model.Stats) error
 	FindDeployments(
@@ -161,10 +161,10 @@ type DataStore interface {
 	ExistUnfinishedByArtifactId(ctx context.Context, id string) (bool, error)
 	ExistUnfinishedByArtifactName(ctx context.Context, artifactName string) (bool, error)
 	ExistByArtifactId(ctx context.Context, id string) (bool, error)
-	SetDeploymentDeviceCount(ctx context.Context, deploymentID string, count int) error
-	IncrementDeploymentDeviceCount(ctx context.Context, deploymentID string, increment int) error
+	SetDeploymentDeviceCount(ctx context.Context, deploymentID string, count int64) error
+	IncrementDeploymentDeviceCount(ctx context.Context, deploymentID string, increment int64) error
 	IncrementDeploymentTotalSize(ctx context.Context, deploymentID string, increment int64) error
-	DeviceCountByDeployment(ctx context.Context, id string) (int, error)
+	DeviceCountByDeployment(ctx context.Context, id string) (int64, error)
 	UpdateDeploymentsWithArtifactName(
 		ctx context.Context,
 		artifactName string,

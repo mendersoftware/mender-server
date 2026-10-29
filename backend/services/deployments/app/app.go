@@ -166,7 +166,7 @@ type App interface {
 	GetDeployment(ctx context.Context, deploymentID string) (*model.Deployment, error)
 	IsDeploymentFinished(ctx context.Context, deploymentID string) (bool, error)
 	AbortDeployment(ctx context.Context, deploymentID string) error
-	GetDeploymentStats(ctx context.Context, deploymentID string) (model.Stats, error)
+	GetDeploymentStats(ctx context.Context, deploymentID string) (*model.Stats, error)
 	GetDeploymentsStats(ctx context.Context,
 		deploymentIDs ...string) ([]*model.DeploymentStats, error)
 	GetDeploymentForDeviceWithCurrent(ctx context.Context, deviceID string,
@@ -1126,7 +1126,7 @@ func (d *Deployments) CreateDeviceConfigurationDeployment(
 
 	deployment.DeviceList = []string{deviceID}
 	deployment.MaxDevices = 1
-	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
+	deployment.Stats.Pending = int64(deployment.MaxDevices)
 	deployment.Configuration = []byte(constructor.Configuration)
 	deployment.Type = model.DeploymentTypeConfiguration
 
@@ -1188,8 +1188,8 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 
 	deployment.Artifacts = getArtifactIDs(release.Artifacts)
 	deployment.DeviceList = constructor.Devices
-	deployment.MaxDevices = len(constructor.Devices)
-	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
+	deployment.MaxDevices = int64(len(constructor.Devices))
+	deployment.Stats.Pending = int64(deployment.MaxDevices)
 	deployment.Type = model.DeploymentTypeSoftware
 	deployment.Filter = getDeploymentFilter(constructor)
 	if len(constructor.Group) > 0 {
@@ -1674,10 +1674,11 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		}
 		beforeStatus := deployment.GetStatus()
 
-		deployment.Stats, err = d.db.UpdateStatsInc(ctx, dd.DeploymentId, old, ddState.Status)
+		stats, err := d.db.UpdateStatsInc(ctx, dd.DeploymentId, old, ddState.Status)
 		if err != nil {
 			return err
 		}
+		deployment.Stats = *stats
 		newStatus := deployment.GetStatus()
 		if beforeStatus != newStatus {
 			err = d.db.SetDeploymentStatus(ctx, dd.DeploymentId, newStatus, time.Now())
@@ -1691,7 +1692,7 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 }
 
 func (d *Deployments) GetDeploymentStats(ctx context.Context,
-	deploymentID string) (model.Stats, error) {
+	deploymentID string) (*model.Stats, error) {
 
 	deployment, err := d.db.FindDeploymentByID(ctx, deploymentID)
 
@@ -1703,7 +1704,7 @@ func (d *Deployments) GetDeploymentStats(ctx context.Context,
 		return nil, nil
 	}
 
-	return deployment.Stats, nil
+	return &deployment.Stats, nil
 }
 func (d *Deployments) GetDeploymentsStats(ctx context.Context,
 	deploymentIDs ...string) (deploymentStats []*model.DeploymentStats, err error) {
@@ -1956,7 +1957,7 @@ func (d *Deployments) AbortDeployment(ctx context.Context, deploymentID string) 
 	}
 
 	// update statistics
-	if err := d.db.UpdateStats(ctx, deploymentID, stats); err != nil {
+	if err := d.db.UpdateStats(ctx, deploymentID, *stats); err != nil {
 		return errors.Wrap(err, "failed to update deployment stats")
 	}
 
