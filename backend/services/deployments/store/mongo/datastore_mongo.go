@@ -1172,7 +1172,7 @@ func (db *DataStoreMongo) InsertMany(ctx context.Context,
 		return nil
 	}
 
-	deviceCountIncrements := make(map[string]int)
+	deviceCountIncrements := make(map[string]int64)
 	tenantID := identity.FromContext(ctx).GetTenantID()
 
 	// Writing to another interface list addresses golang gatcha interface{} == []interface{}
@@ -1470,7 +1470,7 @@ func (db *DataStoreMongo) AssignArtifact(
 }
 
 func (db *DataStoreMongo) AggregateDeviceDeploymentByStatus(ctx context.Context,
-	id string) (model.Stats, error) {
+	id string) (*model.Stats, error) {
 
 	if len(id) == 0 {
 		return nil, ErrStorageInvalidID
@@ -1502,7 +1502,7 @@ func (db *DataStoreMongo) AggregateDeviceDeploymentByStatus(ctx context.Context,
 	}
 	var results []struct {
 		Status model.DeviceDeploymentStatus `bson:"_id"`
-		Count  int
+		Count  int64
 	}
 	cursor, err := collDevs.Aggregate(ctx, pipeline)
 	if err != nil {
@@ -1515,7 +1515,7 @@ func (db *DataStoreMongo) AggregateDeviceDeploymentByStatus(ctx context.Context,
 		return nil, err
 	}
 
-	raw := model.NewDeviceDeploymentStats()
+	raw := new(model.Stats)
 	for _, res := range results {
 		raw.Set(res.Status, res.Count)
 	}
@@ -2170,7 +2170,7 @@ func (db *DataStoreMongo) FindUnfinishedByID(ctx context.Context,
 func (db *DataStoreMongo) IncrementDeploymentDeviceCount(
 	ctx context.Context,
 	deploymentID string,
-	increment int,
+	increment int64,
 ) error {
 	collection := db.database.Collection(CollectionDeployments)
 
@@ -2196,7 +2196,7 @@ func (db *DataStoreMongo) IncrementDeploymentDeviceCount(
 func (db *DataStoreMongo) SetDeploymentDeviceCount(
 	ctx context.Context,
 	deploymentID string,
-	count int,
+	count int64,
 ) error {
 	collection := db.database.Collection(CollectionDeployments)
 
@@ -2220,7 +2220,7 @@ func (db *DataStoreMongo) SetDeploymentDeviceCount(
 }
 
 func (db *DataStoreMongo) DeviceCountByDeployment(ctx context.Context,
-	id string) (int, error) {
+	id string) (int64, error) {
 
 	collDevs := db.database.Collection(CollectionDevices)
 
@@ -2238,7 +2238,7 @@ func (db *DataStoreMongo) DeviceCountByDeployment(ctx context.Context,
 		return 0, err
 	}
 
-	return int(deviceCount), nil
+	return deviceCount, nil
 }
 
 func (db *DataStoreMongo) UpdateStats(ctx context.Context,
@@ -2285,7 +2285,7 @@ func (db *DataStoreMongo) UpdateStats(ctx context.Context,
 }
 
 func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
-	stateFrom, stateTo model.DeviceDeploymentStatus) (model.Stats, error) {
+	stateFrom, stateTo model.DeviceDeploymentStatus) (*model.Stats, error) {
 
 	if len(id) == 0 {
 		return nil, ErrStorageInvalidID
@@ -2323,7 +2323,7 @@ func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
 	}
 
 	var res struct {
-		Stats model.Stats `bson:"stats"`
+		Stats *model.Stats `bson:"stats"`
 	}
 	err := collDpl.FindOneAndUpdate(ctx,
 		bson.M{
