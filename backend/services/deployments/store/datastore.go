@@ -130,7 +130,7 @@ type DataStore interface {
 	) error
 
 	// deployments
-	InsertDeployment(ctx context.Context, deployment *model.Deployment) error
+	InsertDeployment(ctx context.Context, deployment model.Deployment) error
 	DeleteDeployment(ctx context.Context, id string) error
 	FindDeploymentByID(ctx context.Context, id string) (*model.Deployment, error)
 	FindDeploymentStatsByIDs(ctx context.Context, ids ...string) ([]*model.DeploymentStats, error)
