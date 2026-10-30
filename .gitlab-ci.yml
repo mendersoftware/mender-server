@@ -70,11 +70,14 @@ variables:
     description: "The Github Repo URL for release-please, in the format of 'owner/repo'"
     value: "mendersoftware/mender-server"
   GITHUB_USER_NAME:
-    description: "The Github username for release-please"
-    value: "mender-test-bot"
+    description: "The Github identity (the mender-server-release GitHub App bot) for release-please and git"
+    value: "mender-server-release[bot]"
   GITHUB_USER_EMAIL:
-    description: "The Github user email for release-please"
-    value: "mender@northern.tech"
+    description: "The Github user email for release-please and git"
+    value: "347503385+mender-server-release[bot]@users.noreply.github.com"
+  RELEASE_PR_AUTHORS:
+    description: "Space-separated logins allowed to own release PRs, default GITHUB_USER_NAME"
+    value: "mender-test-bot app/mender-server-release"
   GIT_CLIFF:
     description: "Run git cliff to override the release-please changelog"
     value: "true"
@@ -810,7 +813,6 @@ test:prep:
     CI: 1
     DEVICE_TYPE: qemux86-64
     DOCKER_CERT_PATH: /certs/client
-    GITHUB_TOKEN: "${GITHUB_BOT_TOKEN_REPO_FULL}"
   before_script:
     - mv mender-stress-test-client frontend/tests/e2e_tests/
     - cd frontend/tests/e2e_tests
@@ -1014,15 +1016,17 @@ publish:licenses:docs-site:
       artifacts: true
     - job: publish:frontend:licenses
       artifacts: true
+  variables:
+    GH_APP_PERMISSIONS: '{"contents":"write","pull_requests":"write"}'
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export GH_APP_REPOSITORIES="${GITHUB_DOCS_REPO_URL#*/}"
+    - !reference [.github-token, script]
   script:
-    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_DOCS_REPO_URL}
+    - git clone https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_DOCS_REPO_URL}
     - cd ${GITHUB_DOCS_REPO_URL#*/}
     - git checkout -b licenses-${CI_JOB_ID}
     - cat ../.licenses_header.md > ${LICENSE_REMOTE_FILE}
@@ -1033,9 +1037,20 @@ publish:licenses:docs-site:
       git commit -s -m "chore: add mender-server open source licenses"
     - git push origin licenses-${CI_JOB_ID}
     - gh pr create --title "${CI_COMMIT_TAG} Release - update Mender Server licenses" --body "Automated change to the Mender Server Licenses during ${CI_COMMIT_TAG} release" --base master --head licenses-${CI_JOB_ID}
-  after_script:
-    - git remote remove licenses-${CI_JOB_ID}
 
+
+# GitHub App token when GH_APP_ID is set, else the bot PAT (mender-server-enterprise)
+.github-token:
+  script:
+    - |
+      if [ -n "${GH_APP_ID}" ]; then
+        GITHUB_JOB_TOKEN="$(.gitlab/github-app-token.sh)" || exit 1
+      else
+        GITHUB_JOB_TOKEN="${GITHUB_BOT_TOKEN_REPO_FULL}"
+      fi
+      [ -n "${GITHUB_JOB_TOKEN}" ] || { echo "ERROR - no GitHub token"; exit 1; }
+      export GITHUB_JOB_TOKEN GITHUB_TOKEN="${GITHUB_JOB_TOKEN}"
+    - 'curl -s -H "Authorization: Bearer ${GITHUB_JOB_TOKEN}" https://api.github.com/rate_limit | jq -c .resources.core || true'
 
 changelog:
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/release-please:master
@@ -1059,18 +1074,28 @@ changelog:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - !reference [.github-token, script]
   script:
     - release-please release-pr
-      --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+      --token=${GITHUB_JOB_TOKEN}
       --repo-url=${GITHUB_REPO_URL}
-      --target-branch=${CI_COMMIT_REF_NAME} || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
+      --target-branch=${CI_COMMIT_REF_NAME}
+      --signoff "${GITHUB_USER_NAME} <${GITHUB_USER_EMAIL}>" || echo "INFO - release already exists" # workaround because we shifted to prerelease versioning strategy and there's already a PR open
     # git cliff: override the changelog
     - test $GIT_CLIFF == "false" && echo "INFO - Skipping git-cliff" && exit 0
-    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL} || true # Ignore already existing remote
-    - gh repo set-default https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_REPO_URL}
-    - RELEASE_PLEASE_PR=$(gh pr list --author "${GITHUB_USER_NAME}" --head "release-please--branches--${CI_COMMIT_REF_NAME}" --json number | jq -r '.[0].number // empty')
+    - git remote add github-${CI_JOB_ID} https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_REPO_URL} || true # Ignore already existing remote
+    - gh repo set-default ${GITHUB_REPO_URL}
+    - |
+      RELEASE_PR_AUTHORS="${RELEASE_PR_AUTHORS:-${GITHUB_USER_NAME}}"
+      all_prs=$(gh pr list --head "release-please--branches--${CI_COMMIT_REF_NAME}" --state open \
+        --json number,author,isCrossRepository | jq -c '[.[] | select(.isCrossRepository | not)]')
+      RELEASE_PLEASE_PR=$(echo "${all_prs}" | jq -r --arg authors "${RELEASE_PR_AUTHORS}" \
+        '[.[] | select((.author.login as $a | $authors | split(" ") | index($a)) != null) | .number][0] // empty')
+      if [ -z "${RELEASE_PLEASE_PR}" ] && [ "$(echo "${all_prs}" | jq 'length')" -ne 0 ]; then
+        echo "ERROR - open release PR authored by '$(echo "${all_prs}" | jq -r '[.[].author.login] | join(" ")')'," \
+          "not in RELEASE_PR_AUTHORS '${RELEASE_PR_AUTHORS}'"
+        exit 1
+      fi
     - test -z "$RELEASE_PLEASE_PR" && echo "No release-please PR found" && exit 0
     - for filename in $(ls CHANGELOG*.md); do cp "${filename}" "${filename}.${CI_COMMIT_SHA}"; done
     - gh pr checkout --force $RELEASE_PLEASE_PR
@@ -1117,6 +1142,7 @@ changelog:
     # Update the PR body (generated by generate_changelog.sh)
     - gh pr edit $RELEASE_PLEASE_PR --body-file tmp_pr_body.md
     - rm tmp_pr_body.md
+    - 'curl -s -H "Authorization: Bearer ${GITHUB_JOB_TOKEN}" https://api.github.com/rate_limit | jq -c .resources.core || true'
   after_script:
     - git remote remove github-${CI_JOB_ID}
 
@@ -1132,9 +1158,11 @@ release:github:
       allow_failure: true
   needs:
     - job: changelog
+  before_script:
+    - !reference [.github-token, script]
   script:
     - release-please github-release
-      --token=${GITHUB_BOT_TOKEN_REPO_FULL}
+      --token=${GITHUB_JOB_TOKEN}
       --repo-url=${GITHUB_REPO_URL}
       --target-branch=${CI_COMMIT_REF_NAME}
 
@@ -1145,20 +1173,22 @@ release:mender-docs-changelog:
     # Only make available for stable branches
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
+  variables:
+    GH_APP_PERMISSIONS: '{"contents":"write","pull_requests":"write"}'
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export GH_APP_REPOSITORIES="${GITHUB_CHANGELOG_REPO_URL#*/}"
+    - !reference [.github-token, script]
     - if [[ "${CI_PROJECT_NAME}" == "mender-server-enterprise" ]]; then
       export CHANGELOG_SUFFIX="-enterprise";
       else
       export CHANGELOG_SUFFIX="";
       fi;
   script:
-    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
+    - git clone https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
     - cat ../.docs_header.md > "${CHANGELOG_REMOTE_FILE}"; grep -v -E '^---$' "../CHANGELOG${CHANGELOG_SUFFIX}.md" >> "${CHANGELOG_REMOTE_FILE}"
@@ -1182,8 +1212,8 @@ release:mender-docs-changelog:saas:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
-    # GITHUB_TOKEN for Github cli authentication
-    - export GITHUB_TOKEN=${GITHUB_CLI_TOKEN}
+    - export GH_APP_REPOSITORIES="${GITHUB_CHANGELOG_REPO_URL#*/}"
+    - !reference [.github-token, script]
     - export CHANGELOG_SUFFIX="-saas"
     - cp .docs_header_saas.md .docs_header.md
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
@@ -1208,16 +1238,19 @@ release:mender-docs-changelog:saas:
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/aws-k8s-toolbox:master
   variables:
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
+    GH_APP_PERMISSIONS: '{"contents":"write"}'
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
+    - export GH_APP_REPOSITORIES="${GITHUB_HELM_REPO#*/}"
+    - !reference [.github-token, script]
     - export DIGESTS_FOLDER=$(pwd)/.digests
     - export PROJECT_FOLDER=$(pwd)
   script:
-    - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO} /tmp/helm
+    - git clone https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_HELM_REPO} /tmp/helm
     - cd /tmp/helm
-    - git remote add github-${CI_JOB_ID} https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_HELM_REPO}
+    - git remote add github-${CI_JOB_ID} https://x-access-token:${GITHUB_JOB_TOKEN}@github.com/${GITHUB_HELM_REPO}
     - git fetch github-${CI_JOB_ID} ${SYNC_ENVIRONMENT:-staging}:overlay-version-bump-${CI_JOB_ID}
     - git checkout overlay-version-bump-${CI_JOB_ID}
     - echo "INFO - checking values files"
