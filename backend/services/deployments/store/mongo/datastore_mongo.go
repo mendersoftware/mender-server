@@ -424,7 +424,8 @@ type DataStoreMongo struct {
 
 func NewDataStoreMongoWithClient(client *mongo.Client) *DataStoreMongo {
 	return &DataStoreMongo{
-		database: client.Database(DefaultDbName),
+		database: client.Database(DefaultDbName, mopts.Database().
+			SetRegistry(newRegistry())),
 	}
 }
 
@@ -667,9 +668,6 @@ func (db *DataStoreMongo) Update(ctx context.Context,
 
 	collReleases := db.database.Collection(CollectionReleases)
 
-	// add special representation of artifact provides
-	image.ArtifactMeta.ProvidesIdx = model.ProvidesIdx(image.ArtifactMeta.Provides)
-
 	image.SetModified(time.Now())
 	if res, err := collReleases.UpdateOne(
 		ctx, bson.M{
@@ -702,34 +700,61 @@ func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
 	}
 
 	query := bson.D{
-		{Key: StorageKeyReleaseArtifactsId, Value: bson.M{"$in": ids}},
-
 		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
-
-		{Key: StorageKeyReleaseArtifactsDeviceTypes, Value: deviceType},
+		{Key: StorageKeyReleaseArtifactsId, Value: bson.D{
+			{Key: "$in", Value: ids},
+		}},
 	}
 
-	collImg := db.database.Collection(CollectionReleases)
+	artifactFilter := bson.D{
+		{Key: "input", Value: "$" + StorageKeyReleaseArtifacts},
+		{Key: "as", Value: "artifact"},
+		{Key: "cond", Value: bson.D{
+			{Key: "$in", Value: bson.A{
+				bson.D{
+					{Key: "$literal", Value: Depend{
+						Key:   "device_type",
+						Value: deviceType,
+					}},
+				},
+				"$$artifact.meta_artifact.depends",
+			}},
+		}},
+	}
 
-	// If multiple entries matches, pick the smallest one
-	findOpts := mopts.FindOne()
-	findOpts.SetSort(bson.D{{Key: "artifacts.$.size", Value: 1}}).
-		SetProjection(bson.M{"artifacts.$": 1})
-
-	// Both we lookup unique object, should be one or none.
-	var release model.Release
-	if err := collImg.FindOne(ctx, query, findOpts).
-		Decode(&release); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
+	collReleases := db.database.Collection(CollectionReleases)
+	cur, err := collReleases.Aggregate(ctx, mongo.Pipeline{
+		{{Key: "$match", Value: query}},
+		{{Key: "$project", Value: bson.D{
+			{Key: StorageKeyId, Value: 0},
+			{Key: StorageKeyReleaseArtifacts, Value: bson.D{
+				{Key: "$filter", Value: artifactFilter},
+			}},
+		}}},
+		{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+		{{Key: "$sort", Value: bson.D{
+			{Key: StorageKeyReleaseArtifactsSize, Value: 1}},
+		}},
+		{{Key: "$limit", Value: 1}},
+	})
+	if err != nil {
 		return nil, err
 	}
-	if len(release.Artifacts) == 0 {
-		return nil, nil
+	defer cur.Close(ctx)
+	// Both we lookup unique object, should be one or none.
+	var result struct {
+		Artifact *model.Image `bson:"artifacts"`
 	}
-
-	return &release.Artifacts[0], nil
+	if cur.Next(ctx) {
+		err = cur.Err()
+		if err == nil {
+			err = cur.Decode(&result)
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	return result.Artifact, nil
 }
 
 func newDependsConflictError(mgoErr mongo.WriteError) *model.ConflictError {

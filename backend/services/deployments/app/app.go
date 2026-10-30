@@ -998,7 +998,10 @@ func getMetaFromArchive(r *io.Reader, skipVerify bool) (*model.ArtifactMeta, err
 
 	metaArtifact.Name = aReader.GetArtifactName()
 	if metaArtifact.Info.Version == 3 {
-		metaArtifact.Depends, err = aReader.MergeArtifactDepends()
+		artifactDepends, err := aReader.MergeArtifactDepends()
+		if err == nil {
+			metaArtifact.Depends, err = model.DependsFromMenderArtifact(artifactDepends)
+		}
 		if err != nil {
 			return nil, errors.Wrap(err,
 				"error parsing version 3 artifact")

@@ -15,6 +15,7 @@ package mongo
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -60,64 +61,138 @@ func (db *DataStoreMongo) UpdateReleaseArtifactDescription(
 	return nil
 }
 
-func (db *DataStoreMongo) UpdateReleaseArtifacts(
+func (db *DataStoreMongo) AddArtifactToRelease(
 	ctx context.Context,
-	artifactToAdd *model.Image,
-	artifactToRemove *model.Image,
-	releaseName string,
+	artifact model.Image,
 ) error {
 	collReleases := db.database.Collection(CollectionReleases)
+	var (
+		dependsFilters []bson.D
+		dependsKeys    []string
+	)
+	for key, values := range artifact.Depends {
+		dependsKeys = append(dependsKeys, key)
+		dependsTerms := make([]Depend, len(values))
+		for i, value := range values {
+			dependsTerms[i].Key = key
+			dependsTerms[i].Value = value
+		}
+		dependsFilters = append(dependsFilters, bson.D{
+			{Key: StorageKeyReleaseArtifacts, Value: bson.D{
+				// For each artifact
+				{Key: "$elemMatch", Value: bson.D{
+					{Key: `meta_artifact.depends`, Value: bson.D{
+						// For each depends term
+						{Key: "$elemMatch", Value: bson.D{
+							// Term matches
+							{Key: "$in", Value: dependsTerms},
+						}},
+					}},
+				}},
+			}},
+		})
+	}
+	// This artificially produce the same uniqueness constraint as the former depends_idx.
+	// The upsert will make a conflicting artifact trigger an insert causing index violation
+	// on the release name.
+	// First $or term
+	filter := bson.M{
+		StorageKeyTenantId:    identity.FromContext(ctx).GetTenantID(),
+		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+		StorageKeyReleaseName: artifact.Name,
 
-	opt := mopts.UpdateOne()
+		// FIXME: Uniqueness by depends is overly complicated and does not make any sense.
+		// Consider changing with uniqueness on provides and update type:
+		// {
+		// 	StorageKeyReleaseArtifacts: {
+		// 		$elemMatch: {
+		// 			meta_artifact.provides: {
+		// 				$ne: artifact.Provides
+		// 			}
+		// 			meta_artifact.updates.type_info.type: {
+		// 				$nin: artifact.Updates.map(update => update.TypeInfo.Type)
+		// 			}
+		// 		}
+		// 	}
+		// }
+		"$or": []bson.D{
+			{{Key: StorageKeyReleaseArtifacts, Value: bson.D{
+				// For each artifact
+				{Key: "$elemMatch", Value: bson.D{
+					// No keys outside dependsKeys
+					{Key: `meta_artifact.depends.k`, Value: bson.D{
+						{Key: "$nin", Value: dependsKeys},
+					}},
+				}},
+			}}},
+			// At least one depends term per key matches
+			// - or inverse, there is no complete set of key-value pairs that overlap.
+			{{Key: "$nor", Value: []bson.D{
+				{{Key: "$and", Value: dependsFilters}},
+			}}},
+		},
+	}
 	update := bson.M{
 		"$set": bson.M{
-			StorageKeyReleaseName:     releaseName,
+			StorageKeyReleaseName:     artifact.Name,
 			StorageKeyReleaseModified: time.Now(),
 		},
 	}
-	if artifactToRemove != nil {
-		update["$pull"] = bson.M{
-			StorageKeyReleaseArtifacts: bson.M{StorageKeyId: artifactToRemove.Id},
-		}
-		update["$inc"] = bson.M{
-			StorageKeyReleaseArtifactsCount: -1,
-		}
+	update["$push"] = bson.M{StorageKeyReleaseArtifacts: artifact}
+	update["$inc"] = bson.M{
+		StorageKeyReleaseArtifactsCount: 1,
 	}
-	if artifactToAdd != nil {
-		opt.SetUpsert(true)
-		update["$push"] = bson.M{StorageKeyReleaseArtifacts: artifactToAdd}
-		update["$inc"] = bson.M{
+	update["$setOnInsert"] = bson.M{StorageKeyReleaseCreated: time.Now()}
+	_, err := collReleases.UpdateOne(ctx, filter, update, mopts.UpdateOne().
+		SetUpsert(true))
+	// TODO: Handle conflicts a better
+	return err
+}
+
+func (db *DataStoreMongo) RemoveArtifactFromRelease(
+	ctx context.Context,
+	artifactID string,
+) error {
+	collReleases := db.database.Collection(CollectionReleases)
+	tenantID := identity.FromContext(ctx).GetTenantID()
+	filter := bson.M{
+		StorageKeyReleaseKind:        bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+		StorageKeyReleaseArtifactsId: artifactID,
+		StorageKeyTenantId:           tenantID,
+	}
+	update := bson.M{
+		"$set":  bson.M{StorageKeyReleaseModified: time.Now()},
+		"$pull": bson.M{StorageKeyReleaseArtifacts: bson.M{StorageKeyId: artifactID}},
+		"$inc":  bson.M{StorageKeyReleaseArtifactsCount: -1},
+	}
+	var res model.Release
+	err := collReleases.FindOneAndUpdate(ctx, filter, update, mopts.FindOneAndUpdate().
+		SetUpsert(true).
+		SetReturnDocument(mopts.After).
+		SetProjection(bson.M{
+			StorageKeyReleaseName:           1,
 			StorageKeyReleaseArtifactsCount: 1,
-		}
-		update["$setOnInsert"] = bson.M{StorageKeyReleaseCreated: time.Now()}
-	}
-	_, err := collReleases.UpdateOne(
-		ctx,
-		bson.M{
-			StorageKeyTenantId:    identity.FromContext(ctx).GetTenantID(),
-			StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
-			StorageKeyReleaseName: releaseName,
-		},
-		update,
-		opt,
-	)
+		}),
+	).
+		Decode(&res)
 	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return store.ErrNotFound
+		}
 		return err
 	}
-	if artifactToRemove != nil {
-		r := collReleases.FindOneAndDelete(
-			ctx,
-			bson.M{
-				StorageKeyReleaseKind:      bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
-				StorageKeyReleaseName:      releaseName,
-				StorageKeyReleaseArtifacts: bson.M{"$size": 0},
-			},
-		)
-		if r.Err() != nil {
-			return err
+	if res.ArtifactsCount == 0 {
+		// Cleanup empty release
+		_, err := collReleases.DeleteOne(ctx, bson.M{
+			StorageKeyTenantId:              tenantID,
+			StorageKeyReleaseName:           res.Name,
+			StorageKeyReleaseArtifactsCount: 0,
+		})
+		if err != nil {
+			return fmt.Errorf("failed to clean up empty release: %w", err)
 		}
 	}
-	return nil
+	return err
 }
 
 func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, error) {

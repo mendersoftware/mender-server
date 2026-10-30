@@ -256,11 +256,15 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 		return fmt.Errorf("failed to list existing databases: %w", err)
 	}
 	collReleases := db.Collection(CollectionReleases)
+	defaultRegistry := bson.NewMgoRegistry()
 	for _, dbName := range dbNames {
 		logger.Debugf("migrating database documents from %q", dbName)
 		legacyDB := dbClient.Database(dbName,
 			options.Database().SetReadPreference(readpref.Nearest()))
-		err := m.migrateReleaseDocuments(ctx, collReleases, legacyDB.Collection(CollectionReleases))
+		err := m.migrateReleaseDocuments(ctx, collReleases, legacyDB.Collection(
+			CollectionReleases, options.Collection().
+				SetRegistry(defaultRegistry),
+		))
 		if err != nil {
 			return fmt.Errorf("[%s] failed to migrate releases: %w", dbName, err)
 		}

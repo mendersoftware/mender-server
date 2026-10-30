@@ -28,11 +28,13 @@ type DataStore interface {
 	//releases
 	GetReleases(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]model.Release, int, error)
 	GetRelease(ctx context.Context, releaseName string) (*model.Release, error)
-	UpdateReleaseArtifacts(
+	RemoveArtifactFromRelease(
 		ctx context.Context,
-		artifactToAdd *model.Image,
-		artifactToRemove *model.Image,
-		releaseName string,
+		artifactID string,
+	) error
+	AddArtifactToRelease(
+		ctx context.Context,
+		artifact model.Image,
 	) error
 	UpdateReleaseArtifactDescription(
 		ctx context.Context,

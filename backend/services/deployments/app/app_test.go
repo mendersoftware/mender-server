@@ -330,7 +330,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 							DeviceTypesCompatible: []string{
 								"hammer",
 							},
-							Depends: map[string]interface{}{},
+							Depends: map[string][]string{},
 						}, artifactSize)},
 					testCase.InputImagesByNameError)
 

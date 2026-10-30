@@ -50,16 +50,13 @@ func (d *Deployments) updateRelease(
 	artifactToAdd *model.Image,
 	artifactToRemove *model.Image,
 ) error {
-	name := ""
 	if artifactToRemove != nil {
-		name = artifactToRemove.ArtifactMeta.Name
+		return d.db.RemoveArtifactFromRelease(ctx, artifactToRemove.Id)
 	} else if artifactToAdd != nil {
-		name = artifactToAdd.ArtifactMeta.Name
+		return d.db.AddArtifactToRelease(ctx, *artifactToAdd)
 	} else {
 		return ErrEmptyArtifact
 	}
-
-	return d.db.UpdateReleaseArtifacts(ctx, artifactToAdd, artifactToRemove, name)
 }
 
 func (d *Deployments) ListReleaseTags(ctx context.Context) (model.Tags, error) {
