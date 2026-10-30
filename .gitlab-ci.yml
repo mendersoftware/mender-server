@@ -49,9 +49,9 @@ variables:
   # Defines the docker tags of built artifacts objects
   MENDER_IMAGE_REGISTRY: "${CI_REGISTRY}"
   MENDER_IMAGE_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
-  MENDER_IMAGE_TAG: "build-${CI_COMMIT_SHA}"
-  MENDER_IMAGE_TAG_TEST: "test-${CI_COMMIT_SHA}"
-  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_COMMIT_SHA}"
+  MENDER_IMAGE_TAG: "build-${CI_PIPELINE_ID}-${CI_COMMIT_SHA}"
+  MENDER_IMAGE_TAG_TEST: "test-${CI_PIPELINE_ID}-${CI_COMMIT_SHA}"
+  MENDER_IMAGE_TAG_BUILDER: "builder-${CI_PIPELINE_ID}-${CI_COMMIT_SHA}"
 
   AWS_REGION:
     value: "eu-central-1"
@@ -768,7 +768,7 @@ test:integration:
     #       expanded in the downstream project context.
     MENDER_SERVER_REGISTRY: "${CI_REGISTRY}"
     MENDER_SERVER_REPOSITORY: "northern.tech/mender/${CI_PROJECT_NAME}"
-    MENDER_SERVER_TAG: "build-${CI_COMMIT_SHA}"
+    MENDER_SERVER_TAG: "build-${CI_PIPELINE_ID}-${CI_COMMIT_SHA}"
     PYTEST_ADDOPTS: "-k 'not Enterprise'"
     RUN_TESTS_FULL_INTEGRATION: "true"
   trigger:
@@ -928,6 +928,17 @@ publish:backend:coverage:
         done
       }
 
+      # Resolve the source tag once so every registry gets the same manifest
+      # and the recorded digest is valid for all of them.
+      pin_digest() {
+        ref="$1"; digestfile="$2"
+        manifest=$(mktemp)
+        skopeo inspect --raw "docker://${ref}" > "${manifest}" || return 1
+        mkdir -p "$(dirname "${digestfile}")"
+        printf 'sha256:%s' "$(sha256sum "${manifest}" | cut -d' ' -f1)" > "${digestfile}"
+        rm -f "${manifest}"
+      }
+
 publish:backend:docker:
   stage: publish
   image:
@@ -963,8 +974,14 @@ publish:backend:docker:
         done
       }
 
-      publish_backend_to "${MENDER_PUBLISH_REGISTRY}" \
-        SKOPEO_ARGS='--digestfile '"${CI_PROJECT_DIR}"'/.digests/$(COMPONENT)'
+      export MENDER_PUBLISH_DIGESTS_DIR="${CI_PROJECT_DIR}/.digests"
+      for service in backend/services/*/; do
+        service=$(basename "${service}")
+        pin_digest "${MENDER_IMAGE_REGISTRY}/${MENDER_IMAGE_REPOSITORY}/${service}:${MENDER_IMAGE_TAG}" \
+          "${MENDER_PUBLISH_DIGESTS_DIR}/${service}"
+      done
+
+      publish_backend_to "${MENDER_PUBLISH_REGISTRY}"
       for_each_ecr_target publish_backend_to
   artifacts:
     when: on_success
