@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -63,6 +63,8 @@ interface SoftwareArtifactFilterProps {
   selectedSoftware?: string;
 }
 
+type FilterValues = { kind: SoftwareKind | null; searchTerm: string; tags: string[]; type: string | null };
+
 type SoftwareKindOption = { disabled?: boolean; key: SoftwareKind; title: string };
 const softwareKindOptions: Record<SoftwareKind, SoftwareKindOption> = {
   release: { key: 'release', title: 'Release' },
@@ -72,7 +74,7 @@ const softwareKindOptions: Record<SoftwareKind, SoftwareKindOption> = {
 export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   const { open, onClose, onSelect, selectedSoftware, kind } = props;
   const { classes } = useStyles();
-  const [initialValues] = useState<{ kind: SoftwareKind | null; searchTerm: string; tags: string[]; type: string | null }>({
+  const [initialValues] = useState<FilterValues>({
     tags: [],
     type: null,
     searchTerm: '',
@@ -85,7 +87,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   const [softwareItems, setSoftwareItems] = useState<Software[]>([]);
   const isEnterprise = useSelector(getIsEnterprise);
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
-  const { formState, reset, setFocus } = methods;
+  const { formState, handleSubmit, reset, setFocus } = methods;
   const filterValues = useWatch({ control: methods.control, name: ['tags', 'type', 'searchTerm', 'kind'] });
   const selectedKind = useWatch({ control: methods.control, name: 'kind' });
   const debouncedFilters = useDebounce(filterValues, 500);
@@ -109,24 +111,31 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
     return () => clearTimeout(timer.current);
   }, [open, setFocus]);
 
+  const fetchSoftware = useCallback(
+    ({ tags, type, searchTerm, kind: softwareKind }: FilterValues) =>
+      dispatch(
+        getSoftwareList({
+          page: 1,
+          perPage: 100,
+          searchTerm,
+          kind: softwareKind ?? undefined,
+          selectedTags: tags,
+          type: softwareKind === softwareKindOptions.manifest.key || !type ? undefined : type
+        })
+      )
+        .unwrap()
+        .then(({ software }) => setSoftwareItems(software)),
+    [dispatch]
+  );
+
   useEffect(() => {
     if (!open) {
       return;
     }
     const [tags, type, searchTerm, debouncedKind] = debouncedFilters;
-    dispatch(
-      getSoftwareList({
-        page: 1,
-        perPage: 100,
-        searchTerm,
-        kind: debouncedKind ?? undefined,
-        selectedTags: tags,
-        type: debouncedKind === softwareKindOptions.manifest.key || !type ? undefined : type
-      })
-    )
-      .unwrap()
-      .then(({ software }) => setSoftwareItems(software));
-  }, [open, debouncedFilters, dispatch]);
+    fetchSoftware({ tags, type, searchTerm, kind: debouncedKind });
+  }, [open, debouncedFilters, fetchSoftware]);
+
   const { isDirty } = formState;
   const kindOptions: SoftwareKindOption[] = Object.values(softwareKindOptions).map(option => ({
     ...option,
@@ -163,7 +172,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
           )}
         </div>
         <FormProvider {...methods}>
-          <form noValidate>
+          <form noValidate onSubmit={handleSubmit(fetchSoftware)}>
             {showAdvancedFilters && (
               <div className="two-columns margin-top-small">
                 <div className="flexbox column">
