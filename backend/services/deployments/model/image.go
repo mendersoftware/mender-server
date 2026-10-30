@@ -16,6 +16,7 @@ package model
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"path"
 	"time"
@@ -23,10 +24,8 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/v2/doc"
 )
 
 const (
@@ -38,8 +37,6 @@ var (
 	StorageKeyImageProvidesIdxKey   = "meta_artifact.provides_idx.key"
 	StorageKeyImageProvidesIdxValue = "meta_artifact.provides_idx.value"
 )
-
-type ProvidesIdx map[string]string
 
 func ImagePathFromContext(ctx context.Context, id string) string {
 	imgPath := id
@@ -108,13 +105,9 @@ type ArtifactMeta struct {
 	//nolint: lll
 	Provides map[string]string `json:"artifact_provides,omitempty" bson:"provides,omitempty" valid:"-"`
 
-	// ProvidesIdx is special representation of provides
-	// which makes possible to index and query using provides.
-	ProvidesIdx ProvidesIdx `json:"-" bson:"provides_idx,omitempty"`
-
 	// Depends is a map[string]interface{} (JSON) of artifact_depends used
 	// for checking/validate against artifact (version 3) provides.
-	Depends map[string]interface{} `json:"artifact_depends,omitempty" bson:"depends" valid:"-"`
+	Depends Depends `json:"artifact_depends,omitempty" bson:"depends" valid:"-"`
 
 	// ClearsProvides is a list of strings (JSON) of clears_artifact_provides used
 	// for clearing already-installed artifact (version 3) provides.
@@ -122,41 +115,44 @@ type ArtifactMeta struct {
 	ClearsProvides []string `json:"clears_artifact_provides,omitempty" bson:"clears_provides,omitempty" valid:"-"`
 }
 
-// MarshalBSON transparently creates depends_idx field on bson.Marshal
-func (am ArtifactMeta) MarshalBSON() ([]byte, error) {
-	if err := am.Validate(); err != nil {
-		return nil, err
-	}
-	dependsIdx, err := doc.UnwindMap(am.Depends)
-	if err != nil {
-		return nil, err
-	}
-	doc := doc.DocumentFromStruct(am, bson.E{
-		Key: "depends_idx", Value: dependsIdx,
-	})
-	return bson.Marshal(doc)
+type Depends map[string][]string
+
+func (deps Depends) Add(k, v string) {
+	deps[k] = append(deps[k], v)
 }
 
-// MarshalBSONValue transparently creates depends_idx field on bson.MarshalValue
-// which is called if ArtifactMeta is marshaled as an embedded document.
-func (am ArtifactMeta) MarshalBSONValue() (bson.Type, []byte, error) {
-	if err := am.Validate(); err != nil {
-		return bson.TypeNull, nil, err
+func DependsFromMenderArtifact(m map[string]any) (Depends, error) {
+	deps := make(Depends, len(m))
+	for k, v := range m {
+		var err error
+		switch value := v.(type) {
+		case string:
+			deps[k] = []string{value}
+		case []string:
+			deps[k] = value
+		case []any:
+			dep := make([]string, 0, len(value))
+			for _, anyValue := range value {
+				if s, ok := anyValue.(string); ok {
+					dep = append(dep, s)
+				} else {
+					err = fmt.Errorf("invalid dpeends type %T", anyValue)
+					break
+				}
+			}
+			deps[k] = dep
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
-	dependsIdx, err := doc.UnwindMap(am.Depends)
-	if err != nil {
-		return bson.TypeNull, nil, err
-	}
-	doc := doc.DocumentFromStruct(am, bson.E{
-		Key: "depends_idx", Value: dependsIdx,
-	})
-	return bson.MarshalValue(doc)
+	return deps, nil
 }
 
 // Validate checks structure according to valid tags.
 func (am *ArtifactMeta) Validate() error {
 	if am.Depends == nil {
-		am.Depends = make(map[string]interface{})
+		am.Depends = make(Depends)
 	}
 	am.Depends["device_type"] = am.DeviceTypesCompatible
 
@@ -191,14 +187,6 @@ type Image struct {
 
 	// Last modification time, including image upload time
 	Modified *time.Time `json:"modified" valid:"-"`
-}
-
-func (img Image) MarshalBSON() (b []byte, err error) {
-	return bson.Marshal(doc.DocumentFromStruct(img))
-}
-
-func (img Image) MarshalBSONValue() (bson.Type, []byte, error) {
-	return bson.MarshalValue(doc.DocumentFromStruct(img))
 }
 
 // Validate checks structure according to valid tags.
@@ -298,41 +286,6 @@ func (msg MultipartGenerateImageMsg) Validate() error {
 	if msg.FileReader == nil {
 		return errors.New("missing 'file' section")
 	}
-	return nil
-}
-
-type provideInternal struct {
-	Key   string
-	Value string
-}
-
-func (p ProvidesIdx) MarshalBSONValue() (bson.Type, []byte, error) {
-	attrs := make([]provideInternal, len(p))
-	i := 0
-	for k, v := range p {
-		attrs[i].Key = k
-		attrs[i].Value = v
-		i++
-	}
-	return bson.MarshalValue(attrs)
-}
-
-func (p *ProvidesIdx) UnmarshalBSONValue(t bson.Type, b []byte) error {
-	raw := bson.Raw(b)
-	elems, err := raw.Elements()
-	if err != nil {
-		return err
-	}
-	*p = make(ProvidesIdx, len(elems))
-	var tmp provideInternal
-	for _, elem := range elems {
-		err = elem.Value().Unmarshal(&tmp)
-		if err != nil {
-			return err
-		}
-		(*p)[tmp.Key] = tmp.Value
-	}
-
 	return nil
 }
 
