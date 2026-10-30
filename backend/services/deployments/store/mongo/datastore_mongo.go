@@ -2003,19 +2003,15 @@ func (db *DataStoreMongo) hasIndexing(ctx context.Context) bool {
 }
 
 type Deployment struct {
-	*model.Deployment `bson:",inline"`
-	TenantID          string `bson:"tenant_id"`
+	model.Deployment `bson:",inline"`
+	TenantID         string `bson:"tenant_id"`
 }
 
 // Insert persists object
 func (db *DataStoreMongo) InsertDeployment(
 	ctx context.Context,
-	deployment *model.Deployment,
+	deployment model.Deployment,
 ) error {
-
-	if deployment == nil {
-		return ErrDeploymentStorageInvalidDeployment
-	}
 
 	if err := deployment.Validate(); err != nil {
 		return err

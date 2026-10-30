@@ -1139,7 +1139,7 @@ func (d *Deployments) CreateDeviceConfigurationDeployment(
 	}
 	deployment.Groups = groups
 
-	if err := d.db.InsertDeployment(ctx, deployment); err != nil {
+	if err := d.db.InsertDeployment(ctx, *deployment); err != nil {
 		if err == mongo.ErrConflictingDeployment {
 			return "", ErrDuplicateDeployment
 		}
@@ -1208,7 +1208,7 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 		deployment.Groups = groups
 	}
 
-	if err := d.db.InsertDeployment(ctx, deployment); err != nil {
+	if err := d.db.InsertDeployment(ctx, *deployment); err != nil {
 		if err == mongo.ErrConflictingDeployment {
 			return "", ErrConflictingDeployment
 		}

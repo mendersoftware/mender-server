@@ -495,11 +495,11 @@ func TestInsertDeploymentConflict(t *testing.T) {
 			if tc.not_active {
 				deployment1.Status = model.DeploymentStatusFinished
 			}
-			err = ds.InsertDeployment(ctx, deployment1)
+			err = ds.InsertDeployment(ctx, *deployment1)
 			assert.Nil(t, err)
 
 			deployment2, _ := model.NewDeploymentFromConstructor(tc.constructor2)
-			err = ds.InsertDeployment(ctx, deployment2)
+			err = ds.InsertDeployment(ctx, *deployment2)
 			if tc.err != nil {
 				assert.EqualError(t, err, tc.err.Error())
 			} else {
@@ -571,7 +571,7 @@ func TestSetDeploymentDeviceCount(t *testing.T) {
 
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
-			err := ds.InsertDeployment(ctx, tc.deployment)
+			err := ds.InsertDeployment(ctx, *tc.deployment)
 			assert.Nil(t, err)
 
 			err = ds.SetDeploymentDeviceCount(ctx, tc.deployment.Id, tc.count)
@@ -678,7 +678,7 @@ func TestSortDeployments(t *testing.T) {
 	var deploymentsQty int64 = 2
 
 	for _, depl := range inputDeployments {
-		err := ds.InsertDeployment(ctx, depl)
+		err := ds.InsertDeployment(ctx, *depl)
 		assert.NoError(t, err)
 	}
 
@@ -1040,7 +1040,7 @@ func TestFindDeploymentStatsByIDs(t *testing.T) {
 	ds := NewDataStoreMongoWithClient(db.Client())
 
 	for _, deployment := range deployments {
-		assert.NoError(t, ds.InsertDeployment(ctx, deployment))
+		assert.NoError(t, ds.InsertDeployment(ctx, *deployment))
 	}
 
 	testCases := map[string]struct {
