@@ -580,7 +580,7 @@ func TestUpdateDeviceDeploymentLogAvailability(t *testing.T) {
 				err := collDevs.FindOne(ctx, query).
 					Decode(&deployment)
 				assert.NoError(t, err)
-				assert.Equal(t, testCase.InputLog, deployment.IsLogAvailable)
+				assert.True(t, testCase.InputLog == (deployment.Log != nil))
 			}
 		})
 	}
@@ -590,7 +590,6 @@ func newDeviceDeploymentWithStatus(t *testing.T, deviceID string, deploymentID s
 	d := model.NewDeviceDeployment(deviceID, deploymentID)
 
 	d.Status = status
-	d.Active = status.Active()
 	return d
 }
 

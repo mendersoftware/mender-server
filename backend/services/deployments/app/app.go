@@ -1926,12 +1926,7 @@ func (d *Deployments) SaveDeviceDeploymentLog(ctx context.Context, deviceID stri
 		}
 	}
 
-	if err := d.db.SaveDeviceDeploymentLog(ctx, deviceID, deploymentID, dlog); err != nil {
-		return err
-	}
-
-	return d.db.UpdateDeviceDeploymentLogAvailability(ctx,
-		deviceID, deploymentID, true)
+	return d.db.SaveDeviceDeploymentLog(ctx, deviceID, deploymentID, dlog)
 }
 
 func (d *Deployments) GetDeviceDeploymentLog(ctx context.Context,

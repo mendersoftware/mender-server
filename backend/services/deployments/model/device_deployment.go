@@ -225,14 +225,11 @@ type DeviceDeployment struct {
 	// deployments/next request from the device
 	Request *DeploymentNextRequest `json:"-"`
 
-	// Presence of deployment log
-	IsLogAvailable bool `json:"log" bson:"log"`
-
 	// Device reported substate
 	SubState string `json:"substate,omitempty" bson:"substate,omitempty"`
 
 	// Deployment logs
-	Log DeploymentLog `json:"-" bson:"log,omitempty"`
+	Log *DeploymentLog `json:"-" bson:"log,omitempty"`
 }
 
 func NewDeviceDeployment(deviceId, deploymentId string) *DeviceDeployment {
@@ -246,12 +243,11 @@ func NewDeviceDeployment(deviceId, deploymentId string) *DeviceDeployment {
 	id := uid.String()
 
 	return &DeviceDeployment{
-		Status:         DeviceDeploymentStatusPending,
-		DeviceId:       deviceId,
-		DeploymentId:   deploymentId,
-		Id:             id,
-		Created:        &now,
-		IsLogAvailable: false,
+		Status:       DeviceDeploymentStatusPending,
+		DeviceId:     deviceId,
+		DeploymentId: deploymentId,
+		Id:           id,
+		Created:      &now,
 	}
 }
 
@@ -267,6 +263,18 @@ func (d DeviceDeployment) Validate() error {
 		return err
 	}
 	return nil
+}
+
+func (d DeviceDeployment) MarshalJSON() ([]byte, error) {
+	type DeviceDeploymentJSON DeviceDeployment
+	type deviceDeployment struct {
+		*DeviceDeploymentJSON
+		Log bool `json:"log"`
+	}
+	return json.Marshal(deviceDeployment{
+		DeviceDeploymentJSON: (*DeviceDeploymentJSON)(&d),
+		Log:                  d.Log != nil,
+	})
 }
 
 // Deployment statistics wrapper, each value carries a count of deployments

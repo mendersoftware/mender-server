@@ -376,17 +376,16 @@ const (
 
 	legacyStorageKeyDeviceDeploymentActive = "active"
 
-	StorageKeyDeviceDeploymentCreated        = "created"
-	StorageKeyDeviceDeploymentDeviceId       = "deviceid"
-	StorageKeyDeviceDeploymentStatus         = "status"
-	StorageKeyDeviceDeploymentStarted        = "started"
-	StorageKeyDeviceDeploymentSubState       = "substate"
-	StorageKeyDeviceDeploymentDeploymentID   = "deploymentid"
-	StorageKeyDeviceDeploymentFinished       = "finished"
-	StorageKeyDeviceDeploymentIsLogAvailable = "log"
-	StorageKeyDeviceDeploymentArtifact       = "image"
-	StorageKeyDeviceDeploymentRequest        = "request"
-	StorageKeyDeviceDeploymentDeleted        = "deleted"
+	StorageKeyDeviceDeploymentCreated      = "created"
+	StorageKeyDeviceDeploymentDeviceId     = "deviceid"
+	StorageKeyDeviceDeploymentStatus       = "status"
+	StorageKeyDeviceDeploymentStarted      = "started"
+	StorageKeyDeviceDeploymentSubState     = "substate"
+	StorageKeyDeviceDeploymentDeploymentID = "deploymentid"
+	StorageKeyDeviceDeploymentFinished     = "finished"
+	StorageKeyDeviceDeploymentArtifact     = "image"
+	StorageKeyDeviceDeploymentRequest      = "request"
+	StorageKeyDeviceDeploymentDeleted      = "deleted"
 
 	StorageKeyDeploymentName                = "deploymentconstructor.name"
 	StorageKeyDeploymentArtifactName        = "deploymentconstructor.artifactname"
@@ -1148,7 +1147,7 @@ func (db *DataStoreMongo) GetDeviceDeploymentLog(ctx context.Context,
 		return nil, err
 	}
 
-	return &depl.Log, nil
+	return depl.Log, nil
 }
 
 // device deployments
@@ -1392,40 +1391,6 @@ func (db *DataStoreMongo) UpdateDeviceDeploymentStatus(
 	}
 
 	return old.Status, nil
-}
-
-func (db *DataStoreMongo) UpdateDeviceDeploymentLogAvailability(ctx context.Context,
-	deviceID string, deploymentID string, log bool) error {
-
-	// Verify ID formatting
-	if len(deviceID) == 0 ||
-		len(deploymentID) == 0 {
-		return ErrStorageInvalidID
-	}
-
-	collDevs := db.database.Collection(CollectionDevices)
-
-	selector := bson.D{
-		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
-		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
-		{Key: StorageKeyDeviceDeploymentDeploymentID, Value: deploymentID},
-		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
-			{Key: "$exists", Value: false},
-		}},
-	}
-
-	update := bson.D{
-		{Key: "$set", Value: bson.M{
-			StorageKeyDeviceDeploymentIsLogAvailable: log}},
-	}
-
-	if res, err := collDevs.UpdateOne(ctx, selector, update); err != nil {
-		return err
-	} else if res.MatchedCount == 0 {
-		return ErrStorageNotFound
-	}
-
-	return nil
 }
 
 // SaveDeviceDeploymentRequest saves device deployment request
