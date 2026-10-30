@@ -14,7 +14,7 @@
     "@mui/x-charts": "9.16.0",
     "@mui/x-date-pickers": "9.16.0",
     "@northern.tech/common-ui": "0.10.2",
-    "@northern.tech/store": "0.49.5",
+    "@northern.tech/store": "0.49.6",
     "@northern.tech/themes": "0.18.2",
     "@northern.tech/utils": "^0.15.3",
     "@reduxjs/toolkit": "2.13.0",
