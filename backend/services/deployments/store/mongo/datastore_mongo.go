@@ -778,14 +778,7 @@ func (db *DataStoreMongo) InsertUploadIntent(ctx context.Context, link *model.Up
 	if idty := identity.FromContext(ctx); idty != nil {
 		link.TenantID = idty.Tenant
 	}
-	type UploadLink struct {
-		*model.UploadLink `bson:",inline"`
-		TenantID          string `bson:"tenant_id"`
-	}
-	_, err := collUploads.InsertOne(ctx, UploadLink{
-		UploadLink: link,
-		TenantID:   identity.FromContext(ctx).GetTenantID(),
-	})
+	_, err := collUploads.InsertOne(ctx, link)
 	return err
 }
 
