@@ -310,13 +310,18 @@ func (db *DataStoreMongo) UpdateRelease(
 // Get the update types
 func (db *DataStoreMongo) GetUpdateTypes(ctx context.Context) ([]string, error) {
 	c := db.database.Collection(CollectionReleases)
-	var result []string
-	err := c.Distinct(ctx, StorageKeyReleaseArtifactsUpdateTypes, bson.M{
+	res := c.Distinct(ctx, StorageKeyReleaseArtifactsUpdateTypes, bson.M{
 		StorageKeyTenantId:                    identity.FromContext(ctx).GetTenantID(),
 		StorageKeyReleaseArtifactsUpdateTypes: bson.M{"$type": "string"},
-	}).Decode(&result)
+	})
+	var result []string
+	raw, err := res.Raw()
 	if err == mongo.ErrNoDocuments {
 		return []string{}, nil
+	} else if err == nil {
+		// There seems to be a bug where DistinctResult.Decode does not work as expected
+		// falling back to bson.UnmarshalValue.
+		err = bson.UnmarshalValue(bson.TypeArray, raw, &result)
 	}
 	if err != nil {
 		return []string{}, err
