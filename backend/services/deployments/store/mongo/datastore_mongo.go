@@ -17,6 +17,7 @@ import (
 	"context"
 	"crypto/tls"
 	"regexp"
+	"slices"
 	"strings"
 	"time"
 
@@ -895,18 +896,23 @@ func (db *DataStoreMongo) ListImages(
 
 	collReleases := db.database.Collection(CollectionReleases)
 
-	filters := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
+	tenantID := identity.FromContext(ctx).GetTenantID()
+	artifactFilter := bson.M{}
+	releaseFilter := bson.M{
+		StorageKeyTenantId: tenantID,
+	}
+
 	if filt != nil {
 		if filt.Name != "" {
-			filters[StorageKeyReleaseName] = bson.M{
-				"name": bson.M{"$regex": bson.Regex{
+			releaseFilter[StorageKeyReleaseName] = bson.M{
+				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 					Options: "i",
-				}},
+				},
 			}
 		}
 		if filt.Description != "" {
-			filters[StorageKeyReleaseArtifactsDescription] = bson.M{
+			artifactFilter[StorageKeyImageDescription] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 					Options: "i",
@@ -914,7 +920,7 @@ func (db *DataStoreMongo) ListImages(
 			}
 		}
 		if filt.DeviceType != "" {
-			filters[StorageKeyReleaseArtifactsDeviceTypes] = bson.M{
+			artifactFilter[StorageKeyImageDeviceTypes] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 					Options: "i",
@@ -924,7 +930,7 @@ func (db *DataStoreMongo) ListImages(
 
 	}
 
-	filterPipe := mongo.Pipeline{}
+	var skipNLimit mongo.Pipeline
 	sortField := StorageKeyReleaseName
 	sortOrder := 1
 	if filt != nil {
@@ -937,45 +943,75 @@ func (db *DataStoreMongo) ListImages(
 			sortOrder = order
 		}
 	}
-	filterPipe = append(filterPipe, bson.D{{Key: "$sort", Value: bson.M{
-		sortField:    sortOrder,
-		StorageKeyId: sortOrder,
-	}}})
 	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		filterPipe = append(filterPipe, bson.D{{Key: "$skip", Value: int64((filt.Page - 1) * filt.PerPage)}})
-		filterPipe = append(filterPipe, bson.D{{Key: "$limit", Value: int64(filt.PerPage)}})
+		skipNLimit = mongo.Pipeline{
+			{{Key: "$skip", Value: int64((filt.Page - 1) * filt.PerPage)}},
+			{{Key: "$limit", Value: int64(filt.PerPage)}},
+		}
+	} else {
+		skipNLimit = mongo.Pipeline{
+			{{Key: "$limit", Value: int64(DefaultDocumentLimit)}},
+		}
 	}
 
-	combinedPipe := mongo.Pipeline{{
-		{Key: "$match", Value: filters},
-		{Key: "$unwind", Value: StorageKeyReleaseArtifacts},
-		{Key: "$facet", Value: bson.M{
-			"artifacts": filterPipe,
-			"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
-		}},
-	}}
+	var combinedPipe mongo.Pipeline
+	if sortField == StorageKeyReleaseName {
+		combinedPipe = mongo.Pipeline{
+			{{Key: "$match", Value: releaseFilter}},
+			{{Key: "$sort", Value: bson.D{{Key: sortField, Value: sortOrder}}}},
+			{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+			{{Key: "$replaceRoot", Value: bson.D{
+				{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+			}}},
+			{{Key: "$match", Value: artifactFilter}},
+			{{Key: "$facet", Value: bson.M{
+				"artifacts": skipNLimit,
+				"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
+			}}},
+		}
+	} else {
+		skipNLimit = slices.Insert(skipNLimit, 0, bson.D{
+			{Key: "$sort", Value: bson.D{
+				{Key: sortField, Value: sortOrder},
+			}},
+		})
+		combinedPipe = mongo.Pipeline{
+			{{Key: "$match", Value: releaseFilter}},
+			{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+			{{Key: "$replaceRoot", Value: bson.D{
+				{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+			}}},
+			{{Key: "$facet", Value: bson.M{
+				"artifacts": &skipNLimit,
+				"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
+			}}},
+		}
+	}
+
 	cursor, err := collReleases.Aggregate(ctx, combinedPipe)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	// NOTE: cursor.All closes the cursor before returning
-	var result []struct {
+	var result struct {
 		Artifacts []*model.Image `bson:"artifacts"`
-		Count     struct {
+		Count     []struct {
 			N int64 `bson:"n"`
 		} `bson:"count"`
 	}
-	if err := cursor.All(ctx, &result); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, 0, nil
+	if cursor.Next(ctx) {
+		err = cursor.Err()
+		if err == nil {
+			err = cursor.Decode(&result)
 		}
+	}
+	if err != nil {
 		return nil, 0, err
-	} else if len(result) == 0 {
+	} else if len(result.Artifacts) == 0 {
 		return nil, 0, nil
 	}
-
-	return result[0].Artifacts, int(result[0].Count.N), nil
+	return result.Artifacts, int(result.Count[0].N), nil
 }
 
 /*
@@ -1005,13 +1041,14 @@ func (db *DataStoreMongo) ListImagesV2(
 	filt *model.ImageFilter,
 ) ([]*model.Image, error) {
 	collReleases := db.database.Collection(CollectionReleases)
-	filters := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
+	releaseFilters := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
+	filters := bson.M{}
 	if filt != nil {
 		if len(filt.ExactNames) > 0 {
-			filters[StorageKeyReleaseName] = bson.M{"$in": filt.ExactNames}
+			releaseFilters[StorageKeyReleaseName] = bson.M{"$in": filt.ExactNames}
 		} else if len(filt.NamePrefixes) == 1 {
 			name := filt.NamePrefixes[0]
-			filters[StorageKeyReleaseName] = bson.M{
+			releaseFilters[StorageKeyReleaseName] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: "^" + regexp.QuoteMeta(name) + ".*",
 					Options: "i",
@@ -1019,48 +1056,72 @@ func (db *DataStoreMongo) ListImagesV2(
 			}
 		}
 		if filt.Description != "" {
-			if strings.HasSuffix(filt.Description, "*") && !strings.HasSuffix(filt.Description, `\*`) {
+			if strings.HasSuffix(filt.Description, `\*`) {
+				description := strings.TrimSuffix(filt.Description, `\*`) + "*"
+				filters[StorageKeyImageDescription] = description
+
+			} else if strings.HasSuffix(filt.Description, "*") {
 				description := strings.TrimSuffix(filt.Description, "*")
-				filters[StorageKeyReleaseArtifactsDescription] = bson.M{
+				filters[StorageKeyImageDescription] = bson.M{
 					"$regex": bson.Regex{
 						Pattern: "^" + regexp.QuoteMeta(description) + ".*",
 						Options: "i",
 					},
 				}
 			} else {
-				filters[StorageKeyReleaseArtifactsDescription] = filt.Description
+				filters[StorageKeyImageDescription] = filt.Description
 			}
 		}
+
 		if filt.DeviceType != "" {
-			if strings.HasSuffix(filt.DeviceType, "*") && !strings.HasSuffix(filt.DeviceType, `\*`) {
+			if strings.HasSuffix(filt.DeviceType, `\*`) {
+				deviceType := strings.TrimSuffix(filt.DeviceType, `\*`) + "*"
+				filters[StorageKeyImageDeviceTypes] = deviceType
+
+			} else if strings.HasSuffix(filt.DeviceType, "*") {
 				deviceType := strings.TrimSuffix(filt.DeviceType, "*")
-				filters[StorageKeyReleaseArtifactsDeviceTypes] = bson.M{
+				filters[StorageKeyImageDeviceTypes] = bson.M{
 					"$regex": bson.Regex{
 						Pattern: "^" + regexp.QuoteMeta(deviceType) + ".*",
 						Options: "i",
 					},
 				}
 			} else {
-				filters[StorageKeyReleaseArtifactsDeviceTypes] = filt.DeviceType
+				filters[StorageKeyImageDeviceTypes] = filt.DeviceType
 			}
 		}
 	}
 
-	findOptions := mopts.Find()
-	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
-		if filt.Limit > 0 {
-			findOptions.SetLimit(int64(filt.Limit))
-		} else {
-			findOptions.SetLimit(int64(filt.PerPage))
-		}
-	}
 	sortOrder := 1
-	findOptions.SetSort(bson.D{
-		{Key: StorageKeyReleaseName, Value: sortOrder},
-	})
+	pipe := mongo.Pipeline{
+		{{Key: "$match", Value: releaseFilters}},
+		{{Key: "$sort", Value: bson.D{
+			{Key: StorageKeyReleaseName, Value: sortOrder},
+		}}},
+		{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+		{{Key: "$replaceRoot", Value: bson.D{
+			{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+		}}},
+		{{Key: "$match", Value: filters}},
+	}
+	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
+		pipe = append(pipe, bson.D{
+			{Key: "$skip", Value: int64((filt.Page - 1) * filt.PerPage)},
+		})
+		limit := int64(filt.Limit)
+		if limit <= 0 {
+			limit = int64(filt.PerPage)
+		}
+		pipe = append(pipe, bson.D{
+			{Key: "$limit", Value: limit},
+		})
+	} else {
+		pipe = append(pipe, bson.D{
+			{Key: "$limit", Value: DefaultDocumentLimit},
+		})
+	}
 
-	cursor, err := collReleases.Find(ctx, filters, findOptions)
+	cursor, err := collReleases.Aggregate(ctx, pipe)
 	if err != nil {
 		return nil, err
 	}
