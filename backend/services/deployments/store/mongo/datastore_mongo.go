@@ -35,12 +35,12 @@ import (
 )
 
 const (
-	CollectionLimits          = "limits"
-	CollectionDeployments     = "deployments"
-	CollectionDevices         = "devices"
-	CollectionStorageSettings = "settings"
-	CollectionUploadIntents   = "uploads"
-	CollectionReleases        = "releases"
+	CollectionLimits        = "limits"
+	CollectionDeployments   = "deployments"
+	CollectionDevices       = "devices"
+	CollectionSettings      = "settings"
+	CollectionUploadIntents = "uploads"
+	CollectionReleases      = "releases"
 )
 
 const (
@@ -2708,23 +2708,30 @@ func (db *DataStoreMongo) ExistByArtifactId(ctx context.Context,
 	return true, nil
 }
 
+type Settings struct {
+	Storage  *model.StorageSettings `bson:"storage,omitempty"`
+	TenantID string                 `bson:"_id"`
+}
+
 // Per-tenant storage settings
 func (db *DataStoreMongo) GetStorageSettings(ctx context.Context) (*model.StorageSettings, error) {
-	collection := db.database.Collection(CollectionStorageSettings)
+	collection := db.database.Collection(CollectionSettings)
 
-	settings := new(model.StorageSettings)
-	// supposed that it's only one document in the collection
-	query := bson.M{
-		"_id": identity.FromContext(ctx).GetTenantID(),
+	settings := Settings{
+		TenantID: identity.FromContext(ctx).GetTenantID(),
 	}
-	if err := collection.FindOne(ctx, query).Decode(settings); err != nil {
+	if err := collection.FindOne(ctx, settings, mopts.FindOne().
+		SetProjection(bson.M{"storage": 1})).
+		Decode(&settings); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
+	} else if settings.Storage == nil {
+		return nil, nil
 	}
 
-	return settings, nil
+	return settings.Storage, nil
 }
 
 func (db *DataStoreMongo) SetStorageSettings(
@@ -2732,27 +2739,14 @@ func (db *DataStoreMongo) SetStorageSettings(
 	storageSettings *model.StorageSettings,
 ) error {
 	var err error
-	collection := db.database.Collection(CollectionStorageSettings)
+	collection := db.database.Collection(CollectionSettings)
 
 	tenantID := identity.FromContext(ctx).GetTenantID()
-	filter := bson.M{
-		"_id": tenantID,
-	}
-	type StorageSettings struct {
-		model.StorageSettings `bson:"inline"`
-		TenantID              string `bson:"_id"`
-	}
-	if storageSettings != nil {
-		replaceOptions := mopts.Replace()
-		replaceOptions.SetUpsert(true)
-		_, err = collection.ReplaceOne(ctx, filter, StorageSettings{
-			StorageSettings: *storageSettings,
-			TenantID:        tenantID,
-		}, replaceOptions)
-	} else {
-		_, err = collection.DeleteOne(ctx, filter)
-	}
-
+	update := bson.D{{Key: "$set", Value: bson.D{
+		{Key: "storage", Value: storageSettings},
+	}}}
+	_, err = collection.UpdateByID(ctx, tenantID, update, mopts.UpdateOne().
+		SetUpsert(true))
 	return err
 }
 
