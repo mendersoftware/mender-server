@@ -351,7 +351,7 @@ func (db *DataStoreMongo) GetRelease(
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
-		StorageKeyId:          releaseName,
+		StorageKeyReleaseName: releaseName,
 	}).
 		Decode(release); err != nil {
 		if err == mongo.ErrNoDocuments {
