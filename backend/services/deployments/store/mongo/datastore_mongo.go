@@ -27,7 +27,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
@@ -481,11 +480,9 @@ func (db *DataStoreMongo) GetReleases(
 	ctx context.Context,
 	filt *model.ReleaseOrImageFilter,
 ) ([]model.Release, int, error) {
-	l := log.FromContext(ctx)
 	id := identity.FromContext(ctx)
-	l.Infof("get releases method version 1.2.15")
 
-	sortField := "_id"
+	sortField := StorageKeyReleaseName
 	sortOrder := 1
 	if filt != nil {
 		field, order := getReleaseSortFieldAndOrder(filt.Sort)
