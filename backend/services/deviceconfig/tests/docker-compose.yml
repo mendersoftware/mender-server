@@ -6,7 +6,7 @@ include:
 
 services:
   mmock:
-      image: "${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v3.0.0"
+      image: "${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v3.1.6"
       command: ["-server-ip", "0.0.0.0", "-console-ip", "0.0.0.0", "-server-port", "8080"]
       ports:
         - "8082:8082"
