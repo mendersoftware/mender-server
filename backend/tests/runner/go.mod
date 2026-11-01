@@ -9,7 +9,7 @@ require (
 	github.com/docker/cli v29.9.2+incompatible
 	github.com/docker/compose/v5 v5.6.1
 	github.com/google/uuid v1.6.0
-	github.com/mendersoftware/mender-artifact v0.0.0-20261021105616-273773df8155
+	github.com/mendersoftware/mender-artifact v0.0.0-20261029122707-b33dd7c4202d
 	github.com/mendersoftware/mender-server v0.0.0-00010101000000-000000000000
 	github.com/moby/moby/api v1.56.1
 	github.com/moby/moby/client v0.6.2
@@ -55,7 +55,7 @@ require (
 	github.com/gin-gonic/gin v1.12.0 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-ozzo/ozzo-validation/v4 v4.4.1 // indirect
+	github.com/go-ozzo/ozzo-validation/v4 v4.5.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.30.1 // indirect
@@ -73,7 +73,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.20.1 // indirect
+	github.com/klauspost/compress v1.20.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
