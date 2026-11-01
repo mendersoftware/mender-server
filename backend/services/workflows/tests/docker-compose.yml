@@ -31,7 +31,7 @@ services:
       service: nats
 
   mmock:
-    image: jordimartin/mmock:v2.7.6
+    image: jordimartin/mmock:v2.7.9
     command:
       [
         "-server-ip",
