@@ -40,7 +40,7 @@ services:
   mender-client-3-0:
     extends:
       service: mender-client-2-0
-    image: mendersoftware/mender-client-docker:3.0.2
+    image: mendersoftware/mender-client-docker:3.1.1
   mender-client-3-1:
     extends:
       service: mender-client-2-0
