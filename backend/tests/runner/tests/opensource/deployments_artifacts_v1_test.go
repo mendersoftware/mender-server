@@ -417,9 +417,9 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactDependsProvidesValid() 
 	require.NotEmpty(got.Id)
 	require.False(got.Modified.IsZero())
 
-	require.ElementsMatch([]string{deviceType}, toStringSlice(got.ArtifactDepends["device_type"]))
-	require.Equal("value1", got.ArtifactDepends["key1"])
-	require.Equal("value2", got.ArtifactDepends["key2"])
+	require.ElementsMatch([]string{deviceType}, got.ArtifactDepends["device_type"])
+	require.Equal([]string{"value1"}, got.ArtifactDepends["key1"])
+	require.Equal([]string{"value2"}, got.ArtifactDepends["key2"])
 
 	require.Equal(artifactName, got.ArtifactProvides["artifact_name"])
 	require.Equal("value3", got.ArtifactProvides["key3"])
@@ -580,12 +580,12 @@ type rawArtifact struct {
 		Format  string `json:"format"`
 		Version int32  `json:"version"`
 	} `json:"info"`
-	Signed           bool              `json:"signed"`
-	Updates          []any             `json:"updates"`
-	ArtifactProvides map[string]string `json:"artifact_provides"`
-	ArtifactDepends  map[string]any    `json:"artifact_depends"`
-	Size             int64             `json:"size"`
-	Modified         time.Time         `json:"modified"`
+	Signed           bool                `json:"signed"`
+	Updates          []any               `json:"updates"`
+	ArtifactProvides map[string]string   `json:"artifact_provides"`
+	ArtifactDepends  map[string][]string `json:"artifact_depends"`
+	Size             int64               `json:"size"`
+	Modified         time.Time           `json:"modified"`
 }
 
 func (s *DeploymentsManagementV1Suite) showArtifactRaw(ctx context.Context, id string) (*rawArtifact, error) {
@@ -604,21 +604,4 @@ func (s *DeploymentsManagementV1Suite) showArtifactRaw(ctx context.Context, id s
 		return nil, err
 	}
 	return &out, nil
-}
-
-// toStringSlice normalizes a JSON-decoded depends value (which may be a single
-// string or a list of strings) into a []string.
-func toStringSlice(v any) []string {
-	switch val := v.(type) {
-	case string:
-		return []string{val}
-	case []any:
-		out := make([]string, len(val))
-		for i, e := range val {
-			out[i], _ = e.(string)
-		}
-		return out
-	default:
-		return nil
-	}
 }
