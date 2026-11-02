@@ -17,6 +17,7 @@ const isolatedTestFiles = [
   'deployments/Deployments.test.tsx',
   'deployments/DeploymentsList.test.tsx',
   'deployments/InProgressDeployments.test.tsx',
+  'deployments/deployment-wizard/ReleaseArtifactFilter.test.tsx',
   'devices/AuthorizedDevices.test.tsx',
   'devices/device-details/Connection.test.tsx',
   'devices/device-details/Deployments.test.tsx',
