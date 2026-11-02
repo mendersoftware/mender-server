@@ -128,7 +128,7 @@ class TestRelease:
             ):
                 types = management_v2_client(jwt=self.d.get_jwt()).list_release_types()
                 assert len(types) > 0
-                assert types == ["app", "single-file", "directory"]
+                assert types == ["app", "directory", "single-file"]
 
     @pytest.mark.usefixtures("clean_db", "clean_minio")
     def test_get_all_releases_types_empty(self, mongo, cli):
