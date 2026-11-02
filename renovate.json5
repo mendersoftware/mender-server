@@ -5,7 +5,6 @@
 
   "extends": [
     "config:recommended",
-    ":gitSignOff",
     ":semanticCommitTypeAll(chore)"
   ],
 
@@ -20,7 +19,9 @@
 
   // Append a table in the commit message body describing all updates in the commit.
   "commitBodyTable": true,
-  "commitTrailers": ["Changelog: Commit"],
+  // Replaces the ":gitSignOff" preset: preset trailers are prepended to ours,
+  // but commitlint requires the sign-off to be the last trailer.
+  "commitTrailers": ["Changelog: Commit", "Signed-off-by: {{{gitAuthor}}}"],
 
   // Only rebase open PRs when they actually conflict. Rebasing every time the
   // base branch moves restarts a pipeline for every open PR on each merge.
