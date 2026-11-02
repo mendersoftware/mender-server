@@ -15,10 +15,10 @@ import { render, server } from '@/testUtils';
 import { deploymentsApiUrl } from '@northern.tech/store/constants';
 import * as ReleasesThunks from '@northern.tech/store/releasesSlice/thunks';
 import { mockApiResponses, undefineds } from '@northern.tech/testing/mockData';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { HttpResponse, http } from 'msw';
-import { beforeEach, vi } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 
 import { AddManifestDrawer } from './ManifestDrawer';
 
@@ -38,9 +38,19 @@ component_types:
 `;
 
 describe('AddManifestDrawer Component', () => {
+  const originalFileText = File.prototype.text;
+
   beforeEach(() => {
     vi.mocked(ReleasesThunks.uploadManifest).mockClear();
     vi.mocked(ReleasesThunks.generateManifest).mockClear();
+  });
+
+  afterEach(async () => {
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    File.prototype.text = originalFileText;
   });
 
   it('renders correctly', async () => {
