@@ -36,7 +36,6 @@ import (
 )
 
 const (
-	CollectionLimits        = "limits"
 	CollectionDeployments   = "deployments"
 	CollectionDevices       = "devices"
 	CollectionSettings      = "settings"
@@ -47,6 +46,7 @@ const (
 const (
 	legacyCollectionDeviceDeploymentLogs = "devices.logs" // Replaced by devices
 	legacyCollectionImages               = "images"       // Replaced by releases
+	legacyCollectionLimits               = "limits"       // Replaced by settings
 )
 
 var _ store.DataStore = &DataStoreMongo{}
@@ -573,7 +573,7 @@ func (db *DataStoreMongo) GetReleases(
 
 // limits
 func (db *DataStoreMongo) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
-	collLim := db.database.Collection(CollectionLimits)
+	collLim := db.database.Collection(CollectionSettings)
 
 	var result struct {
 		Limits []model.Limit `bson:"limits"`
@@ -598,7 +598,7 @@ func (db *DataStoreMongo) GetLimit(ctx context.Context, name string) (*model.Lim
 }
 
 func (db *DataStoreMongo) SetLimit(ctx context.Context, lim model.Limit) error {
-	collLim := db.database.Collection(CollectionLimits)
+	collLim := db.database.Collection(CollectionSettings)
 	pipeline := mongo.Pipeline{
 		{{Key: "$set", Value: bson.M{"limits": bson.M{
 			"$concatArrays": bson.A{
