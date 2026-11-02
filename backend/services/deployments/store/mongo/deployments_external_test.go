@@ -316,8 +316,7 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				Stats: model.Stats{
 					model.DeviceDeploymentStatusDownloadingStr: 0,
 					model.DeviceDeploymentStatusInstallingStr:  0,
@@ -352,9 +351,8 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
-				Stats:  model.Stats{},
+				Id:    "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Stats: model.Stats{},
 			},
 		},
 	}
@@ -505,8 +503,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				Stats: model.Stats{
 					model.DeviceDeploymentStatusDownloadingStr: 0,
 					model.DeviceDeploymentStatusInstallingStr:  0,
@@ -569,8 +566,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				Stats: model.Stats{
 					model.DeviceDeploymentStatusPendingStr: 10,
 					model.DeviceDeploymentStatusSuccessStr: 15,
