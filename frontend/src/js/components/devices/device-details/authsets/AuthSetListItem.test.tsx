@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { renderToStaticMarkup } from 'react-dom/server';
+
 import { render } from '@/testUtils';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import { adminUserCapabilities, undefineds } from '@northern.tech/testing/mockData';
@@ -74,37 +76,45 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
     expect(
       getConfirmationMessage(DEVICE_STATES.accepted, { status: DEVICE_STATES.accepted, auth_sets: [1, 2, 3] }, { status: DEVICE_STATES.accepted })
     ).toEqual(
-      'By accepting, the device with this identity data and public key will be granted authentication by the server. The previously accepted public key will be rejected automatically in favor of this new key.'
+      'The request will be accepted, and the device with this authentication set will be authorized by the server. The previously accepted authentication set will be rejected automatically. Do you want to continue?'
     );
     expect(getConfirmationMessage(DEVICE_STATES.accepted, { status: DEVICE_STATES.pending, auth_sets: [1] }, { status: DEVICE_STATES.pending })).toEqual(
-      'By accepting, the device with this identity data and public key will be granted authentication by the server.'
+      'The request will be accepted, and the device with this authentication set will be authorized by the server.'
     );
     expect(getConfirmationMessage(DEVICE_STATES.accepted, { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.rejected })).toEqual(
-      'By accepting, the device with this identity data and public key will be granted authentication by the server. The previously accepted public key will be rejected automatically in favor of this new key.'
+      'The request will be accepted, and the device with this authentication set will be authorized by the server. The previously accepted authentication set will be rejected automatically. Do you want to continue?'
     );
     expect(getConfirmationMessage(DEVICE_STATES.rejected, { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.accepted })).toEqual(
-      'The device with this identity data and public key will be rejected, and blocked from communicating with the Mender server.'
+      'The device with this authentication set will be rejected, and blocked from communicating with the Mender server. Are you sure you want to continue?'
     );
-    expect(getConfirmationMessage(DEVICE_STATES.rejected, { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.pending })).toEqual(
-      'The device with this identity data and public key will be rejected, and blocked from communicating with the Mender server. Rejecting this request will not affect the device status as it is using a different key. '
+    expect(
+      renderToStaticMarkup(
+        getConfirmationMessage(DEVICE_STATES.rejected, { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.pending })
+      )
+    ).toEqual(
+      'This request will be rejected, and further requests from this authentication set will be blocked. Rejecting this request will <b>not</b> affect the device status as it is using a different authentication set. Do you want to continue?'
     );
     expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.preauth })).toEqual(
       'The device authentication set will be removed from the preauthorization list.'
     );
     expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.accepted })).toEqual(
-      'The device with this public key will no longer be accepted, and will be removed from the UI. If it makes another request in the future, it will show again as pending for you to accept or reject at that time.'
+      'The device will no longer be accepted using this public key, and this authentication set will be removed. If the device connects again with the same key, it will appear as a new pending request. Are you sure you want to continue?'
     );
-    expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1, 2] }, { status: DEVICE_STATES.accepted })).toEqual(
-      'The device with this public key will no longer be accepted, and this authorization request will be removed from the UI.'
+    expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.pending, auth_sets: [1, 2] }, { status: DEVICE_STATES.pending })).toEqual(
+      'The request will be dismissed, and removed from the list. If the device connects again with the same key, it will appear as a new pending request. Do you want to continue?'
     );
-    expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1] }, { status: DEVICE_STATES.pending })).toEqual(
-      'You can dismiss this authentication request for now. The device will be removed from the UI, but if the same device asks for authentication again in the future, it will show again as pending.'
+    expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.pending, auth_sets: [1, 2] }, { status: DEVICE_STATES.rejected })).toEqual(
+      'The request will be dismissed, and removed from the list. If the device connects again with the same key, it will appear as a new pending request. Do you want to continue?'
     );
-    expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1, 2] }, { status: DEVICE_STATES.pending })).toEqual(
-      'You can dismiss this authentication request for now. This will remove this request from the UI, but won’t affect the device.'
+    expect(
+      renderToStaticMarkup(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1, 2] }, { status: DEVICE_STATES.pending }))
+    ).toEqual(
+      'The request will be dismissed, and removed from the list. Dismissing this request will <b>not</b> affect the device status as it is using a different authentication set. Do you want to continue?'
     );
-    expect(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1, 2] }, { status: DEVICE_STATES.rejected })).toEqual(
-      'This request will be removed from the UI, but if the device asks for authentication again in the future, it will show as pending for you to accept or reject it at that time.'
+    expect(
+      renderToStaticMarkup(getConfirmationMessage('dismiss', { status: DEVICE_STATES.accepted, auth_sets: [1, 2] }, { status: DEVICE_STATES.rejected }))
+    ).toEqual(
+      'The request will be dismissed, and removed from the list. Dismissing this request will <b>not</b> affect the device status as it is using a different authentication set. Do you want to continue?'
     );
   });
 });
