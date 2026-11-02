@@ -98,16 +98,14 @@ test.describe('Settings', () => {
 
       await page.getByRole('button', { name: /Verify/i }).click();
 
-      // Wait five seconds for the email to be sent
-      await page.waitForTimeout(timeouts.fiveSeconds);
       const activationUrl = new RegExp(`${baseUrl.replace(/\/$/, '')}/ui/activate/[0-9a-f-]+`);
       const verificationUrl = await poll({
         callback: async () => {
           const emails = await emailClient.getEmails({ to: username, unread: true });
           return emails.map(({ body }) => body.match(activationUrl)?.[0]).find(Boolean) ?? null;
         },
-        delay: timeouts.oneSecond / 2,
-        maxAttempts: 20,
+        delay: 2 * timeouts.oneSecond,
+        maxAttempts: 11,
         message: 'timeout waiting for verification email with activation link'
       });
       await page.goto(verificationUrl!);
