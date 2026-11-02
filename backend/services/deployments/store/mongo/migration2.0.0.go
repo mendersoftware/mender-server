@@ -105,15 +105,6 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 			{
 				Keys: bson.D{
 					{Key: StorageKeyTenantId, Value: 1},
-					{Key: StorageKeyDeploymentActive, Value: 1},
-					{Key: StorageKeyDeploymentCreated, Value: -1},
-				},
-			},
-			{
-				// NOTE: Can potentially replace the previous index as active
-				// deployment has `finished == null`
-				Keys: bson.D{
-					{Key: StorageKeyTenantId, Value: 1},
 					{Key: StorageKeyDeploymentFinished, Value: 1},
 					{Key: StorageKeyDeploymentCreated, Value: -1},
 				},

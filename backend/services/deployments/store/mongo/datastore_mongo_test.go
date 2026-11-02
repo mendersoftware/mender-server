@@ -340,8 +340,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 			},
 		},
@@ -363,7 +362,6 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id:      "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active:  true,
 					Created: new(now.Add(time.Hour * 24)),
 				},
 			},
@@ -378,8 +376,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 		},
@@ -1425,15 +1422,14 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: false,
+					Id:       "d1804903-5caa-4a73-a3ae-0efcc3205405",
+					Finished: new(time.Now()),
 				},
 			},
 			artifactName: "foo",
@@ -1445,15 +1441,14 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: false,
+					Id:       "d1804903-5caa-4a73-a3ae-0efcc3205405",
+					Finished: new(time.Now()),
 				},
 			},
 			artifactName: "baz",
@@ -1514,12 +1509,11 @@ func TestExistUnfinishedByArtifactId(t *testing.T) {
 				&model.Deployment{
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo", "bar"},
-					Active:    true,
 				},
 				&model.Deployment{
 					Id:        "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Artifacts: []string{"baz"},
-					Active:    false,
+					Finished:  new(time.Now()),
 				},
 			},
 			artifactId: "foo",
@@ -1530,12 +1524,11 @@ func TestExistUnfinishedByArtifactId(t *testing.T) {
 				&model.Deployment{
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo", "bar"},
-					Active:    true,
 				},
 				&model.Deployment{
 					Id:        "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Artifacts: []string{"bar"},
-					Active:    false,
+					Finished:  new(time.Now()),
 				},
 			},
 			artifactId: "baz",
@@ -1600,15 +1593,12 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 					},
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo-1"},
-
-					Active: true,
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 			artifactName: "foo",
@@ -1620,14 +1610,12 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 					},
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo-1", "foo-2"},
-					Active:    true,
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 		},
@@ -1787,14 +1775,12 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					Statistics: model.DeploymentStatistics{
 						TotalSize: 100,
 					},
-					Active: true,
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 			artifactSize: 200,
@@ -1809,14 +1795,12 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					Statistics: model.DeploymentStatistics{
 						TotalSize: 300,
 					},
-					Active: true,
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 		},
@@ -1831,14 +1815,12 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					Statistics: model.DeploymentStatistics{
 						TotalSize: 100,
 					},
-					Active: true,
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 			artifactSize: 200,
@@ -1853,7 +1835,6 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					Statistics: model.DeploymentStatistics{
 						TotalSize: 100,
 					},
-					Active: true,
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
@@ -1863,7 +1844,6 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					Statistics: model.DeploymentStatistics{
 						TotalSize: 200,
 					},
-					Active: true,
 				},
 			},
 		},
@@ -2150,22 +2130,19 @@ func TestFindDeployments(t *testing.T) {
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205406",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
 				},
 			},
 			expectedCount: 3,
@@ -2206,16 +2183,14 @@ func TestFindDeployments(t *testing.T) {
 						ArtifactName: "foo",
 						Name:         "1",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 						Name:         "2",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 			expectedCount: 2,
@@ -2256,16 +2231,14 @@ func TestFindDeployments(t *testing.T) {
 						ArtifactName: "foo",
 						Name:         "1",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
 						Name:         "3",
 					},
-					Id:     "d1804903-5caa-4a73-a3ae-0efcc3205406",
-					Active: true,
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
 				},
 			},
 			expectedCount: 2,
@@ -2301,8 +2274,7 @@ func TestFindDeployments(t *testing.T) {
 						ArtifactName: "art1",
 						Name:         "device-uuid-1",
 					},
-					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active: true,
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 			},
 			expectedCount: 1,
@@ -2337,7 +2309,6 @@ func TestFindDeployments(t *testing.T) {
 					},
 					DeviceList: []string{"device-uuid-1", "device-uuid-2"},
 					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Active:     true,
 				},
 			},
 			expectedCount: 1,

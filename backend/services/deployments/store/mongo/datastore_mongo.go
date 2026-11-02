@@ -2581,8 +2581,8 @@ func (db *DataStoreMongo) FindNewerActiveDeployments(ctx context.Context,
 	findQuery := bson.M{
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 
-		StorageKeyDeploymentActive:  true,
-		StorageKeyDeploymentCreated: bson.M{"$gt": createdAfter},
+		StorageKeyDeploymentFinished: nil,
+		StorageKeyDeploymentCreated:  bson.M{"$gt": createdAfter},
 	}
 
 	findOptions := mopts.Find()
@@ -2614,7 +2614,7 @@ func (db *DataStoreMongo) FindNewerActiveDeployment(ctx context.Context,
 
 	findQuery := bson.D{
 		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
-		{Key: StorageKeyDeploymentActive, Value: true},
+		{Key: StorageKeyDeploymentFinished, Value: nil},
 		{Key: StorageKeyDeploymentCreated, Value: bson.M{"$gt": createdAfter}},
 		{Key: StorageKeyDeploymentDeviceList, Value: deviceID},
 	}
@@ -2657,7 +2657,6 @@ func (db *DataStoreMongo) SetDeploymentStatus(
 	if status == model.DeploymentStatusFinished {
 		update = bson.M{
 			"$set": bson.M{
-				StorageKeyDeploymentActive:   false,
 				StorageKeyDeploymentStatus:   status,
 				StorageKeyDeploymentFinished: &now,
 			},
@@ -2665,7 +2664,6 @@ func (db *DataStoreMongo) SetDeploymentStatus(
 	} else {
 		update = bson.M{
 			"$set": bson.M{
-				StorageKeyDeploymentActive: true,
 				StorageKeyDeploymentStatus: status,
 			},
 		}
@@ -2843,7 +2841,7 @@ func (db *DataStoreMongo) GetActiveDeploymentIDsByArtifactNames(
 	query := bson.M{
 		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 
-		StorageKeyDeploymentActive: true,
+		StorageKeyDeploymentFinished: nil,
 		StorageKeyDeploymentArtifactName: bson.M{
 			"$in": artifactNames,
 		},

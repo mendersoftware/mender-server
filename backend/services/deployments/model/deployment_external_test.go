@@ -298,7 +298,7 @@ func TestDeploymentMarshalBSON(t *testing.T) {
 	deployment := &Deployment{}
 	bson.Unmarshal(j, deployment)
 
-	assert.True(t, deployment.Active)
+	assert.Nil(t, deployment.Finished)
 }
 
 func TestDeploymentIs(t *testing.T) {
