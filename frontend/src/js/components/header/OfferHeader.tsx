@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Close } from '@mui/icons-material';
-import { Chip, IconButton, Typography } from '@mui/material';
+import { Chip, Divider, IconButton, Typography, dividerClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
@@ -23,7 +23,10 @@ const useStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText
   },
-  note: { gap: theme.spacing(2) },
+  note: {
+    gap: theme.spacing(2),
+    [`.${dividerClasses.root}`]: { borderColor: theme.palette.primary.contrastText, height: theme.typography.h6.fontSize }
+  },
   closeButton: {
     color: 'inherit',
     marginRight: theme.spacing(3)
@@ -36,9 +39,10 @@ const OfferHeader = ({ onHide }) => {
   return (
     <div className={`flexbox align-items-center ${classes.container}`}>
       <div className={`flexbox centered full-width ${classes.note}`}>
-        <Chip label="New" color="secondary" size="small" />
-        <Typography variant="body2">More accurate device search: Find exact devices faster using your device identity attribute.</Typography>
-        <Link href="https://mender.io/blog/simpler-more-predictable-device-search-in-the-mender-ui" external onClick={onHide} color="inherit" variant="body2">
+        <Chip label="New release" color="secondary" size="small" />
+        <Divider orientation="vertical" />
+        <Typography variant="body2">Mender component orchestration ensures product integrity for complex, multi-component systems</Typography>
+        <Link href="https://mender.io/solutions/component-orchestration" external onClick={onHide} color="inherit" variant="body2">
           Learn more
         </Link>
       </div>

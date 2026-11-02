@@ -11,6 +11,11 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   gap: 16px;
 }
 
+.emotion-1 .MuiDivider-root {
+  border-color: #fff;
+  height: 1.25rem;
+}
+
 .emotion-2 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -133,6 +138,20 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
 
 .emotion-4 {
   margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+  height: 100%;
+  border-bottom-width: 0;
+  border-right-width: thin;
+}
+
+.emotion-5 {
+  margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -140,7 +159,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-5 {
+.emotion-6 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -152,11 +171,11 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   color: inherit;
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   text-decoration-color: inherit;
 }
 
-.emotion-6 {
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -206,42 +225,42 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   margin-right: 24px;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6:hover {
+.emotion-7:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-6:hover {
+  .emotion-7:hover {
     background-color: transparent;
   }
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6.MuiIconButton-loading {
+.emotion-7.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -270,17 +289,22 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
       <span
         class="MuiChip-label emotion-3"
       >
-        New
+        New release
       </span>
     </div>
+    <div
+      aria-orientation="vertical"
+      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical emotion-4"
+      role="separator"
+    />
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-4"
+      class="MuiTypography-root MuiTypography-body2 emotion-5"
     >
-      More accurate device search: Find exact devices faster using your device identity attribute.
+      Mender component orchestration ensures product integrity for complex, multi-component systems
     </p>
     <a
-      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-5"
-      href="https://mender.io/blog/simpler-more-predictable-device-search-in-the-mender-ui"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-6"
+      href="https://mender.io/solutions/component-orchestration"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -288,13 +312,13 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
     </a>
   </div>
   <button
-    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-6"
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-7"
     tabindex="0"
     type="button"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
       data-testid="CloseIcon"
       focusable="false"
       viewBox="0 0 24 24"
