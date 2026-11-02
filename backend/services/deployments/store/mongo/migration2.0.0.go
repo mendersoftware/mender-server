@@ -19,10 +19,12 @@ import (
 	"fmt"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 	pkgmongo "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate/utils"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -35,7 +37,7 @@ var _ pkgmongo.MigrationMajor = migration_2_0_0{}
 
 type migration_2_0_0 struct{}
 
-const legacyDbNamePrefix = "deployment_service-"
+const legacyDbNamePrefix = "deployment_service"
 
 type legacyReleaseExt struct {
 	model.Release `bson:"inline"`
@@ -44,38 +46,9 @@ type legacyReleaseExt struct {
 	TenantID   string `bson:"tenant_id"`
 }
 
-func (migration_2_0_0) migrateReleaseDocuments(ctx context.Context, dst, src *mongo.Collection) error {
-	databaseName := src.Database().Name()
-	_, tenantID, found := strings.Cut(databaseName, legacyDbNamePrefix)
-	if !found {
-		return nil
-	}
-
-	cur, err := src.Find(ctx, bson.D{})
-	if err != nil {
-		return fmt.Errorf("failed to copy release documents: %w", err)
-	}
-	defer cur.Close(ctx)
-	for cur.Next(ctx) {
-		var release legacyReleaseExt
-		err := cur.Decode(&release)
-		if err != nil {
-			return fmt.Errorf("failed to decode release document: %w", err)
-		}
-		release.Name = release.LegacyName
-		release.LegacyName = ""
-		release.TenantID = tenantID
-		// Initialize with best possible value from data.
-		release.Created = slices.MinFunc(release.Artifacts, func(a, b model.Image) int {
-			return int(min(a.Modified.Unix(), b.Modified.Unix()))
-		}).Modified
-
-		_, err = dst.InsertOne(ctx, release)
-		if err != nil {
-			return fmt.Errorf("failed to copy release document: %w", err)
-		}
-	}
-	return nil
+type legacyDeployment struct {
+	Deployment `bson:",inline"`
+	Stats      *model.Stats `bson:"stats,omitempty"`
 }
 
 func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrate.Version) error {
@@ -212,16 +185,19 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 				},
 			},
 		},
-		// CollectionUploadIntents only use primary index (artifact ID)
-		// CollectionUploadLimits only use primary index (tenant ID)
-		// CollectionUploadStorageSettings only use primary index (tenant ID)
+		CollectionUploadIntents: {
+			{Keys: bson.D{
+				{Key: "status", Value: 1},
+				{Key: "expire", Value: 1},
+			}},
+		},
+		// CollectionSettings only use primary index (tenant ID)
 	}
 	for _, coll := range []string{
 		CollectionDeployments,
 		CollectionDevices,
-		CollectionLimits,
 		CollectionReleases,
-		CollectionStorageSettings,
+		CollectionSettings,
 		CollectionUploadIntents,
 	} {
 		err := db.CreateCollection(ctx, coll)
@@ -246,19 +222,144 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 	if err != nil {
 		return fmt.Errorf("failed to list existing databases: %w", err)
 	}
-	collReleases := db.Collection(CollectionReleases)
-	defaultRegistry := bson.NewMgoRegistry()
+	registry := newRegistry()
 	for _, dbName := range dbNames {
-		logger.Debugf("migrating database documents from %q", dbName)
-		legacyDB := dbClient.Database(dbName,
-			options.Database().SetReadPreference(readpref.Nearest()))
-		err := m.migrateReleaseDocuments(ctx, collReleases, legacyDB.Collection(
-			CollectionReleases, options.Collection().
-				SetRegistry(defaultRegistry),
-		))
-		if err != nil {
-			return fmt.Errorf("[%s] failed to migrate releases: %w", dbName, err)
+		logger.Infof("migrating database documents from %q", dbName)
+		tenantID, found := strings.CutPrefix(dbName, legacyDbNamePrefix)
+		if !found {
+			continue
 		}
+		tenantID = strings.TrimPrefix(tenantID, "-")
+		legacyDB := dbClient.Database(dbName,
+			options.Database().
+				SetReadPreference(readpref.Nearest()).
+				SetRegistry(registry))
+
+		err = utils.CopyCollection(ctx,
+			db.Collection(CollectionReleases),
+			legacyDB.Collection(CollectionReleases),
+			func(release legacyReleaseExt) legacyReleaseExt {
+				release.Name = release.LegacyName
+				release.LegacyName = ""
+				release.TenantID = tenantID
+				// Initialize with best possible value from data.
+				if len(release.Artifacts) > 0 {
+					release.Created = slices.MinFunc(release.Artifacts, func(a, b model.Image) int {
+						if b.Modified == nil {
+							return -1
+						} else if a.Modified == nil {
+							return 1
+						}
+						return a.Modified.Compare(*b.Modified)
+					}).Modified
+				} else {
+					release.Created = new(time.Now())
+				}
+				return release
+			},
+		)
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate Releases: %w", dbName, err)
+		}
+
+		err = utils.CopyCollection(ctx,
+			db.Collection(CollectionDeployments),
+			legacyDB.Collection(CollectionDeployments),
+			func(doc legacyDeployment) Deployment {
+				doc.TenantID = tenantID
+				if doc.Stats != nil {
+					doc.Statistics.Status = *doc.Stats
+				}
+				return doc.Deployment
+			})
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate Deployments: %w", dbName, err)
+		}
+
+		err = utils.CopyCollection(ctx,
+			db.Collection(CollectionDevices),
+			legacyDB.Collection(CollectionDevices),
+			func(doc DeviceDeployment) DeviceDeployment {
+				doc.TenantID = tenantID
+				return doc
+			},
+			utils.WithFindOptions(options.Find().
+				SetProjection(bson.M{
+					"log": 0, // Changed from bool to object with logs
+				}),
+			),
+		)
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate DeviceDeployments: %w", dbName, err)
+		}
+		type DeploymentLogExt struct {
+			model.DeploymentLog `bson:",inline"`
+			DeviceID            string `bson:"deviceid"`
+			DeploymentID        string `bson:"deploymentid"`
+		}
+		err = utils.CopyUpsertCollection(ctx,
+			db.Collection(CollectionDevices),
+			legacyDB.Collection(legacyCollectionDeviceDeploymentLogs),
+			func(doc DeploymentLogExt) any {
+				return bson.D{{
+					Key:   StorageKeyDeviceDeploymentDeploymentID,
+					Value: doc.DeploymentID,
+				}, {
+					Key:   StorageKeyDeviceDeploymentDeviceId,
+					Value: doc.DeviceID,
+				}, {
+					Key:   StorageKeyTenantId,
+					Value: tenantID,
+				}}
+			}, func(doc DeploymentLogExt) any {
+				return bson.D{{Key: "$set", Value: bson.D{
+					{Key: "log", Value: doc.DeploymentLog},
+				}}}
+			},
+		)
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate DeviceDeployments: %w", dbName, err)
+		}
+		err = utils.CopyCollection(ctx,
+			db.Collection(CollectionSettings),
+			legacyDB.Collection(CollectionSettings),
+			func(doc model.StorageSettings) Settings {
+				return Settings{
+					Storage:  &doc,
+					TenantID: tenantID,
+				}
+			})
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate storage settings: %w", dbName, err)
+		}
+		err = utils.CopyUpsertCollection(ctx,
+			db.Collection(CollectionSettings),
+			legacyDB.Collection(legacyCollectionLimits),
+			func(doc model.Limit) any {
+				return bson.D{
+					{Key: "_id", Value: tenantID},
+				}
+			}, func(doc model.Limit) any {
+				return bson.D{
+					{Key: "$push", Value: bson.D{
+						{Key: "limits", Value: doc},
+					}},
+				}
+			},
+			utils.WithFindOptions(options.Find().
+				SetProjection(bson.M{
+					"name":  "$_id",
+					"value": 1,
+				}),
+			),
+		)
+		if err != nil {
+			return fmt.Errorf("[%s] failed to migrate limits: %w", dbName, err)
+		}
+		// NOTE: (enterprise) delta configuration merges here
+
+		// UploadIntents does not require document migration.
+		// Only caches state for ad-hoc uploads.
 	}
 	return nil
 }
