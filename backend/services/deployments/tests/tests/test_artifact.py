@@ -204,7 +204,7 @@ class TestArtifact:
                 assert len(res.updates) == 1
                 update = res.updates[0]
                 assert update.type_info.type is None
-                assert update.files is None
+                assert update.files == []
 
                 # try to fetch the update
                 res = management_v1_client(jwt=self.ac.get_jwt()).download_artifact(
@@ -368,7 +368,7 @@ class TestDirectUpload:
             ac = ArtifactsClient()
 
             url = ac.make_upload_url()
-            doc = mgo.deployment_service.uploads.find_one({"_id": url.id})
+            doc = mgo.deployments.uploads.find_one({"_id": url.id})
             assert doc is not None, "Upload intent not found in database"
             assert doc["status"] == 0
 
@@ -382,7 +382,7 @@ class TestDirectUpload:
             rsp = ac.complete_upload(url.id)
             assert rsp.status_code == 202, "Unexpected HTTP status code"
 
-            doc = mgo.deployment_service.uploads.find_one({"_id": url.id})
+            doc = mgo.deployments.uploads.find_one({"_id": url.id})
             assert doc["status"] > 0
 
             # Retry for half a minute
@@ -402,7 +402,7 @@ class TestDirectUpload:
             ac = ArtifactsClient()
 
             url = ac.make_upload_url()
-            doc = mgo.deployment_service.uploads.find_one({"_id": url.id})
+            doc = mgo.deployments.uploads.find_one({"_id": url.id})
             assert doc is not None, "Upload intent not found in database"
             assert doc["status"] == 0
 
@@ -442,7 +442,7 @@ class TestDirectUpload:
 
             propagation_timeout_s = 16
             time.sleep(propagation_timeout_s)
-            doc = mgo.deployment_service.releases.find_one({"_id": "foo"})
+            doc = mgo.deployments.releases.find_one({"name": "foo"})
             assert (
                 doc["artifacts"][0]["meta_artifact"]["updates"][0]["files"][0]["size"]
                 == file_size
@@ -458,7 +458,7 @@ class TestDirectUpload:
                 == file_name
             )
 
-            doc = mgo.deployment_service.uploads.find_one({"_id": url.id})
+            doc = mgo.deployments.uploads.find_one({"_id": url.id})
             assert doc["status"] > 0
 
             # Retry for half a minute

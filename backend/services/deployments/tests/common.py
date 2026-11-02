@@ -35,9 +35,9 @@ from base64 import urlsafe_b64encode
 from client import CliClient, InternalApiClient, ArtifactsClient
 from pymongo import MongoClient
 
-DB_NAME = "deployment_service"
+DB_NAME = "deployments"
 DB_MIGRATION_COLLECTION = "migration_info"
-DB_VERSION = "1.2.1"
+DB_VERSION = "2.0.0"
 
 MONGO_LOCK_FILE = "/mongo-lock"
 
