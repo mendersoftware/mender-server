@@ -139,7 +139,10 @@ export const Deployments = () => {
     const release = releaseName ? { ...(releases[releaseName] ?? { name: releaseName }) } : undefined;
     const devices = selectedDevices.length ? selectedDevices.map(device => ({ ...device, ...devicesById[device.id] })) : [];
     setDeploymentObject({ devices, release, releaseSelectionLocked: !!release });
-    dispatch(setDeploymentsState({ selectedId: selectedId[0], ...remainder }));
+    // POP (back/ forward/ initial load) & internal links -> rely on url state - otherwise restore the state of the previous visit, like the other pages
+    if (location.state?.internal || shouldInitializeFromUrl) {
+      dispatch(setDeploymentsState({ selectedId: selectedId[0], ...remainder }));
+    }
     isInitialized.current = true;
   }, [dispatch, isEnterprise, JSON.stringify(locationParams), shouldInitializeFromUrl, location.state?.internal]);
 

@@ -356,6 +356,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
             </Button>
             <Button
               component={RouterLink}
+              state={{ internal: true }}
               to={`/deployments/${deployment.status || DEPLOYMENT_ROUTES.active.key}?open=true&id=${deployment_id}`}
               className="margin-left-medium"
             >

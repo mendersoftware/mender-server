@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Link, useLocation } from 'react-router';
+
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -145,6 +147,33 @@ describe('Deployments Component', () => {
     }
     expect(screen.getByText(/Deployment details/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Close/i }));
+  });
+
+  it('restores a report left open in the store when navigated to', async () => {
+    const preloadedState = {
+      ...mockState,
+      deployments: {
+        ...mockState.deployments,
+        byId: { d1: defaultState.deployments.byId.d1 },
+        selectionState: {
+          ...mockState.deployments.selectionState,
+          general: { ...mockState.deployments.selectionState.general, reportType: 'inprogress', showReportDialog: true },
+          selectedId: 'd1'
+        }
+      }
+    };
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    // navigating via a link mirrors returning to the page from the main navigation (PUSH, without any internal link state)
+    const NavigatedDeployments = () => {
+      const { pathname } = useLocation();
+      return pathname.startsWith('/deployments') ? <Deployments /> : <Link to="/deployments">Deployments</Link>;
+    };
+    const { store } = render(<NavigatedDeployments />, { preloadedState });
+    await user.click(screen.getByRole('link', { name: 'Deployments' }));
+    await waitFor(() => expect(screen.getByText(/Deployment details/i)).toBeInTheDocument());
+    await act(async () => vi.runOnlyPendingTimers());
+    expect(screen.getByText(/Deployment details/i)).toBeVisible();
+    expect(store.getState().deployments.selectionState.selectedId).toBe('d1');
   });
 
   it('allows navigating the deployment creation dialog', { timeout: 8 * TIMEOUTS.fiveSeconds }, async () => {

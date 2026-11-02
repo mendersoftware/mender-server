@@ -80,7 +80,11 @@ const columns = [
   {
     content: '',
     key: 'target',
-    Component: ({ deviceDeployment: { id, route } }) => <Link to={`/deployments/${route}?id=${id}&open=true`}>View deployment</Link>
+    Component: ({ deviceDeployment: { id, route } }) => (
+      <Link state={{ internal: true }} to={`/deployments/${route}?id=${id}&open=true`}>
+        View deployment
+      </Link>
+    )
   }
 ];
 
