@@ -81,7 +81,7 @@ export const AuditLogsFilter = ({
       <Filters
         topSpacing="margin-top-medium"
         bottomSpacing="margin-bottom-small"
-        initialValues={{ startDate, endDate, user: user?.id ?? user ?? '', type: type?.value ?? '', detail }}
+        initialValues={{ startDate, endDate, user: user?.email ?? users[user]?.email ?? user ?? '', type: type?.value ?? '', detail }}
         defaultValues={{ startDate: today, endDate: tonight, user: '', type: '', detail: '' }}
         fieldResetTrigger={detailsReset}
         dirtyField={dirtyField}
@@ -90,12 +90,12 @@ export const AuditLogsFilter = ({
           {
             key: 'user',
             title: 'Performed by',
-            Component: ControlledSelect,
+            Component: ControlledAutoComplete,
             componentProps: {
-              labelAttribute: 'email',
+              ...autoCompleteProps,
+              freeSolo: true,
               options: Object.values(users),
-              placeholder: 'Select a user',
-              selectionAttribute: 'id'
+              renderInput: params => <TextField {...params} placeholder="Select a user" />
             }
           },
           {
