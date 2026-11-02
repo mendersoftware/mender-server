@@ -98,17 +98,17 @@ test.describe('Settings', () => {
 
       await page.getByRole('button', { name: /Verify/i }).click();
 
-      const activationUrl = new RegExp(`${baseUrl.replace(/\/$/, '')}/ui/activate/[0-9a-f-]+`);
-      const verificationUrl = await poll({
-        callback: async () => {
-          const emails = await emailClient.getEmails({ to: username, unread: true });
-          return emails.map(({ body }) => body.match(activationUrl)?.[0]).find(Boolean) ?? null;
-        },
-        delay: 2 * timeouts.oneSecond,
-        maxAttempts: 11,
-        message: 'timeout waiting for verification email with activation link'
+      // Wait five seconds for the email to be sent
+      await page.waitForTimeout(timeouts.fiveSeconds);
+      const emails = await poll({
+        callback: () => emailClient.getEmails({ to: username, unread: true }),
+        condition: emails => emails.length > 0,
+        delay: timeouts.oneSecond * 2,
+        message: 'timeout waiting for verification email'
       });
-      await page.goto(verificationUrl!);
+      const match = emails[0].body.match(new RegExp(`${baseUrl.replace(/\/$/, '')}/ui/activate/[0-9a-f-]+`));
+      test.expect(match, 'found verification URL in email').not.toBeNull();
+      await page.goto(match[0]);
 
       await page.getByText('Email verified').waitFor({ timeout: timeouts.default }); // Activate landing page (success)
       await page.goto(`${baseUrl}ui/settings/my-profile`);
