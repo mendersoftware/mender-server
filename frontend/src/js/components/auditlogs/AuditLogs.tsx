@@ -219,7 +219,9 @@ export const AuditLogs = () => {
       if (!isInitialized.current) {
         return;
       }
-      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: users[user], type: auditLogsTypes.find(({ value }) => value === type) }));
+      // users that no longer exist are kept as plain email strings, the store then filters by actor email
+      const selectedUser = Object.values(users).find(({ email, id }) => email === user || id === user) ?? (user || undefined);
+      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: selectedUser, type: auditLogsTypes.find(({ value }) => value === type) }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [auditLogsTypes, dispatch, JSON.stringify(users)]
