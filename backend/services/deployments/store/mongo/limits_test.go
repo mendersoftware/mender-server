@@ -62,7 +62,7 @@ func TestGetLimit(t *testing.T) {
 	db := getDb(dbCtx)
 
 	collection := db.client.Database(ctxstore.
-		DbFromContext(dbCtx, DefaultDbName)).Collection(CollectionLimits)
+		DbFromContext(dbCtx, DefaultDbName)).Collection(CollectionSettings)
 	_, err := collection.InsertMany(dbCtx,
 		bson.A{lim1, lim2})
 	assert.NoError(t, err)
@@ -71,7 +71,7 @@ func TestGetLimit(t *testing.T) {
 	})
 	collOtherTenant := db.client.Database(ctxstore.
 		DbFromContext(dbCtxOtherTenant, DefaultDbName)).
-		Collection(CollectionLimits)
+		Collection(CollectionSettings)
 	_, err = collOtherTenant.InsertOne(dbCtxOtherTenant, lim3OtherTenant)
 	assert.NoError(t, err)
 
