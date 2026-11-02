@@ -103,7 +103,7 @@ test.describe('Settings', () => {
       const emails = await poll({
         callback: () => emailClient.getEmails({ to: username, unread: true }),
         condition: emails => emails.length > 0,
-        delay: timeouts.oneSecond / 2,
+        delay: timeouts.oneSecond * 2,
         message: 'timeout waiting for verification email'
       });
       const match = emails[0].body.match(new RegExp(`${baseUrl.replace(/\/$/, '')}/ui/activate/[0-9a-f-]+`));
