@@ -109,7 +109,7 @@ func TestUpdateDeviceDeploymentStatus(t *testing.T) {
 					tc.ddStatueNew.Status).Run(func(args mock.Arguments) {
 					// fake updated stats
 					fakeDeployment.Stats.Inc(tc.ddStatueNew.Status)
-				}).Return(fakeDeployment.Stats, nil).Once()
+				}).Return(&fakeDeployment.Stats, nil).Once()
 				foundDepById := fakeDeployment
 				if tc.notFounddDepByID {
 					foundDepById = nil
@@ -157,10 +157,12 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 			Devices:      []string{devType},
 		},
 	)
+	fakeDeployment.Artifacts = []string{"foobar"}
 	assert.NoError(t, err)
 	fakeDeployment.MaxDevices = 1
 
 	fakeImage := &model.Image{
+		Id: "foobar",
 		ArtifactMeta: &model.ArtifactMeta{
 			Name:           depArtifact,
 			Provides:       map[string]string{"bar": "baz"},
@@ -208,7 +210,7 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 		model.DeviceDeploymentStatusAlreadyInst).Run(func(args mock.Arguments) {
 		// fake updated stats
 		fakeDeployment.Stats.Inc(model.DeviceDeploymentStatusAlreadyInst)
-	}).Return(fakeDeployment.Stats, nil).Once()
+	}).Return(&fakeDeployment.Stats, nil).Once()
 
 	// fake updated stats
 	fakeDeployment.Stats.Set(model.DeviceDeploymentStatusNoArtifact, 1)
@@ -224,7 +226,10 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 		mock.AnythingOfType("string"),
 		request).Return(nil)
 
-	db.On("ImageByNameAndDeviceType", ctx, depArtifact, devType).Return(
+	// db.On("ImageByNameAndDeviceType", ctx, depArtifact, devType).Return(
+	// 	fakeImage, nil)
+	//
+	db.On("ImageByIdsAndDeviceType", ctx, []string{"foobar"}, devType).Return(
 		fakeImage, nil)
 
 	db.On("AssignArtifact", ctx,
@@ -293,7 +298,7 @@ func TestDecommissionDevice(t *testing.T) {
 			findDeploymentByIDDeployment: &model.Deployment{
 				Id:         "bar",
 				MaxDevices: 1,
-				Stats:      model.Stats{"decommissioned": 1},
+				Stats:      model.Stats{Decommissioned: 1},
 			},
 		},
 		"ok 1": {
@@ -315,7 +320,7 @@ func TestDecommissionDevice(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "foo",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
 				Stats:       model.Stats{},
 			},
@@ -327,7 +332,7 @@ func TestDecommissionDevice(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  2,
 				Stats:       model.Stats{},
 			},
@@ -392,11 +397,9 @@ func TestDecommissionDevice(t *testing.T) {
 				tc.updateDeviceDeploymentStatusStatus,
 				model.DeviceDeploymentStatusDecommissioned).
 				Run(func(args mock.Arguments) {
-					if stats != nil {
-						stats.Inc(model.DeviceDeploymentStatusDecommissioned)
-					}
+					stats.Inc(model.DeviceDeploymentStatusDecommissioned)
 				}).
-				Return(stats, tc.updateStatsIncError).
+				Return(&stats, tc.updateStatsIncError).
 				Once()
 
 			db.On("SetDeploymentStatus", ctx,
@@ -481,7 +484,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			findDeploymentByIDDeployment: &model.Deployment{
 				Id:         "bar",
 				MaxDevices: 1,
-				Stats:      model.Stats{"decommissioned": 1},
+				Stats:      model.Stats{Decommissioned: 1},
 			},
 		},
 		"ok 1": {
@@ -503,7 +506,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "foo",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
 				Stats:       model.Stats{},
 			},
@@ -515,7 +518,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
 				Stats:       model.Stats{},
 			},
@@ -527,7 +530,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  2,
 				Stats:       model.Stats{},
 			},
@@ -595,12 +598,10 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				tc.updateDeviceDeploymentStatusStatus,
 				model.DeviceDeploymentStatusAborted).
 				Run(func(args mock.Arguments) {
-					if stats != nil {
-						stats.Inc(model.DeviceDeploymentStatusAborted)
-					}
+					stats.Inc(model.DeviceDeploymentStatusAborted)
 				}).
 				Return(
-					stats,
+					&stats,
 					tc.updateStatsIncError,
 				)
 
