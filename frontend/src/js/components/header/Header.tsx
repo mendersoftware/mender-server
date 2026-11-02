@@ -92,8 +92,8 @@ const { setShowFeedbackDialog } = storeActions;
 
 // Change this when a new feature/offer is introduced
 const currentOffer = {
-  name: 'new-search-announcement',
-  expires: '2026-10-08',
+  name: 'orchestrator-announcement',
+  expires: '2026-11-24',
   trial: true,
   os: true,
   professional: true,
