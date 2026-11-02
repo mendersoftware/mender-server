@@ -208,13 +208,13 @@ func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, erro
 		Collection(CollectionReleases).
 		Distinct(ctx, StorageKeyReleaseTags, filter)
 
-	var tagKeys []string
-	if err := res.Decode(&tagKeys); err != nil {
-		return nil, err
+	var ret model.Tags
+	raw, err := res.Raw()
+	if err == nil {
+		err = bson.UnmarshalValue(bson.TypeArray, raw, &ret)
 	}
-	ret := make([]model.Tag, 0, len(tagKeys))
-	for _, elem := range tagKeys {
-		ret = append(ret, model.Tag(elem))
+	if err != nil {
+		return nil, err
 	}
 
 	return ret, nil
