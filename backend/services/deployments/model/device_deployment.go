@@ -396,7 +396,7 @@ func InactiveDeploymentStatuses() []DeviceDeploymentStatus {
 type InstalledDeviceDeployment struct {
 	ArtifactName string            `json:"artifact_name"`
 	DeviceType   string            `json:"device_type"`
-	Provides     map[string]string `json:"artifact_provides,omitempty"`
+	Provides     map[string]string `json:"artifact_provides,omitempty" bson:",omitempty"`
 }
 
 // DeploymentNextRequest holds a deployments/next request
