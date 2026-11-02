@@ -244,6 +244,9 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 				release.Name = release.LegacyName
 				release.LegacyName = ""
 				release.TenantID = tenantID
+				if release.Kind == "" {
+					release.Kind = model.ReleaseKindRelease
+				}
 				// Initialize with best possible value from data.
 				release.Created = slices.MinFunc(release.Artifacts, func(a, b model.Image) int {
 					return int(min(a.Modified.Unix(), b.Modified.Unix()))

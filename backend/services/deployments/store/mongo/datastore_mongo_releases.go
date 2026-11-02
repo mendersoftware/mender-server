@@ -142,7 +142,10 @@ func (db *DataStoreMongo) AddArtifactToRelease(
 	update["$inc"] = bson.M{
 		StorageKeyReleaseArtifactsCount: 1,
 	}
-	update["$setOnInsert"] = bson.M{StorageKeyReleaseCreated: time.Now()}
+	update["$setOnInsert"] = bson.M{
+		StorageKeyReleaseCreated: time.Now(),
+		StorageKeyReleaseKind:    model.ReleaseKindRelease,
+	}
 	_, err := collReleases.UpdateOne(ctx, filter, update, mopts.UpdateOne().
 		SetUpsert(true))
 	// TODO: Handle conflicts a better

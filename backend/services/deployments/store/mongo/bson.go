@@ -15,12 +15,28 @@ type Depend struct {
 	Value string `bson:"v"`
 }
 
-var tModelDepends = reflect.TypeOf(model.Depends{})
-var tMap = reflect.TypeOf(map[string]any{})
-var tDepends = reflect.TypeOf([]Depend{})
+var (
+	tModelDepends = reflect.TypeOf(model.Depends{})
+	tMap          = reflect.TypeOf(map[string]any{})
+	tDepends      = reflect.TypeOf([]Depend{})
+	tReleaseKind  = reflect.TypeOf(model.ReleaseKind(""))
+	tString       = reflect.TypeOf("")
+)
 
 func newRegistry() *bson.Registry {
 	reg := bson.NewMgoRegistry()
+	reg.RegisterTypeEncoder(tReleaseKind, bson.ValueEncoderFunc(
+		func(ec bson.EncodeContext, vw bson.ValueWriter, v reflect.Value) error {
+			enc, err := ec.LookupEncoder(tString)
+			if err != nil {
+				return err
+			}
+			if v.Len() == 0 {
+				v = reflect.ValueOf(model.ReleaseKindRelease)
+			}
+			return enc.EncodeValue(ec, vw, v)
+		},
+	))
 	reg.RegisterTypeEncoder(tModelDepends, bson.ValueEncoderFunc(
 		func(ec bson.EncodeContext, vw bson.ValueWriter, v reflect.Value) error {
 			deps := v.Interface().(model.Depends)
