@@ -9859,6 +9859,15 @@ components:
                 the filter will produce no results. If you need to specify options and flags,
                 you can provide the full regex in the format of /regex/flags, for example
                 `/[a-z]+/i`.
+
+                The datetime attributes `created_ts`, `updated_ts` and `check_in_time` in
+                the `system` scope expect a date (`2025-01-15`) or a timestamp
+                (`2025-01-15T10:30Z`, `2025-01-15T10:30:15+02:00`, `2025-01-15T10:30:15.250Z`)
+                as a string, or an array of them for $in and $nin. Values without a UTC
+                offset are interpreted as UTC. A value covers the period its precision
+                implies: $eq `2025-01-15` matches any time on that day, $gt `2025-01-15`
+                matches from 2025-01-16 onwards and $lte `2025-01-15T10:30Z` matches up to
+                the end of that minute. Other values are rejected with 400 Bad Request.
       description: Attribute filter predicate
       example:
         type: $eq

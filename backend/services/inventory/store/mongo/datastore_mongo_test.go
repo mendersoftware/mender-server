@@ -5194,3 +5194,141 @@ func TestMongoGetDeviceTierStatisticsByStatus(t *testing.T) {
 	assert.Equal(uint64(8), status.Pending.Micro)
 	assert.Equal(uint64(9), status.Pending.System)
 }
+
+func TestMongoSearchDevicesDateTime(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping TestMongoSearchDevicesDateTime in short mode.")
+	}
+
+	checkInTimes := map[model.DeviceID]string{
+		"0": "2025-01-14T23:59:59.999Z",
+		"1": "2025-01-15T00:00:00Z",
+		"2": "2025-01-15T12:30:15.250Z",
+		"3": "2025-01-16T00:00:00Z",
+		// "4" has never checked in
+	}
+
+	checkInTime := func(op string, value interface{}) []model.FilterPredicate {
+		return []model.FilterPredicate{{
+			Scope:     model.AttrScopeSystem,
+			Attribute: model.AttrNameCheckInTime,
+			Type:      op,
+			Value:     value,
+		}}
+	}
+
+	testCases := map[string]struct {
+		filters  []model.FilterPredicate
+		expected []model.DeviceID
+	}{
+		"$eq date": {
+			filters:  checkInTime("$eq", "2025-01-15"),
+			expected: []model.DeviceID{"1", "2"},
+		},
+		"$ne date": {
+			filters:  checkInTime("$ne", "2025-01-15"),
+			expected: []model.DeviceID{"0", "3", "4"},
+		},
+		"$gt date": {
+			filters:  checkInTime("$gt", "2025-01-15"),
+			expected: []model.DeviceID{"3"},
+		},
+		"$gte date": {
+			filters:  checkInTime("$gte", "2025-01-15"),
+			expected: []model.DeviceID{"1", "2", "3"},
+		},
+		"$lt date": {
+			filters:  checkInTime("$lt", "2025-01-15"),
+			expected: []model.DeviceID{"0"},
+		},
+		"$lte date": {
+			filters:  checkInTime("$lte", "2025-01-15"),
+			expected: []model.DeviceID{"0", "1", "2"},
+		},
+		"$ltne date": {
+			filters:  checkInTime("$ltne", "2025-01-15"),
+			expected: []model.DeviceID{"0", "4"},
+		},
+		"$in dates": {
+			filters:  checkInTime("$in", []interface{}{"2025-01-14", "2025-01-16"}),
+			expected: []model.DeviceID{"0", "3"},
+		},
+		"$nin dates": {
+			filters:  checkInTime("$nin", []interface{}{"2025-01-15"}),
+			expected: []model.DeviceID{"0", "3", "4"},
+		},
+		"$eq second": {
+			filters:  checkInTime("$eq", "2025-01-15T12:30:15Z"),
+			expected: []model.DeviceID{"2"},
+		},
+		"$eq minute with offset": {
+			filters:  checkInTime("$eq", "2025-01-15T13:30+01:00"),
+			expected: []model.DeviceID{"2"},
+		},
+		"$eq millisecond": {
+			filters:  checkInTime("$eq", "2025-01-15T12:30:15.250Z"),
+			expected: []model.DeviceID{"2"},
+		},
+		"$gt millisecond": {
+			filters:  checkInTime("$gt", "2025-01-15T12:30:15.250Z"),
+			expected: []model.DeviceID{"3"},
+		},
+		"$exists is unaffected": {
+			filters:  checkInTime("$exists", false),
+			expected: []model.DeviceID{"4"},
+		},
+		"other attributes keep comparing strings": {
+			filters: []model.FilterPredicate{{
+				Scope:     model.AttrScopeInventory,
+				Attribute: "build_date",
+				Type:      "$eq",
+				Value:     "2025-01-15T10:00:00Z",
+			}},
+			expected: []model.DeviceID{"0"},
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			db.Wipe()
+			ctx := identity.WithContext(db.CTX(), &identity.Identity{})
+			mongoStore := NewDataStoreMongoWithSession(db.Client())
+
+			for _, id := range []model.DeviceID{"0", "1", "2", "3", "4"} {
+				attrs := model.DeviceAttributes{{
+					Name:  "build_date",
+					Value: "2025-01-15T10:00:00Z",
+					Scope: model.AttrScopeInventory,
+				}}
+				if id != "0" {
+					attrs[0].Value = "2025-01-16T10:00:00Z"
+				}
+				if ts, ok := checkInTimes[id]; ok {
+					value, err := time.Parse(time.RFC3339Nano, ts)
+					require.NoError(t, err)
+					attrs = append(attrs, model.DeviceAttribute{
+						Name: model.AttrNameCheckInTime, Value: value, Scope: model.AttrScopeSystem,
+					})
+				}
+				_, err := mongoStore.UpsertDevicesAttributes(ctx, []model.DeviceID{id}, attrs, nil)
+				require.NoError(t, err)
+			}
+
+			devs, totalCount, err := mongoStore.SearchDevices(ctx, model.SearchParams{
+				Page:    1,
+				PerPage: 10,
+				Filters: tc.filters,
+				Sort: []model.SortCriteria{
+					{Scope: model.AttrScopeIdentity, Attribute: model.AttrNameID, Order: "asc"},
+				},
+			})
+			require.NoError(t, err)
+			ids := make([]model.DeviceID, len(devs))
+			for i, dev := range devs {
+				ids[i] = dev.ID
+			}
+			assert.Equal(t, tc.expected, ids)
+			assert.Equal(t, len(tc.expected), totalCount)
+		})
+	}
+}

@@ -89,6 +89,32 @@ func TestSearchParams(t *testing.T) {
 			},
 			err: errors.New("type: must be a valid value."),
 		},
+		"ok, filters - datetime attribute": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Scope:     "system",
+						Attribute: "check_in_time",
+						Type:      "$gte",
+						Value:     "2025-01-15",
+					},
+				},
+			},
+		},
+		"ko, filters - datetime attribute with invalid value": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Scope:     "system",
+						Attribute: "check_in_time",
+						Type:      "$gte",
+						Value:     "yesterday",
+					},
+				},
+			},
+			err: errors.New(`value: "yesterday" is not a date or timestamp ` +
+				`(e.g. 2025-01-15 or 2025-01-15T10:00:00Z).`),
+		},
 		"ok, sort": {
 			params: &SearchParams{
 				Sort: []SortCriteria{
