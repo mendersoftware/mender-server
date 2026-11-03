@@ -37,7 +37,7 @@ const RequestForm = () => {
   return (
     <>
       <TextInput
-        id="enterpriseMessage"
+        name="enterpriseMessage"
         label="Your message"
         InputLabelProps={{ shrink: true }}
         required

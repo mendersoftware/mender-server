@@ -230,7 +230,7 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
         <TextInput
           className={classes.inputWidth}
           disabled={disableEdit || editing}
-          id="name"
+          name="name"
           label="Name"
           required
           validations="isAlphanumericLocator,isLength:1:256"
@@ -241,7 +241,7 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
         <Typography className="margin-bottom-small" variant="subtitle1">
           Description
         </Typography>
-        <TextInput className={classes.inputWidth} disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />
+        <TextInput className={classes.inputWidth} disabled={disableEdit} label="Description" name="description" InputProps={{ multiline: true }} hint="-" />
       </div>
       <div>
         <Typography className="margin-bottom-small margin-top-medium" variant="subtitle1">

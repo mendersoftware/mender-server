@@ -472,7 +472,7 @@ const SubscriptionForm = ({
                       }
                     />
                     <NumberInput
-                      id={deviceType.id}
+                      name={deviceType.id}
                       label="Device limit"
                       disabled={!deviceTierEnabled[deviceType.id]}
                       min={Math.max(currentDeviceLimits[deviceType.id], deviceType.limitConstrains[selectedPlan.id].min)}
@@ -549,7 +549,7 @@ const SubscriptionForm = ({
             </Typography>
             <div className="margin-top-small">
               <TextInput
-                id="enterpriseMessage"
+                name="enterpriseMessage"
                 label="Your message"
                 InputLabelProps={{ shrink: true }}
                 InputProps={{ className: classes.messageInput, multiline: true, placeholder: enterpriseRequestPlaceholder }}

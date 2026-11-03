@@ -56,16 +56,16 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
           Create your account
         </Typography>
         <OAuthHeader type="Sign up" />
-        <TextInput {...commonProps} hint="Email *" label="Email *" id="email" validations="isLength:1,isEmail,trim" />
+        <TextInput {...commonProps} hint="Email *" label="Email *" name="email" validations="isLength:1,isEmail,trim" />
         <PasswordInput
           {...commonProps}
-          id="password"
+          name="password"
           label="Password *"
           validations={`isLength:8:256,isNot:${email}`}
           create={true}
           className="margin-bottom-small margin-top-small"
         />
-        <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8:256,isNot:${email}`} />
+        <PasswordInput {...commonProps} name="password_confirmation" label="Confirm password *" validations={`isLength:8:256,isNot:${email}`} />
         <Button className="full-width margin-top-medium" variant="contained" type="submit" disabled={isNotDefined}>
           Sign up
         </Button>

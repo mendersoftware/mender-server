@@ -113,7 +113,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           disabled={emailEditingDisabled}
           hint="Your email"
           label="Your email"
-          id="email"
+          name="email"
           required
           validations="isLength:1,isEmail,trim"
           InputProps={{
@@ -127,7 +127,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           }}
         />
         <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
-          <PasswordInput id="password" label="Password" required={isOsInstallation} />
+          <PasswordInput name="password" label="Password" required={isOsInstallation} />
         </Collapse>
         {isHosted && (
           <div>
@@ -138,13 +138,13 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           <TextInput
             controlRef={twoFARef}
             hint="Two Factor Authentication Code"
-            id="token2fa"
+            name="token2fa"
             label="Two Factor Authentication Code"
             required={has2FA}
             validations="isLength:6,isNumeric"
           />
         </Collapse>
-        <FormCheckbox className="margin-top-none" id="noExpiry" label="Stay logged in" />
+        <FormCheckbox className="margin-top-none" name="noExpiry" label="Stay logged in" />
         <Button className="full-width" variant="contained" type="submit">
           Next
         </Button>

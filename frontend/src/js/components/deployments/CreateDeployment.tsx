@@ -394,7 +394,7 @@ export const CreateDeployment = ({
               <ForceDeploy />
               {!isTrial && hasDeltaEnabled && (
                 <FormCheckbox
-                  id={deploymentFormSections.delta}
+                  name={deploymentFormSections.delta}
                   control={control}
                   label={
                     <div className="flexbox align-items-center">

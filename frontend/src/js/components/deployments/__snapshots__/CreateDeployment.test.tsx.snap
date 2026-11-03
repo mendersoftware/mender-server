@@ -3743,6 +3743,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
                         class="PrivateSwitchBase-input emotion-78"
                         data-indeterminate="false"
                         disabled=""
+                        id="usesPattern"
                         name="usesPattern"
                         type="checkbox"
                       />
@@ -4110,6 +4111,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
                         class="PrivateSwitchBase-input emotion-78"
                         data-indeterminate="false"
                         disabled=""
+                        id="isPaused"
                         name="isPaused"
                         type="checkbox"
                       />
@@ -4361,6 +4363,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
                         <input
                           class="PrivateSwitchBase-input emotion-78"
                           data-indeterminate="false"
+                          id="forceDeploy"
                           name="forceDeploy"
                           type="checkbox"
                         />
@@ -7323,6 +7326,7 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
         <input
           class="PrivateSwitchBase-input emotion-2"
           data-indeterminate="false"
+          id="forceDeploy"
           name="forceDeploy"
           type="checkbox"
         />
@@ -7496,6 +7500,7 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
         <input
           class="PrivateSwitchBase-input emotion-2"
           data-indeterminate="false"
+          id="forceDeploy"
           name="forceDeploy"
           type="checkbox"
         />
@@ -9858,6 +9863,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
         class="PrivateSwitchBase-input emotion-2"
         data-indeterminate="false"
         disabled=""
+        id="isPaused"
         name="isPaused"
         type="checkbox"
       />
@@ -10823,6 +10829,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
         checked=""
         class="PrivateSwitchBase-input emotion-2"
         data-indeterminate="false"
+        id="isPaused"
         name="isPaused"
         type="checkbox"
       />
@@ -12280,6 +12287,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-47:focus::-ms-input-
         class="PrivateSwitchBase-input emotion-2"
         data-indeterminate="false"
         disabled=""
+        id="usesPattern"
         name="usesPattern"
         type="checkbox"
       />
@@ -13783,6 +13791,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-47:focus::-ms-input-
         class="PrivateSwitchBase-input emotion-2"
         data-indeterminate="false"
         disabled=""
+        id="usesPattern"
         name="usesPattern"
         type="checkbox"
       />
