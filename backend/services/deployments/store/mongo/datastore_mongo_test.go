@@ -17,17 +17,18 @@ package mongo
 import (
 	"context"
 	"io"
+	"slices"
 	"testing"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -272,7 +273,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 	now := time.Now()
 
 	testCases := map[string]struct {
-		InputDeploymentsCollection []interface{}
+		InputDeploymentsCollection []*model.Deployment
 		InputTenant                string
 		InputCreatedAfter          *time.Time
 		InputSkip                  int
@@ -290,7 +291,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 			OutputDeployments: nil,
 		},
 		"no newer deployments": {
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
@@ -318,7 +319,7 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 			OutputDeployments: nil,
 		},
 		"one newer deployments": {
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
@@ -340,12 +341,16 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 					},
-					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Id:            "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Artifacts:     []string{},
+					Groups:        []string{},
+					DeviceList:    []string{},
+					Configuration: []byte{},
 				},
 			},
 		},
 		"one older deployment and one newer deployments": {
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
@@ -376,7 +381,11 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+					Id:            "d1804903-5caa-4a73-a3ae-0efcc3205405",
+					Artifacts:     []string{},
+					Groups:        []string{},
+					DeviceList:    []string{},
+					Configuration: []byte{},
 				},
 			},
 		},
@@ -400,14 +409,10 @@ func TestFindNewerActiveDeployments(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
 			if testCase.InputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, testCase.InputDeploymentsCollection)
-				assert.NoError(t, err)
+				for _, deployment := range testCase.InputDeploymentsCollection {
+					require.NoError(t, store.InsertDeployment(ctx, *deployment))
+				}
 			}
 
 			deployments, err := store.FindNewerActiveDeployments(ctx,
@@ -485,12 +490,13 @@ func TestInsertDeploymentConflict(t *testing.T) {
 			ctx := context.Background()
 			ds := NewDataStoreMongoWithClient(client)
 
-			err := MigrateSingle(ctx, DbName, DbVersion, client, true)
-			assert.Nil(t, err)
+			err := ds.Migrate(ctx, DbVersion, true)
+			require.NoError(t, err)
 
 			deployment1, _ := model.NewDeploymentFromConstructor(tc.constructor1)
 			if tc.not_active {
 				deployment1.Status = model.DeploymentStatusFinished
+				deployment1.Finished = new(time.Now())
 			}
 			err = ds.InsertDeployment(ctx, *deployment1)
 			assert.Nil(t, err)
@@ -510,22 +516,21 @@ func TestSetDeploymentDeviceCount(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping TestSetDeploymentDeviceCount in short mode.")
 	}
+	db.Wipe()
 
-	zero := 0
-	one := 1
 	now := time.Now()
 
 	testCases := map[string]struct {
 		deployment *model.Deployment
-		count      int
-		expected   int
+		count      int64
+		expected   int64
 	}{
 		"device_count doesn't exist": {
 			deployment: &model.Deployment{
 				Id:      "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
 				Created: &now,
 				DeploymentConstructor: &model.DeploymentConstructor{
-					Name:         "name",
+					Name:         "name1",
 					ArtifactName: "artifact",
 					Devices:      []string{"device-1"},
 				},
@@ -536,30 +541,30 @@ func TestSetDeploymentDeviceCount(t *testing.T) {
 		"device_count is zero": {
 			deployment: &model.Deployment{
 				Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
-				DeviceCount: &zero,
+				DeviceCount: new(int64(0)),
 				Created:     &now,
 				DeploymentConstructor: &model.DeploymentConstructor{
-					Name:         "name",
+					Name:         "name2",
 					ArtifactName: "artifact",
 					Devices:      []string{"device-1"},
 				},
 			},
 			count:    10,
-			expected: zero,
+			expected: 0,
 		},
 		"device_count is one": {
 			deployment: &model.Deployment{
 				Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86703",
-				DeviceCount: &one,
+				DeviceCount: new(int64(1)),
 				Created:     &now,
 				DeploymentConstructor: &model.DeploymentConstructor{
-					Name:         "name",
+					Name:         "name3",
 					ArtifactName: "artifact",
 					Devices:      []string{"device-1"},
 				},
 			},
 			count:    10,
-			expected: one,
+			expected: 1,
 		},
 	}
 
@@ -576,9 +581,9 @@ func TestSetDeploymentDeviceCount(t *testing.T) {
 
 			deployment, err := ds.FindDeploymentByID(ctx, tc.deployment.Id)
 			assert.Nil(t, err)
-			assert.NotNil(t, deployment)
-			assert.NotNil(t, deployment.DeviceCount)
-			assert.Equal(t, *deployment.DeviceCount, tc.expected)
+			_ = assert.NotNil(t, deployment) &&
+				assert.NotNil(t, deployment.DeviceCount) &&
+				assert.Equal(t, *deployment.DeviceCount, tc.expected)
 		})
 	}
 
@@ -635,7 +640,7 @@ func TestSortDeployments(t *testing.T) {
 	deploymentTwoID := uuidVal.String()
 	now := time.Now()
 	startDate := now.AddDate(0, -1, 0)
-	deviceCount := 1
+	deviceCount := int64(1)
 	uuidVal, _ = uuid.NewRandom()
 	devicesList := []string{uuidVal.String()}
 	config := make([]byte, 0)
@@ -725,43 +730,41 @@ func TestFindOldestActiveDeviceDeployment(t *testing.T) {
 			panic(err)
 		}
 		for _, depl := range []*model.DeviceDeployment{{
-			Id: "0",
+			Id: uuid.NewString(),
 			Created: func() *time.Time {
 				ret := now.Add(-2 * time.Hour)
 				return &ret
 			}(),
 			Status:       model.DeviceDeploymentStatusSuccess,
 			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
+			DeploymentId: "0",
 		}, {
-			Id: "1",
+			Id: uuid.NewString(),
 			Created: func() *time.Time {
 				ret := now.Add(-3 * time.Hour / 2)
 				return &ret
 			}(),
 			Status:       model.DeviceDeploymentStatusAlreadyInst,
 			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
+			DeploymentId: "1",
 		}, {
-			Id: "2",
+			Id: uuid.NewString(),
 			Created: func() *time.Time {
 				ret := now.Add(-time.Hour)
 				return &ret
 			}(),
 			Status:       model.DeviceDeploymentStatusDownloading,
 			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
-			Active:       true,
+			DeploymentId: "2",
 		}, {
-			Id: "3",
+			Id: uuid.NewString(),
 			Created: func() *time.Time {
 				ret := now.Add(-time.Minute)
 				return &ret
 			}(),
 			Status:       model.DeviceDeploymentStatusPending,
 			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
-			Active:       true,
+			DeploymentId: "3",
 		}} {
 			if err := ds.InsertDeviceDeployment(ctx, depl, true); err != nil {
 				panic(err)
@@ -827,7 +830,7 @@ func TestFindOldestActiveDeviceDeployment(t *testing.T) {
 			} else {
 				if assert.NoError(t, err) {
 					if tc.ExpectedID != nil && assert.NotNil(t, d) {
-						assert.Equal(t, *tc.ExpectedID, d.Id,
+						assert.Equal(t, *tc.ExpectedID, d.DeploymentId,
 							"did not receive the expected device deployment id",
 						)
 					} else {
@@ -866,52 +869,50 @@ func TestFindLatestInactiveDeviceDeployment(t *testing.T) {
 			panic(err)
 		}
 		for _, depl := range []*model.DeviceDeployment{{
-			Id: "0",
+			DeploymentId: "0",
 			Created: func() *time.Time {
 				ret := now.Add(-2 * time.Hour)
 				return &ret
 			}(),
-			Status:       model.DeviceDeploymentStatusSuccess,
-			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
+			Status:   model.DeviceDeploymentStatusSuccess,
+			DeviceId: env.deviceID,
+			Id:       uuid.New().String(),
 		}, {
-			Id: "1",
+			DeploymentId: "1",
 			Created: func() *time.Time {
 				ret := now.Add(-3 * time.Hour / 2)
 				return &ret
 			}(),
-			Status:       model.DeviceDeploymentStatusAlreadyInst,
-			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
+			Status:   model.DeviceDeploymentStatusAlreadyInst,
+			DeviceId: env.deviceID,
+			Id:       uuid.New().String(),
 		}, {
-			Id: "2",
+			DeploymentId: "2",
 			Created: func() *time.Time {
 				ret := now.Add(-time.Hour)
 				return &ret
 			}(),
-			Status:       model.DeviceDeploymentStatusDownloading,
-			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
-			Active:       true,
+			Status:   model.DeviceDeploymentStatusDownloading,
+			DeviceId: env.deviceID,
+			Id:       uuid.New().String(),
 		}, {
-			Id: "3",
+			DeploymentId: "3",
 			Created: func() *time.Time {
 				ret := now.Add(-time.Minute)
 				return &ret
 			}(),
-			Status:       model.DeviceDeploymentStatusPending,
-			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
-			Active:       true,
+			Status:   model.DeviceDeploymentStatusPending,
+			DeviceId: env.deviceID,
+			Id:       uuid.New().String(),
 		}, {
-			Id: "4",
+			DeploymentId: "4",
 			Created: func() *time.Time {
 				ret := now.Add(-time.Second)
 				return &ret
 			}(),
-			Status:       model.DeviceDeploymentStatusPending,
-			DeviceId:     env.deviceID,
-			DeploymentId: uuid.New().String(),
+			Status:   model.DeviceDeploymentStatusPending,
+			DeviceId: env.deviceID,
+			Id:       uuid.New().String(),
 			Deleted: func() *time.Time {
 				return &now
 			}(),
@@ -981,7 +982,7 @@ func TestFindLatestInactiveDeviceDeployment(t *testing.T) {
 			} else {
 				if assert.NoError(t, err) {
 					if tc.ExpectedID != nil && assert.NotNil(t, d) {
-						assert.Equal(t, *tc.ExpectedID, d.Id,
+						assert.Equal(t, *tc.ExpectedID, d.DeploymentId,
 							"did not receive the expected device deployment id",
 						)
 					} else {
@@ -1019,7 +1020,7 @@ func TestFindDeploymentStatsByIDs(t *testing.T) {
 				ArtifactName: "artifact",
 				Devices:      []string{"device-1"},
 			},
-			Stats: model.NewDeviceDeploymentStats(),
+			Stats: model.Stats{},
 		},
 		{
 			Id:      "d50eda0d-2cea-4de1-8d42-9cd3e7e86703",
@@ -1029,7 +1030,7 @@ func TestFindDeploymentStatsByIDs(t *testing.T) {
 				ArtifactName: "artifact",
 				Devices:      []string{"device-1"},
 			},
-			Stats: model.NewDeviceDeploymentStats(),
+			Stats: model.Stats{},
 		},
 	}
 
@@ -1289,7 +1290,6 @@ func TestGetDeviceDeployments(t *testing.T) {
 			Status:       model.DeviceDeploymentStatusPauseBeforeInstall,
 			DeviceId:     deviceID,
 			DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
-			Active:       true,
 		},
 		{
 			Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
@@ -1321,7 +1321,6 @@ func TestGetDeviceDeployments(t *testing.T) {
 			Status:       model.DeviceDeploymentStatusPending,
 			DeviceId:     deviceID,
 			DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86704",
-			Active:       true,
 		},
 		{
 			Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86705",
@@ -1332,7 +1331,6 @@ func TestGetDeviceDeployments(t *testing.T) {
 			Status:       model.DeviceDeploymentStatusInstalling,
 			DeviceId:     differentDeviceID,
 			DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86705",
-			Active:       true,
 		},
 	}
 	// Make sure we start test with empty database
@@ -1409,7 +1407,7 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeploymentsCollection []interface{}
+		inputDeploymentsCollection []*model.Deployment
 
 		artifactName string
 
@@ -1417,16 +1415,20 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 		err   error
 	}{
 		"ok, exist": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id:       "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Finished: new(time.Now()),
@@ -1436,16 +1438,20 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 			exist:        true,
 		},
 		"ok, does not exist": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id:       "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Finished: new(time.Now()),
@@ -1470,14 +1476,8 @@ func TestExistUnfinishedByArtifactName(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
-			if tc.inputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, tc.inputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range tc.inputDeploymentsCollection {
+				require.NoError(t, ds.InsertDeployment(ctx, *deployment))
 			}
 
 			exist, err := ds.ExistUnfinishedByArtifactName(ctx, tc.artifactName)
@@ -1497,7 +1497,7 @@ func TestExistUnfinishedByArtifactId(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeploymentsCollection []interface{}
+		inputDeploymentsCollection []*model.Deployment
 
 		artifactId string
 
@@ -1505,30 +1505,50 @@ func TestExistUnfinishedByArtifactId(t *testing.T) {
 		err   error
 	}{
 		"ok, exist": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo", "bar"},
+					Created:   new(time.Now()),
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "foo",
+					},
 				},
 				&model.Deployment{
 					Id:        "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Artifacts: []string{"baz"},
 					Finished:  new(time.Now()),
+					Created:   new(time.Now()),
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+						Name:         "bar",
+					},
 				},
 			},
 			artifactId: "foo",
 			exist:      true,
 		},
 		"ok, does not exist": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo", "bar"},
+					Created:   new(time.Now()),
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "foo",
+					},
 				},
 				&model.Deployment{
 					Id:        "d1804903-5caa-4a73-a3ae-0efcc3205405",
 					Artifacts: []string{"bar"},
 					Finished:  new(time.Now()),
+					Created:   new(time.Now()),
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+						Name:         "bar",
+					},
 				},
 			},
 			artifactId: "baz",
@@ -1550,14 +1570,8 @@ func TestExistUnfinishedByArtifactId(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
-			if tc.inputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, tc.inputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range tc.inputDeploymentsCollection {
+				require.NoError(t, ds.InsertDeployment(ctx, *deployment))
 			}
 
 			exist, err := ds.ExistUnfinishedByArtifactId(ctx, tc.artifactId)
@@ -1577,47 +1591,37 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeploymentsCollection []interface{}
+		inputDeploymentsCollection []*model.Deployment
 
 		artifactName string
 		artifactIDs  []string
 
-		outputDeployments []*model.Deployment
-		err               error
+		err error
 	}{
 		"ok": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo-1"},
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+
+					Artifacts: []string{},
 				},
 			},
 			artifactName: "foo",
 			artifactIDs:  []string{"foo-1", "foo-2"},
-			outputDeployments: []*model.Deployment{
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "foo",
-					},
-					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Artifacts: []string{"foo-1", "foo-2"},
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "bar",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-				},
-			},
 		},
 	}
 
@@ -1631,14 +1635,8 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
-			if tc.inputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, tc.inputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range tc.inputDeploymentsCollection {
+				require.NoError(t, ds.InsertDeployment(ctx, *deployment))
 			}
 
 			err := ds.UpdateDeploymentsWithArtifactName(
@@ -1651,8 +1649,18 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 				deployments, _, err := ds.FindDeployments(ctx, model.Query{})
-				assert.NoError(t, err)
-				assert.Equal(t, tc.outputDeployments, deployments)
+				if assert.NoError(t, err) {
+					for i, deployment := range deployments {
+						if deployment.ArtifactName == tc.artifactName {
+							assert.Equal(t, tc.artifactIDs, deployment.Artifacts)
+						} else {
+							assert.Equal(t,
+								tc.inputDeploymentsCollection[i].Artifacts,
+								deployment.Artifacts,
+							)
+						}
+					}
+				}
 			}
 		})
 	}
@@ -1664,27 +1672,27 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeviceDeployments []interface{}
+		inputDeviceDeployments []*model.DeviceDeployment
 
 		deviceID string
 		assert   func(deviceDeployments []model.DeviceDeployment)
 	}{
 		"ok": {
-			inputDeviceDeployments: []interface{}{
+			inputDeviceDeployments: []*model.DeviceDeployment{
 				&model.DeviceDeployment{
 					Id:       "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
 					DeviceId: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
-					Active:   true,
+					Status:   model.DeviceDeploymentStatusPending,
 				},
 				&model.DeviceDeployment{
 					Id:       "a108ae14-bb4e-455f-9b40-2ef4bab97bb1",
 					DeviceId: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
-					Active:   false,
+					Status:   model.DeviceDeploymentStatusSuccess,
 				},
 				&model.DeviceDeployment{
 					Id:       "a108ae14-bb4e-455f-9b40-2ef4bab97bb2",
 					DeviceId: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
-					Active:   false,
+					Status:   model.DeviceDeploymentStatusFailure,
 				},
 			},
 			deviceID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
@@ -1693,21 +1701,21 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 			},
 		},
 		"ko, no matches": {
-			inputDeviceDeployments: []interface{}{
+			inputDeviceDeployments: []*model.DeviceDeployment{
 				&model.DeviceDeployment{
 					Id:       "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
 					DeviceId: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
-					Active:   true,
+					Status:   model.DeviceDeploymentStatusPending,
 				},
 				&model.DeviceDeployment{
 					Id:       "a108ae14-bb4e-455f-9b40-2ef4bab97bb1",
 					DeviceId: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
-					Active:   false,
+					Status:   model.DeviceDeploymentStatusSuccess,
 				},
 				&model.DeviceDeployment{
 					Id:       "a108ae14-bb4e-455f-9b40-2ef4bab97bb2",
 					DeviceId: "a108ae14-bb4e-455f-9b40-2ef4bab97bb0",
-					Active:   false,
+					Status:   model.DeviceDeploymentStatusSuccess,
 				},
 			},
 			deviceID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb1",
@@ -1726,21 +1734,17 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDeviceDeps := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDevices)
-
-			if tc.inputDeviceDeployments != nil {
-				_, err := collDeviceDeps.InsertMany(
-					ctx, tc.inputDeviceDeployments)
-				assert.NoError(t, err)
+			for _, deviceDeployment := range tc.inputDeviceDeployments {
+				require.NoError(t, ds.InsertDeviceDeployment(ctx, deviceDeployment, false))
 			}
 
 			err := ds.DeleteDeviceDeploymentsHistory(ctx, tc.deviceID)
 			assert.NoError(t, err)
-			cur, err := collDeviceDeps.Find(ctx, bson.M{
-				StorageKeyDeviceDeploymentDeleted: bson.M{"$exists": true},
-			})
+			cur, err := ds.database.
+				Collection(CollectionDevices).
+				Find(ctx, bson.M{
+					StorageKeyDeviceDeploymentDeleted: bson.M{"$exists": true},
+				})
 			assert.NoError(t, err)
 			var deviceDeployments []model.DeviceDeployment
 			err = cur.All(ctx, &deviceDeployments)
@@ -1756,19 +1760,21 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeploymentsCollection []interface{}
+		inputDeploymentsCollection []*model.Deployment
 
 		artifactSize int64
 		deploymentID string
 
-		outputDeployments []*model.Deployment
-		err               error
+		outputDeploymentIDs []string
+		err                 error
 	}{
 		"ok": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo-1"},
@@ -1777,38 +1783,28 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					},
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 			artifactSize: 200,
 			deploymentID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			outputDeployments: []*model.Deployment{
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "foo",
-					},
-					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Artifacts: []string{"foo-1"},
-					Statistics: model.DeploymentStatistics{
-						TotalSize: 300,
-					},
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "bar",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				"d1804903-5caa-4a73-a3ae-0efcc3205405",
 			},
 		},
 		"ok, no statistics at the beginning": {
-			inputDeploymentsCollection: []interface{}{
+			inputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 					Artifacts: []string{"foo-1"},
@@ -1817,34 +1813,19 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 					},
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
 			artifactSize: 200,
 			deploymentID: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-			outputDeployments: []*model.Deployment{
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "foo",
-					},
-					Id:        "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Artifacts: []string{"foo-1"},
-					Statistics: model.DeploymentStatistics{
-						TotalSize: 100,
-					},
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "bar",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Statistics: model.DeploymentStatistics{
-						TotalSize: 200,
-					},
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				"d1804903-5caa-4a73-a3ae-0efcc3205405",
 			},
 		},
 	}
@@ -1859,14 +1840,8 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
-			if tc.inputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, tc.inputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range tc.inputDeploymentsCollection {
+				require.NoError(t, ds.InsertDeployment(ctx, *deployment))
 			}
 
 			err := ds.IncrementDeploymentTotalSize(
@@ -1879,8 +1854,15 @@ func TestIncrementDeploymentTotalSize(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 				deployments, _, err := ds.FindDeployments(ctx, model.Query{})
-				assert.NoError(t, err)
-				assert.Equal(t, tc.outputDeployments, deployments)
+				if assert.NoError(t, err) {
+					assert.Equal(t, tc.outputDeploymentIDs, slices.Collect(func(yield func(string) bool) {
+						for _, deployment := range deployments {
+							if !yield(deployment.Id) {
+								return
+							}
+						}
+					}), "unexpected deployment IDs")
+				}
 			}
 		})
 	}
@@ -1909,7 +1891,6 @@ func TestInsertDeviceDeployment(t *testing.T) {
 			Status:       model.DeviceDeploymentStatusPauseBeforeInstall,
 			DeviceId:     deviceID,
 			DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
-			Active:       true,
 		},
 		{
 			Id: "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
@@ -1941,7 +1922,6 @@ func TestInsertDeviceDeployment(t *testing.T) {
 			Status:       model.DeviceDeploymentStatusPending,
 			DeviceId:     deviceID,
 			DeploymentId: "d50eda0d-2cea-4de1-8d42-9cd3e7e86704",
-			Active:       true,
 		},
 	}
 
@@ -1982,12 +1962,11 @@ func TestInsertDeviceDeployment(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			db.Wipe()
 			if len(tc.DeviceDeploymentsToInsert) > 1 {
-				ds.InsertMany(ctx, tc.DeviceDeploymentsToInsert...)
+				require.NoError(t, ds.InsertMany(ctx, tc.DeviceDeploymentsToInsert...))
 			} else {
-				ds.InsertDeviceDeployment(ctx, tc.DeviceDeploymentsToInsert[0], true)
+				require.NoError(t, ds.InsertDeviceDeployment(ctx, tc.DeviceDeploymentsToInsert[0], true))
 			}
-			d := client.Database(DbName)
-			c := d.Collection(CollectionDevices)
+			c := ds.database.Collection(CollectionDevices)
 			r, _ := c.Find(ctx, bson.M{})
 			var results []model.DeviceDeployment
 			r.All(ctx, &results)
@@ -2005,32 +1984,38 @@ func TestGetActiveDeploymentIDsByArtifactNames(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeployments []interface{}
+		inputDeployments []*model.Deployment
 
 		artifactNames []string
 
 		outputIDs []string
 	}{
 		"ok": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
-					Status: model.DeploymentStatusInProgress,
+					Created: new(time.Now()),
+					Status:  model.DeploymentStatusInProgress,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
-					Status: model.DeploymentStatusInProgress,
+					Created: new(time.Now()),
+					Status:  model.DeploymentStatusInProgress,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 				&model.Deployment{
-					Status: model.DeploymentStatusPending,
+					Created: new(time.Now()),
+					Status:  model.DeploymentStatusPending,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
+						Name:         "baz",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
 				},
@@ -2039,18 +2024,26 @@ func TestGetActiveDeploymentIDsByArtifactNames(t *testing.T) {
 			outputIDs:     []string{"a108ae14-bb4e-455f-9b40-2ef4bab97bb7", "d1804903-5caa-4a73-a3ae-0efcc3205406"},
 		},
 		"no active deployments:": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created:  new(time.Now()),
+					Finished: new(time.Now()),
+
 					Status: model.DeploymentStatusFinished, // sets active to false
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created:  new(time.Now()),
+					Finished: new(time.Now()),
+
 					Status: model.DeploymentStatusFinished,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
@@ -2074,14 +2067,8 @@ func TestGetActiveDeploymentIDsByArtifactNames(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
-			if tc.inputDeployments != nil {
-				_, err := collDep.InsertMany(
-					ctx, tc.inputDeployments)
-				assert.NoError(t, err)
+			for _, deployment := range tc.inputDeployments {
+				require.NoError(t, ds.InsertDeployment(ctx, *deployment))
 			}
 
 			ids, err := ds.GetActiveDeploymentIDsByArtifactNames(ctx, tc.artifactNames)
@@ -2097,59 +2084,51 @@ func TestFindDeployments(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputDeployments []interface{}
+		inputDeployments []*model.Deployment
 		query            model.Query
 
-		outputDeployments []*model.Deployment
-		expectedCount     int64
+		outputDeploymentIDs []string
+		expectedCount       int64
 	}{
 		"ok, empty query": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
+						Name:         "foo",
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
+						Name:         "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
+						Name:         "baz",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
 				},
 			},
 			query: model.Query{},
-			outputDeployments: []*model.Deployment{
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "foo",
-					},
-					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "bar",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "baz",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				"d1804903-5caa-4a73-a3ae-0efcc3205405",
+				"d1804903-5caa-4a73-a3ae-0efcc3205406",
 			},
 			expectedCount: 3,
 		},
 		"ok, Ids in query": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 						Name:         "1",
@@ -2157,6 +2136,7 @@ func TestFindDeployments(t *testing.T) {
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 						Name:         "2",
@@ -2164,6 +2144,7 @@ func TestFindDeployments(t *testing.T) {
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
 						Name:         "3",
@@ -2177,27 +2158,16 @@ func TestFindDeployments(t *testing.T) {
 					"d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 			},
-			outputDeployments: []*model.Deployment{
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "foo",
-						Name:         "1",
-					},
-					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "bar",
-						Name:         "2",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				"d1804903-5caa-4a73-a3ae-0efcc3205405",
 			},
 			expectedCount: 2,
 		},
 		"ok, names in query": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 						Name:         "1",
@@ -2205,6 +2175,7 @@ func TestFindDeployments(t *testing.T) {
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 						Name:         "2",
@@ -2212,6 +2183,7 @@ func TestFindDeployments(t *testing.T) {
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
 						Name:         "3",
@@ -2225,32 +2197,21 @@ func TestFindDeployments(t *testing.T) {
 					"3",
 				},
 			},
-			outputDeployments: []*model.Deployment{
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "foo",
-						Name:         "1",
-					},
-					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				},
-				&model.Deployment{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "baz",
-						Name:         "3",
-					},
-					Id: "d1804903-5caa-4a73-a3ae-0efcc3205406",
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				"d1804903-5caa-4a73-a3ae-0efcc3205406",
 			},
 			expectedCount: 2,
 		},
 		"no deployments": {
-			query:             model.Query{},
-			outputDeployments: nil,
-			expectedCount:     0,
+			query:               model.Query{},
+			outputDeploymentIDs: nil,
+			expectedCount:       0,
 		},
 		"ok, DeviceIDs matches by name (single-device deployment)": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "art1",
 						Name:         "device-uuid-1",
@@ -2258,6 +2219,7 @@ func TestFindDeployments(t *testing.T) {
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "art2",
 						Name:         "other-name",
@@ -2268,20 +2230,15 @@ func TestFindDeployments(t *testing.T) {
 			query: model.Query{
 				DeviceIDs: []string{"device-uuid-1"},
 			},
-			outputDeployments: []*model.Deployment{
-				{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "art1",
-						Name:         "device-uuid-1",
-					},
-					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			},
 			expectedCount: 1,
 		},
 		"ok, DeviceIDs matches by device_list (multi-device deployment)": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "art1",
 						Name:         "multi-deploy",
@@ -2290,6 +2247,7 @@ func TestFindDeployments(t *testing.T) {
 					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "art2",
 						Name:         "other-deploy",
@@ -2301,21 +2259,15 @@ func TestFindDeployments(t *testing.T) {
 			query: model.Query{
 				DeviceIDs: []string{"device-uuid-2"},
 			},
-			outputDeployments: []*model.Deployment{
-				{
-					DeploymentConstructor: &model.DeploymentConstructor{
-						ArtifactName: "art1",
-						Name:         "multi-deploy",
-					},
-					DeviceList: []string{"device-uuid-1", "device-uuid-2"},
-					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				},
+			outputDeploymentIDs: []string{
+				"a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			},
 			expectedCount: 1,
 		},
 		"ok, DeviceIDs no match": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "art1",
 						Name:         "some-name",
@@ -2326,12 +2278,13 @@ func TestFindDeployments(t *testing.T) {
 			query: model.Query{
 				DeviceIDs: []string{"nonexistent-device"},
 			},
-			outputDeployments: nil,
-			expectedCount:     0,
+			outputDeploymentIDs: nil,
+			expectedCount:       0,
 		},
 		"empty page on overshoot returns true total": {
-			inputDeployments: []interface{}{
+			inputDeployments: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 						Name:         "some-name",
@@ -2344,8 +2297,8 @@ func TestFindDeployments(t *testing.T) {
 				Skip:  10, // page 2 of a one-page result
 				Limit: 10,
 			},
-			outputDeployments: nil,
-			expectedCount:     1,
+			outputDeploymentIDs: nil,
+			expectedCount:       1,
 		},
 	}
 
@@ -2359,20 +2312,21 @@ func TestFindDeployments(t *testing.T) {
 
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeployments)
-
-			if tc.inputDeployments != nil {
-				_, err := collDep.InsertMany(
-					ctx, tc.inputDeployments)
-				assert.NoError(t, err)
+			for _, deployment := range tc.inputDeployments {
+				require.NoError(t, ds.InsertDeployment(ctx, *deployment))
 			}
 
 			deployments, count, err := ds.FindDeployments(ctx, tc.query)
 			assert.NoError(t, err)
-			assert.Equal(t, tc.expectedCount, count)
-			assert.Equal(t, tc.outputDeployments, deployments)
+			if assert.Equal(t, tc.expectedCount, count) {
+				assert.Equal(t, tc.outputDeploymentIDs, slices.Collect(func(yield func(string) bool) {
+					for _, deployment := range deployments {
+						if !yield(deployment.Id) {
+							return
+						}
+					}
+				}))
+			}
 		})
 	}
 }
