@@ -29,6 +29,19 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/store"
 )
 
+func (db *DataStoreMongo) InsertRelease(
+	ctx context.Context,
+	release model.Release,
+) error {
+	err := db.checkTagQuota(ctx, release.Tags)
+	if err != nil {
+		return err
+	}
+	_, err = db.database.Collection(CollectionReleases).
+		InsertOne(ctx, release)
+	return err
+}
+
 func (db *DataStoreMongo) UpdateReleaseArtifactDescription(
 	ctx context.Context,
 	artifactToEdit *model.Image,
@@ -220,21 +233,14 @@ func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, erro
 	return ret, nil
 }
 
-func (db *DataStoreMongo) ReplaceReleaseTags(
-	ctx context.Context,
-	releaseName string,
-	tags model.Tags,
-) error {
+func (db *DataStoreMongo) checkTagQuota(ctx context.Context, tags model.Tags) error {
 	// Check preconditions
 	if len(tags) > model.TagsMaxUnique {
 		return model.ErrTooManyUniqueTags
 	}
 
-	collReleases := db.database.Collection(CollectionReleases)
-
-	// Check if added tags will exceed limits
 	if len(tags) > 0 {
-		inUseTags, err := db.ListReleaseTags(ctx)
+		inUseTags, err := db.ListSoftwareTags(ctx, nil)
 		if err != nil {
 			return errors.WithMessage(err, "mongo: failed to count in-use tags")
 		}
@@ -248,6 +254,21 @@ func (db *DataStoreMongo) ReplaceReleaseTags(
 		if len(tags)+len(tagSet) > model.TagsMaxUnique {
 			return model.ErrTooManyUniqueTags
 		}
+	}
+	return nil
+}
+
+func (db *DataStoreMongo) ReplaceReleaseTags(
+	ctx context.Context,
+	releaseName string,
+	tags model.Tags,
+) error {
+
+	collReleases := db.database.Collection(CollectionReleases)
+
+	err := db.checkTagQuota(ctx, tags)
+	if err != nil {
+		return err
 	}
 
 	// Update release tags
