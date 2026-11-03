@@ -23,298 +23,16 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
 )
 
-func TestGetReleases_1_2_14(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping TestGetReleases_1_2_14 in short mode.")
-	}
-	db.Wipe()
-
-	inputImgs := []*model.Image{
-		{
-			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d80",
-			ImageMeta: &model.ImageMeta{
-				Description: "description",
-			},
-
-			ArtifactMeta: &model.ArtifactMeta{
-				Name:                  "App1 v1.0",
-				DeviceTypesCompatible: []string{"foo"},
-				Updates:               []model.Update{},
-			},
-			Modified: timePtr("2010-09-22T22:00:00+00:00"),
-		},
-		{
-			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d81",
-			ImageMeta: &model.ImageMeta{
-				Description: "description",
-			},
-
-			ArtifactMeta: &model.ArtifactMeta{
-				Name:                  "App2 v0.1",
-				DeviceTypesCompatible: []string{"foo"},
-				Updates:               []model.Update{},
-			},
-			Modified: timePtr("2010-09-22T23:02:00+00:00"),
-		},
-		{
-			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d82",
-			ImageMeta: &model.ImageMeta{
-				Description: "description",
-			},
-
-			ArtifactMeta: &model.ArtifactMeta{
-				Name:                  "App1 v1.0",
-				DeviceTypesCompatible: []string{"bar, baz"},
-				Updates:               []model.Update{},
-			},
-			Modified: timePtr("2010-09-22T22:00:01+00:00"),
-		},
-		{
-			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d83",
-			ImageMeta: &model.ImageMeta{
-				Description: "description",
-			},
-
-			ArtifactMeta: &model.ArtifactMeta{
-				Name:                  "App1 v1.0",
-				DeviceTypesCompatible: []string{"bork"},
-				Updates:               []model.Update{},
-			},
-			Modified: timePtr("2010-09-22T22:00:04+00:00"),
-		},
-		{
-			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d84",
-			ImageMeta: &model.ImageMeta{
-				Description: "extended description",
-			},
-
-			ArtifactMeta: &model.ArtifactMeta{
-				Name:                  "App2 v0.1",
-				DeviceTypesCompatible: []string{"bar", "baz"},
-				Updates:               []model.Update{},
-			},
-			Modified: timePtr("2010-09-22T23:00:00+00:00"),
-		},
-	}
-
-	// Setup test context
-	ctx := context.Background()
-	ds := NewDataStoreMongoWithClient(db.Client())
-	for _, img := range inputImgs {
-		err := ds.InsertImage(ctx, img)
-		assert.NoError(t, err)
-		if err != nil {
-			assert.FailNow(t,
-				"error setting up image collection for testing")
-		}
-
-		// Convert Depends["device_type"] to bson.A for the sake of
-		// simplifying test case definitions.
-		img.ArtifactMeta.Depends = make(map[string]interface{})
-		img.ArtifactMeta.Depends["device_type"] = make(bson.A,
-			len(img.ArtifactMeta.DeviceTypesCompatible),
-		)
-		for i, devType := range img.ArtifactMeta.DeviceTypesCompatible {
-			img.ArtifactMeta.Depends["device_type"].(bson.A)[i] = devType
-		}
-	}
-
-	testCases := map[string]struct {
-		releaseFilt *model.ReleaseOrImageFilter
-
-		releases []model.Release
-		err      error
-	}{
-		"ok, all": {
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App1 v1.0",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[0],
-						*inputImgs[2],
-						*inputImgs[3],
-					},
-				},
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App2 v0.1",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[1],
-						*inputImgs[4],
-					},
-				},
-			},
-		},
-		"ok, description partial": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Description: "description",
-			},
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App1 v1.0",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[0],
-						*inputImgs[2],
-						*inputImgs[3],
-					},
-				},
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App2 v0.1",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[1],
-						*inputImgs[4],
-					},
-				},
-			},
-		},
-		"ok, description exact": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Description: "extended description",
-			},
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App2 v0.1",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[1],
-						*inputImgs[4],
-					},
-				},
-			},
-		},
-		"ok, sort by modified asc": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Sort: "modified:asc",
-			},
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App1 v1.0",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[0],
-						*inputImgs[2],
-						*inputImgs[3],
-					},
-				},
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App2 v0.1",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[1],
-						*inputImgs[4],
-					},
-				},
-			},
-		},
-		"ok, sort by modified desc": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Sort: "modified:desc",
-			},
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App2 v0.1",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[1],
-						*inputImgs[4],
-					},
-				},
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App1 v1.0",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[0],
-						*inputImgs[2],
-						*inputImgs[3],
-					},
-				},
-			},
-		},
-		"ok, with sort and pagination": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Sort:    "name:desc",
-				Page:    2,
-				PerPage: 1,
-			},
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App1 v1.0",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[0],
-						*inputImgs[2],
-						*inputImgs[3],
-					},
-				},
-			},
-		},
-		"ok, by name": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Name: "App2 v0.1",
-			},
-			releases: []model.Release{
-				{
-					ReleaseBase: model.ReleaseBase{
-						Name: "App2 v0.1",
-					},
-					Artifacts: []model.Image{
-						*inputImgs[1],
-						*inputImgs[4],
-					},
-				},
-			},
-		},
-		"ok, not found": {
-			releaseFilt: &model.ReleaseOrImageFilter{
-				Name: "App3 v1.0",
-			},
-			releases: []model.Release{},
-		},
-	}
-
-	for name, tc := range testCases {
-
-		t.Run(name, func(t *testing.T) {
-			releases, count, err := ds.getReleases_1_2_14(ctx, tc.releaseFilt)
-
-			if tc.err != nil {
-				assert.EqualError(t, tc.err, err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
-			//ignore modification timestamp
-			for i := range releases {
-				releases[i].Modified = nil
-			}
-			assert.Equal(t, tc.releases, releases)
-			assert.GreaterOrEqual(t, count, len(tc.releases))
-		})
-	}
-}
-
-func TestGetReleases_1_2_15(t *testing.T) {
+func TestGetReleases(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping TestGetReleases_1_2_15 in short mode.")
 	}
@@ -331,6 +49,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			ArtifactMeta: &model.ArtifactMeta{
 				Name:                  "App1 v1.0",
 				DeviceTypesCompatible: []string{"foo"},
+				Updates:               []model.Update{},
 			},
 			Modified: timePtr("2010-09-22T22:00:00+00:00"),
 		},
@@ -397,9 +116,11 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				DeviceTypesCompatible: []string{"foo2"},
 				Updates: []model.Update{
 					{
+						Files: []model.UpdateFile{},
 						TypeInfo: model.ArtifactUpdateTypeInfo{
 							Type: &artifactType,
 						},
+						MetaData: map[string]any{},
 					},
 				},
 			},
@@ -417,30 +138,6 @@ func TestGetReleases_1_2_15(t *testing.T) {
 	releaseNameToTags["App2 v0.1"] = model.Tags{
 		"root-fs",
 	}
-	// Setup test context
-	ctx := context.Background()
-	ds := NewDataStoreMongoWithClient(db.Client())
-	for _, img := range inputImgs {
-		err := ds.InsertImage(ctx, img)
-		assert.NoError(t, err)
-		if err != nil {
-			assert.FailNow(t,
-				"error setting up image collection for testing")
-		}
-		err = ds.UpdateReleaseArtifacts(ctx, img, nil, img.ArtifactMeta.Name)
-		assert.NoError(t, err)
-
-		// Convert Depends["device_type"] to bson.A for the sake of
-		// simplifying test case definitions.
-		img.ArtifactMeta.Depends = make(map[string]interface{})
-		img.ArtifactMeta.Depends["device_type"] = make(bson.A,
-			len(img.ArtifactMeta.DeviceTypesCompatible),
-		)
-		for i, devType := range img.ArtifactMeta.DeviceTypesCompatible {
-			img.ArtifactMeta.Depends["device_type"].(bson.A)[i] = devType
-		}
-		time.Sleep(time.Millisecond * 10)
-	}
 
 	testCases := map[string]struct {
 		releaseFilt *model.ReleaseOrImageFilter
@@ -453,6 +150,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -464,6 +163,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -474,6 +175,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -490,6 +193,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -501,6 +206,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -511,6 +218,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -527,6 +236,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -544,6 +255,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App2 v0.1"],
 					},
 					Artifacts: []model.Image{
@@ -562,6 +274,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App1 v1.0"],
 					},
 					Artifacts: []model.Image{
@@ -574,6 +287,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App4 v2.0"],
 					},
 					Artifacts: []model.Image{
@@ -591,6 +305,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -602,6 +318,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -612,6 +330,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -628,6 +348,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -637,6 +359,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -647,6 +371,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -665,6 +391,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -674,6 +402,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -684,6 +414,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -702,6 +434,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -713,6 +447,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -723,6 +459,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -739,6 +477,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App4 v2.0"],
 					},
 					Artifacts: []model.Image{
@@ -749,6 +488,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App1 v1.0"],
 					},
 					Artifacts: []model.Image{
@@ -761,6 +501,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App2 v0.1"],
 					},
 					Artifacts: []model.Image{
@@ -779,6 +520,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App2 v0.1"],
 					},
 					Artifacts: []model.Image{
@@ -790,6 +532,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App1 v1.0"],
 					},
 					Artifacts: []model.Image{
@@ -802,6 +545,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
 						Tags: releaseNameToTags["App4 v2.0"],
 					},
 					Artifacts: []model.Image{
@@ -819,6 +563,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App1 v1.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
@@ -839,6 +585,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -856,6 +604,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App2 v0.1",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
@@ -873,6 +623,8 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				{
 					ReleaseBase: model.ReleaseBase{
 						Name: "App4 v2.0",
+						Kind: model.ReleaseKindRelease,
+						Tags: model.Tags{},
 					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
@@ -888,15 +640,31 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			releases: []model.Release{},
 		},
 	}
+	ctx := t.Context()
+	ds := NewDataStoreMongoWithClient(db.Client())
+	setupTest := func(t *testing.T) { // Setup test context
+		t.Helper()
+		for _, img := range inputImgs {
+			err := ds.AddArtifactToRelease(ctx, *img)
+			require.NoError(t, err)
+
+			// Convert Depends["device_type"] to bson.A for the sake of
+			// simplifying test case definitions.
+			img.ArtifactMeta.Depends = map[string][]string{
+				"device_type": img.ArtifactMeta.DeviceTypesCompatible,
+			}
+			time.Sleep(time.Millisecond * 5)
+		}
+	}
 
 	for name, tc := range testCases {
 
 		t.Run(name, func(t *testing.T) {
+			setupTest(t)
 			for _, r := range tc.releases {
 				ds.ReplaceReleaseTags(ctx, r.Name, r.Tags)
 			}
-			releases, count, err := ds.getReleases_1_2_15(ctx, tc.releaseFilt)
-
+			releases, count, err := ds.GetReleases(ctx, tc.releaseFilt)
 			if tc.err != nil {
 				assert.EqualError(t, tc.err, err.Error())
 			} else {
@@ -905,6 +673,7 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			//ignore modification timestamp
 			for i := range releases {
 				releases[i].Modified = nil
+				releases[i].Created = nil
 			}
 			assert.Equal(t, tc.releases, releases)
 			assert.GreaterOrEqual(t, count, len(tc.releases))
@@ -918,34 +687,18 @@ func TestGetReleases_1_2_15(t *testing.T) {
 				}
 			}
 			for _, img := range inputImgs {
-				err = ds.UpdateReleaseArtifacts(ctx, nil, img, img.ArtifactMeta.Name)
+				err = ds.RemoveArtifactFromRelease(ctx, img.Id)
 				countsByName[img.ArtifactMeta.Name] = countsByName[img.ArtifactMeta.Name] - 1
 				if countsByName[img.ArtifactMeta.Name] > 0 {
-					_, count, _ = ds.getReleases_1_2_15(ctx, &model.ReleaseOrImageFilter{
+					_, count, _ = ds.GetReleases(ctx, &model.ReleaseOrImageFilter{
 						Name: img.ArtifactMeta.Name,
 					})
 					assert.True(t, count > 0, "before the removal of the last artifact the release should still exist")
 				}
 				assert.NoError(t, err)
 			}
-			_, count, _ = ds.getReleases_1_2_15(ctx, tc.releaseFilt)
+			_, count, _ = ds.GetReleases(ctx, tc.releaseFilt)
 			assert.Equal(t, count, 0, "after the removal of the last artifact the release should vanish")
-			// we have to re-add the images for the rest of the tests
-			for _, img := range inputImgs {
-				err = ds.UpdateReleaseArtifacts(ctx, img, nil, img.ArtifactMeta.Name)
-				assert.NoError(t, err)
-
-				// Convert Depends["device_type"] to bson.A for the sake of
-				// simplifying test case definitions.
-				img.ArtifactMeta.Depends = make(map[string]interface{})
-				img.ArtifactMeta.Depends["device_type"] = make(bson.A,
-					len(img.ArtifactMeta.DeviceTypesCompatible),
-				)
-				for i, devType := range img.ArtifactMeta.DeviceTypesCompatible {
-					img.ArtifactMeta.Depends["device_type"].(bson.A)[i] = devType
-				}
-				time.Sleep(time.Millisecond * 10)
-			}
 		})
 	}
 }
@@ -957,7 +710,7 @@ func TestGetRelease(t *testing.T) {
 	db.Wipe()
 
 	artifactType := "app"
-	inputImgs := []*model.Image{
+	inputImgs := []model.Image{
 		{
 			Id: "6d4f6e27-c3bb-438c-ad9c-d9de30e59d80",
 			ImageMeta: &model.ImageMeta{
@@ -1044,28 +797,17 @@ func TestGetRelease(t *testing.T) {
 	}
 
 	// Setup test context
-	ctx := context.Background()
 	ds := NewDataStoreMongoWithClient(db.Client())
+	ctx := t.Context()
 	for _, img := range inputImgs {
-		err := ds.InsertImage(ctx, img)
-		assert.NoError(t, err)
-		if err != nil {
-			assert.FailNow(t,
-				"error setting up image collection for testing")
-		}
-		err = ds.UpdateReleaseArtifacts(ctx, img, nil, img.ArtifactMeta.Name)
-		assert.NoError(t, err)
+		err := ds.AddArtifactToRelease(ctx, img)
+		require.NoError(t, err)
 
 		// Convert Depends["device_type"] to bson.A for the sake of
 		// simplifying test case definitions.
-		img.ArtifactMeta.Depends = make(map[string]interface{})
-		img.ArtifactMeta.Depends["device_type"] = make(bson.A,
-			len(img.ArtifactMeta.DeviceTypesCompatible),
-		)
-		for i, devType := range img.ArtifactMeta.DeviceTypesCompatible {
-			img.ArtifactMeta.Depends["device_type"].(bson.A)[i] = devType
+		img.ArtifactMeta.Depends = map[string][]string{
+			"device_type": img.ArtifactMeta.DeviceTypesCompatible,
 		}
-		time.Sleep(time.Millisecond * 10)
 	}
 
 	testCases := map[string]struct {
@@ -1079,10 +821,11 @@ func TestGetRelease(t *testing.T) {
 			release: &model.Release{
 				ReleaseBase: model.ReleaseBase{
 					Name: "App2 v0.1",
+					Kind: model.ReleaseKindRelease,
 				},
 				Artifacts: []model.Image{
-					*inputImgs[1],
-					*inputImgs[4],
+					inputImgs[1],
+					inputImgs[4],
 				},
 				ArtifactsCount: 2,
 			},
@@ -1106,6 +849,7 @@ func TestGetRelease(t *testing.T) {
 				assert.NoError(t, err)
 				//ignore modification timestamp
 				release.Modified = nil
+				release.Created = nil
 				assert.Equal(t, tc.release, release)
 			}
 		})
@@ -1122,7 +866,7 @@ func TestReplaceReleaseTags(t *testing.T) {
 
 		context.Context
 
-		Init        func(t *testing.T, self *testCase)
+		Init        func(t *testing.T, ds *DataStoreMongo, self *testCase)
 		ReleaseName string
 
 		Tags model.Tags
@@ -1135,11 +879,10 @@ func TestReplaceReleaseTags(t *testing.T) {
 
 		Context: context.Background(),
 
-		Init: func(t *testing.T, self *testCase) {
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {
 			t.Helper()
-			_, err := client.Database(DbName).
-				Collection(CollectionReleases).
-				InsertMany(ctx, []interface{}{model.Release{
+			for _, release := range []model.Release{
+				model.Release{
 					ReleaseBase: model.ReleaseBase{
 						Name: self.ReleaseName,
 						Tags: model.Tags{"bar", "foo"},
@@ -1149,10 +892,13 @@ func TestReplaceReleaseTags(t *testing.T) {
 						Name: "v100.2.3",
 						Tags: model.Tags{"bar", "baz"},
 					},
-				}})
-			if err != nil {
-				t.Errorf("failed to initialize dataset: %s", err)
-				t.FailNow()
+				},
+			} {
+				err := ds.InsertRelease(self.Context, release)
+				if err != nil {
+					t.Errorf("failed to initialize dataset: %s", err)
+					t.FailNow()
+				}
 			}
 		},
 		Tags: func() model.Tags {
@@ -1172,16 +918,15 @@ func TestReplaceReleaseTags(t *testing.T) {
 			},
 		),
 
-		Init: func(t *testing.T, self *testCase) {
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {
 			t.Helper()
-			_, err := client.Database(ctxstore.DbFromContext(self, DbName)).
-				Collection(CollectionReleases).
-				InsertMany(self,
-					[]interface{}{model.Release{
+			{
+				for _, release := range []model.Release{
+					model.Release{
 						ReleaseBase: model.ReleaseBase{
 							Name: self.ReleaseName,
 							Tags: func() model.Tags {
-								newTags := make(model.Tags, model.TagsMaxUnique)
+								newTags := make(model.Tags, model.TagsMaxUnique-2)
 								for i := range newTags {
 									newTags[i] = model.Tag(
 										"field" + strconv.Itoa(i),
@@ -1195,10 +940,14 @@ func TestReplaceReleaseTags(t *testing.T) {
 							Name: "v1.2.3-beta",
 							Tags: model.Tags{"bar", "foo"},
 						},
-					}})
-			if err != nil {
-				t.Errorf("failed to initialize dataset: %s", err)
-				t.FailNow()
+					},
+				} {
+					err := ds.InsertRelease(self.Context, release)
+					if err != nil {
+						t.Errorf("failed to initialize dataset: %s", err)
+						t.FailNow()
+					}
+				}
 			}
 		},
 		Tags:        model.Tags{},
@@ -1212,16 +961,15 @@ func TestReplaceReleaseTags(t *testing.T) {
 			},
 		),
 
-		Init: func(t *testing.T, self *testCase) {
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {
 			t.Helper()
-			_, err := client.Database(ctxstore.DbFromContext(self, DbName)).
-				Collection(CollectionReleases).
-				InsertMany(self,
-					[]interface{}{model.Release{
+			{
+				for _, release := range []model.Release{
+					model.Release{
 						ReleaseBase: model.ReleaseBase{
 							Name: self.ReleaseName,
 							Tags: func() model.Tags {
-								newTags := make(model.Tags, model.TagsMaxUnique)
+								newTags := make(model.Tags, model.TagsMaxUnique-2)
 								for i := range newTags {
 									newTags[i] = model.Tag(
 										"field" + strconv.Itoa(i),
@@ -1235,10 +983,14 @@ func TestReplaceReleaseTags(t *testing.T) {
 							Name: "v1.2.3-beta",
 							Tags: model.Tags{"bar", "foo"},
 						},
-					}})
-			if err != nil {
-				t.Errorf("failed to initialize dataset: %s", err)
-				t.FailNow()
+					},
+				} {
+					err := ds.InsertRelease(self.Context, release)
+					if err != nil {
+						t.Errorf("failed to initialize dataset: %s", err)
+						t.FailNow()
+					}
+				}
 			}
 		},
 		Tags:        model.Tags{"oneFieldTooMany"},
@@ -1255,12 +1007,11 @@ func TestReplaceReleaseTags(t *testing.T) {
 			},
 		),
 
-		Init: func(t *testing.T, self *testCase) {
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {
 			t.Helper()
-			_, err := client.Database(ctxstore.DbFromContext(self, DbName)).
-				Collection(CollectionReleases).
-				InsertMany(self,
-					[]interface{}{model.Release{
+			{
+				for _, release := range []model.Release{
+					model.Release{
 						ReleaseBase: model.ReleaseBase{
 							Name: self.ReleaseName,
 							Tags: model.Tags{},
@@ -1270,10 +1021,14 @@ func TestReplaceReleaseTags(t *testing.T) {
 							Name: "v1.2.3-beta",
 							Tags: model.Tags{"bar", "foo"},
 						},
-					}})
-			if err != nil {
-				t.Errorf("failed to initialize dataset: %s", err)
-				t.FailNow()
+					},
+				} {
+					err := ds.InsertRelease(self.Context, release)
+					if err != nil {
+						t.Errorf("failed to initialize dataset: %s", err)
+						t.FailNow()
+					}
+				}
 			}
 		},
 		Tags: func() model.Tags {
@@ -1285,7 +1040,7 @@ func TestReplaceReleaseTags(t *testing.T) {
 			}
 			return newTags
 		}(),
-		ReleaseName: "v1.0",
+		ReleaseName: "v1.3",
 		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
 			return assert.ErrorIs(t, err, model.ErrTooManyUniqueTags)
 		},
@@ -1293,7 +1048,7 @@ func TestReplaceReleaseTags(t *testing.T) {
 		Name: "error/no documents",
 
 		Context: context.Background(),
-		Init:    func(t *testing.T, self *testCase) {},
+		Init:    func(t *testing.T, ds *DataStoreMongo, self *testCase) {},
 
 		Tags:        model.Tags{},
 		ReleaseName: "not_found",
@@ -1306,31 +1061,35 @@ func TestReplaceReleaseTags(t *testing.T) {
 		Context: identity.WithContext(ctx, &identity.Identity{
 			Tenant: "deadbeefdeadbeefdeadbeef",
 		}),
-		Init: func(t *testing.T, self *testCase) {
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {
 			t.Helper()
-			_, err := client.Database(ctxstore.DbFromContext(self, DbName)).
-				Collection(CollectionReleases).
-				InsertMany(self,
-					[]interface{}{model.Release{
+			{
+				for _, release := range []model.Release{
+					model.Release{
 						ReleaseBase: model.ReleaseBase{
 							Name: self.ReleaseName,
 							Tags: model.Tags{},
 						},
-					}, map[string]interface{}{
-						StorageKeyReleaseName: "v1.2.3-beta",
-						StorageKeyReleaseTags: []map[string]interface{}{{
-							"key":   123,
-							"value": true,
-						}},
-					}})
-			if err != nil {
-				t.Errorf("failed to initialize dataset: %s", err)
-				t.FailNow()
+					},
+				} {
+					err := ds.InsertRelease(self.Context, release)
+					if err != nil {
+						t.Errorf("failed to initialize dataset: %s", err)
+						t.FailNow()
+					}
+				}
 			}
+			ds.database.Collection(CollectionReleases).
+				UpdateOne(ctx, bson.D{
+					{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+					{Key: StorageKeyReleaseName, Value: self.ReleaseName},
+				}, bson.D{{Key: "$set", Value: bson.D{
+					{Key: StorageKeyReleaseTags, Value: "this is not a tag list"},
+				}}})
 		},
 
 		Tags:        model.Tags{"bar", "foo"},
-		ReleaseName: "v1.0",
+		ReleaseName: "v1.5",
 		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
 			var decodeErr *bson.DecodeError
 			if !errors.As(err, &decodeErr) {
@@ -1346,10 +1105,10 @@ func TestReplaceReleaseTags(t *testing.T) {
 			cancel()
 			return ctx
 		}(),
-		Init: func(t *testing.T, self *testCase) {},
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {},
 
 		Tags:        model.Tags{"oneMore", "tag"},
-		ReleaseName: "v1.0",
+		ReleaseName: "v1.6",
 		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
 			if errors.Is(err, context.Canceled) || errors.Is(err, io.ErrUnexpectedEOF) {
 				return true
@@ -1364,10 +1123,10 @@ func TestReplaceReleaseTags(t *testing.T) {
 			cancel()
 			return ctx
 		}(),
-		Init: func(t *testing.T, self *testCase) {},
+		Init: func(t *testing.T, ds *DataStoreMongo, self *testCase) {},
 
 		Tags:        model.Tags{},
-		ReleaseName: "v1.0",
+		ReleaseName: "v1.7",
 		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
 			return assert.ErrorIs(t, err, context.Canceled) || errors.Is(err, io.ErrUnexpectedEOF)
 		},
@@ -1375,32 +1134,19 @@ func TestReplaceReleaseTags(t *testing.T) {
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
-			t.Parallel()
-			ctx := context.Background()
-			var tenantID string
-			if id := identity.FromContext(tc.Context); id != nil {
-				tenantID = id.Tenant
-			}
-			err := MigrateSingle(ctx,
-				ctxstore.DbNameForTenant(tenantID, DbName),
-				DbVersion,
-				client,
-				true)
-			if err != nil {
-				panic(err)
-			}
-			tc.Init(t, &tc)
-
+			ctx := t.Context()
 			ds := NewDataStoreMongoWithClient(client)
+			err := ds.Migrate(ctx, DbVersion, true)
+			require.NoError(t, err)
+			if tc.Context != nil {
+				ctx = tc.Context
+			}
+			tc.Init(t, ds, &tc)
+
 			err = ds.ReplaceReleaseTags(tc.Context, tc.ReleaseName, tc.Tags)
 			if tc.ErrorAssertionFunc == nil {
 				if assert.NoError(t, err) {
-					var release model.Release
-					err := client.Database(
-						ctxstore.DbNameForTenant(tenantID, DbName)).
-						Collection(CollectionReleases).
-						FindOne(ctx, bson.D{}).
-						Decode(&release)
+					release, err := ds.GetRelease(ctx, tc.ReleaseName)
 					if assert.NoError(t, err, "failed to decode updated release") {
 						assert.EqualValues(t, tc.Tags, release.Tags)
 					}
@@ -1413,7 +1159,6 @@ func TestReplaceReleaseTags(t *testing.T) {
 }
 
 func TestUpdateRelease(t *testing.T) {
-	ctx := context.Background()
 	client := db.Client()
 	db.Wipe()
 
@@ -1427,10 +1172,9 @@ func TestUpdateRelease(t *testing.T) {
 
 		context.Context
 
-		Init        func(t *testing.T, self *testCase)
+		Init        func(t *testing.T, self *testCase, ds *DataStoreMongo)
 		ReleaseName string
 
-		Release       model.ReleasePatch
 		ReleaseUpdate model.ReleasePatch
 
 		assert.ErrorAssertionFunc
@@ -1442,11 +1186,10 @@ func TestUpdateRelease(t *testing.T) {
 
 			Context: context.Background(),
 
-			Init: func(t *testing.T, self *testCase) {
+			Init: func(t *testing.T, self *testCase, ds *DataStoreMongo) {
 				t.Helper()
-				_, err := client.Database(DbName).
-					Collection(CollectionReleases).
-					InsertMany(ctx, []interface{}{model.Release{
+				for _, release := range []model.Release{
+					model.Release{
 						ReleaseBase: model.ReleaseBase{
 							Name: self.ReleaseName,
 							Tags: model.Tags{"bar", "foo"},
@@ -1456,14 +1199,9 @@ func TestUpdateRelease(t *testing.T) {
 							Name: "v100.2.3",
 							Tags: model.Tags{"bar", "baz"},
 						},
-					}})
-				if err != nil {
-					t.Errorf("failed to initialize dataset: %s", err)
-					t.FailNow()
+					}} {
+					require.NoError(t, ds.InsertRelease(self.Context, release))
 				}
-			},
-			Release: model.ReleasePatch{
-				Notes: "New release 2023",
 			},
 			ReleaseUpdate: model.ReleasePatch{
 				Notes: "Brand New release 2023",
@@ -1475,11 +1213,10 @@ func TestUpdateRelease(t *testing.T) {
 
 			Context: context.Background(),
 
-			Init: func(t *testing.T, self *testCase) {
+			Init: func(t *testing.T, self *testCase, ds *DataStoreMongo) {
 				t.Helper()
-				_, err := client.Database(DbName).
-					Collection(CollectionReleases).
-					InsertMany(ctx, []interface{}{model.Release{
+				for _, release := range []model.Release{
+					model.Release{
 						ReleaseBase: model.ReleaseBase{
 							Name: self.ReleaseName,
 							Tags: model.Tags{"bar", "foo"},
@@ -1489,14 +1226,9 @@ func TestUpdateRelease(t *testing.T) {
 							Name: "v100.2.4",
 							Tags: model.Tags{"bar", "baz"},
 						},
-					}})
-				if err != nil {
-					t.Errorf("failed to initialize dataset: %s", err)
-					t.FailNow()
+					}} {
+					require.NoError(t, ds.InsertRelease(self.Context, release))
 				}
-			},
-			Release: model.ReleasePatch{
-				Notes: "New release 2023",
 			},
 			ReleaseUpdate: model.ReleasePatch{
 				Notes: "New release 2023",
@@ -1512,16 +1244,15 @@ func TestUpdateRelease(t *testing.T) {
 				},
 			),
 
-			Init: func(t *testing.T, self *testCase) {
+			Init: func(t *testing.T, self *testCase, ds *DataStoreMongo) {
 				t.Helper()
-				_, err := client.Database(ctxstore.DbFromContext(self, DbName)).
-					Collection(CollectionReleases).
-					InsertMany(self,
-						[]interface{}{model.Release{
+				{
+					for _, release := range []model.Release{
+						model.Release{
 							ReleaseBase: model.ReleaseBase{
 								Name: self.ReleaseName,
 								Tags: func() model.Tags {
-									newTags := make(model.Tags, model.TagsMaxUnique)
+									newTags := make(model.Tags, model.TagsMaxUnique-2)
 									for i := range newTags {
 										newTags[i] = model.Tag(
 											"field" + strconv.Itoa(i),
@@ -1532,16 +1263,15 @@ func TestUpdateRelease(t *testing.T) {
 							},
 						}, model.Release{
 							ReleaseBase: model.ReleaseBase{
-								Name: "v1.2.3-beta",
+								Name: "v1.2.2-beta",
 								Tags: model.Tags{"bar", "foo"},
 							},
-						}})
-				if err != nil {
-					t.Errorf("failed to initialize dataset: %s", err)
-					t.FailNow()
+						}} {
+						require.NoError(t, ds.InsertRelease(self.Context, release))
+					}
 				}
 			},
-			Release: model.ReleasePatch{
+			ReleaseUpdate: model.ReleasePatch{
 				Notes: model.Notes(longReleaseNotes),
 			},
 			ReleaseName: "v1.0",
@@ -1555,43 +1285,15 @@ func TestUpdateRelease(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			ctx := context.Background()
-			var tenantID string
-			if id := identity.FromContext(tc.Context); id != nil {
-				tenantID = id.Tenant
-			}
-			err := MigrateSingle(ctx,
-				ctxstore.DbNameForTenant(tenantID, DbName),
-				DbVersion,
-				client,
-				true)
-			if err != nil {
-				panic(err)
-			}
-			tc.Init(t, &tc)
-
 			ds := NewDataStoreMongoWithClient(client)
-			err = ds.UpdateRelease(tc.Context, tc.ReleaseName, tc.Release)
+			err := ds.Migrate(ctx, DbVersion, true)
+			tc.Init(t, &tc, ds)
+
+			require.NoError(t, err, "[setup] failed to migrate database")
+			err = ds.UpdateRelease(tc.Context, tc.ReleaseName, tc.ReleaseUpdate)
 			if tc.ErrorAssertionFunc == nil {
 				if assert.NoError(t, err) {
-					var release model.Release
-					err = client.Database(
-						ctxstore.DbNameForTenant(tenantID, DbName)).
-						Collection(CollectionReleases).
-						FindOne(ctx, bson.D{
-							{StorageKeyReleaseName, tc.ReleaseName},
-						}).
-						Decode(&release)
-					if assert.NoError(t, err, "failed to decode updated release") {
-						assert.Equal(t, tc.Release.Notes, release.Notes)
-					}
-					err = ds.UpdateRelease(tc.Context, tc.ReleaseName, tc.ReleaseUpdate)
-					err = client.Database(
-						ctxstore.DbNameForTenant(tenantID, DbName)).
-						Collection(CollectionReleases).
-						FindOne(ctx, bson.D{
-							{StorageKeyReleaseName, tc.ReleaseName},
-						}).
-						Decode(&release)
+					release, err := ds.GetRelease(tc.Context, tc.ReleaseName)
 					if assert.NoError(t, err, "failed to decode updated release") {
 						assert.Equal(t, tc.ReleaseUpdate.Notes, release.Notes)
 					}
@@ -1609,12 +1311,12 @@ func TestDeleteReleasesByNames(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		inputReleases  []interface{}
+		inputReleases  []*model.Release
 		names          []string
 		outputReleases []model.Release
 	}{
 		"ok": {
-			inputReleases: []interface{}{
+			inputReleases: []*model.Release{
 				&model.Release{
 					ReleaseBase: model.ReleaseBase{
 						Name: "foo",
@@ -1651,24 +1353,22 @@ func TestDeleteReleasesByNames(t *testing.T) {
 
 			ctx := context.Background()
 
-			collReleases := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionReleases)
-
-			if tc.inputReleases != nil {
-				_, err := collReleases.InsertMany(
-					ctx, tc.inputReleases)
-				assert.NoError(t, err)
+			for _, release := range tc.inputReleases {
+				err := ds.InsertRelease(ctx, *release)
+				require.NoError(t, err)
 			}
 
 			err := ds.DeleteReleasesByNames(ctx, tc.names)
 			assert.NoError(t, err)
-			cur, err := collReleases.Find(ctx, bson.M{})
-			assert.NoError(t, err)
-			var releases []model.Release
-			err = cur.All(ctx, &releases)
-			assert.NoError(t, err)
-			assert.Equal(t, tc.outputReleases, releases)
+			releases, _, err := ds.ListSoftware(ctx, &model.SoftwareFilter{
+				Names: tc.names,
+			})
+			require.NoError(t, err)
+			require.Empty(t, releases)
+			for _, release := range tc.outputReleases {
+				_, err := ds.GetRelease(ctx, release.Name)
+				assert.NoError(t, err, "release should exist")
+			}
 		})
 	}
 }
