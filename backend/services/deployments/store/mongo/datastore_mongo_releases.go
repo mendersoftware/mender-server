@@ -37,8 +37,17 @@ func (db *DataStoreMongo) InsertRelease(
 	if err != nil {
 		return err
 	}
+	release.Created = new(time.Now())
+	type Release struct {
+		model.Release `bson:",inline"`
+		TenantID      string `bson:"tenant_id"`
+	}
+
 	_, err = db.database.Collection(CollectionReleases).
-		InsertOne(ctx, release)
+		InsertOne(ctx, Release{
+			Release:  release,
+			TenantID: identity.FromContext(ctx).GetTenantID(),
+		})
 	return err
 }
 
@@ -83,6 +92,13 @@ func (db *DataStoreMongo) AddArtifactToRelease(
 		dependsFilters []bson.D
 		dependsKeys    []string
 	)
+	if len(artifact.Depends) == 0 {
+		artifact.Depends = map[string][]string{
+			"device_type": artifact.DeviceTypesCompatible,
+		}
+	} else if len(artifact.Depends["device_type"]) == 0 {
+		artifact.Depends["device_type"] = artifact.DeviceTypesCompatible
+	}
 	for key, values := range artifact.Depends {
 		dependsKeys = append(dependsKeys, key)
 		dependsTerms := make([]Depend, len(values))
