@@ -2054,8 +2054,9 @@ func (db *DataStoreMongo) hasIndexing(ctx context.Context) bool {
 }
 
 type Deployment struct {
-	model.Deployment `bson:",inline"`
-	TenantID         string `bson:"tenant_id"`
+	model.Deployment    `bson:",inline"`
+	TenantID            string `bson:"tenant_id"`
+	ConstructorChecksum string `bson:"deploymentconstructor_checksum"`
 }
 
 // Insert persists object
@@ -2071,8 +2072,9 @@ func (db *DataStoreMongo) InsertDeployment(
 	collDpl := db.database.Collection(CollectionDeployments)
 
 	if _, err := collDpl.InsertOne(ctx, Deployment{
-		Deployment: deployment,
-		TenantID:   identity.FromContext(ctx).GetTenantID(),
+		Deployment:          deployment,
+		TenantID:            identity.FromContext(ctx).GetTenantID(),
+		ConstructorChecksum: deployment.Checksum(),
 	}); err != nil {
 		if mongo.IsDuplicateKeyError(err) {
 			return ErrConflictingDeployment

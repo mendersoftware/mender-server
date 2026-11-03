@@ -140,9 +140,6 @@ type Deployment struct {
 	// User provided field set
 	*DeploymentConstructor
 
-	// Set the DeploymentConstructor checksum
-	DeploymentConstructorChecksum string `json:"-" bson:"deploymentconstructor_checksum,omitempty"`
-
 	// Auto set on create, required
 	Created *time.Time `json:"created"`
 
@@ -221,9 +218,6 @@ func NewDeploymentFromConstructor(constructor *DeploymentConstructor) (*Deployme
 	}
 
 	deployment.DeploymentConstructor = constructor
-	if constructor != nil {
-		deployment.DeploymentConstructorChecksum = constructor.Checksum()
-	}
 	deployment.Status = DeploymentStatusPending
 
 	deployment.DeviceCount = new(int64(0))
