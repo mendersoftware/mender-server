@@ -254,7 +254,7 @@ func (d *Device) SubmitAuthRequest(
 					Scope:     client.IDENTITY,
 					Attribute: attributeNameMAC,
 					Type:      "$eq",
-					Value:     client.AttributeValueRequest{String: new(d.MAC)},
+					Value:     client.FilterValue{String: new(d.MAC)},
 				},
 			}
 

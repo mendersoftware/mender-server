@@ -9637,7 +9637,7 @@ components:
           format: binary
       required:
         - path
-    AttributeValueRequest:
+    FilterValue:
       oneOf:
         - type: string
         - type: number
@@ -9647,6 +9647,7 @@ components:
         - type: array
           items:
             type: number
+        - type: boolean
       description: |
         The current value of the attribute.
 
@@ -9654,6 +9655,7 @@ components:
 
         Supported types: number, string, array of numbers, array of strings.
         Mixed arrays are not allowed.
+        For $exists type, a boolean is required.
     DeviceAttributeRequest:
       description: Attribute descriptor.
       example:
@@ -9673,7 +9675,7 @@ components:
           type: string
           description: Attribute description.
         value:
-          $ref: '#/components/schemas/AttributeValueRequest'
+          $ref: '#/components/schemas/FilterValue'
     TenantNew:
       type: object
       properties:
@@ -9842,7 +9844,7 @@ components:
             - $regex
         value:
           allOf:
-            - $ref: '#/components/schemas/AttributeValueRequest'
+            - $ref: '#/components/schemas/FilterValue'
             - description: |
                 The value of the attribute to be used in filtering.
 

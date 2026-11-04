@@ -28,7 +28,6 @@ from mender_client.models.artifact_v2 import ArtifactV2
 from mender_client.models.attribute_filter_predicate import AttributeFilterPredicate
 from mender_client.models.attribute_request import AttributeRequest
 from mender_client.models.attribute_response import AttributeResponse
-from mender_client.models.attribute_value_request import AttributeValueRequest
 from mender_client.models.attribute_value_response import AttributeValueResponse
 from mender_client.models.auth_request import AuthRequest
 from mender_client.models.auth_set import AuthSet
@@ -82,6 +81,7 @@ from mender_client.models.filter_attribute import FilterAttribute
 from mender_client.models.filter_predicate import FilterPredicate
 from mender_client.models.filter_v1 import FilterV1
 from mender_client.models.filter_v2 import FilterV2
+from mender_client.models.filter_value import FilterValue
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response
 from mender_client.models.group import Group
 from mender_client.models.groups import Groups

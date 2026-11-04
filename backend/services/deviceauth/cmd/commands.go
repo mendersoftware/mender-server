@@ -424,8 +424,8 @@ func tryPropagateIdDataInventoryForTenant(
 	return err
 }
 
-func mapValueToAttribute(value interface{}) (client.AttributeValueRequest, error) {
-	attr := client.AttributeValueRequest{}
+func mapValueToAttribute(value interface{}) (client.FilterValue, error) {
+	attr := client.FilterValue{}
 	if value == nil {
 		return attr, nil
 	}

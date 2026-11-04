@@ -67,7 +67,6 @@ __all__ = [
     "AttributeFilterPredicate",
     "AttributeRequest",
     "AttributeResponse",
-    "AttributeValueRequest",
     "AttributeValueResponse",
     "AuthRequest",
     "AuthSet",
@@ -121,6 +120,7 @@ __all__ = [
     "FilterPredicate",
     "FilterV1",
     "FilterV2",
+    "FilterValue",
     "GetStatisticsInternal200Response",
     "Group",
     "Groups",
@@ -241,7 +241,6 @@ from mender_client.models.artifact_v2 import ArtifactV2 as ArtifactV2
 from mender_client.models.attribute_filter_predicate import AttributeFilterPredicate as AttributeFilterPredicate
 from mender_client.models.attribute_request import AttributeRequest as AttributeRequest
 from mender_client.models.attribute_response import AttributeResponse as AttributeResponse
-from mender_client.models.attribute_value_request import AttributeValueRequest as AttributeValueRequest
 from mender_client.models.attribute_value_response import AttributeValueResponse as AttributeValueResponse
 from mender_client.models.auth_request import AuthRequest as AuthRequest
 from mender_client.models.auth_set import AuthSet as AuthSet
@@ -295,6 +294,7 @@ from mender_client.models.filter_attribute import FilterAttribute as FilterAttri
 from mender_client.models.filter_predicate import FilterPredicate as FilterPredicate
 from mender_client.models.filter_v1 import FilterV1 as FilterV1
 from mender_client.models.filter_v2 import FilterV2 as FilterV2
+from mender_client.models.filter_value import FilterValue as FilterValue
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response as GetStatisticsInternal200Response
 from mender_client.models.group import Group as Group
 from mender_client.models.groups import Groups as Groups

@@ -42,7 +42,6 @@ mender_client/models/artifact_v2.py
 mender_client/models/attribute_filter_predicate.py
 mender_client/models/attribute_request.py
 mender_client/models/attribute_response.py
-mender_client/models/attribute_value_request.py
 mender_client/models/attribute_value_response.py
 mender_client/models/auth_request.py
 mender_client/models/auth_set.py
@@ -98,6 +97,7 @@ mender_client/models/filter_attribute.py
 mender_client/models/filter_predicate.py
 mender_client/models/filter_v1.py
 mender_client/models/filter_v2.py
+mender_client/models/filter_value.py
 mender_client/models/get_statistics_internal200_response.py
 mender_client/models/group.py
 mender_client/models/groups.py

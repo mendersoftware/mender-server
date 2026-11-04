@@ -17,45 +17,53 @@ import (
 	"gopkg.in/validator.v2"
 )
 
-// AttributeValueRequest - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
-type AttributeValueRequest struct {
+// FilterValue - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. For $exists type, a boolean is required. 
+type FilterValue struct {
 	ArrayOfFloat32 *[]float32
 	ArrayOfString *[]string
+	Bool *bool
 	Float32 *float32
 	String *string
 }
 
-// []float32AsAttributeValueRequest is a convenience function that returns []float32 wrapped in AttributeValueRequest
-func ArrayOfFloat32AsAttributeValueRequest(v *[]float32) AttributeValueRequest {
-	return AttributeValueRequest{
+// []float32AsFilterValue is a convenience function that returns []float32 wrapped in FilterValue
+func ArrayOfFloat32AsFilterValue(v *[]float32) FilterValue {
+	return FilterValue{
 		ArrayOfFloat32: v,
 	}
 }
 
-// []stringAsAttributeValueRequest is a convenience function that returns []string wrapped in AttributeValueRequest
-func ArrayOfStringAsAttributeValueRequest(v *[]string) AttributeValueRequest {
-	return AttributeValueRequest{
+// []stringAsFilterValue is a convenience function that returns []string wrapped in FilterValue
+func ArrayOfStringAsFilterValue(v *[]string) FilterValue {
+	return FilterValue{
 		ArrayOfString: v,
 	}
 }
 
-// float32AsAttributeValueRequest is a convenience function that returns float32 wrapped in AttributeValueRequest
-func Float32AsAttributeValueRequest(v *float32) AttributeValueRequest {
-	return AttributeValueRequest{
+// boolAsFilterValue is a convenience function that returns bool wrapped in FilterValue
+func BoolAsFilterValue(v *bool) FilterValue {
+	return FilterValue{
+		Bool: v,
+	}
+}
+
+// float32AsFilterValue is a convenience function that returns float32 wrapped in FilterValue
+func Float32AsFilterValue(v *float32) FilterValue {
+	return FilterValue{
 		Float32: v,
 	}
 }
 
-// stringAsAttributeValueRequest is a convenience function that returns string wrapped in AttributeValueRequest
-func StringAsAttributeValueRequest(v *string) AttributeValueRequest {
-	return AttributeValueRequest{
+// stringAsFilterValue is a convenience function that returns string wrapped in FilterValue
+func StringAsFilterValue(v *string) FilterValue {
+	return FilterValue{
 		String: v,
 	}
 }
 
 
 // Unmarshal JSON data into one of the pointers in the struct
-func (dst *AttributeValueRequest) UnmarshalJSON(data []byte) error {
+func (dst *FilterValue) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into ArrayOfFloat32
@@ -90,6 +98,23 @@ func (dst *AttributeValueRequest) UnmarshalJSON(data []byte) error {
 		}
 	} else {
 		dst.ArrayOfString = nil
+	}
+
+	// try to unmarshal data into Bool
+	err = newStrictDecoder(data).Decode(&dst.Bool)
+	if err == nil {
+		jsonBool, _ := json.Marshal(dst.Bool)
+		if string(jsonBool) == "{}" { // empty struct
+			dst.Bool = nil
+		} else {
+			if err = validator.Validate(dst.Bool); err != nil {
+				dst.Bool = nil
+			} else {
+				match++
+			}
+		}
+	} else {
+		dst.Bool = nil
 	}
 
 	// try to unmarshal data into Float32
@@ -130,25 +155,30 @@ func (dst *AttributeValueRequest) UnmarshalJSON(data []byte) error {
 		// reset to nil
 		dst.ArrayOfFloat32 = nil
 		dst.ArrayOfString = nil
+		dst.Bool = nil
 		dst.Float32 = nil
 		dst.String = nil
 
-		return fmt.Errorf("data matches more than one schema in oneOf(AttributeValueRequest)")
+		return fmt.Errorf("data matches more than one schema in oneOf(FilterValue)")
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(AttributeValueRequest)")
+		return fmt.Errorf("data failed to match schemas in oneOf(FilterValue)")
 	}
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src AttributeValueRequest) MarshalJSON() ([]byte, error) {
+func (src FilterValue) MarshalJSON() ([]byte, error) {
 	if src.ArrayOfFloat32 != nil {
 		return json.Marshal(&src.ArrayOfFloat32)
 	}
 
 	if src.ArrayOfString != nil {
 		return json.Marshal(&src.ArrayOfString)
+	}
+
+	if src.Bool != nil {
+		return json.Marshal(&src.Bool)
 	}
 
 	if src.Float32 != nil {
@@ -163,7 +193,7 @@ func (src AttributeValueRequest) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *AttributeValueRequest) GetActualInstance() (interface{}) {
+func (obj *FilterValue) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
@@ -173,6 +203,10 @@ func (obj *AttributeValueRequest) GetActualInstance() (interface{}) {
 
 	if obj.ArrayOfString != nil {
 		return obj.ArrayOfString
+	}
+
+	if obj.Bool != nil {
+		return obj.Bool
 	}
 
 	if obj.Float32 != nil {
@@ -188,13 +222,17 @@ func (obj *AttributeValueRequest) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj AttributeValueRequest) GetActualInstanceValue() (interface{}) {
+func (obj FilterValue) GetActualInstanceValue() (interface{}) {
 	if obj.ArrayOfFloat32 != nil {
 		return *obj.ArrayOfFloat32
 	}
 
 	if obj.ArrayOfString != nil {
 		return *obj.ArrayOfString
+	}
+
+	if obj.Bool != nil {
+		return *obj.Bool
 	}
 
 	if obj.Float32 != nil {
@@ -209,38 +247,38 @@ func (obj AttributeValueRequest) GetActualInstanceValue() (interface{}) {
 	return nil
 }
 
-type NullableAttributeValueRequest struct {
-	value *AttributeValueRequest
+type NullableFilterValue struct {
+	value *FilterValue
 	isSet bool
 }
 
-func (v NullableAttributeValueRequest) Get() *AttributeValueRequest {
+func (v NullableFilterValue) Get() *FilterValue {
 	return v.value
 }
 
-func (v *NullableAttributeValueRequest) Set(val *AttributeValueRequest) {
+func (v *NullableFilterValue) Set(val *FilterValue) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableAttributeValueRequest) IsSet() bool {
+func (v NullableFilterValue) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableAttributeValueRequest) Unset() {
+func (v *NullableFilterValue) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableAttributeValueRequest(val *AttributeValueRequest) *NullableAttributeValueRequest {
-	return &NullableAttributeValueRequest{value: val, isSet: true}
+func NewNullableFilterValue(val *FilterValue) *NullableFilterValue {
+	return &NullableFilterValue{value: val, isSet: true}
 }
 
-func (v NullableAttributeValueRequest) MarshalJSON() ([]byte, error) {
+func (v NullableFilterValue) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableAttributeValueRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableFilterValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

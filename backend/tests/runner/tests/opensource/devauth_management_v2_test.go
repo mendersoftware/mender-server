@@ -948,7 +948,7 @@ func (s *DevauthManagementV2Suite) findDeviceIDByMac(ctx context.Context, mac st
 					Scope:     client.IDENTITY,
 					Attribute: "mac",
 					Type:      "$eq",
-					Value:     client.AttributeValueRequest{String: new(mac)},
+					Value:     client.FilterValue{String: new(mac)},
 				}},
 			}).Execute()
 		if err != nil {
