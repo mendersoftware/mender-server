@@ -132,7 +132,7 @@ func (c DeploymentConstructor) Checksum() string {
 }
 
 type DeploymentStatistics struct {
-	Status    Stats `json:"status" bson:"-"`
+	Status    Stats `json:"status" bson:"status"`
 	TotalSize int   `json:"total_size" bson:"total_size"`
 }
 
@@ -151,11 +151,6 @@ type Deployment struct {
 
 	// List of artifact id's targeted for deployments, optional
 	Artifacts []string `json:"artifacts,omitempty" bson:"artifacts"`
-
-	// Aggregated device status counters.
-	// Initialized with the "pending" counter set to total device count for deployment.
-	// Individual counter incremented/decremented according to device status updates.
-	Stats Stats `json:"-" bson:"stats"`
 
 	Statistics DeploymentStatistics `json:"statistics,omitempty" bson:"statistics,omitempty"`
 
@@ -254,23 +249,21 @@ func (d *Deployment) MarshalJSON() ([]byte, error) {
 	if slim.Type == "" {
 		slim.Type = DeploymentTypeSoftware
 	}
-	slim.Statistics.Status = slim.Stats
-
 	return json.Marshal(&slim)
 }
 
 func (d *Deployment) IsNotPending() bool {
-	if d.Stats.Downloading > 0 ||
-		d.Stats.Installing > 0 ||
-		d.Stats.Rebooting > 0 ||
-		d.Stats.Success > 0 ||
-		d.Stats.AlreadyInstalled > 0 ||
-		d.Stats.Failure > 0 ||
-		d.Stats.Aborted > 0 ||
-		d.Stats.NoArtifact > 0 ||
-		d.Stats.PauseBeforeInstall > 0 ||
-		d.Stats.PauseBeforeCommit > 0 ||
-		d.Stats.PauseBeforeReboot > 0 {
+	if d.Statistics.Status.Downloading > 0 ||
+		d.Statistics.Status.Installing > 0 ||
+		d.Statistics.Status.Rebooting > 0 ||
+		d.Statistics.Status.Success > 0 ||
+		d.Statistics.Status.AlreadyInstalled > 0 ||
+		d.Statistics.Status.Failure > 0 ||
+		d.Statistics.Status.Aborted > 0 ||
+		d.Statistics.Status.NoArtifact > 0 ||
+		d.Statistics.Status.PauseBeforeInstall > 0 ||
+		d.Statistics.Status.PauseBeforeCommit > 0 ||
+		d.Statistics.Status.PauseBeforeReboot > 0 {
 
 		return true
 	}
@@ -280,12 +273,12 @@ func (d *Deployment) IsNotPending() bool {
 
 func (d *Deployment) IsFinished() bool {
 	if d.Finished != nil ||
-		d.MaxDevices > 0 && ((d.Stats.AlreadyInstalled+
-			d.Stats.Success+
-			d.Stats.Failure+
-			d.Stats.NoArtifact+
-			d.Stats.Decommissioned+
-			d.Stats.Aborted) >= int64(d.MaxDevices)) {
+		d.MaxDevices > 0 && ((d.Statistics.Status.AlreadyInstalled+
+			d.Statistics.Status.Success+
+			d.Statistics.Status.Failure+
+			d.Statistics.Status.NoArtifact+
+			d.Statistics.Status.Decommissioned+
+			d.Statistics.Status.Aborted) >= int64(d.MaxDevices)) {
 		return true
 	}
 

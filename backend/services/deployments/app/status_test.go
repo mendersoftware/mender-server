@@ -108,8 +108,8 @@ func TestUpdateDeviceDeploymentStatus(t *testing.T) {
 					tc.deviceStatus,
 					tc.ddStatueNew.Status).Run(func(args mock.Arguments) {
 					// fake updated stats
-					fakeDeployment.Stats.Inc(tc.ddStatueNew.Status)
-				}).Return(&fakeDeployment.Stats, nil).Once()
+					fakeDeployment.Statistics.Status.Inc(tc.ddStatueNew.Status)
+				}).Return(&fakeDeployment.Statistics.Status, nil).Once()
 				foundDepById := fakeDeployment
 				if tc.notFounddDepByID {
 					foundDepById = nil
@@ -209,11 +209,11 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 		model.DeviceDeploymentStatusPending,
 		model.DeviceDeploymentStatusAlreadyInst).Run(func(args mock.Arguments) {
 		// fake updated stats
-		fakeDeployment.Stats.Inc(model.DeviceDeploymentStatusAlreadyInst)
-	}).Return(&fakeDeployment.Stats, nil).Once()
+		fakeDeployment.Statistics.Status.Inc(model.DeviceDeploymentStatusAlreadyInst)
+	}).Return(&fakeDeployment.Statistics.Status, nil).Once()
 
 	// fake updated stats
-	fakeDeployment.Stats.Set(model.DeviceDeploymentStatusNoArtifact, 1)
+	fakeDeployment.Statistics.Status.Set(model.DeviceDeploymentStatusNoArtifact, 1)
 	db.On("FindDeploymentByID", ctx, fakeDeployment.Id).Return(
 		fakeDeployment, nil)
 
@@ -298,7 +298,9 @@ func TestDecommissionDevice(t *testing.T) {
 			findDeploymentByIDDeployment: &model.Deployment{
 				Id:         "bar",
 				MaxDevices: 1,
-				Stats:      model.Stats{Decommissioned: 1},
+				Statistics: model.DeploymentStatistics{
+					Status: model.Stats{Decommissioned: 1},
+				},
 			},
 		},
 		"ok 1": {
@@ -322,7 +324,7 @@ func TestDecommissionDevice(t *testing.T) {
 				Created:     new(time.Now()),
 				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"ok, pending": {
@@ -334,7 +336,7 @@ func TestDecommissionDevice(t *testing.T) {
 				Created:     new(time.Now()),
 				DeviceCount: new(int64(0)),
 				MaxDevices:  2,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"FindOldestActiveDeviceDeployment error": {
@@ -391,7 +393,7 @@ func TestDecommissionDevice(t *testing.T) {
 
 			var stats model.Stats
 			if tc.findDeploymentByIDDeployment != nil {
-				stats = tc.findDeploymentByIDDeployment.Stats
+				stats = tc.findDeploymentByIDDeployment.Statistics.Status
 			}
 			db.On("UpdateStatsInc", ctx, tc.inputDeploymentId,
 				tc.updateDeviceDeploymentStatusStatus,
@@ -484,7 +486,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			findDeploymentByIDDeployment: &model.Deployment{
 				Id:         "bar",
 				MaxDevices: 1,
-				Stats:      model.Stats{Decommissioned: 1},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{Decommissioned: 1}},
 			},
 		},
 		"ok 1": {
@@ -508,7 +510,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				Created:     new(time.Now()),
 				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"ok, pending": {
@@ -520,7 +522,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				Created:     new(time.Now()),
 				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"ok, pending with max devices = 2": {
@@ -532,7 +534,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				Created:     new(time.Now()),
 				DeviceCount: new(int64(0)),
 				MaxDevices:  2,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 			isDeploymentInProgress: true,
 		},
@@ -592,7 +594,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 
 			var stats model.Stats
 			if tc.findDeploymentByIDDeployment != nil {
-				stats = tc.findDeploymentByIDDeployment.Stats
+				stats = tc.findDeploymentByIDDeployment.Statistics.Status
 			}
 			db.On("UpdateStatsInc", ctx, tc.inputDeploymentId,
 				tc.updateDeviceDeploymentStatusStatus,

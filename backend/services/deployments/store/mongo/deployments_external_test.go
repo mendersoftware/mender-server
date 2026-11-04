@@ -88,7 +88,7 @@ func TestDeploymentStorageInsert(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			err := store.InsertDeployment(ctx, testCase.InputDeployment)
+			err := store.InsertDeployment(ctx, *testCase.InputDeployment)
 
 			if testCase.OutputError != nil {
 				assert.EqualError(t, err, testCase.OutputError.Error())
@@ -277,17 +277,11 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     10,
-						model.DeviceDeploymentStatusSuccessStr:     15,
-						model.DeviceDeploymentStatusFailureStr:     1,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 10,
+						Success: 15,
+						Failure: 1,
+					}},
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
@@ -296,17 +290,11 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     5,
-						model.DeviceDeploymentStatusSuccessStr:     10,
-						model.DeviceDeploymentStatusFailureStr:     3,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 5,
+						Success: 10,
+						Failure: 3,
+					}},
 				},
 			},
 			OutputError: nil,
@@ -317,17 +305,11 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					//Devices is not kept around!
 				},
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 0,
-					model.DeviceDeploymentStatusInstallingStr:  0,
-					model.DeviceDeploymentStatusRebootingStr:   0,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     1,
-					model.DeviceDeploymentStatusNoArtifactStr:  0,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Pending: 10,
+					Success: 15,
+					Failure: 1,
+				}},
 			},
 		},
 		"ok with tenant": {
@@ -339,8 +321,8 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
-					Id:    "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{},
+					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Statistics: model.DeploymentStatistics{Status: model.Stats{}},
 				},
 			},
 			InputTenant: "acme",
@@ -351,8 +333,8 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:    "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{},
+				Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 	}
@@ -464,17 +446,11 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     10,
-						model.DeviceDeploymentStatusSuccessStr:     15,
-						model.DeviceDeploymentStatusFailureStr:     1,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 10,
+						Success: 15,
+						Failure: 1,
+					}},
 				},
 				&model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
@@ -483,17 +459,11 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     5,
-						model.DeviceDeploymentStatusSuccessStr:     10,
-						model.DeviceDeploymentStatusFailureStr:     3,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 5,
+						Success: 10,
+						Failure: 3,
+					}},
 				},
 			},
 			OutputError: nil,
@@ -504,17 +474,11 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					//Devices is not kept around!
 				},
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 0,
-					model.DeviceDeploymentStatusInstallingStr:  0,
-					model.DeviceDeploymentStatusRebootingStr:   0,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     1,
-					model.DeviceDeploymentStatusNoArtifactStr:  0,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Pending: 10,
+					Success: 15,
+					Failure: 1,
+				}},
 			},
 		},
 		"deployment already finished": {
@@ -551,11 +515,11 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusPendingStr: 10,
-						model.DeviceDeploymentStatusSuccessStr: 15,
-						model.DeviceDeploymentStatusFailureStr: 1,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 10,
+						Success: 15,
+						Failure: 1,
+					}},
 				},
 			},
 			InputTenant: "acme",
@@ -567,11 +531,11 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					//Devices is not kept around!
 				},
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusPendingStr: 10,
-					model.DeviceDeploymentStatusSuccessStr: 15,
-					model.DeviceDeploymentStatusFailureStr: 1,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Pending: 10,
+					Success: 15,
+					Failure: 1,
+				}},
 			},
 		},
 	}
@@ -647,64 +611,56 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusPending,
 			InputStateTo:   model.DeviceDeploymentStatusSuccess,
 
 			OutputError: nil,
 			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     9,
-				model.DeviceDeploymentStatusSuccessStr:     16,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   3,
+				Pending:     9,
+				Success:     16,
+				Failure:     4,
+				NoArtifact:  5,
 			},
 		},
 		"rebooting -> failed": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusRebooting,
 			InputStateTo:   model.DeviceDeploymentStatusFailure,
 
 			OutputError: nil,
 			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   2,
-				model.DeviceDeploymentStatusPendingStr:     10,
-				model.DeviceDeploymentStatusSuccessStr:     15,
-				model.DeviceDeploymentStatusFailureStr:     5,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   2,
+				Pending:     10,
+				Success:     15,
+				Failure:     5,
+				NoArtifact:  5,
 			},
 		},
 		"invalid deployment id": {
@@ -714,7 +670,6 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			InputStateTo:    model.DeviceDeploymentStatusFailure,
 
 			OutputError: ErrStorageInvalidID,
-			OutputStats: nil,
 		},
 		"wrong deployment id": {
 			InputID:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
@@ -723,76 +678,66 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			InputStateTo:    model.DeviceDeploymentStatusFailure,
 
 			OutputError: ErrStorageInvalidID,
-			OutputStats: nil,
 		},
 		"no old state": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusNull,
 			InputStateTo:   model.DeviceDeploymentStatusPending,
 
 			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     11,
-				model.DeviceDeploymentStatusSuccessStr:     15,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   3,
+				Pending:     11,
+				Success:     15,
+				Failure:     4,
+				NoArtifact:  5,
 			},
 		},
 		"install install": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusInstalling,
 			InputStateTo:   model.DeviceDeploymentStatusInstalling,
 
 			OutputError: nil,
-			OutputStats: nil,
 		},
 		"tenant, pending -> finished": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputTenant: "acme",
 
@@ -801,15 +746,13 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 
 			OutputError: nil,
 			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     9,
-				model.DeviceDeploymentStatusSuccessStr:     16,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   3,
+				Pending:     9,
+				Success:     16,
+				Failure:     4,
+				NoArtifact:  5,
 			},
 		},
 	}
@@ -872,7 +815,7 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 						bson.M{"_id": tc.InputID}).
 						Decode(&defDeployment)
 					assert.NoError(t, err)
-					assert.Equal(t, defDeployment.Stats, tc.InputDeployment.Stats)
+					assert.Equal(t, defDeployment.Statistics.Status, tc.InputDeployment.Statistics.Status)
 				}
 
 			}
@@ -897,41 +840,39 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 			id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			dep: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     3,
-					model.DeviceDeploymentStatusSuccessStr:     6,
-					model.DeviceDeploymentStatusFailureStr:     8,
-					model.DeviceDeploymentStatusNoArtifactStr:  4,
-					model.DeviceDeploymentStatusAlreadyInstStr: 2,
-					model.DeviceDeploymentStatusAbortedStr:     5,
-				},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading:      1,
+					Installing:       2,
+					Rebooting:        3,
+					Pending:          3,
+					Success:          6,
+					Failure:          8,
+					NoArtifact:       4,
+					AlreadyInstalled: 2,
+					Aborted:          5,
+				}},
 			},
 			stats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     10,
-				model.DeviceDeploymentStatusSuccessStr:     15,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     5,
+				Downloading:      1,
+				Installing:       2,
+				Rebooting:        3,
+				Pending:          10,
+				Success:          15,
+				Failure:          4,
+				NoArtifact:       5,
+				AlreadyInstalled: 0,
+				Aborted:          5,
 			},
 		},
 		"invalid deployment id": {
-			id:    "",
-			dep:   nil,
-			stats: nil,
+			id:  "",
+			dep: nil,
 
 			err: ErrStorageInvalidID,
 		},
 		"wrong deployment id": {
-			id:    "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			dep:   nil,
-			stats: nil,
+			id:  "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+			dep: nil,
 
 			err: ErrStorageInvalidID,
 		},
@@ -939,13 +880,13 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 			id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			dep: &model.Deployment{
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: newTestStats(model.Stats{
-					model.DeviceDeploymentStatusRebootingStr: 3,
-				}),
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Rebooting: 3,
+				}},
 			},
-			stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusRebootingStr: 3,
-			}),
+			stats: model.Stats{
+				Rebooting: 3,
+			},
 			tenant: "acme",
 		},
 	}
@@ -984,7 +925,7 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 					bson.M{"_id": tc.id}).
 					Decode(&deployment)
 				assert.NoError(t, err)
-				assert.Equal(t, tc.stats, deployment.Stats)
+				assert.Equal(t, tc.stats, deployment.Statistics.Status)
 			}
 
 			if tc.tenant != "" && tc.dep != nil {
@@ -995,14 +936,6 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 		})
 	}
 
-}
-
-func newTestStats(stats model.Stats) model.Stats {
-	st := model.NewDeviceDeploymentStats()
-	for k, v := range stats {
-		st[k] = v
-	}
-	return st
 }
 
 func TestDeploymentStorageFindBy(t *testing.T) {
@@ -1021,9 +954,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000001",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1034,9 +967,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000002",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1047,9 +980,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000003",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusFailureStr: 2,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Failure: 2,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1060,9 +993,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000004",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1073,9 +1006,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000005",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Downloading: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		{
@@ -1085,10 +1018,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000006",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusPendingStr:     1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Downloading: 1,
+				Pending:     1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		{
@@ -1098,9 +1031,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000007",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+			}},
 			Status: model.DeploymentStatusPending,
 		},
 		{
@@ -1110,10 +1043,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000008",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-				model.DeviceDeploymentStatusSuccessStr:    1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+				Success:    1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1124,9 +1057,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc34a"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000009",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusAbortedStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Aborted: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1139,10 +1072,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000010",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr:     1,
-				model.DeviceDeploymentStatusAlreadyInstStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending:          1,
+				AlreadyInstalled: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//in progress deployment, with only pending and success counters > 0
@@ -1153,10 +1086,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000011",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-				model.DeviceDeploymentStatusSuccessStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+				Success: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//in progress deployment, with only pending and failure counters > 0
@@ -1167,10 +1100,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000012",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-				model.DeviceDeploymentStatusFailureStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+				Failure: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//in progress deployment, with only pending and noartifact counters > 0
@@ -1181,10 +1114,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000013",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr:    1,
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending:    1,
+				NoArtifact: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//finished deployment, with only already installed counter > 0
@@ -1195,9 +1128,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000014",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusAlreadyInstStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				AlreadyInstalled: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1209,9 +1142,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000015",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+			}},
 			Status: model.DeploymentStatusPending,
 			Type:   model.DeploymentTypeConfiguration,
 		},
@@ -1507,15 +1440,15 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 					CollectionDeployments, StorageIndexes)
 				assert.NoError(t, err)
 				err = store.InsertDeployment(context.Background(),
-					&model.Deployment{
+					model.Deployment{
 						DeploymentConstructor: &model.DeploymentConstructor{
 							Name:         "foo-" + testCase.InputTenant,
 							ArtifactName: "bar-" + testCase.InputTenant,
 							Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc399"},
 						},
-						Id:      "e8c32ff6-7c1b-43c7-aa31-2e4fc3a3c199",
-						Stats:   newTestStats(model.Stats{}),
-						Created: new(time.Now().UTC()),
+						Id:         "e8c32ff6-7c1b-43c7-aa31-2e4fc3a3c199",
+						Statistics: model.DeploymentStatistics{Status: model.Stats{}},
+						Created:    new(time.Now().UTC()),
 					})
 				assert.NoError(t, err)
 

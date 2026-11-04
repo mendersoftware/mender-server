@@ -261,7 +261,7 @@ func TestDeploymentMarshalJSON(t *testing.T) {
 		TotalSize: 10,
 	}
 	b, _ := json.Marshal(Stats{})
-	dep.Stats = Stats{}
+	dep.Statistics.Status = Stats{}
 
 	j, err := dep.MarshalJSON()
 	assert.NoError(t, err)
@@ -301,8 +301,8 @@ func TestDeploymentIs(t *testing.T) {
 	}
 	for _, as := range active {
 		t.Logf("checking in-progress deployment stat %s", as)
-		d.Stats = Stats{}
-		d.Stats.Set(as, 1)
+		d.Statistics.Status = Stats{}
+		d.Statistics.Status.Set(as, 1)
 		assert.True(t, d.IsNotPending())
 		assert.False(t, d.IsFinished())
 	}
@@ -316,8 +316,8 @@ func TestDeploymentIs(t *testing.T) {
 	}
 	for _, as := range finished {
 		t.Logf("checking finished deployment stat %s", as)
-		d.Stats = Stats{}
-		d.Stats.Set(as, 1)
+		d.Statistics.Status = Stats{}
+		d.Statistics.Status.Set(as, 1)
 		assert.True(t, d.IsFinished())
 		assert.True(t, d.IsNotPending())
 	}
@@ -327,8 +327,8 @@ func TestDeploymentIs(t *testing.T) {
 	}
 	for _, as := range pending {
 		t.Logf("checking pending deployment stat %s", as)
-		d.Stats = Stats{}
-		d.Stats.Set(as, 1)
+		d.Statistics.Status = Stats{}
+		d.Statistics.Status.Set(as, 1)
 		assert.False(t, d.IsFinished())
 		assert.False(t, d.IsNotPending())
 	}
@@ -451,21 +451,21 @@ func TestDeploymentGetStatus(t *testing.T) {
 
 			dep, err := NewDeployment()
 			assert.NoError(t, err)
-			dep.Stats = test.Stats
+			dep.Statistics.Status = test.Stats
 
-			dep.MaxDevices = dep.Stats.Failure +
-				dep.Stats.Aborted +
-				dep.Stats.PauseBeforeInstall +
-				dep.Stats.PauseBeforeCommit +
-				dep.Stats.PauseBeforeReboot +
-				dep.Stats.Downloading +
-				dep.Stats.Installing +
-				dep.Stats.Rebooting +
-				dep.Stats.Pending +
-				dep.Stats.Success +
-				dep.Stats.NoArtifact +
-				dep.Stats.AlreadyInstalled +
-				dep.Stats.Decommissioned
+			dep.MaxDevices = dep.Statistics.Status.Failure +
+				dep.Statistics.Status.Aborted +
+				dep.Statistics.Status.PauseBeforeInstall +
+				dep.Statistics.Status.PauseBeforeCommit +
+				dep.Statistics.Status.PauseBeforeReboot +
+				dep.Statistics.Status.Downloading +
+				dep.Statistics.Status.Installing +
+				dep.Statistics.Status.Rebooting +
+				dep.Statistics.Status.Pending +
+				dep.Statistics.Status.Success +
+				dep.Statistics.Status.NoArtifact +
+				dep.Statistics.Status.AlreadyInstalled +
+				dep.Statistics.Status.Decommissioned
 
 			assert.Equal(t, test.OutputStatus, dep.GetStatus())
 		})
@@ -486,16 +486,16 @@ func TestFuzzyGetStatus(t *testing.T) {
 		dep, err := NewDeployment()
 		assert.NoError(t, err)
 
-		dep.Stats.Downloading = rand(0, max)
-		dep.Stats.Installing = rand(0, max)
-		dep.Stats.Rebooting = rand(0, max)
-		dep.Stats.Pending = rand(0, max)
-		dep.Stats.Success = rand(0, max)
-		dep.Stats.Failure = rand(0, max)
-		dep.Stats.NoArtifact = rand(0, max)
-		dep.Stats.AlreadyInstalled = rand(0, max)
-		dep.Stats.Aborted = rand(0, max)
-		dep.Stats.Decommissioned = rand(0, max)
+		dep.Statistics.Status.Downloading = rand(0, max)
+		dep.Statistics.Status.Installing = rand(0, max)
+		dep.Statistics.Status.Rebooting = rand(0, max)
+		dep.Statistics.Status.Pending = rand(0, max)
+		dep.Statistics.Status.Success = rand(0, max)
+		dep.Statistics.Status.Failure = rand(0, max)
+		dep.Statistics.Status.NoArtifact = rand(0, max)
+		dep.Statistics.Status.AlreadyInstalled = rand(0, max)
+		dep.Statistics.Status.Aborted = rand(0, max)
+		dep.Statistics.Status.Decommissioned = rand(0, max)
 
 		pending := 0
 		inprogress := 0
@@ -514,6 +514,6 @@ func TestFuzzyGetStatus(t *testing.T) {
 		}
 
 		exp_stats := pending + inprogress + finished
-		assert.Equal(t, 1, exp_stats, dep.Stats)
+		assert.Equal(t, 1, exp_stats, dep.Statistics.Status)
 	}
 }
