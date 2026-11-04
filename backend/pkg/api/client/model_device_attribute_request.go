@@ -25,7 +25,7 @@ type DeviceAttributeRequest struct {
 	Name string `json:"name"`
 	// Attribute description.
 	Description *string `json:"description,omitempty"`
-	Value AttributeValueRequest `json:"value"`
+	Value FilterValue `json:"value"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -35,7 +35,7 @@ type _DeviceAttributeRequest DeviceAttributeRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceAttributeRequest(name string, value AttributeValueRequest) *DeviceAttributeRequest {
+func NewDeviceAttributeRequest(name string, value FilterValue) *DeviceAttributeRequest {
 	this := DeviceAttributeRequest{}
 	this.Name = name
 	this.Value = value
@@ -107,9 +107,9 @@ func (o *DeviceAttributeRequest) SetDescription(v string) {
 }
 
 // GetValue returns the Value field value
-func (o *DeviceAttributeRequest) GetValue() AttributeValueRequest {
+func (o *DeviceAttributeRequest) GetValue() FilterValue {
 	if o == nil {
-		var ret AttributeValueRequest
+		var ret FilterValue
 		return ret
 	}
 
@@ -118,7 +118,7 @@ func (o *DeviceAttributeRequest) GetValue() AttributeValueRequest {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *DeviceAttributeRequest) GetValueOk() (*AttributeValueRequest, bool) {
+func (o *DeviceAttributeRequest) GetValueOk() (*FilterValue, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -126,7 +126,7 @@ func (o *DeviceAttributeRequest) GetValueOk() (*AttributeValueRequest, bool) {
 }
 
 // SetValue sets field value
-func (o *DeviceAttributeRequest) SetValue(v AttributeValueRequest) {
+func (o *DeviceAttributeRequest) SetValue(v FilterValue) {
 	o.Value = v
 }
 

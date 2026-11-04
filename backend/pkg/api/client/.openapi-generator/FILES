@@ -38,7 +38,6 @@ model_artifact_v2.go
 model_attribute_filter_predicate.go
 model_attribute_request.go
 model_attribute_response.go
-model_attribute_value_request.go
 model_attribute_value_response.go
 model_auth_request.go
 model_auth_set.go
@@ -94,6 +93,7 @@ model_filter_attribute.go
 model_filter_predicate.go
 model_filter_v1.go
 model_filter_v2.go
+model_filter_value.go
 model_get_statistics_internal_200_response.go
 model_group.go
 model_groups.go

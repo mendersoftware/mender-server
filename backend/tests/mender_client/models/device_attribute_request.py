@@ -20,7 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute_value_request import AttributeValueRequest
+from mender_client.models.filter_value import FilterValue
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,7 +30,7 @@ class DeviceAttributeRequest(BaseModel):
     """ # noqa: E501
     name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
     description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
-    value: AttributeValueRequest
+    value: FilterValue
     __properties: ClassVar[List[str]] = ["name", "description", "value"]
 
     model_config = ConfigDict(
@@ -89,7 +89,7 @@ class DeviceAttributeRequest(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "description": obj.get("description"),
-            "value": AttributeValueRequest.from_dict(obj["value"]) if obj.get("value") is not None else None
+            "value": FilterValue.from_dict(obj["value"]) if obj.get("value") is not None else None
         })
         return _obj
 

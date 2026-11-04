@@ -26,7 +26,7 @@ type AttributeRequest struct {
 	Name string `json:"name"`
 	// Attribute description.
 	Description *string `json:"description,omitempty"`
-	Value AttributeValueRequest `json:"value"`
+	Value FilterValue `json:"value"`
 	Scope Scope `json:"scope"`
 	// The date and time of last tag update in RFC3339 format.  Only applicable when scope is `tags`. 
 	Timestamp *time.Time `json:"timestamp,omitempty"`
@@ -39,7 +39,7 @@ type _AttributeRequest AttributeRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAttributeRequest(name string, value AttributeValueRequest, scope Scope) *AttributeRequest {
+func NewAttributeRequest(name string, value FilterValue, scope Scope) *AttributeRequest {
 	this := AttributeRequest{}
 	this.Name = name
 	this.Value = value
@@ -112,9 +112,9 @@ func (o *AttributeRequest) SetDescription(v string) {
 }
 
 // GetValue returns the Value field value
-func (o *AttributeRequest) GetValue() AttributeValueRequest {
+func (o *AttributeRequest) GetValue() FilterValue {
 	if o == nil {
-		var ret AttributeValueRequest
+		var ret FilterValue
 		return ret
 	}
 
@@ -123,7 +123,7 @@ func (o *AttributeRequest) GetValue() AttributeValueRequest {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *AttributeRequest) GetValueOk() (*AttributeValueRequest, bool) {
+func (o *AttributeRequest) GetValueOk() (*FilterValue, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *AttributeRequest) GetValueOk() (*AttributeValueRequest, bool) {
 }
 
 // SetValue sets field value
-func (o *AttributeRequest) SetValue(v AttributeValueRequest) {
+func (o *AttributeRequest) SetValue(v FilterValue) {
 	o.Value = v
 }
 

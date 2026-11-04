@@ -16,17 +16,17 @@
 from __future__ import annotations
 import json
 import pprint
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr, ValidationError, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional, Union
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-ATTRIBUTEVALUEREQUEST_ONE_OF_SCHEMAS = ["List[float]", "List[str]", "float", "str"]
+FILTERVALUE_ONE_OF_SCHEMAS = ["List[float]", "List[str]", "bool", "float", "str"]
 
-class AttributeValueRequest(BaseModel):
+class FilterValue(BaseModel):
     """
-    The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
+    The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. For $exists type, a boolean is required. 
     """
     # data type: str
     oneof_schema_1_validator: Optional[StrictStr] = None
@@ -36,8 +36,10 @@ class AttributeValueRequest(BaseModel):
     oneof_schema_3_validator: Optional[List[StrictStr]] = None
     # data type: List[float]
     oneof_schema_4_validator: Optional[List[Union[StrictFloat, StrictInt]]] = None
-    actual_instance: Optional[Union[List[float], List[str], float, str]] = None
-    one_of_schemas: Set[str] = { "List[float]", "List[str]", "float", "str" }
+    # data type: bool
+    oneof_schema_5_validator: Optional[StrictBool] = None
+    actual_instance: Optional[Union[List[float], List[str], bool, float, str]] = None
+    one_of_schemas: Set[str] = { "List[float]", "List[str]", "bool", "float", "str" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -57,7 +59,7 @@ class AttributeValueRequest(BaseModel):
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = AttributeValueRequest.model_construct()
+        instance = FilterValue.model_construct()
         error_messages = []
         match = 0
         # validate data type: str
@@ -84,12 +86,18 @@ class AttributeValueRequest(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
+        # validate data type: bool
+        try:
+            instance.oneof_schema_5_validator = v
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in FilterValue with oneOf schemas: List[float], List[str], bool, float, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in FilterValue with oneOf schemas: List[float], List[str], bool, float, str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -140,13 +148,22 @@ class AttributeValueRequest(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
+        # deserialize data into bool
+        try:
+            # validation
+            instance.oneof_schema_5_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_5_validator
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into FilterValue with oneOf schemas: List[float], List[str], bool, float, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into FilterValue with oneOf schemas: List[float], List[str], bool, float, str. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -160,7 +177,7 @@ class AttributeValueRequest(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], List[float], List[str], float, str]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], List[float], List[str], bool, float, str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
