@@ -390,7 +390,7 @@ const (
 	StorageKeyDeploymentName                = "deploymentconstructor.name"
 	StorageKeyDeploymentArtifactName        = "deploymentconstructor.artifactname"
 	StorageKeyDeploymentConstructorChecksum = "deploymentconstructor_checksum"
-	StorageKeyDeploymentStats               = "stats"
+	StorageKeyDeploymentStats               = "statistics.status"
 	StorageKeyDeploymentActive              = "active"
 	StorageKeyDeploymentStatus              = "status"
 	StorageKeyDeploymentCreated             = "created"
@@ -2294,7 +2294,7 @@ func (db *DataStoreMongo) UpdateStats(ctx context.Context,
 		return errors.Wrap(err, "failed to create deployment")
 	}
 
-	deployment.Stats = stats
+	deployment.Statistics.Status = stats
 	var update bson.M
 	if deployment.IsFinished() {
 		now := time.Now()
@@ -2348,22 +2348,20 @@ func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
 		// note dot notation on embedded document
 		update = bson.M{
 			"$inc": bson.M{
-				"stats." + stateTo.String(): 1,
+				StorageKeyDeploymentStats + "." + stateTo.String(): 1,
 			},
 		}
 	} else {
 		// note dot notation on embedded document
 		update = bson.M{
 			"$inc": bson.M{
-				"stats." + stateFrom.String(): -1,
-				"stats." + stateTo.String():   1,
+				StorageKeyDeploymentStats + "." + stateFrom.String(): -1,
+				StorageKeyDeploymentStats + "." + stateTo.String():   1,
 			},
 		}
 	}
 
-	var res struct {
-		Stats *model.Stats `bson:"stats"`
-	}
+	var res model.Deployment
 	err := collDpl.FindOneAndUpdate(ctx,
 		bson.M{
 			StorageKeyId:       id,
@@ -2381,7 +2379,7 @@ func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
 		return nil, ErrStorageInvalidID
 	}
 
-	return res.Stats, err
+	return &res.Statistics.Status, err
 }
 
 func (db *DataStoreMongo) IncrementDeploymentTotalSize(

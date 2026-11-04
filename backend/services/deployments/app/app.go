@@ -1129,7 +1129,7 @@ func (d *Deployments) CreateDeviceConfigurationDeployment(
 
 	deployment.DeviceList = []string{deviceID}
 	deployment.MaxDevices = 1
-	deployment.Stats.Pending = int64(deployment.MaxDevices)
+	deployment.Statistics.Status.Pending = int64(deployment.MaxDevices)
 	deployment.Configuration = []byte(constructor.Configuration)
 	deployment.Type = model.DeploymentTypeConfiguration
 
@@ -1192,7 +1192,7 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 	deployment.Artifacts = getArtifactIDs(release.Artifacts)
 	deployment.DeviceList = constructor.Devices
 	deployment.MaxDevices = int64(len(constructor.Devices))
-	deployment.Stats.Pending = int64(deployment.MaxDevices)
+	deployment.Statistics.Status.Pending = int64(deployment.MaxDevices)
 	deployment.Type = model.DeploymentTypeSoftware
 	deployment.Filter = getDeploymentFilter(constructor)
 	if len(constructor.Group) > 0 {
@@ -1681,7 +1681,7 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		if err != nil {
 			return err
 		}
-		deployment.Stats = *stats
+		deployment.Statistics.Status = *stats
 		newStatus := deployment.GetStatus()
 		if beforeStatus != newStatus {
 			err = d.db.SetDeploymentStatus(ctx, dd.DeploymentId, newStatus, time.Now())
@@ -1707,7 +1707,7 @@ func (d *Deployments) GetDeploymentStats(ctx context.Context,
 		return nil, nil
 	}
 
-	return &deployment.Stats, nil
+	return &deployment.Statistics.Status, nil
 }
 func (d *Deployments) GetDeploymentsStats(ctx context.Context,
 	deploymentIDs ...string) (deploymentStats []*model.DeploymentStats, err error) {
