@@ -367,7 +367,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 								Scope:     InventoryIdentityScope,
 								Attribute: InventoryStatusAttributeName,
 								Type:      "$eq",
-								Value: client.AttributeValueRequest{
+								Value: client.FilterValue{
 									String: new(InventoryStatusAccepted),
 								},
 							},
@@ -375,7 +375,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 								Scope:     InventoryGroupScope,
 								Attribute: InventoryGroupAttributeName,
 								Type:      "$eq",
-								Value: client.AttributeValueRequest{
+								Value: client.FilterValue{
 									String: new(testCase.InputConstructor.Group),
 								},
 							},
@@ -1779,7 +1779,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
-				Value: client.AttributeValueRequest{
+				Value: client.FilterValue{
 					String: new("my-device"),
 				},
 			}},
@@ -1923,7 +1923,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
-				Value: client.AttributeValueRequest{
+				Value: client.FilterValue{
 					String: new("unknown-device"),
 				},
 			}},

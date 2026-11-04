@@ -53,7 +53,7 @@ func (s *DecommissionSuite) TestOk() {
 	// check if the device can access the API by patching its own inventory
 	devCtx := common.JWTAuthContext(ctx, device.Token)
 	payload := []client.DeviceAttributeRequest{
-		{Name: "mac", Value: client.StringAsAttributeValueRequest(new("foo"))},
+		{Name: "mac", Value: client.StringAsFilterValue(new("foo"))},
 	}
 	r, err := s.APIClient.DeviceInventoryDeviceAPIAPI.
 		AssignAttributes(devCtx).

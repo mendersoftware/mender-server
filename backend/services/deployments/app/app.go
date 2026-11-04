@@ -1125,7 +1125,7 @@ func (d *Deployments) updateDeploymentConstructor(ctx context.Context,
 				Scope:     InventoryIdentityScope,
 				Attribute: InventoryStatusAttributeName,
 				Type:      "$eq",
-				Value: openapi.AttributeValueRequest{
+				Value: openapi.FilterValue{
 					String: new(InventoryStatusAccepted),
 				},
 			},
@@ -1138,7 +1138,7 @@ func (d *Deployments) updateDeploymentConstructor(ctx context.Context,
 				Scope:     InventoryGroupScope,
 				Attribute: InventoryGroupAttributeName,
 				Type:      "$eq",
-				Value: openapi.AttributeValueRequest{
+				Value: openapi.FilterValue{
 					String: new(constructor.Group),
 				},
 			})
@@ -1931,7 +1931,7 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 				Scope:     openapi.Scope(query.IdScope),
 				Attribute: query.IdAttribute,
 				Type:      "$eq",
-				Value: openapi.AttributeValueRequest{
+				Value: openapi.FilterValue{
 					String: new(query.Names[0]),
 				},
 			}},
