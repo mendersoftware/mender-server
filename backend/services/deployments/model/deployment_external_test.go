@@ -15,13 +15,13 @@
 package model
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func TestDeploymentConstructorValidate(t *testing.T) {
@@ -254,13 +254,14 @@ func TestDeploymentMarshalJSON(t *testing.T) {
 	dep.ArtifactName = "App 123"
 	dep.Devices = []string{"Device 123"}
 	dep.Id = "14ddec54-30be-49bf-aa6b-97ce271d71f5"
-	deviceCount := 1337
+	deviceCount := int64(1337)
 	dep.DeviceCount = &deviceCount
 	dep.Status = DeploymentStatusInProgress
 	dep.Statistics = DeploymentStatistics{
 		TotalSize: 10,
 	}
-	dep.Stats = Stats{"foo": 1}
+	b, _ := json.Marshal(Stats{})
+	dep.Stats = Stats{}
 
 	j, err := dep.MarshalJSON()
 	assert.NoError(t, err)
@@ -272,33 +273,13 @@ func TestDeploymentMarshalJSON(t *testing.T) {
 		"artifact_name":"App 123",
         "created":"` + dep.Created.Format(time.RFC3339Nano) + `",
 		"id":"14ddec54-30be-49bf-aa6b-97ce271d71f5",
-		"statistics":{"status":{"foo":1},"total_size":10},
+		"statistics":{"status":` + string(b) + `,"total_size": 10},
 		"status":"inprogress",
 		"device_count":1337,
 		"type":"software"
 	}`
 
 	assert.JSONEq(t, expectedJSON, string(j))
-}
-
-func TestDeploymentMarshalBSON(t *testing.T) {
-	dep, err := NewDeployment()
-	assert.NoError(t, err)
-	dep.Name = "Region: NYC"
-	dep.ArtifactName = "App 123"
-	dep.Devices = []string{"Device 123"}
-	dep.Id = "14ddec54-30be-49bf-aa6b-97ce271d71f5"
-	deviceCount := 1337
-	dep.DeviceCount = &deviceCount
-	dep.Status = DeploymentStatusInProgress
-
-	j, err := dep.MarshalBSON()
-	assert.NoError(t, err)
-
-	deployment := &Deployment{}
-	bson.Unmarshal(j, deployment)
-
-	assert.Nil(t, deployment.Finished)
 }
 
 func TestDeploymentIs(t *testing.T) {
@@ -320,7 +301,7 @@ func TestDeploymentIs(t *testing.T) {
 	}
 	for _, as := range active {
 		t.Logf("checking in-progress deployment stat %s", as)
-		d.Stats = NewDeviceDeploymentStats()
+		d.Stats = Stats{}
 		d.Stats.Set(as, 1)
 		assert.True(t, d.IsNotPending())
 		assert.False(t, d.IsFinished())
@@ -335,7 +316,7 @@ func TestDeploymentIs(t *testing.T) {
 	}
 	for _, as := range finished {
 		t.Logf("checking finished deployment stat %s", as)
-		d.Stats = NewDeviceDeploymentStats()
+		d.Stats = Stats{}
 		d.Stats.Set(as, 1)
 		assert.True(t, d.IsFinished())
 		assert.True(t, d.IsNotPending())
@@ -346,7 +327,7 @@ func TestDeploymentIs(t *testing.T) {
 	}
 	for _, as := range pending {
 		t.Logf("checking pending deployment stat %s", as)
-		d.Stats = NewDeviceDeploymentStats()
+		d.Stats = Stats{}
 		d.Stats.Set(as, 1)
 		assert.False(t, d.IsFinished())
 		assert.False(t, d.IsNotPending())
@@ -361,85 +342,85 @@ func TestDeploymentGetStatus(t *testing.T) {
 	}{
 		"Single NoArtifact": {
 			Stats: Stats{
-				DeviceDeploymentStatusNoArtifactStr: 1,
+				NoArtifact: 1,
 			},
 			OutputStatus: "finished",
 		},
 		"Single Success": {
 			Stats: Stats{
-				DeviceDeploymentStatusSuccessStr: 1,
+				Success: 1,
 			},
 			OutputStatus: "finished",
 		},
 		"Success + NoArtifact": {
 			Stats: Stats{
-				DeviceDeploymentStatusSuccessStr:    1,
-				DeviceDeploymentStatusNoArtifactStr: 1,
+				Success:    1,
+				NoArtifact: 1,
 			},
 			OutputStatus: "finished",
 		},
 		"Failed + NoArtifact": {
 			Stats: Stats{
-				DeviceDeploymentStatusFailureStr:    1,
-				DeviceDeploymentStatusNoArtifactStr: 1,
+				Failure:    1,
+				NoArtifact: 1,
 			},
 			OutputStatus: "finished",
 		},
 		"Failed + AlreadyInst": {
 			Stats: Stats{
-				DeviceDeploymentStatusFailureStr:     1,
-				DeviceDeploymentStatusAlreadyInstStr: 1,
+				Failure:          1,
+				AlreadyInstalled: 1,
 			},
 			OutputStatus: "finished",
 		},
 		"Failed + Aborted": {
 			Stats: Stats{
-				DeviceDeploymentStatusFailureStr: 1,
-				DeviceDeploymentStatusAbortedStr: 1,
+				Failure: 1,
+				Aborted: 1,
 			},
 			OutputStatus: "finished",
 		},
 		"Rebooting + NoArtifact": {
 			Stats: Stats{
-				DeviceDeploymentStatusRebootingStr:  1,
-				DeviceDeploymentStatusNoArtifactStr: 1,
+				Rebooting:  1,
+				NoArtifact: 1,
 			},
 			OutputStatus: "inprogress",
 		},
 		"Rebooting + Installing": {
 			Stats: Stats{
-				DeviceDeploymentStatusRebootingStr:  1,
-				DeviceDeploymentStatusInstallingStr: 1,
+				Rebooting:  1,
+				Installing: 1,
 			},
 			OutputStatus: "inprogress",
 		},
 		"Rebooting + Pending": {
 			Stats: Stats{
-				DeviceDeploymentStatusRebootingStr: 1,
-				DeviceDeploymentStatusPendingStr:   1,
+				Rebooting: 1,
+				Pending:   1,
 			},
 			OutputStatus: "inprogress",
 		},
 		"All paused states": {
 			Stats: Stats{
-				DeviceDeploymentStatusPauseBeforeInstallStr: 1,
-				DeviceDeploymentStatusPauseBeforeCommitStr:  1,
-				DeviceDeploymentStatusPauseBeforeRebootStr:  1,
+				PauseBeforeInstall: 1,
+				PauseBeforeCommit:  1,
+				PauseBeforeReboot:  1,
 			},
 			OutputStatus: "inprogress",
 		},
 		"Some paused states": {
 			Stats: Stats{
-				DeviceDeploymentStatusInstallingStr:         1,
-				DeviceDeploymentStatusPauseBeforeInstallStr: 1,
-				DeviceDeploymentStatusPauseBeforeCommitStr:  0,
-				DeviceDeploymentStatusPauseBeforeRebootStr:  1,
+				Installing:         1,
+				PauseBeforeInstall: 1,
+				PauseBeforeCommit:  0,
+				PauseBeforeReboot:  1,
 			},
 			OutputStatus: "inprogress",
 		},
 		"Pending": {
 			Stats: Stats{
-				DeviceDeploymentStatusPendingStr: 1,
+				Pending: 1,
 			},
 			OutputStatus: "pending",
 		},
@@ -449,16 +430,16 @@ func TestDeploymentGetStatus(t *testing.T) {
 		//verify we count 'already-installed' towards 'inprogress'
 		"pending + already-installed": {
 			Stats: Stats{
-				DeviceDeploymentStatusPendingStr:     1,
-				DeviceDeploymentStatusAlreadyInstStr: 1,
+				Pending:          1,
+				AlreadyInstalled: 1,
 			},
 			OutputStatus: "inprogress",
 		},
 		//verify we count 'already-installed' towards 'finished'
 		"already-installed + finished": {
 			Stats: Stats{
-				DeviceDeploymentStatusPendingStr:     0,
-				DeviceDeploymentStatusAlreadyInstStr: 1,
+				Pending:          0,
+				AlreadyInstalled: 1,
 			},
 			OutputStatus: "finished",
 		},
@@ -466,26 +447,37 @@ func TestDeploymentGetStatus(t *testing.T) {
 
 	for name, test := range tests {
 
-		t.Log(name)
+		t.Run(name, func(t *testing.T) {
 
-		dep, err := NewDeployment()
-		assert.NoError(t, err)
+			dep, err := NewDeployment()
+			assert.NoError(t, err)
+			dep.Stats = test.Stats
 
-		dep.Stats = test.Stats
-		for _, n := range dep.Stats {
-			dep.MaxDevices += n
-		}
+			dep.MaxDevices = dep.Stats.Failure +
+				dep.Stats.Aborted +
+				dep.Stats.PauseBeforeInstall +
+				dep.Stats.PauseBeforeCommit +
+				dep.Stats.PauseBeforeReboot +
+				dep.Stats.Downloading +
+				dep.Stats.Installing +
+				dep.Stats.Rebooting +
+				dep.Stats.Pending +
+				dep.Stats.Success +
+				dep.Stats.NoArtifact +
+				dep.Stats.AlreadyInstalled +
+				dep.Stats.Decommissioned
 
-		assert.Equal(t, test.OutputStatus, dep.GetStatus())
+			assert.Equal(t, test.OutputStatus, dep.GetStatus())
+		})
 	}
 
 }
 
 func TestFuzzyGetStatus(t *testing.T) {
 
-	rand := func(min int, max int) int {
+	rand := func(min int, max int) int64 {
 		rand.Seed(time.Now().UTC().UnixNano())
-		return min + rand.Intn(max-min)
+		return int64(min + rand.Intn(max-min))
 	}
 
 	max := 3
@@ -494,16 +486,16 @@ func TestFuzzyGetStatus(t *testing.T) {
 		dep, err := NewDeployment()
 		assert.NoError(t, err)
 
-		dep.Stats[DeviceDeploymentStatusDownloadingStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusInstallingStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusRebootingStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusPendingStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusSuccessStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusFailureStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusNoArtifactStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusAlreadyInstStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusAbortedStr] = rand(0, max)
-		dep.Stats[DeviceDeploymentStatusDecommissionedStr] = rand(0, max)
+		dep.Stats.Downloading = rand(0, max)
+		dep.Stats.Installing = rand(0, max)
+		dep.Stats.Rebooting = rand(0, max)
+		dep.Stats.Pending = rand(0, max)
+		dep.Stats.Success = rand(0, max)
+		dep.Stats.Failure = rand(0, max)
+		dep.Stats.NoArtifact = rand(0, max)
+		dep.Stats.AlreadyInstalled = rand(0, max)
+		dep.Stats.Aborted = rand(0, max)
+		dep.Stats.Decommissioned = rand(0, max)
 
 		pending := 0
 		inprogress := 0

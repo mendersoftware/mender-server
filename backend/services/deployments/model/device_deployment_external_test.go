@@ -126,24 +126,6 @@ func TestDeviceDeploymentValidate(t *testing.T) {
 
 }
 
-func TestDeviceDeploymentStats(t *testing.T) {
-	ds := NewDeviceDeploymentStats()
-	must := []string{
-		DeviceDeploymentStatusNoArtifactStr,
-		DeviceDeploymentStatusFailureStr,
-		DeviceDeploymentStatusSuccessStr,
-		DeviceDeploymentStatusPendingStr,
-		DeviceDeploymentStatusRebootingStr,
-		DeviceDeploymentStatusInstallingStr,
-		DeviceDeploymentStatusDownloadingStr,
-		DeviceDeploymentStatusAlreadyInstStr,
-		DeviceDeploymentStatusAbortedStr,
-	}
-	for _, f := range must {
-		assert.Contains(t, ds, f, "stats must contain status '%v'", f)
-	}
-}
-
 func TestDeviceDeploymentIsFinished(t *testing.T) {
 	tcs := []struct {
 		status   DeviceDeploymentStatus
