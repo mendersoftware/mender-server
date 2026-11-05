@@ -354,6 +354,7 @@ review:deploy:
       -n ${NAMESPACE}
       --create-namespace
       -f /tmp/review-values.yaml
+      -f compose/k8s/review-values.mongodb.yaml
       -f /tmp/review-secret-values.yaml
       --wait
       --timeout 15m
