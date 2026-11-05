@@ -28,6 +28,7 @@ log_error() {
 # Required environment variables from GitLab CI/CD
 REQUIRED_VARS=(
     "NAMESPACE"
+    "RELEASE_NAME"
     "CI_PROJECT_PATH_SLUG"
     "CI_ENVIRONMENT_SLUG"
     "CI_REGISTRY"
@@ -243,6 +244,20 @@ helm upgrade --install seaweedfs seaweedfs/seaweedfs \
     --wait --timeout 7m
 
 log_info "SeaweedFS deployed successfully"
+
+SECRET_VALUES_FILE="/tmp/review-secret-values.yaml"
+MONGODB_ROOT_PASSWORD=$(secret_value "${RELEASE_NAME}-mongodb" mongodb-root-password)
+if [ -n "${MONGODB_ROOT_PASSWORD}" ]; then
+    log_info "Reusing the MongoDB root password of release ${RELEASE_NAME}"
+else
+    log_info "Generating a MongoDB root password"
+    MONGODB_ROOT_PASSWORD=$(openssl rand -hex 24)
+fi
+rm -f "${SECRET_VALUES_FILE}"
+(
+    umask 077
+    printf 'mongodb:\n  auth:\n    rootPassword: "%s"\n' "${MONGODB_ROOT_PASSWORD}" > "${SECRET_VALUES_FILE}"
+)
 
 # Display namespace info
 log_info "Namespace setup complete!"

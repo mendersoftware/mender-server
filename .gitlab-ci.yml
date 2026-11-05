@@ -354,6 +354,7 @@ review:deploy:
       -n ${NAMESPACE}
       --create-namespace
       -f /tmp/review-values.yaml
+      -f /tmp/review-secret-values.yaml
       --wait
       --timeout 15m
     - echo "Deployment completed successfully"
