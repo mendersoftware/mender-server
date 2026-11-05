@@ -65,6 +65,25 @@ from `CI_PROJECT_NAME` ensures no collision between `mender-server` and
 - **Isolation**: Each namespace contains all services and dependencies
 - **Cleanup**: Namespace is deleted when branch is deleted or manually stopped
 
+### Persistence
+
+MongoDB, SeaweedFS and NATS keep their data on PVCs (default StorageClass),
+so a review app survives pod rescheduling and redeploys. `review:stop`
+deletes the PVCs together with the namespace.
+
+Values generated on the first deploy are reused by later deploys of the same
+namespace: SeaweedFS S3 keys, the MongoDB root password (read back from the
+chart's `<release>-mongodb` secret) and the initial credentials (secret
+`review-app-credentials`).
+
+The chart creates the MongoDB Deployment, Secret and PVC as `pre-install`
+hooks, which `helm upgrade` never updates:
+
+- A review app created before persistence was enabled keeps an `emptyDir`
+  until it is stopped and deployed again.
+- Do not `helm uninstall` and install again by hand: Helm deletes and
+  recreates the hook PVC, losing the data. Use `review:stop` instead.
+
 ## Prerequisites
 
 ### 1. EKS Staging Cluster Preconfigured
@@ -101,6 +120,7 @@ You have to map `*.staging.hosted.mender.io` to the `mender` external ALB.
 1. **`README.md`** (this file): Comprehensive documentation
 2. **`review-values.yaml.tpl`**: Helm values template for review apps
 3. **`setup-review-namespace.sh`**: Script to prepare Kubernetes namespace
+4. **`review-values.mongodb.yaml`**: MongoDB persistence, applied on top of every values template
 
 ### GitLab CI/CD Configuration
 

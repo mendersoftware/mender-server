@@ -34,6 +34,9 @@ variables:
   REDIS_VERSION:
     value: "8.10"
     description: "Version of Redis to use in jobs"
+  MENDER_HELM_CHART_VERSION:
+    value: "8.5.0"
+    description: "Version of the mender Helm chart deployed by review apps"
   IMAGE_GOLANGCI_VERSION:
     value: "v2.13.2"
     description: "Version of image golangci/golangci-lint for static checks"
@@ -347,9 +350,12 @@ review:deploy:
 
     - echo "Deploying Mender with Helm (release name - ${RELEASE_NAME})..."
     - helm upgrade --install ${RELEASE_NAME} mender/mender
+      --version "${MENDER_HELM_CHART_VERSION}"
       -n ${NAMESPACE}
       --create-namespace
       -f /tmp/review-values.yaml
+      -f compose/k8s/review-values.mongodb.yaml
+      -f /tmp/review-secret-values.yaml
       --wait
       --timeout 15m
     - echo "Deployment completed successfully"

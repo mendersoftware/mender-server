@@ -93,6 +93,16 @@
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)\\.gitlab-ci\\.yml$/"],
+      "matchStrings": [
+        "MENDER_HELM_CHART_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
+      ],
+      "depNameTemplate": "mender",
+      "registryUrlTemplate": "https://charts.mender.io",
+      "datasourceTemplate": "helm"
+    },
     // REDIS_VERSION as a .gitlab-ci.yml variable (currently tracked by nothing).
     {
       "customType": "regex",

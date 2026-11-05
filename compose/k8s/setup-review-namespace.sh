@@ -28,6 +28,7 @@ log_error() {
 # Required environment variables from GitLab CI/CD
 REQUIRED_VARS=(
     "NAMESPACE"
+    "RELEASE_NAME"
     "CI_PROJECT_PATH_SLUG"
     "CI_ENVIRONMENT_SLUG"
     "CI_REGISTRY"
@@ -115,14 +116,25 @@ log_info "Deploying SeaweedFS for artifact storage..."
 SEAWEEDFS_NAME_OVERRIDE="seaweedfs-${NAMESPACE}"
 SEAWEEDFS_S3_HOST="seaweedfs-${SEAWEEDFS_NAME_OVERRIDE}-s3.${NAMESPACE}.svc.cluster.local"
 
-# Generate random access keys for SeaweedFS (like Vagrantfile does)
-ADMIN_KEY=$(openssl rand -hex 16)
-ADMIN_SECRET=$(openssl rand -hex 32)
-READ_KEY=$(openssl rand -hex 16)
-READ_SECRET=$(openssl rand -hex 32)
+secret_value() {
+    local value
+    value=$(kubectl get secret "$1" -n "${NAMESPACE}" --ignore-not-found -o "jsonpath={.data.$2}") || return 1
+    printf '%s' "${value}" | base64 -d
+}
 
-# Create SeaweedFS S3 configuration
-SEAWEEDFS_CONFIG=$(cat <<EOF
+ADMIN_KEY=$(secret_value seaweedfs-mender-s3-secret admin_access_key_id)
+ADMIN_SECRET=$(secret_value seaweedfs-mender-s3-secret admin_secret_access_key)
+
+if [ -n "${ADMIN_KEY}" ] && [ -n "${ADMIN_SECRET}" ]; then
+    log_info "Reusing existing SeaweedFS S3 keys"
+else
+    ADMIN_KEY=$(openssl rand -hex 16)
+    ADMIN_SECRET=$(openssl rand -hex 32)
+    READ_KEY=$(openssl rand -hex 16)
+    READ_SECRET=$(openssl rand -hex 32)
+
+    # Create SeaweedFS S3 configuration
+    SEAWEEDFS_CONFIG=$(cat <<EOF
 {
   "identities": [
     {
@@ -148,18 +160,19 @@ SEAWEEDFS_CONFIG=$(cat <<EOF
   ]
 }
 EOF
-)
+    )
 
-# Create SeaweedFS configuration secret
-log_info "Creating SeaweedFS S3 secret..."
-kubectl create secret generic seaweedfs-mender-s3-secret \
-    --from-literal=admin_access_key_id="$ADMIN_KEY" \
-    --from-literal=admin_secret_access_key="$ADMIN_SECRET" \
-    --from-literal=read_access_key_id="$READ_KEY" \
-    --from-literal=read_secret_access_key="$READ_SECRET" \
-    --from-literal=seaweedfs_s3_config="$SEAWEEDFS_CONFIG" \
-    -n "${NAMESPACE}" \
-    --dry-run=client -o yaml | kubectl apply -f -
+    # Create SeaweedFS configuration secret
+    log_info "Creating SeaweedFS S3 secret..."
+    kubectl create secret generic seaweedfs-mender-s3-secret \
+        --from-literal=admin_access_key_id="$ADMIN_KEY" \
+        --from-literal=admin_secret_access_key="$ADMIN_SECRET" \
+        --from-literal=read_access_key_id="$READ_KEY" \
+        --from-literal=read_secret_access_key="$READ_SECRET" \
+        --from-literal=seaweedfs_s3_config="$SEAWEEDFS_CONFIG" \
+        -n "${NAMESPACE}" \
+        --dry-run=client -o yaml | kubectl apply -f -
+fi
 
 # Create Mender S3 artifacts secret (used by Mender services)
 log_info "Creating Mender S3 artifacts secret..."
@@ -231,6 +244,20 @@ helm upgrade --install seaweedfs seaweedfs/seaweedfs \
     --wait --timeout 7m
 
 log_info "SeaweedFS deployed successfully"
+
+SECRET_VALUES_FILE="/tmp/review-secret-values.yaml"
+MONGODB_ROOT_PASSWORD=$(secret_value "${RELEASE_NAME}-mongodb" mongodb-root-password)
+if [ -n "${MONGODB_ROOT_PASSWORD}" ]; then
+    log_info "Reusing the MongoDB root password of release ${RELEASE_NAME}"
+else
+    log_info "Generating a MongoDB root password"
+    MONGODB_ROOT_PASSWORD=$(openssl rand -hex 24)
+fi
+rm -f "${SECRET_VALUES_FILE}"
+(
+    umask 077
+    printf 'mongodb:\n  auth:\n    rootPassword: "%s"\n' "${MONGODB_ROOT_PASSWORD}" > "${SECRET_VALUES_FILE}"
+)
 
 # Display namespace info
 log_info "Namespace setup complete!"
