@@ -457,16 +457,69 @@ exports[`AuthsetList Component > renders correctly 1`] = `
 }
 
 .emotion-20 {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.emotion-21 {
+  background-color: rgba(255, 255, 255, 0.04);
+  font-family: monospace;
+  color: rgba(0, 0, 0, 1);
+  border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  white-space: pre-line;
+}
+
+.emotion-21 .copyable-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.emotion-22 {
+  margin: 0;
+}
+
+.emotion-23 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.emotion-24 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+}
+
+.emotion-25 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
-  font-weight: 500;
 }
 
-.emotion-29 {
+.emotion-35 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -622,13 +675,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -674,7 +768,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-35"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -749,13 +843,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -864,13 +999,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -975,13 +1151,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1022,7 +1239,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-35"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1098,13 +1315,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1209,13 +1467,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1316,13 +1615,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1422,13 +1762,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1465,7 +1846,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-35"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1541,13 +1922,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1584,7 +2006,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-35"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1659,13 +2081,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1766,13 +2229,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1872,13 +2376,54 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small"
+                  class="margin-top-small"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
+                  <div
+                    class="full-width"
                   >
-                     Are you sure you want to continue?
-                  </p>
+                    <div
+                      class="emotion-20 flexbox centered"
+                    >
+                      <div
+                        class="emotion-21 "
+                        style="padding: 0px; background: transparent;"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-code1 emotion-22"
+                        >
+                          -----BEGIN PUBLIC KEY-----
+MIIBoj
+-----END PUBLIC KEY-----
+                        </span>
+                      </div>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small clickable emotion-23"
+                        data-testid="FileCopyOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                        />
+                      </svg>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth margin-bottom-x-small emotion-24"
+                    />
+                    <div
+                      title="SHA256"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-25"
+                      >
+                        Checksum
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -54,7 +54,6 @@ const useStyles = makeStyles()(theme => ({
     },
     [`.${accordionDetailsClasses.root}`]: { flexDirection: 'row', minHeight: theme.spacing(5.25) }
   },
-  confirmMessage: { fontWeight: 500 },
   fitContent: { width: 'fit-content' },
   header: {
     padding: theme.spacing(2),

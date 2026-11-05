@@ -15,10 +15,10 @@ import { useEffect, useState } from 'react';
 
 import { Check as CheckIcon, FileCopyOutlined as CopyPasteIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 // material ui
-import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, CircularProgress, DialogContentText, Divider, Tooltip, Typography } from '@mui/material';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { Code } from '@northern.tech/common-ui/CopyCode';
-import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
@@ -27,50 +27,51 @@ import copy from 'copy-to-clipboard';
 const tierChangeTooltip = (newTier: string) =>
   `This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a ${newTier} device and contribute to your ${newTier} device tier limit.`;
 
+const isRequestOnAcceptedDevice = (device, authset) => device.status === DEVICE_STATES.accepted && authset.status !== DEVICE_STATES.accepted;
+
+const isRequestAction = (status, device, authset) =>
+  isRequestOnAcceptedDevice(device, authset) || (status === DEVICE_DISMISSAL_STATE && device.status === DEVICE_STATES.pending);
+
 const getDismissalConfirmation = (device, authset) => {
-  switch (authset.status) {
-    case DEVICE_STATES.preauth:
-      return 'The device authentication set will be removed from the preauthorization list.';
-    case DEVICE_STATES.accepted:
-      if (device.auth_sets.length > 1) {
-        // if there are other authsets, device will still be in UI
-        return 'The device with this public key will no longer be accepted, and this authorization request will be removed from the UI.';
-      } else {
-        return 'The device with this public key will no longer be accepted, and will be removed from the UI. If it makes another request in the future, it will show again as pending for you to accept or reject at that time.';
-      }
-    case DEVICE_STATES.pending: {
-      const message = 'You can dismiss this authentication request for now.';
-      if (device.auth_sets.length > 1) {
-        // it has other authsets
-        return `${message} This will remove this request from the UI, but won’t affect the device.`;
-      }
-      return `${message} The device will be removed from the UI, but if the same device asks for authentication again in the future, it will show again as pending.`;
-    }
-    case DEVICE_STATES.rejected:
-      return 'This request will be removed from the UI, but if the device asks for authentication again in the future, it will show as pending for you to accept or reject it at that time.';
-    default:
-      break;
+  if (authset.status === DEVICE_STATES.preauth) {
+    return 'The device authentication set will be removed from the preauthorization list.';
   }
-  return '';
+  if (isRequestOnAcceptedDevice(device, authset)) {
+    // if device is accepted but you are dismissing an authset that is not accepted, device status is unaffected:
+    return (
+      <>
+        The request will be dismissed, and removed from the list. Dismissing this request will <b>not</b> affect the device status as it is using a different
+        authentication set. Do you want to continue?
+      </>
+    );
+  }
+  if (device.status === DEVICE_STATES.pending) {
+    return 'The request will be dismissed, and removed from the list. If the device connects again with the same key, it will appear as a new pending request. Do you want to continue?';
+  }
+  return 'The device will no longer be accepted using this public key, and this authentication set will be removed. If the device connects again with the same key, it will appear as a new pending request. Are you sure you want to continue?';
 };
 
 export const getConfirmationMessage = (status, device, authset) => {
   let message = '';
   switch (status) {
     case DEVICE_STATES.accepted:
-      message = 'By accepting, the device with this identity data and public key will be granted authentication by the server.';
+      message = 'The request will be accepted, and the device with this authentication set will be authorized by the server.';
       if (device.status === DEVICE_STATES.accepted) {
         // if device already accepted, and you are accepting a different authset:
-        return `${message} The previously accepted public key will be rejected automatically in favor of this new key.`;
+        return `${message} The previously accepted authentication set will be rejected automatically. Do you want to continue?`;
       }
       return message;
     case DEVICE_STATES.rejected:
-      message = 'The device with this identity data and public key will be rejected, and blocked from communicating with the Mender server.';
-      if (device.status === DEVICE_STATES.accepted && authset.status !== DEVICE_STATES.accepted) {
+      if (isRequestOnAcceptedDevice(device, authset)) {
         // if device is accepted but you are rejecting an authset that is not accepted, device status is unaffected:
-        return `${message} Rejecting this request will not affect the device status as it is using a different key. `;
+        return (
+          <>
+            This request will be rejected, and further requests from this authentication set will be blocked. Rejecting this request will <b>not</b> affect the
+            device status as it is using a different authentication set. Do you want to continue?
+          </>
+        );
       }
-      return message;
+      return 'The device with this authentication set will be rejected, and blocked from communicating with the Mender server. Are you sure you want to continue?';
     case DEVICE_DISMISSAL_STATE:
       message = getDismissalConfirmation(device, authset);
       break;
@@ -96,14 +97,23 @@ const AuthSetStatus = ({ authset, device }) => {
   return <div />;
 };
 
-const ActionButtons = ({ authset, confirmMessage, newStatus, limitMaxed, onAcceptClick, onDismissClick, onRequestConfirm, userCapabilities }) => {
+const confirmModalConfig = {
+  [DEVICE_STATES.accepted]: { header: 'Accept authentication set?', confirmButtonText: 'Accept request', isDanger: false },
+  [DEVICE_STATES.rejected]: { header: 'Reject device?', confirmButtonText: 'Reject device', isDanger: true },
+  [DEVICE_DISMISSAL_STATE]: { header: 'Dismiss device?', confirmButtonText: 'Dismiss device', isDanger: true }
+};
+
+const requestModalConfig = {
+  [DEVICE_STATES.rejected]: { header: 'Reject request?', confirmButtonText: 'Reject request' },
+  [DEVICE_DISMISSAL_STATE]: { header: 'Dismiss request?', confirmButtonText: 'Dismiss request' }
+};
+
+const ActionButtons = ({ authset, limitMaxed, onAcceptClick, onDismissClick, onRequestConfirm, userCapabilities }) => {
   const { canManageDevices } = userCapabilities;
   if (!canManageDevices) {
     return null;
   }
-  return confirmMessage.length ? (
-    <Typography>Set to: {newStatus}?</Typography>
-  ) : (
+  return (
     <div className="action-buttons flexbox">
       <Button onClick={onAcceptClick} disabled={authset.status === DEVICE_STATES.accepted || authset.status === DEVICE_STATES.preauth || limitMaxed}>
         Accept
@@ -121,11 +131,11 @@ const ActionButtons = ({ authset, confirmMessage, newStatus, limitMaxed, onAccep
 
 const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpanded, limitMaxed, loading, onExpand, total, userCapabilities }) => {
   const [showKey, setShowKey] = useState(false);
-  const [confirmMessage, setConfirmMessage] = useState('');
-  const [newStatus, setNewStatus] = useState('');
   const [keyHash, setKeyHash] = useState('');
   const [endKey, setEndKey] = useState('');
   const [copied, setCopied] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [confirmStatus, setConfirmStatus] = useState(DEVICE_STATES.accepted);
   const { tier } = device;
 
   const newTier = authset.tier !== tier;
@@ -133,8 +143,6 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   useEffect(() => {
     if (!isExpanded) {
       setShowKey(false);
-      setConfirmMessage('');
-      setNewStatus('');
     }
   }, [isExpanded]);
 
@@ -158,23 +166,14 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   const onShowKey = show => {
     onExpand(show && authset.id);
     setShowKey(show);
-    setConfirmMessage(false);
-  };
-
-  const onCancelConfirm = () => {
-    onExpand(false);
-    setConfirmMessage('');
   };
 
   const onRequestConfirm = status => {
-    const message = getConfirmationMessage(status, device, authset);
-    setConfirmMessage(message);
-    setNewStatus(status);
-    setShowKey(false);
-    onExpand(authset.id);
+    setConfirmStatus(status);
+    setIsConfirmOpen(true);
   };
 
-  const onConfirm = confirmedState => confirm(device.id, authset.id, confirmedState).then(onCancelConfirm);
+  const onConfirm = confirmedState => confirm(device.id, authset.id, confirmedState);
 
   const onDismissClick = () => {
     if (total > 1 || device.status !== DEVICE_STATES.pending) {
@@ -198,7 +197,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
 
   const toggleKey = () => onShowKey(!showKey);
   const key = <Button onClick={toggleKey}>{showKey ? 'Hide' : 'Show'} key</Button>;
-  const content = showKey ? (
+  const content = (
     <div className="full-width">
       <div className={`${classes.fitContent} flexbox centered`}>
         <Code style={{ padding: 0 }} noBackground>
@@ -219,59 +218,53 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
         <Typography variant="body2">{keyHash}</Typography>
       </div>
     </div>
-  ) : (
-    <Typography className={`${classes.confirmMessage} margin-right`}>
-      {loading === authset.id ? 'Updating status' : `${confirmMessage} Are you sure you want to continue?`}
-    </Typography>
   );
   return (
-    <Accordion className={`${classes.accordion} padding-none`} square expanded={isExpanded}>
-      <AccordionSummary component="div" className={`columns-${columns.length}`}>
-        <AuthSetStatus authset={authset} device={device} />
-        <Typography className="capitalized" variant="body2">
-          {authset.status}
-        </Typography>
-        <Tooltip arrow title={newTier ? tierChangeTooltip(authset.tier) : undefined}>
-          <Typography className={`capitalized clickable flexbox align-items-center ${classes.fitContent}`} component="div" variant="body2">
-            {newTier && <InfoOutlinedIcon className="margin-right-x-small muted" fontSize="small" />}
-            <div>{authset.tier}</div>
+    <>
+      <Accordion className={`${classes.accordion} padding-none`} square expanded={isExpanded}>
+        <AccordionSummary component="div" className={`columns-${columns.length}`}>
+          <AuthSetStatus authset={authset} device={device} />
+          <Typography className="capitalized" variant="body2">
+            {authset.status}
           </Typography>
-        </Tooltip>
-        <div>{key}</div>
-        <Time Component={Typography} component="time" variant="body2" value={formatTime(authset.ts)} />
-        {loading === authset.id ? (
-          <div>
-            Updating status <Loader table={true} waiting={true} show={true} style={{ height: '4px', marginLeft: '10px' }} />
-          </div>
-        ) : (
-          <ActionButtons
-            authset={authset}
-            confirmMessage={confirmMessage}
-            newStatus={newStatus}
-            limitMaxed={limitMaxed}
-            onAcceptClick={onAcceptClick}
-            onDismissClick={onDismissClick}
-            onRequestConfirm={onRequestConfirm}
-            userCapabilities={userCapabilities}
-          />
-        )}
-      </AccordionSummary>
-      <AccordionDetails>
-        <div className="flexbox space-between align-items-center full-width margin-top-small">
-          {content}
-          {isExpanded && !showKey && loading !== authset.id && (
-            <div className="flexbox">
-              <Button color="info" variant="outlined" onClick={onCancelConfirm}>
-                Cancel
-              </Button>
-              <Button className="margin-left-x-small" variant="contained" onClick={() => onConfirm(newStatus)}>
-                Confirm
-              </Button>
+          <Tooltip arrow title={newTier ? tierChangeTooltip(authset.tier) : undefined}>
+            <Typography className={`capitalized clickable flexbox align-items-center ${classes.fitContent}`} component="div" variant="body2">
+              {newTier && <InfoOutlinedIcon className="margin-right-x-small muted" fontSize="small" />}
+              <div>{authset.tier}</div>
+            </Typography>
+          </Tooltip>
+          <div>{key}</div>
+          <Time Component={Typography} component="time" variant="body2" value={formatTime(authset.ts)} />
+          {loading === authset.id ? (
+            <div className="flexbox align-items-center">
+              <Typography variant="body2">Updating...</Typography>
+              <CircularProgress className="margin-left-x-small" size={20} />
             </div>
+          ) : (
+            <ActionButtons
+              authset={authset}
+              limitMaxed={limitMaxed}
+              onAcceptClick={onAcceptClick}
+              onDismissClick={onDismissClick}
+              onRequestConfirm={onRequestConfirm}
+              userCapabilities={userCapabilities}
+            />
           )}
-        </div>
-      </AccordionDetails>
-    </Accordion>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className="margin-top-small">{content}</div>
+        </AccordionDetails>
+      </Accordion>
+      <ConfirmModal
+        open={isConfirmOpen}
+        close={() => setIsConfirmOpen(false)}
+        description={<DialogContentText>{getConfirmationMessage(confirmStatus, device, authset)}</DialogContentText>}
+        onConfirm={() => onConfirm(confirmStatus)}
+        isCritical={authset.status === DEVICE_STATES.accepted}
+        {...confirmModalConfig[confirmStatus]}
+        {...(isRequestAction(confirmStatus, device, authset) ? requestModalConfig[confirmStatus] : {})}
+      />
+    </>
   );
 };
 

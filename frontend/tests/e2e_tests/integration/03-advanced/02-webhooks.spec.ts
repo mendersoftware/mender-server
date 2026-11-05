@@ -52,7 +52,7 @@ test.describe('Webhooks Functionality', () => {
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await expect(page.getByText(/Device information for/i)).toBeVisible();
     await page.getByText('Dismiss', { exact: true }).click();
-    await page.getByRole('button', { name: 'Confirm' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: /^dismiss/i }).click();
     await page.reload();
     await page.getByText('Accept', { exact: true }).click();
     await page.getByText(/updated successfully/i).waitFor({ timeout: timeouts.default });
