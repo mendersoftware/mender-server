@@ -31,7 +31,7 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import Confirm from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
@@ -410,16 +410,7 @@ export const CreateDeployment = ({
             </AccordionDetails>
           </Accordion>
         </FormGroup>
-        <div className="margin-top relative">
-          {isChecking && (
-            <Confirm
-              classes="confirmation-overlay"
-              cancel={() => setIsChecking(false)}
-              action={handleSubmit(onScheduleSubmitClick, onInvalidSubmit)}
-              message={`This will deploy ${release?.name} to ${deploymentDeviceCount} ${pluralize('device', deploymentDeviceCount)}. Are you sure?`}
-              style={{ paddingLeft: 12, justifyContent: 'flex-start', maxHeight: 44 }}
-            />
-          )}
+        <div className="margin-top">
           <Button onClick={closeWizard} style={{ marginRight: 10 }}>
             Cancel
           </Button>
@@ -433,6 +424,15 @@ export const CreateDeployment = ({
             Create deployment
           </Button>
         </div>
+        <ConfirmModal
+          open={isChecking}
+          close={() => setIsChecking(false)}
+          header="Create deployment?"
+          description={`This will deploy ${release?.name} to ${deploymentDeviceCount} ${pluralize('device', deploymentDeviceCount)}. Do you want to continue?`}
+          confirmButtonText="Create deployment"
+          isDanger={false}
+          onConfirm={handleSubmit(onScheduleSubmitClick, onInvalidSubmit)}
+        />
         <OnboardingComponent
           releaseRef={releaseRef}
           groupRef={groupRef}
