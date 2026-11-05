@@ -240,10 +240,11 @@ export const AccessTokenManagement = () => {
       )}
       {!!tokenToRevoke && (
         <ConfirmModal
-          header="Revoke token"
+          header="Revoke token?"
           description={
             <>
-              Are you sure you want to revoke the token <b>{tokenToRevoke.name}</b>?
+              Revoke the personal access token <b>{tokenToRevoke.name}</b>? This will revoke access and permanently delete the token, and any services relying
+              on it will stop working. Are you sure you want to continue?
             </>
           }
           confirmButtonText="Revoke token"

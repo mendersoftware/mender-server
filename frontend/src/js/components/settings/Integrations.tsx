@@ -24,7 +24,7 @@ import { SettingsSection } from '@northern.tech/common-ui/SettingsSection';
 import { Select } from '@northern.tech/common-ui/forms/Select';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
-import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
+import { getExternalIntegrations, getFeatures, getIsPreview } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
 import type { Integration } from '@northern.tech/types/MenderTypes';
@@ -93,6 +93,7 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
   const { credentials = {}, provider } = integration;
   const [isEditing, setIsEditing] = useState(isUnconfigured(credentials));
   const [isDeleting, setIsDeleting] = useState(false);
+  const { hasMultitenancy } = useSelector(getFeatures);
 
   const { classes } = useStyles();
 
@@ -161,13 +162,10 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
         {isDeleting && (
           <ConfirmModal
             header="Delete integration?"
-            description={
-              <>
-                Are you sure you want to delete the <b>{title}</b> integration?
-              </>
-            }
+            description={`This will remove the integration${hasMultitenancy ? ' from your organization' : ''}, and any services relying on it will stop working. Are you sure you want to continue?`}
             confirmButtonText="Delete integration"
             open
+            isCritical
             close={() => setIsDeleting(false)}
             onConfirm={onDeleteConfirm}
           />
