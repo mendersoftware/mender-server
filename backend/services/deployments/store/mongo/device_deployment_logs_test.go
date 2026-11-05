@@ -21,11 +21,9 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/v2/bson"
-	"go.mongodb.org/mongo-driver/v2/mongo"
+	"github.com/stretchr/testify/require"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -45,6 +43,11 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 		t.Skip("skipping TestSaveDeviceDeploymentLog in short mode.")
 	}
 
+	const (
+		deviceID     = "b500c9e9-e298-4e53-ae9b-9d5188cce714"
+		deploymentID = "0fb22abf-dc50-44b5-9a70-9b11de9fb395"
+	)
+
 	messages := []model.LogMessage{
 		{
 			Level:     "notice",
@@ -63,42 +66,20 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 		OutputError              error
 	}{
 		{
-			// null deployment ID
 			InputDeviceDeploymentLog: model.DeploymentLog{
-				DeviceID: "456",
-				Messages: messages,
-			},
-			OutputError: errors.New("DeploymentID: cannot be blank."),
-		},
-		{
-			// null device ID
-			InputDeviceDeploymentLog: model.DeploymentLog{
-				Messages:     messages,
-				DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			},
-			OutputError: errors.New("DeviceID: cannot be blank."),
-		},
-		{
-			InputDeviceDeploymentLog: model.DeploymentLog{
-				DeviceID:     "456",
-				DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-				Messages:     []model.LogMessage{},
+				Messages: []model.LogMessage{},
 			},
 			OutputError: errors.New("messages: cannot be blank."),
 		},
 		{
 			InputDeviceDeploymentLog: model.DeploymentLog{
-				DeviceID:     "567",
-				DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397b",
-				Messages:     messages,
+				Messages: messages,
 			},
 			OutputError: nil,
 		},
 		{
 			InputDeviceDeploymentLog: model.DeploymentLog{
-				DeviceID:     "567",
-				DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397b",
-				Messages:     messages,
+				Messages: messages,
 			},
 			// same as previous case but with tenant
 			InputTenant: "acme",
@@ -125,8 +106,15 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 		} else {
 			ctx = context.Background()
 		}
+		require.NoError(t, store.Migrate(ctx, DbVersion, true))
+		require.NoError(t, store.InsertDeviceDeployment(ctx, &model.DeviceDeployment{
+			DeviceId:     deviceID,
+			DeploymentId: deploymentID,
+		}, false))
 
 		err := store.SaveDeviceDeploymentLog(ctx,
+			deviceID,
+			deploymentID,
 			testCase.InputDeviceDeploymentLog)
 
 		if testCase.OutputError != nil {
@@ -135,16 +123,7 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 			assert.NoError(t, err)
 
 			// no errors, so we should be able to find the log in DB
-			var dlog model.DeploymentLog
-			collDepLogs := client.Database(ctxstore.
-				DbFromContext(ctx, DefaultDbName)).
-				Collection(CollectionDeviceDeploymentLogs)
-			err := collDepLogs.FindOne(ctx, bson.M{
-				StorageKeyDeviceDeploymentDeviceId: testCase.
-					InputDeviceDeploymentLog.DeviceID,
-				StorageKeyDeviceDeploymentDeploymentID: testCase.
-					InputDeviceDeploymentLog.DeploymentID,
-			}).Decode(&dlog)
+			dlog, err := store.GetDeviceDeploymentLog(ctx, deviceID, deploymentID)
 
 			assert.NoError(t, err)
 
@@ -156,17 +135,9 @@ func TestSaveDeviceDeploymentLog(t *testing.T) {
 			if testCase.InputTenant != "" {
 				// logs were saved to tenant's DB, double check
 				// that they are not found in default DB
-				var tmp interface{}
-				collDefaultDepLogs := client.
-					Database(DefaultDbName).
-					Collection(CollectionDeviceDeploymentLogs)
-				err := collDefaultDepLogs.FindOne(ctx, bson.M{
-					StorageKeyDeviceDeploymentDeviceId: testCase.
-						InputDeviceDeploymentLog.DeviceID,
-					StorageKeyDeviceDeploymentDeploymentID: testCase.
-						InputDeviceDeploymentLog.DeploymentID,
-				}).Decode(&tmp)
-				assert.Equal(t, err, mongo.ErrNoDocuments)
+				log, err := store.GetDeviceDeploymentLog(context.Background(), deviceID, deploymentID)
+				assert.NoError(t, err)
+				assert.Nil(t, log)
 			}
 
 		}
@@ -192,21 +163,30 @@ func TestGetDeviceDeploymentLog(t *testing.T) {
 		},
 	}
 
-	logs := []model.DeploymentLog{
+	logs := []model.DeviceDeployment{
 		{
-			DeviceID:     "123",
-			DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			Messages:     messages,
+			Id:           "43c3c7aa-50c7-49e8-a32c-45f58dcfe19f",
+			DeviceId:     "123",
+			DeploymentId: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
+			Log: &model.DeploymentLog{
+				Messages: messages,
+			},
 		},
 		{
-			Messages:     messages,
-			DeviceID:     "234",
-			DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397b",
+			Id:           "43c3c7aa-50c7-49e8-a32c-45f58dcfe190",
+			DeviceId:     "234",
+			DeploymentId: "30b3e62c-9ec2-4312-a7fa-cff24cc7397b",
+			Log: &model.DeploymentLog{
+				Messages: messages,
+			},
 		},
 		{
-			Messages:     messages,
-			DeviceID:     "345",
-			DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397c",
+			Id:           "43c3c7aa-50c7-49e8-a32c-45f58dcfe191",
+			DeviceId:     "345",
+			DeploymentId: "30b3e62c-9ec2-4312-a7fa-cff24cc7397c",
+			Log: &model.DeploymentLog{
+				Messages: messages,
+			},
 		},
 	}
 
@@ -220,17 +200,17 @@ func TestGetDeviceDeploymentLog(t *testing.T) {
 		{
 			InputDeviceID:      "123",
 			InputDeploymentID:  "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			InputDeploymentLog: &logs[0],
+			InputDeploymentLog: logs[0].Log,
 		},
 		{
 			InputDeviceID:      "234",
 			InputDeploymentID:  "30b3e62c-9ec2-4312-a7fa-cff24cc7397b",
-			InputDeploymentLog: &logs[1],
+			InputDeploymentLog: logs[1].Log,
 		},
 		{
 			InputDeviceID:      "345",
 			InputDeploymentID:  "30b3e62c-9ec2-4312-a7fa-cff24cc7397c",
-			InputDeploymentLog: &logs[2],
+			InputDeploymentLog: logs[2].Log,
 		},
 		// not found
 		{
@@ -256,8 +236,7 @@ func TestGetDeviceDeploymentLog(t *testing.T) {
 
 	for _, dl := range logs {
 		// save all messages to default DB
-		err := store.SaveDeviceDeploymentLog(context.Background(), dl)
-		assert.NoError(t, err)
+		require.NoError(t, store.InsertDeviceDeployment(context.Background(), &dl, false))
 	}
 
 	for _, testCase := range testCases {
@@ -284,8 +263,6 @@ func TestGetDeviceDeploymentLog(t *testing.T) {
 			if testCase.InputDeploymentLog == nil {
 				assert.Nil(t, dlog)
 			} else {
-				assert.Equal(t, testCase.InputDeploymentID, dlog.DeploymentID)
-				assert.Equal(t, testCase.InputDeviceID, dlog.DeviceID)
 				// message timestamp is a pointer, so we cannot use assert.EqualValues()
 				// or reflect.DeepEqual() as both will choke on *time.Time pointing to
 				// different, but value-equal instances
