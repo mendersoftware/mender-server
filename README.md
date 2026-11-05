@@ -50,11 +50,21 @@ Mender Server requires Docker Compose version `v2.23.1` or newer.
 
 4. Visit [https://docker.mender.io](https://docker.mender.io) and sign in using the credentials from the snippet above.
 
-5. To add a virtual client with the composition, run the following command:
+5. To add virtual clients with the composition, run the following command:
 
    ```bash
-   docker compose run -d client
+   docker compose up -d --scale client=1
    ```
+
+   To run multiple virtual clients simultaneously, each registering as a distinct device:
+
+   ```bash
+   docker compose up -d --scale client=3 --force-recreate
+   ```
+
+   > [!NOTE]
+   > Each client replica uses its container hostname as its device identity, so all replicas
+   > appear as separate devices in the Mender UI under **Devices → Pending**.
 
 ## Evaluating Mender Enterprise
 
@@ -81,12 +91,12 @@ MENDER_PASSWORD=password123
 TENANT_ID=$(docker compose exec tenantadm tenantadm create-org --username "$MENDER_USERNAME" --password "$MENDER_PASSWORD" --name "$MENDER_NAME" --addon troubleshoot --addon configure --addon monitor --device-limit 100)
 ```
 
-To add a virtual client with the composition, use the following snippet in step 5:
+To add virtual clients with the composition, use the following snippet in step 5:
 
 ```bash
 TENANT_TOKEN=$(docker compose exec tenantadm tenantadm get-tenant --id "$TENANT_ID" | jq -r .tenant_token)
 export TENANT_TOKEN
-docker compose run -d client
+docker compose up -d --scale client=1
 ```
 
 Visit [https://localhost](https://localhost) and sign in using the credentials from the snippet above.
