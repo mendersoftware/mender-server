@@ -50,6 +50,14 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 log_info "All required environment variables are set"
 
+CREDENTIALS_SECRET="review-app-credentials"
+STORED_REVIEW_ENV=$(kubectl get secret "${CREDENTIALS_SECRET}" -n "${NAMESPACE}" --ignore-not-found -o "jsonpath={.data.review_env}")
+if [ -n "${STORED_REVIEW_ENV}" ]; then
+    log_info "Review app already initialised, reusing the credentials from the first deploy"
+    printf '%s' "${STORED_REVIEW_ENV}" | base64 -d > /tmp/review.env
+    exit 0
+fi
+
 # Generate random credentials for this review app
 # Can be overridden via environment variables if needed
 RANDOM_SUFFIX=$(openssl rand -hex 4)
@@ -157,3 +165,8 @@ echo "========================================="
 echo ""
 echo "IMPORTANT: Save these credentials - they are randomly generated for this deployment!"
 echo ""
+
+kubectl create secret generic "${CREDENTIALS_SECRET}" \
+    --from-file=review_env=/tmp/review.env \
+    -n "${NAMESPACE}" >/dev/null
+log_info "Credentials stored in secret ${CREDENTIALS_SECRET}"
