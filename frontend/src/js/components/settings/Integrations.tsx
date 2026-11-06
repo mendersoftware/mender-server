@@ -161,13 +161,10 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
         {isDeleting && (
           <ConfirmModal
             header="Delete integration?"
-            description={
-              <>
-                Are you sure you want to delete the <b>{title}</b> integration?
-              </>
-            }
+            description="This will remove the integration from your organization, and any services relying on it will stop working. Are you sure you want to continue?"
             confirmButtonText="Delete integration"
             open
+            isCritical
             close={() => setIsDeleting(false)}
             onConfirm={onDeleteConfirm}
           />

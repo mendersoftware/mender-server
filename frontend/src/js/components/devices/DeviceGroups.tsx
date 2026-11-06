@@ -17,6 +17,7 @@ import { useLocation, useParams } from 'react-router';
 import { Alert, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import Link from '@northern.tech/common-ui/Link';
 import PageTitle from '@northern.tech/common-ui/PageTitle';
@@ -73,7 +74,6 @@ import PreauthDialog, { DeviceLimitWarning } from './dialogs/PreauthDialog';
 import CreateDynamicGroup from './group-management/CreateDynamicGroup';
 import CreateGroup from './group-management/CreateGroup';
 import CreateGroupExplainer from './group-management/CreateGroupExplainer';
-import RemoveGroup from './group-management/RemoveGroup';
 import DeviceAdditionWidget from './widgets/DeviceAdditionWidget';
 
 const { setDeviceFilters, setShowConnectingDialog, setSnackbar } = storeActions;
@@ -233,7 +233,7 @@ export const DeviceGroups = () => {
    */
   const removeCurrentGroup = () => {
     const request = groupFilters.length ? dispatch(removeDynamicGroup(selectedGroup)) : dispatch(removeStaticGroup(selectedGroup));
-    return request.then(toggleGroupRemoval).catch(console.log);
+    return request.catch(console.log);
   };
 
   // Edit groups from device selection
@@ -388,7 +388,24 @@ export const DeviceGroups = () => {
             showsDialog={showDeviceConnectionDialog || removeGroup || modifyGroupDialog || createGroupExplanation || openIdDialog || openPreauth}
           />
         </div>
-        {removeGroup && <RemoveGroup onClose={toggleGroupRemoval} onRemove={removeCurrentGroup} />}
+        <ConfirmModal
+          open={removeGroup}
+          close={() => setRemoveGroup(false)}
+          header="Delete group?"
+          description={
+            <>
+              <Typography>
+                The device group <b>{selectedGroup}</b> will be deleted from the list for all users. This will not affect any active or scheduled deployments to
+                the devices in this group.
+              </Typography>
+              <Typography className="margin-top-small">
+                The devices will remain connected and visible under <b>All devices</b>. Are you sure you want to continue?
+              </Typography>
+            </>
+          }
+          confirmButtonText="Delete group"
+          onConfirm={removeCurrentGroup}
+        />
         {modifyGroupDialog && fromFilters && <CreateDynamicGroup onClose={onCreateGroupClose} onCreate={group => createGroupFromDialog(tmpDevices, group)} />}
         {modifyGroupDialog && !fromFilters && (
           <CreateGroup addListOfDevices={createGroupFromDialog} selectedDevices={tmpDevices} onClose={onCreateGroupClose} />

@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, buttonClasses, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
@@ -179,7 +179,7 @@ export const Deployments = ({ device }) => {
 
   const onResetStart = () => setIsChecking(true);
 
-  const onResetConfirm = () => dispatch(resetDeviceDeployments(device.id)).then(() => setIsChecking(false));
+  const onResetConfirm = () => dispatch(resetDeviceDeployments(device.id));
 
   const { deviceDeployments = [], deploymentsCount } = device;
 
@@ -204,15 +204,14 @@ export const Deployments = ({ device }) => {
             total={deploymentsCount}
           />
           <div className="flexbox margin-top relative">
-            {isChecking && (
-              <Confirm
-                classes="confirmation-overlay"
-                cancel={() => setIsChecking(false)}
-                action={onResetConfirm}
-                message="This will reset the stored device deployment history for this device. Are you sure?"
-                style={{ marginRight: 0 }}
-              />
-            )}
+            <ConfirmModal
+              open={isChecking}
+              close={() => setIsChecking(false)}
+              header="Reset deployment history?"
+              description="This will reset the stored device deployment history for this device. It won’t affect any software on the device. Do you want to continue?"
+              confirmButtonText="Reset deployment history"
+              onConfirm={onResetConfirm}
+            />
             <Button color="error" variant="outlined" onClick={onResetStart}>
               Reset device deployment history
             </Button>

@@ -80,8 +80,12 @@ test.describe('RBAC functionality', () => {
         .first()
         .getByRole('button', { name: /view details/i })
         .click();
-      await page.getByRole('button', { name: /delete user/i }).click();
-      await page.getByRole('button', { name: /delete user/i }).click();
+      await page.getByRole('button', { name: /remove user/i }).click();
+      await expect(page.getByText(/remove user\?/i)).toBeVisible();
+      await page
+        .getByRole('button', { name: /remove user/i })
+        .last()
+        .click();
     }
   });
   test.describe('configuration', () => {

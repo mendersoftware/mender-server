@@ -20,7 +20,7 @@ import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material
 import { PieChart as MuiPieChart } from '@mui/x-charts/PieChart';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import Loader from '@northern.tech/common-ui/Loader';
 import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareIndicator, softwareTitleMap } from '@northern.tech/store/constants';
 import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors';
@@ -274,15 +274,14 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
   }
   return (
     <div className="widget chart-widget relative">
-      {removing && (
-        <Confirm
-          classes="flexbox centered confirmation-overlay"
-          cancel={toggleRemoving}
-          action={onClick}
-          style={{ justifyContent: 'center' }}
-          type="chartRemoval"
-        />
-      )}
+      <ConfirmModal
+        open={removing}
+        close={() => setRemoving(false)}
+        header="Delete this widget?"
+        description="This widget is only visible on your dashboard, meaning any changes you make won't impact other users. Do you want to continue?"
+        confirmButtonText="Delete widget"
+        onConfirm={() => onClick()}
+      />
       <div className="margin-bottom-small">
         <div className="flexbox space-between margin-bottom-small">
           <Header chartType={chartType} />

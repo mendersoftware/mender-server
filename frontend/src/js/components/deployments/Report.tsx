@@ -17,10 +17,9 @@ import { useSelector } from 'react-redux';
 // material ui
 import { Block as BlockIcon, CheckCircleOutlined as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import { Alert, Button, Tooltip, Typography } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import Confirm from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Time from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -53,10 +52,6 @@ import DeploymentOverview from './deployment-report/Overview';
 import RolloutSchedule from './deployment-report/RolloutSchedule';
 
 const { setSnackbar } = storeActions;
-
-const useStyles = makeStyles()(() => ({
-  confirmation: { top: 0 }
-}));
 
 export const DeploymentAbortButton = ({ deployment, setAborting }) => (
   <Tooltip
@@ -101,7 +96,6 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   const rolloutSchedule = useRef();
   const timer = useRef();
   const onboardingTooltipAnchor = useRef();
-  const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const { deployment, selectedDevices } = useSelector(getSelectedDeploymentData);
   const devicesById = useSelector(getDevicesById);
@@ -262,9 +256,6 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
             </>
           ),
           onLinkCopy: copyLinkToClipboard,
-          postTitle: aborting ? (
-            <Confirm cancel={() => setAborting(false)} classes={classes.confirmation} action={() => abort(deployment.id)} type="abort" />
-          ) : undefined,
           preCloser: !finished ? (
             <DeploymentAbortButton setAborting={setAborting} deployment={deployment} />
           ) : (stats.failure || stats.aborted) && !isConfigurationDeployment ? (
@@ -289,6 +280,15 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
       notification={<DeploymentStateNotification deployment={deployment} totalDeviceCount={totalDeviceCount} />}
     >
       {!!onboardingComponent && onboardingComponent}
+      <ConfirmModal
+        open={aborting}
+        close={() => setAborting(false)}
+        header="Abort Deployment?"
+        description="This will end the deployment immediately. Any devices which have already updated will not roll back, but no additional devices will start the update. Are you sure you want to continue?"
+        confirmButtonText="Abort Deployment"
+        isCritical
+        onConfirm={() => abort(deployment.id)}
+      />
 
       <div>
         <ColumnWidthProvider>
