@@ -203,9 +203,7 @@ func TestRenderDeploymentLog(t *testing.T) {
 		{
 			// all correct
 			Log: model.DeploymentLog{
-				DeploymentID: "f826484e-1157-4109-af21-304e6d711560",
-				DeviceID:     "device-id-1",
-				Messages:     messages,
+				Messages: messages,
 			},
 			Body: `2006-01-02 22:04:05 +0000 UTC notice: foo
 2006-01-02 22:04:05 +0000 UTC debug: zed zed zed

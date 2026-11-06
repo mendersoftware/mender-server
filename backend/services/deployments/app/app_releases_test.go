@@ -339,8 +339,6 @@ func TestDeleteReleases(t *testing.T) {
 				ds := new(mocks.DataStore)
 				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{}, nil)
-				ds.On("DeleteImagesByNames", self.Context, self.ReleaseNames).
-					Return(nil)
 				ds.On("DeleteReleasesByNames", self.Context, self.ReleaseNames).
 					Return(nil)
 				return ds
@@ -375,22 +373,6 @@ func TestDeleteReleases(t *testing.T) {
 			Error: errors.New("some error"),
 		},
 		{
-			Name: "error: delete images error",
-
-			Context:      context.Background(),
-			ReleaseNames: []string{"foo", "bar"},
-
-			GetDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
-				ds := new(mocks.DataStore)
-				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
-					Return([]string{}, nil)
-				ds.On("DeleteImagesByNames", self.Context, self.ReleaseNames).
-					Return(errors.New("some error"))
-				return ds
-			},
-			Error: errors.New("some error"),
-		},
-		{
 			Name: "error: delete releases error",
 
 			Context:      context.Background(),
@@ -400,8 +382,6 @@ func TestDeleteReleases(t *testing.T) {
 				ds := new(mocks.DataStore)
 				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{}, nil)
-				ds.On("DeleteImagesByNames", self.Context, self.ReleaseNames).
-					Return(nil)
 				ds.On("DeleteReleasesByNames", self.Context, self.ReleaseNames).
 					Return(errors.New("some error"))
 				return ds

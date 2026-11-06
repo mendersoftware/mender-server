@@ -166,7 +166,7 @@ type App interface {
 	GetDeployment(ctx context.Context, deploymentID string) (*model.Deployment, error)
 	IsDeploymentFinished(ctx context.Context, deploymentID string) (bool, error)
 	AbortDeployment(ctx context.Context, deploymentID string) error
-	GetDeploymentStats(ctx context.Context, deploymentID string) (model.Stats, error)
+	GetDeploymentStats(ctx context.Context, deploymentID string) (*model.Stats, error)
 	GetDeploymentsStats(ctx context.Context,
 		deploymentIDs ...string) ([]*model.DeploymentStats, error)
 	GetDeploymentForDeviceWithCurrent(ctx context.Context, deviceID string,
@@ -342,28 +342,6 @@ func (d *Deployments) CreateImage(ctx context.Context,
 	return d.handleArtifact(ctx, multipartUploadMsg, false, nil)
 }
 
-func (d *Deployments) saveUpdateTypes(ctx context.Context, image *model.Image) {
-	l := log.FromContext(ctx)
-	if image != nil && image.ArtifactMeta != nil && len(image.ArtifactMeta.Updates) > 0 {
-		i := 0
-		updateTypes := make([]string, len(image.ArtifactMeta.Updates))
-		for _, t := range image.ArtifactMeta.Updates {
-			if t.TypeInfo.Type == nil {
-				continue
-			}
-			updateTypes[i] = *t.TypeInfo.Type
-			i++
-		}
-		err := d.db.SaveUpdateTypes(ctx, updateTypes[:i])
-		if err != nil {
-			l.Errorf(
-				"error while saving the update types for the artifact: %s",
-				err.Error(),
-			)
-		}
-	}
-}
-
 // handleArtifact parses artifact and uploads artifact file to the file storage - in parallel,
 // and creates image structure in the system.
 // Returns image ID, artifact file ID and nil on success.
@@ -373,7 +351,6 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 	metadata *model.DirectUploadMetadata,
 ) (string, error) {
 
-	l := log.FromContext(ctx)
 	ctx, err := d.contextWithStorageSettings(ctx)
 	if err != nil {
 		return "", err
@@ -469,24 +446,6 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 		metaArtifactConstructor,
 		size,
 	)
-
-	// save image structure in the system
-	if err = d.db.InsertImage(ctx, image); err != nil {
-		// Try to remove the storage from s3.
-		if errDelete := d.objectStorage.DeleteObject(
-			ctx, model.ImagePathFromContext(ctx, artifactID),
-		); errDelete != nil {
-			l.Errorf(
-				"failed to clean up artifact storage after failure: %s",
-				errDelete,
-			)
-		}
-		if idxErr, ok := err.(*model.ConflictError); ok {
-			return artifactID, idxErr
-		}
-		return artifactID, errors.Wrap(err, "Fail to store the metadata")
-	}
-	d.saveUpdateTypes(ctx, image)
 
 	// update release
 	if err := d.updateRelease(ctx, image, nil); err != nil {
@@ -610,20 +569,6 @@ func (d *Deployments) handleRawFile(ctx context.Context,
 	multipartMsg.ArtifactID = artifactID
 	filePath = model.ImagePathFromContext(ctx, artifactID+fileSuffixTmp)
 
-	// check if artifact is unique
-	// artifact is considered to be unique if there is no artifact with the same name
-	// and supporting the same platform in the system
-	isArtifactUnique, err := d.db.IsArtifactUnique(ctx,
-		multipartMsg.Name,
-		multipartMsg.DeviceTypesCompatible,
-	)
-	if err != nil {
-		return "", errors.Wrap(err, "Fail to check if artifact is unique")
-	}
-	if !isArtifactUnique {
-		return "", ErrModelArtifactNotUnique
-	}
-
 	ctx, err = d.contextWithStorageSettings(ctx)
 	if err != nil {
 		return "", err
@@ -723,11 +668,6 @@ func (d *Deployments) DeleteImage(ctx context.Context, imageID string) error {
 	imagePath := model.ImagePathFromContext(ctx, imageID)
 	if err := d.objectStorage.DeleteObject(ctx, imagePath); err != nil {
 		return errors.Wrap(err, "Deleting image file")
-	}
-
-	// Delete metadata
-	if err := d.db.DeleteImage(ctx, imageID); err != nil {
-		return errors.Wrap(err, "Deleting image metadata")
 	}
 
 	// update release
@@ -1058,7 +998,10 @@ func getMetaFromArchive(r *io.Reader, skipVerify bool) (*model.ArtifactMeta, err
 
 	metaArtifact.Name = aReader.GetArtifactName()
 	if metaArtifact.Info.Version == 3 {
-		metaArtifact.Depends, err = aReader.MergeArtifactDepends()
+		artifactDepends, err := aReader.MergeArtifactDepends()
+		if err == nil {
+			metaArtifact.Depends, err = model.DependsFromMenderArtifact(artifactDepends)
+		}
 		if err != nil {
 			return nil, errors.Wrap(err,
 				"error parsing version 3 artifact")
@@ -1098,7 +1041,7 @@ func getMetaFromArchive(r *io.Reader, skipVerify bool) (*model.ArtifactMeta, err
 	return metaArtifact, nil
 }
 
-func getArtifactIDs(artifacts []*model.Image) []string {
+func getArtifactIDs(artifacts []model.Image) []string {
 	artifactIDs := make([]string, 0, len(artifacts))
 	for _, artifact := range artifacts {
 		artifactIDs = append(artifactIDs, artifact.Id)
@@ -1186,7 +1129,7 @@ func (d *Deployments) CreateDeviceConfigurationDeployment(
 
 	deployment.DeviceList = []string{deviceID}
 	deployment.MaxDevices = 1
-	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
+	deployment.Statistics.Status.Pending = int64(deployment.MaxDevices)
 	deployment.Configuration = []byte(constructor.Configuration)
 	deployment.Type = model.DeploymentTypeConfiguration
 
@@ -1196,7 +1139,7 @@ func (d *Deployments) CreateDeviceConfigurationDeployment(
 	}
 	deployment.Groups = groups
 
-	if err := d.db.InsertDeployment(ctx, deployment); err != nil {
+	if err := d.db.InsertDeployment(ctx, *deployment); err != nil {
 		if err == mongo.ErrConflictingDeployment {
 			return "", ErrDuplicateDeployment
 		}
@@ -1235,22 +1178,21 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 		return "", errors.Wrap(err, "failed to create deployment")
 	}
 
-	// Assign artifacts to the deployment.
+	// Assign release to the deployment.
 	// When new artifact(s) with the artifact name same as the one in the deployment
 	// will be uploaded to the backend, it will also become part of this deployment.
-	artifacts, err := d.db.ImagesByName(ctx, deployment.ArtifactName)
+	release, err := d.db.GetRelease(ctx, deployment.ArtifactName)
 	if err != nil {
+		if errors.Is(err, store.ErrNotFound) {
+			return "", ErrNoArtifact
+		}
 		return "", errors.Wrap(err, "Finding artifact with given name")
 	}
 
-	if len(artifacts) == 0 {
-		return "", ErrNoArtifact
-	}
-
-	deployment.Artifacts = getArtifactIDs(artifacts)
+	deployment.Artifacts = getArtifactIDs(release.Artifacts)
 	deployment.DeviceList = constructor.Devices
-	deployment.MaxDevices = len(constructor.Devices)
-	deployment.Stats[model.DeviceDeploymentStatusPendingStr] = deployment.MaxDevices
+	deployment.MaxDevices = int64(len(constructor.Devices))
+	deployment.Statistics.Status.Pending = int64(deployment.MaxDevices)
 	deployment.Type = model.DeploymentTypeSoftware
 	deployment.Filter = getDeploymentFilter(constructor)
 	if len(constructor.Group) > 0 {
@@ -1266,7 +1208,7 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 		deployment.Groups = groups
 	}
 
-	if err := d.db.InsertDeployment(ctx, deployment); err != nil {
+	if err := d.db.InsertDeployment(ctx, *deployment); err != nil {
 		if err == mongo.ErrConflictingDeployment {
 			return "", ErrConflictingDeployment
 		}
@@ -1505,7 +1447,6 @@ func (d *Deployments) createDeviceDeploymentWithStatus(
 
 	deviceDeployment = model.NewDeviceDeployment(deviceID, deployment.Id)
 	deviceDeployment.Status = status
-	deviceDeployment.Active = status.Active()
 	deviceDeployment.Created = deployment.Created
 
 	if err := d.setDeploymentDeviceCountIfUnset(ctx, deployment); err != nil {
@@ -1736,10 +1677,11 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		}
 		beforeStatus := deployment.GetStatus()
 
-		deployment.Stats, err = d.db.UpdateStatsInc(ctx, dd.DeploymentId, old, ddState.Status)
+		stats, err := d.db.UpdateStatsInc(ctx, dd.DeploymentId, old, ddState.Status)
 		if err != nil {
 			return err
 		}
+		deployment.Statistics.Status = *stats
 		newStatus := deployment.GetStatus()
 		if beforeStatus != newStatus {
 			err = d.db.SetDeploymentStatus(ctx, dd.DeploymentId, newStatus, time.Now())
@@ -1749,24 +1691,11 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		}
 	}
 
-	if !ddState.Status.Active() {
-		l := log.FromContext(ctx)
-		ldd := model.DeviceDeployment{
-			DeviceId:     dd.DeviceId,
-			DeploymentId: dd.DeploymentId,
-			Id:           dd.Id,
-			Status:       ddState.Status,
-		}
-		if err := d.db.SaveLastDeviceDeploymentStatus(ctx, ldd); err != nil {
-			l.Error(errors.Wrap(err, "failed to save last device deployment status").Error())
-		}
-	}
-
 	return nil
 }
 
 func (d *Deployments) GetDeploymentStats(ctx context.Context,
-	deploymentID string) (model.Stats, error) {
+	deploymentID string) (*model.Stats, error) {
 
 	deployment, err := d.db.FindDeploymentByID(ctx, deploymentID)
 
@@ -1778,7 +1707,7 @@ func (d *Deployments) GetDeploymentStats(ctx context.Context,
 		return nil, nil
 	}
 
-	return deployment.Stats, nil
+	return &deployment.Statistics.Status, nil
 }
 func (d *Deployments) GetDeploymentsStats(ctx context.Context,
 	deploymentIDs ...string) (deploymentStats []*model.DeploymentStats, err error) {
@@ -1983,9 +1912,7 @@ func (d *Deployments) SaveDeviceDeploymentLog(ctx context.Context, deviceID stri
 
 	// repack to temporary deployment log and validate
 	dlog := model.DeploymentLog{
-		DeviceID:     deviceID,
-		DeploymentID: deploymentID,
-		Messages:     logs,
+		Messages: logs,
 	}
 	if err := dlog.Validate(); err != nil {
 		return errors.Wrap(err, ErrStorageInvalidLog.Error())
@@ -1999,12 +1926,7 @@ func (d *Deployments) SaveDeviceDeploymentLog(ctx context.Context, deviceID stri
 		}
 	}
 
-	if err := d.db.SaveDeviceDeploymentLog(ctx, dlog); err != nil {
-		return err
-	}
-
-	return d.db.UpdateDeviceDeploymentLogAvailability(ctx,
-		deviceID, deploymentID, true)
+	return d.db.SaveDeviceDeploymentLog(ctx, deviceID, deploymentID, dlog)
 }
 
 func (d *Deployments) GetDeviceDeploymentLog(ctx context.Context,
@@ -2033,7 +1955,7 @@ func (d *Deployments) AbortDeployment(ctx context.Context, deploymentID string) 
 	}
 
 	// update statistics
-	if err := d.db.UpdateStats(ctx, deploymentID, stats); err != nil {
+	if err := d.db.UpdateStats(ctx, deploymentID, *stats); err != nil {
 		return errors.Wrap(err, "failed to update deployment stats")
 	}
 
@@ -2219,15 +2141,15 @@ func (d *Deployments) UpdateDeploymentsWithArtifactName(
 		return nil
 	}
 
-	// Assign artifacts to the deployments with given artifact name
-	artifacts, err := d.db.ImagesByName(ctx, artifactName)
+	// Assign release to the deployments with given artifact name
+	release, err := d.db.GetRelease(ctx, artifactName)
 	if err != nil {
+		if errors.Is(err, store.ErrNotFound) {
+			return ErrNoArtifact
+		}
 		return errors.Wrap(err, "Finding artifact with given name")
 	}
 
-	if len(artifacts) == 0 {
-		return ErrNoArtifact
-	}
-	artifactIDs := getArtifactIDs(artifacts)
+	artifactIDs := getArtifactIDs(release.Artifacts)
 	return d.db.UpdateDeploymentsWithArtifactName(ctx, artifactName, artifactIDs)
 }

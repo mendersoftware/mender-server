@@ -34,6 +34,13 @@ type Identity struct {
 	Trial    bool           `json:"mender.trial"`
 }
 
+func (id *Identity) GetTenantID() string {
+	if id == nil {
+		return ""
+	}
+	return id.Tenant
+}
+
 // ExtractJWTFromHeader inspect the Authorization header for a Bearer token and
 // if not present looks for a "JWT" cookie.
 func ExtractJWTFromHeader(r *http.Request) (jwt string, err error) {

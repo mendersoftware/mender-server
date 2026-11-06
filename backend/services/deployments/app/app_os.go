@@ -16,6 +16,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/pkg/errors"
 
@@ -78,18 +79,10 @@ func (d *Deployments) assignArtifact(
 	// New artifact will be selected for the device deployment
 	deviceDeployment.Image = nil
 
-	// First case is for backward compatibility.
-	// It is possible that there is old deployment structure in the system.
-	// In such case we need to select artifact using name and device type.
 	if len(deployment.Artifacts) == 0 {
-		artifact, err = d.db.ImageByNameAndDeviceType(
-			ctx,
-			installed.ArtifactName,
-			installed.DeviceType,
-		)
-		if err != nil {
-			return errors.Wrap(err, "assigning artifact to device deployment")
-		}
+		// It is possible that there is old deployment structure in the system.
+		// In such case we return an error
+		return fmt.Errorf("no assigned artifacts for deployment")
 	} else {
 		// Select artifact for the device deployment from artifacts assigned to the deployment.
 		artifact, err = d.db.ImageByIdsAndDeviceType(

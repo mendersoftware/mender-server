@@ -28,11 +28,13 @@ type DataStore interface {
 	//releases
 	GetReleases(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]model.Release, int, error)
 	GetRelease(ctx context.Context, releaseName string) (*model.Release, error)
-	UpdateReleaseArtifacts(
+	RemoveArtifactFromRelease(
 		ctx context.Context,
-		artifactToAdd *model.Image,
-		artifactToRemove *model.Image,
-		releaseName string,
+		artifactID string,
+	) error
+	AddArtifactToRelease(
+		ctx context.Context,
+		artifact model.Image,
 	) error
 	UpdateReleaseArtifactDescription(
 		ctx context.Context,
@@ -53,22 +55,12 @@ type DataStore interface {
 	// images
 	Exists(ctx context.Context, id string) (bool, error)
 	Update(ctx context.Context, image *model.Image) (bool, error)
-	InsertImage(ctx context.Context, image *model.Image) error
 	FindImageByID(ctx context.Context, id string) (*model.Image, error)
-	IsArtifactUnique(ctx context.Context, artifactName string,
-		deviceTypesCompatible []string) (bool, error)
-	DeleteImage(ctx context.Context, id string) error
 	ListImages(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]*model.Image, int, error)
 	ListImagesV2(ctx context.Context, filt *model.ImageFilter) ([]*model.Image, error)
-	DeleteImagesByNames(ctx context.Context, names []string) error
 
-	//artifact getter
-	ImagesByName(ctx context.Context,
-		artifactName string) ([]*model.Image, error)
 	ImageByIdsAndDeviceType(ctx context.Context,
 		ids []string, deviceType string) (*model.Image, error)
-	ImageByNameAndDeviceType(ctx context.Context,
-		name, deviceType string) (*model.Image, error)
 
 	// upload intents
 	InsertUploadIntent(ctx context.Context, link *model.UploadLink) error
@@ -76,7 +68,9 @@ type DataStore interface {
 	FindUploadLinks(ctx context.Context, expired time.Time) (Iterator[model.UploadLink], error)
 
 	//device deployment log
-	SaveDeviceDeploymentLog(ctx context.Context, log model.DeploymentLog) error
+	SaveDeviceDeploymentLog(
+		ctx context.Context, deviceID, deploymentID string, log model.DeploymentLog,
+	) error
 	GetDeviceDeploymentLog(ctx context.Context,
 		deviceID, deploymentID string) (*model.DeploymentLog, error)
 
@@ -100,8 +94,6 @@ type DataStore interface {
 		state model.DeviceDeploymentState,
 		currentStatus model.DeviceDeploymentStatus,
 	) (model.DeviceDeploymentStatus, error)
-	UpdateDeviceDeploymentLogAvailability(ctx context.Context,
-		deviceID string, deploymentID string, log bool) error
 	AssignArtifact(
 		ctx context.Context,
 		deviceID string,
@@ -109,7 +101,7 @@ type DataStore interface {
 		artifact *model.Image,
 	) error
 	AggregateDeviceDeploymentByStatus(ctx context.Context,
-		id string) (model.Stats, error)
+		id string) (*model.Stats, error)
 	GetDeviceStatusesForDeployment(ctx context.Context,
 		deploymentID string) ([]model.DeviceDeployment, error)
 	GetDevicesListForDeployment(ctx context.Context,
@@ -138,7 +130,7 @@ type DataStore interface {
 	) error
 
 	// deployments
-	InsertDeployment(ctx context.Context, deployment *model.Deployment) error
+	InsertDeployment(ctx context.Context, deployment model.Deployment) error
 	DeleteDeployment(ctx context.Context, id string) error
 	FindDeploymentByID(ctx context.Context, id string) (*model.Deployment, error)
 	FindDeploymentStatsByIDs(ctx context.Context, ids ...string) ([]*model.DeploymentStats, error)
@@ -149,7 +141,7 @@ type DataStore interface {
 		id string,
 		stateFrom,
 		stateTo model.DeviceDeploymentStatus,
-	) (model.Stats, error)
+	) (*model.Stats, error)
 	UpdateStats(ctx context.Context,
 		id string, stats model.Stats) error
 	FindDeployments(
@@ -169,10 +161,10 @@ type DataStore interface {
 	ExistUnfinishedByArtifactId(ctx context.Context, id string) (bool, error)
 	ExistUnfinishedByArtifactName(ctx context.Context, artifactName string) (bool, error)
 	ExistByArtifactId(ctx context.Context, id string) (bool, error)
-	SetDeploymentDeviceCount(ctx context.Context, deploymentID string, count int) error
-	IncrementDeploymentDeviceCount(ctx context.Context, deploymentID string, increment int) error
+	SetDeploymentDeviceCount(ctx context.Context, deploymentID string, count int64) error
+	IncrementDeploymentDeviceCount(ctx context.Context, deploymentID string, increment int64) error
 	IncrementDeploymentTotalSize(ctx context.Context, deploymentID string, increment int64) error
-	DeviceCountByDeployment(ctx context.Context, id string) (int, error)
+	DeviceCountByDeployment(ctx context.Context, id string) (int64, error)
 	UpdateDeploymentsWithArtifactName(
 		ctx context.Context,
 		artifactName string,
@@ -183,11 +175,6 @@ type DataStore interface {
 		artifactNames []string,
 	) ([]string, error)
 
-	GetTenantDbs() ([]string, error)
-	SaveLastDeviceDeploymentStatus(
-		ctx context.Context,
-		deviceDeployment model.DeviceDeployment,
-	) error
 	GetLastDeviceDeploymentStatus(
 		ctx context.Context,
 		devicesIds []string,
@@ -205,7 +192,6 @@ type DataStore interface {
 		release model.ReleasePatch,
 	) error
 	ListReleaseTags(ctx context.Context) (model.Tags, error)
-	SaveUpdateTypes(ctx context.Context, updateTypes []string) error
 	GetUpdateTypes(ctx context.Context) ([]string, error)
 	DeleteReleasesByNames(ctx context.Context, names []string) error
 

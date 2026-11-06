@@ -106,24 +106,81 @@ func (_c *DataStore_AbortDeviceDeployments_Call) RunAndReturn(run func(ctx conte
 	return _c
 }
 
+// AddArtifactToRelease provides a mock function for the type DataStore
+func (_mock *DataStore) AddArtifactToRelease(ctx context.Context, artifact model.Image) error {
+	ret := _mock.Called(ctx, artifact)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddArtifactToRelease")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, model.Image) error); ok {
+		r0 = returnFunc(ctx, artifact)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// DataStore_AddArtifactToRelease_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddArtifactToRelease'
+type DataStore_AddArtifactToRelease_Call struct {
+	*mock.Call
+}
+
+// AddArtifactToRelease is a helper method to define mock.On call
+//   - ctx context.Context
+//   - artifact model.Image
+func (_e *DataStore_Expecter) AddArtifactToRelease(ctx any, artifact any) *DataStore_AddArtifactToRelease_Call {
+	return &DataStore_AddArtifactToRelease_Call{Call: _e.mock.On("AddArtifactToRelease", ctx, artifact)}
+}
+
+func (_c *DataStore_AddArtifactToRelease_Call) Run(run func(ctx context.Context, artifact model.Image)) *DataStore_AddArtifactToRelease_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 model.Image
+		if args[1] != nil {
+			arg1 = args[1].(model.Image)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *DataStore_AddArtifactToRelease_Call) Return(err error) *DataStore_AddArtifactToRelease_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *DataStore_AddArtifactToRelease_Call) RunAndReturn(run func(ctx context.Context, artifact model.Image) error) *DataStore_AddArtifactToRelease_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AggregateDeviceDeploymentByStatus provides a mock function for the type DataStore
-func (_mock *DataStore) AggregateDeviceDeploymentByStatus(ctx context.Context, id string) (model.Stats, error) {
+func (_mock *DataStore) AggregateDeviceDeploymentByStatus(ctx context.Context, id string) (*model.Stats, error) {
 	ret := _mock.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for AggregateDeviceDeploymentByStatus")
 	}
 
-	var r0 model.Stats
+	var r0 *model.Stats
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (model.Stats, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Stats, error)); ok {
 		return returnFunc(ctx, id)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) model.Stats); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Stats); ok {
 		r0 = returnFunc(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(model.Stats)
+			r0 = ret.Get(0).(*model.Stats)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -164,12 +221,12 @@ func (_c *DataStore_AggregateDeviceDeploymentByStatus_Call) Run(run func(ctx con
 	return _c
 }
 
-func (_c *DataStore_AggregateDeviceDeploymentByStatus_Call) Return(stats model.Stats, err error) *DataStore_AggregateDeviceDeploymentByStatus_Call {
+func (_c *DataStore_AggregateDeviceDeploymentByStatus_Call) Return(stats *model.Stats, err error) *DataStore_AggregateDeviceDeploymentByStatus_Call {
 	_c.Call.Return(stats, err)
 	return _c
 }
 
-func (_c *DataStore_AggregateDeviceDeploymentByStatus_Call) RunAndReturn(run func(ctx context.Context, id string) (model.Stats, error)) *DataStore_AggregateDeviceDeploymentByStatus_Call {
+func (_c *DataStore_AggregateDeviceDeploymentByStatus_Call) RunAndReturn(run func(ctx context.Context, id string) (*model.Stats, error)) *DataStore_AggregateDeviceDeploymentByStatus_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -414,120 +471,6 @@ func (_c *DataStore_DeleteDeviceDeploymentsHistory_Call) RunAndReturn(run func(c
 	return _c
 }
 
-// DeleteImage provides a mock function for the type DataStore
-func (_mock *DataStore) DeleteImage(ctx context.Context, id string) error {
-	ret := _mock.Called(ctx, id)
-
-	if len(ret) == 0 {
-		panic("no return value specified for DeleteImage")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = returnFunc(ctx, id)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_DeleteImage_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteImage'
-type DataStore_DeleteImage_Call struct {
-	*mock.Call
-}
-
-// DeleteImage is a helper method to define mock.On call
-//   - ctx context.Context
-//   - id string
-func (_e *DataStore_Expecter) DeleteImage(ctx any, id any) *DataStore_DeleteImage_Call {
-	return &DataStore_DeleteImage_Call{Call: _e.mock.On("DeleteImage", ctx, id)}
-}
-
-func (_c *DataStore_DeleteImage_Call) Run(run func(ctx context.Context, id string)) *DataStore_DeleteImage_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 string
-		if args[1] != nil {
-			arg1 = args[1].(string)
-		}
-		run(
-			arg0,
-			arg1,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_DeleteImage_Call) Return(err error) *DataStore_DeleteImage_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_DeleteImage_Call) RunAndReturn(run func(ctx context.Context, id string) error) *DataStore_DeleteImage_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// DeleteImagesByNames provides a mock function for the type DataStore
-func (_mock *DataStore) DeleteImagesByNames(ctx context.Context, names []string) error {
-	ret := _mock.Called(ctx, names)
-
-	if len(ret) == 0 {
-		panic("no return value specified for DeleteImagesByNames")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, []string) error); ok {
-		r0 = returnFunc(ctx, names)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_DeleteImagesByNames_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteImagesByNames'
-type DataStore_DeleteImagesByNames_Call struct {
-	*mock.Call
-}
-
-// DeleteImagesByNames is a helper method to define mock.On call
-//   - ctx context.Context
-//   - names []string
-func (_e *DataStore_Expecter) DeleteImagesByNames(ctx any, names any) *DataStore_DeleteImagesByNames_Call {
-	return &DataStore_DeleteImagesByNames_Call{Call: _e.mock.On("DeleteImagesByNames", ctx, names)}
-}
-
-func (_c *DataStore_DeleteImagesByNames_Call) Run(run func(ctx context.Context, names []string)) *DataStore_DeleteImagesByNames_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 []string
-		if args[1] != nil {
-			arg1 = args[1].([]string)
-		}
-		run(
-			arg0,
-			arg1,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_DeleteImagesByNames_Call) Return(err error) *DataStore_DeleteImagesByNames_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_DeleteImagesByNames_Call) RunAndReturn(run func(ctx context.Context, names []string) error) *DataStore_DeleteImagesByNames_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // DeleteReleasesByNames provides a mock function for the type DataStore
 func (_mock *DataStore) DeleteReleasesByNames(ctx context.Context, names []string) error {
 	ret := _mock.Called(ctx, names)
@@ -586,22 +529,22 @@ func (_c *DataStore_DeleteReleasesByNames_Call) RunAndReturn(run func(ctx contex
 }
 
 // DeviceCountByDeployment provides a mock function for the type DataStore
-func (_mock *DataStore) DeviceCountByDeployment(ctx context.Context, id string) (int, error) {
+func (_mock *DataStore) DeviceCountByDeployment(ctx context.Context, id string) (int64, error) {
 	ret := _mock.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for DeviceCountByDeployment")
 	}
 
-	var r0 int
+	var r0 int64
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (int, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (int64, error)); ok {
 		return returnFunc(ctx, id)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) int); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) int64); ok {
 		r0 = returnFunc(ctx, id)
 	} else {
-		r0 = ret.Get(0).(int)
+		r0 = ret.Get(0).(int64)
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = returnFunc(ctx, id)
@@ -641,12 +584,12 @@ func (_c *DataStore_DeviceCountByDeployment_Call) Run(run func(ctx context.Conte
 	return _c
 }
 
-func (_c *DataStore_DeviceCountByDeployment_Call) Return(n int, err error) *DataStore_DeviceCountByDeployment_Call {
+func (_c *DataStore_DeviceCountByDeployment_Call) Return(n int64, err error) *DataStore_DeviceCountByDeployment_Call {
 	_c.Call.Return(n, err)
 	return _c
 }
 
-func (_c *DataStore_DeviceCountByDeployment_Call) RunAndReturn(run func(ctx context.Context, id string) (int, error)) *DataStore_DeviceCountByDeployment_Call {
+func (_c *DataStore_DeviceCountByDeployment_Call) RunAndReturn(run func(ctx context.Context, id string) (int64, error)) *DataStore_DeviceCountByDeployment_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2498,61 +2441,6 @@ func (_c *DataStore_GetStorageSettings_Call) RunAndReturn(run func(ctx context.C
 	return _c
 }
 
-// GetTenantDbs provides a mock function for the type DataStore
-func (_mock *DataStore) GetTenantDbs() ([]string, error) {
-	ret := _mock.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetTenantDbs")
-	}
-
-	var r0 []string
-	var r1 error
-	if returnFunc, ok := ret.Get(0).(func() ([]string, error)); ok {
-		return returnFunc()
-	}
-	if returnFunc, ok := ret.Get(0).(func() []string); ok {
-		r0 = returnFunc()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]string)
-		}
-	}
-	if returnFunc, ok := ret.Get(1).(func() error); ok {
-		r1 = returnFunc()
-	} else {
-		r1 = ret.Error(1)
-	}
-	return r0, r1
-}
-
-// DataStore_GetTenantDbs_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTenantDbs'
-type DataStore_GetTenantDbs_Call struct {
-	*mock.Call
-}
-
-// GetTenantDbs is a helper method to define mock.On call
-func (_e *DataStore_Expecter) GetTenantDbs() *DataStore_GetTenantDbs_Call {
-	return &DataStore_GetTenantDbs_Call{Call: _e.mock.On("GetTenantDbs")}
-}
-
-func (_c *DataStore_GetTenantDbs_Call) Run(run func()) *DataStore_GetTenantDbs_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *DataStore_GetTenantDbs_Call) Return(strings []string, err error) *DataStore_GetTenantDbs_Call {
-	_c.Call.Return(strings, err)
-	return _c
-}
-
-func (_c *DataStore_GetTenantDbs_Call) RunAndReturn(run func() ([]string, error)) *DataStore_GetTenantDbs_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // GetUpdateTypes provides a mock function for the type DataStore
 func (_mock *DataStore) GetUpdateTypes(ctx context.Context) ([]string, error) {
 	ret := _mock.Called(ctx)
@@ -2761,150 +2649,8 @@ func (_c *DataStore_ImageByIdsAndDeviceType_Call) RunAndReturn(run func(ctx cont
 	return _c
 }
 
-// ImageByNameAndDeviceType provides a mock function for the type DataStore
-func (_mock *DataStore) ImageByNameAndDeviceType(ctx context.Context, name string, deviceType string) (*model.Image, error) {
-	ret := _mock.Called(ctx, name, deviceType)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ImageByNameAndDeviceType")
-	}
-
-	var r0 *model.Image
-	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (*model.Image, error)); ok {
-		return returnFunc(ctx, name, deviceType)
-	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) *model.Image); ok {
-		r0 = returnFunc(ctx, name, deviceType)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Image)
-		}
-	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
-		r1 = returnFunc(ctx, name, deviceType)
-	} else {
-		r1 = ret.Error(1)
-	}
-	return r0, r1
-}
-
-// DataStore_ImageByNameAndDeviceType_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ImageByNameAndDeviceType'
-type DataStore_ImageByNameAndDeviceType_Call struct {
-	*mock.Call
-}
-
-// ImageByNameAndDeviceType is a helper method to define mock.On call
-//   - ctx context.Context
-//   - name string
-//   - deviceType string
-func (_e *DataStore_Expecter) ImageByNameAndDeviceType(ctx any, name any, deviceType any) *DataStore_ImageByNameAndDeviceType_Call {
-	return &DataStore_ImageByNameAndDeviceType_Call{Call: _e.mock.On("ImageByNameAndDeviceType", ctx, name, deviceType)}
-}
-
-func (_c *DataStore_ImageByNameAndDeviceType_Call) Run(run func(ctx context.Context, name string, deviceType string)) *DataStore_ImageByNameAndDeviceType_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 string
-		if args[1] != nil {
-			arg1 = args[1].(string)
-		}
-		var arg2 string
-		if args[2] != nil {
-			arg2 = args[2].(string)
-		}
-		run(
-			arg0,
-			arg1,
-			arg2,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_ImageByNameAndDeviceType_Call) Return(image *model.Image, err error) *DataStore_ImageByNameAndDeviceType_Call {
-	_c.Call.Return(image, err)
-	return _c
-}
-
-func (_c *DataStore_ImageByNameAndDeviceType_Call) RunAndReturn(run func(ctx context.Context, name string, deviceType string) (*model.Image, error)) *DataStore_ImageByNameAndDeviceType_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// ImagesByName provides a mock function for the type DataStore
-func (_mock *DataStore) ImagesByName(ctx context.Context, artifactName string) ([]*model.Image, error) {
-	ret := _mock.Called(ctx, artifactName)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ImagesByName")
-	}
-
-	var r0 []*model.Image
-	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) ([]*model.Image, error)); ok {
-		return returnFunc(ctx, artifactName)
-	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) []*model.Image); ok {
-		r0 = returnFunc(ctx, artifactName)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.Image)
-		}
-	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = returnFunc(ctx, artifactName)
-	} else {
-		r1 = ret.Error(1)
-	}
-	return r0, r1
-}
-
-// DataStore_ImagesByName_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ImagesByName'
-type DataStore_ImagesByName_Call struct {
-	*mock.Call
-}
-
-// ImagesByName is a helper method to define mock.On call
-//   - ctx context.Context
-//   - artifactName string
-func (_e *DataStore_Expecter) ImagesByName(ctx any, artifactName any) *DataStore_ImagesByName_Call {
-	return &DataStore_ImagesByName_Call{Call: _e.mock.On("ImagesByName", ctx, artifactName)}
-}
-
-func (_c *DataStore_ImagesByName_Call) Run(run func(ctx context.Context, artifactName string)) *DataStore_ImagesByName_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 string
-		if args[1] != nil {
-			arg1 = args[1].(string)
-		}
-		run(
-			arg0,
-			arg1,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_ImagesByName_Call) Return(images []*model.Image, err error) *DataStore_ImagesByName_Call {
-	_c.Call.Return(images, err)
-	return _c
-}
-
-func (_c *DataStore_ImagesByName_Call) RunAndReturn(run func(ctx context.Context, artifactName string) ([]*model.Image, error)) *DataStore_ImagesByName_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // IncrementDeploymentDeviceCount provides a mock function for the type DataStore
-func (_mock *DataStore) IncrementDeploymentDeviceCount(ctx context.Context, deploymentID string, increment int) error {
+func (_mock *DataStore) IncrementDeploymentDeviceCount(ctx context.Context, deploymentID string, increment int64) error {
 	ret := _mock.Called(ctx, deploymentID, increment)
 
 	if len(ret) == 0 {
@@ -2912,7 +2658,7 @@ func (_mock *DataStore) IncrementDeploymentDeviceCount(ctx context.Context, depl
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, int) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, int64) error); ok {
 		r0 = returnFunc(ctx, deploymentID, increment)
 	} else {
 		r0 = ret.Error(0)
@@ -2928,12 +2674,12 @@ type DataStore_IncrementDeploymentDeviceCount_Call struct {
 // IncrementDeploymentDeviceCount is a helper method to define mock.On call
 //   - ctx context.Context
 //   - deploymentID string
-//   - increment int
+//   - increment int64
 func (_e *DataStore_Expecter) IncrementDeploymentDeviceCount(ctx any, deploymentID any, increment any) *DataStore_IncrementDeploymentDeviceCount_Call {
 	return &DataStore_IncrementDeploymentDeviceCount_Call{Call: _e.mock.On("IncrementDeploymentDeviceCount", ctx, deploymentID, increment)}
 }
 
-func (_c *DataStore_IncrementDeploymentDeviceCount_Call) Run(run func(ctx context.Context, deploymentID string, increment int)) *DataStore_IncrementDeploymentDeviceCount_Call {
+func (_c *DataStore_IncrementDeploymentDeviceCount_Call) Run(run func(ctx context.Context, deploymentID string, increment int64)) *DataStore_IncrementDeploymentDeviceCount_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -2943,9 +2689,9 @@ func (_c *DataStore_IncrementDeploymentDeviceCount_Call) Run(run func(ctx contex
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 int
+		var arg2 int64
 		if args[2] != nil {
-			arg2 = args[2].(int)
+			arg2 = args[2].(int64)
 		}
 		run(
 			arg0,
@@ -2961,7 +2707,7 @@ func (_c *DataStore_IncrementDeploymentDeviceCount_Call) Return(err error) *Data
 	return _c
 }
 
-func (_c *DataStore_IncrementDeploymentDeviceCount_Call) RunAndReturn(run func(ctx context.Context, deploymentID string, increment int) error) *DataStore_IncrementDeploymentDeviceCount_Call {
+func (_c *DataStore_IncrementDeploymentDeviceCount_Call) RunAndReturn(run func(ctx context.Context, deploymentID string, increment int64) error) *DataStore_IncrementDeploymentDeviceCount_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3030,7 +2776,7 @@ func (_c *DataStore_IncrementDeploymentTotalSize_Call) RunAndReturn(run func(ctx
 }
 
 // InsertDeployment provides a mock function for the type DataStore
-func (_mock *DataStore) InsertDeployment(ctx context.Context, deployment *model.Deployment) error {
+func (_mock *DataStore) InsertDeployment(ctx context.Context, deployment model.Deployment) error {
 	ret := _mock.Called(ctx, deployment)
 
 	if len(ret) == 0 {
@@ -3038,7 +2784,7 @@ func (_mock *DataStore) InsertDeployment(ctx context.Context, deployment *model.
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *model.Deployment) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, model.Deployment) error); ok {
 		r0 = returnFunc(ctx, deployment)
 	} else {
 		r0 = ret.Error(0)
@@ -3053,20 +2799,20 @@ type DataStore_InsertDeployment_Call struct {
 
 // InsertDeployment is a helper method to define mock.On call
 //   - ctx context.Context
-//   - deployment *model.Deployment
+//   - deployment model.Deployment
 func (_e *DataStore_Expecter) InsertDeployment(ctx any, deployment any) *DataStore_InsertDeployment_Call {
 	return &DataStore_InsertDeployment_Call{Call: _e.mock.On("InsertDeployment", ctx, deployment)}
 }
 
-func (_c *DataStore_InsertDeployment_Call) Run(run func(ctx context.Context, deployment *model.Deployment)) *DataStore_InsertDeployment_Call {
+func (_c *DataStore_InsertDeployment_Call) Run(run func(ctx context.Context, deployment model.Deployment)) *DataStore_InsertDeployment_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 *model.Deployment
+		var arg1 model.Deployment
 		if args[1] != nil {
-			arg1 = args[1].(*model.Deployment)
+			arg1 = args[1].(model.Deployment)
 		}
 		run(
 			arg0,
@@ -3081,7 +2827,7 @@ func (_c *DataStore_InsertDeployment_Call) Return(err error) *DataStore_InsertDe
 	return _c
 }
 
-func (_c *DataStore_InsertDeployment_Call) RunAndReturn(run func(ctx context.Context, deployment *model.Deployment) error) *DataStore_InsertDeployment_Call {
+func (_c *DataStore_InsertDeployment_Call) RunAndReturn(run func(ctx context.Context, deployment model.Deployment) error) *DataStore_InsertDeployment_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3145,63 +2891,6 @@ func (_c *DataStore_InsertDeviceDeployment_Call) Return(err error) *DataStore_In
 }
 
 func (_c *DataStore_InsertDeviceDeployment_Call) RunAndReturn(run func(ctx context.Context, deviceDeployment *model.DeviceDeployment, incrementDeviceCount bool) error) *DataStore_InsertDeviceDeployment_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// InsertImage provides a mock function for the type DataStore
-func (_mock *DataStore) InsertImage(ctx context.Context, image *model.Image) error {
-	ret := _mock.Called(ctx, image)
-
-	if len(ret) == 0 {
-		panic("no return value specified for InsertImage")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *model.Image) error); ok {
-		r0 = returnFunc(ctx, image)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_InsertImage_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InsertImage'
-type DataStore_InsertImage_Call struct {
-	*mock.Call
-}
-
-// InsertImage is a helper method to define mock.On call
-//   - ctx context.Context
-//   - image *model.Image
-func (_e *DataStore_Expecter) InsertImage(ctx any, image any) *DataStore_InsertImage_Call {
-	return &DataStore_InsertImage_Call{Call: _e.mock.On("InsertImage", ctx, image)}
-}
-
-func (_c *DataStore_InsertImage_Call) Run(run func(ctx context.Context, image *model.Image)) *DataStore_InsertImage_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 *model.Image
-		if args[1] != nil {
-			arg1 = args[1].(*model.Image)
-		}
-		run(
-			arg0,
-			arg1,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_InsertImage_Call) Return(err error) *DataStore_InsertImage_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_InsertImage_Call) RunAndReturn(run func(ctx context.Context, image *model.Image) error) *DataStore_InsertImage_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3325,78 +3014,6 @@ func (_c *DataStore_InsertUploadIntent_Call) Return(err error) *DataStore_Insert
 }
 
 func (_c *DataStore_InsertUploadIntent_Call) RunAndReturn(run func(ctx context.Context, link *model.UploadLink) error) *DataStore_InsertUploadIntent_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// IsArtifactUnique provides a mock function for the type DataStore
-func (_mock *DataStore) IsArtifactUnique(ctx context.Context, artifactName string, deviceTypesCompatible []string) (bool, error) {
-	ret := _mock.Called(ctx, artifactName, deviceTypesCompatible)
-
-	if len(ret) == 0 {
-		panic("no return value specified for IsArtifactUnique")
-	}
-
-	var r0 bool
-	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, []string) (bool, error)); ok {
-		return returnFunc(ctx, artifactName, deviceTypesCompatible)
-	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, []string) bool); ok {
-		r0 = returnFunc(ctx, artifactName, deviceTypesCompatible)
-	} else {
-		r0 = ret.Get(0).(bool)
-	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string, []string) error); ok {
-		r1 = returnFunc(ctx, artifactName, deviceTypesCompatible)
-	} else {
-		r1 = ret.Error(1)
-	}
-	return r0, r1
-}
-
-// DataStore_IsArtifactUnique_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'IsArtifactUnique'
-type DataStore_IsArtifactUnique_Call struct {
-	*mock.Call
-}
-
-// IsArtifactUnique is a helper method to define mock.On call
-//   - ctx context.Context
-//   - artifactName string
-//   - deviceTypesCompatible []string
-func (_e *DataStore_Expecter) IsArtifactUnique(ctx any, artifactName any, deviceTypesCompatible any) *DataStore_IsArtifactUnique_Call {
-	return &DataStore_IsArtifactUnique_Call{Call: _e.mock.On("IsArtifactUnique", ctx, artifactName, deviceTypesCompatible)}
-}
-
-func (_c *DataStore_IsArtifactUnique_Call) Run(run func(ctx context.Context, artifactName string, deviceTypesCompatible []string)) *DataStore_IsArtifactUnique_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 string
-		if args[1] != nil {
-			arg1 = args[1].(string)
-		}
-		var arg2 []string
-		if args[2] != nil {
-			arg2 = args[2].([]string)
-		}
-		run(
-			arg0,
-			arg1,
-			arg2,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_IsArtifactUnique_Call) Return(b bool, err error) *DataStore_IsArtifactUnique_Call {
-	_c.Call.Return(b, err)
-	return _c
-}
-
-func (_c *DataStore_IsArtifactUnique_Call) RunAndReturn(run func(ctx context.Context, artifactName string, deviceTypesCompatible []string) (bool, error)) *DataStore_IsArtifactUnique_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3855,6 +3472,63 @@ func (_c *DataStore_ProvisionTenant_Call) RunAndReturn(run func(ctx context.Cont
 	return _c
 }
 
+// RemoveArtifactFromRelease provides a mock function for the type DataStore
+func (_mock *DataStore) RemoveArtifactFromRelease(ctx context.Context, artifactID string) error {
+	ret := _mock.Called(ctx, artifactID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RemoveArtifactFromRelease")
+	}
+
+	var r0 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = returnFunc(ctx, artifactID)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
+// DataStore_RemoveArtifactFromRelease_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RemoveArtifactFromRelease'
+type DataStore_RemoveArtifactFromRelease_Call struct {
+	*mock.Call
+}
+
+// RemoveArtifactFromRelease is a helper method to define mock.On call
+//   - ctx context.Context
+//   - artifactID string
+func (_e *DataStore_Expecter) RemoveArtifactFromRelease(ctx any, artifactID any) *DataStore_RemoveArtifactFromRelease_Call {
+	return &DataStore_RemoveArtifactFromRelease_Call{Call: _e.mock.On("RemoveArtifactFromRelease", ctx, artifactID)}
+}
+
+func (_c *DataStore_RemoveArtifactFromRelease_Call) Run(run func(ctx context.Context, artifactID string)) *DataStore_RemoveArtifactFromRelease_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *DataStore_RemoveArtifactFromRelease_Call) Return(err error) *DataStore_RemoveArtifactFromRelease_Call {
+	_c.Call.Return(err)
+	return _c
+}
+
+func (_c *DataStore_RemoveArtifactFromRelease_Call) RunAndReturn(run func(ctx context.Context, artifactID string) error) *DataStore_RemoveArtifactFromRelease_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ReplaceReleaseTags provides a mock function for the type DataStore
 func (_mock *DataStore) ReplaceReleaseTags(ctx context.Context, releaseName string, tags model.Tags) error {
 	ret := _mock.Called(ctx, releaseName, tags)
@@ -3919,16 +3593,16 @@ func (_c *DataStore_ReplaceReleaseTags_Call) RunAndReturn(run func(ctx context.C
 }
 
 // SaveDeviceDeploymentLog provides a mock function for the type DataStore
-func (_mock *DataStore) SaveDeviceDeploymentLog(ctx context.Context, log model.DeploymentLog) error {
-	ret := _mock.Called(ctx, log)
+func (_mock *DataStore) SaveDeviceDeploymentLog(ctx context.Context, deviceID string, deploymentID string, log model.DeploymentLog) error {
+	ret := _mock.Called(ctx, deviceID, deploymentID, log)
 
 	if len(ret) == 0 {
 		panic("no return value specified for SaveDeviceDeploymentLog")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, model.DeploymentLog) error); ok {
-		r0 = returnFunc(ctx, log)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, model.DeploymentLog) error); ok {
+		r0 = returnFunc(ctx, deviceID, deploymentID, log)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -3942,24 +3616,36 @@ type DataStore_SaveDeviceDeploymentLog_Call struct {
 
 // SaveDeviceDeploymentLog is a helper method to define mock.On call
 //   - ctx context.Context
+//   - deviceID string
+//   - deploymentID string
 //   - log model.DeploymentLog
-func (_e *DataStore_Expecter) SaveDeviceDeploymentLog(ctx any, log any) *DataStore_SaveDeviceDeploymentLog_Call {
-	return &DataStore_SaveDeviceDeploymentLog_Call{Call: _e.mock.On("SaveDeviceDeploymentLog", ctx, log)}
+func (_e *DataStore_Expecter) SaveDeviceDeploymentLog(ctx any, deviceID any, deploymentID any, log any) *DataStore_SaveDeviceDeploymentLog_Call {
+	return &DataStore_SaveDeviceDeploymentLog_Call{Call: _e.mock.On("SaveDeviceDeploymentLog", ctx, deviceID, deploymentID, log)}
 }
 
-func (_c *DataStore_SaveDeviceDeploymentLog_Call) Run(run func(ctx context.Context, log model.DeploymentLog)) *DataStore_SaveDeviceDeploymentLog_Call {
+func (_c *DataStore_SaveDeviceDeploymentLog_Call) Run(run func(ctx context.Context, deviceID string, deploymentID string, log model.DeploymentLog)) *DataStore_SaveDeviceDeploymentLog_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 model.DeploymentLog
+		var arg1 string
 		if args[1] != nil {
-			arg1 = args[1].(model.DeploymentLog)
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		var arg3 model.DeploymentLog
+		if args[3] != nil {
+			arg3 = args[3].(model.DeploymentLog)
 		}
 		run(
 			arg0,
 			arg1,
+			arg2,
+			arg3,
 		)
 	})
 	return _c
@@ -3970,7 +3656,7 @@ func (_c *DataStore_SaveDeviceDeploymentLog_Call) Return(err error) *DataStore_S
 	return _c
 }
 
-func (_c *DataStore_SaveDeviceDeploymentLog_Call) RunAndReturn(run func(ctx context.Context, log model.DeploymentLog) error) *DataStore_SaveDeviceDeploymentLog_Call {
+func (_c *DataStore_SaveDeviceDeploymentLog_Call) RunAndReturn(run func(ctx context.Context, deviceID string, deploymentID string, log model.DeploymentLog) error) *DataStore_SaveDeviceDeploymentLog_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4038,122 +3724,8 @@ func (_c *DataStore_SaveDeviceDeploymentRequest_Call) RunAndReturn(run func(ctx 
 	return _c
 }
 
-// SaveLastDeviceDeploymentStatus provides a mock function for the type DataStore
-func (_mock *DataStore) SaveLastDeviceDeploymentStatus(ctx context.Context, deviceDeployment model.DeviceDeployment) error {
-	ret := _mock.Called(ctx, deviceDeployment)
-
-	if len(ret) == 0 {
-		panic("no return value specified for SaveLastDeviceDeploymentStatus")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, model.DeviceDeployment) error); ok {
-		r0 = returnFunc(ctx, deviceDeployment)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_SaveLastDeviceDeploymentStatus_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SaveLastDeviceDeploymentStatus'
-type DataStore_SaveLastDeviceDeploymentStatus_Call struct {
-	*mock.Call
-}
-
-// SaveLastDeviceDeploymentStatus is a helper method to define mock.On call
-//   - ctx context.Context
-//   - deviceDeployment model.DeviceDeployment
-func (_e *DataStore_Expecter) SaveLastDeviceDeploymentStatus(ctx any, deviceDeployment any) *DataStore_SaveLastDeviceDeploymentStatus_Call {
-	return &DataStore_SaveLastDeviceDeploymentStatus_Call{Call: _e.mock.On("SaveLastDeviceDeploymentStatus", ctx, deviceDeployment)}
-}
-
-func (_c *DataStore_SaveLastDeviceDeploymentStatus_Call) Run(run func(ctx context.Context, deviceDeployment model.DeviceDeployment)) *DataStore_SaveLastDeviceDeploymentStatus_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 model.DeviceDeployment
-		if args[1] != nil {
-			arg1 = args[1].(model.DeviceDeployment)
-		}
-		run(
-			arg0,
-			arg1,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_SaveLastDeviceDeploymentStatus_Call) Return(err error) *DataStore_SaveLastDeviceDeploymentStatus_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_SaveLastDeviceDeploymentStatus_Call) RunAndReturn(run func(ctx context.Context, deviceDeployment model.DeviceDeployment) error) *DataStore_SaveLastDeviceDeploymentStatus_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// SaveUpdateTypes provides a mock function for the type DataStore
-func (_mock *DataStore) SaveUpdateTypes(ctx context.Context, updateTypes []string) error {
-	ret := _mock.Called(ctx, updateTypes)
-
-	if len(ret) == 0 {
-		panic("no return value specified for SaveUpdateTypes")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, []string) error); ok {
-		r0 = returnFunc(ctx, updateTypes)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_SaveUpdateTypes_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SaveUpdateTypes'
-type DataStore_SaveUpdateTypes_Call struct {
-	*mock.Call
-}
-
-// SaveUpdateTypes is a helper method to define mock.On call
-//   - ctx context.Context
-//   - updateTypes []string
-func (_e *DataStore_Expecter) SaveUpdateTypes(ctx any, updateTypes any) *DataStore_SaveUpdateTypes_Call {
-	return &DataStore_SaveUpdateTypes_Call{Call: _e.mock.On("SaveUpdateTypes", ctx, updateTypes)}
-}
-
-func (_c *DataStore_SaveUpdateTypes_Call) Run(run func(ctx context.Context, updateTypes []string)) *DataStore_SaveUpdateTypes_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 []string
-		if args[1] != nil {
-			arg1 = args[1].([]string)
-		}
-		run(
-			arg0,
-			arg1,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_SaveUpdateTypes_Call) Return(err error) *DataStore_SaveUpdateTypes_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_SaveUpdateTypes_Call) RunAndReturn(run func(ctx context.Context, updateTypes []string) error) *DataStore_SaveUpdateTypes_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // SetDeploymentDeviceCount provides a mock function for the type DataStore
-func (_mock *DataStore) SetDeploymentDeviceCount(ctx context.Context, deploymentID string, count int) error {
+func (_mock *DataStore) SetDeploymentDeviceCount(ctx context.Context, deploymentID string, count int64) error {
 	ret := _mock.Called(ctx, deploymentID, count)
 
 	if len(ret) == 0 {
@@ -4161,7 +3733,7 @@ func (_mock *DataStore) SetDeploymentDeviceCount(ctx context.Context, deployment
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, int) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, int64) error); ok {
 		r0 = returnFunc(ctx, deploymentID, count)
 	} else {
 		r0 = ret.Error(0)
@@ -4177,12 +3749,12 @@ type DataStore_SetDeploymentDeviceCount_Call struct {
 // SetDeploymentDeviceCount is a helper method to define mock.On call
 //   - ctx context.Context
 //   - deploymentID string
-//   - count int
+//   - count int64
 func (_e *DataStore_Expecter) SetDeploymentDeviceCount(ctx any, deploymentID any, count any) *DataStore_SetDeploymentDeviceCount_Call {
 	return &DataStore_SetDeploymentDeviceCount_Call{Call: _e.mock.On("SetDeploymentDeviceCount", ctx, deploymentID, count)}
 }
 
-func (_c *DataStore_SetDeploymentDeviceCount_Call) Run(run func(ctx context.Context, deploymentID string, count int)) *DataStore_SetDeploymentDeviceCount_Call {
+func (_c *DataStore_SetDeploymentDeviceCount_Call) Run(run func(ctx context.Context, deploymentID string, count int64)) *DataStore_SetDeploymentDeviceCount_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -4192,9 +3764,9 @@ func (_c *DataStore_SetDeploymentDeviceCount_Call) Run(run func(ctx context.Cont
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 int
+		var arg2 int64
 		if args[2] != nil {
-			arg2 = args[2].(int)
+			arg2 = args[2].(int64)
 		}
 		run(
 			arg0,
@@ -4210,7 +3782,7 @@ func (_c *DataStore_SetDeploymentDeviceCount_Call) Return(err error) *DataStore_
 	return _c
 }
 
-func (_c *DataStore_SetDeploymentDeviceCount_Call) RunAndReturn(run func(ctx context.Context, deploymentID string, count int) error) *DataStore_SetDeploymentDeviceCount_Call {
+func (_c *DataStore_SetDeploymentDeviceCount_Call) RunAndReturn(run func(ctx context.Context, deploymentID string, count int64) error) *DataStore_SetDeploymentDeviceCount_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4470,75 +4042,6 @@ func (_c *DataStore_UpdateDeploymentsWithArtifactName_Call) RunAndReturn(run fun
 	return _c
 }
 
-// UpdateDeviceDeploymentLogAvailability provides a mock function for the type DataStore
-func (_mock *DataStore) UpdateDeviceDeploymentLogAvailability(ctx context.Context, deviceID string, deploymentID string, log bool) error {
-	ret := _mock.Called(ctx, deviceID, deploymentID, log)
-
-	if len(ret) == 0 {
-		panic("no return value specified for UpdateDeviceDeploymentLogAvailability")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string, bool) error); ok {
-		r0 = returnFunc(ctx, deviceID, deploymentID, log)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_UpdateDeviceDeploymentLogAvailability_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDeviceDeploymentLogAvailability'
-type DataStore_UpdateDeviceDeploymentLogAvailability_Call struct {
-	*mock.Call
-}
-
-// UpdateDeviceDeploymentLogAvailability is a helper method to define mock.On call
-//   - ctx context.Context
-//   - deviceID string
-//   - deploymentID string
-//   - log bool
-func (_e *DataStore_Expecter) UpdateDeviceDeploymentLogAvailability(ctx any, deviceID any, deploymentID any, log any) *DataStore_UpdateDeviceDeploymentLogAvailability_Call {
-	return &DataStore_UpdateDeviceDeploymentLogAvailability_Call{Call: _e.mock.On("UpdateDeviceDeploymentLogAvailability", ctx, deviceID, deploymentID, log)}
-}
-
-func (_c *DataStore_UpdateDeviceDeploymentLogAvailability_Call) Run(run func(ctx context.Context, deviceID string, deploymentID string, log bool)) *DataStore_UpdateDeviceDeploymentLogAvailability_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 string
-		if args[1] != nil {
-			arg1 = args[1].(string)
-		}
-		var arg2 string
-		if args[2] != nil {
-			arg2 = args[2].(string)
-		}
-		var arg3 bool
-		if args[3] != nil {
-			arg3 = args[3].(bool)
-		}
-		run(
-			arg0,
-			arg1,
-			arg2,
-			arg3,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_UpdateDeviceDeploymentLogAvailability_Call) Return(err error) *DataStore_UpdateDeviceDeploymentLogAvailability_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_UpdateDeviceDeploymentLogAvailability_Call) RunAndReturn(run func(ctx context.Context, deviceID string, deploymentID string, log bool) error) *DataStore_UpdateDeviceDeploymentLogAvailability_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // UpdateDeviceDeploymentStatus provides a mock function for the type DataStore
 func (_mock *DataStore) UpdateDeviceDeploymentStatus(ctx context.Context, deviceID string, deploymentID string, state model.DeviceDeploymentState, currentStatus model.DeviceDeploymentStatus) (model.DeviceDeploymentStatus, error) {
 	ret := _mock.Called(ctx, deviceID, deploymentID, state, currentStatus)
@@ -4749,75 +4252,6 @@ func (_c *DataStore_UpdateReleaseArtifactDescription_Call) RunAndReturn(run func
 	return _c
 }
 
-// UpdateReleaseArtifacts provides a mock function for the type DataStore
-func (_mock *DataStore) UpdateReleaseArtifacts(ctx context.Context, artifactToAdd *model.Image, artifactToRemove *model.Image, releaseName string) error {
-	ret := _mock.Called(ctx, artifactToAdd, artifactToRemove, releaseName)
-
-	if len(ret) == 0 {
-		panic("no return value specified for UpdateReleaseArtifacts")
-	}
-
-	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *model.Image, *model.Image, string) error); ok {
-		r0 = returnFunc(ctx, artifactToAdd, artifactToRemove, releaseName)
-	} else {
-		r0 = ret.Error(0)
-	}
-	return r0
-}
-
-// DataStore_UpdateReleaseArtifacts_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateReleaseArtifacts'
-type DataStore_UpdateReleaseArtifacts_Call struct {
-	*mock.Call
-}
-
-// UpdateReleaseArtifacts is a helper method to define mock.On call
-//   - ctx context.Context
-//   - artifactToAdd *model.Image
-//   - artifactToRemove *model.Image
-//   - releaseName string
-func (_e *DataStore_Expecter) UpdateReleaseArtifacts(ctx any, artifactToAdd any, artifactToRemove any, releaseName any) *DataStore_UpdateReleaseArtifacts_Call {
-	return &DataStore_UpdateReleaseArtifacts_Call{Call: _e.mock.On("UpdateReleaseArtifacts", ctx, artifactToAdd, artifactToRemove, releaseName)}
-}
-
-func (_c *DataStore_UpdateReleaseArtifacts_Call) Run(run func(ctx context.Context, artifactToAdd *model.Image, artifactToRemove *model.Image, releaseName string)) *DataStore_UpdateReleaseArtifacts_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 context.Context
-		if args[0] != nil {
-			arg0 = args[0].(context.Context)
-		}
-		var arg1 *model.Image
-		if args[1] != nil {
-			arg1 = args[1].(*model.Image)
-		}
-		var arg2 *model.Image
-		if args[2] != nil {
-			arg2 = args[2].(*model.Image)
-		}
-		var arg3 string
-		if args[3] != nil {
-			arg3 = args[3].(string)
-		}
-		run(
-			arg0,
-			arg1,
-			arg2,
-			arg3,
-		)
-	})
-	return _c
-}
-
-func (_c *DataStore_UpdateReleaseArtifacts_Call) Return(err error) *DataStore_UpdateReleaseArtifacts_Call {
-	_c.Call.Return(err)
-	return _c
-}
-
-func (_c *DataStore_UpdateReleaseArtifacts_Call) RunAndReturn(run func(ctx context.Context, artifactToAdd *model.Image, artifactToRemove *model.Image, releaseName string) error) *DataStore_UpdateReleaseArtifacts_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // UpdateStats provides a mock function for the type DataStore
 func (_mock *DataStore) UpdateStats(ctx context.Context, id string, stats model.Stats) error {
 	ret := _mock.Called(ctx, id, stats)
@@ -4882,23 +4316,23 @@ func (_c *DataStore_UpdateStats_Call) RunAndReturn(run func(ctx context.Context,
 }
 
 // UpdateStatsInc provides a mock function for the type DataStore
-func (_mock *DataStore) UpdateStatsInc(ctx context.Context, id string, stateFrom model.DeviceDeploymentStatus, stateTo model.DeviceDeploymentStatus) (model.Stats, error) {
+func (_mock *DataStore) UpdateStatsInc(ctx context.Context, id string, stateFrom model.DeviceDeploymentStatus, stateTo model.DeviceDeploymentStatus) (*model.Stats, error) {
 	ret := _mock.Called(ctx, id, stateFrom, stateTo)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpdateStatsInc")
 	}
 
-	var r0 model.Stats
+	var r0 *model.Stats
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, model.DeviceDeploymentStatus, model.DeviceDeploymentStatus) (model.Stats, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, model.DeviceDeploymentStatus, model.DeviceDeploymentStatus) (*model.Stats, error)); ok {
 		return returnFunc(ctx, id, stateFrom, stateTo)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, model.DeviceDeploymentStatus, model.DeviceDeploymentStatus) model.Stats); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, model.DeviceDeploymentStatus, model.DeviceDeploymentStatus) *model.Stats); ok {
 		r0 = returnFunc(ctx, id, stateFrom, stateTo)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(model.Stats)
+			r0 = ret.Get(0).(*model.Stats)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string, model.DeviceDeploymentStatus, model.DeviceDeploymentStatus) error); ok {
@@ -4951,12 +4385,12 @@ func (_c *DataStore_UpdateStatsInc_Call) Run(run func(ctx context.Context, id st
 	return _c
 }
 
-func (_c *DataStore_UpdateStatsInc_Call) Return(stats model.Stats, err error) *DataStore_UpdateStatsInc_Call {
+func (_c *DataStore_UpdateStatsInc_Call) Return(stats *model.Stats, err error) *DataStore_UpdateStatsInc_Call {
 	_c.Call.Return(stats, err)
 	return _c
 }
 
-func (_c *DataStore_UpdateStatsInc_Call) RunAndReturn(run func(ctx context.Context, id string, stateFrom model.DeviceDeploymentStatus, stateTo model.DeviceDeploymentStatus) (model.Stats, error)) *DataStore_UpdateStatsInc_Call {
+func (_c *DataStore_UpdateStatsInc_Call) RunAndReturn(run func(ctx context.Context, id string, stateFrom model.DeviceDeploymentStatus, stateTo model.DeviceDeploymentStatus) (*model.Stats, error)) *DataStore_UpdateStatsInc_Call {
 	_c.Call.Return(run)
 	return _c
 }

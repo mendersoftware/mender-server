@@ -91,23 +91,6 @@ func NewStatus(status string) DeviceDeploymentStatus {
 	return stat
 }
 
-var allStatuses = []DeviceDeploymentStatus{
-	DeviceDeploymentStatusFailure,
-	DeviceDeploymentStatusPauseBeforeInstall,
-	DeviceDeploymentStatusPauseBeforeCommit,
-	DeviceDeploymentStatusPauseBeforeReboot,
-	DeviceDeploymentStatusDownloading,
-	DeviceDeploymentStatusInstalling,
-	DeviceDeploymentStatusRebooting,
-	DeviceDeploymentStatusPending,
-	DeviceDeploymentStatusSuccess,
-	DeviceDeploymentStatusAborted,
-	DeviceDeploymentStatusNoArtifact,
-	DeviceDeploymentStatusAlreadyInst,
-	DeviceDeploymentStatusDecommissioned,
-	// DeviceDeploymentStatusNew
-}
-
 func (stat DeviceDeploymentStatus) MarshalText() ([]byte, error) {
 	switch stat {
 	case DeviceDeploymentStatusFailure:
@@ -212,10 +195,6 @@ func (state DeviceDeploymentState) Validate() error {
 }
 
 type DeviceDeployment struct {
-	// Active says whether the device's deployment status is in an active
-	// state - in progress or pending.
-	Active bool `json:"-" bson:"active"`
-
 	// Internal field of initial creation of deployment
 	Created *time.Time `json:"created" bson:"created"`
 
@@ -246,11 +225,11 @@ type DeviceDeployment struct {
 	// deployments/next request from the device
 	Request *DeploymentNextRequest `json:"-"`
 
-	// Presence of deployment log
-	IsLogAvailable bool `json:"log" bson:"log"`
-
 	// Device reported substate
 	SubState string `json:"substate,omitempty" bson:"substate,omitempty"`
+
+	// Deployment logs
+	Log *DeploymentLog `json:"-" bson:"log,omitempty"`
 }
 
 func NewDeviceDeployment(deviceId, deploymentId string) *DeviceDeployment {
@@ -264,13 +243,11 @@ func NewDeviceDeployment(deviceId, deploymentId string) *DeviceDeployment {
 	id := uid.String()
 
 	return &DeviceDeployment{
-		Active:         true,
-		Status:         DeviceDeploymentStatusPending,
-		DeviceId:       deviceId,
-		DeploymentId:   deploymentId,
-		Id:             id,
-		Created:        &now,
-		IsLogAvailable: false,
+		Status:       DeviceDeploymentStatusPending,
+		DeviceId:     deviceId,
+		DeploymentId: deploymentId,
+		Id:           id,
+		Created:      &now,
 	}
 }
 
@@ -285,48 +262,99 @@ func (d DeviceDeployment) Validate() error {
 	if err != nil {
 		return err
 	}
-	if d.Status.Active() {
-		if !d.Active {
-			return ErrDeviceDeploymentStatusMismatch
-		}
-	} else if d.Active {
-		return ErrDeviceDeploymentStatusMismatch
-	}
 	return nil
+}
+
+func (d DeviceDeployment) MarshalJSON() ([]byte, error) {
+	type DeviceDeploymentJSON DeviceDeployment
+	type deviceDeployment struct {
+		*DeviceDeploymentJSON
+		Log bool `json:"log"`
+	}
+	return json.Marshal(deviceDeployment{
+		DeviceDeploymentJSON: (*DeviceDeploymentJSON)(&d),
+		Log:                  d.Log != nil,
+	})
 }
 
 // Deployment statistics wrapper, each value carries a count of deployments
 // aggregated by state.
-type Stats map[string]int
+type Stats struct {
+	Failure            int64 `json:"failure" bson:"failure"`
+	Aborted            int64 `json:"aborted" bson:"aborted"`
+	PauseBeforeInstall int64 `json:"pause_before_installing" bson:"pause_before_installing"`
+	PauseBeforeCommit  int64 `json:"pause_before_committing" bson:"pause_before_committing"`
+	PauseBeforeReboot  int64 `json:"pause_before_rebooting" bson:"pause_before_rebooting"`
+	Downloading        int64 `json:"downloading" bson:"downloading"`
+	Installing         int64 `json:"installing" bson:"installing"`
+	Rebooting          int64 `json:"rebooting" bson:"rebooting"`
+	Pending            int64 `json:"pending" bson:"pending"`
+	Success            int64 `json:"success" bson:"success"`
+	NoArtifact         int64 `json:"noartifact" bson:"noartifact"`
+	AlreadyInstalled   int64 `json:"already-installed" bson:"already-installed"`
+	Decommissioned     int64 `json:"decommissioned" bson:"decommissioned"`
+}
 
-func NewDeviceDeploymentStats() Stats {
-
-	s := make(Stats, len(allStatuses))
-
-	// populate statuses with 0s
-	for _, k := range allStatuses {
-		s[k.String()] = 0
+func (s *Stats) Set(status DeviceDeploymentStatus, count int64) {
+	switch status {
+	case DeviceDeploymentStatusFailure:
+		s.Failure = count
+	case DeviceDeploymentStatusAborted:
+		s.Aborted = count
+	case DeviceDeploymentStatusPauseBeforeInstall:
+		s.PauseBeforeInstall = count
+	case DeviceDeploymentStatusPauseBeforeCommit:
+		s.PauseBeforeCommit = count
+	case DeviceDeploymentStatusPauseBeforeReboot:
+		s.PauseBeforeReboot = count
+	case DeviceDeploymentStatusDownloading:
+		s.Downloading = count
+	case DeviceDeploymentStatusInstalling:
+		s.Installing = count
+	case DeviceDeploymentStatusRebooting:
+		s.Rebooting = count
+	case DeviceDeploymentStatusPending:
+		s.Pending = count
+	case DeviceDeploymentStatusSuccess:
+		s.Success = count
+	case DeviceDeploymentStatusNoArtifact:
+		s.NoArtifact = count
+	case DeviceDeploymentStatusAlreadyInst:
+		s.AlreadyInstalled = count
+	case DeviceDeploymentStatusDecommissioned:
+		s.Decommissioned = count
 	}
-
-	return s
 }
 
-func (s Stats) Set(status DeviceDeploymentStatus, count int) {
-	key := status.String()
-	s[key] = count
-}
-
-func (s Stats) Inc(status DeviceDeploymentStatus) {
-	var count int
-	key := status.String()
-	count = s[key]
-	count++
-	s[key] = count
-}
-
-func (s Stats) Get(status DeviceDeploymentStatus) int {
-	key := status.String()
-	return s[key]
+func (s *Stats) Inc(status DeviceDeploymentStatus) {
+	switch status {
+	case DeviceDeploymentStatusFailure:
+		s.Failure++
+	case DeviceDeploymentStatusAborted:
+		s.Aborted++
+	case DeviceDeploymentStatusPauseBeforeInstall:
+		s.PauseBeforeInstall++
+	case DeviceDeploymentStatusPauseBeforeCommit:
+		s.PauseBeforeCommit++
+	case DeviceDeploymentStatusPauseBeforeReboot:
+		s.PauseBeforeReboot++
+	case DeviceDeploymentStatusDownloading:
+		s.Downloading++
+	case DeviceDeploymentStatusInstalling:
+		s.Installing++
+	case DeviceDeploymentStatusRebooting:
+		s.Rebooting++
+	case DeviceDeploymentStatusPending:
+		s.Pending++
+	case DeviceDeploymentStatusSuccess:
+		s.Success++
+	case DeviceDeploymentStatusNoArtifact:
+		s.NoArtifact++
+	case DeviceDeploymentStatusAlreadyInst:
+		s.AlreadyInstalled++
+	case DeviceDeploymentStatusDecommissioned:
+		s.Decommissioned++
+	}
 }
 
 func IsDeviceDeploymentStatusFinished(status DeviceDeploymentStatus) bool {
@@ -368,7 +396,7 @@ func InactiveDeploymentStatuses() []DeviceDeploymentStatus {
 type InstalledDeviceDeployment struct {
 	ArtifactName string            `json:"artifact_name"`
 	DeviceType   string            `json:"device_type"`
-	Provides     map[string]string `json:"artifact_provides,omitempty"`
+	Provides     map[string]string `json:"artifact_provides,omitempty" bson:",omitempty"`
 }
 
 // DeploymentNextRequest holds a deployments/next request
