@@ -33,11 +33,8 @@ const openFilters = async (page: Page) => {
 
 const openDeviceDetails = (page: Page) => page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
 
-const skipUnlessTestDevicesAvailable = async ({ environment, page }: { environment: TestEnvironment; page: Page }) => {
+const skipUnlessTestDevicesAvailable = (environment: TestEnvironment) =>
   test.skip(environment !== 'staging', 'test devices are only available on hosted Mender');
-  const features = await page.evaluate(() => (window as any).mender_environment?.features);
-  test.skip(!features?.hasDeviceFlags, 'the device flags feature is not enabled on this deployment');
-};
 
 test.describe('Devices', () => {
   test.beforeEach(async ({ page }) => {
@@ -56,7 +53,7 @@ test.describe('Devices', () => {
   });
 
   test('is marked as test device once accepted by a trial account', async ({ environment, page }) => {
-    await skipUnlessTestDevicesAvailable({ environment, page });
+    skipUnlessTestDevicesAvailable(environment);
     await expect(page.getByRole('button', { name: /trial plan/i })).toBeVisible({ timeout: timeouts.tenSeconds });
     await openDeviceDetails(page);
     const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
@@ -66,7 +63,7 @@ test.describe('Devices', () => {
   });
 
   test('can have its test device status unset and set again', async ({ environment, page }) => {
-    await skipUnlessTestDevicesAvailable({ environment, page });
+    skipUnlessTestDevicesAvailable(environment);
     await openDeviceDetails(page);
     const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
     const deviceActions = page.getByRole('button', { name: 'device-actions' });

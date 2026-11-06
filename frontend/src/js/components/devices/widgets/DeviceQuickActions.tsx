@@ -85,8 +85,8 @@ const defaultActions: Record<string, QuickAction> = {
     key: 'set-test-device',
     title: () => 'Set as test device',
     action: ({ onSetTestDevice, selection }) => onSetTestDevice(selection, true),
-    checkRelevance: ({ device, features: { hasDeviceFlags }, selectedCount, isAtTestDeviceLimit, userCapabilities: { canWriteDevices } }) =>
-      hasDeviceFlags &&
+    checkRelevance: ({ device, features: { hasMultitenancy }, selectedCount, isAtTestDeviceLimit, userCapabilities: { canWriteDevices } }) =>
+      hasMultitenancy &&
       selectedCount === 1 &&
       canWriteDevices &&
       device.status === DEVICE_STATES.accepted &&
@@ -98,8 +98,8 @@ const defaultActions: Record<string, QuickAction> = {
     key: 'remove-test-device',
     title: () => 'Remove as test device',
     action: ({ onSetTestDevice, selection }) => onSetTestDevice(selection, false),
-    checkRelevance: ({ device, features: { hasDeviceFlags }, selectedCount, userCapabilities: { canWriteDevices } }) =>
-      hasDeviceFlags && selectedCount === 1 && canWriteDevices && device.status === DEVICE_STATES.accepted && !!device?.flags?.test_device
+    checkRelevance: ({ device, features: { hasMultitenancy }, selectedCount, userCapabilities: { canWriteDevices } }) =>
+      hasMultitenancy && selectedCount === 1 && canWriteDevices && device.status === DEVICE_STATES.accepted && !!device?.flags?.test_device
   },
   moveToGroup: {
     icon: <HeightOutlinedIcon className="rotated ninety" />,
