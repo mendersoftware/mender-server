@@ -87,7 +87,7 @@ describe('AccessTokenManagement Component', () => {
     revokeSpy.mockImplementationOnce(() => () => Promise.resolve());
     render(<AccessTokenManagement />, { preloadedState });
     await user.click(screen.getAllByRole('button', { name: /revoke/i })[0]);
-    expect(screen.getByText(/are you sure you want to revoke the token/i)).toBeInTheDocument();
+    expect(screen.getByText(/revoke the personal access token/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /revoke token/i }));
     await waitFor(() => expect(revokeSpy).toHaveBeenCalled());
   });
