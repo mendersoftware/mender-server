@@ -36,7 +36,6 @@ import {
   getAppInitDone,
   getCombinedLimit,
   getDeviceLimits,
-  getFeatures,
   getOrganization,
   getProducts,
   getStripeKey
@@ -169,7 +168,6 @@ const SubscriptionForm = ({
   const { setValue, watch, control, setFocus } = useFormContext<FormData>();
   const currentDeviceLimits = useSelector(getDeviceLimits);
   const totalDeviceLimit = useSelector(getCombinedLimit);
-  const { hasMCUEnabled } = useSelector(getFeatures);
   const { counts: accepted } = useSelector(getAcceptedDevices);
   const deviceStatisticsLoaded = useSelector(getAppInitDone);
   const org = useSelector(getOrganization);
@@ -242,7 +240,7 @@ const SubscriptionForm = ({
     }
     setDeviceTierEnabled(newEnabled);
     initializedRef.current = true;
-  }, [accepted, isTrial, deviceLimitsInitialized, currentDeviceLimits, deviceStatisticsLoaded, deviceTypeIds, hasMCUEnabled, deviceTypes]);
+  }, [accepted, isTrial, deviceLimitsInitialized, currentDeviceLimits, deviceStatisticsLoaded, deviceTypeIds, deviceTypes]);
 
   useEffect(() => {
     onUpdateFormValues({

@@ -39,7 +39,6 @@ describe('Subscription Confirmation component', () => {
             ...defaultState.app,
             features: {
               ...defaultState.app.features,
-              hasMCUEnabled: true,
               isHosted: true
             }
           }

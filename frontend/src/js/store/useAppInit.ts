@@ -85,7 +85,6 @@ const featureFlags = [
   'hasDeviceFlags',
   'hasFeedbackEnabled',
   'hasMonitor',
-  'hasMCUEnabled',
   'isEnterprise'
 ] as const;
 
