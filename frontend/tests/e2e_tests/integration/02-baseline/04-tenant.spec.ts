@@ -173,10 +173,10 @@ test.describe('Multi tenant access', () => {
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByRole('link', { name: /user management/i }).click();
     await page.getByText(secondaryUser).click();
-    await page.getByRole('button', { name: /delete user/i }).click();
-    await expect(page.getByText(/delete user\?/i)).toBeVisible();
+    await page.getByRole('button', { name: /remove user/i }).click();
+    await expect(page.getByText(/remove user\?/i)).toBeVisible();
     await page
-      .getByRole('button', { name: /delete user/i })
+      .getByRole('button', { name: /remove user/i })
       .last()
       .click();
 
