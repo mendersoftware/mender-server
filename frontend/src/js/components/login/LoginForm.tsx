@@ -50,7 +50,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
   const twoFARef = useRef<HTMLInputElement | undefined>(undefined);
   // can't use the existing Form component due to the validation mode that's targeted
   const methods = useForm<LoginFormState>({ mode: 'onSubmit', defaultValues: { email: '', password: '', noExpiry: false, token2fa: '' } });
-  const { handleSubmit, trigger, setFocus } = methods;
+  const { handleSubmit, trigger, setFocus, getFieldState } = methods;
   const isOsInstallation = !(isEnterprise || isHosted);
 
   const { classes } = useStyles();
@@ -106,7 +106,9 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
       <form autoComplete="off" className={classes.formWrapper} noValidate onSubmit={handleSubmit(onSubmitClick)}>
         {hasError && (
           <Alert className={classes.alert} severity="error">
-            {has2FA ? 'Incorrect email address, password and / or two factor authentication code.' : 'Incorrect email address and / or password.'}
+            {has2FA && getFieldState('token2fa').isTouched
+              ? 'Incorrect email address, password and / or two factor authentication code.'
+              : 'Incorrect email address and / or password.'}
           </Alert>
         )}
         <TextInput
