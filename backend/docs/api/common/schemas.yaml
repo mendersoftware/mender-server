@@ -98,3 +98,29 @@ components:
         - inventory
         - monitor
         - tags
+    Identifier:
+      description: |
+        Identifier consisting of 1 to 256 characters from the set
+        `[A-Za-z0-9._-]`.
+      type: string
+      minLength: 0
+      maxLength: 256
+      pattern: "^[A-Za-z0-9._-]*$"
+    Name:
+      description: |
+        Human-readable name consisting of 1 to 256 valid UTF-8 encoded,
+        graphic Unicode characters (letters, marks, numbers, punctuation,
+        symbols and spaces).
+      type: string
+      minLength: 0
+      maxLength: 256
+      pattern: '^[^\x00-\x1F\x7F-\x9F]*$'
+    Text:
+      description: |
+        Free-form text consisting of 0 to 4096 valid UTF-8 encoded,
+        graphic Unicode characters (letters, marks, numbers, punctuation,
+        symbols and spaces), tabs and line breaks.
+      type: string
+      minLength: 0
+      maxLength: 4096
+      pattern: '^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$'

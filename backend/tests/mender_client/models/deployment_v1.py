@@ -21,6 +21,7 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from mender_client.models.deployment_statistics import DeploymentStatistics
 from mender_client.models.filter_v1 import FilterV1
 from typing import Optional, Set
@@ -30,9 +31,9 @@ class DeploymentV1(BaseModel):
     """
     DeploymentV1
     """ # noqa: E501
-    id: StrictStr = Field(description="Deployment identifier")
-    name: StrictStr = Field(description="Name of the deployment")
-    artifact_name: StrictStr = Field(description="Name of the artifact to deploy")
+    id: Annotated[str, Field(min_length=0, strict=True, max_length=256)] = Field(description="Deployment identifier")
+    name: Annotated[str, Field(min_length=0, strict=True, max_length=256)] = Field(description="Name of the deployment")
+    artifact_name: Annotated[str, Field(min_length=0, strict=True, max_length=4096)] = Field(description="Name of the artifact to deploy")
     created: datetime = Field(description="Deployment's creation date and time")
     finished: Optional[datetime] = Field(default=None, description="Deployment's completion date and time")
     status: StrictStr = Field(description="Status of the deployment")
@@ -44,6 +45,27 @@ class DeploymentV1(BaseModel):
     statistics: Optional[DeploymentStatistics] = None
     filter: Optional[FilterV1] = None
     __properties: ClassVar[List[str]] = ["id", "name", "artifact_name", "created", "finished", "status", "device_count", "artifacts", "groups", "type", "configuration", "statistics", "filter"]
+
+    @field_validator('id')
+    def id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[A-Za-z0-9._-]*$", value):
+            raise ValueError(r"must validate the regular expression /^[A-Za-z0-9._-]*$/")
+        return value
+
+    @field_validator('name')
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[^\x00-\x1F\x7F-\x9F]*$", value):
+            raise ValueError(r"must validate the regular expression /^[^\x00-\x1F\x7F-\x9F]*$/")
+        return value
+
+    @field_validator('artifact_name')
+    def artifact_name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$", value):
+            raise ValueError(r"must validate the regular expression /^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$/")
+        return value
 
     @field_validator('status')
     def status_validate_enum(cls, value):
