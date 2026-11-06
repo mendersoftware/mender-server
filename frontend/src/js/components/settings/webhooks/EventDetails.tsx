@@ -44,10 +44,14 @@ interface WebhookEventDetailsProps extends ClassesOverrides {
 }
 
 const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
-  const { data = {} } = entry;
+  const { data = {}, delivery_statuses = [] } = entry;
   const payload = JSON.stringify(data, null, '\t');
+  const { error } = delivery_statuses.find(({ integration_id }) => integration_id === webhook.id) ?? {};
 
   const content = Object.fromEntries(columns.slice(0, -1).map(column => [column.title, column.render(entry, { webhook, classes })]));
+  if (error) {
+    content.Error = error;
+  }
 
   return (
     <>
