@@ -111,29 +111,8 @@ const ZephyrMCUGuide = ({ setMcu }) => {
   );
 };
 
-const OtherDevicesGuide = () => {
-  const { classes } = useStyles();
-  return (
-    <div className={`padding-small flexbox column ${classes.deviceSection}`}>
-      <Typography variant="subtitle1" gutterBottom>
-        Other devices
-      </Typography>
-      <Typography variant="body1">See the documentation to integrate the following with Mender:</Typography>
-      <List>
-        {docsLinks.map(item => (
-          <ListItem key={item.key} disablePadding className="padding-top-none padding-bottom-none">
-            <DocsLink path={item.target} title={item.title} />
-          </ListItem>
-        ))}
-      </List>
-      <MenderHubReference />
-    </div>
-  );
-};
-
 const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice, setMcu }) => {
   const { classes } = useStyles();
-  const { hasMCUEnabled } = useSelector(getFeatures);
   return (
     <>
       <Typography variant="body1">
@@ -157,7 +136,7 @@ const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice, setMcu }) =>
         </div>
       </div>
       <div className="two-columns margin-top-small">
-        {hasMCUEnabled ? <ZephyrMCUGuide setMcu={setMcu} /> : <OtherDevicesGuide />}
+        <ZephyrMCUGuide setMcu={setMcu} />
         <div className={`padding-small ${classes.deviceSection}`}>
           <Typography variant="subtitle1" gutterBottom>
             Don&#39;t have a device?
