@@ -19,10 +19,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/v2/bson"
+	"github.com/stretchr/testify/require"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -36,7 +35,7 @@ func getDb(ctx context.Context) *DataStoreMongo {
 	return ds
 }
 
-func TestGetLimit(t *testing.T) {
+func TestSetAndGetLimits(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping TestGetLimit in short mode.")
 	}
@@ -61,19 +60,12 @@ func TestGetLimit(t *testing.T) {
 	})
 	db := getDb(dbCtx)
 
-	collection := db.client.Database(ctxstore.
-		DbFromContext(dbCtx, DefaultDbName)).Collection(CollectionSettings)
-	_, err := collection.InsertMany(dbCtx,
-		bson.A{lim1, lim2})
-	assert.NoError(t, err)
+	require.NoError(t, db.SetLimit(dbCtx, lim1))
+	require.NoError(t, db.SetLimit(dbCtx, lim2))
 	dbCtxOtherTenant := identity.WithContext(context.Background(), &identity.Identity{
 		Tenant: "other-" + tenant,
 	})
-	collOtherTenant := db.client.Database(ctxstore.
-		DbFromContext(dbCtxOtherTenant, DefaultDbName)).
-		Collection(CollectionSettings)
-	_, err = collOtherTenant.InsertOne(dbCtxOtherTenant, lim3OtherTenant)
-	assert.NoError(t, err)
+	require.NoError(t, db.SetLimit(dbCtxOtherTenant, lim3OtherTenant))
 
 	// check if value is fetched correctly
 	lim, err := db.GetLimit(dbCtx, "foo")
