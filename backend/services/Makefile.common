@@ -67,17 +67,20 @@ docker-pull:
 
 .PHONY: docker-publish
 docker-publish: DOCKER_TAG_PUBLISH = $(MENDER_PUBLISH_REGISTRY)/$(MENDER_PUBLISH_REPOSITORY)/$(COMPONENT):$(MENDER_PUBLISH_TAG)
+# MENDER_PUBLISH_DIGESTS_DIR/$(COMPONENT) pins the source to a digest so the
+# tag cannot move between copies to different registries.
+docker-publish: DOCKER_PUBLISH_SOURCE = $(if $(MENDER_PUBLISH_DIGESTS_DIR),$(MENDER_IMAGE_REGISTRY)/$(MENDER_IMAGE_REPOSITORY)/$(COMPONENT)@$(shell cat $(MENDER_PUBLISH_DIGESTS_DIR)/$(COMPONENT)),$(DOCKER_TAG))
 ifndef NOASK
 docker-publish:
-	echo "About to publish $(DOCKER_TAG) to $(DOCKER_TAG_PUBLISH)"
+	echo "About to publish $(DOCKER_PUBLISH_SOURCE) to $(DOCKER_TAG_PUBLISH)"
 	echo -n "Continue? [y/N] " && read answer && test "$${answer:-N}" = "y"
 	skopeo copy --multi-arch all --preserve-digests $(SKOPEO_ARGS) \
-		docker://$(DOCKER_TAG) \
+		docker://$(DOCKER_PUBLISH_SOURCE) \
 		docker://$(DOCKER_TAG_PUBLISH)
 else
 docker-publish:
 	skopeo copy --multi-arch all --preserve-digests $(SKOPEO_ARGS) \
-		docker://$(DOCKER_TAG) \
+		docker://$(DOCKER_PUBLISH_SOURCE) \
 		docker://$(DOCKER_TAG_PUBLISH)
 endif
 
