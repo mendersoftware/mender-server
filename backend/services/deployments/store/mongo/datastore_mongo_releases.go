@@ -130,7 +130,8 @@ func (db *DataStoreMongo) AddArtifactToRelease(
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 		StorageKeyReleaseName: artifact.Name,
 
-		// FIXME: Uniqueness by depends is overly complicated and does not make any sense.
+		// FIXME: Depends conflict is not detected and returned as before (no 409)
+		// Uniqueness by depends is overly complicated and does not make any sense.
 		// Consider changing with uniqueness on provides and update type:
 		// {
 		// 	StorageKeyReleaseArtifacts: {

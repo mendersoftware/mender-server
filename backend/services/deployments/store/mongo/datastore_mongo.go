@@ -56,6 +56,8 @@ const maxCountDocuments = int64(10000)
 
 // Internal status codes from
 // https://github.com/mongodb/mongo/blob/4.4/src/mongo/base/error_codes.yml
+//
+//nolint:unused
 const (
 	errorCodeNamespaceNotFound = 26
 	errorCodeIndexNotFound     = 27
@@ -754,7 +756,9 @@ func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
 	return result.Artifact, nil
 }
 
+//nolint:unused
 func newDependsConflictError(mgoErr mongo.WriteError) *model.ConflictError {
+	// FIXME: Unused as conflict detection was not added to AddArtifactToRelease
 	var err error
 	conflictErr := model.NewConflictError(ErrConflictingDepends)
 	// Try to lookup the document that caused the index violation:
