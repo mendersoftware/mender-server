@@ -78,7 +78,6 @@
     "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "^5.0.2",
     "buffer": "6.0.3",
-    "clean-webpack-plugin": "4.0.0",
     "css-loader": "7.1.5",
     "eslint": "10.14.0",
     "eslint-rspack-plugin": "^5.0.1",

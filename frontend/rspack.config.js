@@ -1,8 +1,6 @@
 import { rspack } from '@rspack/core';
 import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
-import autoprefixer from 'autoprefixer';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import ESLintPlugin from 'eslint-rspack-plugin';
 import { createRequire } from 'module';
 import path from 'path';
@@ -125,6 +123,8 @@ export default (env, argv) => {
       ]
     },
     output: {
+      // env.js, tags.json and versions.json are generated outside the build and must survive rebuilds
+      clean: { keep: /(^|\/)(env\.js|tags\.json|versions\.json)$/ },
       filename: '[name].min.js',
       hashFunction: 'xxhash64',
       path: path.resolve(__dirname, 'dist'),
@@ -132,10 +132,6 @@ export default (env, argv) => {
       sourceMapFilename: '[file].map'
     },
     plugins: [
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: ['**/*', '!env.js', '!tags.json', '!versions.json'],
-        cleanAfterEveryBuildPatterns: ['!assets/fonts/*', '!assets/img/*']
-      }),
       new rspack.CopyRspackPlugin({
         patterns: [
           { from: 'node_modules/monaco-editor/min/vs/', to: 'vs' },
