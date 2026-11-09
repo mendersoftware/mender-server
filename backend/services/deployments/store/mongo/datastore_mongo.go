@@ -756,28 +756,6 @@ func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
 	return result.Artifact, nil
 }
 
-//nolint:unused
-func newDependsConflictError(mgoErr mongo.WriteError) *model.ConflictError {
-	// FIXME: Unused as conflict detection was not added to AddArtifactToRelease
-	var err error
-	conflictErr := model.NewConflictError(ErrConflictingDepends)
-	// Try to lookup the document that caused the index violation:
-	if raw, ok := mgoErr.Raw.Lookup("keyValue").DocumentOK(); ok {
-		if raw, ok = raw.Lookup(StorageKeyImageDependsIdx).DocumentOK(); ok {
-			var conflicts map[string]interface{}
-			err = bson.Unmarshal([]byte(raw), &conflicts)
-			if err == nil {
-				_ = conflictErr.WithMetadata(
-					map[string]interface{}{
-						"conflict": conflicts,
-					},
-				)
-			}
-		}
-	}
-	return conflictErr
-}
-
 func (db *DataStoreMongo) InsertUploadIntent(ctx context.Context, link *model.UploadLink) error {
 	collUploads := db.database.Collection(CollectionUploadIntents)
 	if idty := identity.FromContext(ctx); idty != nil {
