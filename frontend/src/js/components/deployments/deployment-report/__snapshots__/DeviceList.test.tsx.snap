@@ -143,7 +143,7 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
       >
         <div
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"

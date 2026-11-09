@@ -1363,7 +1363,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
                       aria-disabled="false"
                       aria-label="Increase"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-42"
-                      style="-webkit-user-select: none; user-select: none;"
+                      style="user-select: none;"
                       tabindex="-1"
                       type="button"
                     >
@@ -1386,7 +1386,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium emotion-42"
                       data-disabled=""
                       disabled=""
-                      style="-webkit-user-select: none; user-select: none;"
+                      style="user-select: none;"
                       tabindex="-1"
                       type="button"
                     >
@@ -1536,7 +1536,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
                       aria-disabled="false"
                       aria-label="Increase"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-42"
-                      style="-webkit-user-select: none; user-select: none;"
+                      style="user-select: none;"
                       tabindex="-1"
                       type="button"
                     >
@@ -1559,7 +1559,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium emotion-42"
                       data-disabled=""
                       disabled=""
-                      style="-webkit-user-select: none; user-select: none;"
+                      style="user-select: none;"
                       tabindex="-1"
                       type="button"
                     >

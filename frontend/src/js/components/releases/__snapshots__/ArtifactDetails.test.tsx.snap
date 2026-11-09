@@ -617,7 +617,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox"
@@ -665,7 +665,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox align-items-center"
@@ -712,7 +712,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="data-partition"
       >
         data-partition
@@ -729,7 +729,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="myapp"
       >
         myapp
@@ -746,7 +746,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="v2020.10"
       >
         v2020.10
@@ -896,7 +896,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 emotion-2"
-                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+                        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         title="myapp"
                       >
                         myapp
@@ -913,7 +913,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 emotion-2"
-                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+                        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         title="v2020.10"
                       >
                         v2020.10
@@ -930,7 +930,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 emotion-2"
-                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+                        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         title="x172"
                       >
                         x172
@@ -1621,7 +1621,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox"
@@ -1669,7 +1669,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox align-items-center"
@@ -1765,7 +1765,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       >
         <button
           aria-expanded="true"
-          class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters emotion-13"
+          class="MuiButtonBase-root Mui-focusVisible Mui-focusVisible MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters emotion-13"
           tabindex="0"
           type="button"
         >
@@ -1837,7 +1837,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 emotion-2"
-                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+                        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         title="x172"
                       >
                         x172

@@ -88,31 +88,31 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           create
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           User
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           user@acme.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           change1
         </p>
@@ -135,25 +135,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           create
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Deployment
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           production
         </p>
@@ -183,19 +183,19 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           open_terminal
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Device
         </p>
@@ -233,25 +233,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           upload
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Artifact
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           some artifact
         </p>
@@ -275,25 +275,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           upload
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Software
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           my release
         </p>
@@ -317,25 +317,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           upload
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Software
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           my manifest
         </p>
@@ -359,25 +359,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           delete
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Artifact
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           gone artifact
         </p>
@@ -395,25 +395,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           delete
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Software
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           gone release
         </p>
@@ -431,31 +431,31 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           create
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Personal Access Token
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           my token
         </p>
         <p
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          style="display: -webkit-box; line-clamp: 2 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Created PAT my token (t1).
         </p>

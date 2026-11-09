@@ -952,7 +952,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <div
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
-              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             >
               <div
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-17"
@@ -1028,7 +1028,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
-              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="671a0f1dd58c813118fe8622"
             >
               671a0f1dd58c813118fe8622
@@ -1058,7 +1058,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
-              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="2024-10-24T09:10:53.281Z"
             >
               2024-10-24T09:10:53.281Z
@@ -1088,7 +1088,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
-              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+              style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="active"
             >
               active

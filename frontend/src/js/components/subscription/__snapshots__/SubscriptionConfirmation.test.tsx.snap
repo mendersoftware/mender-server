@@ -2209,7 +2209,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   aria-disabled="false"
                   aria-label="Increase"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
-                  style="-webkit-user-select: none; user-select: none;"
+                  style="user-select: none;"
                   tabindex="-1"
                   type="button"
                 >
@@ -2232,7 +2232,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
                   data-disabled=""
                   disabled=""
-                  style="-webkit-user-select: none; user-select: none;"
+                  style="user-select: none;"
                   tabindex="-1"
                   type="button"
                 >
@@ -2368,7 +2368,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   aria-disabled="false"
                   aria-label="Increase"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
-                  style="-webkit-user-select: none; user-select: none;"
+                  style="user-select: none;"
                   tabindex="-1"
                   type="button"
                 >
@@ -2391,7 +2391,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
                   data-disabled=""
                   disabled=""
-                  style="-webkit-user-select: none; user-select: none;"
+                  style="user-select: none;"
                   tabindex="-1"
                   type="button"
                 >

@@ -256,7 +256,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="The default, which blinks the led on storage activity"
       >
         The default, which blinks the led on storage activity
@@ -286,7 +286,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Turn on the light permanently"
       >
         Turn on the light permanently
@@ -316,7 +316,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Turn off the light permanently"
       >
         Turn off the light permanently
@@ -346,7 +346,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Enable heartbeat blinking"
       >
         Enable heartbeat blinking
