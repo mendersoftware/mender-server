@@ -330,7 +330,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       <div className="flexbox margin-top-small">
         {currentUser.id !== id && (
           <Button color="error" onClick={onRemoveClick} variant="outlined">
-            Delete user
+            Remove user
           </Button>
         )}
       </div>

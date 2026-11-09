@@ -219,4 +219,23 @@ describe('CreateDeployment Component', () => {
       expect(screen.getByText(deploymentErrors.maxDevicesRequired)).toBeVisible();
     });
   });
+
+  it('asks for confirmation before creating a deployment when configured to', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const confirmationState = {
+      ...preloadedState,
+      users: { ...preloadedState.users, globalSettings: { ...preloadedState.users.globalSettings, needsDeploymentConfirmation: true } }
+    };
+    const onScheduleSubmit = vi.fn();
+    renderWrapper({ deploymentObject: { group: ALL_DEVICES, release: defaultState.releases.byId.r1 }, onScheduleSubmit, preloadedState: confirmationState });
+    const post = vi.spyOn(GeneralApi, 'post');
+    await user.click(screen.getByRole('button', { name: /create deployment/i }));
+    await waitFor(() => expect(screen.getByText(/create deployment\?/i)).toBeVisible());
+    expect(screen.getByText(new RegExp(`this will deploy ${defaultState.releases.byId.r1.name}`, 'i'))).toBeVisible();
+    expect(post).not.toHaveBeenCalledWith(expect.stringMatching(/deployments\/deployments$/), expect.anything());
+    const confirmButtons = screen.getAllByRole('button', { name: /^create deployment$/i, hidden: true });
+    await user.click(confirmButtons[confirmButtons.length - 1]);
+    await waitFor(() => expect(post).toHaveBeenCalledWith(expect.stringMatching(/deployments\/deployments$/), expect.anything()));
+    await waitFor(() => expect(onScheduleSubmit).toHaveBeenCalled());
+  });
 });

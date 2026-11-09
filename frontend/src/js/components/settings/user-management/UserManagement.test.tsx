@@ -49,11 +49,11 @@ describe('UserManagement Component', () => {
     document.execCommand = copyCheck;
     render(<UserManagement />, { preloadedState });
 
-    expect(screen.queryByText(/delete the user with email/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/will be removed from your organization/i)).not.toBeInTheDocument();
     const list = screen.getAllByText(/view details/i);
     await user.click(list[list.length - 1]);
-    await user.click(screen.getByRole('button', { name: /delete user/i }));
-    expect(screen.queryByText(/delete the user with email/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /remove user/i }));
+    expect(screen.queryByText(/will be removed from your organization/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /cancel/i }));
     // let the dismissed delete dialog finish unmounting before reopening the drawer
     await act(async () => vi.runOnlyPendingTimers());

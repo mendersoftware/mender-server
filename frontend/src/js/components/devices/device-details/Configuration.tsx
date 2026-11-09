@@ -18,7 +18,8 @@ import { Link as RouterLink } from 'react-router';
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, FormHelperText, Typography } from '@mui/material';
 
-import Confirm, { EditButton } from '@northern.tech/common-ui/Confirm';
+import { EditButton } from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
@@ -321,7 +322,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     setShowConfigImport(true);
   };
 
-  const onAbortClick = () => setIsAborting(toggle);
+  const onAbortClick = () => setIsAborting(true);
 
   const hasDeviceConfiguration = !isEmpty(reported);
   let footer = hasDeviceConfiguration ? <ConfigUpToDateNote updated_ts={reported_ts} /> : <ConfigEmptyNote updated_ts={updated_ts} />;
@@ -347,8 +348,6 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
         </div>
         {updateFailed ? (
           <ConfigUpdateFailureActions hasLog={hasLog} setShowLog={onShowLog} onSubmit={onSubmit} onCancel={onCancel} />
-        ) : isAborting ? (
-          <Confirm cancel={onAbortClick} action={onCancel} type="abort" classes="margin-left-large" />
         ) : (
           <>
             <Button color="secondary" onClick={onAbortClick} startIcon={<BlockIcon fontSize="small" />} className="margin-left-medium">
@@ -404,6 +403,14 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
         {hasDeviceConfig && <div className="flexbox align-items-center margin-bottom margin-top relative">{footer}</div>}
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}
         {showConfigImport && <ConfigImportDialog onCancel={() => setShowConfigImport(false)} onSubmit={onConfigImport} />}
+        <ConfirmModal
+          open={isAborting}
+          close={() => setIsAborting(false)}
+          header="Abort update?"
+          description="This will abort the update and the device configuration will remain unchanged. Do you want to continue?"
+          confirmButtonText="Abort update"
+          onConfirm={onCancel}
+        />
       </div>
     </ContentSection>
   );

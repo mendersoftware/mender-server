@@ -62,7 +62,7 @@ export const UserManagement = () => {
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
   const usersById = useSelector(getUsersById);
-  const { trial: isTrial } = useSelector(getOrganization);
+  const { name: organizationName, trial: isTrial } = useSelector(getOrganization);
   const emailVerificationRequired = hasMultitenancy && !currentUser.verified;
   const props = {
     canManageUsers,
@@ -140,13 +140,20 @@ export const UserManagement = () => {
         selectedUser={selectedUser}
       />
       <ConfirmModal
-        header="Delete user?"
+        header="Remove user?"
         description={
           <>
-            Are you sure you want to delete the user with email <b>{user.email}</b>?
+            The user <b>{user.email}</b> will be removed
+            {hasMultitenancy && organizationName ? (
+              <>
+                {' '}
+                from your organization <b>{organizationName}</b>
+              </>
+            ) : null}
+            . Are you sure you want to continue?
           </>
         }
-        confirmButtonText="Delete user"
+        confirmButtonText="Remove user"
         open={removeDialog}
         close={dialogDismiss}
         onConfirm={() => submit(user, 'remove', user.id)}

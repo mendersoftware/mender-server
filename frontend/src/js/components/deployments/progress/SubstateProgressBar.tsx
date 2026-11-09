@@ -17,7 +17,7 @@ import { CheckCircle, ErrorRounded, Pause } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { deploymentDisplayStates, deploymentSubstates, installationSubstatesMap, pauseMap } from '@northern.tech/store/constants';
 import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { getDeploymentState, groupDeploymentStats, statCollector } from '@northern.tech/store/utils';
@@ -192,11 +192,6 @@ const SubstateProgressChart = ({ phases }: { phases: SubstatePhase[] }) => (
   </div>
 );
 
-const confirmationStyle = {
-  justifyContent: 'flex-start',
-  paddingLeft: 100
-};
-
 interface SubstateProgressBarProps {
   className?: string;
   deployment: Deployment;
@@ -228,17 +223,13 @@ export const SubstateProgressBar = ({ className = '', deployment, onAbort, onUpd
     setIsLoading(false);
   }, [isLoading, status]);
 
-  const onAbortClick = () => {
-    setShouldAbort(false);
-    onAbort(id);
-  };
+  const onAbortClick = () => onAbort(id);
 
   const onContinueClick = () => {
     if (!currentPauseState || !pauseMap[currentPauseState]) {
       return;
     }
     setIsLoading(true);
-    setShouldContinue(false);
     onUpdateControlChange({ states: { [pauseMap[currentPauseState as keyof typeof pauseMap].followUp]: { action: 'continue' } } });
   };
 
@@ -261,24 +252,6 @@ export const SubstateProgressBar = ({ className = '', deployment, onAbort, onUpd
       </div>
       {canContinue && (
         <div className="margin-top margin-bottom relative">
-          {shouldContinue && (
-            <Confirm
-              type="deploymentContinuation"
-              classes="confirmation-overlay"
-              action={onContinueClick}
-              cancel={() => setShouldContinue(false)}
-              style={confirmationStyle}
-            />
-          )}
-          {shouldAbort && (
-            <Confirm
-              type="deploymentAbort"
-              classes="confirmation-overlay"
-              action={onAbortClick}
-              cancel={() => setShouldAbort(false)}
-              style={confirmationStyle}
-            />
-          )}
           <Button disabled={disableContinuationButtons} onClick={() => setShouldContinue(true)} variant="contained" className="margin-right">
             Continue
           </Button>
@@ -287,6 +260,23 @@ export const SubstateProgressBar = ({ className = '', deployment, onAbort, onUpd
           </Button>
         </div>
       )}
+      <ConfirmModal
+        open={shouldContinue}
+        close={() => setShouldContinue(false)}
+        header="Continue deployment?"
+        description="All devices with no errors will continue to the next step of the updates. Do you want to continue?"
+        confirmButtonText="Continue"
+        isDanger={false}
+        onConfirm={onContinueClick}
+      />
+      <ConfirmModal
+        open={shouldAbort}
+        close={() => setShouldAbort(false)}
+        header="Abort deployment?"
+        description="This will abort the deployment and attempt to roll back all devices. Do you want to continue?"
+        confirmButtonText="Abort deployment"
+        onConfirm={onAbortClick}
+      />
     </div>
   );
 };
