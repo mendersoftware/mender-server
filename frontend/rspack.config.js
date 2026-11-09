@@ -101,18 +101,8 @@ export default (env, argv) => {
               }
             },
             {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: { plugins: [autoprefixer({})] },
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'esbuild-loader',
-              options: {
-                loader: 'css',
-                minify: true
-              }
+              loader: 'builtin:lightningcss-loader',
+              options: { targets: pkg.browserslist }
             }
           ]
         },
