@@ -1208,6 +1208,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 }
 
 .emotion-17 {
+  height: 24px;
+  margin-right: 16px;
+}
+
+.emotion-18 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1217,37 +1222,17 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   margin-bottom: 0.35em;
 }
 
-.emotion-19 {
-  list-style: none;
+.emotion-31 {
   margin: 0;
-  padding: 0;
-  position: relative;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  margin-top: 24px;
 }
 
-.emotion-20 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  width: 100%;
-  box-sizing: border-box;
-  text-align: left;
-}
-
-.emotion-21 {
+.emotion-32 {
   margin: 0;
   font: inherit;
   line-height: inherit;
@@ -1259,21 +1244,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
 }
 
-.emotion-21:hover {
+.emotion-32:hover {
   text-decoration-color: inherit;
 }
 
-.emotion-32 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
-  margin-top: 24px;
-}
-
-.emotion-34 {
+.emotion-33 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1292,20 +1267,20 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-34>:not(style)~:not(style) {
+.emotion-33>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-35 {
+.emotion-34 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-35:hover svg {
+.emotion-34:hover svg {
   color: #1565c0;
 }
 
-.emotion-36 {
+.emotion-35 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1323,11 +1298,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-36.read {
+.emotion-35.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-37 {
+.emotion-36 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -1337,15 +1312,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-37.read {
+.emotion-36.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-37:hover {
+.emotion-36:hover {
   border-color: #1565c0;
 }
 
-.emotion-38 {
+.emotion-37 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1400,33 +1375,33 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   --variant-containedBg: #1976d2;
 }
 
-.emotion-38::-moz-focus-inner {
+.emotion-37::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-38.Mui-disabled {
+.emotion-37.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-38 {
+  .emotion-37 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-38:hover {
+.emotion-37:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-38.Mui-disabled {
+.emotion-37.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-38:hover {
+  .emotion-37:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -1541,68 +1516,69 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
           class="two-columns margin-top-small"
         >
           <div
-            class="padding-small flexbox column emotion-8"
+            class="padding-small padding-bottom-none flexbox column emotion-8"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-gutterBottom emotion-17"
+            <div
+              class="flexbox space-between"
             >
-              Other devices
-            </h6>
+              <div
+                class="flexbox centered"
+              >
+                <img
+                  class="emotion-17"
+                  src="/src/assets/img/zephyr_logo.png"
+                />
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-gutterBottom emotion-18"
+                >
+                  Zephyr MCU
+                </h6>
+              </div>
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-10"
+              >
+                <span
+                  class="MuiChip-label emotion-11"
+                >
+                  Micro
+                </span>
+              </div>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body1 emotion-6"
             >
-              See the documentation to integrate the following with Mender:
+              Connect an Espressif ESP32-S3 DevKitC, or any compatible microcontroller that supports MCUBoot in Zephyr.
             </p>
-            <ul
-              class="MuiList-root MuiList-padding emotion-19"
-            >
-              <li
-                class="MuiListItem-root MuiListItem-gutters padding-top-none padding-bottom-none emotion-20"
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-13"
+                tabindex="0"
+                type="button"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
-                  href="https://docs.mender.io/operating-system-updates-debian-family"
-                  rel="noopener"
-                  target="_blank"
+                Get started with Zephyr
+                <span
+                  class="MuiButton-icon MuiButton-endIcon emotion-14"
                 >
-                  Debian family
-                </a>
-              </li>
-              <li
-                class="MuiListItem-root MuiListItem-gutters padding-top-none padding-bottom-none emotion-20"
-              >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
-                  href="https://docs.mender.io/operating-system-updates-yocto-project"
-                  rel="noopener"
-                  target="_blank"
-                >
-                  Yocto OSes
-                </a>
-              </li>
-            </ul>
-            <p
-              class="MuiTypography-root MuiTypography-body1 emotion-6"
-            >
-              Or visit
-               
-              <a
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
-                href="https://hub.mender.io/c/board-integrations"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Mender Hub
-              </a>
-               
-              and search integrations for your device and OS.
-            </p>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-15"
+                    data-testid="ArrowForwardIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
           <div
             class="padding-small emotion-8"
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-gutterBottom emotion-17"
+              class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-gutterBottom emotion-18"
             >
               Don't have a device?
             </h6>
@@ -1640,10 +1616,10 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
           </div>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body1 emotion-32"
+          class="MuiTypography-root MuiTypography-body1 emotion-31"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
             href="https://docs.mender.io/overview/device-support"
             rel="noopener"
             target="_blank"
@@ -1654,16 +1630,16 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
         </p>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-34"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-33"
       >
         <div
-          class="relative flexbox emotion-35  "
+          class="relative flexbox emotion-34  "
           data-mui-internal-clone-element="true"
           style="margin-left: 20px;"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-36"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-35"
             data-testid="HelpIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1673,14 +1649,14 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
             />
           </svg>
           <div
-            class="emotion-37 "
+            class="emotion-36 "
           />
         </div>
         <div
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-38"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-37"
           tabindex="0"
           type="button"
         >

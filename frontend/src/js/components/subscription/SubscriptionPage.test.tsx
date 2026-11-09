@@ -117,11 +117,7 @@ describe('Subscription Page component', () => {
         organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, trial: true } },
         app: {
           ...defaultState.app,
-          appInitDone: true,
-          features: {
-            ...defaultState.app.features,
-            hasMCUEnabled: true
-          }
+          appInitDone: true
         }
       }
     });

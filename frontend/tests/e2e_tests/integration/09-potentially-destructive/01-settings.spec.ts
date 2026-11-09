@@ -295,9 +295,6 @@ test.describe('Settings', () => {
     });
     test('allows adding MCU devices', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
-      // @ts-ignore
-      const features = await page.evaluate(() => window.mender_environment?.features);
-      test.skip(!features || !features.hasMCUEnabled);
       await page.goto(`${baseUrl}ui/subscription`);
       await page.waitForTimeout(timeouts.default);
       const microCheckbox = page.getByRole('checkbox', { name: 'Micro devices' });
