@@ -394,9 +394,9 @@ func InactiveDeploymentStatuses() []DeviceDeploymentStatus {
 // InstalledDeviceDeployment describes a deployment currently installed on the
 // device, usually reported by a device
 type InstalledDeviceDeployment struct {
-	ArtifactName string            `json:"artifact_name"`
-	DeviceType   string            `json:"device_type"`
-	Provides     map[string]string `json:"artifact_provides,omitempty" bson:",omitempty"`
+	ArtifactName string   `json:"artifact_name"`
+	DeviceType   string   `json:"device_type"`
+	Provides     Provides `json:"artifact_provides,omitempty" bson:",omitempty"`
 }
 
 // DeploymentNextRequest holds a deployments/next request

@@ -17,11 +17,13 @@ type Depend struct {
 }
 
 var (
-	tModelDepends = reflect.TypeOf(model.Depends{})
-	tMap          = reflect.TypeOf(map[string]any{})
-	tDepends      = reflect.TypeOf([]Depend{})
-	tReleaseKind  = reflect.TypeOf(model.ReleaseKind(""))
-	tString       = reflect.TypeOf("")
+	tDepends       = reflect.TypeOf([]Depend{})
+	tDocument      = reflect.TypeOf(bson.D(nil))
+	tMap           = reflect.TypeOf(map[string]any{})
+	tModelDepends  = reflect.TypeOf(model.Depends{})
+	tModelProvides = reflect.TypeOf(model.Provides(nil))
+	tReleaseKind   = reflect.TypeOf(model.ReleaseKind(""))
+	tString        = reflect.TypeOf("")
 )
 
 func newRegistry() *bson.Registry {
@@ -36,6 +38,21 @@ func newRegistry() *bson.Registry {
 				v = reflect.ValueOf(model.ReleaseKindRelease)
 			}
 			return enc.EncodeValue(ec, vw, v)
+		},
+	))
+	reg.RegisterTypeEncoder(tModelProvides, bson.ValueEncoderFunc(
+		func(ec bson.EncodeContext, vw bson.ValueWriter, v reflect.Value) error {
+			provides := v.Interface().(model.Provides)
+			doc := make(bson.D, 0, len(provides))
+			for _, key := range slices.Sorted(maps.Keys(provides)) {
+				doc = append(doc, bson.E{Key: key, Value: provides[key]})
+			}
+			rVal := reflect.ValueOf(doc)
+			enc, err := reg.LookupEncoder(tDocument)
+			if err != nil {
+				return err
+			}
+			return enc.EncodeValue(ec, vw, rVal)
 		},
 	))
 	reg.RegisterTypeEncoder(tModelDepends, bson.ValueEncoderFunc(

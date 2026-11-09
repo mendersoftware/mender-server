@@ -103,7 +103,7 @@ type ArtifactMeta struct {
 	// Provides is a map of artifact_provides used
 	// for checking artifact (version 3) dependencies.
 	//nolint: lll
-	Provides map[string]string `json:"artifact_provides,omitempty" bson:"provides,omitempty" valid:"-"`
+	Provides Provides `json:"artifact_provides,omitempty" bson:"provides,omitempty" valid:"-"`
 
 	// Depends is a map[string]interface{} (JSON) of artifact_depends used
 	// for checking/validate against artifact (version 3) provides.
@@ -114,6 +114,8 @@ type ArtifactMeta struct {
 	//nolint:lll
 	ClearsProvides []string `json:"clears_artifact_provides,omitempty" bson:"clears_provides,omitempty" valid:"-"`
 }
+
+type Provides map[string]string
 
 type Depends map[string][]string
 
