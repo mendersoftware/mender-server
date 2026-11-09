@@ -15,8 +15,9 @@ import dns from 'node:dns';
 import { v4 as uuid } from 'uuid';
 
 import test, { expect } from '../../fixtures/fixtures';
-import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../../utils/commands';
+import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn } from '../../utils/commands';
 import { timeouts } from '../../utils/constants';
+import { startIdpServer } from '../../utils/idp';
 
 dns.setDefaultResultOrder('ipv4first');
 
@@ -30,9 +31,6 @@ const samlSettings = {
   idpUrl: 'http://localhost:7000/metadata'
 };
 
-let acsUrl = '';
-let metadataLocation = '';
-
 test.describe('SAML Login via sso/id/login', () => {
   // Setups the SAML/SSO login with samltest.id Identity Provider
   test('Set up SAML', async ({ environment, baseUrl, page, request }) => {
@@ -40,9 +38,7 @@ test.describe('SAML Login via sso/id/login', () => {
     // allow a lot of time to enter metadata + then some to handle uploading the config to the external service
     test.setTimeout(5 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
 
-    let idpServer;
-    startIdpServer({}, server => (idpServer = server));
-    await page.waitForTimeout(timeouts.oneSecond);
+    const idpServer = await startIdpServer();
     const response = await request.get(samlSettings.idpUrl);
     idpServer.close();
     expect(response.ok()).toBeTruthy();
@@ -83,14 +79,10 @@ test.describe('SAML Login via sso/id/login', () => {
     await expect(page.getByText(expectedAcsUrl)).toBeVisible();
     const expectedSpMetaUrl = `${baseUrl}api/management/v1/useradm/sso/sp/metadata/${metadataId}`;
     await expect(page.getByText(expectedSpMetaUrl)).toBeVisible();
-    acsUrl = expectedAcsUrl;
-    metadataLocation = expectedSpMetaUrl;
     const spMetadataResponse = await request.get(expectedSpMetaUrl, options);
     expect(spMetadataResponse.ok()).toBeTruthy();
     const spMetadata = await spMetadataResponse.text();
     expect(spMetadata).toContain('SPSSODescriptor');
-    idpServer.close();
-    await page.waitForTimeout(timeouts.oneSecond);
   });
 
   // Creates a user with login that matches Identity privder (samltest.id) user email
@@ -115,9 +107,7 @@ test.describe('SAML Login via sso/id/login', () => {
   test('User can login via sso/login endpoint', async ({ environment, baseUrl, browser, browserName, page }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     test.setTimeout(3 * timeouts.fifteenSeconds);
-    let idpServer;
-    startIdpServer({ acsUrl, metadataLocation }, server => (idpServer = server));
-    await page.waitForTimeout(timeouts.oneSecond);
+    const idpServer = await startIdpServer();
     await page.goto(`${baseUrl}ui/help`);
     await page.goto(`${baseUrl}ui/settings`);
     await page.getByText(/organization/i).click();
