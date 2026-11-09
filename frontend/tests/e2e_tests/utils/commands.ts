@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { APIRequestContext, Browser, BrowserContext, Page } from '@playwright/test';
-import { runServer } from '@sidewinder1138/saml-idp';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import { jwtDecode } from 'jwt-decode';
@@ -387,19 +386,6 @@ export const tagRelease = async (releaseName: string, tag: string, baseUrl: stri
   }
   return Promise.resolve();
 };
-
-export const startIdpServer = ({ acsUrl = 'https://example.com/acs', metadataLocation = 'https://example.com/metadata', ...options }, callback) =>
-  runServer(
-    {
-      ...options,
-      cert: path.join(__dirname, '..', 'fixtures', 'idp-public-cert.pem'),
-      key: path.join(__dirname, '..', 'fixtures', 'idp-private-key.pem'),
-      acsUrl,
-      audience: metadataLocation,
-      signResponse: false
-    },
-    callback
-  );
 
 export const startWebhookServer = startServer;
 
