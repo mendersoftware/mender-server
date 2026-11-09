@@ -12,8 +12,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const publicPath = '/ui/';
+const pkg = require('./package.json');
 
 export default (env, argv) => {
+  const isDev = argv.mode !== 'production';
+  const isServe = Boolean(env.RSPACK_SERVE);
   const plugins =
     argv.mode === 'production'
       ? [
@@ -31,7 +34,7 @@ export default (env, argv) => {
               warning: 'warning'
             }
           }),
-          new ReactRefreshRspackPlugin()
+          ...(isServe ? [new ReactRefreshRspackPlugin()] : [])
         ];
   const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL, MOCKS } = process.env;
   const mocksEnabled = MOCKS === 'true';
@@ -143,9 +146,9 @@ export default (env, argv) => {
       new rspack.DefinePlugin({
         ENV: JSON.stringify(argv.mode),
         __MOCKS_ENABLED__: JSON.stringify(mocksEnabled),
-        XTERM_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/xterm']),
-        XTERM_FIT_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-fit']),
-        XTERM_SEARCH_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-search'])
+        XTERM_VERSION: JSON.stringify(pkg.dependencies['@xterm/xterm']),
+        XTERM_FIT_VERSION: JSON.stringify(pkg.dependencies['@xterm/addon-fit']),
+        XTERM_SEARCH_VERSION: JSON.stringify(pkg.dependencies['@xterm/addon-search'])
       }),
       new rspack.HtmlRspackPlugin({
         favicon: './src/favicon.svg',
