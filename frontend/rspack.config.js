@@ -82,10 +82,15 @@ export default (env, argv) => {
           test: /\.m?[jt]sx?$/,
           exclude: [/node_modules/, /\.test\./, /__snapshots__/],
           resolve: { fullySpecified: false },
-          loader: 'esbuild-loader',
+          loader: 'builtin:swc-loader',
           options: {
-            loader: 'tsx',
-            jsx: 'automatic'
+            env: { targets: pkg.browserslist },
+            jsc: {
+              parser: { syntax: 'typescript', tsx: true },
+              transform: {
+                react: { runtime: 'automatic', development: isDev, refresh: isServe }
+              }
+            }
           }
         },
         {
