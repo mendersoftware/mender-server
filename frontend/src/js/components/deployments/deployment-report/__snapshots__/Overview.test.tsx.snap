@@ -274,7 +274,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
@@ -296,7 +296,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox"
@@ -331,7 +331,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Software update"
       >
         Software update
@@ -348,7 +348,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-2"
-        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+        style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="2019-01-01"
       >
         <time

@@ -203,7 +203,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-4"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         >
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox align-items-center emotion-5"
@@ -234,7 +234,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 emotion-4"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="raspberrypi4"
         >
           raspberrypi4
@@ -251,7 +251,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 emotion-4"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="-"
         >
           -
@@ -301,7 +301,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 emotion-4"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="here"
         >
           here
@@ -339,7 +339,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 emotion-4"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="string@example.com"
         >
           string@example.com

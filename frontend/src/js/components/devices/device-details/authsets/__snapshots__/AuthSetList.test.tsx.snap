@@ -685,7 +685,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -853,7 +853,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1009,7 +1009,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1161,7 +1161,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1325,7 +1325,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1477,7 +1477,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1625,7 +1625,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1772,7 +1772,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -1932,7 +1932,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -2091,7 +2091,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -2239,7 +2239,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"
@@ -2386,7 +2386,7 @@ MIIBoj
                     >
                       <div
                         class="emotion-21 "
-                        style="padding: 0px; background: transparent;"
+                        style="padding: 0px; background: none;"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-code1 emotion-22"

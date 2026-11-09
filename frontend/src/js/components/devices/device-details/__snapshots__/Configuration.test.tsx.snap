@@ -525,7 +525,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-15"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="true"
         />
         <svg
@@ -557,7 +557,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-15"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="bar"
         >
           bar
@@ -591,7 +591,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-15"
-          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+          style="display: -webkit-box; line-clamp: 5 -webkit-legacy; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="GMT+2"
         >
           GMT+2

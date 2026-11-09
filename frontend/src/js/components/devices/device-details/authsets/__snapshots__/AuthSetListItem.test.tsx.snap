@@ -441,7 +441,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
                 >
                   <div
                     class="emotion-17 "
-                    style="padding: 0px; background: transparent;"
+                    style="padding: 0px; background: none;"
                   >
                     <span
                       class="MuiTypography-root MuiTypography-code1 emotion-18"

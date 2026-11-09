@@ -904,7 +904,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                         >
                           <div
                             class="emotion-31 "
-                            style="padding: 0px; background: transparent;"
+                            style="padding: 0px; background: none;"
                           >
                             <span
                               class="MuiTypography-root MuiTypography-code1 emotion-32"
@@ -1054,7 +1054,7 @@ MIIBojWELzgJ62hcXIhAfqfoNiaB1326XZByZwcnHr5BuSPAgMBAAE=
                         >
                           <div
                             class="emotion-31 "
-                            style="padding: 0px; background: transparent;"
+                            style="padding: 0px; background: none;"
                           >
                             <span
                               class="MuiTypography-root MuiTypography-code1 emotion-32"
