@@ -5,7 +5,12 @@ import (
 )
 
 var (
-	size256 = validation.Length(0, 256)
+	size256  = validation.Length(0, 256)
+	size4096 = validation.Length(0, 4096)
+
+	identifierSize = size256
+	nameSize       = size256
+	textSize       = size4096
 
 	legacyDeviceGroupNameSize = validation.Length(0, 1024)
 	deviceGroupNameSize       = size256

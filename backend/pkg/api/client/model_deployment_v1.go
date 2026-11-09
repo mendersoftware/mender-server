@@ -23,11 +23,11 @@ var _ MappedNullable = &DeploymentV1{}
 // DeploymentV1 struct for DeploymentV1
 type DeploymentV1 struct {
 	// Deployment identifier
-	Id string `json:"id"`
+	Id string `json:"id" validate:"regexp=^[A-Za-z0-9._-]*$"`
 	// Name of the deployment
-	Name string `json:"name"`
+	Name string `json:"name" validate:"regexp=^[^\\\\x00-\\\\x1F\\\\x7F-\\\\x9F]*$"`
 	// Name of the artifact to deploy
-	ArtifactName string `json:"artifact_name"`
+	ArtifactName string `json:"artifact_name" validate:"regexp=^[^\\\\x00-\\\\x08\\\\x0B\\\\x0C\\\\x0E-\\\\x1F\\\\x7F-\\\\x9F]*$"`
 	// Deployment's creation date and time
 	Created time.Time `json:"created"`
 	// Deployment's completion date and time
