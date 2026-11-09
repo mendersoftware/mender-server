@@ -1,0 +1,2 @@
+{"_id":{"$oid":"6ac4ba47fa793faa69c8f102"},"name":"delta-generation-execution-counter","count":{"$numberLong":"0"}}
+{"_id":{"$oid":"6ac4ba47fa793faa69c8f103"},"name":"delta-generation-queue-counter","count":{"$numberLong":"0"}}

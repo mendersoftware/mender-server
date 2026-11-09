@@ -1,0 +1,1 @@
+{"_id":"settings","type":{"$numberLong":"0"},"region":"us-east-1","bucket":"its-bucket-time","uri":"http://s3:8080","external_uri":"","key":"mender","secret":"thisisnotsecure","force_path_style":true,"use_accelerate":false}
