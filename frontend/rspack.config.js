@@ -1,8 +1,6 @@
 import { rspack } from '@rspack/core';
 import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
-import autoprefixer from 'autoprefixer';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import ESLintPlugin from 'eslint-rspack-plugin';
 import { createRequire } from 'module';
 import path from 'path';
@@ -14,8 +12,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const publicPath = '/ui/';
+const pkg = require('./package.json');
 
 export default (env, argv) => {
+  const isDev = argv.mode !== 'production';
+  const isServe = Boolean(env.RSPACK_SERVE);
   const plugins =
     argv.mode === 'production'
       ? [
@@ -33,7 +34,7 @@ export default (env, argv) => {
               warning: 'warning'
             }
           }),
-          new ReactRefreshRspackPlugin()
+          ...(isServe ? [new ReactRefreshRspackPlugin()] : [])
         ];
   const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL, MOCKS } = process.env;
   const mocksEnabled = MOCKS === 'true';
@@ -82,10 +83,15 @@ export default (env, argv) => {
           test: /\.m?[jt]sx?$/,
           exclude: [/node_modules/, /\.test\./, /__snapshots__/],
           resolve: { fullySpecified: false },
-          loader: 'esbuild-loader',
+          loader: 'builtin:swc-loader',
           options: {
-            loader: 'tsx',
-            jsx: 'automatic'
+            env: { targets: pkg.browserslist },
+            jsc: {
+              parser: { syntax: 'typescript', tsx: true },
+              transform: {
+                react: { runtime: 'automatic', development: isDev, refresh: isServe }
+              }
+            }
           }
         },
         {
@@ -101,18 +107,8 @@ export default (env, argv) => {
               }
             },
             {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: { plugins: [autoprefixer({})] },
-                sourceMap: true
-              }
-            },
-            {
-              loader: 'esbuild-loader',
-              options: {
-                loader: 'css',
-                minify: true
-              }
+              loader: 'builtin:lightningcss-loader',
+              options: { targets: pkg.browserslist }
             }
           ]
         },
@@ -130,6 +126,8 @@ export default (env, argv) => {
       ]
     },
     output: {
+      // env.js, tags.json and versions.json are generated outside the build and must survive rebuilds
+      clean: { keep: /(^|\/)(env\.js|tags\.json|versions\.json)$/ },
       filename: '[name].min.js',
       hashFunction: 'xxhash64',
       path: path.resolve(__dirname, 'dist'),
@@ -137,10 +135,6 @@ export default (env, argv) => {
       sourceMapFilename: '[file].map'
     },
     plugins: [
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: ['**/*', '!env.js', '!tags.json', '!versions.json'],
-        cleanAfterEveryBuildPatterns: ['!assets/fonts/*', '!assets/img/*']
-      }),
       new rspack.CopyRspackPlugin({
         patterns: [
           { from: 'node_modules/monaco-editor/min/vs/', to: 'vs' },
@@ -152,9 +146,9 @@ export default (env, argv) => {
       new rspack.DefinePlugin({
         ENV: JSON.stringify(argv.mode),
         __MOCKS_ENABLED__: JSON.stringify(mocksEnabled),
-        XTERM_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/xterm']),
-        XTERM_FIT_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-fit']),
-        XTERM_SEARCH_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-search'])
+        XTERM_VERSION: JSON.stringify(pkg.dependencies['@xterm/xterm']),
+        XTERM_FIT_VERSION: JSON.stringify(pkg.dependencies['@xterm/addon-fit']),
+        XTERM_SEARCH_VERSION: JSON.stringify(pkg.dependencies['@xterm/addon-search'])
       }),
       new rspack.HtmlRspackPlugin({
         favicon: './src/favicon.svg',
