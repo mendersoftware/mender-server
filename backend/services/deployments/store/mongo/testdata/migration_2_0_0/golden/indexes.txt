@@ -1,4 +1,5 @@
 deployments: {"key":{"_id":1},"name":"_id_"}
+deployments: {"key":{"tenant_id":1,"_fts":"text","_ftsx":1},"name":"tenant_id_1_deploymentconstructor.name_text_deploymentconstructor.artifactname_text","weights":{"deploymentconstructor.artifactname":1,"deploymentconstructor.name":1},"default_language":"english","language_override":"language","textIndexVersion":3}
 deployments: {"key":{"tenant_id":1,"created":-1},"name":"tenant_id_1_created_-1"}
 deployments: {"key":{"tenant_id":1,"deploymentconstructor.name":1,"created":-1},"name":"tenant_id_1_deploymentconstructor.name_1_created_-1"}
 deployments: {"key":{"tenant_id":1,"deploymentconstructor_checksum":1},"name":"tenant_id_1_deploymentconstructor_checksum_1","unique":true,"partialFilterExpression":{"finished":null}}

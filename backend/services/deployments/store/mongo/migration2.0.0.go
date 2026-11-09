@@ -64,6 +64,13 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 			{
 				Keys: bson.D{
 					{Key: StorageKeyTenantId, Value: 1},
+					{Key: StorageKeyDeploymentName, Value: "text"},
+					{Key: StorageKeyDeploymentArtifactName, Value: "text"},
+				},
+			},
+			{
+				Keys: bson.D{
+					{Key: StorageKeyTenantId, Value: 1},
 					{Key: StorageKeyDeploymentName, Value: 1},
 					{Key: StorageKeyDeploymentCreated, Value: -1},
 				},

@@ -929,8 +929,6 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping TestDeploymentStorageFindBy in short mode.")
 	}
-	t.Skip("FIXME: No text index for SearchText")
-	t.SkipNow()
 
 	now := time.Now()
 
@@ -1016,7 +1014,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "zed",
 				ArtifactName: "daz",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-111111111111"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000007",
 			Statistics: model.DeploymentStatistics{Status: model.Stats{
@@ -1071,7 +1069,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-000000000000"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000011",
 			Statistics: model.DeploymentStatistics{Status: model.Stats{
@@ -1085,7 +1083,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-111111111111"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000012",
 			Statistics: model.DeploymentStatistics{Status: model.Stats{
@@ -1099,7 +1097,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-222222222222"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000013",
 			Statistics: model.DeploymentStatistics{Status: model.Stats{
@@ -1113,7 +1111,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-333333333333"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000014",
 			Statistics: model.DeploymentStatistics{Status: model.Stats{
@@ -1127,7 +1125,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "zed",
 				ArtifactName: "daz",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-000000000000"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000015",
 			Statistics: model.DeploymentStatistics{Status: model.Stats{
@@ -1146,12 +1144,6 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 		OutputError error
 		OutputID    []string
 	}{
-		{
-			InputModelQuery: model.Query{
-				SearchText: "foobar-empty-db",
-			},
-			OutputError: ErrDeploymentStorageCannotExecQuery,
-		},
 		{
 			InputModelQuery: model.Query{
 				SearchText: "foobar-no-match",
@@ -1369,6 +1361,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			} else {
 				ctx = context.Background()
 			}
+			require.NoError(t, store.Migrate(ctx, DbVersion, true))
 
 			createdTime := time.Now().UTC()
 
@@ -1378,8 +1371,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				// minute from each other, this will ensure
 				// proper ordering
 
+				t.Log(*d.DeploymentConstructor)
 				d.Created = &createdTime
-				assert.NoError(t, store.InsertDeployment(ctx, *d))
+				require.NoError(t, store.InsertDeployment(ctx, *d))
 				createdTime = createdTime.Add(time.Minute)
 			}
 
