@@ -108,21 +108,47 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             class="group-border"
           />
         </li>
-        <div
-          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
-          role="button"
-          tabindex="0"
+        <li
+          class="MuiListItem-root MuiListItem-gutters css-11gf3vv-MuiListItem-root-groupItem"
         >
           <div
-            class="MuiListItemText-root margin-left css-cfq8qh-MuiListItemText-root"
+            class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
+            role="button"
+            tabindex="0"
           >
-            <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"
+            <div
+              class="MuiListItemText-root margin-left css-cfq8qh-MuiListItemText-root"
             >
-              testGroupDynamic
-            </span>
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"
+              >
+                testGroupDynamic
+              </span>
+            </div>
           </div>
-        </div>
+          <div
+            class="MuiListItemSecondaryAction-root MuiListItem-secondaryAction css-ik4sem-MuiListItemSecondaryAction-root-MuiListItem-secondaryAction"
+          >
+            <button
+              aria-label="group actions"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1owpdbk-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                data-testid="MoreHorizIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                />
+              </svg>
+            </button>
+          </div>
+        </li>
         <li
           class="MuiListSubheader-root heading-lined flexbox align-items-center relative css-w9m8c6-MuiListSubheader-root-header"
         >
@@ -133,21 +159,47 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             class="group-border"
           />
         </li>
-        <div
-          class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
-          role="button"
-          tabindex="0"
+        <li
+          class="MuiListItem-root MuiListItem-gutters css-11gf3vv-MuiListItem-root-groupItem"
         >
           <div
-            class="MuiListItemText-root margin-left css-cfq8qh-MuiListItemText-root"
+            class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected css-1xhxvii-MuiButtonBase-root-MuiListItemButton-root"
+            role="button"
+            tabindex="0"
           >
-            <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"
+            <div
+              class="MuiListItemText-root margin-left css-cfq8qh-MuiListItemText-root"
             >
-              testGroup
-            </span>
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"
+              >
+                testGroup
+              </span>
+            </div>
           </div>
-        </div>
+          <div
+            class="MuiListItemSecondaryAction-root MuiListItem-secondaryAction css-ik4sem-MuiListItemSecondaryAction-root-MuiListItem-secondaryAction"
+          >
+            <button
+              aria-label="group actions"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1owpdbk-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                data-testid="MoreHorizIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                />
+              </svg>
+            </button>
+          </div>
+        </li>
       </ul>
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top css-1gujc4h-MuiButtonBase-root-MuiButton-root"
@@ -273,28 +325,6 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 </svg>
               </h6>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary css-1259lrg-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiButton-icon MuiButton-startIcon css-1lxyhll-MuiButton-startIcon"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                  data-testid="DeleteIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
-                  />
-                </svg>
-              </span>
-              Remove group
-            </button>
           </div>
         </div>
         <div
