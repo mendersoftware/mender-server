@@ -136,11 +136,15 @@ run_tests() {
     # ... then the runner
     if [ "${CI_NODE_TOTAL:-1}" -gt 1 ]; then
         echo "Collecting test nodes for shard ${CI_NODE_INDEX}/${CI_NODE_TOTAL}"
-    cat <<EOF | compose_cmd run --no-deps --rm --entrypoint /bin/sh integration-tester -s
+        cat <<EOF | compose_cmd run --no-deps --rm --entrypoint /bin/sh integration-tester -s
 pytest --co -q -m 'not slow' \
     | grep '::' \
     | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" \
-    | tee nodes.txt
+    | tee nodes.txt \
+    && pytest --co -q -m slow \
+      | grep '::' \
+      | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" \
+      | tee -a nodes.txt
 EOF
         export PYTEST_ADDOPTS="$PYTEST_ADDOPTS @nodes.txt"
     fi
