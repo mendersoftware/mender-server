@@ -29,7 +29,7 @@ logger.setLevel(logging.INFO)
 
 
 def get_api_docs(repo):
-    files = glob.glob(os.path.join(os.sep + "docs", repo, "*.yml"))
+    files = glob.glob(os.path.join(os.sep + "docs", repo, "*.yaml"))
     for file in files:
         basename = os.path.basename(file)
         kind = (
@@ -47,15 +47,13 @@ def get_api_docs(repo):
 def get_api_endpoints(repo):
     for kind, data in get_api_docs(repo):
         if data.get("swagger"):
-            scheme, host, base_path = (
+            _, _, base_path = (
                 data["schemes"][0],
                 data["host"],
                 data.get("basePath", "/"),
             )
         elif data.get("openapi"):
-            parts = data["servers"][0]["url"].split("/", 3)
-            scheme = parts[0].rstrip(":")
-            host, base_path = parts[2:4]
+            base_path = "/"
         else:
             logger.error(f"unknown specification file: {json.dumps(data)}")
             raise ValueError(
@@ -85,8 +83,10 @@ def get_api_endpoints(repo):
                     "kind": kind,
                     "returns_401": returns_401,
                     "method": method,
-                    "scheme": scheme,
-                    "host": host,
+                    "scheme": "https" if kind != "internal" else "http",
+                    "host": "docker.mender.io"
+                    if kind != "internal"
+                    else repo + ":8080",
                     "path": base_path.rstrip("/") + path,
                 }
 
@@ -142,7 +142,7 @@ class TestAPIEndpoints(BaseTestAPIEndpoints):
 
     @pytest.mark.parametrize(
         "kind,returns_401,method,scheme,host,path",
-        get_all_api_endpoints(REPOS),
+        list(get_all_api_endpoints(REPOS)),
     )
     def test_api_endpoints(
         self, kind, returns_401, method, scheme, host, path, get_endpoint_url

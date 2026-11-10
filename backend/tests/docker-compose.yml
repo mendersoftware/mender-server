@@ -48,7 +48,7 @@ services:
       target: integration-tester
     working_dir: /tests
     volumes:
-        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/docs:/docs
+        - ${MENDER_SERVER_PATH:-../../}/backend/docs/api:/docs
         - ${MENDER_SERVER_PATH:-../../}/backend/tests:/tests
         - ${MENDER_SERVER_PATH:-../../}/backend:/backend
         - go_pkg_mod:/go/pkg/mod/

@@ -135,23 +135,16 @@ run_tests() {
     fi
     # ... then the runner
     if [ "${CI_NODE_TOTAL:-1}" -gt 1 ]; then
-        compose_cmd run $RUN_ARGS \
-            -e CI_NODE_INDEX -e CI_NODE_TOTAL \
-            --entrypoint /bin/bash \
-            integration-tester -c '
-                echo "shard $CI_NODE_INDEX/$CI_NODE_TOTAL" >&2
-                pytest --co -q -m "not slow" 2>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" > /tmp/nodes
-                echo "not-slow collected: $(wc -l < /tmp/nodes), co_err: $(wc -l < /tmp/co_err.txt)" >&2
-                pytest --co -q -m "slow" 2>>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" >> /tmp/nodes
-                sort -u /tmp/nodes > /tmp/nodes.final
-                echo "total nodes: $(wc -l < /tmp/nodes.final)" >&2
-                if [ -s /tmp/co_err.txt ]; then echo "collection stderr:" >&2; cat /tmp/co_err.txt >&2; fi
-                [ -s /tmp/nodes.final ] || { echo "No tests for this shard"; exit 0; }
-                mapfile -t nodes < /tmp/nodes.final && exec python3 -m pytest "${nodes[@]}"
-            '
-    else
-        compose_cmd run $RUN_ARGS integration-tester
+        echo "Collecting test nodes for shard ${CI_NODE_INDEX}/${CI_NODE_TOTAL}"
+    cat <<EOF | compose_cmd run --no-deps --rm --entrypoint /bin/sh integration-tester -s
+pytest --co -q -m 'not slow' \
+    | grep '::' \
+    | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" \
+    | tee nodes.txt
+EOF
+        export PYTEST_ADDOPTS="$PYTEST_ADDOPTS @nodes.txt"
     fi
+    compose_cmd run $RUN_ARGS integration-tester
     return $?
 }
 
