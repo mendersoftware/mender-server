@@ -14,6 +14,8 @@
 import { defaultState, render } from '@/testUtils';
 import { getGroups } from '@northern.tech/store/selectors';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import Groups, { GroupItem, GroupsSubheader } from './Groups';
@@ -35,5 +37,26 @@ describe('Groups Component', () => {
       expect(view).toMatchSnapshot();
       expect(view).toEqual(expect.not.stringMatching(undefineds));
     });
+  });
+
+  it('allows removing a group through the group actions menu', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onRemove = vi.fn();
+    const changeGroup = vi.fn();
+    render(<GroupItem canRemove changeGroup={changeGroup} name="testGroup" onRemove={onRemove} />);
+    // the actions button is only visible on hover, so it has no accessible name to query by role with
+    await user.click(screen.getByLabelText(/group actions/i));
+    await user.click(screen.getByRole('menuitem', { name: /delete group/i }));
+    expect(onRemove).toHaveBeenCalledWith('testGroup');
+    expect(changeGroup).not.toHaveBeenCalled();
+  });
+
+  it('prevents removing a group without the required permissions', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onRemove = vi.fn();
+    render(<GroupItem changeGroup={vi.fn} name="testGroup" onRemove={onRemove} />);
+    await user.click(screen.getByLabelText(/group actions/i));
+    expect(screen.getByRole('menuitem', { name: /delete group/i })).toHaveAttribute('aria-disabled', 'true');
+    expect(onRemove).not.toHaveBeenCalled();
   });
 });

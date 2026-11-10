@@ -175,15 +175,7 @@ const OnboardingComponent = ({ deviceListRef, onboardingState }) => {
   return onboardingComponent;
 };
 
-export const Authorized = ({
-  addDevicesToGroup,
-  onGroupClick,
-  onPreauthClick,
-  openSettingsDialog,
-  removeDevicesFromGroup,
-  showsDialog,
-  changeLocation
-}) => {
+export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, openSettingsDialog, removeDevicesFromGroup, showsDialog, changeLocation }) => {
   const limitMaxed = useSelector(getLimitMaxed);
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
   const { selectedGroup, groupFilters = [] } = useSelector(getSelectedGroupInfo);

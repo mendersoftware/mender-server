@@ -99,7 +99,6 @@ describe('AuthorizedDevices Component', () => {
       <Authorized
         addDevicesToGroup={vi.fn}
         onGroupClick={vi.fn}
-        onGroupRemoval={vi.fn}
         onPreauthClick={vi.fn}
         openSettingsDialog={vi.fn}
         removeDevicesFromGroup={vi.fn}
