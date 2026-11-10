@@ -304,7 +304,7 @@ export const DeviceGroups = () => {
 
   const onShowDeviceStateClick = state => {
     dispatch(selectGroup());
-    dispatch(setDeviceListState({ state, filterSelection: undefined }));
+    dispatch(setDeviceListState({ state, page: 1, filterSelection: undefined }));
   };
 
   const onGroupSelect = groupName => {

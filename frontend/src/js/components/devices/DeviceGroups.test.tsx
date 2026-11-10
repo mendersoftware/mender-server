@@ -17,12 +17,13 @@ import { MemoryRouter } from 'react-router';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { defaultState } from '@/testUtils';
-import { DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { getConfiguredStore } from '@northern.tech/store/store';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { light } from '@northern.tech/testing/theme/light';
 import { ATTRIBUTE_SCOPES } from '@northern.tech/utils/constants';
-import { act, prettyDOM, render, waitFor } from '@testing-library/react';
+import { act, prettyDOM, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import DeviceGroups from './DeviceGroups';
@@ -117,6 +118,16 @@ describe('DeviceGroups Component', () => {
       expect(manifestFilter!.operator).toBe(DEVICE_FILTERING_OPTIONS.$eq.key);
       expect(manifestFilter!.value).toEqual('rtos');
     });
+    await waitFor(() => expect(store.getState().devices.deviceList.isLoading).toBe(false));
+  });
+
+  it('shows the first page of pending devices when following the pending devices notification', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { store } = renderWithRouter(<DeviceGroups />, { route: '/ui/devices/accepted?page=2', preloadedState: enterpriseState });
+    await waitFor(() => expect(store.getState().devices.deviceList.page).toBe(2));
+    await user.click(await screen.findByRole('button', { name: /view details/i }));
+    await waitFor(() => expect(store.getState().devices.deviceList.state).toBe(DEVICE_STATES.pending));
+    expect(store.getState().devices.deviceList.page).toBe(1);
     await waitFor(() => expect(store.getState().devices.deviceList.isLoading).toBe(false));
   });
 });
