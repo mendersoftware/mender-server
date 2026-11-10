@@ -51,12 +51,13 @@ const useStyles = makeStyles()(theme => ({
 
 export const getUserSSOState = user => {
   const { sso = [] } = user;
-  const isOAuth2 = !!sso.length;
+  const isSSO = !!sso.length;
+  const isOAuth2 = sso.some(({ kind = '' }) => kind.startsWith('oauth2/'));
   let provider = null;
-  if (isOAuth2) {
+  if (isSSO) {
     provider = OAuth2Providers.find(provider => sso.some(({ kind }) => kind.includes(provider.id))) ?? genericProvider;
   }
-  return { isOAuth2, provider };
+  return { isOAuth2, isSSO, provider };
 };
 
 const mapPermissions = permissions => permissions.map(permission => uiPermissionsById[permission].title).join(', ') || 'None';
@@ -186,7 +187,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   const userNotVerified = !currentUser.verified;
   const isSubmitDisabled = !selectedRoles.length || !hadRoleChanges;
 
-  const { isOAuth2, provider } = getUserSSOState(selectedUser);
+  const { isSSO, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
 
   const verificationChip = selectedUser.verified ? (
@@ -195,7 +196,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
     <Chip {...authChipProps} label="Not verified" />
   );
 
-  const tfaStatus = isOAuth2 ? (
+  const tfaStatus = isSSO ? (
     'SSO managed'
   ) : selectedUser.tfa_status === twoFAStates.enabled ? (
     <Chip {...authChipProps} label="Enabled" color="success" />
@@ -243,7 +244,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
             )}
           </>
         )}
-        {hasMultitenancy && !isOAuth2 && (
+        {hasMultitenancy && !isSSO && (
           <>
             <div>
               <Button className="margin-top-small" onClick={() => setShowResetConfirmation(true)}>
@@ -264,7 +265,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
             />
           </>
         )}
-        {isOAuth2 && (
+        {isSSO && (
           <div className="flexbox margin-top-small margin-bottom">
             <div className={classes.oauthIcon}>{provider.icon}</div>
             <div className="info">
