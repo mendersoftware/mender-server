@@ -1,6 +1,6 @@
 services:
   s3:
-    image: "${MIRROR_REGISTRY:-docker.io}/rustfs/rustfs:1.0.3"
+    image: "${MIRROR_REGISTRY:-docker.io}/rustfs/rustfs:1.0.4"
     environment:
       RUSTFS_ACCESS_KEY: "${MENDER_ACCESS_KEY_ID:-mender}"
       RUSTFS_SECRET_KEY: "${MENDER_SECRET_ACCESS_KEY:-thisisnotsecure}"
