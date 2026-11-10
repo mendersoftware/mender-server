@@ -57,7 +57,7 @@
   "devDependencies": {
     "@emotion/jest": "11.14.2",
     "@mswjs/interceptors": "0.45.11",
-    "@northern.tech/eslint-config": "0.7.3",
+    "@northern.tech/eslint-config": "0.7.4",
     "@northern.tech/prettier-config": "0.2.2",
     "@northern.tech/testing": "0.19.4",
     "@northern.tech/types": "0.7.13",
