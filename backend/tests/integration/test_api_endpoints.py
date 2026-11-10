@@ -65,7 +65,10 @@ def get_api_endpoints(repo):
                 if path.rstrip("/").endswith("/shutdown"):
                     continue
                 returns_401 = (
-                    len(definition.get("security") or ()) > 0
+                    (
+                        "security" in definition
+                        and len(definition.get("security") or ()) > 0
+                    )
                     or len(data.get("security") or ()) > 0
                     or path.rstrip("/").endswith("/verify")  # JWT token verifications
                     or path.rstrip("/").endswith("/2faqr")  # 2FA QR code
