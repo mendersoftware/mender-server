@@ -318,7 +318,7 @@ func createComposeService(output io.Writer) (api.Compose, error) {
 
 func loadComposeProject(ctx context.Context, compose api.Compose, projectName string) (*types.Project, func(), error) {
 	configPaths := []string{
-		"../../../../../docker-compose.yml",
+		"../../../docker-compose.yml",
 		"../../../docker/docker-compose.backend-tests.yml",
 	}
 
