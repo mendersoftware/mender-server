@@ -90,9 +90,9 @@ export const SelfUserManagement = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const [confirmUnlink, setConfirmUnlink] = useState(false);
   const [resetNotice, setResetNotice] = useState(false);
-  const canHave2FA = isEnterprise || isHosted;
   const currentUser = useSelector(getCurrentUser);
-  const { isOAuth2, provider } = getUserSSOState(currentUser);
+  const { isOAuth2, isSSO, provider } = getUserSSOState(currentUser);
+  const canHave2FA = (isEnterprise || isHosted) && !isSSO;
   const { email, id: userId } = currentUser;
   const hasTracking = useSelector(state => !!state.app.trackerCode);
   const { trackingConsentGiven: hasTrackingConsent } = useSelector(getUserSettings);
@@ -215,7 +215,7 @@ export const SelfUserManagement = () => {
           Enhance your account security. We recommend you complete these essential steps:{' '}
           <ul className="margin-none padding-left">
             <li>Verify your email</li>
-            {!isOAuth2 && <li>Enable two-factor authentication (2FA)</li>}
+            {!isSSO && <li>Enable two-factor authentication (2FA)</li>}
           </ul>
         </Alert>
       )}
@@ -250,7 +250,7 @@ export const SelfUserManagement = () => {
               </Button>
             )}
 
-            {!isOAuth2 && !editEmail && !pendingChange && (
+            {!isSSO && !editEmail && !pendingChange && (
               <Button className="margin-top-x-small" color="primary" id="change_email" onClick={handleEmail}>
                 Change email address
               </Button>
@@ -299,7 +299,7 @@ export const SelfUserManagement = () => {
           )}
         </>
       )}
-      {!isOAuth2 && (
+      {!isSSO && (
         <SettingsItem
           title="Password"
           secondary={
@@ -336,9 +336,8 @@ export const SelfUserManagement = () => {
           }
         />
       )}
-      {!isOAuth2 ? (
-        canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />
-      ) : (
+      {canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />}
+      {isOAuth2 && (
         <div className="margin-top-x-small">
           <Button color="neutral" variant="outlined" startIcon={provider.icon} onClick={() => setConfirmUnlink(true)}>
             Unlink from {provider.name}
