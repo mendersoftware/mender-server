@@ -95,16 +95,18 @@ def get_api_endpoints(repo):
 
 
 def get_all_api_endpoints(repos):
-    for repo in repos:
-        for endpoint in get_api_endpoints(repo):
-            yield (
-                endpoint["kind"],
-                endpoint["returns_401"],
-                endpoint["method"],
-                endpoint["scheme"],
-                endpoint["host"],
-                endpoint["path"],
-            )
+    return [
+        (
+            endpoint["kind"],
+            endpoint["returns_401"],
+            endpoint["method"],
+            endpoint["scheme"],
+            endpoint["host"],
+            endpoint["path"],
+        )
+        for repo in repos
+        for endpoint in get_api_endpoints(repo)
+    ]
 
 
 class BaseTestAPIEndpoints:

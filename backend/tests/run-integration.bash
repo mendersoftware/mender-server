@@ -138,11 +138,11 @@ run_tests() {
         echo "Collecting test nodes for shard ${CI_NODE_INDEX}/${CI_NODE_TOTAL}"
         cat <<EOF | compose_cmd run --no-deps --rm --entrypoint /bin/sh integration-tester -s
 pytest --co -q -m 'not slow' \
-    | grep '::' \
+    | grep -E '^[^ ]+::' \
     | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" \
     | tee nodes.txt \
     && pytest --co -q -m slow \
-      | grep '::' \
+      | grep -E '^[^ ]+::' \
       | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" \
       | tee -a nodes.txt
 EOF
