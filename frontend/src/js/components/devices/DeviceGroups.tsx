@@ -106,7 +106,7 @@ export const DeviceGroups = () => {
   const [modifyGroupDialog, setModifyGroupDialog] = useState(false);
   const [openIdDialog, setOpenIdDialog] = useState(false);
   const [openPreauth, setOpenPreauth] = useState(false);
-  const [removeGroup, setRemoveGroup] = useState(false);
+  const [removeGroup, setRemoveGroup] = useState('');
   const [groupRemoved, setGroupRemoved] = useState('');
   const [tmpDevices, setTmpDevices] = useState([]);
   const deviceConnectionRef = useRef();
@@ -232,7 +232,8 @@ export const DeviceGroups = () => {
    * Groups
    */
   const removeCurrentGroup = () => {
-    const request = groupFilters.length ? dispatch(removeDynamicGroup(selectedGroup)) : dispatch(removeStaticGroup(selectedGroup));
+    const isDynamic = groupsByType.dynamic.some(({ groupId }) => groupId === removeGroup);
+    const request = isDynamic ? dispatch(removeDynamicGroup(removeGroup)) : dispatch(removeStaticGroup(removeGroup));
     return request.catch(console.log);
   };
 
@@ -313,8 +314,6 @@ export const DeviceGroups = () => {
     dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [], filterSelection: undefined }));
   };
 
-  const toggleGroupRemoval = () => setRemoveGroup(toggle);
-
   const changeLocation = useCallback(
     (newLocation: string) => {
       isInitialized.current = false;
@@ -371,31 +370,31 @@ export const DeviceGroups = () => {
           acceptedCount={acceptedCount}
           changeGroup={onGroupSelect}
           groups={groupsByType}
+          canRemoveGroups={canManageDevices}
+          onRemoveGroup={setRemoveGroup}
           openGroupDialog={setCreateGroupExplanation}
           selectedGroup={selectedGroup}
         />
         <div className="rightFluid relative" style={{ paddingTop: 0 }}>
           {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedCount} deviceLimit={deviceLimit} />}
           <AuthorizedDevices
-            groupRemovedName={groupRemoved}
             changeLocation={changeLocation}
             addDevicesToGroup={addDevicesToGroup}
             onGroupClick={onGroupClick}
-            onGroupRemoval={toggleGroupRemoval}
             onPreauthClick={setOpenPreauth}
             openSettingsDialog={openSettingsDialog}
             removeDevicesFromGroup={onRemoveDevicesFromGroup}
-            showsDialog={showDeviceConnectionDialog || removeGroup || modifyGroupDialog || createGroupExplanation || openIdDialog || openPreauth}
+            showsDialog={showDeviceConnectionDialog || !!removeGroup || modifyGroupDialog || createGroupExplanation || openIdDialog || openPreauth}
           />
         </div>
         <ConfirmModal
-          open={removeGroup}
-          close={() => setRemoveGroup(false)}
+          open={!!removeGroup}
+          close={() => setRemoveGroup('')}
           header="Delete group?"
           description={
             <>
               <Typography>
-                The device group <b>{selectedGroup}</b> will be deleted from the list for all users. This will not affect any active or scheduled deployments to
+                The device group <b>{removeGroup}</b> will be deleted from the list for all users. This will not affect any active or scheduled deployments to
                 the devices in this group.
               </Typography>
               <Typography className="margin-top-small">

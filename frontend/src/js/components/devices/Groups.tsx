@@ -12,8 +12,25 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import { Info as InfoIcon } from '@mui/icons-material';
-import { Button, List, ListItemButton, ListItemText, ListSubheader, Typography, listItemButtonClasses } from '@mui/material';
+import { useState } from 'react';
+
+import { Delete, Info as InfoIcon, InfoOutlined as InfoOutlinedIcon, MoreHoriz as MoreHorizIcon } from '@mui/icons-material';
+import {
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+  listItemButtonClasses,
+  listItemSecondaryActionClasses
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICES } from '@northern.tech/store/constants';
@@ -40,6 +57,23 @@ const useStyles = makeStyles()(theme => ({
     [`.${listItemButtonClasses.root}.Mui-selected`]: {
       backgroundColor: theme.palette.action.selected
     }
+  },
+  groupItem: {
+    [`.${listItemSecondaryActionClasses.root}`]: {
+      visibility: 'hidden'
+    },
+    [`&:hover .${listItemSecondaryActionClasses.root}, &:focus-within .${listItemSecondaryActionClasses.root}`]: {
+      visibility: 'visible'
+    }
+  },
+  disabledInfo: {
+    cursor: 'pointer',
+    pointerEvents: 'auto'
+  },
+  groupItemActive: {
+    [`.${listItemSecondaryActionClasses.root}`]: {
+      visibility: 'visible'
+    }
   }
 }));
 
@@ -59,13 +93,55 @@ export const GroupsSubheader = ({ heading }) => {
   );
 };
 
-export const GroupItem = ({ changeGroup, groupname, selectedGroup, name }) => (
-  <ListItemButton classes={{ root: 'grouplist' }} selected={name === selectedGroup || groupname === selectedGroup} onClick={() => changeGroup(name)}>
-    <ListItemText className="margin-left" primary={decodeURIComponent(name)} />
-  </ListItemButton>
-);
+export const GroupItem = ({ canRemove, changeGroup, groupname, selectedGroup, name, onRemove }) => {
+  const { classes } = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const onRemoveClick = () => {
+    setAnchorEl(null);
+    onRemove(name);
+  };
 
-export const Groups = ({ acceptedCount, changeGroup, className, groups, openGroupDialog, selectedGroup }) => {
+  return (
+    <ListItem
+      className={`${classes.groupItem} ${anchorEl ? classes.groupItemActive : ''}`}
+      disablePadding
+      secondaryAction={
+        !!onRemove && (
+          <>
+            <IconButton aria-label="group actions" edge="end" size="small" onClick={e => setAnchorEl(e.currentTarget)}>
+              <MoreHorizIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+              onClose={() => setAnchorEl(null)}
+              open={Boolean(anchorEl)}
+              transformOrigin={{ horizontal: 'left', vertical: 'top' }}
+            >
+              <MenuItem className={canRemove ? 'red' : ''} disabled={!canRemove} onClick={onRemoveClick}>
+                <ListItemIcon>
+                  <Delete className={canRemove ? 'red' : ''} />
+                </ListItemIcon>
+                Delete group
+                {!canRemove && (
+                  <Tooltip arrow title="View only. Contact admin to edit">
+                    <InfoOutlinedIcon className={`margin-left-small ${classes.disabledInfo}`} fontSize="small" onClick={e => e.stopPropagation()} />
+                  </Tooltip>
+                )}
+              </MenuItem>
+            </Menu>
+          </>
+        )
+      }
+    >
+      <ListItemButton classes={{ root: 'grouplist' }} selected={name === selectedGroup || groupname === selectedGroup} onClick={() => changeGroup(name)}>
+        <ListItemText className="margin-left" primary={decodeURIComponent(name)} />
+      </ListItemButton>
+    </ListItem>
+  );
+};
+
+export const Groups = ({ acceptedCount, canRemoveGroups, changeGroup, className, groups, onRemoveGroup, openGroupDialog, selectedGroup }) => {
   const { classes } = useStyles();
   const { dynamic: dynamicGroups, static: staticGroups, ungrouped } = groups;
   return (
@@ -80,11 +156,27 @@ export const Groups = ({ acceptedCount, changeGroup, className, groups, openGrou
         </ListItemButton>
         {!!dynamicGroups.length && <GroupsSubheader heading="Dynamic" />}
         {dynamicGroups.map(({ groupId, name }, index) => (
-          <GroupItem changeGroup={changeGroup} groupname={name} key={name + index} name={groupId} selectedGroup={selectedGroup} />
+          <GroupItem
+            canRemove={canRemoveGroups}
+            changeGroup={changeGroup}
+            groupname={name}
+            key={name + index}
+            name={groupId}
+            onRemove={onRemoveGroup}
+            selectedGroup={selectedGroup}
+          />
         ))}
         {!!staticGroups.length && <GroupsSubheader heading="Static" />}
         {staticGroups.map(({ groupId, name }, index) => (
-          <GroupItem changeGroup={changeGroup} groupname={name} key={name + index} name={groupId} selectedGroup={selectedGroup} />
+          <GroupItem
+            canRemove={canRemoveGroups}
+            changeGroup={changeGroup}
+            groupname={name}
+            key={name + index}
+            name={groupId}
+            onRemove={onRemoveGroup}
+            selectedGroup={selectedGroup}
+          />
         ))}
         {!!staticGroups.length &&
           ungrouped.map(({ groupId, name }, index) => (

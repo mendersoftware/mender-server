@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 // material ui
-import { Delete as DeleteIcon, FilterList as FilterListIcon, Lock, SyncOutlined } from '@mui/icons-material';
+import { FilterList as FilterListIcon, Lock, SyncOutlined } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -178,13 +178,11 @@ const OnboardingComponent = ({ deviceListRef, onboardingState }) => {
 export const Authorized = ({
   addDevicesToGroup,
   onGroupClick,
-  onGroupRemoval,
   onPreauthClick,
   openSettingsDialog,
   removeDevicesFromGroup,
   showsDialog,
-  changeLocation,
-  groupRemovedName
+  changeLocation
 }) => {
   const limitMaxed = useSelector(getLimitMaxed);
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
@@ -515,11 +513,6 @@ export const Authorized = ({
                 </Typography>
               )}
             </div>
-            {canManageDevices && selectedGroup && !isUngroupedGroup && !groupRemovedName && (
-              <Button onClick={onGroupRemoval} startIcon={<DeleteIcon />}>
-                Remove group
-              </Button>
-            )}
           </div>
         </div>
         <div className="flexbox align-items-center space-between margin-top margin-bottom-x-small">
