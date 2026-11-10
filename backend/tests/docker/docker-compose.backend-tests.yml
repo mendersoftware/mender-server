@@ -63,6 +63,9 @@ services:
       - ${GOCOVERDIR:-cover}:/cover
   mock-httpd:
     image: ${MIRROR_REGISTRY:-docker.io}/mockserver/mockserver:5.15.0
+  integration-tester:
+    depends_on:
+      - mock-httpd
 
 volumes:
   cover: {}
