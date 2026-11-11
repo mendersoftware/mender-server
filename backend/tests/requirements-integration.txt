@@ -9,7 +9,7 @@ execnet==2.1.2
 filelock==4.2.9
 idna==3.20
 iniconfig==2.3.1
-kubernetes==36.0.3
+kubernetes==37.0.2
 packaging==26.3
 Pillow==13.0.0
 pluggy==1.7.0
@@ -30,9 +30,9 @@ pyzbar==0.1.9
 redo==3.0.1
 requests==2.34.2
 six==1.17.0
-stripe==15.6.2
+stripe==16.1.0
 toml==0.10.2
 trustme==1.2.1
 urllib3==2.8.0
-websockets==16.1.1
+websockets==17.4
 aiosmtpd==1.4.6
