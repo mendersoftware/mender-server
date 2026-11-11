@@ -51,6 +51,41 @@ type legacyDeployment struct {
 	Stats      *model.Stats `bson:"stats,omitempty"`
 }
 
+func (m migration_2_0_0) listAndCheckLegacyDatabases(
+	ctx context.Context,
+	dbClient *mongo.Client,
+) ([]string, error) {
+	dbNames, err := dbClient.ListDatabaseNames(ctx,
+		bson.M{"name": bson.M{"$regex": "^" + legacyDbNamePrefix}},
+		options.ListDatabases().SetNameOnly(true))
+	if err != nil {
+		return nil, fmt.Errorf("failed to list existing databases: %w", err)
+	}
+	for _, dbName := range dbNames {
+		entries, err := migrate.GetDatabaseMigrationInfo(ctx, dbClient.Database(dbName))
+		if err != nil {
+			return nil, fmt.Errorf("[%s] failed to retrieve migration info: %w", dbName, err)
+		}
+		if len(entries) == 0 {
+			return nil, fmt.Errorf("[%s] database is missing migraiton info", dbName)
+		}
+		last := slices.MaxFunc(entries, func(a, b migrate.MigrationEntry) int {
+			if migrate.VersionIsLess(a.Version, b.Version) {
+				return -1
+			}
+			return 1
+		})
+		if migrate.VersionIsLess(last.Version, m.MinimumVersion()) {
+			return nil, fmt.Errorf(
+				"[%s] database version %s is lower than minimum required "+
+					"version %s. Please upgrade to mender-server v4.1 first.",
+				dbName, last.Version, m.MinimumVersion(),
+			)
+		}
+	}
+	return dbNames, nil
+}
+
 func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrate.Version) error {
 	logger := log.FromContext(ctx)
 	var indexes = map[string][]mongo.IndexModel{
@@ -223,11 +258,9 @@ func (m migration_2_0_0) Up(ctx context.Context, db *mongo.Database, from migrat
 
 	// Migrate existing documents
 	dbClient := db.Client()
-	dbNames, err := dbClient.ListDatabaseNames(ctx,
-		bson.M{"name": bson.M{"$regex": "^" + legacyDbNamePrefix}},
-		options.ListDatabases().SetNameOnly(true))
+	dbNames, err := m.listAndCheckLegacyDatabases(ctx, dbClient)
 	if err != nil {
-		return fmt.Errorf("failed to list existing databases: %w", err)
+		return err
 	}
 	registry := newRegistry()
 	for _, dbName := range dbNames {
