@@ -1,5 +1,5 @@
 ARG REGISTRY=docker.io
-FROM --platform=$BUILDPLATFORM ${REGISTRY}/library/golang:1.27.3 AS builder
+FROM --platform=$BUILDPLATFORM ${REGISTRY}/library/golang:1.27.4 AS builder
 
 ARG BUILDFLAGS="-trimpath"
 ARG LDFLAGS="-s -w"
