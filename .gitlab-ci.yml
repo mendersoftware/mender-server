@@ -564,7 +564,7 @@ test:backend:validate-open-api:
 
 test:backend:unit:
   # FIXME: Using deployments build stage since we're running all tests
-  image: "${CI_REGISTRY_IMAGE}/deployments:${MENDER_IMAGE_TAG_BUILDER}"
+  image: "${ECR_REGISTRY}/gitlab/northern.tech/mender/${CI_PROJECT_NAME}/deployments:${MENDER_IMAGE_TAG_BUILDER}"
   stage: test
   needs:
     - job: build:backend:docker
@@ -603,6 +603,8 @@ test:backend:acceptance:
   image: ${MIRROR_REGISTRY}/library/docker:${DOCKER_VERSION}-cli
   extends: .build:base
   stage: test
+  variables:
+    MENDER_IMAGE_REGISTRY: "${ECR_REGISTRY}/gitlab"
   rules:
     - changes:
         paths: ["backend/**/*", ".gitlab-ci.yml"]
@@ -643,6 +645,8 @@ test:backend:acceptance:
   image: ${MIRROR_REGISTRY}/library/docker:${DOCKER_VERSION}-cli
   stage: test
   extends: .build:base
+  variables:
+    MENDER_IMAGE_REGISTRY: "${ECR_REGISTRY}/gitlab"
   rules:
     - changes:
         paths:
