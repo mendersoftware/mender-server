@@ -126,8 +126,8 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   const currentFilters = filters.filter(filtersFilter);
   const isFiltering = !!currentFilters.length || isFilterDefined;
   return (
-    <Collapse in={open} timeout="auto" className={`${className} filter-wrapper`} unmountOnExit>
-      <>
+    <Collapse in={open} timeout="auto" unmountOnExit>
+      <div className={`${className} filter-wrapper`}>
         <div className="flexbox">
           <Typography>Devices matching:</Typography>
           <div className="margin-left-small filter-list">
@@ -205,7 +205,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
             </div>
           </>
         )}
-      </>
+      </div>
     </Collapse>
   );
 };
