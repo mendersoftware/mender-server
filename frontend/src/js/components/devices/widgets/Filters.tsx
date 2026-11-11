@@ -25,6 +25,7 @@ import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_FILTERING_OPTIONS, emptyFilter } from '@northern.tech/store/constants';
 import {
   getDeviceFilters,
+  getEnabledTiers,
   getFilterAttributes,
   getGlobalSettings,
   getIsEnterprise,
@@ -56,6 +57,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   const { groupFilters, selectedGroup } = useSelector(getSelectedGroupInfo);
   const attributes = useSelector(getFilterAttributes);
   const filters = useSelector(getDeviceFilters);
+  const enabledTiers = useSelector(getEnabledTiers);
   const isEnterprise = useSelector(getIsEnterprise);
   const { previousFilters = [] } = useSelector(getGlobalSettings);
 
@@ -150,7 +152,14 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
           </InfoHintContainer>
         </div>
         <div className="flexbox column">
-          <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} reset={reset} />
+          <FilterItem
+            attributes={attributes}
+            enabledTiers={enabledTiers}
+            onChange={setNewFilter}
+            onSelect={applyPreviewFilter}
+            onSave={updateFilter}
+            reset={reset}
+          />
           <Button
             className="align-self-start margin-bottom-small"
             color="info"

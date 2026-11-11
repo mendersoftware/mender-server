@@ -19,7 +19,7 @@ import { FormHelperText, IconButton, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Select } from '@northern.tech/common-ui/forms/Select';
-import { DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
+import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
@@ -30,6 +30,12 @@ const testDeviceFilterOptions = {
   [DEVICE_FILTERING_OPTIONS.$eq.key]: DEVICE_FILTERING_OPTIONS.$eq,
   [DEVICE_FILTERING_OPTIONS.$ne.key]: DEVICE_FILTERING_OPTIONS.$ne
 };
+
+const TIER_ATTRIBUTE = 'tier';
+const tierFilterOptions = {
+  [DEVICE_FILTERING_OPTIONS.$eq.key]: DEVICE_FILTERING_OPTIONS.$eq
+};
+const isTierAttribute = ({ key, scope }) => key === TIER_ATTRIBUTE && scope === ATTRIBUTE_SCOPES.system;
 
 const filterNotifications = {
   name: <MenderHelpTooltip id={HELPTOOLTIPS.nameFilterTip.id} style={{ position: 'absolute', left: -50 }} />
@@ -54,7 +60,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const FilterItem = ({ attributes, onChange, onSelect, reset, onSave }) => {
+export const FilterItem = ({ attributes, enabledTiers = [], onChange, onSelect, reset, onSave }) => {
   const [key, setKey] = useState(emptyFilter.key); // this refers to the selected filter with key as the id
   const [value, setValue] = useState(emptyFilter.value); // while this is the value that is applied with the filter
   const [operator, setOperator] = useState(emptyFilter.operator);
@@ -96,6 +102,10 @@ export const FilterItem = ({ attributes, onChange, onSelect, reset, onSave }) =>
       setValue('true');
       setOperator(operator => (operator in testDeviceFilterOptions ? operator : DEVICE_FILTERING_OPTIONS.$eq.key));
     }
+    if (enabledTiers.length && isTierAttribute({ key, scope })) {
+      setValue(value => (enabledTiers.includes(value) ? value : emptyFilter.value));
+      setOperator(DEVICE_FILTERING_OPTIONS.$eq.key);
+    }
   };
 
   const updateFilterOperator = ({ target: { value: changedOperator } }) => {
@@ -123,7 +133,8 @@ export const FilterItem = ({ attributes, onChange, onSelect, reset, onSave }) =>
   };
 
   const isTestDeviceFilter = key === TEST_DEVICE_ATTRIBUTE;
-  const filterOptions = isTestDeviceFilter ? testDeviceFilterOptions : DEVICE_FILTERING_OPTIONS;
+  const isTierFilter = !!enabledTiers.length && isTierAttribute({ key, scope });
+  const filterOptions = isTierFilter ? tierFilterOptions : isTestDeviceFilter ? testDeviceFilterOptions : DEVICE_FILTERING_OPTIONS;
   const operatorHelpMessage = (DEVICE_FILTERING_OPTIONS[operator] || {}).help || '';
   const showValue = typeof (filterOptions[operator] || {}).value === 'undefined';
   const isFilterDefined = Object.values({ key, operator, scope, ...(showValue ? { value } : {}) }).every(thing => !!thing);
@@ -144,12 +155,23 @@ export const FilterItem = ({ attributes, onChange, onSelect, reset, onSave }) =>
           />
           <Select
             className={classes.filterItem}
+            disabled={isTierFilter}
             onChange={updateFilterOperator}
             options={Object.values(filterOptions)}
             selectionAttribute="key"
             value={operator}
           />
-          {showValue && (
+          {isTierFilter && (
+            <Select
+              className={`capitalized ${classes.filterItem}`}
+              label="Value"
+              MenuItemProps={{ className: 'capitalized' }}
+              onChange={updateFilterValue}
+              options={enabledTiers.map(tier => ({ id: tier, title: tier }))}
+              value={enabledTiers.includes(value) ? value : ''}
+            />
+          )}
+          {showValue && !isTierFilter && (
             <TextField
               className={classes.valueFilter}
               label="Value"
