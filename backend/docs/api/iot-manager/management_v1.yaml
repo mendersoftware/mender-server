@@ -425,8 +425,7 @@ components:
             secret:
               type: string
               description: An optional secret used to verify the integrity of the
-                payload. The string must be in hexadecimal format.
-              pattern: '[0-9a-f]{1,64}'
+                payload. The string must be in hexadecimal format of the form '[0-9a-f]{1,64}'.
           required:
           - url
       required:
