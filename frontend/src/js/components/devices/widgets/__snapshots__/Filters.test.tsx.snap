@@ -1284,7 +1284,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
 }
 
 <div
-  class="MuiCollapse-root MuiCollapse-vertical filter-wrapper MuiCollapse-entered emotion-0"
+  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-0"
   style="min-height: 0px;"
 >
   <div
@@ -1294,99 +1294,189 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
       class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-2"
     >
       <div
-        class="flexbox"
+        class=" filter-wrapper"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 emotion-3"
-        >
-          Devices matching:
-        </p>
         <div
-          class="margin-left-small filter-list"
-        />
-        <div
-          class="flexbox align-items-center margin-left-small emotion-4"
+          class="flexbox"
         >
+          <p
+            class="MuiTypography-root MuiTypography-body1 emotion-3"
+          >
+            Devices matching:
+          </p>
           <div
-            class=""
-            data-mui-internal-clone-element="true"
+            class="margin-left-small filter-list"
+          />
+          <div
+            class="flexbox align-items-center margin-left-small emotion-4"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-5"
-              role="button"
-              tabindex="0"
+              class=""
+              data-mui-internal-clone-element="true"
             >
-              <span
-                class="MuiChip-label emotion-6"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-5"
+                role="button"
+                tabindex="0"
               >
-                Enterprise
-              </span>
+                <span
+                  class="MuiChip-label emotion-6"
+                >
+                  Enterprise
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="flexbox column"
-      >
         <div
-          class="flexbox align-items-center margin-top-small margin-bottom-small relative"
+          class="flexbox column"
         >
           <div
-            class="flexbox margin-right-small emotion-7"
+            class="flexbox align-items-center margin-top-small margin-bottom-small relative"
           >
             <div
-              class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon emotion-8"
+              class="flexbox margin-right-small emotion-7"
             >
               <div
-                class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-9"
+                class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon emotion-8"
+              >
+                <div
+                  class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-9"
+                >
+                  <label
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-10"
+                    data-shrink="false"
+                    for="filter-selection"
+                    id="filter-selection-label"
+                  >
+                    Attribute
+                  </label>
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot emotion-11"
+                  >
+                    <input
+                      aria-autocomplete="both"
+                      aria-expanded="false"
+                      aria-invalid="false"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-12"
+                      id="filter-selection"
+                      role="combobox"
+                      spellcheck="false"
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      class="MuiAutocomplete-endAdornment emotion-13"
+                    >
+                      <button
+                        aria-label="Clear"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-14"
+                        tabindex="-1"
+                        title="Clear"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-15"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline emotion-16"
+                    >
+                      <legend
+                        class="emotion-17"
+                      >
+                        <span>
+                          Attribute
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiFormControl-root emotion-18"
+              >
+                <div
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root emotion-19"
+                >
+                  <div
+                    aria-expanded="false"
+                    aria-haspopup="listbox"
+                    class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input emotion-20"
+                    role="combobox"
+                    tabindex="0"
+                  >
+                    equals
+                  </div>
+                  <input
+                    aria-hidden="true"
+                    aria-invalid="false"
+                    class="MuiSelect-nativeInput emotion-21"
+                    id="_r_X_"
+                    tabindex="-1"
+                    value="$eq"
+                  />
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-22"
+                    data-testid="ArrowDropDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M7 10l5 5 5-5z"
+                    />
+                  </svg>
+                  <fieldset
+                    aria-hidden="true"
+                    class="MuiOutlinedInput-notchedOutline emotion-16"
+                  >
+                    <legend
+                      class="emotion-24"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="notranslate"
+                      >
+                        ​
+                      </span>
+                    </legend>
+                  </fieldset>
+                </div>
+              </div>
+              <div
+                class="MuiFormControl-root MuiTextField-root emotion-25"
               >
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-10"
                   data-shrink="false"
-                  for="filter-selection"
-                  id="filter-selection-label"
+                  for="_r_X_"
+                  id="_r_X_-label"
                 >
-                  Attribute
+                  Value
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot emotion-11"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
                 >
                   <input
-                    aria-autocomplete="both"
-                    aria-expanded="false"
                     aria-invalid="false"
-                    autocapitalize="none"
-                    autocomplete="off"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-12"
-                    id="filter-selection"
-                    role="combobox"
-                    spellcheck="false"
+                    class="MuiInputBase-input MuiOutlinedInput-input emotion-28"
+                    id="_r_X_"
                     type="text"
                     value=""
                   />
-                  <div
-                    class="MuiAutocomplete-endAdornment emotion-13"
-                  >
-                    <button
-                      aria-label="Clear"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator emotion-14"
-                      tabindex="-1"
-                      title="Clear"
-                      type="button"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-15"
-                        data-testid="CloseIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
                   <fieldset
                     aria-hidden="true"
                     class="MuiOutlinedInput-notchedOutline emotion-16"
@@ -1395,124 +1485,38 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                       class="emotion-17"
                     >
                       <span>
-                        Attribute
+                        Value
                       </span>
                     </legend>
                   </fieldset>
                 </div>
               </div>
             </div>
-            <div
-              class="MuiFormControl-root emotion-18"
-            >
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root emotion-19"
-              >
-                <div
-                  aria-expanded="false"
-                  aria-haspopup="listbox"
-                  class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input emotion-20"
-                  role="combobox"
-                  tabindex="0"
-                >
-                  equals
-                </div>
-                <input
-                  aria-hidden="true"
-                  aria-invalid="false"
-                  class="MuiSelect-nativeInput emotion-21"
-                  id="_r_X_"
-                  tabindex="-1"
-                  value="$eq"
-                />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-22"
-                  data-testid="ArrowDropDownIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 10l5 5 5-5z"
-                  />
-                </svg>
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline emotion-16"
-                >
-                  <legend
-                    class="emotion-24"
-                  >
-                    <span
-                      aria-hidden="true"
-                      class="notranslate"
-                    >
-                      ​
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
-            <div
-              class="MuiFormControl-root MuiTextField-root emotion-25"
-            >
-              <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-10"
-                data-shrink="false"
-                for="_r_X_"
-                id="_r_X_-label"
-              >
-                Value
-              </label>
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-              >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input emotion-28"
-                  id="_r_X_"
-                  type="text"
-                  value=""
-                />
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline emotion-16"
-                >
-                  <legend
-                    class="emotion-17"
-                  >
-                    <span>
-                      Value
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
           </div>
-        </div>
-        <button
-          class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo align-self-start margin-bottom-small emotion-31"
-          disabled=""
-          tabindex="-1"
-          type="button"
-        >
-          <span
-            class="MuiButton-icon MuiButton-startIcon emotion-32"
+          <button
+            class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo align-self-start margin-bottom-small emotion-31"
+            disabled=""
+            tabindex="-1"
+            type="button"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
-              data-testid="AddIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <span
+              class="MuiButton-icon MuiButton-startIcon emotion-32"
             >
-              <path
-                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
-              />
-            </svg>
-          </span>
-          Add rule
-        </button>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+                data-testid="AddIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                />
+              </svg>
+            </span>
+            Add rule
+          </button>
+        </div>
       </div>
     </div>
   </div>
