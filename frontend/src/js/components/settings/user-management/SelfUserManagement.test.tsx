@@ -84,6 +84,27 @@ describe('SelfUserManagement Component', () => {
     await act(async () => vi.runAllTicks());
   });
 
+  it('does not offer to unlink federated SSO logins', async () => {
+    const preloadedState = {
+      ...defaultState,
+      users: {
+        ...defaultState.users,
+        byId: {
+          ...defaultState.users.byId,
+          [defaultState.users.currentUser]: {
+            ...defaultState.users.byId[defaultState.users.currentUser],
+            sso: [{ kind: 'sso/saml' }]
+          }
+        }
+      }
+    };
+    render(<SelfUserManagement />, { preloadedState });
+    expect(screen.queryByRole('button', { name: /unlink/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /change password/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /change email address/i })).not.toBeInTheDocument();
+    await act(async () => vi.runAllTimers());
+  });
+
   it('warns about sharing the session token once it is revealed', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<SelfUserManagement />, { preloadedState: { ...defaultState, users: { ...defaultState.users, currentSession: { token: 'session-token' } } } });
