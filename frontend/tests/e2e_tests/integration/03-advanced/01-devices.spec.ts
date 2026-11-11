@@ -28,7 +28,7 @@ const macPattern = /^([0-9a-f]{2}:){5}[0-9a-f]{2}$/i;
 // rely on `.MuiCollapse-entered` as signal for animation completion to ensure the filters are actionable to prevent flakiness in slower CI browsers
 const openFilters = async (page: Page) => {
   await page.getByRole('button', { name: /filters/i }).click();
-  await expect(page.locator('.filter-wrapper')).toHaveClass(/MuiCollapse-entered/);
+  await expect(page.locator('.MuiCollapse-root', { has: page.locator('.filter-wrapper') })).toHaveClass(/MuiCollapse-entered/);
 };
 
 const openDeviceDetails = (page: Page) => page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
