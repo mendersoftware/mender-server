@@ -29,6 +29,12 @@ func Identifier(value interface{}) error {
 	)
 }
 
+func IdentifierR(value interface{}) error {
+	return validation.Validate(value,
+		validation.Required,
+		validation.By(Identifier))
+}
+
 func Name(value interface{}) error {
 	if !HasUnderlyingType(value, reflect.String) {
 		return fmt.Errorf("invalid type %T for name", value)
