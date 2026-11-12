@@ -109,4 +109,4 @@ export const statTile = (page: Page, label: string) => page.getByText(label, { e
 
 export const planCount = (page: Page, plan: string) => page.getByText(plan, { exact: true }).locator('xpath=following-sibling::*[2]');
 
-export const deviceStateCount = (page: Page, state: string) => page.getByText(state, { exact: true }).locator('xpath=preceding-sibling::*[1]');
+export const deviceStateCount = (page: Page, state: string) => page.getByRole('heading', { name: `${state} devices` }).locator('xpath=following-sibling::*[1]');
