@@ -39,7 +39,6 @@ func (s *DeploymentsManagementV1Suite) TestShowArtifactSize() {
 	// depends value like that fails to unmarshal from the real API response.
 	artifact, err := common.CreateArtifact(artifactName, s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
-		common.WithDependsProvides(map[string]string{}, map[string]string{}),
 	)
 	require.NoError(err)
 	_, err = s.uploadArtifact(ctx, artifact, "abc")
@@ -151,7 +150,6 @@ func (s *DeploymentsManagementV1Suite) TestListArtifactsV2() {
 	for _, a := range artifacts {
 		f, err := common.CreateArtifact(a.name, s.T(),
 			common.WithCompatibleDevices([]string{a.deviceType}),
-			common.WithDependsProvides(map[string]string{}, map[string]string{}),
 		)
 		require.NoError(s.T(), err)
 		_, err = s.uploadArtifact(ctx, f, a.description)
@@ -347,7 +345,7 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactSelectionAlreadyInstall
 	a, err := common.CreateArtifact(artifactName, s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
 		common.WithDependsProvides(
-			map[string]string{"rootfs-image.checksum": "another-checksum"},
+			map[string][]string{"rootfs-image.checksum": {"another-checksum"}},
 			map[string]string{"rootfs-image.checksum": "provided"},
 		),
 	)
@@ -384,7 +382,7 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactDependsProvidesValid() 
 		common.WithModuleImage(handlers.NewModuleImage("dummy")),
 		common.WithCompatibleDevices([]string{deviceType}),
 		common.WithDependsProvides(
-			map[string]string{"key1": "value1", "key2": "value2"},
+			map[string][]string{"key1": {"value1"}, "key2": {"value2"}},
 			map[string]string{
 				"key3": "value3", "key4": "value4", "key5": "value5",
 				// the mender-artifact CLI adds this default software-version
@@ -446,7 +444,7 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactProvidesDependsIgnoredI
 	big, err := common.CreateArtifact(artifactName+"-big", s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
 		common.WithDependsProvides(
-			map[string]string{"foo": "fooval", "bar": "barval"}, nil,
+			map[string][]string{"foo": {"fooval"}, "bar": {"barval"}}, nil,
 		),
 		common.WithPayloadFile(s.T(), 1024),
 	)
