@@ -15,14 +15,18 @@ import type { ComponentType, KeyboardEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // material ui
-import { Close as CloseIcon } from '@mui/icons-material';
-import { FormHelperText, IconButton, TextField } from '@mui/material';
+import { CalendarMonth as CalendarIcon, Close as CloseIcon } from '@mui/icons-material';
+import { FormHelperText, IconButton, InputAdornment, Popover, TextField } from '@mui/material';
+import type { DateView } from '@mui/x-date-pickers';
+import { DateCalendar } from '@mui/x-date-pickers';
 import { makeStyles } from 'tss-react/mui';
 
 import { Select } from '@northern.tech/common-ui/forms/Select';
 import type { FilterOperator } from '@northern.tech/store/constants';
-import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
+import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, TIMEOUTS, dateTimeAttributes, emptyFilter } from '@northern.tech/store/constants';
+import { tryParseDate } from '@northern.tech/store/utils';
 import type { Scope } from '@northern.tech/types/MenderTypes';
+import type { Dayjs } from 'dayjs';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
@@ -64,6 +68,82 @@ const OptionsValueInput = ({ classes, onChange, onKeyDown, options, value }: Val
   />
 );
 
+const calendarViews: Record<DateView, string> = {
+  year: 'YYYY',
+  month: 'YYYY-MM',
+  day: 'YYYY-MM-DD'
+} as const;
+
+const DateValueInput = ({ classes, onChange, onKeyDown, value }: Omit<ValueInputProps, 'options'>) => {
+  const [text, setText] = useState(value);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [calendarView, setCalendarView] = useState<DateView>('day');
+  const inputRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setText(current => (!current || tryParseDate(current) ? value : current));
+  }, [value]);
+
+  const isInvalid = !!text && !tryParseDate(text);
+
+  const onTextChange = ({ target: { value: changedText = '' } }) => {
+    setText(changedText);
+    if (!changedText || tryParseDate(changedText)) {
+      onChange(changedText.trim());
+    }
+  };
+
+  const onCalendarChange = (date: Dayjs | null) => {
+    if (!date?.isValid() || calendarView === 'year') {
+      return;
+    }
+    const changedText = date.format(calendarViews[calendarView]);
+    setText(changedText);
+    onChange(changedText);
+    setAnchorEl(null);
+  };
+
+  const onOpenCalendar = () => {
+    setCalendarView('day');
+    setAnchorEl(inputRef.current);
+  };
+
+  return (
+    <>
+      <TextField
+        className={classes.valueFilter}
+        error={isInvalid}
+        label="Value"
+        onChange={onTextChange}
+        onKeyDown={onKeyDown}
+        placeholder={calendarViews.day}
+        ref={inputRef}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton aria-label="Pick a date" edge="end" onClick={onOpenCalendar} size="small">
+                  <CalendarIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            )
+          }
+        }}
+        value={text}
+      />
+      <Popover anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} onClose={() => setAnchorEl(null)} open={!!anchorEl}>
+        <DateCalendar
+          onChange={onCalendarChange}
+          onViewChange={setCalendarView}
+          value={tryParseDate(text)}
+          view={calendarView}
+          views={Object.keys(calendarViews) as unknown as DateView[]}
+        />
+      </Popover>
+    </>
+  );
+};
+
 const testDeviceFilterOptions = {
   [DEVICE_FILTERING_OPTIONS.$eq.key]: DEVICE_FILTERING_OPTIONS.$eq,
   [DEVICE_FILTERING_OPTIONS.$ne.key]: DEVICE_FILTERING_OPTIONS.$ne
@@ -77,7 +157,13 @@ const getNonStandardAttributeFilters = ({ enabledTiers }: { enabledTiers: string
       operators: testDeviceFilterOptions,
       coerceValue: () => 'true',
       ValueInput: null
-    }
+    },
+    ...dateTimeAttributes.map(({ attribute, scope }) => ({
+      key: attribute,
+      scope,
+      coerceValue: (value: string) => (tryParseDate(value) ? value.trim() : emptyFilter.value),
+      ValueInput: DateValueInput
+    }))
   ];
   if (enabledTiers.length) {
     filters.push({
