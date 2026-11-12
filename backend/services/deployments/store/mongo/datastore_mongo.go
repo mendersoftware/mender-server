@@ -687,8 +687,11 @@ func (db *DataStoreMongo) Update(ctx context.Context,
 }
 
 // ImageByIdsAndDeviceType finds image with id from ids and target device type
-func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
-	ids []string, deviceType string) (*model.Image, error) {
+func (db *DataStoreMongo) ImageForDeviceDeployment(ctx context.Context,
+	ids []string, // FIXME: consider replacing with release name
+	deviceType string,
+	provides model.Provides,
+) (*model.Image, error) {
 
 	if len(deviceType) == 0 {
 		return nil, ErrImagesStorageInvalidDeviceType
@@ -705,22 +708,41 @@ func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
 		}},
 	}
 
+	providesDepends := make([]Depend, 0, len(provides)+1)
+	providesKeys := make([]string, 0, len(provides)+1)
+	for key, value := range provides {
+		providesKeys = append(providesKeys, key)
+		providesDepends = append(providesDepends, Depend{
+			Key:   key,
+			Value: value,
+		})
+	}
+	providesKeys = append(providesKeys, "device_type")
+	providesDepends = append(providesDepends, Depend{
+		Key:   "device_type",
+		Value: deviceType,
+	})
+	// Ensure no depends keys are outside the provides shape
 	artifactFilter := bson.D{
 		{Key: "input", Value: "$" + StorageKeyReleaseArtifacts},
 		{Key: "as", Value: "artifact"},
 		{Key: "cond", Value: bson.D{
-			{Key: "$in", Value: bson.A{
-				bson.D{
-					{Key: "$literal", Value: Depend{
-						Key:   "device_type",
-						Value: deviceType,
-					}},
-				},
-				"$$artifact.meta_artifact.depends",
+			{Key: "$and", Value: []bson.D{
+				// Provides key/values is a subset of depends key/values
+				// i.e. each provides must match a depends key/value pair
+				{{Key: "$setIsSubset", Value: bson.A{
+					bson.D{{Key: "$literal", Value: providesDepends}},
+					"$$artifact.meta_artifact.depends",
+				}}},
+				// Depends keys is subset of provides keys
+				// i.e. no depends keys are outside the set of provides
+				{{Key: "$setIsSubset", Value: bson.A{
+					"$$artifact.meta_artifact.depends.k",
+					bson.D{{Key: "$literal", Value: providesKeys}},
+				}}},
 			}},
 		}},
 	}
-
 	collReleases := db.database.Collection(CollectionReleases)
 	cur, err := collReleases.Aggregate(ctx, mongo.Pipeline{
 		{{Key: "$match", Value: query}},

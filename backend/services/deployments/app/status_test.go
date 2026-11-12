@@ -229,7 +229,7 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 	// db.On("ImageByNameAndDeviceType", ctx, depArtifact, devType).Return(
 	// 	fakeImage, nil)
 	//
-	db.On("ImageByIdsAndDeviceType", ctx, []string{"foobar"}, devType).Return(
+	db.On("ImageForDeviceDeployment", ctx, []string{"foobar"}, devType, model.Provides(nil)).Return(
 		fakeImage, nil)
 
 	db.On("AssignArtifact", ctx,

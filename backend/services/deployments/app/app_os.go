@@ -85,10 +85,11 @@ func (d *Deployments) assignArtifact(
 		return fmt.Errorf("no assigned artifacts for deployment")
 	} else {
 		// Select artifact for the device deployment from artifacts assigned to the deployment.
-		artifact, err = d.db.ImageByIdsAndDeviceType(
+		artifact, err = d.db.ImageForDeviceDeployment(
 			ctx,
 			deployment.Artifacts,
 			installed.DeviceType,
+			installed.Provides,
 		)
 		if err != nil {
 			return errors.Wrap(err, "assigning artifact to device deployment")

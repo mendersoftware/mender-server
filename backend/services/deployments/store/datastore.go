@@ -59,8 +59,11 @@ type DataStore interface {
 	ListImages(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]*model.Image, int, error)
 	ListImagesV2(ctx context.Context, filt *model.ImageFilter) ([]*model.Image, error)
 
-	ImageByIdsAndDeviceType(ctx context.Context,
-		ids []string, deviceType string) (*model.Image, error)
+	ImageForDeviceDeployment(ctx context.Context,
+		ids []string,
+		deviceType string,
+		provides model.Provides,
+	) (*model.Image, error)
 
 	// upload intents
 	InsertUploadIntent(ctx context.Context, link *model.UploadLink) error
