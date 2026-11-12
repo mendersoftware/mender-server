@@ -18,6 +18,8 @@ exports[`AuthSetup Component > renders correctly 1`] = `
 
 .emotion-3 {
   max-width: 188px;
+  background-color: #fff;
+  padding: 8px;
 }
 
 .emotion-4 {
