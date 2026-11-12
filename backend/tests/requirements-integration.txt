@@ -1,12 +1,12 @@
 attrs==26.1.0
 azure-cli==2.92.0
-boto3==1.43.126
+boto3==1.44.0
 certifi==2026.10.23
 cffi==2.1.1
 cryptography==48.0.1
 docker==7.2.0
 execnet==2.1.2
-filelock==4.2.9
+filelock==4.2.10
 idna==3.20
 iniconfig==2.3.1
 kubernetes==36.0.3
@@ -21,7 +21,7 @@ pyparsing==3.3.3
 pytest==9.2.0
 pytest-forked==1.7.5
 pytest-html==4.2.0
-pytest-httpserver==1.2.0
+pytest-httpserver==1.2.1
 pytest-metadata==3.1.1
 pytest-xdist==3.8.0
 PyYAML==6.0.3
