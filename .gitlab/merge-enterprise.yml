@@ -19,14 +19,18 @@ merge-to-enterprise:
     GITHUB_REPOSITORY_OPEN_SOURCE: "mendersoftware/mender-server"
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
-    - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/$GITHUB_REPOSITORY_ENTERPRISE"
+    - ENTERPRISE_TOKEN="$(GH_APP_REPOSITORIES="${GITHUB_REPOSITORY_ENTERPRISE#*/}" GH_APP_PERMISSIONS='{"contents":"write","pull_requests":"write","workflows":"write"}' .gitlab/github-app-token.sh)"
+    - '[ -n "${ENTERPRISE_TOKEN}" ]'
+    - OPEN_SOURCE_TOKEN="$(GH_APP_REPOSITORIES="${GITHUB_REPOSITORY_OPEN_SOURCE#*/}" GH_APP_PERMISSIONS='{"contents":"read"}' .gitlab/github-app-token.sh)"
+    - '[ -n "${OPEN_SOURCE_TOKEN}" ]'
+    - GIT_REMOTE="https://x-access-token:${ENTERPRISE_TOKEN}@github.com/$GITHUB_REPOSITORY_ENTERPRISE"
     - GITHUB_ORG="${GITHUB_REPOSITORY_ENTERPRISE%%/*}"
     - PR_BRANCH="${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/$CI_COMMIT_BRANCH"
   script:
     # Get author Github username
     - |
       wget "https://api.github.com/repos/$GITHUB_REPOSITORY_OPEN_SOURCE/commits/$CI_COMMIT_SHA" \
-        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+        --header "Authorization: Bearer $OPEN_SOURCE_TOKEN" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
         -O commit.json
@@ -35,14 +39,14 @@ merge-to-enterprise:
     # Fetch existing PR (if any)
     - |
       wget "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls?head=$GITHUB_ORG:$PR_BRANCH&state=open" \
-        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+        --header "Authorization: Bearer $ENTERPRISE_TOKEN" \
         --header "Accept: application/vnd.github+json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
         -O- | jq -r 'first? // ""' > pull.json
 
     - |
       cat > pr_body.txt << EOF
-      This is an automated PR by @mender-test-bot. To complete the PR please follow the following steps:
+      This is an automated PR. To complete the PR please follow the following steps:
       1. Merge the PR into ${CI_COMMIT_BRANCH}:
          \`\`\`bash
          git checkout ${CI_COMMIT_BRANCH} && \\
@@ -72,7 +76,7 @@ merge-to-enterprise:
         # Pull request does not exist: Forcefully fast-forward fork branch and create one
         git push -f "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"
         wget --post-file pr_request_body.json \
-          --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+          --header "Authorization: Bearer $ENTERPRISE_TOKEN" \
           --header "Accept: application/vnd.github+json" \
           --header "Content-Type: application/json" \
           --header "X-GitHub-Api-Version: 2022-11-28" \
@@ -87,7 +91,7 @@ merge-to-enterprise:
       if ! git push "$GIT_REMOTE" "$CI_COMMIT_SHA:refs/heads/$PR_BRANCH"; then
         # Could not fast-forward PR, notify the author in the existing PR
         wget --post-data "{\"body\": \"Tried to submit commits from @$GITHUB_USER, but this PR has commits ahead of $CI_COMMIT_BRANCH\"}" \
-          --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+          --header "Authorization: Bearer $ENTERPRISE_TOKEN" \
           --header "Accept: application/vnd.github+json" \
           --header "Content-Type: application/json" \
           --header "X-GitHub-Api-Version: 2022-11-28" \
@@ -97,7 +101,7 @@ merge-to-enterprise:
     # Add author as a reviewer
     - |
       wget --post-data "{\"reviewers\": [\"$GITHUB_USER\"]}" \
-        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+        --header "Authorization: Bearer $ENTERPRISE_TOKEN" \
         --header "Accept: application/vnd.github+json" \
         --header "Content-Type: application/json" \
         --header "X-GitHub-Api-Version: 2022-11-28" \
