@@ -318,11 +318,11 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 				mock.AnythingOfType("model.Deployment")).
 				Return(testCase.InputDeploymentStorageInsertError)
 
-			db.On("GetRelease",
+			db.On("GetSoftware",
 				ctx,
 				mock.AnythingOfType("string")).
 				Return(
-					&model.Release{
+					&model.Software{
 						Artifacts: []model.Image{*model.NewImage(
 							validUUIDv4,
 							&model.ImageMeta{},
@@ -1601,10 +1601,10 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 					h.ContextMatcher(),
 					"foo",
 				).Return(true, nil)
-				ds.On("GetRelease",
+				ds.On("GetSoftware",
 					h.ContextMatcher(),
 					"foo",
-				).Return(&model.Release{Artifacts: []model.Image{{Id: "foo-id"}}}, nil)
+				).Return(&model.Software{Artifacts: []model.Image{{Id: "foo-id"}}}, nil)
 				ds.On("UpdateDeploymentsWithArtifactName",
 					h.ContextMatcher(), "foo", []string{"foo-id"},
 				).Return(nil)

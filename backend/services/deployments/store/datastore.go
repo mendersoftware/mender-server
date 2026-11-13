@@ -200,6 +200,7 @@ type DataStore interface {
 
 	ListSoftwareTags(ctx context.Context, filter *model.SoftwareTagsFilter) (model.Tags, error)
 	ListSoftware(ctx context.Context, filter *model.SoftwareFilter) ([]model.Software, int, error)
+	GetSoftware(ctx context.Context, name string) (*model.Software, error)
 }
 
 var ErrNotFound = errors.New("document not found")

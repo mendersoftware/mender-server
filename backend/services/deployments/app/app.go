@@ -1181,12 +1181,14 @@ func (d *Deployments) CreateDeployment(ctx context.Context,
 	// Assign release to the deployment.
 	// When new artifact(s) with the artifact name same as the one in the deployment
 	// will be uploaded to the backend, it will also become part of this deployment.
-	release, err := d.db.GetRelease(ctx, deployment.ArtifactName)
+	release, err := d.db.GetSoftware(ctx, deployment.ArtifactName)
 	if err != nil {
 		if errors.Is(err, store.ErrNotFound) {
 			return "", ErrNoArtifact
 		}
 		return "", errors.Wrap(err, "Finding artifact with given name")
+	} else if len(release.Artifacts) == 0 {
+		return "", ErrNoArtifact
 	}
 
 	deployment.Artifacts = getArtifactIDs(release.Artifacts)
@@ -2142,12 +2144,14 @@ func (d *Deployments) UpdateDeploymentsWithArtifactName(
 	}
 
 	// Assign release to the deployments with given artifact name
-	release, err := d.db.GetRelease(ctx, artifactName)
+	release, err := d.db.GetSoftware(ctx, artifactName)
 	if err != nil {
 		if errors.Is(err, store.ErrNotFound) {
 			return ErrNoArtifact
 		}
 		return errors.Wrap(err, "Finding artifact with given name")
+	} else if len(release.Artifacts) == 0 {
+		return ErrNoArtifact
 	}
 
 	artifactIDs := getArtifactIDs(release.Artifacts)

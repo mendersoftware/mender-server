@@ -2379,6 +2379,74 @@ func (_c *DataStore_GetReleases_Call) RunAndReturn(run func(ctx context.Context,
 	return _c
 }
 
+// GetSoftware provides a mock function for the type DataStore
+func (_mock *DataStore) GetSoftware(ctx context.Context, name string) (*model.Software, error) {
+	ret := _mock.Called(ctx, name)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetSoftware")
+	}
+
+	var r0 *model.Software
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Software, error)); ok {
+		return returnFunc(ctx, name)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Software); ok {
+		r0 = returnFunc(ctx, name)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Software)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = returnFunc(ctx, name)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// DataStore_GetSoftware_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetSoftware'
+type DataStore_GetSoftware_Call struct {
+	*mock.Call
+}
+
+// GetSoftware is a helper method to define mock.On call
+//   - ctx context.Context
+//   - name string
+func (_e *DataStore_Expecter) GetSoftware(ctx any, name any) *DataStore_GetSoftware_Call {
+	return &DataStore_GetSoftware_Call{Call: _e.mock.On("GetSoftware", ctx, name)}
+}
+
+func (_c *DataStore_GetSoftware_Call) Run(run func(ctx context.Context, name string)) *DataStore_GetSoftware_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		run(
+			arg0,
+			arg1,
+		)
+	})
+	return _c
+}
+
+func (_c *DataStore_GetSoftware_Call) Return(software *model.Software, err error) *DataStore_GetSoftware_Call {
+	_c.Call.Return(software, err)
+	return _c
+}
+
+func (_c *DataStore_GetSoftware_Call) RunAndReturn(run func(ctx context.Context, name string) (*model.Software, error)) *DataStore_GetSoftware_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetStorageSettings provides a mock function for the type DataStore
 func (_mock *DataStore) GetStorageSettings(ctx context.Context) (*model.StorageSettings, error) {
 	ret := _mock.Called(ctx)

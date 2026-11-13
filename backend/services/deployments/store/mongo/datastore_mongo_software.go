@@ -2,13 +2,16 @@ package mongo
 
 import (
 	"context"
+	"errors"
 	"regexp"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
+	"github.com/mendersoftware/mender-server/services/deployments/store"
 )
 
 func (db *DataStoreMongo) ListSoftwareTags(
@@ -121,4 +124,19 @@ func fillMissingKind(softwares []model.Software) []model.Software {
 		}
 	}
 	return softwares
+}
+
+func (db *DataStoreMongo) GetSoftware(ctx context.Context, name string) (*model.Software, error) {
+	var sw model.Software
+	err := db.database.Collection(CollectionReleases).FindOne(ctx, bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		{Key: StorageKeyReleaseName, Value: name},
+	}).Decode(&sw)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return nil, store.ErrNotFound
+		}
+		return nil, err
+	}
+	return &sw, nil
 }
