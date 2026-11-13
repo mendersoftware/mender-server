@@ -39,7 +39,6 @@ func (s *DeploymentsManagementV1Suite) TestShowArtifactSize() {
 	// depends value like that fails to unmarshal from the real API response.
 	artifact, err := common.CreateArtifact(artifactName, s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
-		common.WithDependsProvides(map[string]string{}, map[string]string{}),
 	)
 	require.NoError(err)
 	_, err = s.uploadArtifact(ctx, artifact, "abc")
@@ -151,7 +150,6 @@ func (s *DeploymentsManagementV1Suite) TestListArtifactsV2() {
 	for _, a := range artifacts {
 		f, err := common.CreateArtifact(a.name, s.T(),
 			common.WithCompatibleDevices([]string{a.deviceType}),
-			common.WithDependsProvides(map[string]string{}, map[string]string{}),
 		)
 		require.NoError(s.T(), err)
 		_, err = s.uploadArtifact(ctx, f, a.description)
@@ -347,7 +345,7 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactSelectionAlreadyInstall
 	a, err := common.CreateArtifact(artifactName, s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
 		common.WithDependsProvides(
-			map[string]string{"rootfs-image.checksum": "another-checksum"},
+			map[string][]string{"rootfs-image.checksum": {"another-checksum"}},
 			map[string]string{"rootfs-image.checksum": "provided"},
 		),
 	)
@@ -384,7 +382,7 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactDependsProvidesValid() 
 		common.WithModuleImage(handlers.NewModuleImage("dummy")),
 		common.WithCompatibleDevices([]string{deviceType}),
 		common.WithDependsProvides(
-			map[string]string{"key1": "value1", "key2": "value2"},
+			map[string][]string{"key1": {"value1"}, "key2": {"value2"}},
 			map[string]string{
 				"key3": "value3", "key4": "value4", "key5": "value5",
 				// the mender-artifact CLI adds this default software-version
@@ -417,9 +415,9 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactDependsProvidesValid() 
 	require.NotEmpty(got.Id)
 	require.False(got.Modified.IsZero())
 
-	require.ElementsMatch([]string{deviceType}, toStringSlice(got.ArtifactDepends["device_type"]))
-	require.Equal("value1", got.ArtifactDepends["key1"])
-	require.Equal("value2", got.ArtifactDepends["key2"])
+	require.ElementsMatch([]string{deviceType}, got.ArtifactDepends["device_type"])
+	require.Equal([]string{"value1"}, got.ArtifactDepends["key1"])
+	require.Equal([]string{"value2"}, got.ArtifactDepends["key2"])
 
 	require.Equal(artifactName, got.ArtifactProvides["artifact_name"])
 	require.Equal("value3", got.ArtifactProvides["key3"])
@@ -446,7 +444,7 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactProvidesDependsIgnoredI
 	big, err := common.CreateArtifact(artifactName+"-big", s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
 		common.WithDependsProvides(
-			map[string]string{"foo": "fooval", "bar": "barval"}, nil,
+			map[string][]string{"foo": {"fooval"}, "bar": {"barval"}}, nil,
 		),
 		common.WithPayloadFile(s.T(), 1024),
 	)
@@ -580,12 +578,12 @@ type rawArtifact struct {
 		Format  string `json:"format"`
 		Version int32  `json:"version"`
 	} `json:"info"`
-	Signed           bool              `json:"signed"`
-	Updates          []any             `json:"updates"`
-	ArtifactProvides map[string]string `json:"artifact_provides"`
-	ArtifactDepends  map[string]any    `json:"artifact_depends"`
-	Size             int64             `json:"size"`
-	Modified         time.Time         `json:"modified"`
+	Signed           bool                `json:"signed"`
+	Updates          []any               `json:"updates"`
+	ArtifactProvides map[string]string   `json:"artifact_provides"`
+	ArtifactDepends  map[string][]string `json:"artifact_depends"`
+	Size             int64               `json:"size"`
+	Modified         time.Time           `json:"modified"`
 }
 
 func (s *DeploymentsManagementV1Suite) showArtifactRaw(ctx context.Context, id string) (*rawArtifact, error) {
@@ -604,21 +602,4 @@ func (s *DeploymentsManagementV1Suite) showArtifactRaw(ctx context.Context, id s
 		return nil, err
 	}
 	return &out, nil
-}
-
-// toStringSlice normalizes a JSON-decoded depends value (which may be a single
-// string or a list of strings) into a []string.
-func toStringSlice(v any) []string {
-	switch val := v.(type) {
-	case string:
-		return []string{val}
-	case []any:
-		out := make([]string, len(val))
-		for i, e := range val {
-			out[i], _ = e.(string)
-		}
-		return out
-	default:
-		return nil
-	}
 }

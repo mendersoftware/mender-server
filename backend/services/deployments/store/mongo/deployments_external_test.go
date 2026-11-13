@@ -22,10 +22,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/v2/bson"
+	"github.com/stretchr/testify/require"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -52,10 +51,6 @@ func TestDeploymentStorageInsert(t *testing.T) {
 		InputTenant     string
 		OutputError     error
 	}{
-		{
-			InputDeployment: nil,
-			OutputError:     ErrDeploymentStorageInvalidDeployment,
-		},
 		{
 			InputDeployment: newDepl,
 			OutputError:     errors.New("artifact_name: cannot be blank; name: cannot be blank."),
@@ -88,30 +83,16 @@ func TestDeploymentStorageInsert(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			err := store.InsertDeployment(ctx, testCase.InputDeployment)
+			err := store.InsertDeployment(ctx, *testCase.InputDeployment)
 
 			if testCase.OutputError != nil {
 				assert.EqualError(t, err, testCase.OutputError.Error())
 			} else {
 				assert.NoError(t, err)
-
-				collDep := client.Database(mstore.
-					DbFromContext(ctx, DatabaseName)).
-					Collection(CollectionDeployments)
-				count, err := collDep.CountDocuments(
-					ctx, bson.D{})
-				assert.NoError(t, err)
-				assert.Equal(t, 1, int(count))
-
-				if testCase.InputTenant != "" {
-					collDefaultDep := client.
-						Database(DatabaseName).
-						Collection(CollectionDeployments)
-					indefault, err := collDefaultDep.
-						CountDocuments(ctx, bson.D{})
-					assert.NoError(t, err)
-					assert.Equal(t, 0, int(indefault))
-				}
+				deployments, _, err := store.FindDeployments(ctx, model.Query{})
+				require.NoError(t, err)
+				require.Len(t, deployments, 1)
+				assert.Equal(t, deployments[0].Id, testCase.InputDeployment.Id)
 			}
 		})
 	}
@@ -125,7 +106,7 @@ func TestDeploymentStorageDelete(t *testing.T) {
 
 	testCases := []struct {
 		InputID                    string
-		InputDeploymentsCollection []interface{}
+		InputDeploymentsCollection []model.Deployment
 		InputTenant                string
 
 		OutputError error
@@ -140,7 +121,7 @@ func TestDeploymentStorageDelete(t *testing.T) {
 		},
 		{
 			InputID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []model.Deployment{
 				model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
@@ -154,7 +135,7 @@ func TestDeploymentStorageDelete(t *testing.T) {
 		},
 		{
 			InputID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []model.Deployment{
 				model.Deployment{
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
@@ -186,13 +167,8 @@ func TestDeploymentStorageDelete(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
-				Collection(CollectionDeployments)
-			if testCase.InputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(ctx,
-					testCase.InputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range testCase.InputDeploymentsCollection {
+				store.InsertDeployment(ctx, deployment)
 			}
 
 			err := store.DeleteDeployment(ctx, testCase.InputID)
@@ -202,19 +178,14 @@ func TestDeploymentStorageDelete(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 
-				count, err := collDep.CountDocuments(ctx,
-					bson.M{"_id": testCase.InputID})
+				_, count, err := store.FindDeployments(ctx, model.Query{IDs: []string{testCase.InputID}})
 				assert.NoError(t, err)
 				assert.Equal(t, 0, int(count))
 
 				if testCase.InputTenant != "" {
-					collDefaultDep := client.
-						Database(DatabaseName).
-						Collection(CollectionDeployments)
-					indefault, err := collDefaultDep.
-						CountDocuments(ctx, bson.D{})
+					_, count, err := store.FindDeployments(context.Background(), model.Query{})
 					assert.NoError(t, err)
-					assert.Equal(t, 0, int(indefault))
+					assert.Equal(t, 0, int(count))
 				}
 			}
 		})
@@ -229,7 +200,7 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 
 	testCases := map[string]struct {
 		InputID                    string
-		InputDeploymentsCollection bson.A
+		InputDeploymentsCollection []*model.Deployment
 		InputTenant                string
 
 		OutputError      error
@@ -246,8 +217,9 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 		},
 		"not found": {
 			InputID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
-			InputDeploymentsCollection: bson.A{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
@@ -256,6 +228,7 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
@@ -269,44 +242,34 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 		},
 		"ok": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			InputDeploymentsCollection: bson.A{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     10,
-						model.DeviceDeploymentStatusSuccessStr:     15,
-						model.DeviceDeploymentStatusFailureStr:     1,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 10,
+						Success: 15,
+						Failure: 1,
+					}},
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     5,
-						model.DeviceDeploymentStatusSuccessStr:     10,
-						model.DeviceDeploymentStatusFailureStr:     3,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 5,
+						Success: 10,
+						Failure: 3,
+					}},
 				},
 			},
 			OutputError: nil,
@@ -316,32 +279,26 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 0,
-					model.DeviceDeploymentStatusInstallingStr:  0,
-					model.DeviceDeploymentStatusRebootingStr:   0,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     1,
-					model.DeviceDeploymentStatusNoArtifactStr:  0,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Pending: 10,
+					Success: 15,
+					Failure: 1,
+				}},
 			},
 		},
 		"ok with tenant": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			InputDeploymentsCollection: bson.A{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
-					Id:    "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{},
+					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Statistics: model.DeploymentStatistics{Status: model.Stats{}},
 				},
 			},
 			InputTenant: "acme",
@@ -352,9 +309,8 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
-				Stats:  model.Stats{},
+				Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 	}
@@ -377,13 +333,8 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
-				Collection(CollectionDeployments)
-			if testCase.InputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, testCase.InputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range testCase.InputDeploymentsCollection {
+				require.NoError(t, store.InsertDeployment(ctx, *deployment))
 			}
 
 			deployment, err := store.FindDeploymentByID(ctx, testCase.InputID)
@@ -392,8 +343,14 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 				assert.EqualError(t, err, testCase.OutputError.Error())
 			} else {
 				assert.NoError(t, err)
-				if deployment != nil && assert.Equal(t, 0, len(deployment.Artifacts)) {
-					deployment.Artifacts = nil
+				if deployment != nil {
+					if assert.Equal(t, 0, len(deployment.Artifacts)) {
+						deployment.Artifacts = nil
+					}
+					deployment.Created = nil
+					deployment.Configuration = nil
+					deployment.Groups = nil
+					deployment.DeviceList = nil
 				}
 				assert.Equal(t, testCase.OutputDeployment, deployment)
 			}
@@ -418,7 +375,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 
 	testCases := map[string]struct {
 		InputID                    string
-		InputDeploymentsCollection []interface{}
+		InputDeploymentsCollection []*model.Deployment
 		InputTenant                string
 
 		OutputError      error
@@ -435,8 +392,9 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 		},
 		"no deployments with given ID": {
 			InputID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
@@ -445,6 +403,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
@@ -458,44 +417,34 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 		},
 		"all correct": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     10,
-						model.DeviceDeploymentStatusSuccessStr:     15,
-						model.DeviceDeploymentStatusFailureStr:     1,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 10,
+						Success: 15,
+						Failure: 1,
+					}},
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusDownloadingStr: 0,
-						model.DeviceDeploymentStatusInstallingStr:  0,
-						model.DeviceDeploymentStatusRebootingStr:   0,
-						model.DeviceDeploymentStatusPendingStr:     5,
-						model.DeviceDeploymentStatusSuccessStr:     10,
-						model.DeviceDeploymentStatusFailureStr:     3,
-						model.DeviceDeploymentStatusNoArtifactStr:  0,
-						model.DeviceDeploymentStatusAlreadyInstStr: 0,
-						model.DeviceDeploymentStatusAbortedStr:     0,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 5,
+						Success: 10,
+						Failure: 3,
+					}},
 				},
 			},
 			OutputError: nil,
@@ -505,25 +454,19 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 0,
-					model.DeviceDeploymentStatusInstallingStr:  0,
-					model.DeviceDeploymentStatusRebootingStr:   0,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     1,
-					model.DeviceDeploymentStatusNoArtifactStr:  0,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
-				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Pending: 10,
+					Success: 15,
+					Failure: 1,
+				}},
 			},
 		},
 		"deployment already finished": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
@@ -533,6 +476,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					Finished: &now,
 				},
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
@@ -546,19 +490,20 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 		},
 		"multi tenant, deployment found": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			InputDeploymentsCollection: []interface{}{
+			InputDeploymentsCollection: []*model.Deployment{
 				&model.Deployment{
+					Created: new(time.Now()),
 					DeploymentConstructor: &model.DeploymentConstructor{
 						Name:         "NYC Production",
 						ArtifactName: "App 123",
 						Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-					Stats: model.Stats{
-						model.DeviceDeploymentStatusPendingStr: 10,
-						model.DeviceDeploymentStatusSuccessStr: 15,
-						model.DeviceDeploymentStatusFailureStr: 1,
-					},
+					Statistics: model.DeploymentStatistics{Status: model.Stats{
+						Pending: 10,
+						Success: 15,
+						Failure: 1,
+					}},
 				},
 			},
 			InputTenant: "acme",
@@ -569,13 +514,12 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 					ArtifactName: "App 123",
 					//Devices is not kept around!
 				},
-				Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Active: true,
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusPendingStr: 10,
-					model.DeviceDeploymentStatusSuccessStr: 15,
-					model.DeviceDeploymentStatusFailureStr: 1,
-				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Pending: 10,
+					Success: 15,
+					Failure: 1,
+				}},
 			},
 		},
 	}
@@ -598,14 +542,8 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
-				Collection(CollectionDeployments)
-
-			if testCase.InputDeploymentsCollection != nil {
-				_, err := collDep.InsertMany(
-					ctx, testCase.InputDeploymentsCollection)
-				assert.NoError(t, err)
+			for _, deployment := range testCase.InputDeploymentsCollection {
+				require.NoError(t, store.InsertDeployment(ctx, *deployment))
 			}
 
 			deployment, err := store.FindUnfinishedByID(ctx, testCase.InputID)
@@ -614,10 +552,11 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 				assert.EqualError(t, err, testCase.OutputError.Error())
 			} else {
 				assert.NoError(t, err)
-				if deployment != nil && assert.Equal(t, 0, len(deployment.Artifacts)) {
-					deployment.Artifacts = nil
+				if deployment != nil {
+					assert.Equal(t, testCase.OutputDeployment.Id, deployment.Id)
+				} else {
+					assert.Equal(t, testCase.OutputDeployment, deployment)
 				}
-				assert.Equal(t, testCase.OutputDeployment, deployment)
 			}
 
 			// tenant is set, verify that deployment is not present in default DB
@@ -645,70 +584,72 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 		InputStateTo   model.DeviceDeploymentStatus
 
 		OutputError error
-		OutputStats model.Stats
+		OutputStats *model.Stats
 	}{
 		"pending -> finished": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
-				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
+				Created: new(time.Now()),
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
 				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusPending,
 			InputStateTo:   model.DeviceDeploymentStatusSuccess,
 
 			OutputError: nil,
-			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     9,
-				model.DeviceDeploymentStatusSuccessStr:     16,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+			OutputStats: &model.Stats{
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   3,
+				Pending:     9,
+				Success:     16,
+				Failure:     4,
+				NoArtifact:  5,
 			},
 		},
 		"rebooting -> failed": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
-				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
+				Created: new(time.Now()),
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
 				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusRebooting,
 			InputStateTo:   model.DeviceDeploymentStatusFailure,
 
 			OutputError: nil,
-			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   2,
-				model.DeviceDeploymentStatusPendingStr:     10,
-				model.DeviceDeploymentStatusSuccessStr:     15,
-				model.DeviceDeploymentStatusFailureStr:     5,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+			OutputStats: &model.Stats{
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   2,
+				Pending:     10,
+				Success:     15,
+				Failure:     5,
+				NoArtifact:  5,
 			},
 		},
 		"invalid deployment id": {
@@ -718,7 +659,6 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			InputStateTo:    model.DeviceDeploymentStatusFailure,
 
 			OutputError: ErrStorageInvalidID,
-			OutputStats: nil,
 		},
 		"wrong deployment id": {
 			InputID:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
@@ -727,76 +667,81 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			InputStateTo:    model.DeviceDeploymentStatusFailure,
 
 			OutputError: ErrStorageInvalidID,
-			OutputStats: nil,
 		},
 		"no old state": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
-				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
+				Created: new(time.Now()),
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
 				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusNull,
 			InputStateTo:   model.DeviceDeploymentStatusPending,
 
-			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     11,
-				model.DeviceDeploymentStatusSuccessStr:     15,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+			OutputStats: &model.Stats{
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   3,
+				Pending:     11,
+				Success:     15,
+				Failure:     4,
+				NoArtifact:  5,
 			},
 		},
 		"install install": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
-				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
+				Created: new(time.Now()),
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
 				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputStateFrom: model.DeviceDeploymentStatusInstalling,
 			InputStateTo:   model.DeviceDeploymentStatusInstalling,
 
 			OutputError: nil,
-			OutputStats: nil,
 		},
 		"tenant, pending -> finished": {
 			InputID: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			InputDeployment: &model.Deployment{
-				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     10,
-					model.DeviceDeploymentStatusSuccessStr:     15,
-					model.DeviceDeploymentStatusFailureStr:     4,
-					model.DeviceDeploymentStatusNoArtifactStr:  5,
-					model.DeviceDeploymentStatusAlreadyInstStr: 0,
-					model.DeviceDeploymentStatusAbortedStr:     0,
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
 				},
+				Created: new(time.Now()),
+				Id:      "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading: 1,
+					Installing:  2,
+					Rebooting:   3,
+					Pending:     10,
+					Success:     15,
+					Failure:     4,
+					NoArtifact:  5,
+				}},
 			},
 			InputTenant: "acme",
 
@@ -804,16 +749,14 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			InputStateTo:   model.DeviceDeploymentStatusSuccess,
 
 			OutputError: nil,
-			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     9,
-				model.DeviceDeploymentStatusSuccessStr:     16,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     0,
+			OutputStats: &model.Stats{
+				Downloading: 1,
+				Installing:  2,
+				Rebooting:   3,
+				Pending:     9,
+				Success:     16,
+				Failure:     4,
+				NoArtifact:  5,
 			},
 		},
 	}
@@ -836,24 +779,7 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 			}
 
 			if tc.InputDeployment != nil {
-				collDefaultDep := client.Database(DatabaseName).
-					Collection(CollectionDeployments)
-				_, err := collDefaultDep.InsertOne(ctx,
-					tc.InputDeployment)
-				assert.NoError(t, err)
-				// multi tenant test only makes sense if there
-				// is a deployment to input, if there's one
-				// we'll add it to tenant's DB
-				if tc.InputTenant != "" {
-					collDep := client.Database(mstore.
-						DbFromContext(ctx,
-							DatabaseName)).
-						Collection(CollectionDeployments)
-
-					_, err = collDep.InsertOne(ctx,
-						tc.InputDeployment)
-					assert.NoError(t, err)
-				}
+				require.NoError(t, store.InsertDeployment(ctx, *tc.InputDeployment))
 			}
 
 			stats, err := store.UpdateStatsInc(ctx,
@@ -868,15 +794,9 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 				// in default DB remains unchanged, again only
 				// makes sense if there's an input deployment
 				if tc.InputTenant != "" && tc.InputDeployment != nil {
-					var defDeployment *model.Deployment
-					collDefaultDep := client.
-						Database(DatabaseName).
-						Collection(CollectionDeployments)
-					err := collDefaultDep.FindOne(ctx,
-						bson.M{"_id": tc.InputID}).
-						Decode(&defDeployment)
-					assert.NoError(t, err)
-					assert.Equal(t, defDeployment.Stats, tc.InputDeployment.Stats)
+					defDeployment, err := store.FindDeploymentByID(context.Background(), tc.InputID)
+					require.NoError(t, err)
+					assert.Empty(t, defDeployment)
 				}
 
 			}
@@ -900,56 +820,64 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 		"all correct": {
 			id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			dep: &model.Deployment{
-				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: model.Stats{
-					model.DeviceDeploymentStatusDownloadingStr: 1,
-					model.DeviceDeploymentStatusInstallingStr:  2,
-					model.DeviceDeploymentStatusRebootingStr:   3,
-					model.DeviceDeploymentStatusPendingStr:     3,
-					model.DeviceDeploymentStatusSuccessStr:     6,
-					model.DeviceDeploymentStatusFailureStr:     8,
-					model.DeviceDeploymentStatusNoArtifactStr:  4,
-					model.DeviceDeploymentStatusAlreadyInstStr: 2,
-					model.DeviceDeploymentStatusAbortedStr:     5,
+				Created: new(time.Now()),
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
 				},
+				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Downloading:      1,
+					Installing:       2,
+					Rebooting:        3,
+					Pending:          3,
+					Success:          6,
+					Failure:          8,
+					NoArtifact:       4,
+					AlreadyInstalled: 2,
+					Aborted:          5,
+				}},
 			},
 			stats: model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusInstallingStr:  2,
-				model.DeviceDeploymentStatusRebootingStr:   3,
-				model.DeviceDeploymentStatusPendingStr:     10,
-				model.DeviceDeploymentStatusSuccessStr:     15,
-				model.DeviceDeploymentStatusFailureStr:     4,
-				model.DeviceDeploymentStatusNoArtifactStr:  5,
-				model.DeviceDeploymentStatusAlreadyInstStr: 0,
-				model.DeviceDeploymentStatusAbortedStr:     5,
+				Downloading:      1,
+				Installing:       2,
+				Rebooting:        3,
+				Pending:          10,
+				Success:          15,
+				Failure:          4,
+				NoArtifact:       5,
+				AlreadyInstalled: 0,
+				Aborted:          5,
 			},
 		},
 		"invalid deployment id": {
-			id:    "",
-			dep:   nil,
-			stats: nil,
+			id:  "",
+			dep: nil,
 
 			err: ErrStorageInvalidID,
 		},
 		"wrong deployment id": {
-			id:    "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-			dep:   nil,
-			stats: nil,
+			id:  "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+			dep: nil,
 
 			err: ErrStorageInvalidID,
 		},
 		"tenant, all correct": {
 			id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 			dep: &model.Deployment{
+				Created: new(time.Now()),
+				DeploymentConstructor: &model.DeploymentConstructor{
+					Name:         "foo",
+					ArtifactName: "foo",
+				},
 				Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
-				Stats: newTestStats(model.Stats{
-					model.DeviceDeploymentStatusRebootingStr: 3,
-				}),
+				Statistics: model.DeploymentStatistics{Status: model.Stats{
+					Rebooting: 3,
+				}},
 			},
-			stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusRebootingStr: 3,
-			}),
+			stats: model.Stats{
+				Rebooting: 3,
+			},
 			tenant: "acme",
 		},
 	}
@@ -969,13 +897,8 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 				})
 			}
 
-			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
-				Collection(CollectionDeployments)
 			if tc.dep != nil {
-				_, err := collDep.InsertOne(
-					ctx, tc.dep)
-				assert.NoError(t, err)
+				require.NoError(t, store.InsertDeployment(ctx, *tc.dep))
 			}
 
 			err := store.UpdateStats(ctx, tc.id, tc.stats)
@@ -984,11 +907,11 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 				assert.EqualError(t, err, tc.err.Error())
 			} else {
 				var deployment *model.Deployment
-				err := collDep.FindOne(ctx,
-					bson.M{"_id": tc.id}).
-					Decode(&deployment)
+				deployment, err = store.FindDeploymentByID(ctx, tc.id)
 				assert.NoError(t, err)
-				assert.Equal(t, tc.stats, deployment.Stats)
+				if deployment != nil {
+					assert.Equal(t, tc.stats, deployment.Statistics.Status)
+				}
 			}
 
 			if tc.tenant != "" && tc.dep != nil {
@@ -999,14 +922,6 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 		})
 	}
 
-}
-
-func newTestStats(stats model.Stats) model.Stats {
-	st := model.NewDeviceDeploymentStats()
-	for k, v := range stats {
-		st[k] = v
-	}
-	return st
 }
 
 func TestDeploymentStorageFindBy(t *testing.T) {
@@ -1025,9 +940,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000001",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1038,9 +953,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000002",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1051,9 +966,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000003",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusFailureStr: 2,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Failure: 2,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1064,9 +979,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000004",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1077,9 +992,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000005",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Downloading: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		{
@@ -1089,22 +1004,22 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000006",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusDownloadingStr: 1,
-				model.DeviceDeploymentStatusPendingStr:     1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Downloading: 1,
+				Pending:     1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		{
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "zed",
 				ArtifactName: "daz",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-111111111111"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000007",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+			}},
 			Status: model.DeploymentStatusPending,
 		},
 		{
@@ -1114,10 +1029,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000008",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-				model.DeviceDeploymentStatusSuccessStr:    1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				NoArtifact: 1,
+				Success:    1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1128,9 +1043,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc34a"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000009",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusAbortedStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Aborted: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1143,10 +1058,10 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000010",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr:     1,
-				model.DeviceDeploymentStatusAlreadyInstStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending:          1,
+				AlreadyInstalled: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//in progress deployment, with only pending and success counters > 0
@@ -1154,13 +1069,13 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-000000000000"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000011",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-				model.DeviceDeploymentStatusSuccessStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+				Success: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//in progress deployment, with only pending and failure counters > 0
@@ -1168,13 +1083,13 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-111111111111"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000012",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-				model.DeviceDeploymentStatusFailureStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+				Failure: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//in progress deployment, with only pending and noartifact counters > 0
@@ -1182,13 +1097,13 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-222222222222"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000013",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr:    1,
-				model.DeviceDeploymentStatusNoArtifactStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending:    1,
+				NoArtifact: 1,
+			}},
 			Status: model.DeploymentStatusInProgress,
 		},
 		//finished deployment, with only already installed counter > 0
@@ -1196,12 +1111,12 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "baz",
 				ArtifactName: "asdf",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-333333333333"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000014",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusAlreadyInstStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				AlreadyInstalled: 1,
+			}},
 			Status:   model.DeploymentStatusFinished,
 			Finished: &now,
 		},
@@ -1210,12 +1125,12 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			DeploymentConstructor: &model.DeploymentConstructor{
 				Name:         "zed",
 				ArtifactName: "daz",
-				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+				Devices:      []string{"b532b01a-9313-404f-8d19-000000000000"},
 			},
 			Id: "a108ae14-bb4e-455f-9b40-000000000015",
-			Stats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusPendingStr: 1,
-			}),
+			Statistics: model.DeploymentStatistics{Status: model.Stats{
+				Pending: 1,
+			}},
 			Status: model.DeploymentStatusPending,
 			Type:   model.DeploymentTypeConfiguration,
 		},
@@ -1229,12 +1144,6 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 		OutputError error
 		OutputID    []string
 	}{
-		{
-			InputModelQuery: model.Query{
-				SearchText: "foobar-empty-db",
-			},
-			OutputError: ErrDeploymentStorageCannotExecQuery,
-		},
 		{
 			InputModelQuery: model.Query{
 				SearchText: "foobar-no-match",
@@ -1452,6 +1361,7 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 			} else {
 				ctx = context.Background()
 			}
+			require.NoError(t, store.Migrate(ctx, DbVersion, true))
 
 			createdTime := time.Now().UTC()
 
@@ -1461,14 +1371,9 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				// minute from each other, this will ensure
 				// proper ordering
 
-				// Ensure that storage indexes are present
-				// before inserting deployment.
-				err := store.EnsureIndexes(
-					mstore.DbFromContext(ctx, DatabaseName),
-					CollectionDeployments, StorageIndexes)
-				assert.NoError(t, err)
+				t.Log(*d.DeploymentConstructor)
 				d.Created = &createdTime
-				assert.NoError(t, store.InsertDeployment(ctx, d))
+				require.NoError(t, store.InsertDeployment(ctx, *d))
 				createdTime = createdTime.Add(time.Minute)
 			}
 
@@ -1505,27 +1410,22 @@ func TestDeploymentStorageFindBy(t *testing.T) {
 				// have to add a deployment, otherwise, it won't
 				// be possible to run find queries
 
-				// Ensure that storage indexes are present
-				// before creating deployment
-				err := store.EnsureIndexes(DatabaseName,
-					CollectionDeployments, StorageIndexes)
-				assert.NoError(t, err)
-				err = store.InsertDeployment(context.Background(),
-					&model.Deployment{
+				err = store.InsertDeployment(ctx,
+					model.Deployment{
 						DeploymentConstructor: &model.DeploymentConstructor{
 							Name:         "foo-" + testCase.InputTenant,
 							ArtifactName: "bar-" + testCase.InputTenant,
 							Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc399"},
 						},
-						Id:      "e8c32ff6-7c1b-43c7-aa31-2e4fc3a3c199",
-						Stats:   newTestStats(model.Stats{}),
-						Created: new(time.Now().UTC()),
+						Id:         "e8c32ff6-7c1b-43c7-aa31-2e4fc3a3c199",
+						Statistics: model.DeploymentStatistics{Status: model.Stats{}},
+						Created:    new(time.Now().UTC()),
 					})
 				assert.NoError(t, err)
 
 				// tenant is set, so only tenant's DB was set
 				// up, verify that we cannot find anything in
-				// default DB
+				// from default tenant namespace
 				deps, _, err := store.FindDeployments(context.Background(),
 					testCase.InputModelQuery)
 				assert.Len(t, deps, 0)
@@ -1539,7 +1439,7 @@ func TestDeviceDeploymentCounting(t *testing.T) {
 	testCases := []struct {
 		InputDeploymentID     string
 		InputDeviceDeployment []*model.DeviceDeployment
-		DeviceCount           int
+		DeviceCount           int64
 	}{
 		{
 			InputDeploymentID: "foo",
@@ -1588,12 +1488,8 @@ func TestDeviceDeploymentCounting(t *testing.T) {
 			store := NewDataStoreMongoWithClient(client)
 			ctx := context.Background()
 
-			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
-				Collection(CollectionDevices)
 			for _, d := range tc.InputDeviceDeployment {
-				_, err := collDep.InsertOne(ctx, d)
-				assert.NoError(t, err)
+				require.NoError(t, store.InsertDeviceDeployment(ctx, d, false))
 			}
 
 			actualCount, err := store.DeviceCountByDeployment(ctx, tc.InputDeploymentID)
@@ -1609,8 +1505,13 @@ func TestDeploymentSetStatus(t *testing.T) {
 	}
 
 	id := "a108ae14-bb4e-455f-9b40-2ef4bab97bb7"
-	deployment := &model.Deployment{
+	deployment := model.Deployment{
 		Id: id,
+		DeploymentConstructor: &model.DeploymentConstructor{
+			Name:         "foo",
+			ArtifactName: "bar",
+		},
+		Created: new(time.Now()),
 	}
 
 	now := time.Now().UTC()
@@ -1650,19 +1551,12 @@ func TestDeploymentSetStatus(t *testing.T) {
 				})
 			}
 
-			collDep := client.Database(mstore.
-				DbFromContext(ctx, DatabaseName)).
-				Collection(CollectionDeployments)
-
-			_, err := collDep.InsertOne(ctx, deployment)
+			err := store.InsertDeployment(ctx, deployment)
 			assert.NoError(t, err)
 
 			err = store.SetDeploymentStatus(ctx, id, tc.status, now)
 
-			var deployment *model.Deployment
-			err = collDep.FindOne(ctx,
-				bson.M{"_id": id}).
-				Decode(&deployment)
+			deployment, err := store.FindDeploymentByID(ctx, deployment.Id)
 			assert.NoError(t, err)
 
 			assert.Equal(t, tc.status, deployment.Status)

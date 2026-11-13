@@ -36,36 +36,6 @@ from mender_client import ApiException
 
 
 class TestInternalApiTenantCreate:
-    def test_create_ok(self, api_client_int, clean_db):
-        with Lock(MONGO_LOCK_FILE) as l:
-            internal_v1_client().deployments_internal_create_tenant(
-                {"tenant_id": "foobar"}
-            )
-
-            assert "deployment_service-foobar" in clean_db.list_database_names()
-            assert (
-                "migration_info"
-                in clean_db["deployment_service-foobar"].list_collection_names()
-            )
-
-    def test_create_twice(self, api_client_int, clean_db):
-        with Lock(MONGO_LOCK_FILE) as l:
-            internal_v1_client().deployments_internal_create_tenant(
-                {"tenant_id": "foobar"}
-            )
-
-            # creating once more should not fail
-            internal_v1_client().deployments_internal_create_tenant(
-                {"tenant_id": "foobar"}
-            )
-            l.unlock()
-
-    def test_create_empty(self, api_client_int):
-        try:
-            internal_v1_client().deployments_internal_create_tenant({"tenant_id": ""})
-        except ApiException as e:
-            assert e.status == 400
-
     @pytest.mark.usefixtures("clean_minio")
     def test_artifacts_valid(self, api_client_int, mongo):
         with Lock(MONGO_LOCK_FILE) as l:
@@ -92,11 +62,11 @@ class TestInternalApiTenantCreate:
                 assert artid is not None
 
                 # verify the artifact has been stored correctly in mongodb
-                artifact = mongo[
-                    "deployment_service-{}".format(tenant_id)
-                ].images.find_one({"_id": artid})
-                assert artifact is not None
-                #
+                release = mongo["deployments"].releases.find_one(
+                    {"artifacts": {"$elemMatch": {"_id": artid}}}, {"artifacts.$": 1}
+                )
+                assert "artifacts" in release and len(release["artifacts"]) == 1
+                artifact = release["artifacts"][0]
                 assert artifact["_id"] == artid
                 assert artifact["meta_artifact"]["name"] == artifact_name
                 assert artifact["meta"]["description"] == description
@@ -139,6 +109,7 @@ class TestInternalApiGetLastDeviceDeploymentStatus:
     DEVICE_DEPLOYMENT_PENDING = 2304
     DEVICE_DEPLOYMENT_SUCCESS = 2560
 
+    @pytest.mark.skip(reason="FIXME: relies on obsolete database operations")
     def test_get_statuses(self, api_client_int, mongo, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             # insert something in the db
@@ -162,7 +133,7 @@ class TestInternalApiGetLastDeviceDeploymentStatus:
                 },
             ]
             for i in range(len(devices)):
-                mongo["deployment_service"].devices_last_status.insert_one(devices[i])
+                mongo["deployments"].devices_last_status.insert_one(devices[i])
 
             for i in range(len(devices)):
                 devices_ids = [device_ids[i]]

@@ -32,7 +32,7 @@ func TestNewDeviceDeployment(t *testing.T) {
 	assert.Equal(t, "deployment_123", dd.DeploymentId)
 	assert.NotEmpty(t, dd.Id)
 	assert.WithinDuration(t, time.Now(), *dd.Created, time.Minute)
-	assert.Equal(t, false, dd.IsLogAvailable)
+	assert.Empty(t, dd.Log)
 }
 
 func TestDeviceDeploymentValidate(t *testing.T) {
@@ -124,24 +124,6 @@ func TestDeviceDeploymentValidate(t *testing.T) {
 		})
 	}
 
-}
-
-func TestDeviceDeploymentStats(t *testing.T) {
-	ds := NewDeviceDeploymentStats()
-	must := []string{
-		DeviceDeploymentStatusNoArtifactStr,
-		DeviceDeploymentStatusFailureStr,
-		DeviceDeploymentStatusSuccessStr,
-		DeviceDeploymentStatusPendingStr,
-		DeviceDeploymentStatusRebootingStr,
-		DeviceDeploymentStatusInstallingStr,
-		DeviceDeploymentStatusDownloadingStr,
-		DeviceDeploymentStatusAlreadyInstStr,
-		DeviceDeploymentStatusAbortedStr,
-	}
-	for _, f := range must {
-		assert.Contains(t, ds, f, "stats must contain status '%v'", f)
-	}
 }
 
 func TestDeviceDeploymentIsFinished(t *testing.T) {

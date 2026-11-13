@@ -14,6 +14,8 @@
 
 package model
 
+import "fmt"
+
 const (
 	LimitStorage = "storage"
 )
@@ -23,12 +25,24 @@ var (
 )
 
 type Limit struct {
-	Name  string `bson:"_id"`
-	Value uint64 `bson:"value" json:"value"`
+	Name  string `bson:"name" json:"name"`
+	Value int64  `bson:"value" json:"value"`
 }
 
-func (l Limit) IsLess(what uint64) bool {
+func (l Limit) IsLess(what int64) bool {
 	return what < l.Value
+}
+
+func (r Limit) Validate() error {
+	if !IsValidLimit(r.Name) {
+		return fmt.Errorf("unsupported limit %v", r.Name)
+	}
+
+	if r.Value < -1 {
+		return fmt.Errorf("unsupported limit value %d", r.Value)
+	}
+
+	return nil
 }
 
 func IsValidLimit(name string) bool {

@@ -26,7 +26,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/mendersoftware/mender-server/pkg/version"
 
 	"github.com/mendersoftware/mender-server/services/deployments/app"
@@ -187,12 +186,8 @@ func migrate(tenant string, automigrate bool) error {
 		dbVersion = mongo.DbMinimumVersion
 	}
 
-	if tenant != "" {
-		db := mstore.DbNameForTenant(tenant, mongo.DbName)
-		err = mongo.MigrateSingle(ctx, db, dbVersion, dbClient, automigrate)
-	} else {
-		err = mongo.Migrate(ctx, dbVersion, dbClient, automigrate)
-	}
+	ds := mongo.NewDataStoreMongoWithClient(dbClient)
+	err = ds.Migrate(ctx, dbVersion, automigrate)
 	if err != nil {
 		return cli.Exit(
 			fmt.Sprintf("failed to run migrations: %v", err),

@@ -67,9 +67,9 @@ class TestInternalApiPostConfigurationDeployment:
             assert api_deployment_id == deployment_id
 
             # verify the deployment has been stored correctly in mongodb
-            deployment = mongo[
-                "deployment_service-{}".format(tenant_id)
-            ].deployments.find_one({"_id": deployment_id})
+            deployment = mongo["deployments"].deployments.find_one(
+                {"_id": deployment_id}
+            )
             assert deployment is not None
             assert deployment["type"] == "configuration"
             assert deployment["configuration"]

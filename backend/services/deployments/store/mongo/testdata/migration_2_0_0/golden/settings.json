@@ -1,0 +1,24 @@
+{
+  "_id": "6ac4ba4782f5286ba64b1bdd",
+  "storage": {
+    "bucket": "its-bucket-time",
+    "external_uri": "",
+    "force_path_style": true,
+    "key": "mender",
+    "region": "us-east-1",
+    "secret": "thisisnotsecure",
+    "type": {
+      "$numberInt": "0"
+    },
+    "uri": "http://s3:8080",
+    "use_accelerate": false
+  },
+  "limits": [
+    {
+      "name": "max_artifact_size_micro_device_tier",
+      "value": {
+        "$numberLong": "123456"
+      }
+    }
+  ]
+}

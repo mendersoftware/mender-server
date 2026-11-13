@@ -315,23 +315,26 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 			db := mocks.DataStore{}
 			db.On("InsertDeployment",
 				ctx,
-				mock.AnythingOfType("*model.Deployment")).
+				mock.AnythingOfType("model.Deployment")).
 				Return(testCase.InputDeploymentStorageInsertError)
 
-			db.On("ImagesByName",
+			db.On("GetSoftware",
 				ctx,
 				mock.AnythingOfType("string")).
 				Return(
-					[]*model.Image{model.NewImage(
-						validUUIDv4,
-						&model.ImageMeta{},
-						&model.ArtifactMeta{
-							Name: "App 123",
-							DeviceTypesCompatible: []string{
-								"hammer",
-							},
-							Depends: map[string]interface{}{},
-						}, artifactSize)},
+					&model.Software{
+						Artifacts: []model.Image{*model.NewImage(
+							validUUIDv4,
+							&model.ImageMeta{},
+							&model.ArtifactMeta{
+								Name: "App 123",
+								DeviceTypesCompatible: []string{
+									"hammer",
+								},
+								Depends: map[string][]string{},
+							}, artifactSize),
+						},
+					},
 					testCase.InputImagesByNameError)
 
 			fs := &fs_mocks.ObjectStorage{}
@@ -1069,7 +1072,7 @@ func TestCreateDeviceConfigurationDeployment(t *testing.T) {
 			if tc.callDb {
 				db.On("InsertDeployment",
 					ctx,
-					mock.AnythingOfType("*model.Deployment")).
+					mock.AnythingOfType("model.Deployment")).
 					Return(tc.inputDeploymentStorageInsertError)
 			}
 			defer db.AssertExpectations(t)
@@ -1142,7 +1145,7 @@ func TestAbortDeployment(t *testing.T) {
 		"UpdateStats error": {
 			InputDeploymentID:                      "f826484e-1157-4109-af21-304e6d711561",
 			CallAggregateDeviceDeploymentByStatus:  true,
-			AggregateDeviceDeploymentByStatusStats: model.Stats{"aaa": 1},
+			AggregateDeviceDeploymentByStatusStats: model.Stats{Aborted: 1},
 			CallUpdateStats:                        true,
 			UpdateStatsError:                       errors.New("UpdateStatsError"),
 			OutputError:                            errors.New("failed to update deployment stats: UpdateStatsError"),
@@ -1150,7 +1153,7 @@ func TestAbortDeployment(t *testing.T) {
 		"all correct": {
 			InputDeploymentID:                      "f826484e-1157-4109-af21-304e6d711561",
 			CallAggregateDeviceDeploymentByStatus:  true,
-			AggregateDeviceDeploymentByStatusStats: model.Stats{"aaa": 1},
+			AggregateDeviceDeploymentByStatusStats: model.Stats{Aborted: 1},
 			CallUpdateStats:                        true,
 			CallSetDeploymentStatus:                true,
 		},
@@ -1166,7 +1169,7 @@ func TestAbortDeployment(t *testing.T) {
 			if tc.CallAggregateDeviceDeploymentByStatus {
 				db.On("AggregateDeviceDeploymentByStatus",
 					h.ContextMatcher(), tc.InputDeploymentID).
-					Return(tc.AggregateDeviceDeploymentByStatusStats,
+					Return(&tc.AggregateDeviceDeploymentByStatusStats,
 						tc.AggregateDeviceDeploymentByStatusError)
 			}
 			if tc.CallUpdateStats {
@@ -1598,10 +1601,10 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 					h.ContextMatcher(),
 					"foo",
 				).Return(true, nil)
-				ds.On("ImagesByName",
+				ds.On("GetSoftware",
 					h.ContextMatcher(),
 					"foo",
-				).Return([]*model.Image{{Id: "foo-id"}}, nil)
+				).Return(&model.Software{Artifacts: []model.Image{{Id: "foo-id"}}}, nil)
 				ds.On("UpdateDeploymentsWithArtifactName",
 					h.ContextMatcher(), "foo", []string{"foo-id"},
 				).Return(nil)
@@ -1654,22 +1657,22 @@ func TestLookupDeployment(t *testing.T) {
 			dbDeployments: []*model.Deployment{
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
-					DeviceCount: new(3),
+					DeviceCount: new(int64(3)),
 				},
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
-					DeviceCount: new(3),
+					DeviceCount: new(int64(3)),
 				},
 			},
 			dbDeploymentsCount: 2,
 			res: []*model.Deployment{
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86701",
-					DeviceCount: new(3),
+					DeviceCount: new(int64(3)),
 				},
 				{
 					Id:          "d50eda0d-2cea-4de1-8d42-9cd3e7e86702",
-					DeviceCount: new(3),
+					DeviceCount: new(int64(3)),
 				},
 			},
 			resCount: 2,
@@ -1813,7 +1816,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		db.On("FindDeployments", ctx, fallbackQuery).
 			Return([]*model.Deployment{{
 				Id:          "dep-1",
-				DeviceCount: new(1),
+				DeviceCount: new(int64(1)),
 			}}, int64(1), nil)
 
 		ds := &Deployments{
@@ -1862,7 +1865,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		db.On("FindDeployments", ctx, query).
 			Return([]*model.Deployment{{
 				Id:          "dep-1",
-				DeviceCount: new(1),
+				DeviceCount: new(int64(1)),
 			}}, int64(1), nil)
 
 		ds := &Deployments{db: &db}
@@ -2089,10 +2092,10 @@ func TestDeployments_GetDeployment(t *testing.T) {
 			ds.On("FindDeploymentByID",
 				mock.MatchedBy(func(context.Context) bool { return true }),
 				"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
-			).Return(&model.Deployment{DeviceCount: new(123)}, nil)
+			).Return(&model.Deployment{DeviceCount: new(int64(123))}, nil)
 			return ds
 		},
-		want: &model.Deployment{DeviceCount: new(123)},
+		want: &model.Deployment{DeviceCount: new(int64(123))},
 	}, {
 		name:         "not found",
 		deploymentID: "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
@@ -2117,17 +2120,17 @@ func TestDeployments_GetDeployment(t *testing.T) {
 				On("DeviceCountByDeployment",
 					mock.MatchedBy(func(context.Context) bool { return true }),
 					"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
-				).Return(123, nil).
+				).Return(int64(123), nil).
 				On("SetDeploymentDeviceCount",
 					mock.MatchedBy(func(context.Context) bool { return true }),
 					"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
-					123,
+					int64(123),
 				).Return(nil)
 			return ds
 		},
 		want: &model.Deployment{
 			Id:          "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
-			DeviceCount: new(123),
+			DeviceCount: new(int64(123)),
 		},
 	}}
 	for _, tt := range tests {

@@ -1,0 +1,755 @@
+{
+  "_id": "<ObjectID>",
+  "name": "mender-demo-artifact-20260928-6a5f385",
+  "modified": {
+    "$date": {
+      "$numberLong": "1791277689662"
+    }
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277689653"
+    }
+  },
+  "tags": [
+    "some.tag"
+  ],
+  "kind": "release",
+  "artifacts": [
+    {
+      "_id": "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3",
+      "meta": {
+        "description": ""
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "data-partition.mender-demo-artifact.*"
+        ],
+        "depends": [
+          {
+            "k": "device_type",
+            "v": "beaglebone"
+          },
+          {
+            "k": "device_type",
+            "v": "beaglebone-yocto"
+          },
+          {
+            "k": "device_type",
+            "v": "beaglebone-yocto-grub"
+          },
+          {
+            "k": "device_type",
+            "v": "docker-client"
+          },
+          {
+            "k": "device_type",
+            "v": "generic-armv6"
+          },
+          {
+            "k": "device_type",
+            "v": "generic-x86_64"
+          },
+          {
+            "k": "device_type",
+            "v": "qemux86-64"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi0-wifi"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi0w"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi3"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi3_64"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi4"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi4_64"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi5"
+          },
+          {
+            "k": "device_type",
+            "v": "raspberrypi5_64"
+          }
+        ],
+        "device_types_compatible": [
+          "beaglebone",
+          "beaglebone-yocto",
+          "beaglebone-yocto-grub",
+          "docker-client",
+          "generic-armv6",
+          "generic-x86_64",
+          "qemux86-64",
+          "raspberrypi0w",
+          "raspberrypi0-wifi",
+          "raspberrypi3",
+          "raspberrypi3_64",
+          "raspberrypi4",
+          "raspberrypi4_64",
+          "raspberrypi5",
+          "raspberrypi5_64",
+          "raspberrypi"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "mender-demo-artifact-20260928-6a5f385",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "mender-demo-artifact-20260928-6a5f385"
+          },
+          {
+            "k": "data-partition.mender-demo-artifact.version",
+            "v": "mender-demo-artifact-20260928-6a5f385"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "4c0f5d054017bc5ca4419cba03d3bac7b964744d05fb2c5d498dd7d248dd1ac8",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1790620647000"
+                  }
+                },
+                "name": "update.tar",
+                "size": {
+                  "$numberLong": "2662400"
+                }
+              },
+              {
+                "checksum": "d1503477cc90d9e779b36476cef1b0b136769720ea7655c23e2704a2730d607d",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1790620647000"
+                  }
+                },
+                "name": "dest_dir",
+                "size": {
+                  "$numberLong": "20"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "directory"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1791277689653"
+        }
+      },
+      "size": {
+        "$numberLong": "1641984"
+      }
+    }
+  ],
+  "artifacts_count": {
+    "$numberInt": "1"
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "<ObjectID>",
+  "name": "rootfs_gzip_2.0.0",
+  "modified": {
+    "$date": {
+      "$numberLong": "1794217148047"
+    }
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1794216876703"
+    }
+  },
+  "kind": "release",
+  "artifacts": [
+    {
+      "_id": "8c50c68d-21aa-41da-9b80-f570169c2ecd",
+      "meta": {
+        "description": ""
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "artifact_group",
+          "rootfs_image_checksum",
+          "rootfs-image.*"
+        ],
+        "depends": [
+          {
+            "k": "device_type",
+            "v": "test"
+          }
+        ],
+        "device_types_compatible": [
+          "test"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "rootfs_gzip_2.0.0",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1784195961000"
+                  }
+                },
+                "name": "rootfsA.img",
+                "size": {
+                  "$numberLong": "3602907136"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "rootfs-image"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1794216876703"
+        }
+      },
+      "size": {
+        "$numberLong": "730059264"
+      }
+    },
+    {
+      "_id": "b78cf0d6-1ec6-46b5-8e77-5e1e7571b327",
+      "meta": {
+        "description": ""
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "artifact_group",
+          "rootfs_image_checksum",
+          "rootfs-image.*"
+        ],
+        "depends": [
+          {
+            "k": "ARCH",
+            "v": "aarch64"
+          },
+          {
+            "k": "OS",
+            "v": "linux"
+          },
+          {
+            "k": "device_type",
+            "v": "test"
+          }
+        ],
+        "device_types_compatible": [
+          "test"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "rootfs_gzip_2.0.0",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1794216958000"
+                  }
+                },
+                "name": "rootfsA.img",
+                "size": {
+                  "$numberLong": "3602907136"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "rootfs-image"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1794217148045"
+        }
+      },
+      "size": {
+        "$numberLong": "730059264"
+      }
+    }
+  ],
+  "artifacts_count": {
+    "$numberInt": "2"
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "<ObjectID>",
+  "name": "rootfs_gzip_2.0.0",
+  "modified": {
+    "$date": {
+      "$numberLong": "1794218674082"
+    }
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1794218598157"
+    }
+  },
+  "kind": "release",
+  "artifacts": [
+    {
+      "_id": "317bf1b6-7f11-4794-a704-b76d935097fd",
+      "meta": {
+        "description": ""
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "artifact_group",
+          "rootfs_image_checksum",
+          "rootfs-image.*"
+        ],
+        "depends": [
+          {
+            "k": "ARCH",
+            "v": "aarch64"
+          },
+          {
+            "k": "OS",
+            "v": "linux"
+          },
+          {
+            "k": "device_type",
+            "v": "test"
+          }
+        ],
+        "device_types_compatible": [
+          "test"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "rootfs_gzip_2.0.0",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1794216958000"
+                  }
+                },
+                "name": "rootfsA.img",
+                "size": {
+                  "$numberLong": "3602907136"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "rootfs-image"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1794218598157"
+        }
+      },
+      "size": {
+        "$numberLong": "730059264"
+      }
+    },
+    {
+      "_id": "eae363bf-d91f-4ed0-bce1-76747dc66270",
+      "meta": {
+        "description": ""
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "artifact_group",
+          "rootfs_image_checksum",
+          "rootfs-image.*"
+        ],
+        "depends": [
+          {
+            "k": "device_type",
+            "v": "test"
+          }
+        ],
+        "device_types_compatible": [
+          "test"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "rootfs_gzip_2.0.0",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1784195961000"
+                  }
+                },
+                "name": "rootfsA.img",
+                "size": {
+                  "$numberLong": "3602907136"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "rootfs-image"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1794218674081"
+        }
+      },
+      "size": {
+        "$numberLong": "730059264"
+      }
+    }
+  ],
+  "artifacts_count": {
+    "$numberInt": "2"
+  },
+  "tenant_id": ""
+}
+{
+  "_id": "<ObjectID>",
+  "name": "terminalImage",
+  "modified": {
+    "$date": {
+      "$numberLong": "1791277699519"
+    }
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277699509"
+    }
+  },
+  "tags": [
+    "customrelease"
+  ],
+  "notes": "foo notes",
+  "kind": "release",
+  "artifacts": [
+    {
+      "_id": "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec",
+      "meta": {
+        "description": ""
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "rootfs-image.terminalImage.*"
+        ],
+        "depends": [
+          {
+            "k": "device_type",
+            "v": "all-of-them"
+          }
+        ],
+        "device_types_compatible": [
+          "all-of-them"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "terminalImage",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "terminalImage"
+          },
+          {
+            "k": "rootfs-image.terminalImage.version",
+            "v": "1.0.0"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "5ae19fdf826fa5be2a9b25666bfebd69c9e8bc77bb34f82cdd6ae7058859844a",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1791277699000"
+                  }
+                },
+                "name": "dest_dir",
+                "size": {
+                  "$numberLong": "9"
+                }
+              },
+              {
+                "checksum": "912207456d9c0d9b321311b4b5aa471d1621980b33b43e03f47d33e34546c356",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1791277699000"
+                  }
+                },
+                "name": "filename",
+                "size": {
+                  "$numberLong": "20"
+                }
+              },
+              {
+                "checksum": "0a2a5ea75282bf45dfcd2df50bea57b953ffecba63d8809c4e9abd233b828f73",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1791277699000"
+                  }
+                },
+                "name": "permissions",
+                "size": {
+                  "$numberLong": "4"
+                }
+              },
+              {
+                "checksum": "f5f085afc30b2feb3546762635978104b4dc149900e31e70f355df415365a29f",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1791277699000"
+                  }
+                },
+                "name": "terminalContent.png",
+                "size": {
+                  "$numberLong": "5882"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "single-file"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1791277699509"
+        }
+      },
+      "size": {
+        "$numberLong": "8192"
+      }
+    }
+  ],
+  "artifacts_count": {
+    "$numberInt": "1"
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "<ObjectID>",
+  "name": "test",
+  "modified": {
+    "$date": {
+      "$numberLong": "1791277712711"
+    }
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277712711"
+    }
+  },
+  "tags": [
+    "yaml-e2e-tag"
+  ],
+  "notes": "yaml e2e upload",
+  "kind": "manifest",
+  "artifacts": [
+    {
+      "_id": "813c8281-1ef3-41fa-aaca-7689c64ea918",
+      "meta": {
+        "description": "yaml e2e upload"
+      },
+      "meta_artifact": {
+        "clears_provides": [
+          "data-partition.mender-orchestrator-manifest.*"
+        ],
+        "depends": [
+          {
+            "k": "device_type",
+            "v": "test"
+          }
+        ],
+        "device_types_compatible": [
+          "test"
+        ],
+        "info": {
+          "format": "mender",
+          "version": {
+            "$numberInt": "3"
+          }
+        },
+        "name": "test",
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "test"
+          },
+          {
+            "k": "data-partition.mender-orchestrator-manifest.version",
+            "v": "test"
+          }
+        ],
+        "signed": false,
+        "updates": [
+          {
+            "files": [
+              {
+                "checksum": "bd00e57ae7ed2e858b1193b3cbb577efb9b623e5b8844e506cd7badcf151c558",
+                "date": {
+                  "$date": {
+                    "$numberLong": "1791277712000"
+                  }
+                },
+                "name": "manifest.yaml",
+                "size": {
+                  "$numberLong": "458"
+                }
+              }
+            ],
+            "metadata": {},
+            "typeinfo": {
+              "type": "mender-orchestrator-manifest"
+            }
+          }
+        ]
+      },
+      "modified": {
+        "$date": {
+          "$numberLong": "1791277712711"
+        }
+      },
+      "size": {
+        "$numberLong": "5120"
+      }
+    }
+  ],
+  "artifacts_count": {
+    "$numberInt": "1"
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}

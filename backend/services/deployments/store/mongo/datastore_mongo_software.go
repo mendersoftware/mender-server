@@ -2,20 +2,23 @@ package mongo
 
 import (
 	"context"
+	"errors"
 	"regexp"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
+	"github.com/mendersoftware/mender-server/services/deployments/store"
 )
 
 func (db *DataStoreMongo) ListSoftwareTags(
 	ctx context.Context,
 	filter *model.SoftwareTagsFilter,
 ) (model.Tags, error) {
-	fltr := bson.M{}
+	fltr := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
 	if filter != nil {
 		switch filter.Kind {
 		case model.ReleaseKindRelease:
@@ -25,20 +28,17 @@ func (db *DataStoreMongo) ListSoftwareTags(
 		}
 	}
 
-	res := db.client.
-		Database(mstore.DbFromContext(ctx, DatabaseName)).
+	res := db.database.
 		Collection(CollectionReleases).
 		Distinct(ctx, StorageKeyReleaseTags, fltr)
 
-	var tagKeys []string
-	if err := res.Decode(&tagKeys); err != nil {
-		return nil, err
+	var ret model.Tags
+	raw, err := res.Raw()
+	if err == nil {
+		err = bson.UnmarshalValue(bson.TypeArray, raw, &ret)
 	}
-	ret := make([]model.Tag, 0, len(tagKeys))
-	for _, elem := range tagKeys {
-		if elem != "" {
-			ret = append(ret, model.Tag(elem))
-		}
+	if err != nil {
+		return nil, err
 	}
 
 	return ret, nil
@@ -48,7 +48,7 @@ func (db *DataStoreMongo) ListSoftware(
 	ctx context.Context,
 	filter *model.SoftwareFilter,
 ) ([]model.Software, int, error) {
-	fltr := bson.M{}
+	fltr := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
 	opts := mopts.Find()
 	page := 1
 	perPage := DefaultDocumentLimit
@@ -97,8 +97,7 @@ func (db *DataStoreMongo) ListSoftware(
 	opts.SetSkip(int64((page - 1) * perPage))
 	opts.SetLimit(int64(perPage))
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collReleases := database.Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	count, err := collReleases.CountDocuments(ctx, fltr)
 	if err != nil || count < 1 {
@@ -125,4 +124,19 @@ func fillMissingKind(softwares []model.Software) []model.Software {
 		}
 	}
 	return softwares
+}
+
+func (db *DataStoreMongo) GetSoftware(ctx context.Context, name string) (*model.Software, error) {
+	var sw model.Software
+	err := db.database.Collection(CollectionReleases).FindOne(ctx, bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		{Key: StorageKeyReleaseName, Value: name},
+	}).Decode(&sw)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return nil, store.ErrNotFound
+		}
+		return nil, err
+	}
+	return &sw, nil
 }

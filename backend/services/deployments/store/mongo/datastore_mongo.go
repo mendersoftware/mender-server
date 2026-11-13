@@ -16,9 +16,8 @@ package mongo
 import (
 	"context"
 	"crypto/tls"
-	"math"
 	"regexp"
-	"sort"
+	"slices"
 	"strings"
 	"time"
 
@@ -29,10 +28,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
-	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -40,24 +36,28 @@ import (
 )
 
 const (
-	DatabaseName                   = "deployment_service"
-	CollectionLimits               = "limits"
-	CollectionImages               = "images"
-	CollectionDeployments          = "deployments"
-	CollectionDeviceDeploymentLogs = "devices.logs"
-	CollectionDevices              = "devices"
-	CollectionDevicesLastStatus    = "devices_last_status"
-	CollectionStorageSettings      = "settings"
-	CollectionUploadIntents        = "uploads"
-	CollectionReleases             = "releases"
-	CollectionUpdateTypes          = "update_types"
+	CollectionDeployments   = "deployments"
+	CollectionDevices       = "devices"
+	CollectionSettings      = "settings"
+	CollectionUploadIntents = "uploads"
+	CollectionReleases      = "releases"
 )
+
+const (
+	legacyCollectionDeviceDeploymentLogs = "devices.logs" // Replaced by devices
+	legacyCollectionImages               = "images"       // Replaced by releases
+	legacyCollectionLimits               = "limits"       // Replaced by settings
+)
+
+var _ store.DataStore = &DataStoreMongo{}
 
 const DefaultDocumentLimit = 20
 const maxCountDocuments = int64(10000)
 
 // Internal status codes from
 // https://github.com/mongodb/mongo/blob/4.4/src/mongo/base/error_codes.yml
+//
+//nolint:unused
 const (
 	errorCodeNamespaceNotFound = 26
 	errorCodeIndexNotFound     = 27
@@ -66,8 +66,6 @@ const (
 const (
 	mongoOpSet = "$set"
 )
-
-var currentDbVersion map[string]*migrate.Version
 
 var (
 	// Indexes (version: 1.2.2)
@@ -251,7 +249,7 @@ var (
 	IndexDeviceDeploymentsActiveCreated      = "active_deviceid_created"
 	IndexDeviceDeploymentsActiveCreatedModel = mongo.IndexModel{
 		Keys: bson.D{
-			{Key: StorageKeyDeviceDeploymentActive, Value: 1},
+			{Key: legacyStorageKeyDeviceDeploymentActive, Value: 1},
 			{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
 			{Key: StorageKeyDeviceDeploymentCreated, Value: 1},
 		},
@@ -293,6 +291,13 @@ var (
 			SetName(IndexNameDeploymentName),
 	}
 )
+
+func deviceDeploymentFilterStatusActive() bson.D {
+	return bson.D{
+		{Key: "$gte", Value: model.DeviceDeploymentStatusActiveLow},
+		{Key: "$lte", Value: model.DeviceDeploymentStatusActiveHigh},
+	}
+}
 
 // Errors
 var (
@@ -339,13 +344,15 @@ const (
 	StorageKeyImageModified    = "modified"
 
 	// releases
-	StorageKeyReleaseName                      = "_id"
+	StorageKeyReleaseName                      = "name"
 	StorageKeyReleaseKind                      = "kind"
 	StorageKeyReleaseModified                  = "modified"
+	StorageKeyReleaseCreated                   = "created"
 	StorageKeyReleaseTags                      = "tags"
 	StorageKeyReleaseNotes                     = "notes"
 	StorageKeyReleaseArtifacts                 = "artifacts"
 	StorageKeyReleaseArtifactsCount            = "artifacts_count"
+	StorageKeyReleaseArtifactsSize             = "artifacts.size"
 	StorageKeyReleaseArtifactsIndexDescription = StorageKeyReleaseArtifacts + ".$." +
 		StorageKeyImageDescription
 	StorageKeyReleaseArtifactsDescription = StorageKeyReleaseArtifacts + "." +
@@ -363,29 +370,29 @@ const (
 	StorageKeyReleaseImageProvidesIdx = StorageKeyReleaseArtifacts + "." +
 		StorageKeyImageProvidesIdx
 
-	StorageKeyDeviceDeploymentLogMessages = "messages"
+	StorageKeyDeviceDeploymentLogMessages = "log.messages"
 
 	StorageKeyDeviceDeploymentAssignedImage   = "image"
 	StorageKeyDeviceDeploymentAssignedImageId = StorageKeyDeviceDeploymentAssignedImage +
 		"." + StorageKeyId
 
-	StorageKeyDeviceDeploymentActive         = "active"
-	StorageKeyDeviceDeploymentCreated        = "created"
-	StorageKeyDeviceDeploymentDeviceId       = "deviceid"
-	StorageKeyDeviceDeploymentStatus         = "status"
-	StorageKeyDeviceDeploymentStarted        = "started"
-	StorageKeyDeviceDeploymentSubState       = "substate"
-	StorageKeyDeviceDeploymentDeploymentID   = "deploymentid"
-	StorageKeyDeviceDeploymentFinished       = "finished"
-	StorageKeyDeviceDeploymentIsLogAvailable = "log"
-	StorageKeyDeviceDeploymentArtifact       = "image"
-	StorageKeyDeviceDeploymentRequest        = "request"
-	StorageKeyDeviceDeploymentDeleted        = "deleted"
+	legacyStorageKeyDeviceDeploymentActive = "active"
+
+	StorageKeyDeviceDeploymentCreated      = "created"
+	StorageKeyDeviceDeploymentDeviceId     = "deviceid"
+	StorageKeyDeviceDeploymentStatus       = "status"
+	StorageKeyDeviceDeploymentStarted      = "started"
+	StorageKeyDeviceDeploymentSubState     = "substate"
+	StorageKeyDeviceDeploymentDeploymentID = "deploymentid"
+	StorageKeyDeviceDeploymentFinished     = "finished"
+	StorageKeyDeviceDeploymentArtifact     = "image"
+	StorageKeyDeviceDeploymentRequest      = "request"
+	StorageKeyDeviceDeploymentDeleted      = "deleted"
 
 	StorageKeyDeploymentName                = "deploymentconstructor.name"
 	StorageKeyDeploymentArtifactName        = "deploymentconstructor.artifactname"
 	StorageKeyDeploymentConstructorChecksum = "deploymentconstructor_checksum"
-	StorageKeyDeploymentStats               = "stats"
+	StorageKeyDeploymentStats               = "statistics.status"
 	StorageKeyDeploymentActive              = "active"
 	StorageKeyDeploymentStatus              = "status"
 	StorageKeyDeploymentCreated             = "created"
@@ -409,18 +416,17 @@ const (
 	StorageKeyStorageSettingsForcePathStyle = "force_path_style"
 	StorageKeyStorageSettingsUseAccelerate  = "use_accelerate"
 
-	StorageKeyStorageReleaseUpdateTypes = "update_types"
-
 	ArtifactDependsDeviceType = "device_type"
 )
 
 type DataStoreMongo struct {
-	client *mongo.Client
+	database *mongo.Database
 }
 
 func NewDataStoreMongoWithClient(client *mongo.Client) *DataStoreMongo {
 	return &DataStoreMongo{
-		client: client,
+		database: client.Database(DefaultDbName, mopts.Database().
+			SetRegistry(newRegistry())),
 	}
 }
 
@@ -469,199 +475,17 @@ func NewMongoClient(ctx context.Context, c config.Reader) (*mongo.Client, error)
 }
 
 func (db *DataStoreMongo) Ping(ctx context.Context) error {
-	res := db.client.Database(DbName).RunCommand(ctx, bson.M{"ping": 1})
+	res := db.database.RunCommand(ctx, bson.M{"ping": 1})
 	return res.Err()
-}
-
-func (db *DataStoreMongo) setCurrentDbVersion(
-	ctx context.Context,
-) error {
-	versions, err := migrate.GetMigrationInfo(
-		ctx, db.client, mstore.DbFromContext(ctx, DatabaseName))
-	if err != nil {
-		return errors.Wrap(err, "failed to list applied migrations")
-	}
-	var current migrate.Version
-	if len(versions) > 0 {
-		// sort applied migrations wrt. version
-		sort.Slice(versions, func(i int, j int) bool {
-			return migrate.VersionIsLess(versions[i].Version, versions[j].Version)
-		})
-		current = versions[len(versions)-1].Version
-	}
-	if currentDbVersion == nil {
-		currentDbVersion = map[string]*migrate.Version{}
-	}
-	currentDbVersion[mstore.DbFromContext(ctx, DatabaseName)] = &current
-	return nil
-}
-
-func (db *DataStoreMongo) getCurrentDbVersion(
-	ctx context.Context,
-) (*migrate.Version, error) {
-	if currentDbVersion == nil ||
-		currentDbVersion[mstore.DbFromContext(ctx, DatabaseName)] == nil {
-		if err := db.setCurrentDbVersion(ctx); err != nil {
-			return nil, err
-		}
-	}
-	return currentDbVersion[mstore.DbFromContext(ctx, DatabaseName)], nil
 }
 
 func (db *DataStoreMongo) GetReleases(
 	ctx context.Context,
 	filt *model.ReleaseOrImageFilter,
 ) ([]model.Release, int, error) {
-	current, err := db.getCurrentDbVersion(ctx)
-	if err != nil {
-		return []model.Release{}, 0, err
-	} else if current == nil {
-		return []model.Release{}, 0, errors.New("couldn't get current database version")
-	}
-	if migrate.VersionIsLess(*current, migrate.Version{
-		Major: 1, Minor: 2, Patch: 15,
-	}) {
-		return db.getReleases_1_2_14(ctx, filt)
-	} else {
-		return db.getReleases_1_2_15(ctx, filt)
-	}
-}
+	id := identity.FromContext(ctx)
 
-func (db *DataStoreMongo) getReleases_1_2_14(
-	ctx context.Context,
-	filt *model.ReleaseOrImageFilter,
-) ([]model.Release, int, error) {
-	l := log.FromContext(ctx)
-	l.Infof("get releases method version 1.2.14")
-	var pipe []bson.D
-
-	pipe = []bson.D{}
-	if filt != nil && filt.Name != "" {
-		pipe = append(pipe, bson.D{
-			{Key: "$match", Value: bson.M{
-				StorageKeyImageName: bson.M{
-					"$regex": bson.Regex{
-						Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
-						Options: "i",
-					},
-				},
-			}},
-		})
-	}
-
-	pipe = append(pipe, bson.D{
-		// Remove (possibly expensive) sub-documents from pipeline
-		{
-			Key: "$project",
-			Value: bson.M{
-				StorageKeyImageDependsIdx:  0,
-				StorageKeyImageProvidesIdx: 0,
-			},
-		},
-	})
-
-	pipe = append(pipe, bson.D{
-		{Key: "$group", Value: bson.D{
-			{Key: "_id", Value: "$" + StorageKeyImageName},
-			{Key: "name", Value: bson.M{"$first": "$" + StorageKeyImageName}},
-			{Key: "artifacts", Value: bson.M{"$push": "$$ROOT"}},
-			{Key: "modified", Value: bson.M{"$max": "$modified"}},
-		}},
-	})
-
-	if filt != nil && filt.Description != "" {
-		pipe = append(pipe, bson.D{
-			{Key: "$match", Value: bson.M{
-				"artifacts." + StorageKeyImageDescription: bson.M{
-					"$regex": bson.Regex{
-						Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
-						Options: "i",
-					},
-				},
-			}},
-		})
-	}
-	if filt != nil && filt.DeviceType != "" {
-		pipe = append(pipe, bson.D{
-			{Key: "$match", Value: bson.M{
-				"artifacts." + StorageKeyImageDeviceTypes: bson.M{
-					"$regex": bson.Regex{
-						Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
-						Options: "i",
-					},
-				},
-			}},
-		})
-	}
-
-	sortField := "name"
-	sortOrder := 1
-	if filt != nil {
-		field, order := getReleaseSortFieldAndOrder(filt.Sort)
-
-		if field != "" {
-			sortField = field
-		}
-		if order != 0 {
-			sortOrder = order
-		}
-	}
-
-	page := 1
-	perPage := math.MaxInt64
-	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		page = filt.Page
-		perPage = filt.PerPage
-	}
-	pipe = append(pipe,
-		bson.D{{Key: "$facet", Value: bson.D{
-			{Key: "results", Value: []bson.D{
-				{
-					{Key: "$sort", Value: bson.D{
-						{Key: sortField, Value: sortOrder},
-						{Key: "_id", Value: 1},
-					}},
-				},
-				{{Key: "$skip", Value: int64((page - 1) * perPage)}},
-				{{Key: "$limit", Value: int64(perPage)}},
-			}},
-			{Key: "count", Value: []bson.D{
-				{{Key: "$count", Value: "count"}},
-			}},
-		}}},
-	)
-
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
-	cursor, err := collImg.Aggregate(ctx, pipe)
-	if err != nil {
-		return []model.Release{}, 0, err
-	}
-	defer cursor.Close(ctx)
-
-	result := struct {
-		Results []model.Release       `bson:"results"`
-		Count   []struct{ Count int } `bson:"count"`
-	}{}
-	if !cursor.Next(ctx) {
-		return []model.Release{}, 0, nil
-	} else if err = cursor.Decode(&result); err != nil {
-		return []model.Release{}, 0, err
-	} else if len(result.Count) == 0 {
-		return []model.Release{}, 0, err
-	}
-	return result.Results, result.Count[0].Count, nil
-}
-
-func (db *DataStoreMongo) getReleases_1_2_15(
-	ctx context.Context,
-	filt *model.ReleaseOrImageFilter,
-) ([]model.Release, int, error) {
-	l := log.FromContext(ctx)
-	l.Infof("get releases method version 1.2.15")
-
-	sortField := "_id"
+	sortField := StorageKeyReleaseName
 	sortOrder := 1
 	if filt != nil {
 		field, order := getReleaseSortFieldAndOrder(filt.Sort)
@@ -698,10 +522,10 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 	}
 	opts.SetProjection(projection)
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collReleases := database.Collection(CollectionReleases)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	filter := bson.M{
+		StorageKeyTenantId:    id.GetTenantID(),
 		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 	}
 	if filt != nil {
@@ -751,27 +575,58 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 
 // limits
 func (db *DataStoreMongo) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
+	collLim := db.database.Collection(CollectionSettings)
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collLim := database.Collection(CollectionLimits)
+	var result struct {
+		Limits []model.Limit `bson:"limits"`
+	}
+	err := collLim.FindOne(ctx,
+		bson.M{
+			"_id":         identity.FromContext(ctx).GetTenantID(),
+			"limits.name": name,
+		},
+		mopts.FindOne().SetProjection(bson.M{"limits.$": 1}),
+	).Decode(&result)
 
-	limit := new(model.Limit)
-	if err := collLim.FindOne(ctx, bson.M{"_id": name}).
-		Decode(limit); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, ErrLimitNotFound
-		}
-		return nil, err
+	if errors.Is(err, mongo.ErrNoDocuments) {
+		return nil, ErrLimitNotFound
+	} else if err != nil {
+		return nil, errors.Wrap(err, "failed to get limit")
+	}
+	if len(result.Limits) == 0 {
+		return nil, ErrLimitNotFound
+	}
+	return &result.Limits[0], nil
+}
+
+func (db *DataStoreMongo) SetLimit(ctx context.Context, lim model.Limit) error {
+	collLim := db.database.Collection(CollectionSettings)
+	pipeline := mongo.Pipeline{
+		{{Key: "$set", Value: bson.M{"limits": bson.M{
+			"$concatArrays": bson.A{
+				bson.M{"$filter": bson.M{
+					"input": bson.M{"$ifNull": bson.A{"$limits", bson.A{}}},
+					"cond":  bson.M{"$ne": bson.A{"$$this.name", lim.Name}},
+				}},
+				bson.A{bson.M{"$literal": lim}},
+			},
+		}}}},
 	}
 
-	return limit, nil
+	_, err := collLim.UpdateOne(
+		ctx,
+		bson.M{"_id": identity.FromContext(ctx).GetTenantID()},
+		pipeline,
+		mopts.UpdateOne().SetUpsert(true),
+	)
+	if err != nil {
+		return errors.Wrap(err, "failed to set or update limit")
+	}
+	return nil
 }
 
 func (db *DataStoreMongo) ProvisionTenant(ctx context.Context, tenantId string) error {
-
-	dbname := mstore.DbNameForTenant(tenantId, DbName)
-
-	return MigrateSingle(ctx, dbname, DbVersion, db.client, true)
+	return nil
 }
 
 //images
@@ -784,10 +639,13 @@ func (db *DataStoreMongo) Exists(ctx context.Context, id string) (bool, error) {
 		return false, ErrImagesStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
+	collImg := db.database.Collection(CollectionReleases)
 
-	if err := collImg.FindOne(ctx, bson.M{"_id": id}).
+	if err := collImg.FindOne(ctx, bson.M{
+		StorageKeyReleaseArtifactsId: id,
+
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+	}).
 		Decode(&result); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return false, nil
@@ -807,15 +665,18 @@ func (db *DataStoreMongo) Update(ctx context.Context,
 		return false, err
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
-	// add special representation of artifact provides
-	image.ArtifactMeta.ProvidesIdx = model.ProvidesIdx(image.ArtifactMeta.Provides)
+	collReleases := db.database.Collection(CollectionReleases)
 
 	image.SetModified(time.Now())
-	if res, err := collImg.ReplaceOne(
-		ctx, bson.M{"_id": image.Id}, image,
+	if res, err := collReleases.UpdateOne(
+		ctx, bson.M{
+			StorageKeyReleaseArtifacts: bson.M{"$elemMatch": bson.M{
+				StorageKeyId: image.Id,
+			}},
+			StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+		}, bson.M{
+			"$set": bson.M{"artifacts.$": image},
+		},
 	); err != nil {
 		return false, err
 	} else if res.MatchedCount == 0 {
@@ -825,48 +686,12 @@ func (db *DataStoreMongo) Update(ctx context.Context,
 	return true, nil
 }
 
-// ImageByNameAndDeviceType finds image with specified application name and target device type
-func (db *DataStoreMongo) ImageByNameAndDeviceType(ctx context.Context,
-	name, deviceType string) (*model.Image, error) {
-
-	if len(name) == 0 {
-		return nil, ErrImagesStorageInvalidArtifactName
-	}
-
-	if len(deviceType) == 0 {
-		return nil, ErrImagesStorageInvalidDeviceType
-	}
-
-	// equal to device type & software version (application name + version)
-	query := bson.M{
-		StorageKeyImageName:        name,
-		StorageKeyImageDeviceTypes: deviceType,
-	}
-
-	// If multiple entries matches, pick the smallest one.
-	findOpts := mopts.FindOne()
-	findOpts.SetSort(bson.D{{Key: StorageKeyImageSize, Value: 1}})
-
-	dbName := mstore.DbFromContext(ctx, DatabaseName)
-	database := db.client.Database(dbName)
-	collImg := database.Collection(CollectionImages)
-
-	// Both we lookup unique object, should be one or none.
-	var image model.Image
-	if err := collImg.FindOne(ctx, query, findOpts).
-		Decode(&image); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &image, nil
-}
-
 // ImageByIdsAndDeviceType finds image with id from ids and target device type
-func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
-	ids []string, deviceType string) (*model.Image, error) {
+func (db *DataStoreMongo) ImageForDeviceDeployment(ctx context.Context,
+	ids []string, // FIXME: consider replacing with release name
+	deviceType string,
+	provides model.Provides,
+) (*model.Image, error) {
 
 	if len(deviceType) == 0 {
 		return nil, ErrImagesStorageInvalidDeviceType
@@ -877,117 +702,84 @@ func (db *DataStoreMongo) ImageByIdsAndDeviceType(ctx context.Context,
 	}
 
 	query := bson.D{
-		{Key: StorageKeyId, Value: bson.M{"$in": ids}},
-		{Key: StorageKeyImageDeviceTypes, Value: deviceType},
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		{Key: StorageKeyReleaseArtifactsId, Value: bson.D{
+			{Key: "$in", Value: ids},
+		}},
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
-	// If multiple entries matches, pick the smallest one
-	findOpts := mopts.FindOne()
-	findOpts.SetSort(bson.D{{Key: StorageKeyImageSize, Value: 1}})
-
-	// Both we lookup unique object, should be one or none.
-	var image model.Image
-	if err := collImg.FindOne(ctx, query, findOpts).
-		Decode(&image); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, nil
-		}
-		return nil, err
+	providesDepends := make([]Depend, 0, len(provides)+1)
+	providesKeys := make([]string, 0, len(provides)+1)
+	for key, value := range provides {
+		providesKeys = append(providesKeys, key)
+		providesDepends = append(providesDepends, Depend{
+			Key:   key,
+			Value: value,
+		})
 	}
-
-	return &image, nil
-}
-
-// ImagesByName finds images with specified artifact name
-func (db *DataStoreMongo) ImagesByName(
-	ctx context.Context, name string) ([]*model.Image, error) {
-
-	var images []*model.Image
-
-	if len(name) == 0 {
-		return nil, ErrImagesStorageInvalidName
+	providesKeys = append(providesKeys, "device_type")
+	providesDepends = append(providesDepends, Depend{
+		Key:   "device_type",
+		Value: deviceType,
+	})
+	// Ensure no depends keys are outside the provides shape
+	artifactFilter := bson.D{
+		{Key: "input", Value: "$" + StorageKeyReleaseArtifacts},
+		{Key: "as", Value: "artifact"},
+		{Key: "cond", Value: bson.D{
+			{Key: "$and", Value: []bson.D{
+				// Provides key/values is a subset of depends key/values
+				// i.e. each provides must match a depends key/value pair
+				{{Key: "$setIsSubset", Value: bson.A{
+					bson.D{{Key: "$literal", Value: providesDepends}},
+					"$$artifact.meta_artifact.depends",
+				}}},
+				// Depends keys is subset of provides keys
+				// i.e. no depends keys are outside the set of provides
+				{{Key: "$setIsSubset", Value: bson.A{
+					"$$artifact.meta_artifact.depends.k",
+					bson.D{{Key: "$literal", Value: providesKeys}},
+				}}},
+			}},
+		}},
 	}
-
-	// equal to artifact name
-	query := bson.M{
-		StorageKeyImageName: name,
-	}
-
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-	cursor, err := collImg.Find(ctx, query)
+	collReleases := db.database.Collection(CollectionReleases)
+	cur, err := collReleases.Aggregate(ctx, mongo.Pipeline{
+		{{Key: "$match", Value: query}},
+		{{Key: "$project", Value: bson.D{
+			{Key: StorageKeyId, Value: 0},
+			{Key: StorageKeyReleaseArtifacts, Value: bson.D{
+				{Key: "$filter", Value: artifactFilter},
+			}},
+		}}},
+		{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+		{{Key: "$sort", Value: bson.D{
+			{Key: StorageKeyReleaseArtifactsSize, Value: 1}},
+		}},
+		{{Key: "$limit", Value: 1}},
+	})
 	if err != nil {
 		return nil, err
 	}
+	defer cur.Close(ctx)
 	// Both we lookup unique object, should be one or none.
-	if err = cursor.All(ctx, &images); err != nil {
+	var result struct {
+		Artifact *model.Image `bson:"artifacts"`
+	}
+	if cur.Next(ctx) {
+		err = cur.Err()
+		if err == nil {
+			err = cur.Decode(&result)
+		}
+	}
+	if err != nil {
 		return nil, err
 	}
-
-	return images, nil
-}
-
-func newDependsConflictError(mgoErr mongo.WriteError) *model.ConflictError {
-	var err error
-	conflictErr := model.NewConflictError(ErrConflictingDepends)
-	// Try to lookup the document that caused the index violation:
-	if raw, ok := mgoErr.Raw.Lookup("keyValue").DocumentOK(); ok {
-		if raw, ok = raw.Lookup(StorageKeyImageDependsIdx).DocumentOK(); ok {
-			var conflicts map[string]interface{}
-			err = bson.Unmarshal([]byte(raw), &conflicts)
-			if err == nil {
-				_ = conflictErr.WithMetadata(
-					map[string]interface{}{
-						"conflict": conflicts,
-					},
-				)
-			}
-		}
-	}
-	return conflictErr
-}
-
-// Insert persists object
-func (db *DataStoreMongo) InsertImage(ctx context.Context, image *model.Image) error {
-
-	if image == nil {
-		return ErrImagesStorageInvalidImage
-	}
-
-	if err := image.Validate(); err != nil {
-		return err
-	}
-
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
-	// add special representation of artifact provides
-	image.ArtifactMeta.ProvidesIdx = model.ProvidesIdx(image.ArtifactMeta.Provides)
-
-	_, err := collImg.InsertOne(ctx, image)
-	if err != nil {
-		var wExc mongo.WriteException
-		if errors.As(err, &wExc) {
-			for _, wErr := range wExc.WriteErrors {
-				if !mongo.IsDuplicateKeyError(wErr) {
-					continue
-				}
-				return newDependsConflictError(wErr)
-			}
-		}
-		return err
-	}
-
-	return nil
+	return result.Artifact, nil
 }
 
 func (db *DataStoreMongo) InsertUploadIntent(ctx context.Context, link *model.UploadLink) error {
-	collUploads := db.client.
-		Database(DatabaseName).
-		Collection(CollectionUploadIntents)
+	collUploads := db.database.Collection(CollectionUploadIntents)
 	if idty := identity.FromContext(ctx); idty != nil {
 		link.TenantID = idty.Tenant
 	}
@@ -1000,18 +792,11 @@ func (db *DataStoreMongo) UpdateUploadIntentStatus(
 	id string,
 	from, to model.LinkStatus,
 ) error {
-	collUploads := db.client.
-		Database(DatabaseName).
-		Collection(CollectionUploadIntents)
+	collUploads := db.database.Collection(CollectionUploadIntents)
 	q := bson.D{
 		{Key: "_id", Value: id},
 		{Key: "status", Value: from},
-	}
-	if idty := identity.FromContext(ctx); idty != nil {
-		q = append(q, bson.E{
-			Key:   StorageKeyTenantId,
-			Value: idty.Tenant,
-		})
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 	}
 	update := bson.D{{
 		Key: "updated_ts", Value: time.Now(),
@@ -1036,9 +821,7 @@ func (db *DataStoreMongo) FindUploadLinks(
 	ctx context.Context,
 	expiredAt time.Time,
 ) (store.Iterator[model.UploadLink], error) {
-	collUploads := db.client.
-		Database(DatabaseName).
-		Collection(CollectionUploadIntents)
+	collUploads := db.database.Collection(CollectionUploadIntents)
 
 	q := bson.D{{
 		Key: "status",
@@ -1065,102 +848,29 @@ func (db *DataStoreMongo) FindImageByID(ctx context.Context,
 		return nil, ErrImagesStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
+	collImg := db.database.Collection(CollectionReleases)
 	projection := bson.M{
-		StorageKeyImageDependsIdx:  0,
-		StorageKeyImageProvidesIdx: 0,
+		StorageKeyReleaseArtifacts + ".$": 1,
 	}
 	findOptions := mopts.FindOne()
 	findOptions.SetProjection(projection)
 
-	var image model.Image
-	if err := collImg.FindOne(ctx, bson.M{"_id": id}, findOptions).
-		Decode(&image); err != nil {
+	var release model.Release
+	if err := collImg.FindOne(ctx, bson.M{
+		StorageKeyReleaseArtifacts: bson.M{"$elemMatch": bson.M{StorageKeyId: id}},
+		StorageKeyTenantId:         identity.FromContext(ctx).GetTenantID(),
+	}, findOptions).
+		Decode(&release); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
 	}
-
-	return &image, nil
-}
-
-// IsArtifactUnique checks if there is no artifact with the same artifactName
-// supporting one of the device types from deviceTypesCompatible list.
-// Returns true, nil if artifact is unique;
-// false, nil if artifact is not unique;
-// false, error in case of error.
-func (db *DataStoreMongo) IsArtifactUnique(ctx context.Context,
-	artifactName string, deviceTypesCompatible []string) (bool, error) {
-
-	if len(artifactName) == 0 {
-		return false, ErrImagesStorageInvalidArtifactName
+	if len(release.Artifacts) == 0 {
+		return nil, nil
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
-	query := bson.M{
-		"$and": []bson.M{
-			{
-				StorageKeyImageName: artifactName,
-			},
-			{
-				StorageKeyImageDeviceTypes: bson.M{
-					"$in": deviceTypesCompatible},
-			},
-		},
-	}
-
-	// do part of the job manually
-	// if candidate images have any extra 'depends' - guaranteed non-overlap
-	// otherwise it's a match
-	cur, err := collImg.Find(ctx, query)
-	if err != nil {
-		return false, err
-	}
-
-	var images []model.Image
-	err = cur.All(ctx, &images)
-	if err != nil {
-		return false, err
-	}
-
-	for _, i := range images {
-		// the artifact already has same name and overlapping dev type
-		// if there are no more depends than dev type - it's not unique
-		if len(i.ArtifactMeta.Depends) == 1 {
-			if _, ok := i.ArtifactMeta.Depends["device_type"]; ok {
-				return false, nil
-			}
-		} else if len(i.ArtifactMeta.Depends) == 0 {
-			return false, nil
-		}
-	}
-
-	return true, nil
-}
-
-// Delete image specified by ID
-// Noop on if not found.
-func (db *DataStoreMongo) DeleteImage(ctx context.Context, id string) error {
-
-	if len(id) == 0 {
-		return ErrImagesStorageInvalidID
-	}
-
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
-	if res, err := collImg.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
-		if res != nil && res.DeletedCount == 0 {
-			return nil
-		}
-		return err
-	}
-
-	return nil
+	return &release.Artifacts[0], nil
 }
 
 func getReleaseSortFieldAndOrder(sortOption string) (string, int) {
@@ -1188,13 +898,17 @@ func (db *DataStoreMongo) ListImages(
 	filt *model.ReleaseOrImageFilter,
 ) ([]*model.Image, int, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
+	collReleases := db.database.Collection(CollectionReleases)
 
-	filters := bson.M{}
+	tenantID := identity.FromContext(ctx).GetTenantID()
+	artifactFilter := bson.M{}
+	releaseFilter := bson.M{
+		StorageKeyTenantId: tenantID,
+	}
+
 	if filt != nil {
 		if filt.Name != "" {
-			filters[StorageKeyImageName] = bson.M{
+			releaseFilter[StorageKeyReleaseName] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 					Options: "i",
@@ -1202,7 +916,7 @@ func (db *DataStoreMongo) ListImages(
 			}
 		}
 		if filt.Description != "" {
-			filters[StorageKeyImageDescription] = bson.M{
+			artifactFilter[StorageKeyImageDescription] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 					Options: "i",
@@ -1210,7 +924,7 @@ func (db *DataStoreMongo) ListImages(
 			}
 		}
 		if filt.DeviceType != "" {
-			filters[StorageKeyImageDeviceTypes] = bson.M{
+			artifactFilter[StorageKeyImageDeviceTypes] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 					Options: "i",
@@ -1220,18 +934,8 @@ func (db *DataStoreMongo) ListImages(
 
 	}
 
-	projection := bson.M{
-		StorageKeyImageDependsIdx:  0,
-		StorageKeyImageProvidesIdx: 0,
-	}
-	findOptions := mopts.Find()
-	findOptions.SetProjection(projection)
-	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
-		findOptions.SetLimit(int64(filt.PerPage))
-	}
-
-	sortField := StorageKeyImageName
+	var skipNLimit mongo.Pipeline
+	sortField := StorageKeyReleaseName
 	sortOrder := 1
 	if filt != nil {
 		field, order := getReleaseSortFieldAndOrder(filt.Sort)
@@ -1243,31 +947,75 @@ func (db *DataStoreMongo) ListImages(
 			sortOrder = order
 		}
 	}
-	findOptions.SetSort(bson.D{
-		{Key: sortField, Value: sortOrder},
-		{Key: "_id", Value: sortOrder},
-	})
+	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
+		skipNLimit = mongo.Pipeline{
+			{{Key: "$skip", Value: int64((filt.Page - 1) * filt.PerPage)}},
+			{{Key: "$limit", Value: int64(filt.PerPage)}},
+		}
+	} else {
+		skipNLimit = mongo.Pipeline{
+			{{Key: "$limit", Value: int64(DefaultDocumentLimit)}},
+		}
+	}
 
-	cursor, err := collImg.Find(ctx, filters, findOptions)
+	var combinedPipe mongo.Pipeline
+	if sortField == StorageKeyReleaseName {
+		combinedPipe = mongo.Pipeline{
+			{{Key: "$match", Value: releaseFilter}},
+			{{Key: "$sort", Value: bson.D{{Key: sortField, Value: sortOrder}}}},
+			{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+			{{Key: "$replaceRoot", Value: bson.D{
+				{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+			}}},
+			{{Key: "$match", Value: artifactFilter}},
+			{{Key: "$facet", Value: bson.M{
+				"artifacts": skipNLimit,
+				"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
+			}}},
+		}
+	} else {
+		skipNLimit = slices.Insert(skipNLimit, 0, bson.D{
+			{Key: "$sort", Value: bson.D{
+				{Key: sortField, Value: sortOrder},
+			}},
+		})
+		combinedPipe = mongo.Pipeline{
+			{{Key: "$match", Value: releaseFilter}},
+			{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+			{{Key: "$replaceRoot", Value: bson.D{
+				{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+			}}},
+			{{Key: "$facet", Value: bson.M{
+				"artifacts": &skipNLimit,
+				"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
+			}}},
+		}
+	}
+
+	cursor, err := collReleases.Aggregate(ctx, combinedPipe)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	// NOTE: cursor.All closes the cursor before returning
-	var images []*model.Image
-	if err := cursor.All(ctx, &images); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, 0, nil
+	var result struct {
+		Artifacts []*model.Image `bson:"artifacts"`
+		Count     []struct {
+			N int64 `bson:"n"`
+		} `bson:"count"`
+	}
+	if cursor.Next(ctx) {
+		err = cursor.Err()
+		if err == nil {
+			err = cursor.Decode(&result)
 		}
-		return nil, 0, err
 	}
-
-	count, err := collImg.CountDocuments(ctx, filters)
 	if err != nil {
-		return nil, -1, ErrDevicesCountFailed
+		return nil, 0, err
+	} else if len(result.Artifacts) == 0 {
+		return nil, 0, nil
 	}
-
-	return images, int(count), nil
+	return result.Artifacts, int(result.Count[0].N), nil
 }
 
 /*
@@ -1296,25 +1044,21 @@ func (db *DataStoreMongo) ListImagesV2(
 	ctx context.Context,
 	filt *model.ImageFilter,
 ) ([]*model.Image, error) {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collImg := database.Collection(CollectionImages)
-
+	collReleases := db.database.Collection(CollectionReleases)
+	releaseFilters := bson.M{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()}
 	filters := bson.M{}
-
 	if filt != nil {
-
 		if len(filt.ExactNames) > 0 {
-			filters[StorageKeyImageName] = bson.M{"$in": filt.ExactNames}
+			releaseFilters[StorageKeyReleaseName] = bson.M{"$in": filt.ExactNames}
 		} else if len(filt.NamePrefixes) == 1 {
 			name := filt.NamePrefixes[0]
-			filters[StorageKeyImageName] = bson.M{
+			releaseFilters[StorageKeyReleaseName] = bson.M{
 				"$regex": bson.Regex{
 					Pattern: "^" + regexp.QuoteMeta(name) + ".*",
 					Options: "i",
 				},
 			}
 		}
-
 		if filt.Description != "" {
 			if strings.HasSuffix(filt.Description, `\*`) {
 				description := strings.TrimSuffix(filt.Description, `\*`) + "*"
@@ -1352,36 +1096,36 @@ func (db *DataStoreMongo) ListImagesV2(
 		}
 	}
 
-	projection := bson.M{
-		StorageKeyImageDependsIdx:  0,
-		StorageKeyImageProvidesIdx: 0,
-	}
-	findOptions := mopts.Find()
-	findOptions.SetProjection(projection)
-	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
-		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
-		if filt.Limit > 0 {
-			findOptions.SetLimit(int64(filt.Limit))
-		} else {
-			findOptions.SetLimit(int64(filt.PerPage))
-		}
-	}
-	/*
-		sortField, sortOrder := getImagesSortFieldAndOrder(filt)
-		if sortField == "" || sortField == "name" {
-			sortField = StorageKeyImageName
-		}
-		if sortOrder == 0 {
-			sortOrder = 1
-		}
-	*/
-	sortField := StorageKeyImageName
 	sortOrder := 1
-	findOptions.SetSort(bson.D{
-		{Key: sortField, Value: sortOrder},
-	})
+	pipe := mongo.Pipeline{
+		{{Key: "$match", Value: releaseFilters}},
+		{{Key: "$sort", Value: bson.D{
+			{Key: StorageKeyReleaseName, Value: sortOrder},
+		}}},
+		{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+		{{Key: "$replaceRoot", Value: bson.D{
+			{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+		}}},
+		{{Key: "$match", Value: filters}},
+	}
+	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
+		pipe = append(pipe, bson.D{
+			{Key: "$skip", Value: int64((filt.Page - 1) * filt.PerPage)},
+		})
+		limit := int64(filt.Limit)
+		if limit <= 0 {
+			limit = int64(filt.PerPage)
+		}
+		pipe = append(pipe, bson.D{
+			{Key: "$limit", Value: limit},
+		})
+	} else {
+		pipe = append(pipe, bson.D{
+			{Key: "$limit", Value: DefaultDocumentLimit},
+		})
+	}
 
-	cursor, err := collImg.Find(ctx, filters, findOptions)
+	cursor, err := collReleases.Aggregate(ctx, pipe)
 	if err != nil {
 		return nil, err
 	}
@@ -1398,34 +1142,25 @@ func (db *DataStoreMongo) ListImagesV2(
 	return images, nil
 }
 
-func (db *DataStoreMongo) DeleteImagesByNames(ctx context.Context, names []string) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionImages)
-	query := bson.M{
-		StorageKeyImageName: bson.M{
-			"$in": names,
-		},
-	}
-	_, err := collDevs.DeleteMany(ctx, query)
-	return err
-}
-
 // device deployment log
-func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
-	log model.DeploymentLog) error {
+func (db *DataStoreMongo) SaveDeviceDeploymentLog(
+	ctx context.Context,
+	deviceID string,
+	deploymentID string,
+	log model.DeploymentLog,
+) error {
 
 	if err := log.Validate(); err != nil {
 		return err
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collLogs := database.Collection(CollectionDeviceDeploymentLogs)
-
+	collDevs := db.database.Collection(CollectionDevices)
 	query := bson.D{
 		{Key: StorageKeyDeviceDeploymentDeviceId,
-			Value: log.DeviceID},
+			Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeploymentID,
-			Value: log.DeploymentID},
+			Value: deploymentID},
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 	}
 
 	// update log messages
@@ -1435,11 +1170,11 @@ func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
 			StorageKeyDeviceDeploymentLogMessages: log.Messages,
 		}},
 	}
-	updateOptions := mopts.UpdateOne()
-	updateOptions.SetUpsert(true)
-	if _, err := collLogs.UpdateOne(
-		ctx, query, update, updateOptions); err != nil {
+	if res, err := collDevs.UpdateOne(
+		ctx, query, update); err != nil {
 		return err
+	} else if res.MatchedCount == 0 {
+		return store.ErrNotFound
 	}
 
 	return nil
@@ -1448,26 +1183,34 @@ func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
 func (db *DataStoreMongo) GetDeviceDeploymentLog(ctx context.Context,
 	deviceID, deploymentID string) (*model.DeploymentLog, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collLogs := database.Collection(CollectionDeviceDeploymentLogs)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	query := bson.M{
 		StorageKeyDeviceDeploymentDeviceId:     deviceID,
 		StorageKeyDeviceDeploymentDeploymentID: deploymentID,
+
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 	}
 
-	var depl model.DeploymentLog
-	if err := collLogs.FindOne(ctx, query).Decode(&depl); err != nil {
+	var depl model.DeviceDeployment
+	if err := collDevs.FindOne(ctx, query, mopts.FindOne().
+		SetProjection(bson.M{"log": 1})).
+		Decode(&depl); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
 	}
 
-	return &depl, nil
+	return depl.Log, nil
 }
 
 // device deployments
+
+type DeviceDeployment struct {
+	*model.DeviceDeployment `bson:",inline"`
+	TenantID                string `bson:"tenant_id"`
+}
 
 // Insert persists device deployment object
 func (db *DataStoreMongo) InsertDeviceDeployment(
@@ -1475,15 +1218,17 @@ func (db *DataStoreMongo) InsertDeviceDeployment(
 	deviceDeployment *model.DeviceDeployment,
 	incrementDeviceCount bool,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	c := database.Collection(CollectionDevices)
+	c := db.database.Collection(CollectionDevices)
 
 	if deviceDeployment.Status != model.DeviceDeploymentStatusPending {
 		startedTime := time.Now().UTC()
 		deviceDeployment.Started = &startedTime
 	}
 
-	if _, err := c.InsertOne(ctx, deviceDeployment); err != nil {
+	if _, err := c.InsertOne(ctx, DeviceDeployment{
+		DeviceDeployment: deviceDeployment,
+		TenantID:         identity.FromContext(ctx).GetTenantID(),
+	}); err != nil {
 		return err
 	}
 
@@ -1506,7 +1251,8 @@ func (db *DataStoreMongo) InsertMany(ctx context.Context,
 		return nil
 	}
 
-	deviceCountIncrements := make(map[string]int)
+	deviceCountIncrements := make(map[string]int64)
+	tenantID := identity.FromContext(ctx).GetTenantID()
 
 	// Writing to another interface list addresses golang gatcha interface{} == []interface{}
 	var list []interface{}
@@ -1520,7 +1266,10 @@ func (db *DataStoreMongo) InsertMany(ctx context.Context,
 			return errors.Wrap(err, "Validating device deployment")
 		}
 
-		list = append(list, deployment)
+		list = append(list, DeviceDeployment{
+			DeviceDeployment: deployment,
+			TenantID:         tenantID,
+		})
 		if deployment.Status != model.DeviceDeploymentStatusPending {
 			startedTime := time.Now().UTC()
 			deployment.Started = &startedTime
@@ -1528,8 +1277,7 @@ func (db *DataStoreMongo) InsertMany(ctx context.Context,
 		deviceCountIncrements[deployment.DeploymentId]++
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	if _, err := collDevs.InsertMany(ctx, list); err != nil {
 		return err
@@ -1560,12 +1308,12 @@ func (db *DataStoreMongo) FindOldestActiveDeviceDeployment(
 		return nil, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	// Device should know only about deployments that are not finished
 	query := bson.D{
-		{Key: StorageKeyDeviceDeploymentActive, Value: true},
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		{Key: StorageKeyDeviceDeploymentStatus, Value: deviceDeploymentFilterStatusActive()},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
 			{Key: "$exists", Value: false},
@@ -1602,11 +1350,13 @@ func (db *DataStoreMongo) FindLatestInactiveDeviceDeployment(
 		return nil, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	query := bson.D{
-		{Key: StorageKeyDeviceDeploymentActive, Value: false},
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		{Key: StorageKeyDeviceDeploymentStatus, Value: bson.M{
+			"$not": deviceDeploymentFilterStatusActive(),
+		}},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
 			{Key: "$exists", Value: false},
@@ -1649,11 +1399,11 @@ func (db *DataStoreMongo) UpdateDeviceDeploymentStatus(
 		return model.DeviceDeploymentStatusNull, ErrStorageInvalidInput
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	// Device should know only about deployments that are not finished
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeploymentID, Value: deploymentID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
@@ -1664,7 +1414,6 @@ func (db *DataStoreMongo) UpdateDeviceDeploymentStatus(
 	// update status field
 	set := bson.M{
 		StorageKeyDeviceDeploymentStatus: ddState.Status,
-		StorageKeyDeviceDeploymentActive: ddState.Status.Active(),
 	}
 	// and finish time if provided
 	if ddState.FinishTime != nil {
@@ -1699,40 +1448,6 @@ func (db *DataStoreMongo) UpdateDeviceDeploymentStatus(
 	return old.Status, nil
 }
 
-func (db *DataStoreMongo) UpdateDeviceDeploymentLogAvailability(ctx context.Context,
-	deviceID string, deploymentID string, log bool) error {
-
-	// Verify ID formatting
-	if len(deviceID) == 0 ||
-		len(deploymentID) == 0 {
-		return ErrStorageInvalidID
-	}
-
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
-
-	selector := bson.D{
-		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
-		{Key: StorageKeyDeviceDeploymentDeploymentID, Value: deploymentID},
-		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
-			{Key: "$exists", Value: false},
-		}},
-	}
-
-	update := bson.D{
-		{Key: "$set", Value: bson.M{
-			StorageKeyDeviceDeploymentIsLogAvailable: log}},
-	}
-
-	if res, err := collDevs.UpdateOne(ctx, selector, update); err != nil {
-		return err
-	} else if res.MatchedCount == 0 {
-		return ErrStorageNotFound
-	}
-
-	return nil
-}
-
 // SaveDeviceDeploymentRequest saves device deployment request
 // with the device deployment object
 func (db *DataStoreMongo) SaveDeviceDeploymentRequest(
@@ -1741,12 +1456,14 @@ func (db *DataStoreMongo) SaveDeviceDeploymentRequest(
 	request *model.DeploymentNextRequest,
 ) error {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	res, err := collDevs.UpdateOne(
 		ctx,
-		bson.D{{Key: StorageKeyId, Value: ID}},
+		bson.D{
+			{Key: StorageKeyId, Value: ID},
+			{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		},
 		bson.D{{Key: "$set", Value: bson.M{StorageKeyDeviceDeploymentRequest: request}}},
 	)
 	if err != nil {
@@ -1771,10 +1488,10 @@ func (db *DataStoreMongo) AssignArtifact(
 		return ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	selector := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeploymentID, Value: deploymentID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
@@ -1798,17 +1515,18 @@ func (db *DataStoreMongo) AssignArtifact(
 }
 
 func (db *DataStoreMongo) AggregateDeviceDeploymentByStatus(ctx context.Context,
-	id string) (model.Stats, error) {
+	id string) (*model.Stats, error) {
 
 	if len(id) == 0 {
 		return nil, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	match := bson.D{
 		{Key: "$match", Value: bson.M{
+			StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 			StorageKeyDeviceDeploymentDeploymentID: id,
 			StorageKeyDeviceDeploymentDeleted: bson.D{
 				{Key: "$exists", Value: false},
@@ -1829,7 +1547,7 @@ func (db *DataStoreMongo) AggregateDeviceDeploymentByStatus(ctx context.Context,
 	}
 	var results []struct {
 		Status model.DeviceDeploymentStatus `bson:"_id"`
-		Count  int
+		Count  int64
 	}
 	cursor, err := collDevs.Aggregate(ctx, pipeline)
 	if err != nil {
@@ -1842,7 +1560,7 @@ func (db *DataStoreMongo) AggregateDeviceDeploymentByStatus(ctx context.Context,
 		return nil, err
 	}
 
-	raw := model.NewDeviceDeploymentStats()
+	raw := new(model.Stats)
 	for _, res := range results {
 		raw.Set(res.Status, res.Count)
 	}
@@ -1854,10 +1572,11 @@ func (db *DataStoreMongo) GetDeviceStatusesForDeployment(ctx context.Context,
 	deploymentID string) ([]model.DeviceDeployment, error) {
 
 	statuses := []model.DeviceDeployment{}
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	query := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyDeviceDeploymentDeploymentID: deploymentID,
 		StorageKeyDeviceDeploymentDeleted: bson.D{
 			{Key: "$exists", Value: false},
@@ -1883,10 +1602,10 @@ func (db *DataStoreMongo) GetDevicesListForDeployment(ctx context.Context,
 	q store.ListQuery) ([]model.DeviceDeployment, int, error) {
 
 	statuses := []model.DeviceDeployment{}
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeviceDeploymentDeploymentID, Value: q.DeploymentID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
 			{Key: "$exists", Value: false},
@@ -1907,10 +1626,10 @@ func (db *DataStoreMongo) GetDevicesListForDeployment(ctx context.Context,
 			query = append(query, bson.E{
 				Key: "status", Value: bson.D{{
 					Key:   "$gte",
-					Value: model.DeviceDeploymentStatusPauseBeforeInstall,
+					Value: model.DeviceDeploymentStatusActiveLow,
 				}, {
 					Key:   "$lte",
-					Value: model.DeviceDeploymentStatusPending,
+					Value: model.DeviceDeploymentStatusActiveHigh,
 				}},
 			})
 		} else if *q.Status == model.DeviceDeploymentStatusFinishedStr {
@@ -1978,10 +1697,9 @@ func (db *DataStoreMongo) GetDeviceDeploymentsForDevice(ctx context.Context,
 	q store.ListQueryDeviceDeployments) ([]model.DeviceDeployment, int, error) {
 
 	statuses := []model.DeviceDeployment{}
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
-	query := bson.D{}
+	query := bson.D{{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()}}
 	if q.DeviceID != "" {
 		query = append(query, bson.E{
 			Key:   StorageKeyDeviceDeploymentDeviceId,
@@ -2089,10 +1807,10 @@ func (db *DataStoreMongo) HasDeploymentForDevice(ctx context.Context,
 	deploymentID string, deviceID string) (bool, error) {
 
 	var dep model.DeviceDeployment
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeviceDeploymentDeploymentID, Value: deploymentID},
 		{Key: StorageKeyDeviceDeploymentDeviceId, Value: deviceID},
 		{Key: StorageKeyDeviceDeploymentDeleted, Value: bson.D{
@@ -2118,11 +1836,12 @@ func (db *DataStoreMongo) AbortDeviceDeployments(ctx context.Context,
 		return ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 	selector := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyDeviceDeploymentDeploymentID: deploymentId,
-		StorageKeyDeviceDeploymentActive:       true,
+		StorageKeyDeviceDeploymentStatus:       deviceDeploymentFilterStatusActive(),
 		StorageKeyDeviceDeploymentDeleted: bson.D{
 			{Key: "$exists", Value: false},
 		},
@@ -2131,7 +1850,6 @@ func (db *DataStoreMongo) AbortDeviceDeployments(ctx context.Context,
 	update := bson.M{
 		"$set": bson.M{
 			StorageKeyDeviceDeploymentStatus: model.DeviceDeploymentStatusAborted,
-			StorageKeyDeviceDeploymentActive: false,
 		},
 	}
 
@@ -2144,11 +1862,14 @@ func (db *DataStoreMongo) AbortDeviceDeployments(ctx context.Context,
 
 func (db *DataStoreMongo) DeleteDeviceDeploymentsHistory(ctx context.Context,
 	deviceID string) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 	selector := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyDeviceDeploymentDeviceId: deviceID,
-		StorageKeyDeviceDeploymentActive:   false,
+		StorageKeyDeviceDeploymentStatus: bson.M{
+			"$not": deviceDeploymentFilterStatusActive(),
+		},
 		StorageKeyDeviceDeploymentDeleted: bson.M{
 			"$exists": false,
 		},
@@ -2161,14 +1882,7 @@ func (db *DataStoreMongo) DeleteDeviceDeploymentsHistory(ctx context.Context,
 		},
 	}
 
-	if _, err := collDevs.UpdateMany(ctx, selector, update); err != nil {
-		return err
-	}
-
-	database = db.client.Database(DatabaseName)
-	collDevs = database.Collection(CollectionDevicesLastStatus)
-	_, err := collDevs.DeleteMany(ctx, bson.M{StorageKeyDeviceDeploymentDeviceId: deviceID})
-
+	_, err := collDevs.UpdateMany(ctx, selector, update)
 	return err
 }
 
@@ -2179,11 +1893,12 @@ func (db *DataStoreMongo) DecommissionDeviceDeployments(ctx context.Context,
 		return ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 	selector := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyDeviceDeploymentDeviceId: deviceId,
-		StorageKeyDeviceDeploymentActive:   true,
+		StorageKeyDeviceDeploymentStatus:   deviceDeploymentFilterStatusActive(),
 		StorageKeyDeviceDeploymentDeleted: bson.D{
 			{Key: "$exists", Value: false},
 		},
@@ -2192,7 +1907,6 @@ func (db *DataStoreMongo) DecommissionDeviceDeployments(ctx context.Context,
 	update := bson.M{
 		"$set": bson.M{
 			StorageKeyDeviceDeploymentStatus: model.DeviceDeploymentStatusDecommissioned,
-			StorageKeyDeviceDeploymentActive: false,
 		},
 	}
 
@@ -2206,10 +1920,11 @@ func (db *DataStoreMongo) DecommissionDeviceDeployments(ctx context.Context,
 func (db *DataStoreMongo) GetDeviceDeployment(ctx context.Context, deploymentID string,
 	deviceID string, includeDeleted bool) (*model.DeviceDeployment, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyDeviceDeploymentDeploymentID: deploymentID,
 		StorageKeyDeviceDeploymentDeviceId:     deviceID,
 	}
@@ -2242,10 +1957,11 @@ func (db *DataStoreMongo) GetDeviceDeployments(
 	includeDeleted bool,
 ) ([]model.DeviceDeployment, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
-	filter := bson.M{}
+	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+	}
 	if !includeDeleted {
 		filter[StorageKeyDeviceDeploymentDeleted] = bson.D{
 			{Key: "$exists", Value: false},
@@ -2255,7 +1971,13 @@ func (db *DataStoreMongo) GetDeviceDeployments(
 		filter[StorageKeyDeviceDeploymentDeviceId] = deviceID
 	}
 	if active != nil {
-		filter[StorageKeyDeviceDeploymentActive] = *active
+		if *active {
+			filter[StorageKeyDeviceDeploymentStatus] = deviceDeploymentFilterStatusActive()
+		} else {
+			filter[StorageKeyDeviceDeploymentStatus] = bson.M{
+				"$not": deviceDeploymentFilterStatusActive(),
+			}
+		}
 	}
 
 	opts := mopts.Find()
@@ -2279,25 +2001,11 @@ func (db *DataStoreMongo) GetDeviceDeployments(
 	return deviceDeployments, nil
 }
 
-// deployments
-
-func (db *DataStoreMongo) EnsureIndexes(dbName string, collName string,
-	indexes ...mongo.IndexModel) error {
-	ctx := context.Background()
-	dataBase := db.client.Database(dbName)
-
-	coll := dataBase.Collection(collName)
-	idxView := coll.Indexes()
-	_, err := idxView.CreateMany(ctx, indexes)
-	return err
-}
-
 // return true if required indexing was set up
-func (db *DataStoreMongo) hasIndexing(ctx context.Context, client *mongo.Client) bool {
+func (db *DataStoreMongo) hasIndexing(ctx context.Context) bool {
 
 	var idx bson.M
-	database := client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 	idxView := collDpl.Indexes()
 
 	cursor, err := idxView.List(ctx)
@@ -2349,24 +2057,29 @@ func (db *DataStoreMongo) hasIndexing(ctx context.Context, client *mongo.Client)
 	return true
 }
 
+type Deployment struct {
+	model.Deployment    `bson:",inline"`
+	TenantID            string `bson:"tenant_id"`
+	ConstructorChecksum string `bson:"deploymentconstructor_checksum"`
+}
+
 // Insert persists object
 func (db *DataStoreMongo) InsertDeployment(
 	ctx context.Context,
-	deployment *model.Deployment,
+	deployment model.Deployment,
 ) error {
-
-	if deployment == nil {
-		return ErrDeploymentStorageInvalidDeployment
-	}
 
 	if err := deployment.Validate(); err != nil {
 		return err
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
-	if _, err := collDpl.InsertOne(ctx, deployment); err != nil {
+	if _, err := collDpl.InsertOne(ctx, Deployment{
+		Deployment:          deployment,
+		TenantID:            identity.FromContext(ctx).GetTenantID(),
+		ConstructorChecksum: deployment.Checksum(),
+	}); err != nil {
 		if mongo.IsDuplicateKeyError(err) {
 			return ErrConflictingDeployment
 		}
@@ -2383,10 +2096,12 @@ func (db *DataStoreMongo) DeleteDeployment(ctx context.Context, id string) error
 		return ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
-	if _, err := collDpl.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
+	if _, err := collDpl.DeleteOne(ctx, bson.M{
+		"_id":              id,
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+	}); err != nil {
 		return err
 	}
 
@@ -2402,11 +2117,13 @@ func (db *DataStoreMongo) FindDeploymentByID(
 		return nil, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	deployment := new(model.Deployment)
-	if err := collDpl.FindOne(ctx, bson.M{"_id": id}).
+	if err := collDpl.FindOne(ctx, bson.M{
+		"_id":              id,
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+	}).
 		Decode(deployment); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
@@ -2432,13 +2149,13 @@ func (db *DataStoreMongo) FindDeploymentStatsByIDs(
 		}
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	query := bson.M{
 		"_id": bson.M{
 			"$in": ids,
 		},
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 	}
 	statsProjection := mopts.Find()
 	statsProjection.SetProjection(bson.M{"stats": 1})
@@ -2473,11 +2190,12 @@ func (db *DataStoreMongo) FindUnfinishedByID(ctx context.Context,
 		return nil, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	var deployment *model.Deployment
 	filter := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+
 		{Key: "_id", Value: id},
 		{Key: StorageKeyDeploymentFinished, Value: nil},
 	}
@@ -2495,12 +2213,13 @@ func (db *DataStoreMongo) FindUnfinishedByID(ctx context.Context,
 func (db *DataStoreMongo) IncrementDeploymentDeviceCount(
 	ctx context.Context,
 	deploymentID string,
-	increment int,
+	increment int64,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collection := database.Collection(CollectionDeployments)
+	collection := db.database.Collection(CollectionDeployments)
 
 	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		"_id": deploymentID,
 		StorageKeyDeploymentDeviceCount: bson.M{
 			"$ne": nil,
@@ -2520,12 +2239,13 @@ func (db *DataStoreMongo) IncrementDeploymentDeviceCount(
 func (db *DataStoreMongo) SetDeploymentDeviceCount(
 	ctx context.Context,
 	deploymentID string,
-	count int,
+	count int64,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collection := database.Collection(CollectionDeployments)
+	collection := db.database.Collection(CollectionDeployments)
 
 	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		"_id": deploymentID,
 		StorageKeyDeploymentDeviceCount: bson.M{
 			"$eq": nil,
@@ -2543,12 +2263,13 @@ func (db *DataStoreMongo) SetDeploymentDeviceCount(
 }
 
 func (db *DataStoreMongo) DeviceCountByDeployment(ctx context.Context,
-	id string) (int, error) {
+	id string) (int64, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevices)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	filter := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
 		StorageKeyDeviceDeploymentDeploymentID: id,
 		StorageKeyDeviceDeploymentDeleted: bson.D{
 			{Key: "$exists", Value: false},
@@ -2560,7 +2281,7 @@ func (db *DataStoreMongo) DeviceCountByDeployment(ctx context.Context,
 		return 0, err
 	}
 
-	return int(deviceCount), nil
+	return deviceCount, nil
 }
 
 func (db *DataStoreMongo) UpdateStats(ctx context.Context,
@@ -2570,15 +2291,14 @@ func (db *DataStoreMongo) UpdateStats(ctx context.Context,
 		return ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	deployment, err := model.NewDeployment()
 	if err != nil {
 		return errors.Wrap(err, "failed to create deployment")
 	}
 
-	deployment.Stats = stats
+	deployment.Statistics.Status = stats
 	var update bson.M
 	if deployment.IsFinished() {
 		now := time.Now()
@@ -2597,7 +2317,10 @@ func (db *DataStoreMongo) UpdateStats(ctx context.Context,
 		}
 	}
 
-	res, err := collDpl.UpdateOne(ctx, bson.M{"_id": id}, update)
+	res, err := collDpl.UpdateOne(ctx, bson.M{
+		"_id":              id,
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+	}, update)
 	if res != nil && res.MatchedCount == 0 {
 		return ErrStorageInvalidID
 	}
@@ -2605,7 +2328,7 @@ func (db *DataStoreMongo) UpdateStats(ctx context.Context,
 }
 
 func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
-	stateFrom, stateTo model.DeviceDeploymentStatus) (model.Stats, error) {
+	stateFrom, stateTo model.DeviceDeploymentStatus) (*model.Stats, error) {
 
 	if len(id) == 0 {
 		return nil, ErrStorageInvalidID
@@ -2621,8 +2344,7 @@ func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
 		return nil, nil
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	var update bson.M
 
@@ -2630,24 +2352,25 @@ func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
 		// note dot notation on embedded document
 		update = bson.M{
 			"$inc": bson.M{
-				"stats." + stateTo.String(): 1,
+				StorageKeyDeploymentStats + "." + stateTo.String(): 1,
 			},
 		}
 	} else {
 		// note dot notation on embedded document
 		update = bson.M{
 			"$inc": bson.M{
-				"stats." + stateFrom.String(): -1,
-				"stats." + stateTo.String():   1,
+				StorageKeyDeploymentStats + "." + stateFrom.String(): -1,
+				StorageKeyDeploymentStats + "." + stateTo.String():   1,
 			},
 		}
 	}
 
-	var res struct {
-		Stats model.Stats `bson:"stats"`
-	}
+	var res model.Deployment
 	err := collDpl.FindOneAndUpdate(ctx,
-		bson.M{StorageKeyId: id},
+		bson.M{
+			StorageKeyId:       id,
+			StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+		},
 		update,
 		mopts.FindOneAndUpdate().
 			SetReturnDocument(mopts.After).
@@ -2660,7 +2383,7 @@ func (db *DataStoreMongo) UpdateStatsInc(ctx context.Context, id string,
 		return nil, ErrStorageInvalidID
 	}
 
-	return res.Stats, err
+	return &res.Statistics.Status, err
 }
 
 func (db *DataStoreMongo) IncrementDeploymentTotalSize(
@@ -2668,11 +2391,12 @@ func (db *DataStoreMongo) IncrementDeploymentTotalSize(
 	deploymentID string,
 	increment int64,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collection := database.Collection(CollectionDeployments)
+	collection := db.database.Collection(CollectionDeployments)
 
 	filter := bson.M{
 		"_id": deploymentID,
+
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
 	}
 
 	update := bson.M{
@@ -2688,8 +2412,7 @@ func (db *DataStoreMongo) IncrementDeploymentTotalSize(
 func (db *DataStoreMongo) FindDeployments(ctx context.Context,
 	match model.Query) ([]*model.Deployment, int64, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	query, err := db.buildDeploymentsQuery(ctx, match)
 	if err != nil {
@@ -2728,7 +2451,9 @@ func (db *DataStoreMongo) buildDeploymentsQuery(
 	ctx context.Context,
 	match model.Query,
 ) (bson.M, error) {
-	andq := []bson.M{}
+	andq := []bson.M{
+		{StorageKeyTenantId: identity.FromContext(ctx).GetTenantID()},
+	}
 
 	// filter by IDs
 	if match.IDs != nil {
@@ -2764,7 +2489,7 @@ func (db *DataStoreMongo) buildDeploymentsQuery(
 	// build deployment by name part of the query
 	if match.SearchText != "" {
 		// we must have indexing for text search
-		if !db.hasIndexing(ctx, db.client) {
+		if !db.hasIndexing(ctx) {
 			return nil, ErrDeploymentStorageCannotExecQuery
 		}
 
@@ -2855,15 +2580,14 @@ func (db *DataStoreMongo) findOptions(match model.Query) *mopts.FindOptionsBuild
 func (db *DataStoreMongo) FindNewerActiveDeployments(ctx context.Context,
 	createdAfter *time.Time, skip, limit int) ([]*model.Deployment, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	c := database.Collection(CollectionDeployments)
+	c := db.database.Collection(CollectionDeployments)
 
-	queryFilters := make([]bson.M, 0)
-	queryFilters = append(queryFilters, bson.M{StorageKeyDeploymentActive: true})
-	queryFilters = append(queryFilters,
-		bson.M{StorageKeyDeploymentCreated: bson.M{"$gt": createdAfter}})
-	findQuery := bson.M{}
-	findQuery["$and"] = queryFilters
+	findQuery := bson.M{
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
+		StorageKeyDeploymentFinished: nil,
+		StorageKeyDeploymentCreated:  bson.M{"$gt": createdAfter},
+	}
 
 	findOptions := mopts.Find()
 	findOptions.SetSkip(int64(skip))
@@ -2890,11 +2614,11 @@ func (db *DataStoreMongo) FindNewerActiveDeployments(ctx context.Context,
 func (db *DataStoreMongo) FindNewerActiveDeployment(ctx context.Context,
 	createdAfter *time.Time, deviceID string) (*model.Deployment, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	c := database.Collection(CollectionDeployments)
+	c := db.database.Collection(CollectionDeployments)
 
 	findQuery := bson.D{
-		{Key: StorageKeyDeploymentActive, Value: true},
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
+		{Key: StorageKeyDeploymentFinished, Value: nil},
 		{Key: StorageKeyDeploymentCreated, Value: bson.M{"$gt": createdAfter}},
 		{Key: StorageKeyDeploymentDeviceList, Value: deviceID},
 	}
@@ -2931,14 +2655,12 @@ func (db *DataStoreMongo) SetDeploymentStatus(
 		return ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	var update bson.M
 	if status == model.DeploymentStatusFinished {
 		update = bson.M{
 			"$set": bson.M{
-				StorageKeyDeploymentActive:   false,
 				StorageKeyDeploymentStatus:   status,
 				StorageKeyDeploymentFinished: &now,
 			},
@@ -2946,13 +2668,15 @@ func (db *DataStoreMongo) SetDeploymentStatus(
 	} else {
 		update = bson.M{
 			"$set": bson.M{
-				StorageKeyDeploymentActive: true,
 				StorageKeyDeploymentStatus: status,
 			},
 		}
 	}
 
-	res, err := collDpl.UpdateOne(ctx, bson.M{"_id": id}, update)
+	res, err := collDpl.UpdateOne(ctx, bson.M{
+		"_id":              id,
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+	}, update)
 
 	if res != nil && res.MatchedCount == 0 {
 		return ErrStorageInvalidID
@@ -2970,11 +2694,11 @@ func (db *DataStoreMongo) ExistUnfinishedByArtifactId(ctx context.Context,
 		return false, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	var tmp interface{}
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeploymentFinished, Value: nil},
 		{Key: StorageKeyDeploymentArtifacts, Value: id},
 	}
@@ -2997,11 +2721,11 @@ func (db *DataStoreMongo) ExistUnfinishedByArtifactName(ctx context.Context,
 		return false, ErrImagesStorageInvalidArtifactName
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	var tmp interface{}
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeploymentFinished, Value: nil},
 		{Key: StorageKeyDeploymentArtifactName, Value: artifactName},
 	}
@@ -3030,11 +2754,11 @@ func (db *DataStoreMongo) ExistByArtifactId(ctx context.Context,
 		return false, ErrStorageInvalidID
 	}
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	var tmp interface{}
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeploymentArtifacts, Value: id},
 	}
 	if err := collDpl.FindOne(ctx, query).Decode(&tmp); err != nil {
@@ -3047,24 +2771,30 @@ func (db *DataStoreMongo) ExistByArtifactId(ctx context.Context,
 	return true, nil
 }
 
+type Settings struct {
+	Storage  *model.StorageSettings `bson:"storage,omitempty"`
+	TenantID string                 `bson:"_id"`
+}
+
 // Per-tenant storage settings
 func (db *DataStoreMongo) GetStorageSettings(ctx context.Context) (*model.StorageSettings, error) {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collection := database.Collection(CollectionStorageSettings)
+	collection := db.database.Collection(CollectionSettings)
 
-	settings := new(model.StorageSettings)
-	// supposed that it's only one document in the collection
-	query := bson.M{
-		"_id": StorageKeyStorageSettingsDefaultID,
+	settings := Settings{
+		TenantID: identity.FromContext(ctx).GetTenantID(),
 	}
-	if err := collection.FindOne(ctx, query).Decode(settings); err != nil {
+	if err := collection.FindOne(ctx, settings, mopts.FindOne().
+		SetProjection(bson.M{"storage": 1})).
+		Decode(&settings); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
 		}
 		return nil, err
+	} else if settings.Storage == nil {
+		return nil, nil
 	}
 
-	return settings, nil
+	return settings.Storage, nil
 }
 
 func (db *DataStoreMongo) SetStorageSettings(
@@ -3072,20 +2802,14 @@ func (db *DataStoreMongo) SetStorageSettings(
 	storageSettings *model.StorageSettings,
 ) error {
 	var err error
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collection := database.Collection(CollectionStorageSettings)
+	collection := db.database.Collection(CollectionSettings)
 
-	filter := bson.M{
-		"_id": StorageKeyStorageSettingsDefaultID,
-	}
-	if storageSettings != nil {
-		replaceOptions := mopts.Replace()
-		replaceOptions.SetUpsert(true)
-		_, err = collection.ReplaceOne(ctx, filter, storageSettings, replaceOptions)
-	} else {
-		_, err = collection.DeleteOne(ctx, filter)
-	}
-
+	tenantID := identity.FromContext(ctx).GetTenantID()
+	update := bson.D{{Key: "$set", Value: bson.D{
+		{Key: "storage", Value: storageSettings},
+	}}}
+	_, err = collection.UpdateByID(ctx, tenantID, update, mopts.UpdateOne().
+		SetUpsert(true))
 	return err
 }
 
@@ -3094,10 +2818,10 @@ func (db *DataStoreMongo) UpdateDeploymentsWithArtifactName(
 	artifactName string,
 	artifactIDs []string,
 ) error {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	query := bson.D{
+		{Key: StorageKeyTenantId, Value: identity.FromContext(ctx).GetTenantID()},
 		{Key: StorageKeyDeploymentFinished, Value: nil},
 		{Key: StorageKeyDeploymentArtifactName, Value: artifactName},
 	}
@@ -3116,11 +2840,12 @@ func (db *DataStoreMongo) GetActiveDeploymentIDsByArtifactNames(
 	artifactNames []string,
 ) ([]string, error) {
 
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDpl := database.Collection(CollectionDeployments)
+	collDpl := db.database.Collection(CollectionDeployments)
 
 	query := bson.M{
-		StorageKeyDeploymentActive: true,
+		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+
+		StorageKeyDeploymentFinished: nil,
 		StorageKeyDeploymentArtifactName: bson.M{
 			"$in": artifactNames,
 		},
@@ -3152,8 +2877,4 @@ func (db *DataStoreMongo) GetActiveDeploymentIDsByArtifactNames(
 	}
 
 	return ids, nil
-}
-
-func (db *DataStoreMongo) GetTenantDbs() ([]string, error) {
-	return migrate.GetTenantDbs(context.Background(), db.client, mstore.IsTenantDb(DbName))
 }

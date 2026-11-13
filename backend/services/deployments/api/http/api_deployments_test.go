@@ -2129,7 +2129,7 @@ func TestGetDeploymentsStats(t *testing.T) {
 			mockedDeploymentStats: []*model.DeploymentStats{
 				{
 					ID:    testSHA,
-					Stats: model.NewDeviceDeploymentStats(),
+					Stats: model.Stats{},
 				},
 			},
 		},

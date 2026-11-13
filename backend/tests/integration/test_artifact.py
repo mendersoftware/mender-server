@@ -270,8 +270,8 @@ class TestUploadArtifactOpenSource(TestUploadArtifactBase):
         assert artifact["modified"] is not None
         assert artifact["artifact_depends"] == {
             "device_type": ["arm1"],
-            "key1": "value1",
-            "key2": "value2",
+            "key1": ["value1"],
+            "key2": ["value2"],
         }
         assert artifact["artifact_provides"] == {
             "artifact_name": "test",

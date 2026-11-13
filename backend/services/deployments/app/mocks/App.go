@@ -1111,23 +1111,23 @@ func (_c *App_GetDeploymentForDeviceWithCurrent_Call) RunAndReturn(run func(ctx 
 }
 
 // GetDeploymentStats provides a mock function for the type App
-func (_mock *App) GetDeploymentStats(ctx context.Context, deploymentID string) (model.Stats, error) {
+func (_mock *App) GetDeploymentStats(ctx context.Context, deploymentID string) (*model.Stats, error) {
 	ret := _mock.Called(ctx, deploymentID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetDeploymentStats")
 	}
 
-	var r0 model.Stats
+	var r0 *model.Stats
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (model.Stats, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Stats, error)); ok {
 		return returnFunc(ctx, deploymentID)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) model.Stats); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Stats); ok {
 		r0 = returnFunc(ctx, deploymentID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(model.Stats)
+			r0 = ret.Get(0).(*model.Stats)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -1168,12 +1168,12 @@ func (_c *App_GetDeploymentStats_Call) Run(run func(ctx context.Context, deploym
 	return _c
 }
 
-func (_c *App_GetDeploymentStats_Call) Return(stats model.Stats, err error) *App_GetDeploymentStats_Call {
+func (_c *App_GetDeploymentStats_Call) Return(stats *model.Stats, err error) *App_GetDeploymentStats_Call {
 	_c.Call.Return(stats, err)
 	return _c
 }
 
-func (_c *App_GetDeploymentStats_Call) RunAndReturn(run func(ctx context.Context, deploymentID string) (model.Stats, error)) *App_GetDeploymentStats_Call {
+func (_c *App_GetDeploymentStats_Call) RunAndReturn(run func(ctx context.Context, deploymentID string) (*model.Stats, error)) *App_GetDeploymentStats_Call {
 	_c.Call.Return(run)
 	return _c
 }

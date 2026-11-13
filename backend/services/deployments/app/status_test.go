@@ -108,8 +108,8 @@ func TestUpdateDeviceDeploymentStatus(t *testing.T) {
 					tc.deviceStatus,
 					tc.ddStatueNew.Status).Run(func(args mock.Arguments) {
 					// fake updated stats
-					fakeDeployment.Stats.Inc(tc.ddStatueNew.Status)
-				}).Return(fakeDeployment.Stats, nil).Once()
+					fakeDeployment.Statistics.Status.Inc(tc.ddStatueNew.Status)
+				}).Return(&fakeDeployment.Statistics.Status, nil).Once()
 				foundDepById := fakeDeployment
 				if tc.notFounddDepByID {
 					foundDepById = nil
@@ -157,10 +157,12 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 			Devices:      []string{devType},
 		},
 	)
+	fakeDeployment.Artifacts = []string{"foobar"}
 	assert.NoError(t, err)
 	fakeDeployment.MaxDevices = 1
 
 	fakeImage := &model.Image{
+		Id: "foobar",
 		ArtifactMeta: &model.ArtifactMeta{
 			Name:           depArtifact,
 			Provides:       map[string]string{"bar": "baz"},
@@ -207,11 +209,11 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 		model.DeviceDeploymentStatusPending,
 		model.DeviceDeploymentStatusAlreadyInst).Run(func(args mock.Arguments) {
 		// fake updated stats
-		fakeDeployment.Stats.Inc(model.DeviceDeploymentStatusAlreadyInst)
-	}).Return(fakeDeployment.Stats, nil).Once()
+		fakeDeployment.Statistics.Status.Inc(model.DeviceDeploymentStatusAlreadyInst)
+	}).Return(&fakeDeployment.Statistics.Status, nil).Once()
 
 	// fake updated stats
-	fakeDeployment.Stats.Set(model.DeviceDeploymentStatusNoArtifact, 1)
+	fakeDeployment.Statistics.Status.Set(model.DeviceDeploymentStatusNoArtifact, 1)
 	db.On("FindDeploymentByID", ctx, fakeDeployment.Id).Return(
 		fakeDeployment, nil)
 
@@ -224,7 +226,10 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 		mock.AnythingOfType("string"),
 		request).Return(nil)
 
-	db.On("ImageByNameAndDeviceType", ctx, depArtifact, devType).Return(
+	// db.On("ImageByNameAndDeviceType", ctx, depArtifact, devType).Return(
+	// 	fakeImage, nil)
+	//
+	db.On("ImageForDeviceDeployment", ctx, []string{"foobar"}, devType, model.Provides(nil)).Return(
 		fakeImage, nil)
 
 	db.On("AssignArtifact", ctx,
@@ -293,7 +298,9 @@ func TestDecommissionDevice(t *testing.T) {
 			findDeploymentByIDDeployment: &model.Deployment{
 				Id:         "bar",
 				MaxDevices: 1,
-				Stats:      model.Stats{"decommissioned": 1},
+				Statistics: model.DeploymentStatistics{
+					Status: model.Stats{Decommissioned: 1},
+				},
 			},
 		},
 		"ok 1": {
@@ -315,9 +322,9 @@ func TestDecommissionDevice(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "foo",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"ok, pending": {
@@ -327,9 +334,9 @@ func TestDecommissionDevice(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  2,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"FindOldestActiveDeviceDeployment error": {
@@ -386,17 +393,15 @@ func TestDecommissionDevice(t *testing.T) {
 
 			var stats model.Stats
 			if tc.findDeploymentByIDDeployment != nil {
-				stats = tc.findDeploymentByIDDeployment.Stats
+				stats = tc.findDeploymentByIDDeployment.Statistics.Status
 			}
 			db.On("UpdateStatsInc", ctx, tc.inputDeploymentId,
 				tc.updateDeviceDeploymentStatusStatus,
 				model.DeviceDeploymentStatusDecommissioned).
 				Run(func(args mock.Arguments) {
-					if stats != nil {
-						stats.Inc(model.DeviceDeploymentStatusDecommissioned)
-					}
+					stats.Inc(model.DeviceDeploymentStatusDecommissioned)
 				}).
-				Return(stats, tc.updateStatsIncError).
+				Return(&stats, tc.updateStatsIncError).
 				Once()
 
 			db.On("SetDeploymentStatus", ctx,
@@ -481,7 +486,7 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			findDeploymentByIDDeployment: &model.Deployment{
 				Id:         "bar",
 				MaxDevices: 1,
-				Stats:      model.Stats{"decommissioned": 1},
+				Statistics: model.DeploymentStatistics{Status: model.Stats{Decommissioned: 1}},
 			},
 		},
 		"ok 1": {
@@ -503,9 +508,9 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "foo",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"ok, pending": {
@@ -515,9 +520,9 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  1,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 		},
 		"ok, pending with max devices = 2": {
@@ -527,9 +532,9 @@ func TestAbortDeviceDeployments(t *testing.T) {
 				DeviceList:  []string{"foo"},
 				Id:          "pending",
 				Created:     new(time.Now()),
-				DeviceCount: new(0),
+				DeviceCount: new(int64(0)),
 				MaxDevices:  2,
-				Stats:       model.Stats{},
+				Statistics:  model.DeploymentStatistics{Status: model.Stats{}},
 			},
 			isDeploymentInProgress: true,
 		},
@@ -589,18 +594,16 @@ func TestAbortDeviceDeployments(t *testing.T) {
 
 			var stats model.Stats
 			if tc.findDeploymentByIDDeployment != nil {
-				stats = tc.findDeploymentByIDDeployment.Stats
+				stats = tc.findDeploymentByIDDeployment.Statistics.Status
 			}
 			db.On("UpdateStatsInc", ctx, tc.inputDeploymentId,
 				tc.updateDeviceDeploymentStatusStatus,
 				model.DeviceDeploymentStatusAborted).
 				Run(func(args mock.Arguments) {
-					if stats != nil {
-						stats.Inc(model.DeviceDeploymentStatusAborted)
-					}
+					stats.Inc(model.DeviceDeploymentStatusAborted)
 				}).
 				Return(
-					stats,
+					&stats,
 					tc.updateStatsIncError,
 				)
 
