@@ -116,10 +116,16 @@
           }
         },
         "name": "mender-demo-artifact-20260928-6a5f385",
-        "provides": {
-          "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-          "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "mender-demo-artifact-20260928-6a5f385"
+          },
+          {
+            "k": "data-partition.mender-demo-artifact.version",
+            "v": "mender-demo-artifact-20260928-6a5f385"
+          }
+        ],
         "signed": false,
         "updates": [
           {
@@ -213,11 +219,20 @@
           }
         },
         "name": "rootfs_gzip_2.0.0",
-        "provides": {
-          "artifact_name": "rootfs_gzip_2.0.0",
-          "rootfs-image.checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
-          "rootfs-image.version": "rootfs_gzip_2.0.0"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
         "signed": false,
         "updates": [
           {
@@ -286,11 +301,20 @@
           }
         },
         "name": "rootfs_gzip_2.0.0",
-        "provides": {
-          "artifact_name": "rootfs_gzip_2.0.0",
-          "rootfs-image.checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
-          "rootfs-image.version": "rootfs_gzip_2.0.0"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
         "signed": false,
         "updates": [
           {
@@ -380,11 +404,20 @@
           }
         },
         "name": "rootfs_gzip_2.0.0",
-        "provides": {
-          "artifact_name": "rootfs_gzip_2.0.0",
-          "rootfs-image.checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
-          "rootfs-image.version": "rootfs_gzip_2.0.0"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
         "signed": false,
         "updates": [
           {
@@ -445,11 +478,20 @@
           }
         },
         "name": "rootfs_gzip_2.0.0",
-        "provides": {
-          "artifact_name": "rootfs_gzip_2.0.0",
-          "rootfs-image.checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
-          "rootfs-image.version": "rootfs_gzip_2.0.0"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "rootfs_gzip_2.0.0"
+          },
+          {
+            "k": "rootfs-image.checksum",
+            "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+          },
+          {
+            "k": "rootfs-image.version",
+            "v": "rootfs_gzip_2.0.0"
+          }
+        ],
         "signed": false,
         "updates": [
           {
@@ -533,10 +575,16 @@
           }
         },
         "name": "terminalImage",
-        "provides": {
-          "artifact_name": "terminalImage",
-          "rootfs-image.terminalImage.version": "1.0.0"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "terminalImage"
+          },
+          {
+            "k": "rootfs-image.terminalImage.version",
+            "v": "1.0.0"
+          }
+        ],
         "signed": false,
         "updates": [
           {
@@ -656,10 +704,16 @@
           }
         },
         "name": "test",
-        "provides": {
-          "artifact_name": "test",
-          "data-partition.mender-orchestrator-manifest.version": "test"
-        },
+        "provides": [
+          {
+            "k": "artifact_name",
+            "v": "test"
+          },
+          {
+            "k": "data-partition.mender-orchestrator-manifest.version",
+            "v": "test"
+          }
+        ],
         "signed": false,
         "updates": [
           {

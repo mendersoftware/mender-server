@@ -25,12 +25,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -63,12 +75,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -101,12 +125,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -139,12 +175,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -177,12 +225,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -215,12 +275,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -253,12 +325,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -291,12 +375,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -329,12 +425,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -367,12 +475,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -500,10 +620,16 @@
         }
       },
       "name": "mender-demo-artifact-20260928-6a5f385",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385"
-      },
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        }
+      ],
       "signed": false,
       "updates": [
         {
@@ -553,11 +679,20 @@
     "deviceprovides": {
       "artifactname": "original",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "original",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "original"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -590,12 +725,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -628,12 +775,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -666,12 +825,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -704,12 +875,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -742,12 +925,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -780,12 +975,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -818,12 +1025,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -886,11 +1105,20 @@
         }
       },
       "name": "rootfs_gzip_2.0.0",
-      "provides": {
-        "artifact_name": "rootfs_gzip_2.0.0",
-        "rootfs-image.checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
-        "rootfs-image.version": "rootfs_gzip_2.0.0"
-      },
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "rootfs_gzip_2.0.0"
+        },
+        {
+          "k": "rootfs-image.checksum",
+          "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "rootfs_gzip_2.0.0"
+        }
+      ],
       "signed": false,
       "updates": [
         {
@@ -991,12 +1219,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1029,12 +1269,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1067,12 +1319,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1105,12 +1369,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1143,12 +1419,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1181,12 +1469,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1219,12 +1519,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1257,12 +1569,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1295,12 +1619,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1333,12 +1669,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1466,10 +1814,16 @@
         }
       },
       "name": "mender-demo-artifact-20260928-6a5f385",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385"
-      },
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        }
+      ],
       "signed": false,
       "updates": [
         {
@@ -1519,12 +1873,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1557,12 +1923,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1595,12 +1973,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1633,12 +2023,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1671,12 +2073,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1709,12 +2123,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1747,12 +2173,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1785,12 +2223,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1823,12 +2273,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1861,12 +2323,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1899,12 +2373,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1937,12 +2423,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -1975,12 +2473,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2013,12 +2523,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2073,11 +2595,20 @@
         }
       },
       "name": "rootfs_gzip_2.0.0",
-      "provides": {
-        "artifact_name": "rootfs_gzip_2.0.0",
-        "rootfs-image.checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
-        "rootfs-image.version": "rootfs_gzip_2.0.0"
-      },
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "rootfs_gzip_2.0.0"
+        },
+        {
+          "k": "rootfs-image.checksum",
+          "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "rootfs_gzip_2.0.0"
+        }
+      ],
       "signed": false,
       "updates": [
         {
@@ -2115,12 +2646,24 @@
     "deviceprovides": {
       "artifactname": "rootfs_gzip_1.12.19",
       "devicetype": "test",
-      "provides": {
-        "ARCH": "aarch64",
-        "OS": "linux",
-        "artifact_name": "rootfs_gzip_1.12.19",
-        "device_type": "test"
-      }
+      "provides": [
+        {
+          "k": "ARCH",
+          "v": "aarch64"
+        },
+        {
+          "k": "OS",
+          "v": "linux"
+        },
+        {
+          "k": "artifact_name",
+          "v": "rootfs_gzip_1.12.19"
+        },
+        {
+          "k": "device_type",
+          "v": "test"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2184,12 +2727,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2222,12 +2777,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2260,12 +2827,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2298,12 +2877,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2431,10 +3022,16 @@
         }
       },
       "name": "mender-demo-artifact-20260928-6a5f385",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385"
-      },
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        }
+      ],
       "signed": false,
       "updates": [
         {
@@ -2484,12 +3081,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2522,12 +3131,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2560,12 +3181,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2598,12 +3231,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2636,12 +3281,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2674,12 +3331,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2712,12 +3381,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2750,12 +3431,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2788,12 +3481,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2826,12 +3531,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2864,12 +3581,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2902,12 +3631,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2940,12 +3681,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -2978,12 +3731,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -3016,12 +3781,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -3054,12 +3831,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
@@ -3092,12 +3881,24 @@
     "deviceprovides": {
       "artifactname": "mender-demo-artifact-20260928-6a5f385",
       "devicetype": "generic-x86_64",
-      "provides": {
-        "artifact_name": "mender-demo-artifact-20260928-6a5f385",
-        "data-partition.mender-demo-artifact.version": "mender-demo-artifact-20260928-6a5f385",
-        "device_type": "generic-x86_64",
-        "rootfs-image.version": "original"
-      }
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
     },
     "updatecontrolmap": false
   },
