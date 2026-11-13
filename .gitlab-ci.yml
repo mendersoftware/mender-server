@@ -1051,11 +1051,16 @@ publish:licenses:docs-site:
     - |
       if [ -n "${GH_APP_ID}" ]; then
         GITHUB_JOB_TOKEN="$(.gitlab/github-app-token.sh)" || exit 1
+        GITHUB_TOKEN="${GITHUB_JOB_TOKEN}"
       else
         GITHUB_JOB_TOKEN="${GITHUB_BOT_TOKEN_REPO_FULL}"
+        GITHUB_TOKEN="${GITHUB_CLI_TOKEN}"
       fi
-      [ -n "${GITHUB_JOB_TOKEN}" ] || { echo "ERROR - no GitHub token"; exit 1; }
-      export GITHUB_JOB_TOKEN GITHUB_TOKEN="${GITHUB_JOB_TOKEN}"
+      if [ -z "${GITHUB_JOB_TOKEN}" ] || [ -z "${GITHUB_TOKEN}" ]; then
+        echo "ERROR - no GitHub token"
+        exit 1
+      fi
+      export GITHUB_JOB_TOKEN GITHUB_TOKEN
     - 'curl -s -H "Authorization: Bearer ${GITHUB_JOB_TOKEN}" https://api.github.com/rate_limit | jq -c .resources.core || true'
 
 changelog:
@@ -1250,6 +1255,8 @@ release:mender-docs-changelog:saas:
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
     - export GH_APP_REPOSITORIES="${GITHUB_HELM_REPO#*/}"
+    # The App is installed only on the GITHUB_REPO_URL owner (alvaldi-helm uses the PAT)
+    - if [ "${GITHUB_HELM_REPO%%/*}" != "${GITHUB_REPO_URL%%/*}" ]; then unset GH_APP_ID; fi
     - !reference [.github-token, script]
     - export DIGESTS_FOLDER=$(pwd)/.digests
     - export PROJECT_FOLDER=$(pwd)
