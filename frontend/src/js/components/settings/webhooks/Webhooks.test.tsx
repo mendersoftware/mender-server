@@ -87,6 +87,31 @@ describe('Webhooks Component', () => {
     await waitFor(() => expect(screen.queryByText(/webhook details/i)).toBeNull());
   });
 
+  it('shows delivery errors', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const [event] = webhookEvents;
+    const error = 'dial tcp 192.0.2.1:443: connect: connection refused';
+    const preloadedState = {
+      ...defaultState,
+      organization: {
+        ...defaultState.organization,
+        externalDeviceIntegrations: [
+          {
+            id: '1',
+            credentials: { [EXTERNAL_PROVIDER.webhook.credentialsType]: { url: 'https://example.com' } },
+            provider: EXTERNAL_PROVIDER.webhook.provider
+          }
+        ],
+        webhooks: { ...defaultState.organization.webhooks, events: [{ ...event, delivery_statuses: [{ integration_id: '1', success: false, error }] }] }
+      }
+    };
+    render(<Webhooks />, { preloadedState });
+    await user.click(screen.getByText('https://example.com'));
+    expect(await screen.findByTitle(error)).toHaveTextContent('Error');
+    await user.click(screen.getByText(/device status updated/i));
+    expect(await screen.findByText(error)).toBeVisible();
+  });
+
   it('can be configured', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onSubmit = vi.fn();
