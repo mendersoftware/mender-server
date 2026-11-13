@@ -3,7 +3,7 @@ azure-cli==2.92.0
 boto3==1.44.0
 certifi==2026.10.23
 cffi==2.1.1
-cryptography==48.0.0
+cryptography==50.0.0
 docker==7.2.0
 execnet==2.1.2
 filelock==4.2.10
