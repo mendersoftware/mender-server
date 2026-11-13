@@ -111,9 +111,7 @@ export const poll = async <T>({
   message?: string;
 }): Promise<T> => {
   const res = await callback();
-  if (condition && condition(res)) {
-    return Promise.resolve(res);
-  } else if (res) {
+  if (condition ? condition(res) : res) {
     return Promise.resolve(res);
   }
   if (attempt >= maxAttempts) {
