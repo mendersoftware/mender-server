@@ -1255,6 +1255,8 @@ release:mender-docs-changelog:saas:
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
     - export GH_APP_REPOSITORIES="${GITHUB_HELM_REPO#*/}"
+    # The App is installed only on the GITHUB_REPO_URL owner (alvaldi-helm uses the PAT)
+    - if [ "${GITHUB_HELM_REPO%%/*}" != "${GITHUB_REPO_URL%%/*}" ]; then unset GH_APP_ID; fi
     - !reference [.github-token, script]
     - export DIGESTS_FOLDER=$(pwd)/.digests
     - export PROJECT_FOLDER=$(pwd)
