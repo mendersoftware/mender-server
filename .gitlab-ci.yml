@@ -35,7 +35,7 @@ variables:
     value: "8.10"
     description: "Version of Redis to use in jobs"
   MENDER_HELM_CHART_VERSION:
-    value: "8.5.0"
+    value: "8.5.3"
     description: "Version of the mender Helm chart deployed by review apps"
   IMAGE_GOLANGCI_VERSION:
     value: "v2.13.2"
