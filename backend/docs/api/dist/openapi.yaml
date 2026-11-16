@@ -10309,8 +10309,7 @@ components:
               description: The destination URL for the webhook. The webhook will send POST requests with event details to this target URL.
             secret:
               type: string
-              description: An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format.
-              pattern: '[0-9a-f]{1,64}'
+              description: An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format of the form '[0-9a-f]{1,64}'.
           required:
             - url
       required:

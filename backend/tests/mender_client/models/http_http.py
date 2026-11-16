@@ -18,9 +18,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,18 +28,8 @@ class HTTPHttp(BaseModel):
     HTTPHttp
     """ # noqa: E501
     url: StrictStr = Field(description="The destination URL for the webhook. The webhook will send POST requests with event details to this target URL.")
-    secret: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format.")
+    secret: Optional[StrictStr] = Field(default=None, description="An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format of the form '[0-9a-f]{1,64}'.")
     __properties: ClassVar[List[str]] = ["url", "secret"]
-
-    @field_validator('secret')
-    def secret_validate_regular_expression(cls, value):
-        """Validates the regular expression"""
-        if value is None:
-            return value
-
-        if not re.match(r"[0-9a-f]{1,64}", value):
-            raise ValueError(r"must validate the regular expression /[0-9a-f]{1,64}/")
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
