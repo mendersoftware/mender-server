@@ -23,8 +23,8 @@ var _ MappedNullable = &HTTPHttp{}
 type HTTPHttp struct {
 	// The destination URL for the webhook. The webhook will send POST requests with event details to this target URL.
 	Url string `json:"url"`
-	// An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format.
-	Secret *string `json:"secret,omitempty" validate:"regexp=[0-9a-f]{1,64}"`
+	// An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format of the form '[0-9a-f]{1,64}'.
+	Secret *string `json:"secret,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 

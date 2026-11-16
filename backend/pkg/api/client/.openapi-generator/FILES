@@ -82,6 +82,7 @@ model_device_with_image.go
 model_device_with_image_image.go
 model_device_with_image_image_meta.go
 model_device_with_image_image_meta_artifact.go
+model_device_with_image_image_meta_artifact_artifact_depends_value.go
 model_direct_upload_metadata.go
 model_error.go
 model_error_ext.go

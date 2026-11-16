@@ -21,6 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from mender_client.models.artifact_info import ArtifactInfo
+from mender_client.models.device_with_image_image_meta_artifact_artifact_depends_value import DeviceWithImageImageMetaArtifactArtifactDependsValue
 from mender_client.models.update import Update
 from typing import Optional, Set
 from typing_extensions import Self
@@ -35,7 +36,7 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
     signed: Optional[StrictBool] = Field(default=None, description="Idicates if artifact is signed or not.")
     updates: Optional[List[Update]] = None
     artifact_provides: Optional[Dict[str, StrictStr]] = Field(default=None, description="List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. ")
-    artifact_depends: Optional[Dict[str, List[StrictStr]]] = Field(default=None, description="List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. ")
+    artifact_depends: Optional[Dict[str, DeviceWithImageImageMetaArtifactArtifactDependsValue]] = Field(default=None, description="List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. ")
     clears_artifact_provides: Optional[List[StrictStr]] = Field(default=None, description="List of Clear Artifact provides.")
     __properties: ClassVar[List[str]] = ["name", "device_types_compatible", "info", "signed", "updates", "artifact_provides", "artifact_depends", "clears_artifact_provides"]
 
@@ -88,6 +89,13 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
                 if _item_updates:
                     _items.append(_item_updates.to_dict())
             _dict['updates'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each value in artifact_depends (dict)
+        _field_dict = {}
+        if self.artifact_depends:
+            for _key_artifact_depends in self.artifact_depends:
+                if self.artifact_depends[_key_artifact_depends]:
+                    _field_dict[_key_artifact_depends] = self.artifact_depends[_key_artifact_depends].to_dict()
+            _dict['artifact_depends'] = _field_dict
         return _dict
 
     @classmethod
@@ -106,7 +114,12 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
             "signed": obj.get("signed"),
             "updates": [Update.from_dict(_item) for _item in obj["updates"]] if obj.get("updates") is not None else None,
             "artifact_provides": obj.get("artifact_provides"),
-            "artifact_depends": obj.get("artifact_depends"),
+            "artifact_depends": dict(
+                (_k, DeviceWithImageImageMetaArtifactArtifactDependsValue.from_dict(_v))
+                for _k, _v in obj["artifact_depends"].items()
+            )
+            if obj.get("artifact_depends") is not None
+            else None,
             "clears_artifact_provides": obj.get("clears_artifact_provides")
         })
         return _obj

@@ -109,6 +109,7 @@ __all__ = [
     "DeviceWithImageImage",
     "DeviceWithImageImageMeta",
     "DeviceWithImageImageMetaArtifact",
+    "DeviceWithImageImageMetaArtifactArtifactDependsValue",
     "DirectUploadMetadata",
     "Error",
     "ErrorExt",
@@ -283,6 +284,7 @@ from mender_client.models.device_with_image import DeviceWithImage as DeviceWith
 from mender_client.models.device_with_image_image import DeviceWithImageImage as DeviceWithImageImage
 from mender_client.models.device_with_image_image_meta import DeviceWithImageImageMeta as DeviceWithImageImageMeta
 from mender_client.models.device_with_image_image_meta_artifact import DeviceWithImageImageMetaArtifact as DeviceWithImageImageMetaArtifact
+from mender_client.models.device_with_image_image_meta_artifact_artifact_depends_value import DeviceWithImageImageMetaArtifactArtifactDependsValue as DeviceWithImageImageMetaArtifactArtifactDependsValue
 from mender_client.models.direct_upload_metadata import DirectUploadMetadata as DirectUploadMetadata
 from mender_client.models.error import Error as Error
 from mender_client.models.error_ext import ErrorExt as ErrorExt
