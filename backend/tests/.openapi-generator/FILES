@@ -86,6 +86,7 @@ mender_client/models/device_with_image.py
 mender_client/models/device_with_image_image.py
 mender_client/models/device_with_image_image_meta.py
 mender_client/models/device_with_image_image_meta_artifact.py
+mender_client/models/device_with_image_image_meta_artifact_artifact_depends_value.py
 mender_client/models/direct_upload_metadata.py
 mender_client/models/error.py
 mender_client/models/error_ext.py

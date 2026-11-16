@@ -29,8 +29,8 @@ type DeviceWithImageImageMetaArtifact struct {
 	Updates []Update `json:"updates,omitempty"`
 	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. 
 	ArtifactProvides *map[string]string `json:"artifact_provides,omitempty"`
-	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. 
-	ArtifactDepends *map[string][]string `json:"artifact_depends,omitempty"`
+	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. 
+	ArtifactDepends map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
 	AdditionalProperties map[string]interface{}
@@ -248,19 +248,19 @@ func (o *DeviceWithImageImageMetaArtifact) SetArtifactProvides(v map[string]stri
 }
 
 // GetArtifactDepends returns the ArtifactDepends field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetArtifactDepends() map[string][]string {
+func (o *DeviceWithImageImageMetaArtifact) GetArtifactDepends() map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		var ret map[string][]string
+		var ret map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue
 		return ret
 	}
-	return *o.ArtifactDepends
+	return o.ArtifactDepends
 }
 
 // GetArtifactDependsOk returns a tuple with the ArtifactDepends field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetArtifactDependsOk() (*map[string][]string, bool) {
+func (o *DeviceWithImageImageMetaArtifact) GetArtifactDependsOk() (map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue, bool) {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		return nil, false
+		return map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue{}, false
 	}
 	return o.ArtifactDepends, true
 }
@@ -274,9 +274,9 @@ func (o *DeviceWithImageImageMetaArtifact) HasArtifactDepends() bool {
 	return false
 }
 
-// SetArtifactDepends gets a reference to the given map[string][]string and assigns it to the ArtifactDepends field.
-func (o *DeviceWithImageImageMetaArtifact) SetArtifactDepends(v map[string][]string) {
-	o.ArtifactDepends = &v
+// SetArtifactDepends gets a reference to the given map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue and assigns it to the ArtifactDepends field.
+func (o *DeviceWithImageImageMetaArtifact) SetArtifactDepends(v map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue) {
+	o.ArtifactDepends = v
 }
 
 // GetClearsArtifactProvides returns the ClearsArtifactProvides field value if set, zero value otherwise.

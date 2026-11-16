@@ -330,6 +330,7 @@ Class | Method | HTTP request | Description
  - [DeviceWithImageImage](docs/DeviceWithImageImage.md)
  - [DeviceWithImageImageMeta](docs/DeviceWithImageImageMeta.md)
  - [DeviceWithImageImageMetaArtifact](docs/DeviceWithImageImageMetaArtifact.md)
+ - [DeviceWithImageImageMetaArtifactArtifactDependsValue](docs/DeviceWithImageImageMetaArtifactArtifactDependsValue.md)
  - [DirectUploadMetadata](docs/DirectUploadMetadata.md)
  - [Error](docs/Error.md)
  - [ErrorExt](docs/ErrorExt.md)
