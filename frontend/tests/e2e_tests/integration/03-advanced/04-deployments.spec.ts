@@ -24,18 +24,24 @@ import { locateReleaseByName, navigateTo, selectReleaseByName, triggerDeployment
 dayjs.extend(isBetween);
 
 const stressTestClientPath = './mender-stress-test-client';
-// a dedicated mac prefix keeps the simulated devices apart from the demo device & other stress test clients
-const uniformClientMacPrefix = 'fe';
+// a dedicated identity attribute keeps the simulated devices apart from the demo device & other stress test clients
+// the mac prefix was not enough
+const uniformClientIdentityKey = 'e2e_run';
 const uniformClientCount = 3;
 const uniformGroup = 'uniformgroup';
 
 type AuthSet = { id: string; status: string };
-type DevauthDevice = { auth_sets: AuthSet[]; id: string; identity_data: { mac?: string } };
+type DevauthDevice = { auth_sets: AuthSet[]; id: string; identity_data: Record<string, string> };
 
-const getUniformClientDevices = async (baseUrl: string, request: APIRequestContext, headers: Record<string, string>): Promise<DevauthDevice[]> => {
+const getUniformClientDevices = async (
+  baseUrl: string,
+  request: APIRequestContext,
+  headers: Record<string, string>,
+  runId: string
+): Promise<DevauthDevice[]> => {
   const response = await request.get(`${baseUrl}api/management/v2/devauth/devices?per_page=500`, { headers });
   const devices: DevauthDevice[] = await response.json();
-  return devices.filter(({ identity_data }) => identity_data.mac?.startsWith(`${uniformClientMacPrefix}:`));
+  return devices.filter(({ identity_data }) => identity_data[uniformClientIdentityKey] === runId);
 };
 
 const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
@@ -192,17 +198,17 @@ test.describe('Deployments', () => {
     await expect(page.getByText(/queued to start/i).first()).toBeVisible();
   });
 
-  test('allows uniform phased deployments', async ({ baseUrl, environment, page, request }) => {
+  test('allows uniform phased deployments', async ({ baseUrl, environment, page, request }, { testId }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'phased deployments are not available in OS');
     test.skip(!fs.existsSync(stressTestClientPath), 'requires the mender-stress-test-client to simulate a device fleet');
     test.setTimeout(6 * timeouts.sixtySeconds);
     const headers = { Authorization: `Bearer ${getTokenFromStorage(baseUrl)}` };
     const tenantToken = await tenantTokenRetrieval(baseUrl, page);
-    const client = await startClient(baseUrl, tenantToken, uniformClientCount, [`--mac-address-prefix=${uniformClientMacPrefix}`]);
+    const client = await startClient(baseUrl, tenantToken, uniformClientCount, [`--identity-attribute=${uniformClientIdentityKey}:${testId}`]);
     try {
       let devices: DevauthDevice[] = [];
       await expect(async () => {
-        devices = await getUniformClientDevices(baseUrl, request, headers);
+        devices = await getUniformClientDevices(baseUrl, request, headers, testId);
         expect(devices).toHaveLength(uniformClientCount);
       }).toPass({ timeout: 2 * timeouts.sixtySeconds });
       await Promise.all(
