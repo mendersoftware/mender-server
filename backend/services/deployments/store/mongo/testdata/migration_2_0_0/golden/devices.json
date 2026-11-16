@@ -1,0 +1,3906 @@
+{
+  "_id": "0384e7f4-e3b2-4465-8285-ea520d71efbd",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976039"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278095142"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278095142"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "0ee2455c-d467-4feb-a45f-97c0d6b593c4",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "08274b4f-c12f-4b73-a03a-62323c96ab40",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975940"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278025151"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278025151"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "d4861296-054f-442d-9dbf-e679a10391a3",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "0cf2aa04-5803-4f17-9e8c-c90219430408",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976008"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278050139"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278050139"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "068610b8-caba-49ef-8dd5-b6e67d5e89e7",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "0fe321ea-b8b2-4e6c-8ddd-98617ef78ca3",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976019"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278065139"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278065139"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "ec831ceb-f06b-4f50-9b2a-e540d4546bd8",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "1218bba8-7b9d-41d5-963e-5a1224754102",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976077"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278115142"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278115142"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "6931c8bf-a39c-4399-806e-68a15bc88f1e",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "121f00c2-c034-4958-914f-a9c77504ac19",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976206"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278227487"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278227487"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "62283452-8553-4d97-97c2-09f69a794b88",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "13ac3d4d-38f3-4048-a106-103efb654768",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975965"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278035139"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278035139"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "632c9a14-6db4-46e9-8ca2-6e2953fb6bca",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "1bc20259-26ff-4087-98ba-d781af826909",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976131"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278175149"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278175149"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "e3968212-3f03-48c5-959f-52781ba91c9b",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "22ff4f16-af8f-4b86-b134-5811a9a70432",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975925"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278010147"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278010147"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "0a98e23b-c9df-470e-84c9-dd87b4b4a2ca",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "2375ca17-e8cb-4b58-8aa1-20265b811025",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976240"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278279868"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278279868"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "f2373852-5f33-445f-8659-0561cea317a5",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "29983d16-f9b0-4fe8-a14c-7c8f80200a59",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277919301"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277920407"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277921048"
+    }
+  },
+  "status": {
+    "$numberInt": "2560"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "084b00f3-884b-48af-bb5d-6a988eba9faa",
+  "image": {
+    "_id": "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3",
+    "meta": {
+      "description": ""
+    },
+    "meta_artifact": {
+      "clears_provides": [
+        "data-partition.mender-demo-artifact.*"
+      ],
+      "depends": [
+        {
+          "k": "device_type",
+          "v": "beaglebone"
+        },
+        {
+          "k": "device_type",
+          "v": "beaglebone-yocto"
+        },
+        {
+          "k": "device_type",
+          "v": "beaglebone-yocto-grub"
+        },
+        {
+          "k": "device_type",
+          "v": "docker-client"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-armv6"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "device_type",
+          "v": "qemux86-64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi0-wifi"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi0w"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi3"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi3_64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi4"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi4_64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi5"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi5_64"
+        }
+      ],
+      "device_types_compatible": [
+        "beaglebone",
+        "beaglebone-yocto",
+        "beaglebone-yocto-grub",
+        "docker-client",
+        "generic-armv6",
+        "generic-x86_64",
+        "qemux86-64",
+        "raspberrypi0w",
+        "raspberrypi0-wifi",
+        "raspberrypi3",
+        "raspberrypi3_64",
+        "raspberrypi4",
+        "raspberrypi4_64",
+        "raspberrypi5",
+        "raspberrypi5_64",
+        "raspberrypi"
+      ],
+      "info": {
+        "format": "mender",
+        "version": {
+          "$numberInt": "3"
+        }
+      },
+      "name": "mender-demo-artifact-20260928-6a5f385",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        }
+      ],
+      "signed": false,
+      "updates": [
+        {
+          "files": [
+            {
+              "checksum": "4c0f5d054017bc5ca4419cba03d3bac7b964744d05fb2c5d498dd7d248dd1ac8",
+              "date": {
+                "$date": {
+                  "$numberLong": "1790620647000"
+                }
+              },
+              "name": "update.tar",
+              "size": {
+                "$numberLong": "2662400"
+              }
+            },
+            {
+              "checksum": "d1503477cc90d9e779b36476cef1b0b136769720ea7655c23e2704a2730d607d",
+              "date": {
+                "$date": {
+                  "$numberLong": "1790620647000"
+                }
+              },
+              "name": "dest_dir",
+              "size": {
+                "$numberLong": "20"
+              }
+            }
+          ],
+          "metadata": {},
+          "typeinfo": {
+            "type": "directory"
+          }
+        }
+      ]
+    },
+    "modified": {
+      "$date": {
+        "$numberLong": "1791277689653"
+      }
+    },
+    "size": {
+      "$numberLong": "1641984"
+    }
+  },
+  "request": {
+    "deviceprovides": {
+      "artifactname": "original",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "original"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "2c2b935f-1fab-48c3-93ea-59cc43772c94",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976037"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278090140"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278090140"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "f9b47489-a6a2-4f07-b967-22216e17f9e4",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "30e15a02-52a0-43c0-aa8c-38da3c8ca9b8",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976237"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278274865"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278274865"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "b48dcce9-572f-42b2-a627-50c31be56dd7",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "360c8a8e-36a9-4a70-ad39-530f44d181b0",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975918"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277995137"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277995137"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "15a4533d-11f2-41a9-8f5f-24af69c82f08",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "38f67e01-163f-4f72-9af2-641c2d0801af",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976067"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278100207"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278100207"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "3e106ee6-a5b1-4da9-8bd2-5567a6d2e774",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "38fefcb8-948a-4238-87f9-f3a4498b0167",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976219"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278239863"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278239863"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "e02a8e46-ce2a-4fba-9064-2b09300bf1a1",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "3adb4fd4-af88-4862-9f3b-5aeadf9142d3",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975921"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278005142"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278005142"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "2f635dd4-da27-4abe-b4c7-b7a4bb63888a",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "3caa61a2-04c4-4efa-9ff8-be234af09d57",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975915"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277990135"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277990135"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "a2cb182d-80e3-4ec5-8d6e-72011df9bc76",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "3e0ea21c-14e0-49cc-a6f5-94b47c39ec0c",
+  "created": {
+    "$date": {
+      "$numberLong": "1794218700989"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1794218742805"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1794218811085"
+    }
+  },
+  "status": {
+    "$numberInt": "256"
+  },
+  "deviceid": "2673de8c-a9cb-4dc4-9374-f9af9769f8b0",
+  "deploymentid": "16a35ef2-1511-4bf0-bee2-d527c210dee0",
+  "image": {
+    "_id": "317bf1b6-7f11-4794-a704-b76d935097fd",
+    "meta": {
+      "description": ""
+    },
+    "meta_artifact": {
+      "clears_provides": [
+        "artifact_group",
+        "rootfs_image_checksum",
+        "rootfs-image.*"
+      ],
+      "depends": [
+        {
+          "k": "ARCH",
+          "v": "aarch64"
+        },
+        {
+          "k": "OS",
+          "v": "linux"
+        },
+        {
+          "k": "device_type",
+          "v": "test"
+        }
+      ],
+      "device_types_compatible": [
+        "test"
+      ],
+      "info": {
+        "format": "mender",
+        "version": {
+          "$numberInt": "3"
+        }
+      },
+      "name": "rootfs_gzip_2.0.0",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "rootfs_gzip_2.0.0"
+        },
+        {
+          "k": "rootfs-image.checksum",
+          "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "rootfs_gzip_2.0.0"
+        }
+      ],
+      "signed": false,
+      "updates": [
+        {
+          "files": [
+            {
+              "checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
+              "date": {
+                "$date": {
+                  "$numberLong": "1794216958000"
+                }
+              },
+              "name": "rootfsA.img",
+              "size": {
+                "$numberLong": "3602907136"
+              }
+            }
+          ],
+          "metadata": {},
+          "typeinfo": {
+            "type": "rootfs-image"
+          }
+        }
+      ]
+    },
+    "modified": {
+      "$date": {
+        "$numberLong": "1794218598157"
+      }
+    },
+    "size": {
+      "$numberLong": "730059264"
+    }
+  },
+  "request": {
+    "deviceprovides": {
+      "artifactname": "foo",
+      "devicetype": "test"
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "",
+  "log": {
+    "messages": [
+      {
+        "level": "ERROR",
+        "message": "an error occured",
+        "timestamp": {
+          "$date": {
+            "$numberLong": "1794218412345"
+          }
+        }
+      },
+      {
+        "level": "ERROR",
+        "message": "another error occured",
+        "timestamp": {
+          "$date": {
+            "$numberLong": "1794218473450"
+          }
+        }
+      },
+      {
+        "level": "INFO",
+        "message": "ok, thats it",
+        "timestamp": {
+          "$date": {
+            "$numberLong": "1794218520100"
+          }
+        }
+      }
+    ]
+  }
+}
+{
+  "_id": "46f1f911-ab9a-492a-ab20-974d627b3594",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976222"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278249869"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278249869"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "ddae7e2f-5ee0-4e53-a177-7c0888922d98",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "49079e6d-ea1c-4a74-a33f-276c68f66797",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975930"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278020139"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278020139"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "0f56b00c-4ab7-46cb-a70e-8f829544763b",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "4bdaf961-3300-4b53-af7f-bef271603d79",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976120"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278160169"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278160169"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "e7c764d0-fe08-4268-b343-4ef8a3259fe7",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "53332e3b-6b28-4b66-942a-855f7789906f",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976236"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278269862"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278269862"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "6bbc9be6-c785-4392-92cf-709a82929e04",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "5704c979-ddad-46fe-9b89-a26e60ccf297",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976011"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278055142"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278055142"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "43595bf5-1af3-4391-bb5d-acc8c6098ae2",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "5aeb736b-a5b4-4335-a8be-9d4f1bfe02ab",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976176"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278197486"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278197486"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "2355a1f1-772b-40ad-941c-192ab8a7c020",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "70447061-43fa-48c3-a394-fcad7d4389dc",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976112"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278155144"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278155144"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "ec839239-a347-414d-b3ba-ae1f64afbe7e",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "74170708-fd15-48c6-93ef-1a38c4d9cb81",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976179"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278207487"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278207487"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "223d9f22-8651-4049-9164-d4cf6e627efa",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "773cef83-b93b-4940-b927-4022b3ff2dae",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976109"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278140140"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278140140"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "72a12b7e-5cda-4048-83c3-205d9e5fdeb0",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "79e0a327-4dd2-412c-ab04-29300f75003e",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976166"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278192481"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278192481"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "8d66bf30-7212-4b27-8512-bd6f2f92d0a5",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "7d2c5c62-512d-4ac3-9e72-1e6cf3498058",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277969124"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277970142"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277970142"
+    }
+  },
+  "status": {
+    "$numberInt": "3072"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "c8b8a411-4110-4af9-8605-65dc2fce52ed",
+  "image": {
+    "_id": "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3",
+    "meta": {
+      "description": ""
+    },
+    "meta_artifact": {
+      "clears_provides": [
+        "data-partition.mender-demo-artifact.*"
+      ],
+      "depends": [
+        {
+          "k": "device_type",
+          "v": "beaglebone"
+        },
+        {
+          "k": "device_type",
+          "v": "beaglebone-yocto"
+        },
+        {
+          "k": "device_type",
+          "v": "beaglebone-yocto-grub"
+        },
+        {
+          "k": "device_type",
+          "v": "docker-client"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-armv6"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "device_type",
+          "v": "qemux86-64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi0-wifi"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi0w"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi3"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi3_64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi4"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi4_64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi5"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi5_64"
+        }
+      ],
+      "device_types_compatible": [
+        "beaglebone",
+        "beaglebone-yocto",
+        "beaglebone-yocto-grub",
+        "docker-client",
+        "generic-armv6",
+        "generic-x86_64",
+        "qemux86-64",
+        "raspberrypi0w",
+        "raspberrypi0-wifi",
+        "raspberrypi3",
+        "raspberrypi3_64",
+        "raspberrypi4",
+        "raspberrypi4_64",
+        "raspberrypi5",
+        "raspberrypi5_64",
+        "raspberrypi"
+      ],
+      "info": {
+        "format": "mender",
+        "version": {
+          "$numberInt": "3"
+        }
+      },
+      "name": "mender-demo-artifact-20260928-6a5f385",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        }
+      ],
+      "signed": false,
+      "updates": [
+        {
+          "files": [
+            {
+              "checksum": "4c0f5d054017bc5ca4419cba03d3bac7b964744d05fb2c5d498dd7d248dd1ac8",
+              "date": {
+                "$date": {
+                  "$numberLong": "1790620647000"
+                }
+              },
+              "name": "update.tar",
+              "size": {
+                "$numberLong": "2662400"
+              }
+            },
+            {
+              "checksum": "d1503477cc90d9e779b36476cef1b0b136769720ea7655c23e2704a2730d607d",
+              "date": {
+                "$date": {
+                  "$numberLong": "1790620647000"
+                }
+              },
+              "name": "dest_dir",
+              "size": {
+                "$numberLong": "20"
+              }
+            }
+          ],
+          "metadata": {},
+          "typeinfo": {
+            "type": "directory"
+          }
+        }
+      ]
+    },
+    "modified": {
+      "$date": {
+        "$numberLong": "1791277689653"
+      }
+    },
+    "size": {
+      "$numberLong": "1641984"
+    }
+  },
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "7e526c58-028a-44fb-baff-4d1670add312",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976026"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278070155"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278070155"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "60959680-0783-4ced-88ef-7860bfc09de9",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "7ff1f2f0-b927-4137-9392-594d34a940f8",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976190"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278217487"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278217487"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "20ebaceb-2575-47f6-93e0-153aac703165",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "8480dbe1-931c-45b9-b577-6347a2491bac",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976075"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278110141"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278110141"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "744c3ab1-b90c-49ba-aa48-29d515e56768",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "86ff8d8d-2953-4172-bb18-8ef6e468b809",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976181"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278212487"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278212487"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "e346bb87-cab2-41a1-bd0a-979585dac37a",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "8b148f2d-3e13-45e6-9346-45effcd2fcc8",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976178"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278202488"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278202488"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "c1801f93-7b8e-41d7-8899-4278fe80424a",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "8b2fe5b9-2f97-4c50-aa99-d74c37ef6695",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975920"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278000134"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278000134"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "ccccd45b-db86-4dc8-83ac-9ad544af4db1",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "91283f3c-bd75-4b37-bb20-9c3636934748",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976227"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278254865"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278254865"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "b3ea5025-119d-45db-8834-925f8f35967b",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "9704f100-6bec-4411-a56d-8ee239155131",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976234"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278264862"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278264862"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "9f865db1-6d23-48fc-bfa4-5b6f75cf1ea7",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "973e9975-c33f-4403-af29-84274de5ae3f",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976031"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278075138"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278075138"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "aedfe48f-85aa-42be-b2f0-5768c9cfae0c",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "a318dcb6-7849-40cd-94e3-06e623db6118",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976074"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278105138"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278105138"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "9bf60caf-0933-48c2-9ca3-1d959f817eb0",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "a35991dd-ccc0-4874-a9a2-0f22eb9818d8",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976148"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278187485"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278187485"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "22554e36-3fed-43e3-a815-d1d8dd16c44a",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "a6f80680-1265-4c4d-b7ec-a8c577683067",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976033"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278080137"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278080137"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "c1879bfc-cf8d-4ddd-b900-d5a5b2005395",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "af16492c-e52a-4914-878b-04775be660e9",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976200"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278222490"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278222490"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "97a8bcf9-834e-430b-9c40-b4ae9723870e",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "b1ca85e1-6edc-4e0d-88b8-114ad723e210",
+  "created": {
+    "$date": {
+      "$numberLong": "1794217353841"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1794218212644"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1794218221861"
+    }
+  },
+  "status": {
+    "$numberInt": "256"
+  },
+  "deviceid": "e7c835de-e851-4842-a56c-282bf732f823",
+  "deploymentid": "17dc96b8-4322-490a-b96c-082f2ded9895",
+  "image": {
+    "_id": "8c50c68d-21aa-41da-9b80-f570169c2ecd",
+    "meta": {
+      "description": ""
+    },
+    "meta_artifact": {
+      "clears_provides": [
+        "artifact_group",
+        "rootfs_image_checksum",
+        "rootfs-image.*"
+      ],
+      "depends": [
+        {
+          "k": "device_type",
+          "v": "test"
+        }
+      ],
+      "device_types_compatible": [
+        "test"
+      ],
+      "info": {
+        "format": "mender",
+        "version": {
+          "$numberInt": "3"
+        }
+      },
+      "name": "rootfs_gzip_2.0.0",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "rootfs_gzip_2.0.0"
+        },
+        {
+          "k": "rootfs-image.checksum",
+          "v": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "rootfs_gzip_2.0.0"
+        }
+      ],
+      "signed": false,
+      "updates": [
+        {
+          "files": [
+            {
+              "checksum": "7b31cfa46dc8e84fce8116e06fd0a0715397745b1a5770fdade862f9634e0782",
+              "date": {
+                "$date": {
+                  "$numberLong": "1784195961000"
+                }
+              },
+              "name": "rootfsA.img",
+              "size": {
+                "$numberLong": "3602907136"
+              }
+            }
+          ],
+          "metadata": {},
+          "typeinfo": {
+            "type": "rootfs-image"
+          }
+        }
+      ]
+    },
+    "modified": {
+      "$date": {
+        "$numberLong": "1794216876703"
+      }
+    },
+    "size": {
+      "$numberLong": "730059264"
+    }
+  },
+  "request": {
+    "deviceprovides": {
+      "artifactname": "rootfs_gzip_1.12.19",
+      "devicetype": "test",
+      "provides": [
+        {
+          "k": "ARCH",
+          "v": "aarch64"
+        },
+        {
+          "k": "OS",
+          "v": "linux"
+        },
+        {
+          "k": "artifact_name",
+          "v": "rootfs_gzip_1.12.19"
+        },
+        {
+          "k": "device_type",
+          "v": "test"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "log": {
+    "messages": [
+      {
+        "level": "ERROR",
+        "message": "an error occured",
+        "timestamp": {
+          "$date": {
+            "$numberLong": "1794217692345"
+          }
+        }
+      },
+      {
+        "level": "ERROR",
+        "message": "another error occured",
+        "timestamp": {
+          "$date": {
+            "$numberLong": "1794217693450"
+          }
+        }
+      },
+      {
+        "level": "INFO",
+        "message": "ok, thats it",
+        "timestamp": {
+          "$date": {
+            "$numberLong": "1794217740100"
+          }
+        }
+      }
+    ]
+  }
+}
+{
+  "_id": "b3081cbf-d6cc-4193-b363-cc34d9ba248f",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976036"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278085177"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278085177"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "ed37185f-a1ed-488d-9f6c-95420a7d78f9",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "bcdf1634-8a77-4eef-b9d3-c7611920c3f9",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976110"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278145156"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278145156"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "aae8f632-a0c6-4b9f-b530-1c7b553f90b5",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "c0ff1f09-9aff-43bf-a0d0-861a0b09484a",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976129"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278165169"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278165169"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "a5339aa5-fe97-4956-be02-37bbe46c43db",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "c7c0dd8f-335b-4f7b-9c65-dad041c70270",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976078"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278120140"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278120140"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "8bc6692d-786e-4d59-b011-97c8e1f4f5aa",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "cf9b2e0f-34ea-4040-81b8-c99cd9efca27",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277959131"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277960141"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277960141"
+    }
+  },
+  "status": {
+    "$numberInt": "3072"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "761bbd4e-9a82-4b6d-8380-2a8538bb6646",
+  "image": {
+    "_id": "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3",
+    "meta": {
+      "description": ""
+    },
+    "meta_artifact": {
+      "clears_provides": [
+        "data-partition.mender-demo-artifact.*"
+      ],
+      "depends": [
+        {
+          "k": "device_type",
+          "v": "beaglebone"
+        },
+        {
+          "k": "device_type",
+          "v": "beaglebone-yocto"
+        },
+        {
+          "k": "device_type",
+          "v": "beaglebone-yocto-grub"
+        },
+        {
+          "k": "device_type",
+          "v": "docker-client"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-armv6"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "device_type",
+          "v": "qemux86-64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi0-wifi"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi0w"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi3"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi3_64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi4"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi4_64"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi5"
+        },
+        {
+          "k": "device_type",
+          "v": "raspberrypi5_64"
+        }
+      ],
+      "device_types_compatible": [
+        "beaglebone",
+        "beaglebone-yocto",
+        "beaglebone-yocto-grub",
+        "docker-client",
+        "generic-armv6",
+        "generic-x86_64",
+        "qemux86-64",
+        "raspberrypi0w",
+        "raspberrypi0-wifi",
+        "raspberrypi3",
+        "raspberrypi3_64",
+        "raspberrypi4",
+        "raspberrypi4_64",
+        "raspberrypi5",
+        "raspberrypi5_64",
+        "raspberrypi"
+      ],
+      "info": {
+        "format": "mender",
+        "version": {
+          "$numberInt": "3"
+        }
+      },
+      "name": "mender-demo-artifact-20260928-6a5f385",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        }
+      ],
+      "signed": false,
+      "updates": [
+        {
+          "files": [
+            {
+              "checksum": "4c0f5d054017bc5ca4419cba03d3bac7b964744d05fb2c5d498dd7d248dd1ac8",
+              "date": {
+                "$date": {
+                  "$numberLong": "1790620647000"
+                }
+              },
+              "name": "update.tar",
+              "size": {
+                "$numberLong": "2662400"
+              }
+            },
+            {
+              "checksum": "d1503477cc90d9e779b36476cef1b0b136769720ea7655c23e2704a2730d607d",
+              "date": {
+                "$date": {
+                  "$numberLong": "1790620647000"
+                }
+              },
+              "name": "dest_dir",
+              "size": {
+                "$numberLong": "20"
+              }
+            }
+          ],
+          "metadata": {},
+          "typeinfo": {
+            "type": "directory"
+          }
+        }
+      ]
+    },
+    "modified": {
+      "$date": {
+        "$numberLong": "1791277689653"
+      }
+    },
+    "size": {
+      "$numberLong": "1641984"
+    }
+  },
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "d03713eb-75f8-43fa-b80d-ff32d97bf51f",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975927"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278015138"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278015138"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "77ff25fc-5b11-4eea-9144-5c71953e2ea0",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "d17c9368-7b03-4e13-977a-e7929d25129c",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976111"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278150143"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278150143"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "358c247b-a870-4986-8bfb-fb9b4ed9e4c6",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "d19f59a4-b104-4355-a93e-a7646bece950",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976085"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278130144"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278130144"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "37179a4d-d140-4dd7-a49a-b0788fb0cc3c",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "dab34a84-cbfa-43f2-9c5c-67fca0a13929",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975955"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278030140"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278030140"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "1cce1c2b-c14a-4f9f-a6e5-0c0cd41e8fb1",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "dc899f65-04bf-402c-9b7b-787cb49c737d",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975899"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277980154"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277980154"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "9a5eb1a6-f91d-403a-b9a7-e470db1c8abf",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "e740fe87-d22a-4eb1-aa59-c93064aa8dcd",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976245"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278284863"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278284863"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "455b9e4e-98b0-42d0-a4ec-1c5ce337b8b5",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "ebc8ac3e-3f32-4dc7-a604-9a1bc7a9f90d",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975969"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278040194"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278040194"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "6e1f3128-19d7-41e2-9c41-6ff1044de422",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "ec42556f-a7df-443b-ac6e-49fe431f375c",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976144"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278180141"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278180141"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "537c1272-8809-4ee0-90e4-715a127c4c15",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "ef78fc4a-baa2-45db-a431-f8eec02da6d3",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976007"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278045156"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278045156"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "bc3be937-00fa-40fc-b660-855aa8227be1",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "f1202c36-8e45-48b7-bdcc-3eba73c32cc3",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975903"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791277985137"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277985137"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "c037b109-e4ef-4524-b9d5-c825e586a699",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "f38b88cf-c603-4b5e-9f07-6ce12c5d5385",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976231"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278259864"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278259864"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "4f7e7c96-7fa7-4a09-8d27-7bd7ff597dad",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "f44551c4-401a-4b75-b5fd-2864d89c8bee",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976016"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278060147"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278060147"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "7264e9cc-d755-41f2-abfe-464a25b261d8",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "f80f5a3c-da74-4d14-94fe-98067b2f6f8f",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976130"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278170138"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278170138"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "5b08015e-a6a0-4448-a7e9-3cd03cf4d589",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "fb16862e-b046-4eff-9d89-f8acc1b50eaf",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976093"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278135148"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278135148"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "9cfd9ff5-f907-4d6a-85b5-d0abcf14a29a",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "fecf3bec-3a5c-4cf8-93e8-0398e20d3e5c",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976220"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278244865"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278244865"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "0918d011-4993-45d3-a488-98bb838c2c69",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}
+{
+  "_id": "feef2db4-7124-45f6-b506-281e313ceb85",
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976079"
+    }
+  },
+  "started": {
+    "$date": {
+      "$numberLong": "1791278125143"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278125143"
+    }
+  },
+  "status": {
+    "$numberInt": "2816"
+  },
+  "deviceid": "a4e62644-29b6-417e-a04a-cb1d6f8f3462",
+  "deploymentid": "8b186588-81e7-40ba-98ba-2dde41504d5b",
+  "image": null,
+  "request": {
+    "deviceprovides": {
+      "artifactname": "mender-demo-artifact-20260928-6a5f385",
+      "devicetype": "generic-x86_64",
+      "provides": [
+        {
+          "k": "artifact_name",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "data-partition.mender-demo-artifact.version",
+          "v": "mender-demo-artifact-20260928-6a5f385"
+        },
+        {
+          "k": "device_type",
+          "v": "generic-x86_64"
+        },
+        {
+          "k": "rootfs-image.version",
+          "v": "original"
+        }
+      ]
+    },
+    "updatecontrolmap": false
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd"
+}

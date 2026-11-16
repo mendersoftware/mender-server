@@ -18,10 +18,9 @@ import (
 
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/v2/bson"
-	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -30,62 +29,49 @@ var (
 	ErrTenantRequired = errors.New("tenant id is required")
 )
 
-func (db *DataStoreMongo) SaveLastDeviceDeploymentStatus(
-	ctx context.Context,
-	deviceDeployment model.DeviceDeployment,
-) error {
-	tenantId := ""
-	id := identity.FromContext(ctx)
-	if id != nil {
-		tenantId = id.Tenant
-	}
-	filter := bson.M{
-		"_id": deviceDeployment.DeviceId,
-	}
-
-	lastStatus := model.DeviceDeploymentLastStatus{
-		DeviceId:               deviceDeployment.DeviceId,
-		DeploymentId:           deviceDeployment.DeploymentId,
-		DeviceDeploymentId:     deviceDeployment.Id,
-		DeviceDeploymentStatus: deviceDeployment.Status,
-		TenantId:               tenantId,
-	}
-
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevicesLastStatus)
-	var err error
-	replaceOptions := mopts.Replace()
-	replaceOptions.SetUpsert(true)
-	_, err = collDevs.ReplaceOne(ctx, filter, lastStatus, replaceOptions)
-	return err
-}
-
 func (db *DataStoreMongo) GetLastDeviceDeploymentStatus(
 	ctx context.Context,
 	devicesIds []string,
 ) ([]model.DeviceDeploymentLastStatus, error) {
-	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
-	collDevs := database.Collection(CollectionDevicesLastStatus)
+	collDevs := db.database.Collection(CollectionDevices)
 
 	tenantId := ""
 	id := identity.FromContext(ctx)
 	if id != nil && id.Tenant != "" {
 		tenantId = id.Tenant
 	}
-	filter := bson.M{
-		"_id":              bson.M{"$in": devicesIds},
-		StorageKeyTenantId: tenantId,
+	cursor, err := collDevs.Aggregate(ctx, mongo.Pipeline{
+		// For each device ID
+		{{Key: "$match", Value: bson.M{
+			StorageKeyDeviceDeploymentDeviceId: bson.M{"$in": devicesIds},
+			StorageKeyTenantId:                 tenantId,
+		}}},
+		// Sort deployments by last one finished first
+		{{Key: "$sort", Value: bson.M{
+			StorageKeyDeviceDeploymentFinished: -1,
+		}}},
+		// Pick the first result
+		{{Key: "$group", Value: bson.M{
+			"_id": "$" + StorageKeyDeviceDeploymentDeviceId,
+			"status": bson.M{
+				"$first": "$$ROOT",
+			},
+		}}},
+		// Mapping only relevant field to result
+		{{Key: "$project", Value: bson.M{
+			"device_id":                "$_id",
+			"deployment_id":            "$status." + StorageKeyDeviceDeploymentDeploymentID,
+			"device_deployment_id":     "$status._id",
+			"device_deployment_status": "$status." + StorageKeyDeviceDeploymentStatus,
+		}}},
+	})
+	if err != nil {
+		return nil, err
 	}
 	var statuses []model.DeviceDeploymentLastStatus
-	cursor, err := collDevs.Find(ctx, filter)
-	if err != nil {
-		return statuses, err
-	}
-
 	err = cursor.All(ctx, &statuses)
 	if err != nil {
-		return statuses, err
+		return nil, err
 	}
-
 	return statuses, err
 }

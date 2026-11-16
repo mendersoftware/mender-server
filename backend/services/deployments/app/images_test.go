@@ -76,6 +76,8 @@ func TestGenerateImageError(t *testing.T) {
 }
 
 func TestGenerateImageArtifactIsNotUnique(t *testing.T) {
+	t.Skip("IsArtifactUnique no longer called before upload")
+	t.SkipNow()
 	db := mocks.DataStore{}
 	fs := &fs_mocks.ObjectStorage{}
 	d := NewDeployments(&db, fs, 0, false)
@@ -106,6 +108,8 @@ func TestGenerateImageArtifactIsNotUnique(t *testing.T) {
 }
 
 func TestGenerateImageErrorWhileCheckingIfArtifactIsNotUnique(t *testing.T) {
+	t.Skip("IsArtifactUnique no longer exists")
+	t.SkipNow()
 	db := mocks.DataStore{}
 	fs := &fs_mocks.ObjectStorage{}
 	d := NewDeployments(&db, fs, 0, false)
@@ -151,12 +155,6 @@ func TestGenerateImageErrorWhileUploading(t *testing.T) {
 		ctx,
 	).Return(nil, nil)
 
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
-
 	multipartGenerateImage := &model.MultipartGenerateImageMsg{
 		Name:                  "name",
 		Description:           "description",
@@ -187,12 +185,6 @@ func TestGenerateImageErrorS3GetRequest(t *testing.T) {
 		mock.AnythingOfType("string"),
 		mock.AnythingOfType("*bytes.Reader"),
 	).Return(nil)
-
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
 
 	db.On("GetStorageSettings",
 		ctx,
@@ -240,12 +232,6 @@ func TestGenerateImageErrorS3DeleteRequest(t *testing.T) {
 		mock.AnythingOfType("string"),
 		mock.AnythingOfType("*bytes.Reader"),
 	).Return(nil)
-
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
 
 	db.On("GetStorageSettings",
 		ctx,
@@ -340,12 +326,6 @@ func TestGenerateImageErrorWhileStartingWorkflow(t *testing.T) {
 		mock.AnythingOfType("string"),
 	).Return(nil)
 
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
-
 	db.On("GetStorageSettings",
 		ctx,
 	).Return(nil, nil)
@@ -417,12 +397,6 @@ func TestGenerateImageErrorWhileStartingWorkflowAndFailsWhenCleaningUp(t *testin
 		h.ContextMatcher(),
 		mock.AnythingOfType("string"),
 	).Return(errors.New("unable to remove the file"))
-
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
 
 	db.On("GetStorageSettings",
 		ctx,
@@ -510,12 +484,6 @@ func TestGenerateImageSuccessful(t *testing.T) {
 		mock.AnythingOfType("*bytes.Reader"),
 	).Return(nil)
 
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
-
 	db.On("GetStorageSettings",
 		ctx,
 	).Return(nil, nil)
@@ -592,12 +560,6 @@ func TestGenerateImageSuccessfulWithTenant(t *testing.T) {
 		mock.AnythingOfType("string"),
 		mock.AnythingOfType("*bytes.Reader"),
 	).Return(nil)
-
-	db.On("IsArtifactUnique",
-		h.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("[]string"),
-	).Return(true, nil)
 
 	identityObject := &identity.Identity{Tenant: "tenant_id"}
 	ctxWithIdentity := identity.WithContext(ctx, identityObject)

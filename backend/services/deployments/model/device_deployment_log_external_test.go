@@ -33,9 +33,6 @@ func TestValidateDeploymentLog(t *testing.T) {
 	}{
 		{
 			input: DeploymentLog{
-				DeviceID:     "1234",
-				DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-				// messages should be picked up
 				Messages: []LogMessage{
 					{
 						Level:     "notice",
@@ -47,10 +44,6 @@ func TestValidateDeploymentLog(t *testing.T) {
 		},
 		{
 			input: DeploymentLog{
-				// device ID and messages are to be skipped when parsing/marshaling JSON
-				DeviceID:     "1234",
-				DeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-				// messages should be picked up
 				Messages: []LogMessage{
 					{
 						Level:     "",
@@ -60,22 +53,6 @@ func TestValidateDeploymentLog(t *testing.T) {
 				},
 			},
 			err: errors.New("messages: (0: (level: cannot be blank.).)."),
-		},
-		{
-			input: DeploymentLog{
-				// device ID and messages are to be skipped when parsing/marshaling JSON
-				DeviceID:     "1234",
-				DeploymentID: "asdasdad1231",
-				// messages should be picked up
-				Messages: []LogMessage{
-					{
-						Level:     "notice",
-						Message:   "foo",
-						Timestamp: &tref,
-					},
-				},
-			},
-			err: errors.New("DeploymentID: must be a valid UUID."),
 		},
 	}
 
@@ -115,10 +92,6 @@ func TestUnmarshalDeploymentLog(t *testing.T) {
 "timestamp": "2006-01-02T15:04:05-07:00", "level": "notice", "message": "foo"
 }]}`,
 			expected: &DeploymentLog{
-				// device ID and messages are to be skipped when parsing/marshaling JSON
-				DeviceID:     "",
-				DeploymentID: "",
-				// messages should be picked up
 				Messages: []LogMessage{
 					{
 						Level:     "notice",

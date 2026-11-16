@@ -380,8 +380,8 @@ func getImageFilter(c *gin.Context, paginated bool) *model.ImageFilter {
 }
 
 type limitResponse struct {
-	Limit uint64 `json:"limit"`
-	Usage uint64 `json:"usage"`
+	Limit int64   `json:"limit"`
+	Usage *uint64 `json:"usage,omitempty"`
 }
 
 func (d *DeploymentsApiHandlers) GetLimit(c *gin.Context) {
@@ -403,7 +403,6 @@ func (d *DeploymentsApiHandlers) GetLimit(c *gin.Context) {
 
 	d.view.RenderSuccessGet(c, limitResponse{
 		Limit: limit.Value,
-		Usage: 0, // TODO fill this when ready
 	})
 }
 
