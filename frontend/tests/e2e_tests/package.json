@@ -31,7 +31,7 @@
     "escape-html": "^1.0.3",
     "express": "^5.3.0",
     "google-auth-library": "^11.0.0",
-    "googleapis": "^189.0.0",
+    "googleapis": "^190.0.0",
     "inquirer": "^14.0.2",
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
