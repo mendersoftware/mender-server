@@ -707,18 +707,14 @@ func (db *DataStoreMongo) ImageForDeviceDeployment(ctx context.Context,
 			{Key: "$in", Value: ids},
 		}},
 	}
-
-	providesDepends := make([]Depend, 0, len(provides)+1)
-	providesKeys := make([]string, 0, len(provides)+1)
+	providesDB := make([]Provide, 0, len(provides)+1)
 	for key, value := range provides {
-		providesKeys = append(providesKeys, key)
-		providesDepends = append(providesDepends, Depend{
+		providesDB = append(providesDB, Depend{
 			Key:   key,
 			Value: value,
 		})
 	}
-	providesKeys = append(providesKeys, "device_type")
-	providesDepends = append(providesDepends, Depend{
+	providesDB = append(providesDB, Depend{
 		Key:   "device_type",
 		Value: deviceType,
 	})
@@ -727,18 +723,18 @@ func (db *DataStoreMongo) ImageForDeviceDeployment(ctx context.Context,
 		{Key: "input", Value: "$" + StorageKeyReleaseArtifacts},
 		{Key: "as", Value: "artifact"},
 		{Key: "cond", Value: bson.D{
-			{Key: "$and", Value: []bson.D{
-				// Provides key/values is a subset of depends key/values
-				// i.e. each provides must match a depends key/value pair
-				{{Key: "$setIsSubset", Value: bson.A{
-					bson.D{{Key: "$literal", Value: providesDepends}},
-					"$$artifact.meta_artifact.depends",
+			{Key: "$eq", Value: bson.A{
+				// The set intersection of provides and depends must equal the
+				// number of unique depends keys.
+				// That is, for every depends, there must be a matching provides.
+				bson.D{{Key: "$size", Value: bson.D{
+					{Key: "$setIntersection", Value: bson.A{
+						"$$artifact.meta_artifact.depends",
+						bson.D{{Key: "$literal", Value: providesDB}},
+					}},
 				}}},
-				// Depends keys is subset of provides keys
-				// i.e. no depends keys are outside the set of provides
-				{{Key: "$setIsSubset", Value: bson.A{
-					"$$artifact.meta_artifact.depends.k",
-					bson.D{{Key: "$literal", Value: providesKeys}},
+				bson.D{{Key: "$size", Value: bson.D{
+					{Key: "$setUnion", Value: bson.A{"$$artifact.meta_artifact.depends.k"}},
 				}}},
 			}},
 		}},
