@@ -229,8 +229,14 @@ func TestGetDeploymentForDeviceWithCurrent(t *testing.T) {
 	// db.On("ImageByNameAndDeviceType", ctx, depArtifact, devType).Return(
 	// 	fakeImage, nil)
 	//
-	db.On("ImageForDeviceDeployment", ctx, []string{"foobar"}, devType, model.Provides(nil)).Return(
-		fakeImage, nil)
+	db.On("ImageForDeviceDeployment",
+		ctx,
+		[]string{"foobar"},
+		devType,
+		mock.MatchedBy(func(provides model.Provides) bool {
+			return assert.Equal(t, request.DeviceProvides.Provides, provides)
+		}),
+	).Return(fakeImage, nil)
 
 	db.On("AssignArtifact", ctx,
 		fakeDeviceDeployment.DeviceId,

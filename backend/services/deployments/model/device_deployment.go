@@ -432,3 +432,22 @@ func (i *InstalledDeviceDeployment) Validate() error {
 		validation.Field(&i.Provides, validation.Each(lengthIn1To4096)),
 	)
 }
+
+func (i *InstalledDeviceDeployment) MarshalJSON() ([]byte, error) {
+	if i.Provides == nil {
+		i.Provides = make(map[string]string)
+	}
+	i.Provides["artifact_name"] = i.ArtifactName
+	i.Provides["device_type"] = i.DeviceType
+	return json.Marshal(i.Provides)
+}
+
+func (i *InstalledDeviceDeployment) UnmarshalJSON(b []byte) error {
+	err := json.Unmarshal(b, &i.Provides)
+	if err != nil {
+		return err
+	}
+	i.ArtifactName = i.Provides["artifact_name"]
+	i.DeviceType = i.Provides["device_type"]
+	return nil
+}
