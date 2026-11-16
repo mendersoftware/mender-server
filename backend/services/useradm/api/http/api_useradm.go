@@ -26,6 +26,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 
 	"github.com/mendersoftware/mender-server/services/useradm/authz"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
@@ -269,6 +270,11 @@ func (u *UserAdmApiHandlers) CreateTenantUserHandler(c *gin.Context) {
 		rest.RenderError(c, http.StatusNotFound, errors.New("Entity not found"))
 		return
 	}
+	if err := rules.ObjectId(tenantId); err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
+
 	ctx = getTenantContext(ctx, tenantId)
 	err = u.userAdm.CreateUserInternal(ctx, user)
 	if err != nil {
