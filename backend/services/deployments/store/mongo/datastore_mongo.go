@@ -405,16 +405,9 @@ const (
 	StorageKeyDeploymentType                = "type"
 	StorageKeyDeploymentTotalSize           = "statistics.total_size"
 
-	StorageKeyStorageSettingsDefaultID      = "settings"
-	StorageKeyStorageSettingsBucket         = "bucket"
-	StorageKeyStorageSettingsRegion         = "region"
-	StorageKeyStorageSettingsKey            = "key"
-	StorageKeyStorageSettingsSecret         = "secret"
-	StorageKeyStorageSettingsURI            = "uri"
-	StorageKeyStorageSettingsExternalURI    = "external_uri"
-	StorageKeyStorageSettingsToken          = "token"
-	StorageKeyStorageSettingsForcePathStyle = "force_path_style"
-	StorageKeyStorageSettingsUseAccelerate  = "use_accelerate"
+	StorageKeySettingsStorage    = "storage"
+	StorageKeySettingsLimits     = "limits"
+	StorageKeySettingsLimitsName = "limits.name"
 
 	ArtifactDependsDeviceType = "device_type"
 )
@@ -577,15 +570,13 @@ func (db *DataStoreMongo) GetReleases(
 func (db *DataStoreMongo) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
 	collLim := db.database.Collection(CollectionSettings)
 
-	var result struct {
-		Limits []model.Limit `bson:"limits"`
-	}
+	var result Settings
 	err := collLim.FindOne(ctx,
 		bson.M{
-			"_id":         identity.FromContext(ctx).GetTenantID(),
-			"limits.name": name,
+			"_id":                        identity.FromContext(ctx).GetTenantID(),
+			StorageKeySettingsLimitsName: name,
 		},
-		mopts.FindOne().SetProjection(bson.M{"limits.$": 1}),
+		mopts.FindOne().SetProjection(bson.M{StorageKeySettingsLimits + ".$": 1}),
 	).Decode(&result)
 
 	if errors.Is(err, mongo.ErrNoDocuments) {
@@ -602,7 +593,7 @@ func (db *DataStoreMongo) GetLimit(ctx context.Context, name string) (*model.Lim
 func (db *DataStoreMongo) SetLimit(ctx context.Context, lim model.Limit) error {
 	collLim := db.database.Collection(CollectionSettings)
 	pipeline := mongo.Pipeline{
-		{{Key: "$set", Value: bson.M{"limits": bson.M{
+		{{Key: "$set", Value: bson.M{StorageKeySettingsLimits: bson.M{
 			"$concatArrays": bson.A{
 				bson.M{"$filter": bson.M{
 					"input": bson.M{"$ifNull": bson.A{"$limits", bson.A{}}},
@@ -2689,6 +2680,7 @@ func (db *DataStoreMongo) ExistByArtifactId(ctx context.Context,
 
 type Settings struct {
 	Storage  *model.StorageSettings `bson:"storage,omitempty"`
+	Limits   []model.Limit          `bson:"limits,omitempty"`
 	TenantID string                 `bson:"_id"`
 }
 
@@ -2700,7 +2692,7 @@ func (db *DataStoreMongo) GetStorageSettings(ctx context.Context) (*model.Storag
 		TenantID: identity.FromContext(ctx).GetTenantID(),
 	}
 	if err := collection.FindOne(ctx, settings, mopts.FindOne().
-		SetProjection(bson.M{"storage": 1})).
+		SetProjection(bson.M{StorageKeySettingsStorage: 1})).
 		Decode(&settings); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, nil
@@ -2722,7 +2714,7 @@ func (db *DataStoreMongo) SetStorageSettings(
 
 	tenantID := identity.FromContext(ctx).GetTenantID()
 	update := bson.D{{Key: "$set", Value: bson.D{
-		{Key: "storage", Value: storageSettings},
+		{Key: StorageKeySettingsStorage, Value: storageSettings},
 	}}}
 	_, err = collection.UpdateByID(ctx, tenantID, update, mopts.UpdateOne().
 		SetUpsert(true))
