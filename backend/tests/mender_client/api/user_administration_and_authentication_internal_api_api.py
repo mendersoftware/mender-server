@@ -44,7 +44,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def create_user_internal(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(min_length=24, strict=True, max_length=24, description="Tenant ID.")],
         user_new_internal: Annotated[UserNewInternal, Field(description="New user data.")],
         _request_timeout: Union[
             None,
@@ -118,7 +118,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def create_user_internal_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(min_length=24, strict=True, max_length=24, description="Tenant ID.")],
         user_new_internal: Annotated[UserNewInternal, Field(description="New user data.")],
         _request_timeout: Union[
             None,
@@ -192,7 +192,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def create_user_internal_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(min_length=24, strict=True, max_length=24, description="Tenant ID.")],
         user_new_internal: Annotated[UserNewInternal, Field(description="New user data.")],
         _request_timeout: Union[
             None,

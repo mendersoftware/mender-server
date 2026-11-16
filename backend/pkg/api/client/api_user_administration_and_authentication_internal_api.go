@@ -184,6 +184,12 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) < 24 {
+		return nil, reportError("tenantId must have at least 24 elements")
+	}
+	if strlen(r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
+	}
 	if r.userNewInternal == nil {
 		return nil, reportError("userNewInternal is required and must be specified")
 	}
