@@ -1,6 +1,6 @@
 attrs==26.1.0
 azure-cli==2.92.0
-boto3==1.44.0
+boto3==1.44.3
 certifi==2026.10.23
 cffi==2.1.1
 cryptography==48.0.1
@@ -15,8 +15,8 @@ Pillow==12.3.0
 pluggy==1.7.0
 py==1.11.0
 pycparser==3.12
-pymongo==4.19.0
-pyotp==2.10.0
+pymongo==4.20.0
+pyotp==2.11.2
 pyparsing==3.3.3
 pytest==9.2.0
 pytest-forked==1.7.5

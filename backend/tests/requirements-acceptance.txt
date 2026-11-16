@@ -1,5 +1,5 @@
 bravado==12.0.1
-boto3==1.44.0
+boto3==1.44.3
 certifi >= 2026.5.20
 chardet >= 7.4.3
 crypto
@@ -12,14 +12,14 @@ jsonschema<5.0
 msgpack >= 1.1.2
 opensearch-py >= 3.2.0, < 4.0.0
 pluggy==1.7.0
-pymongo==4.19.0
+pymongo==4.20.0
 pytest-ordering==0.6
 pytest==9.2.0
 pyyaml
 redis==8.1.0
 redo==3.0.1
 requests==2.34.2
-semver==3.1.1
+semver==3.1.2
 stripe
 tornado
 twisted
