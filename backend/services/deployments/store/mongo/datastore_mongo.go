@@ -631,31 +631,6 @@ func (db *DataStoreMongo) ProvisionTenant(ctx context.Context, tenantId string) 
 
 //images
 
-// Exists checks if object with ID exists
-func (db *DataStoreMongo) Exists(ctx context.Context, id string) (bool, error) {
-	var result interface{}
-
-	if len(id) == 0 {
-		return false, ErrImagesStorageInvalidID
-	}
-
-	collImg := db.database.Collection(CollectionReleases)
-
-	if err := collImg.FindOne(ctx, bson.M{
-		StorageKeyReleaseArtifactsId: id,
-
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-	}).
-		Decode(&result); err != nil {
-		if err == mongo.ErrNoDocuments {
-			return false, nil
-		}
-		return false, err
-	}
-
-	return true, nil
-}
-
 // Update provided Image
 // Return false if not found
 func (db *DataStoreMongo) Update(ctx context.Context,
@@ -2084,26 +2059,6 @@ func (db *DataStoreMongo) InsertDeployment(
 	return nil
 }
 
-// Delete removed entry by ID
-// Noop on ID not found
-func (db *DataStoreMongo) DeleteDeployment(ctx context.Context, id string) error {
-
-	if len(id) == 0 {
-		return ErrStorageInvalidID
-	}
-
-	collDpl := db.database.Collection(CollectionDeployments)
-
-	if _, err := collDpl.DeleteOne(ctx, bson.M{
-		"_id":              id,
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-	}); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (db *DataStoreMongo) FindDeploymentByID(
 	ctx context.Context,
 	id string,
@@ -2568,41 +2523,6 @@ func (db *DataStoreMongo) findOptions(match model.Query) *mopts.FindOptionsBuild
 		options.SetLimit(DefaultDocumentLimit)
 	}
 	return options
-}
-
-// FindNewerActiveDeployments finds active deployments which were created
-// after createdAfter
-// Deprecated: No longer in use
-func (db *DataStoreMongo) FindNewerActiveDeployments(ctx context.Context,
-	createdAfter *time.Time, skip, limit int) ([]*model.Deployment, error) {
-
-	c := db.database.Collection(CollectionDeployments)
-
-	findQuery := bson.M{
-		StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-
-		StorageKeyDeploymentFinished: nil,
-		StorageKeyDeploymentCreated:  bson.M{"$gt": createdAfter},
-	}
-
-	findOptions := mopts.Find()
-	findOptions.SetSkip(int64(skip))
-	findOptions.SetLimit(int64(limit))
-
-	findOptions.SetSort(bson.D{{Key: StorageKeyDeploymentCreated, Value: 1}})
-	cursor, err := c.Find(ctx, findQuery, findOptions)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to get deployments")
-	}
-	defer cursor.Close(ctx)
-
-	var deployments []*model.Deployment
-
-	if err = cursor.All(ctx, &deployments); err != nil {
-		return nil, errors.Wrap(err, "failed to get deployments")
-	}
-
-	return deployments, nil
 }
 
 // FindNewerActiveDeployment finds active deployments which were created

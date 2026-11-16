@@ -53,7 +53,6 @@ type DataStore interface {
 	ProvisionTenant(ctx context.Context, tenantId string) error
 
 	// images
-	Exists(ctx context.Context, id string) (bool, error)
 	Update(ctx context.Context, image *model.Image) (bool, error)
 	FindImageByID(ctx context.Context, id string) (*model.Image, error)
 	ListImages(ctx context.Context, filt *model.ReleaseOrImageFilter) ([]*model.Image, int, error)
@@ -134,7 +133,6 @@ type DataStore interface {
 
 	// deployments
 	InsertDeployment(ctx context.Context, deployment model.Deployment) error
-	DeleteDeployment(ctx context.Context, id string) error
 	FindDeploymentByID(ctx context.Context, id string) (*model.Deployment, error)
 	FindDeploymentStatsByIDs(ctx context.Context, ids ...string) ([]*model.DeploymentStats, error)
 	FindUnfinishedByID(ctx context.Context,
@@ -159,8 +157,6 @@ type DataStore interface {
 	) error
 	FindNewerActiveDeployment(ctx context.Context,
 		createdAfter *time.Time, deviceID string) (*model.Deployment, error)
-	FindNewerActiveDeployments(ctx context.Context,
-		createdAfter *time.Time, skip, limit int) ([]*model.Deployment, error)
 	ExistUnfinishedByArtifactId(ctx context.Context, id string) (bool, error)
 	ExistUnfinishedByArtifactName(ctx context.Context, artifactName string) (bool, error)
 	ExistByArtifactId(ctx context.Context, id string) (bool, error)
