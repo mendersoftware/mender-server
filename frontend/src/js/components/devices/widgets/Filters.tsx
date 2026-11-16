@@ -23,6 +23,7 @@ import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEVICE_FILTERING_OPTIONS, emptyFilter } from '@northern.tech/store/constants';
+import type { DeviceFilter } from '@northern.tech/store/devicesSlice';
 import {
   getDeviceFilters,
   getEnabledTiers,
@@ -47,6 +48,9 @@ export const getFilterLabelByKey = (key, attributes) => {
 };
 
 const MAX_PREVIOUS_FILTERS_COUNT = 3;
+
+const filterDefinedFilters = (filters: DeviceFilter[]) =>
+  filters.filter(filtersFilter).filter(item => item.key && (item.value !== '' || DEVICE_FILTERING_OPTIONS[item.operator]?.value !== undefined));
 
 export const Filters = ({ className = '', onGroupClick, open }) => {
   const [reset, setReset] = useState(false);
@@ -79,7 +83,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
 
   const handleFilterChange = useCallback(
     filters => {
-      const activeFilters = filters.filter(filtersFilter).filter(item => item.value !== '');
+      const activeFilters = filterDefinedFilters(filters);
       dispatch(setDeviceFilters(activeFilters));
       dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: undefined }));
     },
@@ -89,7 +93,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   // We want to preview the resulting list while user types / selects a filter before saving
   const applyPreviewFilter = useCallback(
     updatedFilter => {
-      const activeFilters = [...filters, updatedFilter].filter(filtersFilter).filter(item => item.key && item.value !== '');
+      const activeFilters = filterDefinedFilters([...filters, updatedFilter]);
       dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: activeFilters }));
     },
     [dispatch, filters]
@@ -122,7 +126,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
 
   const onAddClick = () => updateFilter(newFilter);
 
-  const isFilterDefined = Object.values(newFilter).every(thing => !!thing);
+  const isFilterDefined = newFilter.key && newFilter.operator && (newFilter.value || DEVICE_FILTERING_OPTIONS[newFilter.operator].value !== undefined);
   const currentFilters = filters.filter(filtersFilter);
   const isFiltering = !!currentFilters.length || isFilterDefined;
   return (

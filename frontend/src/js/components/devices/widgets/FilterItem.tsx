@@ -258,12 +258,7 @@ export const FilterItem = ({ attributes, enabledTiers, onChange, onSelect, reset
     }
   };
 
-  const updateFilterOperator = ({ target: { value: changedOperator } }) => {
-    const newOperator = DEVICE_FILTERING_OPTIONS[changedOperator] || {};
-    const opValue = newOperator.value ?? (operator.includes('exists') ? '' : value) ?? '';
-    setOperator(changedOperator);
-    setValue(specialAttributeFilter ? specialAttributeFilter.coerceValue(opValue) : opValue);
-  };
+  const updateFilterOperator = ({ target: { value: changedOperator } }) => setOperator(changedOperator);
 
   const removeFilter = useCallback(() => {
     setKey(emptyFilter.key);
