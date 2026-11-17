@@ -18,6 +18,8 @@ from mender_client.models.aws_credentials import AWSCredentials
 from mender_client.models.aws_credentials_aws import AWSCredentialsAws
 from mender_client.models.abort_deployment_request import AbortDeploymentRequest
 from mender_client.models.add_devices_to_group200_response import AddDevicesToGroup200Response
+from mender_client.models.artifact import Artifact
+from mender_client.models.artifact_artifact_depends_value import ArtifactArtifactDependsValue
 from mender_client.models.artifact_info import ArtifactInfo
 from mender_client.models.artifact_link import ArtifactLink
 from mender_client.models.artifact_type_info import ArtifactTypeInfo
@@ -69,8 +71,6 @@ from mender_client.models.device_update import DeviceUpdate
 from mender_client.models.device_with_image import DeviceWithImage
 from mender_client.models.device_with_image_image import DeviceWithImageImage
 from mender_client.models.device_with_image_image_meta import DeviceWithImageImageMeta
-from mender_client.models.device_with_image_image_meta_artifact import DeviceWithImageImageMetaArtifact
-from mender_client.models.device_with_image_image_meta_artifact_artifact_depends_value import DeviceWithImageImageMetaArtifactArtifactDependsValue
 from mender_client.models.direct_upload_metadata import DirectUploadMetadata
 from mender_client.models.error import Error
 from mender_client.models.error_ext import ErrorExt

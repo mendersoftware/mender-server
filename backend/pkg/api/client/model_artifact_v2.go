@@ -22,9 +22,7 @@ var _ MappedNullable = &ArtifactV2{}
 
 // ArtifactV2 Detailed artifact.
 type ArtifactV2 struct {
-	Id string `json:"id"`
 	Name string `json:"name"`
-	Description string `json:"description"`
 	// An array of compatible device types.
 	DeviceTypesCompatible []string `json:"device_types_compatible"`
 	Info *ArtifactInfo `json:"info,omitempty"`
@@ -33,10 +31,12 @@ type ArtifactV2 struct {
 	Updates []Update `json:"updates,omitempty"`
 	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. 
 	ArtifactProvides *map[string]string `json:"artifact_provides,omitempty"`
-	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. 
-	ArtifactDepends *map[string][]string `json:"artifact_depends,omitempty"`
+	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. 
+	ArtifactDepends map[string]ArtifactArtifactDependsValue `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
+	Id string `json:"id"`
+	Description string `json:"description"`
 	// Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed). 
 	Size *int32 `json:"size,omitempty"`
 	// Represents creation / last edition of any of the artifact properties. 
@@ -50,12 +50,12 @@ type _ArtifactV2 ArtifactV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewArtifactV2(id string, name string, description string, deviceTypesCompatible []string, modified time.Time) *ArtifactV2 {
+func NewArtifactV2(name string, deviceTypesCompatible []string, id string, description string, modified time.Time) *ArtifactV2 {
 	this := ArtifactV2{}
-	this.Id = id
 	this.Name = name
-	this.Description = description
 	this.DeviceTypesCompatible = deviceTypesCompatible
+	this.Id = id
+	this.Description = description
 	this.Modified = modified
 	return &this
 }
@@ -66,30 +66,6 @@ func NewArtifactV2(id string, name string, description string, deviceTypesCompat
 func NewArtifactV2WithDefaults() *ArtifactV2 {
 	this := ArtifactV2{}
 	return &this
-}
-
-// GetId returns the Id field value
-func (o *ArtifactV2) GetId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value
-// and a boolean to check if the value has been set.
-func (o *ArtifactV2) GetIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Id, true
-}
-
-// SetId sets field value
-func (o *ArtifactV2) SetId(v string) {
-	o.Id = v
 }
 
 // GetName returns the Name field value
@@ -114,30 +90,6 @@ func (o *ArtifactV2) GetNameOk() (*string, bool) {
 // SetName sets field value
 func (o *ArtifactV2) SetName(v string) {
 	o.Name = v
-}
-
-// GetDescription returns the Description field value
-func (o *ArtifactV2) GetDescription() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Description
-}
-
-// GetDescriptionOk returns a tuple with the Description field value
-// and a boolean to check if the value has been set.
-func (o *ArtifactV2) GetDescriptionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Description, true
-}
-
-// SetDescription sets field value
-func (o *ArtifactV2) SetDescription(v string) {
-	o.Description = v
 }
 
 // GetDeviceTypesCompatible returns the DeviceTypesCompatible field value
@@ -293,19 +245,19 @@ func (o *ArtifactV2) SetArtifactProvides(v map[string]string) {
 }
 
 // GetArtifactDepends returns the ArtifactDepends field value if set, zero value otherwise.
-func (o *ArtifactV2) GetArtifactDepends() map[string][]string {
+func (o *ArtifactV2) GetArtifactDepends() map[string]ArtifactArtifactDependsValue {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		var ret map[string][]string
+		var ret map[string]ArtifactArtifactDependsValue
 		return ret
 	}
-	return *o.ArtifactDepends
+	return o.ArtifactDepends
 }
 
 // GetArtifactDependsOk returns a tuple with the ArtifactDepends field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArtifactV2) GetArtifactDependsOk() (*map[string][]string, bool) {
+func (o *ArtifactV2) GetArtifactDependsOk() (map[string]ArtifactArtifactDependsValue, bool) {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		return nil, false
+		return map[string]ArtifactArtifactDependsValue{}, false
 	}
 	return o.ArtifactDepends, true
 }
@@ -319,9 +271,9 @@ func (o *ArtifactV2) HasArtifactDepends() bool {
 	return false
 }
 
-// SetArtifactDepends gets a reference to the given map[string][]string and assigns it to the ArtifactDepends field.
-func (o *ArtifactV2) SetArtifactDepends(v map[string][]string) {
-	o.ArtifactDepends = &v
+// SetArtifactDepends gets a reference to the given map[string]ArtifactArtifactDependsValue and assigns it to the ArtifactDepends field.
+func (o *ArtifactV2) SetArtifactDepends(v map[string]ArtifactArtifactDependsValue) {
+	o.ArtifactDepends = v
 }
 
 // GetClearsArtifactProvides returns the ClearsArtifactProvides field value if set, zero value otherwise.
@@ -354,6 +306,54 @@ func (o *ArtifactV2) HasClearsArtifactProvides() bool {
 // SetClearsArtifactProvides gets a reference to the given []string and assigns it to the ClearsArtifactProvides field.
 func (o *ArtifactV2) SetClearsArtifactProvides(v []string) {
 	o.ClearsArtifactProvides = v
+}
+
+// GetId returns the Id field value
+func (o *ArtifactV2) GetId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value
+// and a boolean to check if the value has been set.
+func (o *ArtifactV2) GetIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Id, true
+}
+
+// SetId sets field value
+func (o *ArtifactV2) SetId(v string) {
+	o.Id = v
+}
+
+// GetDescription returns the Description field value
+func (o *ArtifactV2) GetDescription() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value
+// and a boolean to check if the value has been set.
+func (o *ArtifactV2) GetDescriptionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Description, true
+}
+
+// SetDescription sets field value
+func (o *ArtifactV2) SetDescription(v string) {
+	o.Description = v
 }
 
 // GetSize returns the Size field value if set, zero value otherwise.
@@ -422,9 +422,7 @@ func (o ArtifactV2) MarshalJSON() ([]byte, error) {
 
 func (o ArtifactV2) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
-	toSerialize["description"] = o.Description
 	toSerialize["device_types_compatible"] = o.DeviceTypesCompatible
 	if !IsNil(o.Info) {
 		toSerialize["info"] = o.Info
@@ -444,6 +442,8 @@ func (o ArtifactV2) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ClearsArtifactProvides) {
 		toSerialize["clears_artifact_provides"] = o.ClearsArtifactProvides
 	}
+	toSerialize["id"] = o.Id
+	toSerialize["description"] = o.Description
 	if !IsNil(o.Size) {
 		toSerialize["size"] = o.Size
 	}
@@ -461,10 +461,10 @@ func (o *ArtifactV2) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"id",
 		"name",
-		"description",
 		"device_types_compatible",
+		"id",
+		"description",
 		"modified",
 	}
 
@@ -495,9 +495,7 @@ func (o *ArtifactV2) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "id")
 		delete(additionalProperties, "name")
-		delete(additionalProperties, "description")
 		delete(additionalProperties, "device_types_compatible")
 		delete(additionalProperties, "info")
 		delete(additionalProperties, "signed")
@@ -505,6 +503,8 @@ func (o *ArtifactV2) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "artifact_provides")
 		delete(additionalProperties, "artifact_depends")
 		delete(additionalProperties, "clears_artifact_provides")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "description")
 		delete(additionalProperties, "size")
 		delete(additionalProperties, "modified")
 		o.AdditionalProperties = additionalProperties

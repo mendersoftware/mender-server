@@ -20,15 +20,15 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from mender_client.models.artifact_artifact_depends_value import ArtifactArtifactDependsValue
 from mender_client.models.artifact_info import ArtifactInfo
-from mender_client.models.device_with_image_image_meta_artifact_artifact_depends_value import DeviceWithImageImageMetaArtifactArtifactDependsValue
 from mender_client.models.update import Update
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DeviceWithImageImageMetaArtifact(BaseModel):
+class Artifact(BaseModel):
     """
-    DeviceWithImageImageMetaArtifact
+    Properties common to all artifact representations, as read from the artifact's header. 
     """ # noqa: E501
     name: Optional[StrictStr] = None
     device_types_compatible: Optional[List[StrictStr]] = Field(default=None, description="An array of compatible device types.")
@@ -36,7 +36,7 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
     signed: Optional[StrictBool] = Field(default=None, description="Idicates if artifact is signed or not.")
     updates: Optional[List[Update]] = None
     artifact_provides: Optional[Dict[str, StrictStr]] = Field(default=None, description="List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. ")
-    artifact_depends: Optional[Dict[str, DeviceWithImageImageMetaArtifactArtifactDependsValue]] = Field(default=None, description="List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. ")
+    artifact_depends: Optional[Dict[str, ArtifactArtifactDependsValue]] = Field(default=None, description="List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. ")
     clears_artifact_provides: Optional[List[StrictStr]] = Field(default=None, description="List of Clear Artifact provides.")
     __properties: ClassVar[List[str]] = ["name", "device_types_compatible", "info", "signed", "updates", "artifact_provides", "artifact_depends", "clears_artifact_provides"]
 
@@ -58,7 +58,7 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DeviceWithImageImageMetaArtifact from a JSON string"""
+        """Create an instance of Artifact from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -100,7 +100,7 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DeviceWithImageImageMetaArtifact from a dict"""
+        """Create an instance of Artifact from a dict"""
         if obj is None:
             return None
 
@@ -115,7 +115,7 @@ class DeviceWithImageImageMetaArtifact(BaseModel):
             "updates": [Update.from_dict(_item) for _item in obj["updates"]] if obj.get("updates") is not None else None,
             "artifact_provides": obj.get("artifact_provides"),
             "artifact_depends": dict(
-                (_k, DeviceWithImageImageMetaArtifactArtifactDependsValue.from_dict(_v))
+                (_k, ArtifactArtifactDependsValue.from_dict(_v))
                 for _k, _v in obj["artifact_depends"].items()
             )
             if obj.get("artifact_depends") is not None

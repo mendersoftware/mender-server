@@ -32,6 +32,8 @@ mender_client/exceptions.py
 mender_client/models/__init__.py
 mender_client/models/abort_deployment_request.py
 mender_client/models/add_devices_to_group200_response.py
+mender_client/models/artifact.py
+mender_client/models/artifact_artifact_depends_value.py
 mender_client/models/artifact_info.py
 mender_client/models/artifact_link.py
 mender_client/models/artifact_type_info.py
@@ -85,8 +87,6 @@ mender_client/models/device_update.py
 mender_client/models/device_with_image.py
 mender_client/models/device_with_image_image.py
 mender_client/models/device_with_image_image_meta.py
-mender_client/models/device_with_image_image_meta_artifact.py
-mender_client/models/device_with_image_image_meta_artifact_artifact_depends_value.py
 mender_client/models/direct_upload_metadata.py
 mender_client/models/error.py
 mender_client/models/error_ext.py

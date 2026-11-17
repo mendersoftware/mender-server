@@ -21,6 +21,7 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from mender_client.models.artifact_artifact_depends_value import ArtifactArtifactDependsValue
 from mender_client.models.artifact_info import ArtifactInfo
 from mender_client.models.update import Update
 from typing import Optional, Set
@@ -30,19 +31,19 @@ class ArtifactV1(BaseModel):
     """
     Detailed artifact.
     """ # noqa: E501
-    id: StrictStr
     name: StrictStr
-    description: Optional[StrictStr] = None
     device_types_compatible: List[StrictStr] = Field(description="An array of compatible device types.")
     info: Optional[ArtifactInfo] = None
     signed: Optional[StrictBool] = Field(default=None, description="Idicates if artifact is signed or not.")
     updates: Optional[List[Update]] = None
     artifact_provides: Optional[Dict[str, StrictStr]] = Field(default=None, description="List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. ")
-    artifact_depends: Optional[Dict[str, List[StrictStr]]] = Field(default=None, description="List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. ")
+    artifact_depends: Optional[Dict[str, ArtifactArtifactDependsValue]] = Field(default=None, description="List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. ")
     clears_artifact_provides: Optional[List[StrictStr]] = Field(default=None, description="List of Clear Artifact provides.")
+    id: StrictStr
+    description: Optional[StrictStr] = None
     size: Optional[StrictInt] = Field(default=None, description="Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed). ")
     modified: datetime = Field(description="Represents creation / last edition of any of the artifact properties. ")
-    __properties: ClassVar[List[str]] = ["id", "name", "description", "device_types_compatible", "info", "signed", "updates", "artifact_provides", "artifact_depends", "clears_artifact_provides", "size", "modified"]
+    __properties: ClassVar[List[str]] = ["name", "device_types_compatible", "info", "signed", "updates", "artifact_provides", "artifact_depends", "clears_artifact_provides", "id", "description", "size", "modified"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,6 +94,13 @@ class ArtifactV1(BaseModel):
                 if _item_updates:
                     _items.append(_item_updates.to_dict())
             _dict['updates'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each value in artifact_depends (dict)
+        _field_dict = {}
+        if self.artifact_depends:
+            for _key_artifact_depends in self.artifact_depends:
+                if self.artifact_depends[_key_artifact_depends]:
+                    _field_dict[_key_artifact_depends] = self.artifact_depends[_key_artifact_depends].to_dict()
+            _dict['artifact_depends'] = _field_dict
         return _dict
 
     @classmethod
@@ -105,16 +113,21 @@ class ArtifactV1(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
             "name": obj.get("name"),
-            "description": obj.get("description"),
             "device_types_compatible": obj.get("device_types_compatible"),
             "info": ArtifactInfo.from_dict(obj["info"]) if obj.get("info") is not None else None,
             "signed": obj.get("signed"),
             "updates": [Update.from_dict(_item) for _item in obj["updates"]] if obj.get("updates") is not None else None,
             "artifact_provides": obj.get("artifact_provides"),
-            "artifact_depends": obj.get("artifact_depends"),
+            "artifact_depends": dict(
+                (_k, ArtifactArtifactDependsValue.from_dict(_v))
+                for _k, _v in obj["artifact_depends"].items()
+            )
+            if obj.get("artifact_depends") is not None
+            else None,
             "clears_artifact_provides": obj.get("clears_artifact_provides"),
+            "id": obj.get("id"),
+            "description": obj.get("description"),
             "size": obj.get("size"),
             "modified": obj.get("modified")
         })

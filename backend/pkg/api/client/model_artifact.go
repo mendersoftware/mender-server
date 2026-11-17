@@ -15,11 +15,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the DeviceWithImageImageMetaArtifact type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &DeviceWithImageImageMetaArtifact{}
+// checks if the Artifact type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Artifact{}
 
-// DeviceWithImageImageMetaArtifact struct for DeviceWithImageImageMetaArtifact
-type DeviceWithImageImageMetaArtifact struct {
+// Artifact Properties common to all artifact representations, as read from the artifact's header. 
+type Artifact struct {
 	Name *string `json:"name,omitempty"`
 	// An array of compatible device types.
 	DeviceTypesCompatible []string `json:"device_types_compatible,omitempty"`
@@ -30,33 +30,33 @@ type DeviceWithImageImageMetaArtifact struct {
 	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. 
 	ArtifactProvides *map[string]string `json:"artifact_provides,omitempty"`
 	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. 
-	ArtifactDepends map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue `json:"artifact_depends,omitempty"`
+	ArtifactDepends map[string]ArtifactArtifactDependsValue `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _DeviceWithImageImageMetaArtifact DeviceWithImageImageMetaArtifact
+type _Artifact Artifact
 
-// NewDeviceWithImageImageMetaArtifact instantiates a new DeviceWithImageImageMetaArtifact object
+// NewArtifact instantiates a new Artifact object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceWithImageImageMetaArtifact() *DeviceWithImageImageMetaArtifact {
-	this := DeviceWithImageImageMetaArtifact{}
+func NewArtifact() *Artifact {
+	this := Artifact{}
 	return &this
 }
 
-// NewDeviceWithImageImageMetaArtifactWithDefaults instantiates a new DeviceWithImageImageMetaArtifact object
+// NewArtifactWithDefaults instantiates a new Artifact object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewDeviceWithImageImageMetaArtifactWithDefaults() *DeviceWithImageImageMetaArtifact {
-	this := DeviceWithImageImageMetaArtifact{}
+func NewArtifactWithDefaults() *Artifact {
+	this := Artifact{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetName() string {
+func (o *Artifact) GetName() string {
 	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
@@ -66,7 +66,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetNameOk() (*string, bool) {
+func (o *Artifact) GetNameOk() (*string, bool) {
 	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
@@ -74,7 +74,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasName() bool {
+func (o *Artifact) HasName() bool {
 	if o != nil && !IsNil(o.Name) {
 		return true
 	}
@@ -83,12 +83,12 @@ func (o *DeviceWithImageImageMetaArtifact) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *DeviceWithImageImageMetaArtifact) SetName(v string) {
+func (o *Artifact) SetName(v string) {
 	o.Name = &v
 }
 
 // GetDeviceTypesCompatible returns the DeviceTypesCompatible field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetDeviceTypesCompatible() []string {
+func (o *Artifact) GetDeviceTypesCompatible() []string {
 	if o == nil || IsNil(o.DeviceTypesCompatible) {
 		var ret []string
 		return ret
@@ -98,7 +98,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetDeviceTypesCompatible() []string {
 
 // GetDeviceTypesCompatibleOk returns a tuple with the DeviceTypesCompatible field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetDeviceTypesCompatibleOk() ([]string, bool) {
+func (o *Artifact) GetDeviceTypesCompatibleOk() ([]string, bool) {
 	if o == nil || IsNil(o.DeviceTypesCompatible) {
 		return nil, false
 	}
@@ -106,7 +106,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetDeviceTypesCompatibleOk() ([]strin
 }
 
 // HasDeviceTypesCompatible returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasDeviceTypesCompatible() bool {
+func (o *Artifact) HasDeviceTypesCompatible() bool {
 	if o != nil && !IsNil(o.DeviceTypesCompatible) {
 		return true
 	}
@@ -115,12 +115,12 @@ func (o *DeviceWithImageImageMetaArtifact) HasDeviceTypesCompatible() bool {
 }
 
 // SetDeviceTypesCompatible gets a reference to the given []string and assigns it to the DeviceTypesCompatible field.
-func (o *DeviceWithImageImageMetaArtifact) SetDeviceTypesCompatible(v []string) {
+func (o *Artifact) SetDeviceTypesCompatible(v []string) {
 	o.DeviceTypesCompatible = v
 }
 
 // GetInfo returns the Info field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetInfo() ArtifactInfo {
+func (o *Artifact) GetInfo() ArtifactInfo {
 	if o == nil || IsNil(o.Info) {
 		var ret ArtifactInfo
 		return ret
@@ -130,7 +130,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetInfo() ArtifactInfo {
 
 // GetInfoOk returns a tuple with the Info field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetInfoOk() (*ArtifactInfo, bool) {
+func (o *Artifact) GetInfoOk() (*ArtifactInfo, bool) {
 	if o == nil || IsNil(o.Info) {
 		return nil, false
 	}
@@ -138,7 +138,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetInfoOk() (*ArtifactInfo, bool) {
 }
 
 // HasInfo returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasInfo() bool {
+func (o *Artifact) HasInfo() bool {
 	if o != nil && !IsNil(o.Info) {
 		return true
 	}
@@ -147,12 +147,12 @@ func (o *DeviceWithImageImageMetaArtifact) HasInfo() bool {
 }
 
 // SetInfo gets a reference to the given ArtifactInfo and assigns it to the Info field.
-func (o *DeviceWithImageImageMetaArtifact) SetInfo(v ArtifactInfo) {
+func (o *Artifact) SetInfo(v ArtifactInfo) {
 	o.Info = &v
 }
 
 // GetSigned returns the Signed field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetSigned() bool {
+func (o *Artifact) GetSigned() bool {
 	if o == nil || IsNil(o.Signed) {
 		var ret bool
 		return ret
@@ -162,7 +162,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetSigned() bool {
 
 // GetSignedOk returns a tuple with the Signed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetSignedOk() (*bool, bool) {
+func (o *Artifact) GetSignedOk() (*bool, bool) {
 	if o == nil || IsNil(o.Signed) {
 		return nil, false
 	}
@@ -170,7 +170,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetSignedOk() (*bool, bool) {
 }
 
 // HasSigned returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasSigned() bool {
+func (o *Artifact) HasSigned() bool {
 	if o != nil && !IsNil(o.Signed) {
 		return true
 	}
@@ -179,12 +179,12 @@ func (o *DeviceWithImageImageMetaArtifact) HasSigned() bool {
 }
 
 // SetSigned gets a reference to the given bool and assigns it to the Signed field.
-func (o *DeviceWithImageImageMetaArtifact) SetSigned(v bool) {
+func (o *Artifact) SetSigned(v bool) {
 	o.Signed = &v
 }
 
 // GetUpdates returns the Updates field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetUpdates() []Update {
+func (o *Artifact) GetUpdates() []Update {
 	if o == nil || IsNil(o.Updates) {
 		var ret []Update
 		return ret
@@ -194,7 +194,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetUpdates() []Update {
 
 // GetUpdatesOk returns a tuple with the Updates field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetUpdatesOk() ([]Update, bool) {
+func (o *Artifact) GetUpdatesOk() ([]Update, bool) {
 	if o == nil || IsNil(o.Updates) {
 		return nil, false
 	}
@@ -202,7 +202,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetUpdatesOk() ([]Update, bool) {
 }
 
 // HasUpdates returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasUpdates() bool {
+func (o *Artifact) HasUpdates() bool {
 	if o != nil && !IsNil(o.Updates) {
 		return true
 	}
@@ -211,12 +211,12 @@ func (o *DeviceWithImageImageMetaArtifact) HasUpdates() bool {
 }
 
 // SetUpdates gets a reference to the given []Update and assigns it to the Updates field.
-func (o *DeviceWithImageImageMetaArtifact) SetUpdates(v []Update) {
+func (o *Artifact) SetUpdates(v []Update) {
 	o.Updates = v
 }
 
 // GetArtifactProvides returns the ArtifactProvides field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetArtifactProvides() map[string]string {
+func (o *Artifact) GetArtifactProvides() map[string]string {
 	if o == nil || IsNil(o.ArtifactProvides) {
 		var ret map[string]string
 		return ret
@@ -226,7 +226,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetArtifactProvides() map[string]stri
 
 // GetArtifactProvidesOk returns a tuple with the ArtifactProvides field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetArtifactProvidesOk() (*map[string]string, bool) {
+func (o *Artifact) GetArtifactProvidesOk() (*map[string]string, bool) {
 	if o == nil || IsNil(o.ArtifactProvides) {
 		return nil, false
 	}
@@ -234,7 +234,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetArtifactProvidesOk() (*map[string]
 }
 
 // HasArtifactProvides returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasArtifactProvides() bool {
+func (o *Artifact) HasArtifactProvides() bool {
 	if o != nil && !IsNil(o.ArtifactProvides) {
 		return true
 	}
@@ -243,14 +243,14 @@ func (o *DeviceWithImageImageMetaArtifact) HasArtifactProvides() bool {
 }
 
 // SetArtifactProvides gets a reference to the given map[string]string and assigns it to the ArtifactProvides field.
-func (o *DeviceWithImageImageMetaArtifact) SetArtifactProvides(v map[string]string) {
+func (o *Artifact) SetArtifactProvides(v map[string]string) {
 	o.ArtifactProvides = &v
 }
 
 // GetArtifactDepends returns the ArtifactDepends field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetArtifactDepends() map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue {
+func (o *Artifact) GetArtifactDepends() map[string]ArtifactArtifactDependsValue {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		var ret map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue
+		var ret map[string]ArtifactArtifactDependsValue
 		return ret
 	}
 	return o.ArtifactDepends
@@ -258,15 +258,15 @@ func (o *DeviceWithImageImageMetaArtifact) GetArtifactDepends() map[string]Devic
 
 // GetArtifactDependsOk returns a tuple with the ArtifactDepends field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetArtifactDependsOk() (map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue, bool) {
+func (o *Artifact) GetArtifactDependsOk() (map[string]ArtifactArtifactDependsValue, bool) {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		return map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue{}, false
+		return map[string]ArtifactArtifactDependsValue{}, false
 	}
 	return o.ArtifactDepends, true
 }
 
 // HasArtifactDepends returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasArtifactDepends() bool {
+func (o *Artifact) HasArtifactDepends() bool {
 	if o != nil && !IsNil(o.ArtifactDepends) {
 		return true
 	}
@@ -274,13 +274,13 @@ func (o *DeviceWithImageImageMetaArtifact) HasArtifactDepends() bool {
 	return false
 }
 
-// SetArtifactDepends gets a reference to the given map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue and assigns it to the ArtifactDepends field.
-func (o *DeviceWithImageImageMetaArtifact) SetArtifactDepends(v map[string]DeviceWithImageImageMetaArtifactArtifactDependsValue) {
+// SetArtifactDepends gets a reference to the given map[string]ArtifactArtifactDependsValue and assigns it to the ArtifactDepends field.
+func (o *Artifact) SetArtifactDepends(v map[string]ArtifactArtifactDependsValue) {
 	o.ArtifactDepends = v
 }
 
 // GetClearsArtifactProvides returns the ClearsArtifactProvides field value if set, zero value otherwise.
-func (o *DeviceWithImageImageMetaArtifact) GetClearsArtifactProvides() []string {
+func (o *Artifact) GetClearsArtifactProvides() []string {
 	if o == nil || IsNil(o.ClearsArtifactProvides) {
 		var ret []string
 		return ret
@@ -290,7 +290,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetClearsArtifactProvides() []string 
 
 // GetClearsArtifactProvidesOk returns a tuple with the ClearsArtifactProvides field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImageMetaArtifact) GetClearsArtifactProvidesOk() ([]string, bool) {
+func (o *Artifact) GetClearsArtifactProvidesOk() ([]string, bool) {
 	if o == nil || IsNil(o.ClearsArtifactProvides) {
 		return nil, false
 	}
@@ -298,7 +298,7 @@ func (o *DeviceWithImageImageMetaArtifact) GetClearsArtifactProvidesOk() ([]stri
 }
 
 // HasClearsArtifactProvides returns a boolean if a field has been set.
-func (o *DeviceWithImageImageMetaArtifact) HasClearsArtifactProvides() bool {
+func (o *Artifact) HasClearsArtifactProvides() bool {
 	if o != nil && !IsNil(o.ClearsArtifactProvides) {
 		return true
 	}
@@ -307,11 +307,11 @@ func (o *DeviceWithImageImageMetaArtifact) HasClearsArtifactProvides() bool {
 }
 
 // SetClearsArtifactProvides gets a reference to the given []string and assigns it to the ClearsArtifactProvides field.
-func (o *DeviceWithImageImageMetaArtifact) SetClearsArtifactProvides(v []string) {
+func (o *Artifact) SetClearsArtifactProvides(v []string) {
 	o.ClearsArtifactProvides = v
 }
 
-func (o DeviceWithImageImageMetaArtifact) MarshalJSON() ([]byte, error) {
+func (o Artifact) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -319,7 +319,7 @@ func (o DeviceWithImageImageMetaArtifact) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o DeviceWithImageImageMetaArtifact) ToMap() (map[string]interface{}, error) {
+func (o Artifact) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
@@ -353,16 +353,16 @@ func (o DeviceWithImageImageMetaArtifact) ToMap() (map[string]interface{}, error
 	return toSerialize, nil
 }
 
-func (o *DeviceWithImageImageMetaArtifact) UnmarshalJSON(data []byte) (err error) {
-	varDeviceWithImageImageMetaArtifact := _DeviceWithImageImageMetaArtifact{}
+func (o *Artifact) UnmarshalJSON(data []byte) (err error) {
+	varArtifact := _Artifact{}
 
-	err = json.Unmarshal(data, &varDeviceWithImageImageMetaArtifact)
+	err = json.Unmarshal(data, &varArtifact)
 
 	if err != nil {
 		return err
 	}
 
-	*o = DeviceWithImageImageMetaArtifact(varDeviceWithImageImageMetaArtifact)
+	*o = Artifact(varArtifact)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -381,38 +381,38 @@ func (o *DeviceWithImageImageMetaArtifact) UnmarshalJSON(data []byte) (err error
 	return err
 }
 
-type NullableDeviceWithImageImageMetaArtifact struct {
-	value *DeviceWithImageImageMetaArtifact
+type NullableArtifact struct {
+	value *Artifact
 	isSet bool
 }
 
-func (v NullableDeviceWithImageImageMetaArtifact) Get() *DeviceWithImageImageMetaArtifact {
+func (v NullableArtifact) Get() *Artifact {
 	return v.value
 }
 
-func (v *NullableDeviceWithImageImageMetaArtifact) Set(val *DeviceWithImageImageMetaArtifact) {
+func (v *NullableArtifact) Set(val *Artifact) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDeviceWithImageImageMetaArtifact) IsSet() bool {
+func (v NullableArtifact) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDeviceWithImageImageMetaArtifact) Unset() {
+func (v *NullableArtifact) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDeviceWithImageImageMetaArtifact(val *DeviceWithImageImageMetaArtifact) *NullableDeviceWithImageImageMetaArtifact {
-	return &NullableDeviceWithImageImageMetaArtifact{value: val, isSet: true}
+func NewNullableArtifact(val *Artifact) *NullableArtifact {
+	return &NullableArtifact{value: val, isSet: true}
 }
 
-func (v NullableDeviceWithImageImageMetaArtifact) MarshalJSON() ([]byte, error) {
+func (v NullableArtifact) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDeviceWithImageImageMetaArtifact) UnmarshalJSON(src []byte) error {
+func (v *NullableArtifact) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -24,7 +24,7 @@ type DeviceWithImageImage struct {
 	// Image ID
 	Id *string `json:"id,omitempty"`
 	Meta *DeviceWithImageImageMeta `json:"meta,omitempty"`
-	MetaArtifact *DeviceWithImageImageMetaArtifact `json:"meta_artifact,omitempty"`
+	MetaArtifact *Artifact `json:"meta_artifact,omitempty"`
 	// Image size in bytes
 	Size *int32 `json:"size,omitempty"`
 	// Creation / last edition of any of the artifact properties
@@ -116,9 +116,9 @@ func (o *DeviceWithImageImage) SetMeta(v DeviceWithImageImageMeta) {
 }
 
 // GetMetaArtifact returns the MetaArtifact field value if set, zero value otherwise.
-func (o *DeviceWithImageImage) GetMetaArtifact() DeviceWithImageImageMetaArtifact {
+func (o *DeviceWithImageImage) GetMetaArtifact() Artifact {
 	if o == nil || IsNil(o.MetaArtifact) {
-		var ret DeviceWithImageImageMetaArtifact
+		var ret Artifact
 		return ret
 	}
 	return *o.MetaArtifact
@@ -126,7 +126,7 @@ func (o *DeviceWithImageImage) GetMetaArtifact() DeviceWithImageImageMetaArtifac
 
 // GetMetaArtifactOk returns a tuple with the MetaArtifact field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceWithImageImage) GetMetaArtifactOk() (*DeviceWithImageImageMetaArtifact, bool) {
+func (o *DeviceWithImageImage) GetMetaArtifactOk() (*Artifact, bool) {
 	if o == nil || IsNil(o.MetaArtifact) {
 		return nil, false
 	}
@@ -142,8 +142,8 @@ func (o *DeviceWithImageImage) HasMetaArtifact() bool {
 	return false
 }
 
-// SetMetaArtifact gets a reference to the given DeviceWithImageImageMetaArtifact and assigns it to the MetaArtifact field.
-func (o *DeviceWithImageImage) SetMetaArtifact(v DeviceWithImageImageMetaArtifact) {
+// SetMetaArtifact gets a reference to the given Artifact and assigns it to the MetaArtifact field.
+func (o *DeviceWithImageImage) SetMetaArtifact(v Artifact) {
 	o.MetaArtifact = &v
 }
 
