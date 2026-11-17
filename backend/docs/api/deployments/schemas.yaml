@@ -59,22 +59,28 @@ components:
             Map of key/value pairs, where both keys and values are strings.
           type: object
         artifact_depends:
-          additionalProperties:
-            anyOf:
-              - type: array
-                items:
-                  type: string
-              - type: string
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are strings or lists of strings.
-          type: object
+          $ref: '#/components/schemas/ArtifactDepends'
         clears_artifact_provides:
           description: List of Clear Artifact provides.
           items:
             type: string
           type: array
+      type: object
+    ArtifactDependsValue:
+      description: |
+        Value of a single Artifact depends entry: either a string or a list of strings.
+      anyOf:
+        - type: array
+          items:
+            type: string
+        - type: string
+    ArtifactDepends:
+      description: |
+        List of Artifact depends.
+
+        Map of key/value pairs, where keys are strings and values are strings or lists of strings.
+      additionalProperties:
+        $ref: '#/components/schemas/ArtifactDependsValue'
       type: object
     ArtifactInfo:
       description: Information about artifact format and version.

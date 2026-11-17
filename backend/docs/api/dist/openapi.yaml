@@ -8124,6 +8124,22 @@ components:
         meta_data:
           $ref: '#/components/schemas/MetadataAnyDeprecated'
       type: object
+    ArtifactDependsValue:
+      description: |
+        Value of a single Artifact depends entry: either a string or a list of strings.
+      anyOf:
+        - type: array
+          items:
+            type: string
+        - type: string
+    ArtifactDepends:
+      description: |
+        List of Artifact depends.
+
+        Map of key/value pairs, where keys are strings and values are strings or lists of strings.
+      additionalProperties:
+        $ref: '#/components/schemas/ArtifactDependsValue'
+      type: object
     DeviceWithImageImageMetaArtifact:
       properties:
         name:
@@ -8151,17 +8167,7 @@ components:
             Map of key/value pairs, where both keys and values are strings.
           type: object
         artifact_depends:
-          additionalProperties:
-            anyOf:
-              - type: array
-                items:
-                  type: string
-              - type: string
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are strings or lists of strings.
-          type: object
+          $ref: '#/components/schemas/ArtifactDepends'
         clears_artifact_provides:
           description: List of Clear Artifact provides.
           items:
@@ -8487,65 +8493,28 @@ components:
           - rootfs-image.*
         size: 36891648
         modified: '2016-03-11T13:03:17.063493443Z'
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        device_types_compatible:
-          description: An array of compatible device types.
-          items:
-            type: string
-          type: array
-        info:
-          $ref: '#/components/schemas/ArtifactInfo'
-        signed:
-          description: Idicates if artifact is signed or not.
-          type: boolean
-        updates:
-          items:
-            $ref: '#/components/schemas/Update'
-          type: array
-        artifact_provides:
-          additionalProperties:
-            type: string
-          description: |
-            List of Artifact provides.
-
-            Map of key/value pairs, where both keys and values are strings.
-          type: object
-        artifact_depends:
-          additionalProperties:
-            items:
+      allOf:
+        - $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
+        - properties:
+            id:
               type: string
-            type: array
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are lists of strings.
+            description:
+              type: string
+            size:
+              description: |
+                Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
+              type: integer
+            modified:
+              description: |
+                Represents creation / last edition of any of the artifact properties.
+              format: date-time
+              type: string
+          required:
+            - device_types_compatible
+            - id
+            - modified
+            - name
           type: object
-        clears_artifact_provides:
-          description: List of Clear Artifact provides.
-          items:
-            type: string
-          type: array
-        size:
-          description: |
-            Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
-          type: integer
-        modified:
-          description: |
-            Represents creation / last edition of any of the artifact properties.
-          format: date-time
-          type: string
-      required:
-        - device_types_compatible
-        - id
-        - modified
-        - name
-      type: object
     ArtifactLink:
       description: URL for artifact file download.
       example:
@@ -9078,66 +9047,29 @@ components:
           - rootfs-image.*
         size: 36891648
         modified: '2016-03-11T13:03:17.063493443Z'
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        device_types_compatible:
-          description: An array of compatible device types.
-          items:
-            type: string
-          type: array
-        info:
-          $ref: '#/components/schemas/ArtifactInfo'
-        signed:
-          description: Idicates if artifact is signed or not.
-          type: boolean
-        updates:
-          items:
-            $ref: '#/components/schemas/Update'
-          type: array
-        artifact_provides:
-          additionalProperties:
-            type: string
-          description: |
-            List of Artifact provides.
-
-            Map of key/value pairs, where both keys and values are strings.
-          type: object
-        artifact_depends:
-          additionalProperties:
-            items:
+      allOf:
+        - $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
+        - properties:
+            id:
               type: string
-            type: array
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are lists of strings.
+            description:
+              type: string
+            size:
+              description: |
+                Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
+              type: integer
+            modified:
+              description: |
+                Represents creation / last edition of any of the artifact properties.
+              format: date-time
+              type: string
+          required:
+            - description
+            - device_types_compatible
+            - id
+            - modified
+            - name
           type: object
-        clears_artifact_provides:
-          description: List of Clear Artifact provides.
-          items:
-            type: string
-          type: array
-        size:
-          description: |
-            Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
-          type: integer
-        modified:
-          description: |
-            Represents creation / last edition of any of the artifact properties.
-          format: date-time
-          type: string
-      required:
-        - description
-        - device_types_compatible
-        - id
-        - modified
-        - name
-      type: object
     ReleasesV2:
       description: List of releases
       items:
