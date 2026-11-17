@@ -32,7 +32,10 @@ components:
           description: "Note that for emtpy Artifacts, the type is 'null'"
           type: string
       type: object
-    DeviceWithImageImageMetaArtifact:
+    Artifact:
+      description: |
+        Properties common to all artifact representations, as read from the
+        artifact's header.
       properties:
         name:
           type: string
@@ -129,7 +132,7 @@ components:
         meta:
           $ref: '#/components/schemas/DeviceWithImageImageMeta'
         meta_artifact:
-          $ref: '#/components/schemas/DeviceWithImageImageMetaArtifact'
+          $ref: '#/components/schemas/Artifact'
         size:
           description: Image size in bytes
           type: integer
