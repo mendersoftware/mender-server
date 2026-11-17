@@ -948,6 +948,7 @@ publish:backend:docker:
     - if: '$CI_COMMIT_BRANCH =~ /^(main|v?[0-9]+\.[0-9]+\.[0-9x]+)$/'
       when: on_success
     - when: never
+  dependencies: []
   before_script:
     - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
@@ -991,6 +992,7 @@ publish:backend:licenses:
   image: ${MIRROR_REGISTRY}/library/golang:${GOLANG_VERSION}
   variables:
     GOFLAGS: -tags=nopkcs11
+  dependencies: []
   before_script:
     - !reference [.qa-common-network-go-retry, before_script]
     - go install github.com/google/go-licenses@v1.6.0
@@ -1081,6 +1083,7 @@ changelog:
       when: manual
       allow_failure: true
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH != ""
+  dependencies: []
   before_script:
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
@@ -1186,6 +1189,7 @@ release:mender-docs-changelog:
       allow_failure: true
   variables:
     GH_APP_PERMISSIONS: '{"contents":"write","pull_requests":"write"}'
+  dependencies: []
   before_script:
     - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
