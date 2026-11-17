@@ -74,7 +74,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /next/i }).click();
       // still on /login page plus an error is displayed
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
-      await page.getByText(/Incorrect email address/).waitFor({ timeout: timeouts.default });
+      await page.getByText(/Incorrect email.*or two-factor/).waitFor({ timeout: timeouts.default });
       await context.close();
     });
     test('allows turning 2fa off again', async ({ baseUrl, browser, environment, password, username }) => {
