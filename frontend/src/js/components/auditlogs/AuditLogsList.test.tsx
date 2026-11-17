@@ -86,6 +86,28 @@ describe('AuditlogsList Component', () => {
     expect(getRow('gone artifact').queryByRole('link')).not.toBeInTheDocument();
     expect(getRow('gone release').queryByRole('link')).not.toBeInTheDocument();
   });
+  it('renders entries of admin actors as support actions', async () => {
+    const adminEvent = {
+      actor: { id: 'admin@northern.tech', type: 'admin', email: 'admin@northern.tech' },
+      time: '2019-01-01T12:26:22.667Z',
+      action: 'update',
+      change: 'updated device limits',
+      object: { id: 't1', type: 'tenant', tenant: { id: 't1', name: 'some tenant' } }
+    };
+    render(
+      <AuditLogsList
+        items={[adminEvent]}
+        onChangeRowsPerPage={vi.fn}
+        onChangePage={vi.fn}
+        onChangeSorting={vi.fn}
+        selectionState={state.organization.auditlog.selectionState}
+        userCapabilities={adminUserCapabilities}
+        auditLogColumns={[{ title: 'Performed by', sortable: false, render: UserDescriptor }]}
+      />,
+      { state }
+    );
+    expect(screen.getByText('Mender support (admin@northern.tech)')).toBeVisible();
+  });
   it('renders personal access token entries', async () => {
     renderList();
     expect(getRow('my token').getByText('Created PAT my token (t1).')).toBeVisible();
