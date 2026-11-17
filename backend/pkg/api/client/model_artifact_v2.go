@@ -33,8 +33,8 @@ type ArtifactV2 struct {
 	Updates []Update `json:"updates,omitempty"`
 	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. 
 	ArtifactProvides *map[string]string `json:"artifact_provides,omitempty"`
-	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. 
-	ArtifactDepends *map[string][]string `json:"artifact_depends,omitempty"`
+	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are strings or lists of strings. 
+	ArtifactDepends map[string]ArtifactDependsValue `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
 	// Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed). 
@@ -293,19 +293,19 @@ func (o *ArtifactV2) SetArtifactProvides(v map[string]string) {
 }
 
 // GetArtifactDepends returns the ArtifactDepends field value if set, zero value otherwise.
-func (o *ArtifactV2) GetArtifactDepends() map[string][]string {
+func (o *ArtifactV2) GetArtifactDepends() map[string]ArtifactDependsValue {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		var ret map[string][]string
+		var ret map[string]ArtifactDependsValue
 		return ret
 	}
-	return *o.ArtifactDepends
+	return o.ArtifactDepends
 }
 
 // GetArtifactDependsOk returns a tuple with the ArtifactDepends field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArtifactV2) GetArtifactDependsOk() (*map[string][]string, bool) {
+func (o *ArtifactV2) GetArtifactDependsOk() (map[string]ArtifactDependsValue, bool) {
 	if o == nil || IsNil(o.ArtifactDepends) {
-		return nil, false
+		return map[string]ArtifactDependsValue{}, false
 	}
 	return o.ArtifactDepends, true
 }
@@ -319,9 +319,9 @@ func (o *ArtifactV2) HasArtifactDepends() bool {
 	return false
 }
 
-// SetArtifactDepends gets a reference to the given map[string][]string and assigns it to the ArtifactDepends field.
-func (o *ArtifactV2) SetArtifactDepends(v map[string][]string) {
-	o.ArtifactDepends = &v
+// SetArtifactDepends gets a reference to the given map[string]ArtifactDependsValue and assigns it to the ArtifactDepends field.
+func (o *ArtifactV2) SetArtifactDepends(v map[string]ArtifactDependsValue) {
+	o.ArtifactDepends = v
 }
 
 // GetClearsArtifactProvides returns the ClearsArtifactProvides field value if set, zero value otherwise.

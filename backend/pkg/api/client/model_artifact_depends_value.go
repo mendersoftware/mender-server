@@ -17,14 +17,14 @@ import (
 )
 
 
-// DeviceWithImageImageMetaArtifactArtifactDependsValue struct for DeviceWithImageImageMetaArtifactArtifactDependsValue
-type DeviceWithImageImageMetaArtifactArtifactDependsValue struct {
+// ArtifactDependsValue Value of a single Artifact depends entry: either a string or a list of strings. 
+type ArtifactDependsValue struct {
 	ArrayOfString *[]string
 	String *string
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
-func (dst *DeviceWithImageImageMetaArtifactArtifactDependsValue) UnmarshalJSON(data []byte) error {
+func (dst *ArtifactDependsValue) UnmarshalJSON(data []byte) error {
 	var err error
 	// try to unmarshal JSON data into ArrayOfString
 	err = json.Unmarshal(data, &dst.ArrayOfString);
@@ -52,11 +52,11 @@ func (dst *DeviceWithImageImageMetaArtifactArtifactDependsValue) UnmarshalJSON(d
 		dst.String = nil
 	}
 
-	return fmt.Errorf("data failed to match schemas in anyOf(DeviceWithImageImageMetaArtifactArtifactDependsValue)")
+	return fmt.Errorf("data failed to match schemas in anyOf(ArtifactDependsValue)")
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src DeviceWithImageImageMetaArtifactArtifactDependsValue) MarshalJSON() ([]byte, error) {
+func (src ArtifactDependsValue) MarshalJSON() ([]byte, error) {
 	if src.ArrayOfString != nil {
 		return json.Marshal(&src.ArrayOfString)
 	}
@@ -69,38 +69,38 @@ func (src DeviceWithImageImageMetaArtifactArtifactDependsValue) MarshalJSON() ([
 }
 
 
-type NullableDeviceWithImageImageMetaArtifactArtifactDependsValue struct {
-	value *DeviceWithImageImageMetaArtifactArtifactDependsValue
+type NullableArtifactDependsValue struct {
+	value *ArtifactDependsValue
 	isSet bool
 }
 
-func (v NullableDeviceWithImageImageMetaArtifactArtifactDependsValue) Get() *DeviceWithImageImageMetaArtifactArtifactDependsValue {
+func (v NullableArtifactDependsValue) Get() *ArtifactDependsValue {
 	return v.value
 }
 
-func (v *NullableDeviceWithImageImageMetaArtifactArtifactDependsValue) Set(val *DeviceWithImageImageMetaArtifactArtifactDependsValue) {
+func (v *NullableArtifactDependsValue) Set(val *ArtifactDependsValue) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDeviceWithImageImageMetaArtifactArtifactDependsValue) IsSet() bool {
+func (v NullableArtifactDependsValue) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDeviceWithImageImageMetaArtifactArtifactDependsValue) Unset() {
+func (v *NullableArtifactDependsValue) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDeviceWithImageImageMetaArtifactArtifactDependsValue(val *DeviceWithImageImageMetaArtifactArtifactDependsValue) *NullableDeviceWithImageImageMetaArtifactArtifactDependsValue {
-	return &NullableDeviceWithImageImageMetaArtifactArtifactDependsValue{value: val, isSet: true}
+func NewNullableArtifactDependsValue(val *ArtifactDependsValue) *NullableArtifactDependsValue {
+	return &NullableArtifactDependsValue{value: val, isSet: true}
 }
 
-func (v NullableDeviceWithImageImageMetaArtifactArtifactDependsValue) MarshalJSON() ([]byte, error) {
+func (v NullableArtifactDependsValue) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDeviceWithImageImageMetaArtifactArtifactDependsValue) UnmarshalJSON(src []byte) error {
+func (v *NullableArtifactDependsValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
