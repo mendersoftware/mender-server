@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated
 from mender_client.models.login_options import LoginOptions
@@ -1154,7 +1154,7 @@ class UserAdministrationManagementAPIApi:
     def list_users_management(
         self,
         id: Annotated[Optional[StrictStr], Field(description="Limit result by user ID, can be repeated to include multiple users in the query. ")] = None,
-        email: Annotated[Optional[StrictStr], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
+        email: Annotated[Optional[Annotated[str, Field(min_length=6, strict=True, max_length=254)]], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="Filter users created after timestamp (UNIX timestamp). ")] = None,
         created_before: Annotated[Optional[StrictInt], Field(description="Filter users created before timestamp (UNIX timestamp). ")] = None,
         updated_after: Annotated[Optional[StrictInt], Field(description="Filter users updated after timestamp (UNIX timestamp). ")] = None,
@@ -1242,7 +1242,7 @@ class UserAdministrationManagementAPIApi:
     def list_users_management_with_http_info(
         self,
         id: Annotated[Optional[StrictStr], Field(description="Limit result by user ID, can be repeated to include multiple users in the query. ")] = None,
-        email: Annotated[Optional[StrictStr], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
+        email: Annotated[Optional[Annotated[str, Field(min_length=6, strict=True, max_length=254)]], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="Filter users created after timestamp (UNIX timestamp). ")] = None,
         created_before: Annotated[Optional[StrictInt], Field(description="Filter users created before timestamp (UNIX timestamp). ")] = None,
         updated_after: Annotated[Optional[StrictInt], Field(description="Filter users updated after timestamp (UNIX timestamp). ")] = None,
@@ -1330,7 +1330,7 @@ class UserAdministrationManagementAPIApi:
     def list_users_management_without_preload_content(
         self,
         id: Annotated[Optional[StrictStr], Field(description="Limit result by user ID, can be repeated to include multiple users in the query. ")] = None,
-        email: Annotated[Optional[StrictStr], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
+        email: Annotated[Optional[Annotated[str, Field(min_length=6, strict=True, max_length=254)]], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="Filter users created after timestamp (UNIX timestamp). ")] = None,
         created_before: Annotated[Optional[StrictInt], Field(description="Filter users created before timestamp (UNIX timestamp). ")] = None,
         updated_after: Annotated[Optional[StrictInt], Field(description="Filter users updated after timestamp (UNIX timestamp). ")] = None,

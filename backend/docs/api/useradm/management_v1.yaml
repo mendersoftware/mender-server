@@ -115,7 +115,7 @@ paths:
         description: |
           Limit result by user email, can be repeated to include multiple users in the query.
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/Email'
       - name: created_after
         in: query
         description: |
