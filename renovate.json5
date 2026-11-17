@@ -4,8 +4,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
   "extends": [
-    "config:recommended",
-    ":semanticCommitTypeAll(chore)"
+    "config:recommended"
   ],
 
   "ignorePaths": ["**/node_modules/**", "**/vendor/**"],
@@ -152,19 +151,34 @@
       "semanticCommitScope": ""
     },
 
-    // Go: one PR for all modules (covers backend/go.mod AND backend/tests/runner/go.mod).
+    // Go: one fix PR for backend modules and one chore PR for other modules.
     {
       "matchManagers": ["gomod"],
-      "groupName": "golang-dependencies",
+      "groupName": "Go modules (development)",
+      "groupSlug": "golang-dependencies-dev",
+      "postUpdateOptions": ["gomodTidyAll"]
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchFileNames": ["backend/go.mod"],
+      "semanticCommitType": "fix",
+      "groupName": "Go modules",
       "groupSlug": "golang-dependencies",
       "postUpdateOptions": ["gomodTidyAll"]
     },
 
-    // Docker base images: one grouped PR. 9 services share golang:1.26.2; the
-    // native dockerfile manager resolves the `ARG REGISTRY` form Dependabot ignored.
+    // Docker base images: one PR for development images and one for product iamges.
+    // The native dockerfile manager resolves the `ARG REGISTRY` form Dependabot ignored.
     {
       "matchManagers": ["dockerfile"],
-      "groupName": "docker-base-images",
+      "groupName": "Docker base images (development)",
+      "groupSlug": "docker-base-images-dev"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchFileNames": ["backend/services/*/Dockerfile", "frontend/Dockerfile"],
+      "semanticCommitType": "fix",
+      "groupName": "Docker base images",
       "groupSlug": "docker-base-images"
     },
 
@@ -183,6 +197,12 @@
       "groupSlug": "python-dependencies"
     },
 
+    {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies"],
+      "matchFileNames": ["frontend/package.json"],
+      "semanticCommitType": "fix"
+    },
     // npm: five groups, matching the old Dependabot policy.
     {
       "matchManagers": ["npm"],
