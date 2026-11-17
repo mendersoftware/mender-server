@@ -3,9 +3,6 @@ package opensource
 
 import (
 	"bytes"
-	"context"
-	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -34,12 +31,8 @@ func (s *DeploymentsManagementV1Suite) TestShowArtifactSize() {
 	devs, err := s.makeAcceptedDevices(ctx, 4)
 	require.NoError(err)
 
-	// clear CreateArtifact's placeholder {"foo":"bar"} depends: the generated
-	// ArtifactV1 model types artifact_depends values as []string, but a scalar
-	// depends value like that fails to unmarshal from the real API response.
 	artifact, err := common.CreateArtifact(artifactName, s.T(),
 		common.WithCompatibleDevices([]string{deviceType}),
-		common.WithDependsProvides(map[string]string{}, map[string]string{}),
 	)
 	require.NoError(err)
 	_, err = s.uploadArtifact(ctx, artifact, "abc")
@@ -151,7 +144,6 @@ func (s *DeploymentsManagementV1Suite) TestListArtifactsV2() {
 	for _, a := range artifacts {
 		f, err := common.CreateArtifact(a.name, s.T(),
 			common.WithCompatibleDevices([]string{a.deviceType}),
-			common.WithDependsProvides(map[string]string{}, map[string]string{}),
 		)
 		require.NoError(s.T(), err)
 		_, err = s.uploadArtifact(ctx, f, a.description)
@@ -399,33 +391,32 @@ func (s *DeploymentsManagementV1Suite) testUploadArtifactDependsProvidesValid() 
 	id, err := s.uploadArtifact(ctx, a, "description")
 	require.NoError(err)
 
-	// TODO: possible spec bug (tracked separately). The deployments API spec
-	// types artifact_depends values as []string, but the server returns a
-	// scalar string for custom (non-device_type) depends keys, so the generated
-	// ShowArtifact client method fails to unmarshal them. Until that's resolved,
-	// fetch and decode the artifact ourselves.
-	got, err := s.showArtifactRaw(ctx, id)
+	got, _, err := s.APIClient.DeploymentsManagementAPIAPI.ShowArtifact(ctx, id).Execute()
 	require.NoError(err)
 
-	require.Equal("description", got.Description)
-	require.Equal(artifactName, got.Name)
-	require.Equal("mender", got.Info.Format)
-	require.EqualValues(3, got.Info.Version)
-	require.False(got.Signed)
+	require.Equal("description", got.GetDescription())
+	require.Equal(artifactName, got.GetName())
+	require.Equal("mender", got.Info.GetFormat())
+	require.EqualValues(3, got.Info.GetVersion())
+	require.False(got.GetSigned())
 	require.Len(got.Updates, 1)
-	require.Greater(got.Size, int64(0))
-	require.NotEmpty(got.Id)
-	require.False(got.Modified.IsZero())
+	require.Greater(got.GetSize(), int32(0))
+	require.NotEmpty(got.GetId())
+	require.False(got.GetModified().IsZero())
 
-	require.ElementsMatch([]string{deviceType}, toStringSlice(got.ArtifactDepends["device_type"]))
-	require.Equal("value1", got.ArtifactDepends["key1"])
-	require.Equal("value2", got.ArtifactDepends["key2"])
+	depends := got.GetArtifactDepends()
+	require.NotNil(depends["device_type"].ArrayOfString)
+	require.ElementsMatch([]string{deviceType}, *depends["device_type"].ArrayOfString)
+	require.NotNil(depends["key1"].String)
+	require.Equal("value1", *depends["key1"].String)
+	require.NotNil(depends["key2"].String)
+	require.Equal("value2", *depends["key2"].String)
 
-	require.Equal(artifactName, got.ArtifactProvides["artifact_name"])
-	require.Equal("value3", got.ArtifactProvides["key3"])
-	require.Equal("value4", got.ArtifactProvides["key4"])
-	require.Equal("value5", got.ArtifactProvides["key5"])
-	require.Equal(artifactName, got.ArtifactProvides["rootfs-image.dummy.version"])
+	require.Equal(artifactName, got.GetArtifactProvides()["artifact_name"])
+	require.Equal("value3", got.GetArtifactProvides()["key3"])
+	require.Equal("value4", got.GetArtifactProvides()["key4"])
+	require.Equal("value5", got.GetArtifactProvides()["key5"])
+	require.Equal(artifactName, got.GetArtifactProvides()["rootfs-image.dummy.version"])
 }
 
 func (s *DeploymentsManagementV1Suite) testUploadArtifactProvidesDependsIgnoredInOpenSource() {
@@ -566,59 +557,4 @@ func (s *DeploymentsManagementV1Suite) TestCreateArtifact() {
 	require.NoError(ar.ReadArtifact())
 	require.Equal(name, ar.GetArtifactName())
 	require.Contains(ar.GetCompatibleDevices(), deviceType)
-}
-
-// rawArtifact decodes the artifact management API's response directly,
-// bypassing the generated ArtifactV1 model, which cannot represent a
-// scalar-valued custom artifact_depends entry.
-type rawArtifact struct {
-	Id                    string   `json:"id"`
-	Name                  string   `json:"name"`
-	Description           string   `json:"description"`
-	DeviceTypesCompatible []string `json:"device_types_compatible"`
-	Info                  struct {
-		Format  string `json:"format"`
-		Version int32  `json:"version"`
-	} `json:"info"`
-	Signed           bool              `json:"signed"`
-	Updates          []any             `json:"updates"`
-	ArtifactProvides map[string]string `json:"artifact_provides"`
-	ArtifactDepends  map[string]any    `json:"artifact_depends"`
-	Size             int64             `json:"size"`
-	Modified         time.Time         `json:"modified"`
-}
-
-func (s *DeploymentsManagementV1Suite) showArtifactRaw(ctx context.Context, id string) (*rawArtifact, error) {
-	resp, err := common.RawRequest(ctx, s.APIClient, http.MethodGet,
-		"/api/management/v1/deployments/artifacts/"+id, nil)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected show artifact status: %d", resp.StatusCode)
-	}
-
-	var out rawArtifact
-	if err := json.NewDecoder(resp.Body).Decode(&out); err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-// toStringSlice normalizes a JSON-decoded depends value (which may be a single
-// string or a list of strings) into a []string.
-func toStringSlice(v any) []string {
-	switch val := v.(type) {
-	case string:
-		return []string{val}
-	case []any:
-		out := make([]string, len(val))
-		for i, e := range val {
-			out[i], _ = e.(string)
-		}
-		return out
-	default:
-		return nil
-	}
 }
