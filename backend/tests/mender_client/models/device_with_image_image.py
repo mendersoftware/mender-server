@@ -21,8 +21,8 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from mender_client.models.artifact import Artifact
 from mender_client.models.device_with_image_image_meta import DeviceWithImageImageMeta
-from mender_client.models.device_with_image_image_meta_artifact import DeviceWithImageImageMetaArtifact
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,7 +32,7 @@ class DeviceWithImageImage(BaseModel):
     """ # noqa: E501
     id: Optional[StrictStr] = Field(default=None, description="Image ID")
     meta: Optional[DeviceWithImageImageMeta] = None
-    meta_artifact: Optional[DeviceWithImageImageMetaArtifact] = None
+    meta_artifact: Optional[Artifact] = None
     size: Optional[StrictInt] = Field(default=None, description="Image size in bytes")
     modified: Optional[datetime] = Field(default=None, description="Creation / last edition of any of the artifact properties")
     __properties: ClassVar[List[str]] = ["id", "meta", "meta_artifact", "size", "modified"]
@@ -96,7 +96,7 @@ class DeviceWithImageImage(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "meta": DeviceWithImageImageMeta.from_dict(obj["meta"]) if obj.get("meta") is not None else None,
-            "meta_artifact": DeviceWithImageImageMetaArtifact.from_dict(obj["meta_artifact"]) if obj.get("meta_artifact") is not None else None,
+            "meta_artifact": Artifact.from_dict(obj["meta_artifact"]) if obj.get("meta_artifact") is not None else None,
             "size": obj.get("size"),
             "modified": obj.get("modified")
         })

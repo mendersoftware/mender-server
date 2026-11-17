@@ -1831,65 +1831,28 @@ components:
         - rootfs-image.*
         size: 36891648
         modified: 2016-03-11T13:03:17.063493443Z
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        device_types_compatible:
-          description: An array of compatible device types.
-          items:
+      allOf:
+      - $ref: './schemas.yaml#/components/schemas/Artifact'
+      - properties:
+          id:
             type: string
-          type: array
-        info:
-          $ref: './schemas.yaml#/components/schemas/ArtifactInfo'
-        signed:
-          description: Idicates if artifact is signed or not.
-          type: boolean
-        updates:
-          items:
-            $ref: './schemas.yaml#/components/schemas/Update'
-          type: array
-        artifact_provides:
-          additionalProperties:
+          description:
             type: string
-          description: |
-            List of Artifact provides.
-
-            Map of key/value pairs, where both keys and values are strings.
-          type: object
-        artifact_depends:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          description: |
-            List of Artifact depends.
-
-            Map of key/value pairs, where keys are strings and values are lists of strings.
-          type: object
-        clears_artifact_provides:
-          description: List of Clear Artifact provides.
-          items:
+          size:
+            description: |
+              Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
+            type: integer
+          modified:
+            description: |
+              Represents creation / last edition of any of the artifact properties.
+            format: date-time
             type: string
-          type: array
-        size:
-          description: |
-            Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
-          type: integer
-        modified:
-          description: |
-            Represents creation / last edition of any of the artifact properties.
-          format: date-time
-          type: string
-      required:
-      - device_types_compatible
-      - id
-      - modified
-      - name
-      type: object
+        required:
+        - device_types_compatible
+        - id
+        - modified
+        - name
+        type: object
     ArtifactLink:
       description: URL for artifact file download.
       example:

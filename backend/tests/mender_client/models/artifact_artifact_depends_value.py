@@ -24,11 +24,11 @@ from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
 from pydantic import Field
 
-DEVICEWITHIMAGEIMAGEMETAARTIFACTARTIFACTDEPENDSVALUE_ANY_OF_SCHEMAS = ["List[str]", "str"]
+ARTIFACTARTIFACTDEPENDSVALUE_ANY_OF_SCHEMAS = ["List[str]", "str"]
 
-class DeviceWithImageImageMetaArtifactArtifactDependsValue(BaseModel):
+class ArtifactArtifactDependsValue(BaseModel):
     """
-    DeviceWithImageImageMetaArtifactArtifactDependsValue
+    ArtifactArtifactDependsValue
     """
 
     # data type: List[str]
@@ -58,7 +58,7 @@ class DeviceWithImageImageMetaArtifactArtifactDependsValue(BaseModel):
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = DeviceWithImageImageMetaArtifactArtifactDependsValue.model_construct()
+        instance = ArtifactArtifactDependsValue.model_construct()
         error_messages = []
         # validate data type: List[str]
         try:
@@ -74,7 +74,7 @@ class DeviceWithImageImageMetaArtifactArtifactDependsValue(BaseModel):
             error_messages.append(str(e))
         if error_messages:
             # no match
-            raise ValueError("No match found when setting the actual_instance in DeviceWithImageImageMetaArtifactArtifactDependsValue with anyOf schemas: List[str], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting the actual_instance in ArtifactArtifactDependsValue with anyOf schemas: List[str], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -108,7 +108,7 @@ class DeviceWithImageImageMetaArtifactArtifactDependsValue(BaseModel):
 
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into DeviceWithImageImageMetaArtifactArtifactDependsValue with anyOf schemas: List[str], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into ArtifactArtifactDependsValue with anyOf schemas: List[str], str. Details: " + ", ".join(error_messages))
         else:
             return instance
 

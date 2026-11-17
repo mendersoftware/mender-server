@@ -57,6 +57,8 @@ __all__ = [
     "AWSCredentialsAws",
     "AbortDeploymentRequest",
     "AddDevicesToGroup200Response",
+    "Artifact",
+    "ArtifactArtifactDependsValue",
     "ArtifactInfo",
     "ArtifactLink",
     "ArtifactTypeInfo",
@@ -108,8 +110,6 @@ __all__ = [
     "DeviceWithImage",
     "DeviceWithImageImage",
     "DeviceWithImageImageMeta",
-    "DeviceWithImageImageMetaArtifact",
-    "DeviceWithImageImageMetaArtifactArtifactDependsValue",
     "DirectUploadMetadata",
     "Error",
     "ErrorExt",
@@ -232,6 +232,8 @@ from mender_client.models.aws_credentials import AWSCredentials as AWSCredential
 from mender_client.models.aws_credentials_aws import AWSCredentialsAws as AWSCredentialsAws
 from mender_client.models.abort_deployment_request import AbortDeploymentRequest as AbortDeploymentRequest
 from mender_client.models.add_devices_to_group200_response import AddDevicesToGroup200Response as AddDevicesToGroup200Response
+from mender_client.models.artifact import Artifact as Artifact
+from mender_client.models.artifact_artifact_depends_value import ArtifactArtifactDependsValue as ArtifactArtifactDependsValue
 from mender_client.models.artifact_info import ArtifactInfo as ArtifactInfo
 from mender_client.models.artifact_link import ArtifactLink as ArtifactLink
 from mender_client.models.artifact_type_info import ArtifactTypeInfo as ArtifactTypeInfo
@@ -283,8 +285,6 @@ from mender_client.models.device_update import DeviceUpdate as DeviceUpdate
 from mender_client.models.device_with_image import DeviceWithImage as DeviceWithImage
 from mender_client.models.device_with_image_image import DeviceWithImageImage as DeviceWithImageImage
 from mender_client.models.device_with_image_image_meta import DeviceWithImageImageMeta as DeviceWithImageImageMeta
-from mender_client.models.device_with_image_image_meta_artifact import DeviceWithImageImageMetaArtifact as DeviceWithImageImageMetaArtifact
-from mender_client.models.device_with_image_image_meta_artifact_artifact_depends_value import DeviceWithImageImageMetaArtifactArtifactDependsValue as DeviceWithImageImageMetaArtifactArtifactDependsValue
 from mender_client.models.direct_upload_metadata import DirectUploadMetadata as DirectUploadMetadata
 from mender_client.models.error import Error as Error
 from mender_client.models.error_ext import ErrorExt as ErrorExt
