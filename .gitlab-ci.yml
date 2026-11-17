@@ -234,6 +234,36 @@ build:backend:docker:
         MIRROR_REGISTRY="${MIRROR_REGISTRY}"
     - make -j$(nproc) -C backend docker MIRROR_REGISTRY="${MIRROR_REGISTRY}"
 
+build:backend:licenses-tools:
+  stage: build
+  rules:
+    - changes:
+        paths: ["backend/**/*"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
+  image: ${MIRROR_REGISTRY}/library/golang:${GOLANG_VERSION}
+  variables:
+    GOFLAGS: -tags=nopkcs11 -modcacherw
+    GOBIN: ${CI_PROJECT_DIR}/.go/bin
+  dependencies: []
+  before_script:
+    - !reference [.qa-common-network-go-retry, before_script]
+  script:
+    - go install github.com/google/go-licenses@v1.6.0
+    # to exclude the go-licenses dependencies from the mod cache
+    - export GOMODCACHE="${CI_PROJECT_DIR}/.go/mod"
+    - cd backend
+    - go list -deps ./services/... > /dev/null
+  artifacts:
+    when: on_success
+    expire_in: "1w"
+    paths:
+      - .go/bin/go-licenses
+      - .go/mod
+    exclude:
+      - .go/mod/**/*.zip
+
 build:backend:docker-acceptance:
   extends: build:backend:docker
   before_script:
@@ -991,11 +1021,13 @@ publish:backend:licenses:
       when: on_success
   image: ${MIRROR_REGISTRY}/library/golang:${GOLANG_VERSION}
   variables:
-    GOFLAGS: -tags=nopkcs11
-  dependencies: []
+    GOFLAGS: -tags=nopkcs11 -modcacherw
+    GOMODCACHE: ${CI_PROJECT_DIR}/.go/mod
+  dependencies:
+    - build:backend:licenses-tools
   before_script:
     - !reference [.qa-common-network-go-retry, before_script]
-    - go install github.com/google/go-licenses@v1.6.0
+    - export PATH="${CI_PROJECT_DIR}/.go/bin:${PATH}"
   script:
     - cd backend
     - go-licenses check
