@@ -84,7 +84,7 @@ func MakeRouter(i *UserAdmApiHandlers) http.Handler {
 
 	internal.POST(uriInternalTenants, i.CreateTenantHandler)
 	internal.POST(uriInternalTenantUsers, i.CreateTenantUserHandler)
-	internal.DELETE(uriInternalTenantUser, i.DeleteTenantUserHandler)
+	internal.DELETE(uriInternalTenantUser, i.DeleteInternalV1UseradmTenantsIdUsersId)
 	internal.GET(uriInternalTenantUsers, i.GetTenantUsersHandler)
 	internal.DELETE(uriInternalTokens, i.DeleteTokensHandler)
 

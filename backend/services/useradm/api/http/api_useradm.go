@@ -470,7 +470,7 @@ func (u *UserAdmApiHandlers) UpdateOwnUserHandler(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-func (u *UserAdmApiHandlers) DeleteTenantUserHandler(c *gin.Context) {
+func (u *UserAdmApiHandlers) DeleteInternalV1UseradmTenantsIdUsersId(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	tenantId := c.Param("id")
