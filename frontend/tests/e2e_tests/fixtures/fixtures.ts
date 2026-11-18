@@ -66,6 +66,10 @@ const maxRetries = 2;
 const watchServerErrors = async (page: Page, baseUrl: string, serverErrors: string[]) =>
   page.route(`${baseUrl}**`, async route => {
     const request = route.request();
+    // route.fetch() follows redirects itself, which would hide them (and the resulting url change) from the browser
+    if (request.isNavigationRequest()) {
+      return route.continue();
+    }
     const isRetryable = checkedMethods.includes(request.method());
     let response = await route.fetch();
     for (let attempt = 1; response.status() >= 500; attempt++) {
