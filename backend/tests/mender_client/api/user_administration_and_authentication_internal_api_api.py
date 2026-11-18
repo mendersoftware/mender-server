@@ -339,7 +339,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
 
 
     @validate_call
-    def delete_user_internal(
+    def delete_internal_v1_useradm_tenants_id_users_id(
         self,
         tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
         user_id: Annotated[StrictStr, Field(description="User ID.")],
@@ -386,7 +386,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_user_internal_serialize(
+        _param = self._delete_internal_v1_useradm_tenants_id_users_id_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
             _request_auth=_request_auth,
@@ -412,7 +412,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
 
 
     @validate_call
-    def delete_user_internal_with_http_info(
+    def delete_internal_v1_useradm_tenants_id_users_id_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
         user_id: Annotated[StrictStr, Field(description="User ID.")],
@@ -459,7 +459,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_user_internal_serialize(
+        _param = self._delete_internal_v1_useradm_tenants_id_users_id_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
             _request_auth=_request_auth,
@@ -485,7 +485,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
 
 
     @validate_call
-    def delete_user_internal_without_preload_content(
+    def delete_internal_v1_useradm_tenants_id_users_id_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
         user_id: Annotated[StrictStr, Field(description="User ID.")],
@@ -532,7 +532,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_user_internal_serialize(
+        _param = self._delete_internal_v1_useradm_tenants_id_users_id_serialize(
             tenant_id=tenant_id,
             user_id=user_id,
             _request_auth=_request_auth,
@@ -553,7 +553,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         return response_data.response
 
 
-    def _delete_user_internal_serialize(
+    def _delete_internal_v1_useradm_tenants_id_users_id_serialize(
         self,
         tenant_id,
         user_id,

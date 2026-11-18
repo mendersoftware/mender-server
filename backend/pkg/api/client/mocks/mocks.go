@@ -19686,37 +19686,37 @@ func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_CreateUserIntern
 	return _c
 }
 
-// DeleteUserInternal provides a mock function for the type MockUserAdministrationAndAuthenticationInternalAPIAPI
-func (_mock *MockUserAdministrationAndAuthenticationInternalAPIAPI) DeleteUserInternal(ctx context.Context, tenantId string, userId string) client.ApiDeleteUserInternalRequest {
+// DeleteInternalV1UseradmTenantsIdUsersId provides a mock function for the type MockUserAdministrationAndAuthenticationInternalAPIAPI
+func (_mock *MockUserAdministrationAndAuthenticationInternalAPIAPI) DeleteInternalV1UseradmTenantsIdUsersId(ctx context.Context, tenantId string, userId string) client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest {
 	ret := _mock.Called(ctx, tenantId, userId)
 
 	if len(ret) == 0 {
-		panic("no return value specified for DeleteUserInternal")
+		panic("no return value specified for DeleteInternalV1UseradmTenantsIdUsersId")
 	}
 
-	var r0 client.ApiDeleteUserInternalRequest
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) client.ApiDeleteUserInternalRequest); ok {
+	var r0 client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest); ok {
 		r0 = returnFunc(ctx, tenantId, userId)
 	} else {
-		r0 = ret.Get(0).(client.ApiDeleteUserInternalRequest)
+		r0 = ret.Get(0).(client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest)
 	}
 	return r0
 }
 
-// MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteUserInternal'
-type MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call struct {
+// MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteInternalV1UseradmTenantsIdUsersId'
+type MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call struct {
 	*mock.Call
 }
 
-// DeleteUserInternal is a helper method to define mock.On call
+// DeleteInternalV1UseradmTenantsIdUsersId is a helper method to define mock.On call
 //   - ctx context.Context
 //   - tenantId string
 //   - userId string
-func (_e *MockUserAdministrationAndAuthenticationInternalAPIAPI_Expecter) DeleteUserInternal(ctx interface{}, tenantId interface{}, userId interface{}) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call {
-	return &MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call{Call: _e.mock.On("DeleteUserInternal", ctx, tenantId, userId)}
+func (_e *MockUserAdministrationAndAuthenticationInternalAPIAPI_Expecter) DeleteInternalV1UseradmTenantsIdUsersId(ctx interface{}, tenantId interface{}, userId interface{}) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call {
+	return &MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call{Call: _e.mock.On("DeleteInternalV1UseradmTenantsIdUsersId", ctx, tenantId, userId)}
 }
 
-func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call) Run(run func(ctx context.Context, tenantId string, userId string)) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call {
+func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call) Run(run func(ctx context.Context, tenantId string, userId string)) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -19739,37 +19739,37 @@ func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserIntern
 	return _c
 }
 
-func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call) Return(apiDeleteUserInternalRequest client.ApiDeleteUserInternalRequest) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call {
-	_c.Call.Return(apiDeleteUserInternalRequest)
+func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call) Return(apiDeleteInternalV1UseradmTenantsIdUsersIdRequest client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call {
+	_c.Call.Return(apiDeleteInternalV1UseradmTenantsIdUsersIdRequest)
 	return _c
 }
 
-func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call) RunAndReturn(run func(ctx context.Context, tenantId string, userId string) client.ApiDeleteUserInternalRequest) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternal_Call {
+func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call) RunAndReturn(run func(ctx context.Context, tenantId string, userId string) client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersId_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
-// DeleteUserInternalExecute provides a mock function for the type MockUserAdministrationAndAuthenticationInternalAPIAPI
-func (_mock *MockUserAdministrationAndAuthenticationInternalAPIAPI) DeleteUserInternalExecute(r client.ApiDeleteUserInternalRequest) (*http.Response, error) {
+// DeleteInternalV1UseradmTenantsIdUsersIdExecute provides a mock function for the type MockUserAdministrationAndAuthenticationInternalAPIAPI
+func (_mock *MockUserAdministrationAndAuthenticationInternalAPIAPI) DeleteInternalV1UseradmTenantsIdUsersIdExecute(r client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) (*http.Response, error) {
 	ret := _mock.Called(r)
 
 	if len(ret) == 0 {
-		panic("no return value specified for DeleteUserInternalExecute")
+		panic("no return value specified for DeleteInternalV1UseradmTenantsIdUsersIdExecute")
 	}
 
 	var r0 *http.Response
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(client.ApiDeleteUserInternalRequest) (*http.Response, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) (*http.Response, error)); ok {
 		return returnFunc(r)
 	}
-	if returnFunc, ok := ret.Get(0).(func(client.ApiDeleteUserInternalRequest) *http.Response); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) *http.Response); ok {
 		r0 = returnFunc(r)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*http.Response)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(client.ApiDeleteUserInternalRequest) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) error); ok {
 		r1 = returnFunc(r)
 	} else {
 		r1 = ret.Error(1)
@@ -19777,22 +19777,22 @@ func (_mock *MockUserAdministrationAndAuthenticationInternalAPIAPI) DeleteUserIn
 	return r0, r1
 }
 
-// MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteUserInternalExecute'
-type MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call struct {
+// MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteInternalV1UseradmTenantsIdUsersIdExecute'
+type MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call struct {
 	*mock.Call
 }
 
-// DeleteUserInternalExecute is a helper method to define mock.On call
-//   - r client.ApiDeleteUserInternalRequest
-func (_e *MockUserAdministrationAndAuthenticationInternalAPIAPI_Expecter) DeleteUserInternalExecute(r interface{}) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call {
-	return &MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call{Call: _e.mock.On("DeleteUserInternalExecute", r)}
+// DeleteInternalV1UseradmTenantsIdUsersIdExecute is a helper method to define mock.On call
+//   - r client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest
+func (_e *MockUserAdministrationAndAuthenticationInternalAPIAPI_Expecter) DeleteInternalV1UseradmTenantsIdUsersIdExecute(r interface{}) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call {
+	return &MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call{Call: _e.mock.On("DeleteInternalV1UseradmTenantsIdUsersIdExecute", r)}
 }
 
-func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call) Run(run func(r client.ApiDeleteUserInternalRequest)) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call {
+func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call) Run(run func(r client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest)) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 client.ApiDeleteUserInternalRequest
+		var arg0 client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest
 		if args[0] != nil {
-			arg0 = args[0].(client.ApiDeleteUserInternalRequest)
+			arg0 = args[0].(client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest)
 		}
 		run(
 			arg0,
@@ -19801,12 +19801,12 @@ func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserIntern
 	return _c
 }
 
-func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call) Return(response *http.Response, err error) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call {
+func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call) Return(response *http.Response, err error) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call {
 	_c.Call.Return(response, err)
 	return _c
 }
 
-func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call) RunAndReturn(run func(r client.ApiDeleteUserInternalRequest) (*http.Response, error)) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteUserInternalExecute_Call {
+func (_c *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call) RunAndReturn(run func(r client.ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) (*http.Response, error)) *MockUserAdministrationAndAuthenticationInternalAPIAPI_DeleteInternalV1UseradmTenantsIdUsersIdExecute_Call {
 	_c.Call.Return(run)
 	return _c
 }
