@@ -450,7 +450,8 @@ func TestCreateUserForTenant(t *testing.T) {
 	t.Parallel()
 
 	testCases := map[string]struct {
-		inReq *http.Request
+		inReq    *http.Request
+		tenantId string
 
 		createUserErr error
 
@@ -458,13 +459,14 @@ func TestCreateUserForTenant(t *testing.T) {
 	}{
 		"ok": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
 				},
 			),
+			tenantId: "6afb62f48cfaf505efbbe6b7",
 
 			checker: mt.NewJSONResponse(
 				http.StatusCreated,
@@ -474,13 +476,14 @@ func TestCreateUserForTenant(t *testing.T) {
 		},
 		"ok, with password hash": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"",
 				map[string]interface{}{
 					"email":         "foo@foo.com",
 					"password_hash": "foobarbar",
 				},
 			),
+			tenantId: "6afb62f48cfaf505efbbe6b7",
 
 			checker: mt.NewJSONResponse(
 				http.StatusCreated,
@@ -490,12 +493,13 @@ func TestCreateUserForTenant(t *testing.T) {
 		},
 		"error, no pass or hash": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"",
 				map[string]interface{}{
 					"email": "foo@foo.com",
 				},
 			),
+			tenantId: "6afb62f48cfaf505efbbe6b7",
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
@@ -505,7 +509,7 @@ func TestCreateUserForTenant(t *testing.T) {
 		},
 		"error, both pass and hash provided": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"",
 				map[string]interface{}{
 					"email":         "foo@foo.com",
@@ -513,6 +517,7 @@ func TestCreateUserForTenant(t *testing.T) {
 					"password_hash": "foobarbar",
 				},
 			),
+			tenantId: "6afb62f48cfaf505efbbe6b7",
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
@@ -522,13 +527,14 @@ func TestCreateUserForTenant(t *testing.T) {
 		},
 		"password too short": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobar",
 				},
 			),
+			tenantId: "6afb62f48cfaf505efbbe6b7",
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
@@ -538,13 +544,14 @@ func TestCreateUserForTenant(t *testing.T) {
 		},
 		"duplicated email": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"",
 				map[string]interface{}{
 					"email":    "foo@foo.com",
 					"password": "foobarbar",
 				},
 			),
+			tenantId:      "6afb62f48cfaf505efbbe6b7",
 			createUserErr: store.ErrDuplicateEmail,
 
 			checker: mt.NewJSONResponse(
@@ -555,8 +562,9 @@ func TestCreateUserForTenant(t *testing.T) {
 		},
 		"no body": {
 			inReq: makeReq("POST",
-				"http://localhost/api/internal/v1/useradm/tenants/1/users",
+				"http://localhost/api/internal/v1/useradm/tenants/6afb62f48cfaf505efbbe6b7/users",
 				"", nil),
+			tenantId: "6afb62f48cfaf505efbbe6b7",
 
 			checker: mt.NewJSONResponse(
 				http.StatusBadRequest,
@@ -587,7 +595,7 @@ func TestCreateUserForTenant(t *testing.T) {
 			//make mock useradm
 			uadm := &museradm.App{}
 			uadm.On("CreateUserInternal", mock.MatchedBy(func(c context.Context) bool {
-				return identity.FromContext(c).Tenant == "1"
+				return identity.FromContext(c).Tenant == tc.tenantId
 			}),
 				mock.AnythingOfType("*model.UserInternal")).
 				Return(tc.createUserErr)
