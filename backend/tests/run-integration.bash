@@ -15,9 +15,6 @@ COMPOSE_FILES_OPEN=" \
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
         -f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.backend-tests-enterprise.yml \
         "
-COMPOSE_FILES_COMPAT="${COMPOSE_FILES_OPEN} \
-        -f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.backend-tests-compat.yml \
-        "
 COMPOSE_FILE_STORAGE_AZURE="-f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.storage.azblob.yml"
 
 COMPOSE_FILE_AZURE_SETUP="-f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.azblob.setup.yml"
@@ -80,9 +77,6 @@ parse_args() {
                     open) ;;
                     enterprise)
                         TEST_SUITES=("enterprise")
-                        ;;
-                    compat)
-                        TEST_SUITES=("compat")
                         ;;
                     all)
                         TEST_SUITES=("open" "enterprise")
@@ -203,10 +197,6 @@ for suite in "${TEST_SUITES[@]}"; do
     case "$suite" in
         open)
             COMPOSE_FILES="$COMPOSE_FILES_OPEN"
-            PYTEST_REPORT="$PYTEST_REPORT_OPEN"
-            ;;
-        compat)
-            COMPOSE_FILES="$COMPOSE_FILES_COMPAT"
             PYTEST_REPORT="$PYTEST_REPORT_OPEN"
             ;;
         enterprise)

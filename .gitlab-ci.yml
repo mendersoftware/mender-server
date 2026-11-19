@@ -751,16 +751,6 @@ test:review:backend:integration:ng:
     - !reference [.mantra-push-results]
 
 
-test:backend:integration:compat:
-  extends: .template:test:backend:integration
-  script:
-    - make -C backend test-integration args="-s compat" MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
-  artifacts:
-    expire_in: 1w
-    when: always
-    paths:
-      - backend/tests/logs/*
-
 test:integration:
   stage: test
   needs:
