@@ -17,7 +17,7 @@ import isBetween from 'dayjs/plugin/isBetween.js';
 import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
-import { getTokenFromStorage, isEnterpriseOrStaging, startClient, tenantTokenRetrieval } from '../../utils/commands';
+import { getTokenFromStorage, isEnterpriseOrStaging, startClient } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
 import { locateReleaseByName, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
@@ -198,12 +198,11 @@ test.describe('Deployments', () => {
     await expect(page.getByText(/queued to start/i).first()).toBeVisible();
   });
 
-  test('allows uniform phased deployments', async ({ baseUrl, environment, page, request }, { testId }) => {
+  test('allows uniform phased deployments', async ({ baseUrl, environment, page, request, tenantToken }, { testId }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'phased deployments are not available in OS');
     test.skip(!fs.existsSync(stressTestClientPath), 'requires the mender-stress-test-client to simulate a device fleet');
     test.setTimeout(6 * timeouts.sixtySeconds);
     const headers = { Authorization: `Bearer ${getTokenFromStorage(baseUrl)}` };
-    const tenantToken = await tenantTokenRetrieval(baseUrl, page);
     const client = await startClient(baseUrl, tenantToken, uniformClientCount, [`--identity-attribute=${uniformClientIdentityKey}:${testId}`]);
     try {
       let devices: DevauthDevice[] = [];

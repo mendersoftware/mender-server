@@ -15,7 +15,7 @@ import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
 
-import { getPersistentLoginInfo, resetServerErrors, watchServerErrors } from '../utils/commands.ts';
+import { getPersistentLoginInfo, isEnterpriseOrStaging, login, resetServerErrors, watchServerErrors } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
 
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
@@ -37,6 +37,7 @@ type WorkerFixtures = {
   environment: TestEnvironment;
   isRemote: boolean;
   password: string;
+  tenantToken: string;
   username: string;
 };
 
@@ -135,7 +136,24 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
   ],
   demoDeviceName: defaultConfig.demoDeviceName,
   demoDeviceSoftware: defaultConfig.demoDeviceSoftware,
-  staticGroupName: defaultConfig.staticGroupName
+  staticGroupName: defaultConfig.staticGroupName,
+  tenantToken: [
+    async ({ baseUrl, environment, password, playwright, username }, use) => {
+      if (!isEnterpriseOrStaging(environment)) {
+        await use('');
+        return;
+      }
+      // the built-in request fixture is test scoped, so a request context of its own is used to retrieve the token
+      const request = await playwright.request.newContext({ ignoreHTTPSErrors: true });
+      const { token } = await login(username, password, baseUrl, request);
+      const response = await request.get(`${baseUrl}api/management/v2/tenantadm/tenants/me/token`, { headers: { Authorization: `Bearer ${token}` } });
+      expect(response.ok(), await response.text()).toBeTruthy();
+      const { tenant_token: tenantToken } = await response.json();
+      await request.dispose();
+      await use(tenantToken);
+    },
+    { scope: 'worker' }
+  ]
 });
 
 export { expect };
