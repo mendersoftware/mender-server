@@ -1,0 +1,3 @@
+#!/bin/sh
+# Use container hostname as the unique device identity
+echo "mac=$(hostname)"

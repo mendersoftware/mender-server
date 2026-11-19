@@ -420,6 +420,7 @@ services:
         target: /etc/mender/mender.conf
     volumes:
       - ./compose/certs/mender.crt:/var/lib/mender/mender.crt
+      - ./compose/mender-identity/mender-device-identity:/usr/share/mender/identity/mender-device-identity
 
 configs:
   client_json:
