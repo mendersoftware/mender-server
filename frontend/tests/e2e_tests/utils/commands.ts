@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { APIRequestContext, Browser, BrowserContext, Page } from '@playwright/test';
+import type { APIRequestContext, APIResponse, Browser, BrowserContext, Page, Request, Response } from '@playwright/test';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import { jwtDecode } from 'jwt-decode';
@@ -94,21 +94,33 @@ export const resetServerErrors = () => {
   return serverErrors;
 };
 
-export const watchServerErrors = async (page: Page, baseUrl: string) =>
-  page.route(`${baseUrl}**`, async route => {
+// only replay requests that are safe to send again and that route.fetch() can reproduce faithfully:
+// - navigations, as route.fetch() follows redirects itself, which would hide them (and the resulting url change) from the browser
+// - requests with a body
+const isReplayable = (request: Request) => checkedMethods.includes(request.method()) && !request.isNavigationRequest();
+
+const logServerError = (request: Request, response: Response | APIResponse) =>
+  serverErrors.push(
+    `${new Date().toISOString()} ${request.method()} ${request.url()} -> ${response.status()} (request id: ${response.headers()['x-men-requestid'] ?? 'n/a'})`
+  );
+
+export const watchServerErrors = async (page: Page, baseUrl: string) => {
+  page.on('response', response => {
+    const request = response.request();
+    if (response.status() >= 500 && request.url().startsWith(baseUrl) && !isReplayable(request)) {
+      logServerError(request, response);
+    }
+  });
+  await page.route(`${baseUrl}**`, async route => {
     const request = route.request();
-    // route.fetch() follows redirects itself, which would hide them (and the resulting url change) from the browser
-    if (request.isNavigationRequest()) {
+    if (!isReplayable(request)) {
       return route.continue();
     }
-    const isRetryable = checkedMethods.includes(request.method());
     try {
       let response = await route.fetch();
       for (let attempt = 1; response.status() >= 500; attempt++) {
-        serverErrors.push(
-          `${new Date().toISOString()} ${request.method()} ${request.url()} -> ${response.status()} (request id: ${response.headers()['x-men-requestid'] ?? 'n/a'})`
-        );
-        if (!isRetryable || !retryableStatusCodes.includes(response.status()) || attempt > maxRetries) {
+        logServerError(request, response);
+        if (!retryableStatusCodes.includes(response.status()) || attempt > maxRetries) {
           break;
         }
         await new Promise(resolve => setTimeout(resolve, 500 * 2 ** attempt));
@@ -123,6 +135,7 @@ export const watchServerErrors = async (page: Page, baseUrl: string) =>
       throw error;
     }
   });
+};
 
 const ensureFeedbackDisabled = async ({ baseUrl, page, token }: { baseUrl: string; page: Page; token: string }) => {
   const today = new Date();
