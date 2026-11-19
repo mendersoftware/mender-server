@@ -15,7 +15,7 @@ import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
 
-import { getPersistentLoginInfo } from '../utils/commands.ts';
+import { getPersistentLoginInfo, resetServerErrors, watchServerErrors } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
 
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
@@ -30,6 +30,7 @@ type TestFixtures = {
   isRemote: boolean;
   page: Page;
   password: string;
+  serverErrorReport: void;
   spTenantUsername: string;
   staticGroupName: string;
   uniqueId: string;
@@ -59,49 +60,31 @@ const defaultConfig = {
   staticGroupName: 'test.group'
 };
 
-const retryableStatusCodes = [502, 503, 504];
-const checkedMethods = ['GET', 'HEAD', 'OPTIONS'];
-const maxRetries = 2;
-
-const watchServerErrors = async (page: Page, baseUrl: string, serverErrors: string[]) =>
-  page.route(`${baseUrl}**`, async route => {
-    const request = route.request();
-    // route.fetch() follows redirects itself, which would hide them (and the resulting url change) from the browser
-    if (request.isNavigationRequest()) {
-      return route.continue();
-    }
-    const isRetryable = checkedMethods.includes(request.method());
-    let response = await route.fetch();
-    for (let attempt = 1; response.status() >= 500; attempt++) {
-      serverErrors.push(
-        `${new Date().toISOString()} ${request.method()} ${request.url()} -> ${response.status()} (request id: ${response.headers()['x-men-requestid'] ?? 'n/a'})`
-      );
-      if (!isRetryable || !retryableStatusCodes.includes(response.status()) || attempt > maxRetries) {
-        break;
-      }
-      await new Promise(resolve => setTimeout(resolve, 500 * 2 ** attempt));
-      response = await route.fetch();
-    }
-    await route.fulfill({ response });
-  });
-
 const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures>({
   isRemote: !!process.env.BASE_URL,
+  // auto fixtures are set up first and torn down last, so this also covers pages created through prepareNewPage
+  serverErrorReport: [
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use, testInfo) => {
+      const serverErrors = resetServerErrors();
+      await use();
+      if (serverErrors.length) {
+        await testInfo.attach('server-errors', { body: serverErrors.join('\n'), contentType: 'text/plain' });
+      }
+    },
+    { auto: true }
+  ],
   page: async ({ baseUrl, isRemote, page }, use, testInfo) => {
-    const serverErrors: string[] = [];
     if (isRemote) {
-      await watchServerErrors(page, baseUrl, serverErrors);
+      await watchServerErrors(page, baseUrl);
     }
     if (testInfo.project.name !== 'admin-panel') {
       await page.goto(baseUrl);
       await page.waitForTimeout(timeouts.oneSecond);
     }
     await use(page);
-    if (isRemote) {
+    if (isRemote && !page.isClosed()) {
       await page.unrouteAll({ behavior: 'wait' });
-    }
-    if (serverErrors.length) {
-      await testInfo.attach('server-errors', { body: serverErrors.join('\n'), contentType: 'text/plain' });
     }
   },
   // eslint-disable-next-line no-empty-pattern

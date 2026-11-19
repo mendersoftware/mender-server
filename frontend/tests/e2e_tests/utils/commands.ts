@@ -83,6 +83,47 @@ export const prepareCookies = async (context: BrowserContext, domain: string, us
   return context;
 };
 
+const retryableStatusCodes = [502, 503, 504];
+const checkedMethods = ['GET', 'HEAD', 'OPTIONS'];
+const maxRetries = 2;
+
+// a worker only runs one test at a time, the serverErrorReport fixture resets this per test and attaches it to the report
+let serverErrors: string[] = [];
+export const resetServerErrors = () => {
+  serverErrors = [];
+  return serverErrors;
+};
+
+export const watchServerErrors = async (page: Page, baseUrl: string) =>
+  page.route(`${baseUrl}**`, async route => {
+    const request = route.request();
+    // route.fetch() follows redirects itself, which would hide them (and the resulting url change) from the browser
+    if (request.isNavigationRequest()) {
+      return route.continue();
+    }
+    const isRetryable = checkedMethods.includes(request.method());
+    try {
+      let response = await route.fetch();
+      for (let attempt = 1; response.status() >= 500; attempt++) {
+        serverErrors.push(
+          `${new Date().toISOString()} ${request.method()} ${request.url()} -> ${response.status()} (request id: ${response.headers()['x-men-requestid'] ?? 'n/a'})`
+        );
+        if (!isRetryable || !retryableStatusCodes.includes(response.status()) || attempt > maxRetries) {
+          break;
+        }
+        await new Promise(resolve => setTimeout(resolve, 500 * 2 ** attempt));
+        response = await route.fetch();
+      }
+      await route.fulfill({ response });
+    } catch (error) {
+      // pages from prepareNewPage are not unrouted by a fixture, so the test may close them while a request is still in flight
+      if (page.isClosed()) {
+        return;
+      }
+      throw error;
+    }
+  });
+
 const ensureFeedbackDisabled = async ({ baseUrl, page, token }: { baseUrl: string; page: Page; token: string }) => {
   const today = new Date();
   const response = await page.request.get(`${baseUrl}api/management/v1/useradm/settings/me`, { headers: { Authorization: `Bearer ${token}` } });
@@ -124,6 +165,9 @@ export const prepareNewPage = async ({
     window.localStorage.setItem(`onboardingComplete`, 'true');
   }, logInResult.token);
   let page = await context.newPage();
+  if (process.env.BASE_URL) {
+    await watchServerErrors(page, baseUrl);
+  }
   page = await ensureFeedbackDisabled({ baseUrl, page, token: logInResult.token });
   await page.goto(`${baseUrl}ui/`);
   return page;
