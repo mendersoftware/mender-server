@@ -33,6 +33,7 @@ import {
   getCurrentSession,
   getCurrentUser,
   getIsServiceProvider,
+  getIsUploading,
   getOrganization,
   getSentryConfig,
   getSnackbar,
@@ -71,6 +72,7 @@ const alwaysPublicPaths = [activationPath, emailChangePath, passwordResetOrAuthU
 const trackingBlacklist = [/\/password\/.+/i, /\/activate\/.+/i, /\/email-change\/.+/i];
 const timeout = maxSessionAge * 1000; // 15 minutes idle time
 const cookies = new Cookies();
+const sessionExpiredKey = 'session-expired';
 
 const reducePalette =
   prefix =>
@@ -149,6 +151,7 @@ export const AppRoot = () => {
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
   const { id: tenantId } = useSelector(getOrganization);
+  const isUploading = useSelector(getIsUploading);
 
   const trackLocationChange = useCallback(pathname => {
     let page = pathname;
@@ -212,17 +215,31 @@ export const AppRoot = () => {
   const updateExpiryDate = useCallback(() => updateMaxAge({ expiresAt, token }), [expiresAt, token]);
 
   const onIdle = useCallback(() => {
-    if (!!expiresAt && currentUser) {
-      // logout user and warn
-      return dispatch(logoutUser())
-        .catch(updateExpiryDate)
-        .then(() => {
-          navigate('//'); // double / to ensure the logged out URL conforms to `/ui/` in order to not trigger a redirect and potentially use state
-          // async snackbar setting to ensure the login screen has loaded as the snackbar might be cleared by other actions otherwise
-          setTimeout(() => dispatch(setSnackbar('Your session has expired. You have been automatically logged out due to inactivity.')), TIMEOUTS.oneSecond);
-        });
+    if (!expiresAt || !currentUser) {
+      return;
     }
-  }, [currentUser, dispatch, expiresAt, navigate, updateExpiryDate]);
+    if (isUploading) {
+      // the logout is refused while uploads are running, so keep the session alive instead
+      return updateExpiryDate();
+    }
+    return dispatch(logoutUser()).then(() => {
+      // the logout resets the store, so reload to get the environment + theme reinitialized - the warning gets shown once the login screen has loaded
+      window.sessionStorage.setItem(sessionExpiredKey, 'true');
+      window.location.replace('/ui/');
+    });
+  }, [currentUser, dispatch, expiresAt, isUploading, updateExpiryDate]);
+
+  useEffect(() => {
+    if (!window.sessionStorage.getItem(sessionExpiredKey)) {
+      return;
+    }
+    // async snackbar setting to ensure the login screen has loaded as the snackbar might be cleared by other actions otherwise
+    const timer = setTimeout(() => {
+      window.sessionStorage.removeItem(sessionExpiredKey);
+      dispatch(setSnackbar('Your session has expired. You have been automatically logged out due to inactivity.'));
+    }, TIMEOUTS.oneSecond);
+    return () => clearTimeout(timer);
+  }, [dispatch]);
 
   useIdleTimer({ crossTab: true, onAction: updateExpiryDate, onActive: updateExpiryDate, onIdle, syncTimers: 400, timeout, timers: workerTimers });
 
