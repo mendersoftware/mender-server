@@ -16,6 +16,7 @@ import type { Page } from '@playwright/test';
 import type { TestEnvironment } from '../../fixtures/fixtures';
 import test, { expect } from '../../fixtures/fixtures';
 import { selectors, timeouts } from '../../utils/constants';
+import { selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils';
 
 const openDeviceDetails = (page: Page) => page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
 
@@ -30,8 +31,7 @@ test.describe('Test devices', () => {
     await navbar.getByRole('link', { name: /Devices/i }).click();
   });
 
-  test('is marked as test device once accepted by a trial account', async ({ environment, page }) => {
-    skipUnlessTestDevicesAvailable(environment);
+  test('is marked as test device once accepted by a trial account', async ({ page }) => {
     await expect(page.getByRole('button', { name: /trial plan/i })).toBeVisible({ timeout: timeouts.tenSeconds });
     await openDeviceDetails(page);
     const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
@@ -40,8 +40,8 @@ test.describe('Test devices', () => {
     await expect(page.locator('.MuiTooltip-tooltip').getByText(/[1-5]\/\d+ test devices set/)).toBeVisible({ timeout: timeouts.tenSeconds });
   });
 
-  test('can have its test device status unset and set again', async ({ environment, page }) => {
-    skipUnlessTestDevicesAvailable(environment);
+  let deploymentId = '';
+  test('can have its test device status unset and then be slow to deploy', async ({ baseUrl, page }) => {
     await openDeviceDetails(page);
     const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
     const deviceActions = page.getByRole('button', { name: 'device-actions' });
@@ -57,6 +57,24 @@ test.describe('Test devices', () => {
     await removalDialog.getByRole('button', { name: 'Remove as test device', exact: true }).click();
     await expect(snackbar).toBeVisible();
     await expect(testDeviceChip).not.toBeVisible();
+    await deviceActions.click();
+    await page.getByRole('menuitem', { name: /Create deployment for this/i }).click();
+
+    await selectReleaseByName(page, 'mender-demo-artifact');
+    deploymentId = await triggerDeploymentCreation(
+      page,
+      expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds })
+    );
+    await page.waitForTimeout(2 * timeouts.fifteenSeconds);
+    await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
+    const deploymentDetails = page.getByRole('dialog');
+    await expect(deploymentDetails.getByText('awaiting devices')).toBeVisible();
+  });
+
+  test('can have its test device status set again & pick up the deployment', async ({ baseUrl, page }) => {
+    await openDeviceDetails(page);
+    const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
+    const deviceActions = page.getByRole('button', { name: 'device-actions' });
 
     await deviceActions.click();
     await expect(page.locator('[aria-label="set-test-device"]')).toBeVisible();
@@ -65,7 +83,10 @@ test.describe('Test devices', () => {
     const additionDialog = page.getByRole('dialog');
     await expect(additionDialog.getByRole('heading', { name: 'Set as test device?' })).toBeVisible();
     await additionDialog.getByRole('button', { name: 'Set as test device', exact: true }).click();
-    await expect(snackbar).toBeVisible();
     await expect(testDeviceChip).toBeVisible();
+    await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
+    const deploymentDetails = page.getByRole('dialog');
+    const deviceDeploymentsIndicator = deploymentDetails.getByRole('heading', { name: 'Devices', exact: true });
+    await expect(deviceDeploymentsIndicator).toBeVisible({ timeout: timeouts.fifteenSeconds });
   });
 });
