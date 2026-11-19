@@ -15,6 +15,7 @@ import { test as base } from '@playwright/test';
 import * as fs from 'fs';
 
 import { stopDockerClient } from '../utils/commands';
+import { stopCompatClients } from '../utils/compat';
 import { storageFolder } from '../utils/constants';
 
 const test = base;
@@ -24,6 +25,11 @@ test('teardown', async () => {
     await stopDockerClient();
   } catch {
     // best-effort: client may not be running
+  }
+  try {
+    await stopCompatClients();
+  } catch {
+    // best-effort: compatibility clients may not be running
   }
 
   try {

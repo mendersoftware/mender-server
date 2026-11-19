@@ -64,10 +64,19 @@ const options: PlaywrightTestConfig = {
     { name: 'admin-panel', testDir: `${testDirBase}/05-admin-panel`, use: { ...devices['Desktop Chrome'], viewport }, workers: 1 },
 
     {
-      name: 'chromium',
+      name: 'potentially-destructive-chromium',
       testDir: `${testDirBase}/09-potentially-destructive`,
       use: projectParamsByBrowser.chrome,
       dependencies: ['advanced-chromium', 'admin-panel'],
+      workers: 1
+    },
+    // Tests that need more devices than a trial allows run after the account upgrade in 09-potentially-destructive. This is the
+    // end of the chromium chain, so a `--project=chromium` run includes everything before it.
+    {
+      name: 'chromium',
+      testDir: `${testDirBase}/10-plan-upgrade-required`,
+      use: projectParamsByBrowser.chrome,
+      dependencies: ['potentially-destructive-chromium'],
       teardown: 'teardown',
       workers: 1
     },
