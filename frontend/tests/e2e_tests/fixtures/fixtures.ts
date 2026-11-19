@@ -97,7 +97,7 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
       await page.waitForTimeout(timeouts.oneSecond);
     }
     await use(page);
-    if (isRemote) {
+    if (isRemote && !page.isClosed()) {
       await page.unrouteAll({ behavior: 'wait' });
     }
     if (serverErrors.length) {
