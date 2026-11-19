@@ -189,6 +189,11 @@
       "groupName": "docker-compose",
       "groupSlug": "docker-compose"
     },
+    // The client compatibility tests pin old client versions on purpose.
+    {
+      "matchFileNames": ["**/docker-compose.compat*.yml"],
+      "enabled": false
+    },
 
     // Python: one PR for all pip deps.
     {
