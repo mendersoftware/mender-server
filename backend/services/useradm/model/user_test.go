@@ -79,7 +79,7 @@ func TestValidateNew(t *testing.T) {
 				Email:    Email(longStr) + "@northern.tech",
 				Password: "asdf",
 			},
-			outErr: "email: the length must be no more than 256.",
+			outErr: "email: must be a valid email address.",
 		},
 		"email ok, pass invalid (too long) ": {
 			inUser: User{

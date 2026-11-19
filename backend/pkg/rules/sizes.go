@@ -17,6 +17,5 @@ var (
 
 	deploymentNameSize = size256
 
-	emailSize    = size256
 	passwordSize = size256
 )

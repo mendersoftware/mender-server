@@ -6763,7 +6763,7 @@ paths:
           description: |
             Limit result by user email, can be repeated to include multiple users in the query.
           schema:
-            type: string
+            $ref: '#/components/schemas/Email'
         - name: created_after
           in: query
           description: |
@@ -7624,6 +7624,16 @@ components:
       minLength: 0
       maxLength: 4096
       pattern: ^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$
+    Email:
+      description: |
+        A valid ASCII-only email address. 
+        Must be between 6 and 254 characters in length and conform 
+        to standard email formatting (W3C HTML5 / RFC 5322).
+      type: string
+      format: email
+      minLength: 6
+      maxLength: 254
+      pattern: ^[\x00-\x7F]*$
     DeploymentStatus:
       example:
         status: success
