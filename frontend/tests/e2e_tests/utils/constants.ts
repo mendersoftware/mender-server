@@ -15,7 +15,7 @@ import type { BrowserContextOptions } from '@playwright/test';
 export const testDirBase = 'integration';
 
 //    limitations under the License.
-const deviceListItem = '.deviceListItem';
+const deviceListItem = '.MuiDataGrid-row';
 export const selectors = {
   deviceGroupSelect: '#deployment-device-group-selection',
   deviceListCheckbox: `${deviceListItem} input`,

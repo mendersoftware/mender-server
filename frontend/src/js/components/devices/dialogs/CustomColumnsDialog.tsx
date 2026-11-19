@@ -21,7 +21,7 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
 const Content = lazy(() => import('./CustomColumnsDialogContent'));
 
-export const ColumnCustomizationDialog = ({ customColumnSizes, open, onCancel, onSubmit, ...props }) => {
+export const ColumnCustomizationDialog = ({ open, onCancel, onSubmit, ...props }) => {
   const [selectedAttributes, setSelectedAttributes] = useState([]);
 
   const onHandleSubmit = () => {
@@ -32,7 +32,7 @@ export const ColumnCustomizationDialog = ({ customColumnSizes, open, onCancel, o
       scope: attribute.scope,
       title: attribute.title || attribute.key
     }));
-    onSubmit(attributes, customColumnSizes);
+    onSubmit(attributes);
   };
 
   return (

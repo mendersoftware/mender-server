@@ -54,7 +54,7 @@ describe('AuthorizedDevices Component', () => {
 
   it('behaves as expected', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { saveUserSettings: setUserSettingsSpy, updateUserColumnSettings: setColumnsSpy, setDeviceListState: setListStateSpy } = StoreThunks;
+    const { saveUserSettings: setUserSettingsSpy, setDeviceListState: setListStateSpy } = StoreThunks;
 
     const testKey = 'testKey';
     const attributeNames = {
@@ -89,10 +89,6 @@ describe('AuthorizedDevices Component', () => {
           ...defaultState.organization.organization,
           addons: [{ enabled: true, name: 'monitor' }]
         }
-      },
-      users: {
-        ...defaultState.users,
-        customColumns: [{ attribute: { name: attributeNames.checkInTime, scope: 'system' }, size: 220 }]
       }
     };
     const ui = (
@@ -135,14 +131,6 @@ describe('AuthorizedDevices Component', () => {
     expect(button).not.toBeDisabled();
     await user.click(button);
 
-    expect(setColumnsSpy).toHaveBeenCalledWith({
-      columns: [
-        { attribute: { name: attributeNames.deviceType, scope: 'inventory' }, size: 150 },
-        { attribute: { name: attributeNames.artifact, scope: 'inventory' }, size: 150 },
-        { attribute: { name: attributeNames.checkInTime, scope: 'system' }, size: 220 },
-        { attribute: { name: testKey, scope: 'inventory' }, size: 150 }
-      ]
-    });
     expect(setListStateSpy).toHaveBeenCalledWith({
       selectedAttributes: [
         { attribute: attributeNames.deviceType, scope: 'inventory' },

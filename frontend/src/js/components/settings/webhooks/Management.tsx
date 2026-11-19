@@ -23,7 +23,6 @@ import { makeStyles } from 'tss-react/mui';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
-import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
@@ -68,6 +67,10 @@ const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
     </div>
   );
 };
+
+export interface ClassesOverrides {
+  classes: Record<string, string>;
+}
 
 interface WebhookColumnRenderer extends ClassesOverrides {
   webhook: Webhook;
