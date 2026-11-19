@@ -64,7 +64,7 @@ const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
   return (
     <div className="flexbox align-items-center">
       <CircleIcon className={`${delivery.success ? 'green' : 'red'} ${classes.statusIcon}`} />
-      <div>{delivery.status_code ?? '-'}</div>
+      <div title={delivery.error}>{delivery.status_code ?? (delivery.error ? 'Error' : '-')}</div>
     </div>
   );
 };
