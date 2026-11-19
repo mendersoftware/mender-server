@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { getSessionInfo } from '@northern.tech/store/auth';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
@@ -73,6 +74,17 @@ describe('Billing Component', () => {
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('supports opening the billing portal when a billing profile exists', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { createBillingPortalSession } = StoreThunks;
+    const assignSpy = vi.spyOn(window.location, 'assign').mockImplementation(() => {});
+    render(<Billing />, { preloadedState: { ...preloadedState, users: { ...defaultState.users, currentSession: getSessionInfo() } } });
+    await act(async () => await user.click(screen.getByRole('button', { name: /manage billing/i })));
+    await waitFor(() => expect(createBillingPortalSession).toHaveBeenCalledWith(undefined));
+    await waitFor(() => expect(assignSpy).toHaveBeenCalledWith('https://billing.stripe.com/p/session/test_1234'));
+    assignSpy.mockRestore();
   });
 
   it('supports modifying billing profile', { timeout: TIMEOUTS.refreshDefault }, async () => {
