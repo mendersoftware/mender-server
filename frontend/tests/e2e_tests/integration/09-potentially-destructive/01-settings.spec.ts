@@ -25,8 +25,7 @@ import {
   prepareCookies,
   prepareNewPage,
   processLoginForm,
-  startClient,
-  tenantTokenRetrieval
+  startClient
 } from '../../utils/commands';
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
 import type { Email } from '../../utils/email.ts';
@@ -280,11 +279,10 @@ test.describe('Settings', () => {
       await page.waitForTimeout(2 * timeouts.fifteenSeconds);
       await page.context().close();
     });
-    test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {
+    test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, tenantToken, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
       await expect(page.getByTestId('device-limit-standard')).toContainText(/350/);
-      const token = await tenantTokenRetrieval(baseUrl, page);
-      await startClient(baseUrl, token, 50);
+      await startClient(baseUrl, tenantToken, 50);
       await page.goto(`${baseUrl}ui/devices`);
       await page.getByRole('button', { name: /view details/i }).waitFor({ timeout: timeouts.sixtySeconds });
       await expect(async () => {
