@@ -15,10 +15,17 @@ import type { Page } from '@playwright/test';
 
 import type { TestEnvironment } from '../../fixtures/fixtures';
 import test, { expect } from '../../fixtures/fixtures';
-import { selectors, timeouts } from '../../utils/constants';
-import { selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils';
+import { triggerDockerClientUpdateCheck } from '../../utils/commands';
+import { timeouts } from '../../utils/constants';
+import { navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils';
 
-const openDeviceDetails = (page: Page) => page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+const openDeviceDetails = async (page: Page) => {
+  await navigateTo(page, 'devices');
+  const isExpanded = await page.locator('.expandedDevice').isVisible();
+  if (!isExpanded) {
+    await page.getByTitle('generic-x86_64').click();
+  }
+};
 
 const skipUnlessTestDevicesAvailable = async (environment: TestEnvironment) =>
   test.skip(environment !== 'staging', 'test devices are only available on hosted Mender');
@@ -65,6 +72,8 @@ test.describe('Test devices', () => {
       page,
       expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds })
     );
+    // a rate limited client honours the Retry-After header of the server and won't poll for deployments again on its own for a long time
+    await triggerDockerClientUpdateCheck();
     await page.waitForTimeout(2 * timeouts.fifteenSeconds);
     await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
     const deploymentDetails = page.getByRole('dialog');
@@ -84,6 +93,8 @@ test.describe('Test devices', () => {
     await expect(additionDialog.getByRole('heading', { name: 'Set as test device?' })).toBeVisible();
     await additionDialog.getByRole('button', { name: 'Set as test device', exact: true }).click();
     await expect(testDeviceChip).toBeVisible();
+    // a rate limited client honours the Retry-After header of the server and won't poll for deployments again on its own for a long time
+    await triggerDockerClientUpdateCheck();
     await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
     const deploymentDetails = page.getByRole('dialog');
     const deviceDeploymentsIndicator = deploymentDetails.getByRole('heading', { name: 'Devices', exact: true });
