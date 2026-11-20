@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
 import * as fs from 'fs';
 
-import test, { expect } from '../../fixtures/fixtures';
+import baseTest, { expect } from '../../fixtures/fixtures';
 import { getTokenFromStorage, isEnterpriseOrStaging, startClient, tenantTokenRetrieval } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
 import { locateReleaseByName, navigateTo, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
@@ -43,6 +43,37 @@ const getUniformClientDevices = async (
   const devices: DevauthDevice[] = await response.json();
   return devices.filter(({ identity_data }) => identity_data[uniformClientIdentityKey] === runId);
 };
+
+const deploymentsUrl = (baseUrl: string) => `${baseUrl}api/management/v1/deployments/deployments`;
+
+const test = baseTest.extend<{ paginationDeploymentIds: string[] }>({
+  // creates enough deployments to span multiple pages & aborts exactly those again once the test is done
+  paginationDeploymentIds: async ({ baseUrl, request }, use) => {
+    const headers = { Authorization: `Bearer ${getTokenFromStorage(baseUrl)}` };
+    const responses = await Promise.all(
+      Array.from({ length: 60 }, (_, index) => ({
+        artifact_name: 'terminalImage',
+        all_devices: true,
+        max_devices: index,
+        name: `deployment-${index + 1}`
+      })).map(deployment => request.post(deploymentsUrl(baseUrl), { data: deployment, headers }))
+    );
+    const deploymentIds = responses.reduce<string[]>((accu, response) => {
+      const location = response.headers().location;
+      if (location) {
+        accu.push(location.substring(location.lastIndexOf('/') + 1));
+      }
+      return accu;
+    }, []);
+    try {
+      expect(deploymentIds, 'every pagination deployment should have been created').toHaveLength(responses.length);
+      await use(deploymentIds);
+    } finally {
+      // deployments that already finished can't be aborted anymore (422), which is fine here
+      await Promise.allSettled(deploymentIds.map(id => request.put(`${deploymentsUrl(baseUrl)}/${id}/status`, { data: { status: 'aborted' }, headers })));
+    }
+  }
+});
 
 const checkTimeFilter = async (page: Page, name: string, isSetToday?: boolean) => {
   const input = page.getByRole('group', { name });
@@ -171,17 +202,7 @@ test.describe('Deployments', () => {
     expect(deployments.length).toBeTruthy();
   });
 
-  test('deployment pagination', async ({ baseUrl, page, request }) => {
-    const token = await getTokenFromStorage(baseUrl);
-    const pendingDeploymentRequests = Array.from({ length: 60 }, (_, index) => ({
-      artifact_name: 'terminalImage',
-      all_devices: true,
-      max_devices: index,
-      name: `deployment-${index + 1}`
-    })).map(deployment =>
-      request.post(`${baseUrl}api/management/v1/deployments/deployments`, { data: deployment, headers: { Authorization: `Bearer ${token}` } })
-    );
-    await Promise.all(pendingDeploymentRequests);
+  test('deployment pagination', async ({ baseUrl, page, paginationDeploymentIds: _deploymentIds }) => {
     await page.goto(`${baseUrl}ui/deployments`);
     await expect(page.getByText(/rows/i)).toBeVisible();
     await page.getByText(/rows/i).scrollIntoViewIfNeeded();
@@ -263,6 +284,19 @@ test.describe('Deployments', () => {
       await expect(page.getByText('Phase 1', { exact: true })).toBeVisible();
       await expect(page.getByText('Phase 2', { exact: true })).toBeVisible();
       await expect(page.getByText('(Final phase)')).toHaveCount(1);
+
+      // the phased deployment would otherwise keep waiting for its next phases, so abort it through the report
+      // but we can't query via the button name, as that's obfuscated by the surrounding tooltip content - so 2 step select it is
+      await page
+        .getByRole('button')
+        .getByText(/^(abort|stop) deployment$/i)
+        .click();
+      await page
+        .getByRole('dialog', { name: /abort deployment\?/i })
+        .getByRole('button', { name: /abort deployment/i })
+        .click();
+      await expect(page.getByText(/the deployment was successfully aborted/i)).toBeVisible({ timeout: timeouts.tenSeconds });
+      await expect(page.getByText('Uniform, 2 devices per phase')).toHaveCount(0);
     } finally {
       client.kill();
     }
