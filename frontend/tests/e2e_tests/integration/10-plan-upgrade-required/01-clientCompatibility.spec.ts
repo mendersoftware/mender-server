@@ -44,10 +44,20 @@ const openDeviceByHostname = async (page: Page, hostname: string) => {
   await page.getByText(/device information/i).waitFor();
 };
 
-const acceptedDevicesPath = `${storageFolder}/compat-devices.json`;
-const readAcceptedDevices = (): Record<string, string> => (existsSync(acceptedDevicesPath) ? JSON.parse(readFileSync(acceptedDevicesPath, 'utf-8')) : {});
-const storeAcceptedDevice = (hostname: string, deviceId: string) =>
-  writeFileSync(acceptedDevicesPath, JSON.stringify({ ...readAcceptedDevices(), [hostname]: deviceId }));
+type CompatState = { deploymentId?: string; devices: Record<string, string> };
+const compatStatePath = `${storageFolder}/compat-state.json`;
+const readCompatState = (): CompatState => (existsSync(compatStatePath) ? JSON.parse(readFileSync(compatStatePath, 'utf-8')) : { devices: {} });
+const storeAcceptedDevice = (hostname: string, deviceId: string) => {
+  const state = readCompatState();
+  writeFileSync(compatStatePath, JSON.stringify({ ...state, devices: { ...state.devices, [hostname]: deviceId } }));
+};
+const storeDeploymentId = (deploymentId: string) => writeFileSync(compatStatePath, JSON.stringify({ ...readCompatState(), deploymentId }));
+
+// A single-file update that is compatible with the docker-client device type of the compat clients. The mender-demo-artifact can't be
+// used, as 2.0.x clients fail to read Artifacts with payload provides ("type_info provides values not yet supported").
+const artifactPath = 'fixtures/date.mender';
+const artifactName = 'date';
+const finishedDeviceStatusPattern = /Success|Fail|Aborted|No compatible artifact found|Already installed|Decommissioned|Skipped|Incompatible tier/;
 
 // mender-connect versions before the simplified filetransfer protocol was introduced
 const legacyConnectVersion = '3.0.0';
@@ -144,15 +154,71 @@ test.describe('Client compatibility', () => {
     });
   }
 
+  test('deploys an artifact to the compatible clients', async ({ baseUrl, password, request, username }) => {
+    const deviceIds = Object.values(readCompatState().devices);
+    expect(deviceIds.length, 'none of the compatible clients got accepted').toBeGreaterThan(0);
+    const { token } = await login(username, password, baseUrl, request);
+    const headers = { Authorization: `Bearer ${token}` };
+
+    const uploadResponse = await request.post(`${baseUrl}api/management/v1/deployments/artifacts`, {
+      headers,
+      multipart: { artifact: { name: 'date.mender', mimeType: 'application/octet-stream', buffer: readFileSync(artifactPath) } }
+    });
+    expect([201, 409], await uploadResponse.text()).toContain(uploadResponse.status());
+
+    const deploymentResponse = await request.post(`${baseUrl}api/management/v1/deployments/deployments`, {
+      headers,
+      data: { artifact_name: artifactName, devices: deviceIds, name: 'client compatibility' }
+    });
+    expect(deploymentResponse.status(), await deploymentResponse.text()).toBe(201);
+    const location = deploymentResponse.headers()['location'];
+    storeDeploymentId(location.substring(location.lastIndexOf('/') + 1));
+  });
+
+  test('installs the deployed artifact on the compatible clients', async ({ baseUrl, page }) => {
+    const { deploymentId, devices } = readCompatState();
+    expect(deploymentId, 'no deployment was created for the compatible clients').toBeTruthy();
+    await page.goto(`${baseUrl}ui/deployments?open=true&id=${deploymentId}`);
+    const report = page.locator('.MuiDrawer-paper');
+    // show all devices of the deployment on a single page
+    await report.getByRole('combobox', { name: /rows per page/i }).click();
+    await page.getByRole('option').last().click();
+    const deviceRows = Object.entries(devices).map(([hostname, deviceId]) => ({
+      hostname,
+      row: report.getByRole('row').filter({ has: page.locator(`a[href$="devices?id=${deviceId}"]`) })
+    }));
+    // allTextContents doesn't wait for the rows, so devices that aren't listed yet count as unfinished
+    const readStatuses = () =>
+      Promise.all(
+        deviceRows.map(async ({ hostname, row }) => ({ hostname, status: (await row.allTextContents()).join('').match(finishedDeviceStatusPattern)?.[0] }))
+      );
+    await expect
+      .poll(async () => (await readStatuses()).filter(({ status }) => !status).map(({ hostname }) => hostname), {
+        message: 'waiting for all compatible clients to finish the deployment',
+        intervals: [timeouts.fiveSeconds],
+        timeout: 4 * timeouts.sixtySeconds
+      })
+      .toEqual([]);
+    const unsuccessful = (await readStatuses()).filter(({ status }) => status !== 'Success');
+    expect(unsuccessful, 'the deployment did not succeed on all compatible clients').toEqual([]);
+  });
+
   for (const client of compatibleClients) {
     const { hostname } = client;
     test(`${client.image} reports its inventory`, async ({ baseUrl, page }) => {
-      const deviceId = readAcceptedDevices()[hostname];
+      const deviceId = readCompatState().devices[hostname];
       expect(deviceId, `${hostname} was not accepted`).toBeTruthy();
       await page.goto(`${baseUrl}ui/devices/accepted?id=${deviceId}&tab=inventory`);
       const expandedDevice = page.locator('.expandedDevice');
-      const versionRow = expandedDevice.getByRole('row').filter({ has: page.getByRole('cell', { name: 'mender_client_version', exact: true }) });
-      await expect(versionRow.getByRole('cell', { name: client.version, exact: true })).toBeVisible({ timeout: 3 * timeouts.sixtySeconds });
+      const getAttributeValue = (attribute: string, value: string) =>
+        expandedDevice
+          .getByRole('row')
+          .filter({ has: page.getByRole('cell', { name: attribute, exact: true }) })
+          .getByRole('cell', { name: value, exact: true });
+      await expect.soft(getAttributeValue('mender_client_version', client.version)).toBeVisible({ timeout: 3 * timeouts.sixtySeconds });
+      await expect(getAttributeValue('artifact_name', artifactName), `${hostname} does not report the deployed artifact as installed`).toBeVisible({
+        timeout: timeouts.sixtySeconds
+      });
     });
   }
 });
