@@ -59,7 +59,7 @@ export const DeploymentAbortButton = ({ deployment, setAborting }) => (
     placement="bottom"
   >
     <Button color="error" startIcon={<BlockIcon />} onClick={() => setAborting(true)} variant="outlined">
-      {deployment.filters?.length ? 'Stop' : 'Abort'} deployment
+      {deployment.filter?.id ? 'Stop' : 'Abort'} deployment
     </Button>
   </Tooltip>
 );
