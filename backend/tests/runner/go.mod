@@ -1,15 +1,15 @@
 module github.com/mendersoftware/mender-server/tests/runner
 
-go 1.26.10
+go 1.26.11
 
 replace github.com/mendersoftware/mender-server => ../../
 
 require (
-	github.com/compose-spec/compose-go/v2 v2.16.2
-	github.com/docker/cli v29.9.3+incompatible
-	github.com/docker/compose/v5 v5.7.1
+	github.com/compose-spec/compose-go/v2 v2.17.0
+	github.com/docker/cli v29.10.0+incompatible
+	github.com/docker/compose/v5 v5.8.0
 	github.com/google/uuid v1.6.0
-	github.com/mendersoftware/mender-artifact v0.0.0-20261029122707-b33dd7c4202d
+	github.com/mendersoftware/mender-artifact v0.0.0-20261116102507-e56270c4a7cc
 	github.com/mendersoftware/mender-server v0.0.0-00010101000000-000000000000
 	github.com/moby/moby/api v1.57.0
 	github.com/moby/moby/client v0.6.3
@@ -20,7 +20,7 @@ require (
 require (
 	connectrpc.com/connect v1.19.1 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20261006220739-8c912ac31dd4 // indirect
-	github.com/DefangLabs/secret-detector v0.0.0-20260916192156-3e28d7ed64df // indirect
+	github.com/DefangLabs/secret-detector v1.1.0 // indirect
 	github.com/Microsoft/go-winio v0.6.4 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
@@ -74,7 +74,6 @@ require (
 	github.com/in-toto/attestation v1.2.0 // indirect
 	github.com/in-toto/in-toto-golang v0.11.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.20.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
@@ -88,6 +87,7 @@ require (
 	github.com/minio/sha256-simd v1.0.1 // indirect
 	github.com/moby/buildkit v0.33.1 // indirect
 	github.com/moby/docker-image-spec v1.3.1 // indirect
+	github.com/moby/extensions v0.0.0-20261020100352-d2819d88bcbe // indirect
 	github.com/moby/go-archive v0.3.3 // indirect
 	github.com/moby/locker v1.0.1 // indirect
 	github.com/moby/patternmatcher v0.6.1 // indirect
