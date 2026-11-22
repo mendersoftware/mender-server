@@ -9,7 +9,7 @@ require (
 	github.com/docker/cli v29.9.3+incompatible
 	github.com/docker/compose/v5 v5.7.1
 	github.com/google/uuid v1.6.0
-	github.com/mendersoftware/mender-artifact v0.0.0-20261029122707-b33dd7c4202d
+	github.com/mendersoftware/mender-artifact v0.0.0-20261116102507-e56270c4a7cc
 	github.com/mendersoftware/mender-server v0.0.0-00010101000000-000000000000
 	github.com/moby/moby/api v1.57.0
 	github.com/moby/moby/client v0.6.3
@@ -124,7 +124,7 @@ require (
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	github.com/ulikunitz/xz v0.5.17 // indirect
 	github.com/xhit/go-str2duration/v2 v2.1.0 // indirect
-	go.mongodb.org/mongo-driver/v2 v2.10.0 // indirect
+	go.mongodb.org/mongo-driver/v2 v2.10.1 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.71.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace v0.71.0 // indirect
