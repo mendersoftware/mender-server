@@ -94,8 +94,7 @@ func TestCheckHealth(t *testing.T) {
 		}
 	}
 	srv := httptest.NewServer(http.HandlerFunc(serveHTTP))
-	client := NewClient().(*client)
-	client.baseURL = srv.URL
+	client := newClient(srv.URL)
 	defer srv.Close()
 
 	for _, tc := range testCases {
@@ -129,9 +128,7 @@ func TestGenerateArtifactFails(t *testing.T) {
 	}
 	srv := httptest.NewServer(http.HandlerFunc(handler))
 
-	workflowsClient := NewClient().(*client)
-	workflowsClient.baseURL = srv.URL
-
+	workflowsClient := newClient(srv.URL)
 	multipartGenerateImage := &model.MultipartGenerateImageMsg{
 		Name:                  "name",
 		Description:           "description",
@@ -172,9 +169,7 @@ func TestGenerateArtifactSuccessful(t *testing.T) {
 	}
 	srv := httptest.NewServer(http.HandlerFunc(handler))
 
-	workflowsClient := NewClient().(*client)
-	workflowsClient.baseURL = srv.URL
-
+	workflowsClient := newClient(srv.URL)
 	multipartGenerateImage := &model.MultipartGenerateImageMsg{
 		Name:                  "name",
 		Description:           "description",
@@ -276,7 +271,6 @@ func TestReindexReporting(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			srv, err := mockServerReindex(t, tc.tenant, tc.device, tc.reqid, tc.code)
 			assert.NoError(t, err)
@@ -292,9 +286,7 @@ func TestReindexReporting(t *testing.T) {
 					})
 			}
 
-			client := NewClient().(*client)
-			client.baseURL = srv.URL
-
+			client := newClient(srv.URL)
 			err = client.StartReindexReporting(ctx, tc.device)
 			if tc.err != nil {
 				assert.EqualError(t, err, tc.err.Error())
@@ -399,9 +391,7 @@ func TestReindexDeploymentWorkflow(t *testing.T) {
 					})
 			}
 
-			client := NewClient().(*client)
-			client.baseURL = srv.URL
-
+			client := newClient(srv.URL)
 			err = client.StartReindexReportingDeployment(ctx, tc.device, tc.deployment, tc.id)
 			if tc.err != nil {
 				assert.EqualError(t, err, tc.err.Error())
@@ -544,9 +534,7 @@ func TestReindexDeploymentBatchWorkflow(t *testing.T) {
 					})
 			}
 
-			client := NewClient().(*client)
-			client.baseURL = srv.URL
-
+			client := newClient(srv.URL)
 			err = client.StartReindexReportingDeploymentBatch(ctx, tc.deviceDeployments)
 			if tc.err != nil {
 				assert.EqualError(t, err, tc.err.Error())
@@ -555,4 +543,15 @@ func TestReindexDeploymentBatchWorkflow(t *testing.T) {
 			}
 		})
 	}
+}
+
+func newClient(url string) *client {
+	client := NewClient().(*client)
+	client.baseURL = url
+	// httptest.Server closes the http.DefaultTransport
+	// so we must make individual transports for the clients to
+	// make them safe to use in unit tests running concurrently.
+	client.httpClient.Transport = &http.Transport{}
+	client.httpClient.Timeout = defaultTimeout
+	return client
 }
