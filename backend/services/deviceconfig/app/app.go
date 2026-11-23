@@ -201,8 +201,11 @@ func (a *app) UpdateConfiguration(
 	devID string,
 	attrs model.Attributes,
 ) error {
-	err := a.store.UpdateConfiguration(ctx, devID, attrs)
+	err := a.store.UpsertConfiguration(ctx, devID, attrs)
 	if err != nil {
+		if errors.Is(err, store.ErrDeviceNoExist) {
+			return ErrDeviceNotFound
+		}
 		return err
 	}
 	if identity := identity.FromContext(ctx); identity != nil &&

@@ -166,11 +166,11 @@ func (api *InternalAPI) UpdateConfiguration(c *gin.Context) {
 
 	err := api.App.UpdateConfiguration(ctx, deviceID, attrs)
 	if err != nil {
-		_ = c.Error(err)
-		rest.RenderError(c,
-			http.StatusInternalServerError,
-			errors.New(http.StatusText(http.StatusInternalServerError)),
-		)
+		if errors.Is(err, app.ErrDeviceNotFound) {
+			rest.RenderError(c, http.StatusNotFound, err)
+			return
+		}
+		rest.RenderInternalError(c, err)
 		return
 	}
 	c.Status(http.StatusNoContent)

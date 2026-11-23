@@ -546,7 +546,7 @@ func TestReplaceConfiguration(t *testing.T) {
 	}
 }
 
-func TestUpdateConfiguration(t *testing.T) {
+func TestUpsertConfiguration(t *testing.T) {
 	t.Parallel()
 	var testSet = []model.Device{{
 		ID:        uuid.NewSHA1(uuid.NameSpaceOID, []byte("0")).String(),
@@ -578,7 +578,6 @@ func TestUpdateConfiguration(t *testing.T) {
 		Devices        []model.Device
 		UpdatedDevices []model.Device
 
-		Error       error
 		ErrorUpdate error
 	}{{
 		Name: "ok new configured set",
@@ -627,7 +626,6 @@ func TestUpdateConfiguration(t *testing.T) {
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
-			t.Parallel()
 			var err error
 			ctx := context.Background()
 
@@ -640,20 +638,11 @@ func TestUpdateConfiguration(t *testing.T) {
 			defer ds.DropDatabase(ctx)
 
 			for _, dev := range testSet {
-				err = ds.UpdateConfiguration(tc.CTX, dev.ID, dev.ConfiguredAttributes)
-				if tc.Error != nil {
-					if assert.Error(t, err) {
-						assert.Regexp(t, tc.Error.Error(), err.Error())
-					}
-					return
-				} else {
-					require.NoError(t, err)
-
-				}
+				require.NoError(t, ds.InsertDevice(ctx, dev))
 			}
 
 			for _, dev := range tc.UpdatedDevices {
-				err = ds.UpdateConfiguration(tc.CTX, dev.ID, dev.ConfiguredAttributes)
+				err = ds.UpsertConfiguration(tc.CTX, dev.ID, dev.ConfiguredAttributes)
 				if tc.ErrorUpdate != nil {
 					require.Error(t, err)
 					assert.Regexp(t, tc.ErrorUpdate.Error(), err.Error())
