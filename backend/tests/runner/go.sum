@@ -186,8 +186,8 @@ github.com/mattn/go-runewidth v0.0.31 h1:1oCV4ReTlosDBc6rYRw5cL8S/4y8iv5oRl4SJ5I
 github.com/mattn/go-runewidth v0.0.31/go.mod h1:3qAiGCV4Koz/yuveO58qUefmUTRm8r0IGEXZ9jeHp/8=
 github.com/mattn/go-shellwords v1.0.16 h1:RRxAaRzU1YbzOSCj9NJqg2/VIbSWv0dnPoD3EwE8kxI=
 github.com/mattn/go-shellwords v1.0.16/go.mod h1:EZzvwXDESEeg03EKmM+RmDnNOPKG4lLtQsUlTZDWQ8Y=
-github.com/mendersoftware/mender-artifact v0.0.0-20261029122707-b33dd7c4202d h1:eNPpld3G3/s7h2ESXb7lUrXpLDH0VvcLcQCNkA+ubyA=
-github.com/mendersoftware/mender-artifact v0.0.0-20261029122707-b33dd7c4202d/go.mod h1:XlSaCPby9R8UlVYm7+4YsaQKb5Ejkkdjk+V5iT/F69k=
+github.com/mendersoftware/mender-artifact v0.0.0-20261116102507-e56270c4a7cc h1:M7EtunoJlDrLaokNSdJ5R31nvNQFrIlGMCXGOrxI3J8=
+github.com/mendersoftware/mender-artifact v0.0.0-20261116102507-e56270c4a7cc/go.mod h1:XlSaCPby9R8UlVYm7+4YsaQKb5Ejkkdjk+V5iT/F69k=
 github.com/mendersoftware/openssl v1.1.1-0.20260805091553-4b9336aa0818 h1:pIVFoUQC+cin0e1UXJjDpi8e2kz39PTo8ej3bqTVT34=
 github.com/mendersoftware/openssl v1.1.1-0.20260805091553-4b9336aa0818/go.mod h1:tikEC94q+Y0TU6r19L6mHzwruoTNYPEkrQPvsHEcQyU=
 github.com/mendersoftware/progressbar v0.0.4 h1:R2uO9WiNRwF4pL278KlzSFFeIq4GBK2bSg1uD9uy9MI=
@@ -327,8 +327,8 @@ github.com/xhit/go-str2duration/v2 v2.1.0 h1:lxklc02Drh6ynqX+DdPyp5pCKLUQpRT8bp8
 github.com/xhit/go-str2duration/v2 v2.1.0/go.mod h1:ohY8p+0f07DiV6Em5LKB0s2YpLtXVyJfNt1+BlmyAsU=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 h1:ilQV1hzziu+LLM3zUTJ0trRztfwgjqKnBWNtSRkbmwM=
 github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78/go.mod h1:aL8wCCfTfSfmXjznFBSZNN13rSJjlIOI1fUNAtF7rmI=
-go.mongodb.org/mongo-driver/v2 v2.10.0 h1:BYJLuVSu3/xDvToG+VQyoTPS+jxq9tuQDf+1nAlFKSE=
-go.mongodb.org/mongo-driver/v2 v2.10.0/go.mod h1:PxPyIAlsI1jkYZvUNfTr++ggyBP+RSaxHYctt6TcZc4=
+go.mongodb.org/mongo-driver/v2 v2.10.1 h1:FScYVU+0h/zERnvYemJix3ZDgeU2QGmC8EuXLSWLdf8=
+go.mongodb.org/mongo-driver/v2 v2.10.1/go.mod h1:PxPyIAlsI1jkYZvUNfTr++ggyBP+RSaxHYctt6TcZc4=
 go.opentelemetry.io/auto/sdk v1.2.1 h1:jXsnJ4Lmnqd11kwkBV2LgLoFMZKizbCi5fNZ/ipaZ64=
 go.opentelemetry.io/auto/sdk v1.2.1/go.mod h1:KRTj+aOaElaLi+wW1kO/DZRXwkF4C5xPbEe3ZiIhN7Y=
 go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.71.0 h1:B2h3uqicet1CT2N5TOFhS+Gq++9i0/CLmaxvhmhtP5s=

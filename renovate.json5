@@ -14,6 +14,7 @@
 
   // chore(deps): <desc>, matching the old Dependabot prefix.
   "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
   "semanticCommitScope": "deps",
 
   // Append a table in the commit message body describing all updates in the commit.
