@@ -71,7 +71,8 @@ func (h *InternalHandler) DeleteTenant(c *gin.Context) {
 	)
 	err := h.app.DeleteTenant(ctx)
 	if err != nil {
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		rest.RenderInternalError(c, err)
+		return
 	}
 	c.Status(http.StatusNoContent)
 }
@@ -105,7 +106,7 @@ func (h *InternalHandler) ProvisionDevice(c *gin.Context) {
 	case app.ErrDeviceAlreadyExists:
 		rest.RenderError(c, http.StatusConflict, cause)
 	default:
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
@@ -124,7 +125,7 @@ func (h *InternalHandler) DecommissionDevice(c *gin.Context) {
 	case app.ErrDeviceNotFound:
 		rest.RenderError(c, http.StatusNotFound, err)
 	default:
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		rest.RenderInternalError(c, err)
 	}
 }
 
