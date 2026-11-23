@@ -201,12 +201,12 @@ export const Scheduled = ({ createClick, openReport, ...remainder }) => {
       let endDate = start;
       if (deployment.phases && deployment.phases.length && deployment.phases[deployment.phases.length - 1].end_ts) {
         endDate = new Date(deployment.phases[deployment.phases.length - 1].end_ts);
-      } else if (deployment.filter_id || deployment.filter) {
+      } else if (deployment.filter?.id) {
         // calendar doesn't support never ending events so we arbitrarly set one year
         endDate = dayjs(start).add(1, 'year').toDate();
       }
       return {
-        allDay: !(deployment.filter_id || deployment.filter),
+        allDay: !deployment.filter?.id,
         id: deployment.id,
         title: `${deployment.name} ${deployment.artifact_name}`,
         start,

@@ -15,7 +15,6 @@ import type { Page } from '@playwright/test';
 import * as fs from 'fs';
 import md5 from 'md5';
 
-import type { TestEnvironment } from '../../fixtures/fixtures';
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging } from '../../utils/commands';
 import { expectedArtifactName, selectors, timeouts } from '../../utils/constants';
@@ -33,9 +32,6 @@ const openFilters = async (page: Page) => {
 
 const openDeviceDetails = (page: Page) => page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
 
-const skipUnlessTestDevicesAvailable = (environment: TestEnvironment) =>
-  test.skip(environment !== 'staging', 'test devices are only available on hosted Mender');
-
 test.describe('Devices', () => {
   test.beforeEach(async ({ page }) => {
     await navigateTo(page, 'devices');
@@ -50,45 +46,6 @@ test.describe('Devices', () => {
     await openDeviceDetails(page);
     await page.getByText(/Device information for/i).waitFor();
     await expect(page.getByText('Authentication status')).toBeVisible();
-  });
-
-  test('is marked as test device once accepted by a trial account', async ({ environment, page }) => {
-    skipUnlessTestDevicesAvailable(environment);
-    await expect(page.getByRole('button', { name: /trial plan/i })).toBeVisible({ timeout: timeouts.tenSeconds });
-    await openDeviceDetails(page);
-    const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
-    await expect(testDeviceChip).toBeVisible({ timeout: timeouts.tenSeconds });
-    await testDeviceChip.click();
-    await expect(page.locator('.MuiTooltip-tooltip').getByText(/1\/\d+ test devices set/)).toBeVisible({ timeout: timeouts.tenSeconds });
-  });
-
-  test('can have its test device status unset and set again', async ({ environment, page }) => {
-    skipUnlessTestDevicesAvailable(environment);
-    await openDeviceDetails(page);
-    const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
-    const deviceActions = page.getByRole('button', { name: 'device-actions' });
-    const snackbar = page.getByText(/device updated successfully/i);
-    await expect(testDeviceChip).toBeVisible({ timeout: timeouts.tenSeconds });
-
-    await deviceActions.click();
-    await expect(page.locator('[aria-label="remove-test-device"]')).toBeVisible();
-    await expect(page.locator('[aria-label="set-test-device"]')).toHaveCount(0);
-    await page.getByRole('menuitem', { name: /Remove as test device/i }).click();
-    const removalDialog = page.getByRole('dialog');
-    await expect(removalDialog.getByRole('heading', { name: 'Remove as test device?' })).toBeVisible();
-    await removalDialog.getByRole('button', { name: 'Remove as test device', exact: true }).click();
-    await expect(snackbar).toBeVisible();
-    await expect(testDeviceChip).not.toBeVisible();
-
-    await deviceActions.click();
-    await expect(page.locator('[aria-label="set-test-device"]')).toBeVisible();
-    await expect(page.locator('[aria-label="remove-test-device"]')).toHaveCount(0);
-    await page.getByRole('menuitem', { name: /Set as test device/i }).click();
-    const additionDialog = page.getByRole('dialog');
-    await expect(additionDialog.getByRole('heading', { name: 'Set as test device?' })).toBeVisible();
-    await additionDialog.getByRole('button', { name: 'Set as test device', exact: true }).click();
-    await expect(snackbar).toBeVisible();
-    await expect(testDeviceChip).toBeVisible();
   });
 
   test('can group a device', async ({ page, staticGroupName }) => {

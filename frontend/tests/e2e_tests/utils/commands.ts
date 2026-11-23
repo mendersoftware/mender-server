@@ -307,6 +307,16 @@ export const startDockerClient = async (baseUrl, token) => {
   return Promise.resolve();
 };
 
+// `mender-update check-update` (which is what the "Trigger update check" quick command runs on the device) looks up the daemon via systemctl,
+// which isn't available in the docker client - so we signal the daemon directly the same way the cli would
+export const triggerDockerClientUpdateCheck = (): Promise<void> =>
+  new Promise((resolve, reject) => {
+    const child = spawn('docker', ['exec', 'connect-client', 'sh', '-c', 'kill -USR1 $(pidof mender-update)']);
+    child.stderr.on('data', data => console.error(`stderr docker: ${data}`));
+    child.on('error', reject);
+    child.on('close', code => (code === 0 ? resolve() : reject(new Error(`triggering the update check on the docker client failed with exit code ${code}`))));
+  });
+
 export const stopDockerClient = (): Promise<void> =>
   new Promise(resolve => {
     console.log('stopping: docker');
