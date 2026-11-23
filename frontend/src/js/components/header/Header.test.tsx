@@ -65,4 +65,30 @@ describe('Header Component', () => {
     await waitFor(() => rerender(view));
     expect(screen.queryByText(defaultState.users.byId[defaultState.users.currentUser].email)).not.toBeInTheDocument();
   });
+
+  it('asks for confirmation and cancels running uploads before logging out', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const abort = vi.fn();
+    const { email } = defaultState.users.byId[defaultState.users.currentUser];
+    const view = <Header />;
+    const { rerender } = render(view, {
+      preloadedState: {
+        ...preloadedState,
+        app: { ...preloadedState.app, uploadsById: { 'upload-1': { name: 'test.mender', size: 1234, progress: 42, cancelSource: { abort } } } }
+      }
+    });
+    await user.click(screen.getByRole('button', { name: email }));
+    await user.click(within(document.body.querySelector('ul[role=menu]')).getByText(/log out/i));
+    await act(async () => vi.runAllTicks());
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByText(/upload in progress/i)).toBeVisible();
+    expect(abort).not.toHaveBeenCalled();
+    expect(screen.getByText(email)).toBeInTheDocument();
+
+    await user.click(within(dialog).getByRole('button', { name: /log out/i }));
+    await act(async () => vi.runAllTicks());
+    await waitFor(() => rerender(view));
+    expect(abort).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText(email)).not.toBeInTheDocument();
+  });
 });
