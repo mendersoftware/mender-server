@@ -33,13 +33,13 @@ const uniformGroup = 'uniformgroup';
 type AuthSet = { id: string; status: string };
 type DevauthDevice = { auth_sets: AuthSet[]; id: string; identity_data: Record<string, string> };
 
-const getUniformClientDevices = async (
+const getPendingUniformClientDevices = async (
   baseUrl: string,
   request: APIRequestContext,
   headers: Record<string, string>,
   runId: string
 ): Promise<DevauthDevice[]> => {
-  const response = await request.get(`${baseUrl}api/management/v2/devauth/devices?per_page=500`, { headers });
+  const response = await request.get(`${baseUrl}api/management/v2/devauth/devices`, { headers, params: { per_page: 500, status: 'pending' } });
   const devices: DevauthDevice[] = await response.json();
   return devices.filter(({ identity_data }) => identity_data[uniformClientIdentityKey] === runId);
 };
@@ -208,10 +208,10 @@ test.describe('Deployments', () => {
     try {
       let devices: DevauthDevice[] = [];
       await expect(async () => {
-        devices = await getUniformClientDevices(baseUrl, request, headers, testId);
+        devices = await getPendingUniformClientDevices(baseUrl, request, headers, testId);
         expect(devices).toHaveLength(uniformClientCount);
       }).toPass({ timeout: 2 * timeouts.sixtySeconds });
-      await Promise.all(
+      const acceptanceResponses = await Promise.all(
         devices.flatMap(({ auth_sets, id }) =>
           auth_sets
             .filter(({ status }) => status === 'pending')
@@ -220,6 +220,7 @@ test.describe('Deployments', () => {
             )
         )
       );
+      acceptanceResponses.forEach(response => expect(response.ok()).toBeTruthy());
       const deviceIds = devices.map(({ id }) => id);
       // accepted devices only show up in the inventory with a slight delay, so the grouping may have to be repeated
       await expect(async () => {
