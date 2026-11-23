@@ -757,6 +757,9 @@ func (a *app) SetDeviceStateIntegration(
 ) (*model.DeviceState, error) {
 	device, err := a.store.GetDeviceByIntegrationID(ctx, deviceID, integrationID)
 	if err != nil {
+		if errors.Is(err, store.ErrObjectNotFound) {
+			return nil, ErrIntegrationNotFound
+		}
 		return nil, errors.Wrap(err, "failed to retrieve the device")
 	} else if device == nil {
 		return nil, ErrIntegrationNotFound
