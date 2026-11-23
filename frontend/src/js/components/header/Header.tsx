@@ -37,6 +37,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { Link } from '@northern.tech/common-ui/Link';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
@@ -54,12 +55,14 @@ import {
   getOrganization,
   getReadAllHelptips,
   getTooltipsById,
+  getUploads,
   getUserRoles,
   getUserSettings,
   getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
+  cancelFileUpload,
   getAllDeviceCounts,
   logoutUser,
   setAllTooltipsReadState,
@@ -167,6 +170,8 @@ const useStyles = makeStyles()(theme => ({
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [tenantSwitcherShowing, setTenantSwitcherShowing] = useState(false);
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
+  const uploads = useSelector(getUploads);
   const hasReadHelptips = useSelector(getReadAllHelptips);
   const { email, tenants = [] } = useSelector(getCurrentUser);
   const tooltips = useSelector(getTooltipsById);
@@ -184,10 +189,17 @@ const AccountMenu = () => {
 
   const handleSwitchTenant = id => dispatch(switchUserOrganization(id));
 
+  const logout = () => dispatch(logoutUser()).then(() => window.location.replace('/ui/'));
+
   const onLogoutClick = () => {
     setAnchorEl(null);
-    dispatch(logoutUser()).then(() => window.location.replace('/ui/'));
+    if (Object.keys(uploads).length) {
+      return setShowLogoutConfirmation(true);
+    }
+    return logout();
   };
+
+  const onConfirmLogout = () => Promise.all(Object.keys(uploads).map(id => dispatch(cancelFileUpload(id)))).then(logout);
 
   const onToggleTooltips = () =>
     dispatch(setAllTooltipsReadState({ readState: hasReadHelptips ? READ_STATES.unread : READ_STATES.read, tooltipIds: Object.keys(tooltips) }));
@@ -263,6 +275,14 @@ const AccountMenu = () => {
           </ListItemIcon>
         </MenuItem>
       </Menu>
+      <ConfirmModal
+        header="Upload in progress"
+        description="An upload is still in progress. Logging out now will cancel it. Do you want to log out anyway?"
+        confirmButtonText="Log out"
+        open={showLogoutConfirmation}
+        close={() => setShowLogoutConfirmation(false)}
+        onConfirm={onConfirmLogout}
+      />
     </>
   );
 };
