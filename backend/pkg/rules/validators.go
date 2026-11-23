@@ -6,6 +6,8 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func HasUnderlyingType(input interface{}, kind reflect.Kind) bool {
@@ -16,6 +18,21 @@ func HasUnderlyingType(input interface{}, kind reflect.Kind) bool {
 	}
 
 	return v.Kind() == kind
+}
+
+func ObjectId(value interface{}) error {
+	if validation.IsEmpty(value) {
+		return nil
+	}
+
+	if !HasUnderlyingType(value, reflect.String) {
+		return fmt.Errorf("invalid type %T for identifier", value)
+	}
+
+	if _, err := bson.ObjectIDFromHex(value.(string)); err != nil {
+		return fmt.Errorf("invalid object id hex string: %w", err)
+	}
+	return nil
 }
 
 func Identifier(value interface{}) error {

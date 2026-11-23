@@ -198,7 +198,7 @@ paths:
         description: Tenant ID.
         required: true
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/ObjectId'
       requestBody:
         description: New user data.
         content:
@@ -284,7 +284,7 @@ paths:
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
         "503":
-          $ref: '../common/responses.yaml#/components/responses/UnavailableError' 
+          $ref: '../common/responses.yaml#/components/responses/UnavailableError'
 components:
   schemas:
     UserNewInternal:

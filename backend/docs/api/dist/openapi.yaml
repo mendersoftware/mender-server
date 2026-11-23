@@ -6570,7 +6570,7 @@ paths:
           description: Tenant ID.
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/ObjectId'
       requestBody:
         description: New user data.
         content:
@@ -7598,6 +7598,14 @@ components:
         - inventory
         - monitor
         - tags
+    ObjectId:
+      type: string
+      description: |
+        Identifier of an object.
+      pattern: ^[0-9a-fA-F]{24}$
+      minLength: 24
+      maxLength: 24
+      example: 6afb62f48cfaf505efbbe6b7
     Identifier:
       description: |
         Identifier consisting of up to 256 characters from the set
