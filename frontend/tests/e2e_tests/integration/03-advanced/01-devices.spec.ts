@@ -115,8 +115,8 @@ test.describe('Devices', () => {
     test.skip(!isEnterpriseOrStaging(environment));
     await openDeviceDetails(page);
     await page.getByText(/troubleshooting/i).click();
-    // the deviceconnect connection might not be established right away
-    await page.waitForSelector(`text=/Session status/i`, { timeout: timeouts.tenSeconds });
+    // the deviceconnect connection might not be established right away + polling interval is 10s on device details
+    await page.waitForSelector(`text=/Session status/i`, { timeout: 3 * timeouts.tenSeconds });
     await page.locator('.dropzone input').setInputFiles(`fixtures/${fileName}`);
     await page.click(selectors.placeholderExample, { clickCount: 3 });
     await page.getByPlaceholder(/installed-by-single-file/i).fill(`/tmp/${fileName}`);
