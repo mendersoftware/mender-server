@@ -19,17 +19,17 @@ import (
 
 // AttributeValueResponse - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: boolean, number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
 type AttributeValueResponse struct {
-	ArrayOfFloat32 *[]float32
+	ArrayOfFloat64 *[]float64
 	ArrayOfString *[]string
 	Bool *bool
-	Float32 *float32
+	Float64 *float64
 	String *string
 }
 
-// []float32AsAttributeValueResponse is a convenience function that returns []float32 wrapped in AttributeValueResponse
-func ArrayOfFloat32AsAttributeValueResponse(v *[]float32) AttributeValueResponse {
+// []float64AsAttributeValueResponse is a convenience function that returns []float64 wrapped in AttributeValueResponse
+func ArrayOfFloat64AsAttributeValueResponse(v *[]float64) AttributeValueResponse {
 	return AttributeValueResponse{
-		ArrayOfFloat32: v,
+		ArrayOfFloat64: v,
 	}
 }
 
@@ -47,10 +47,10 @@ func BoolAsAttributeValueResponse(v *bool) AttributeValueResponse {
 	}
 }
 
-// float32AsAttributeValueResponse is a convenience function that returns float32 wrapped in AttributeValueResponse
-func Float32AsAttributeValueResponse(v *float32) AttributeValueResponse {
+// float64AsAttributeValueResponse is a convenience function that returns float64 wrapped in AttributeValueResponse
+func Float64AsAttributeValueResponse(v *float64) AttributeValueResponse {
 	return AttributeValueResponse{
-		Float32: v,
+		Float64: v,
 	}
 }
 
@@ -66,21 +66,21 @@ func StringAsAttributeValueResponse(v *string) AttributeValueResponse {
 func (dst *AttributeValueResponse) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into ArrayOfFloat32
-	err = newStrictDecoder(data).Decode(&dst.ArrayOfFloat32)
+	// try to unmarshal data into ArrayOfFloat64
+	err = newStrictDecoder(data).Decode(&dst.ArrayOfFloat64)
 	if err == nil {
-		jsonArrayOfFloat32, _ := json.Marshal(dst.ArrayOfFloat32)
-		if string(jsonArrayOfFloat32) == "{}" { // empty struct
-			dst.ArrayOfFloat32 = nil
+		jsonArrayOfFloat64, _ := json.Marshal(dst.ArrayOfFloat64)
+		if string(jsonArrayOfFloat64) == "{}" { // empty struct
+			dst.ArrayOfFloat64 = nil
 		} else {
-			if err = validator.Validate(dst.ArrayOfFloat32); err != nil {
-				dst.ArrayOfFloat32 = nil
+			if err = validator.Validate(dst.ArrayOfFloat64); err != nil {
+				dst.ArrayOfFloat64 = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.ArrayOfFloat32 = nil
+		dst.ArrayOfFloat64 = nil
 	}
 
 	// try to unmarshal data into ArrayOfString
@@ -117,21 +117,21 @@ func (dst *AttributeValueResponse) UnmarshalJSON(data []byte) error {
 		dst.Bool = nil
 	}
 
-	// try to unmarshal data into Float32
-	err = newStrictDecoder(data).Decode(&dst.Float32)
+	// try to unmarshal data into Float64
+	err = newStrictDecoder(data).Decode(&dst.Float64)
 	if err == nil {
-		jsonFloat32, _ := json.Marshal(dst.Float32)
-		if string(jsonFloat32) == "{}" { // empty struct
-			dst.Float32 = nil
+		jsonFloat64, _ := json.Marshal(dst.Float64)
+		if string(jsonFloat64) == "{}" { // empty struct
+			dst.Float64 = nil
 		} else {
-			if err = validator.Validate(dst.Float32); err != nil {
-				dst.Float32 = nil
+			if err = validator.Validate(dst.Float64); err != nil {
+				dst.Float64 = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Float32 = nil
+		dst.Float64 = nil
 	}
 
 	// try to unmarshal data into String
@@ -153,10 +153,10 @@ func (dst *AttributeValueResponse) UnmarshalJSON(data []byte) error {
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.ArrayOfFloat32 = nil
+		dst.ArrayOfFloat64 = nil
 		dst.ArrayOfString = nil
 		dst.Bool = nil
-		dst.Float32 = nil
+		dst.Float64 = nil
 		dst.String = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(AttributeValueResponse)")
@@ -169,8 +169,8 @@ func (dst *AttributeValueResponse) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src AttributeValueResponse) MarshalJSON() ([]byte, error) {
-	if src.ArrayOfFloat32 != nil {
-		return json.Marshal(&src.ArrayOfFloat32)
+	if src.ArrayOfFloat64 != nil {
+		return json.Marshal(&src.ArrayOfFloat64)
 	}
 
 	if src.ArrayOfString != nil {
@@ -181,8 +181,8 @@ func (src AttributeValueResponse) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.Bool)
 	}
 
-	if src.Float32 != nil {
-		return json.Marshal(&src.Float32)
+	if src.Float64 != nil {
+		return json.Marshal(&src.Float64)
 	}
 
 	if src.String != nil {
@@ -197,8 +197,8 @@ func (obj *AttributeValueResponse) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.ArrayOfFloat32 != nil {
-		return obj.ArrayOfFloat32
+	if obj.ArrayOfFloat64 != nil {
+		return obj.ArrayOfFloat64
 	}
 
 	if obj.ArrayOfString != nil {
@@ -209,8 +209,8 @@ func (obj *AttributeValueResponse) GetActualInstance() (interface{}) {
 		return obj.Bool
 	}
 
-	if obj.Float32 != nil {
-		return obj.Float32
+	if obj.Float64 != nil {
+		return obj.Float64
 	}
 
 	if obj.String != nil {
@@ -223,8 +223,8 @@ func (obj *AttributeValueResponse) GetActualInstance() (interface{}) {
 
 // Get the actual instance value
 func (obj AttributeValueResponse) GetActualInstanceValue() (interface{}) {
-	if obj.ArrayOfFloat32 != nil {
-		return *obj.ArrayOfFloat32
+	if obj.ArrayOfFloat64 != nil {
+		return *obj.ArrayOfFloat64
 	}
 
 	if obj.ArrayOfString != nil {
@@ -235,8 +235,8 @@ func (obj AttributeValueResponse) GetActualInstanceValue() (interface{}) {
 		return *obj.Bool
 	}
 
-	if obj.Float32 != nil {
-		return *obj.Float32
+	if obj.Float64 != nil {
+		return *obj.Float64
 	}
 
 	if obj.String != nil {

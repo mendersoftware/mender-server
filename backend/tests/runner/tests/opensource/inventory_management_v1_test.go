@@ -84,11 +84,11 @@ func (s *InventoryManagementV1Suite) TestFilterDevicesOk() {
 	}
 
 	// give one device a distinct int-typed attribute and filter on its value
-	numAttr := float32(31337)
+	numAttr := float64(31337)
 	r, err := s.APIClient.DeviceInventoryDeviceAPIAPI.
 		AssignAttributes(common.JWTAuthContext(ctx, devs[2].Token)).
 		DeviceAttributeRequest([]client.DeviceAttributeRequest{
-			{Name: "test-num-attr", Value: client.Float32AsFilterValue(&numAttr)},
+			{Name: "test-num-attr", Value: client.Float64AsFilterValue(&numAttr)},
 		}).Execute()
 	require.NoError(err)
 	require.Equal(http.StatusOK, r.StatusCode)
@@ -189,7 +189,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 
 		payload := []client.DeviceAttributeRequest{
 			{Name: attrArtifact, Value: client.ArrayOfStringAsFilterValue(&[]string{"v1"})},
-			{Name: attrIdx, Value: client.Float32AsFilterValue(new(float32(i)))},
+			{Name: attrIdx, Value: client.Float64AsFilterValue(new(float64(i)))},
 		}
 		r, err := s.APIClient.DeviceInventoryDeviceAPIAPI.
 			AssignAttributes(common.JWTAuthContext(ctx, d.Token)).
@@ -212,7 +212,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 			params: client.SearchParams{
 				DeviceIds: ids,
 				Filters: []client.FilterPredicate{
-					{Type: "$eq", Attribute: attrIdx, Scope: client.INVENTORY, Value: client.Float32AsFilterValue(new(float32(1)))},
+					{Type: "$eq", Attribute: attrIdx, Scope: client.INVENTORY, Value: client.Float64AsFilterValue(new(float64(1)))},
 				},
 			},
 			wantStatus: http.StatusOK,
@@ -258,7 +258,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 			params: client.SearchParams{
 				DeviceIds: ids,
 				Filters: []client.FilterPredicate{
-					{Type: "$eq", Attribute: attrIdx, Scope: client.Scope("user_defined"), Value: client.Float32AsFilterValue(new(float32(1)))},
+					{Type: "$eq", Attribute: attrIdx, Scope: client.Scope("user_defined"), Value: client.Float64AsFilterValue(new(float64(1)))},
 				},
 			},
 			wantStatus: http.StatusBadRequest,
@@ -268,7 +268,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 			params: client.SearchParams{
 				DeviceIds: ids,
 				Filters: []client.FilterPredicate{
-					{Type: "$eq", Attribute: attrIdx, Scope: client.INVENTORY, Value: client.Float32AsFilterValue(new(float32(1)))},
+					{Type: "$eq", Attribute: attrIdx, Scope: client.INVENTORY, Value: client.Float64AsFilterValue(new(float64(1)))},
 				},
 				Sort: []client.SortCriteria{
 					{Attribute: attrIdx, Scope: client.Scope("user_defined"), Order: "desc"},
@@ -281,7 +281,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 			params: client.SearchParams{
 				DeviceIds: ids,
 				Filters: []client.FilterPredicate{
-					{Type: "$eq", Attribute: attrIdx, Scope: client.INVENTORY, Value: client.Float32AsFilterValue(new(float32(1)))},
+					{Type: "$eq", Attribute: attrIdx, Scope: client.INVENTORY, Value: client.Float64AsFilterValue(new(float64(1)))},
 				},
 				Attributes: []client.SelectAttribute{
 					{Attribute: attrIdx, Scope: client.Scope("user_defined")},
@@ -294,7 +294,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 			params: client.SearchParams{
 				DeviceIds: ids,
 				Filters: []client.FilterPredicate{
-					{Type: "$eq", Attribute: attrIdx, Scope: client.Scope("../../../../Windows/system.ini"), Value: client.Float32AsFilterValue(new(float32(1)))},
+					{Type: "$eq", Attribute: attrIdx, Scope: client.Scope("../../../../Windows/system.ini"), Value: client.Float64AsFilterValue(new(float64(1)))},
 				},
 			},
 			wantStatus: http.StatusBadRequest,
@@ -337,7 +337,7 @@ func (s *InventoryManagementV1Suite) TestDeviceFilteringSearchV2() {
 					{
 						Name:  attrIdx,
 						Scope: client.INVENTORY,
-						Value: client.Float32AsAttributeValueResponse(new(float32(slices.Index(ids, id)))),
+						Value: client.Float64AsAttributeValueResponse(new(float64(slices.Index(ids, id)))),
 					},
 					{
 						Name:  attrArtifact,
