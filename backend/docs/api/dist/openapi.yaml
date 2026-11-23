@@ -9601,12 +9601,14 @@ components:
       oneOf:
         - type: string
         - type: number
+          format: double
         - type: array
           items:
             type: string
         - type: array
           items:
             type: number
+            format: double
         - type: boolean
       description: |
         The current value of the attribute.
@@ -9904,12 +9906,14 @@ components:
         - type: boolean
         - type: string
         - type: number
+          format: double
         - type: array
           items:
             type: string
         - type: array
           items:
             type: number
+            format: double
       description: |
         The current value of the attribute.
 
