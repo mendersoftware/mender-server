@@ -25,11 +25,11 @@ module.exports = {
       'always',
       {
         feat: commonScopes,
-        fix: commonScopes,
+        fix: commonScopes.concat(["deps"]),
         test: commonScopes,
-        perf: [],  // scope is not allowed
-        ci: []     // scope is not allowed
-      }
+        perf: commonScopes,
+        ci: [], // scope is not allowed
+      },
     ],
     'subject-case': [1, 'always', ['lower-case', 'sentence-case']],
     'signed-off-by': [2, 'always', 'Signed-off-by'],
