@@ -430,14 +430,42 @@ func mapValueToAttribute(value interface{}) (client.FilterValue, error) {
 		return attr, nil
 	}
 	switch v := value.(type) {
-	case float32:
-		attr.Float32 = &v
+	case float64:
+		attr.Float64 = &v
 	case string:
 		attr.String = &v
-	case []float32:
-		attr.ArrayOfFloat32 = &v
+	case []float64:
+		attr.ArrayOfFloat64 = &v
 	case []string:
 		attr.ArrayOfString = &v
+	case []any:
+		if len(v) == 0 {
+			attr.ArrayOfString = new([]string)
+		} else {
+			if _, isFloat := v[0].(float64); isFloat {
+				ret := make([]float64, 0, len(v))
+				attr.ArrayOfFloat64 = &ret
+				for i, anyValue := range v {
+					if f64, ok := anyValue.(float64); ok {
+						ret = append(ret, f64)
+					} else if f32, ok := anyValue.(float32); ok {
+						ret = append(ret, float64(f32))
+					} else {
+						return attr, fmt.Errorf("unsupported type [%d]: %T", i, anyValue)
+					}
+				}
+			} else {
+				ret := make([]string, 0, len(v))
+				attr.ArrayOfString = &ret
+				for i, anyValue := range v {
+					if str, ok := anyValue.(string); ok {
+						ret = append(ret, str)
+					} else {
+						return attr, fmt.Errorf("unsupported type [%d]: %T", i, anyValue)
+					}
+				}
+			}
+		}
 	default:
 		return attr, fmt.Errorf("unsupported type: %T", value)
 
