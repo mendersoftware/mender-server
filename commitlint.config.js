@@ -25,9 +25,9 @@ module.exports = {
       'always',
       {
         feat: commonScopes,
-        fix: commonScopes,
+        fix: commonScopes.concat(["deps"]),
         test: commonScopes,
-        perf: commonScopes, // scope is not allowed
+        perf: commonScopes,
         ci: [], // scope is not allowed
       },
     ],
