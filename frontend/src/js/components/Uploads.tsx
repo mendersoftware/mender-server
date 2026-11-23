@@ -15,7 +15,7 @@ import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Cancel as CancelIcon } from '@mui/icons-material';
-import { Drawer, IconButton, LinearProgress, Tooltip, drawerClasses } from '@mui/material';
+import { Drawer, IconButton, LinearProgress, Tooltip, Typography, drawerClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
@@ -24,12 +24,7 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelFileUpload } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
-const useStyles = makeStyles()(theme => ({
-  progress: {
-    backgroundColor: theme.palette.grey[600],
-    gridColumn: 1,
-    margin: '15px 0'
-  },
+const useStyles = makeStyles()(() => ({
   drawer: {
     [`.${drawerClasses.paper}`]: {
       maxWidth: 'initial'
@@ -37,43 +32,24 @@ const useStyles = makeStyles()(theme => ({
   },
   progressBarContainer: {
     position: 'fixed',
-    display: 'grid',
     bottom: 0,
-    gridTemplateRows: 'min-content',
-    height: 'max-content',
-    padding: `0 ${theme.spacing(2)}px`,
-    overflow: 'hidden',
     width: '100%',
-    zIindex: 10000,
-    transition: 'all 0.2s ease-in-out'
-  },
-  progressContainer: {
-    backgroundColor: theme.palette.background.default,
-    borderColor: theme.palette.grey[300],
-    color: theme.palette.grey[600],
-    display: 'grid',
-    gridTemplateRows: '30px 30px',
-    gridTemplateColumns: '1fr 60px',
-    columnGap: theme.spacing(2),
-    ['> .MuiIconButton-root']: {
-      gridColumn: 2,
-      gridRowStart: 1,
-      gridRowEnd: 2,
-      height: 60
-    }
+    zIndex: 10000
   }
 }));
 
-const UploadProgressBar = ({ classes, upload, uploadId }) => {
+const UploadProgressBar = ({ upload, uploadId }) => {
   const { name, size, progress } = upload;
   const dispatch = useAppDispatch();
   const onCancelClick = useCallback(() => dispatch(cancelFileUpload(uploadId)), [dispatch, uploadId]);
   return (
-    <div className={classes.progressContainer}>
-      <div className="info flexbox centered">
-        {Math.round(progress)}% - {name} (<FileSize fileSize={size} />)
+    <div className="flexbox align-items-center gap-small">
+      <div className="flexbox column full-width gap-x-small">
+        <Typography variant="body2" color="text.secondary">
+          {Math.round(progress)}% - {name} (<FileSize component="span" fileSize={size} />)
+        </Typography>
+        <LinearProgress variant="determinate" value={progress} />
       </div>
-      <LinearProgress className={classes.progress} variant="determinate" value={progress} />
       <Tooltip title="Abort" placement="top">
         <IconButton onClick={onCancelClick} size="large">
           <CancelIcon />
@@ -103,12 +79,14 @@ const Uploads = () => {
 
   return (
     <div className={classes.progressBarContainer} onMouseEnter={onMouseOver}>
-      {isUploading && !isHovering && <LinearProgress className={classes.progress} variant="determinate" value={uploadProgress} />}
+      {isUploading && !isHovering && <LinearProgress className="margin-top-small margin-bottom-small" variant="determinate" value={uploadProgress} />}
       <Drawer anchor="bottom" className={classes.drawer} open={isUploading && isHovering} onClose={onClose}>
-        <h3>{pluralize('Upload', Object.keys(uploads).length)} in progress</h3>
-        {Object.entries(uploads).map(([uploadId, upload]) => (
-          <UploadProgressBar classes={classes} key={uploadId} upload={upload} uploadId={uploadId} />
-        ))}
+        <div className="flexbox column gap-small">
+          <Typography variant="h5">{pluralize('Upload', Object.keys(uploads).length)} in progress</Typography>
+          {Object.entries(uploads).map(([uploadId, upload]) => (
+            <UploadProgressBar key={uploadId} upload={upload} uploadId={uploadId} />
+          ))}
+        </div>
       </Drawer>
     </div>
   );
