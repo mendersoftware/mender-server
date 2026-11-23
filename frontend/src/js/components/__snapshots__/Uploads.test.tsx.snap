@@ -3,18 +3,9 @@
 exports[`Uploads Component > renders correctly 1`] = `
 .emotion-0 {
   position: fixed;
-  display: grid;
   bottom: 0;
-  grid-template-rows: min-content;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
-  padding: 0 16pxpx;
-  overflow: hidden;
   width: 100%;
-  z-iindex: 10000px;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  z-index: 10000;
 }
 
 .emotion-1 {
@@ -87,21 +78,12 @@ exports[`Uploads Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: #fff;
-  border-color: #e0e0e0;
-  color: #757575;
-  display: grid;
-  grid-template-rows: 30px 30px;
-  grid-template-columns: 1fr 60px;
-  -webkit-column-gap: 16px;
-  column-gap: 16px;
-}
-
-.emotion-4>.MuiIconButton-root {
-  grid-column: 2;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  height: 60px;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
 }
 
 .emotion-5 {
@@ -113,26 +95,23 @@ exports[`Uploads Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-6 {
+.emotion-7 {
   position: relative;
   overflow: hidden;
   display: block;
   height: 4px;
   z-index: 0;
   background-color: rgb(167, 202, 237);
-  background-color: #757575;
-  grid-column: 1;
-  margin: 15px 0;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7 {
+.emotion-8 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -146,7 +125,7 @@ exports[`Uploads Component > renders correctly 1`] = `
   transition: transform .4s linear 0ms;
 }
 
-.emotion-8 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -194,42 +173,42 @@ exports[`Uploads Component > renders correctly 1`] = `
   font-size: 1.75rem;
 }
 
-.emotion-8::-moz-focus-inner {
+.emotion-9::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-9.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-8 {
+  .emotion-9 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-8:hover {
+.emotion-9:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-8:hover {
+  .emotion-9:hover {
     background-color: transparent;
   }
 }
 
-.emotion-8.Mui-disabled {
+.emotion-9.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8.MuiIconButton-loading {
+.emotion-9.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-9 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -277,58 +256,68 @@ exports[`Uploads Component > renders correctly 1`] = `
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); transform: none; transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;"
       tabindex="-1"
     >
-      <h3>
-        Upload
-         in progress
-      </h3>
       <div
-        class="emotion-4"
+        class="flexbox column gap-small"
       >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 emotion-4"
+        >
+          Upload
+           in progress
+        </h5>
         <div
-          class="info flexbox centered"
+          class="flexbox align-items-center gap-small"
         >
-          20
-          % - 
-          testfile
-           (
-          <p
-            class="MuiTypography-root MuiTypography-body2 emotion-5"
+          <div
+            class="flexbox column full-width gap-x-small"
           >
-            2.00 KB
-          </p>
-          )
+            <p
+              class="MuiTypography-root MuiTypography-body2 emotion-5"
+            >
+              20
+              % - 
+              testfile
+               (
+              <span
+                class="MuiTypography-root MuiTypography-body2 emotion-5"
+              >
+                2.00 KB
+              </span>
+              )
+            </p>
+            <span
+              aria-valuemax="100"
+              aria-valuemin="0"
+              aria-valuenow="20"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-7"
+              role="progressbar"
+            >
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-8"
+                style="transform: translateX(-80%);"
+              />
+            </span>
+          </div>
+          <button
+            aria-label="Abort"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-9"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+              data-testid="CancelIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
+              />
+            </svg>
+          </button>
         </div>
-        <span
-          aria-valuemax="100"
-          aria-valuemin="0"
-          aria-valuenow="20"
-          class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-6"
-          role="progressbar"
-        >
-          <span
-            class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-7"
-            style="transform: translateX(-80%);"
-          />
-        </span>
-        <button
-          aria-label="Abort"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-8"
-          data-mui-internal-clone-element="true"
-          tabindex="0"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
-            data-testid="CancelIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
-            />
-          </svg>
-        </button>
       </div>
     </div>
     <div

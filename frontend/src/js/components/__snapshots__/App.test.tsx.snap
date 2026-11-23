@@ -1282,18 +1282,9 @@ exports[`App Component > is embedded in working providers 1`] = `
 
 .emotion-130 {
   position: fixed;
-  display: grid;
   bottom: 0;
-  grid-template-rows: min-content;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
-  padding: 0 16pxpx;
-  overflow: hidden;
   width: 100%;
-  z-iindex: 10000px;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  z-index: 10000;
 }
 
 <div>
