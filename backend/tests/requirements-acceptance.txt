@@ -1,4 +1,4 @@
-boto3==1.44.3
+boto3==1.44.9
 certifi >= 2026.10.19
 chardet >= 6.0.0.post1
 cryptography==50.0.2
@@ -9,11 +9,11 @@ jsonschema<5.0
 msgpack >= 1.1.2
 opensearch-py >= 3.2.0, < 4.0.0
 pluggy==1.7.0
-pymongo==4.20.0
+pymongo==4.20.1
 pytz
 pytest-ordering==0.6
 pytest==9.2.0
-PyYAML==6.0.3
+PyYAML==6.0.4
 redis==8.1.0
 redo==3.0.1
 requests==2.34.2
@@ -22,5 +22,5 @@ stripe==15.6.2
 tornado==6.5.9
 urllib3==2.8.0
 websocket_client >= 1.9.0
-pydantic==2.14.3
+pydantic==2.14.4
 pyjwt==2.15.1
