@@ -477,6 +477,7 @@ func TestReplaceConfiguration(t *testing.T) {
 
 			Devices: []model.Device{
 				{
+					ID: deviceID,
 					ConfiguredAttributes: model.Attributes{
 						{
 							Key:   "key0",
@@ -489,7 +490,6 @@ func TestReplaceConfiguration(t *testing.T) {
 
 			UpdatedDevices: []model.Device{
 				{
-					ID:                   deviceID,
 					ConfiguredAttributes: model.Attributes{},
 					UpdatedTS:            ptrNow(),
 				},
@@ -513,14 +513,7 @@ func TestReplaceConfiguration(t *testing.T) {
 			}
 
 			for _, dev := range tc.Devices {
-				err = ds.ReplaceConfiguration(tc.CTX, dev)
-				if err != nil {
-					if tc.Error != nil {
-						assert.EqualError(t, tc.Error, err.Error())
-						return
-					}
-					break
-				}
+				require.NoError(t, ds.InsertDevice(t.Context(), dev))
 			}
 			for _, dev := range tc.Devices {
 				d, err := ds.GetDevice(tc.CTX, dev.ID)
@@ -532,6 +525,10 @@ func TestReplaceConfiguration(t *testing.T) {
 
 			for _, dev := range tc.UpdatedDevices {
 				err = ds.ReplaceConfiguration(tc.CTX, dev)
+				if tc.Error != nil {
+					assert.EqualError(t, err, tc.Error.Error())
+					return
+				}
 				if err != nil {
 					break
 				}

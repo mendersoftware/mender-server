@@ -162,6 +162,9 @@ func (a *app) SetConfiguration(ctx context.Context,
 		UpdatedTS:            &now,
 	})
 	if err != nil {
+		if errors.Is(err, store.ErrDeviceNoExist) {
+			return ErrDeviceNotFound
+		}
 		return err
 	}
 	if identity := identity.FromContext(ctx); identity != nil &&
