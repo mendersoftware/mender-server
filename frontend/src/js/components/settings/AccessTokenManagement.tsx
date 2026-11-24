@@ -129,7 +129,7 @@ export const AccessTokenCreationDialog = ({ onCancel, onGenerate, isEnterprise, 
             {token && (
               <div className="margin-top-medium">
                 <CopyCode code={token} />
-                <Alert className="margin-top-small" severity="error">
+                <Alert className="margin-top-small" severity="warning">
                   This is the only time you will be able to see the token, so make sure to store it in a safe place. Do not share it - anyone with access to it
                   can act on your behalf.
                 </Alert>
