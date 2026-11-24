@@ -117,24 +117,10 @@ func (sp SearchParams) Validate() error {
 }
 
 func (f Filter) Validate() error {
-	err := validation.ValidateStruct(&f,
-		validation.Field(&f.Name, validation.Required))
-	if err != nil {
-		return err
-	}
-
-	if len(f.Terms) == 0 {
-		return errors.New("at least one filter term must be provided")
-	}
-
-	for _, fp := range f.Terms {
-		err = fp.Validate()
-		if err != nil {
-			return errors.Wrap(err, "validation failed for term")
-		}
-	}
-
-	return nil
+	return validation.ValidateStruct(&f,
+		validation.Field(&f.Name, validation.Required),
+		validation.Field(&f.Terms, validation.Length(1, 0), validation.Each()),
+	)
 }
 
 func (f FilterPredicate) Validate() error {
