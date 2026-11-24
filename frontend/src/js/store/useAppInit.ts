@@ -228,13 +228,13 @@ export const useAppInit = (): { coreInitDone: boolean } => {
       dispatch(getDevicesByStatus({ status: DEVICE_STATES.pending })),
       dispatch(getDevicesByStatus({ status: DEVICE_STATES.preauth })),
       dispatch(getDevicesByStatus({ status: DEVICE_STATES.rejected })),
-      dispatch(getDynamicGroups()),
       dispatch(getGroups()),
       dispatch(getIntegrations()),
       dispatch(getReleases()),
       dispatch(getAllDeviceCounts()).unwrap()
     ];
     if (hasMultitenancy) {
+      tasks.push(dispatch(getDynamicGroups()));
       tasks.push(dispatch(getDeviceLimits()));
       tasks.push(dispatch(getRoles()));
     } else {
