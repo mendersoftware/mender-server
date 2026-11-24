@@ -163,6 +163,13 @@ func (f FilterPredicate) Validate() error {
 					)
 				}
 
+			} else if f.Type == "$exists" {
+				if _, ok := f.Value.(bool); !ok {
+					return fmt.Errorf(
+						"invalid type %T for type $exists: "+
+							"must be boolean",
+						f.Value)
+				}
 			}
 			return err
 		})))
