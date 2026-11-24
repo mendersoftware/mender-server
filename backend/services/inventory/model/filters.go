@@ -71,9 +71,23 @@ type SortCriteria struct {
 	Order     string `json:"order"`
 }
 
+func (sc SortCriteria) Validate() error {
+	return validation.ValidateStruct(&sc,
+		validation.Field(&sc.Scope, validation.Required),
+		validation.Field(&sc.Attribute, validation.Required),
+		validation.Field(&sc.Order, validation.Required, validation.In(validSortOrders...)))
+}
+
 type SelectAttribute struct {
 	Scope     Scope  `json:"scope" bson:"scope"`
 	Attribute string `json:"attribute" bson:"attribute"`
+}
+
+func (selectAttr SelectAttribute) Validate() error {
+	return validation.ValidateStruct(&selectAttr,
+		validation.Field(&selectAttr.Scope, validation.Required),
+		validation.Field(&selectAttr.Attribute, validation.Required),
+	)
 }
 
 type Scope string
@@ -86,40 +100,20 @@ func (s Scope) Validate() error {
 }
 
 func (sp SearchParams) Validate() error {
-	for _, f := range sp.Filters {
-		err := f.Validate()
-		if err != nil {
-			return err
-		}
-	}
-
-	for _, s := range sp.Sort {
-		err := validation.ValidateStruct(&s,
-			validation.Field(&s.Scope, validation.Required),
-			validation.Field(&s.Attribute, validation.Required),
-			validation.Field(&s.Order, validation.Required, validation.In(validSortOrders...)))
-		if err != nil {
-			return err
-		}
-	}
-
-	for _, s := range sp.Attributes {
-		err := validation.ValidateStruct(&s,
-			validation.Field(&s.Scope, validation.Required),
-			validation.Field(&s.Attribute, validation.Required))
-		if err != nil {
-			return err
-		}
-	}
 	return validation.ValidateStruct(&sp,
-		validation.Field(&sp.PerPage, validation.Max(rest.PerPageMax)),
+		validation.Field(&sp.Attributes, validation.Each()),
+		validation.Field(&sp.Filters, validation.Each()),
+		validation.Field(&sp.PerPage, validation.Min(1), validation.Max(rest.PerPageMax)),
+		validation.Field(&sp.Sort, validation.Each()),
 	)
 }
 
 func (f Filter) Validate() error {
 	return validation.ValidateStruct(&f,
 		validation.Field(&f.Name, validation.Required),
-		validation.Field(&f.Terms, validation.Length(1, 0), validation.Each()),
+		validation.Field(&f.Terms,
+			validation.Required.Error("at least one filter term must be provided"),
+			validation.Each()),
 	)
 }
 
@@ -170,26 +164,12 @@ type SearchIdentityParams struct {
 }
 
 func (s SearchIdentityParams) Validate() error {
-	err := validation.ValidateStruct(&s,
+	return validation.ValidateStruct(&s,
 		validation.Field(&s.ValuePrefix, validation.Required),
 		validation.Field(&s.Attribute),
+		validation.Field(&s.Attributes, validation.Each()),
 		validation.Field(&s.PerPage, validation.Max(rest.PerPageMax)),
 	)
-
-	if err != nil {
-		return err
-	}
-
-	for _, s := range s.Attributes {
-		err := validation.ValidateStruct(&s,
-			validation.Field(&s.Scope, validation.Required),
-			validation.Field(&s.Attribute, validation.Required))
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
 }
 
 type SearchIdentityAttribute struct {
@@ -198,28 +178,16 @@ type SearchIdentityAttribute struct {
 }
 
 func (s SearchIdentityAttribute) Validate() error {
-	err := validation.ValidateStruct(&s,
+	return validation.ValidateStruct(&s,
 		validation.Field(&s.Scope,
 			validation.Required,
 			validation.In(AttrScopeIdentity, AttrScopeTags),
-		),
-		validation.Field(&s.Name, validation.Required),
+			validation.When(s.Name == AttrNameID, validation.In(AttrScopeIdentity).
+				Error(fmt.Sprintf("must be '%s' when scope is '%s'",
+					AttrScopeIdentity, AttrNameID)))),
+		validation.Field(&s.Name, validation.Required,
+			validation.When(s.Scope == AttrScopeTags, validation.In("name").
+				Error(fmt.Sprintf("must be 'name' when scope is '%s'",
+					AttrScopeTags)))),
 	)
-
-	if err != nil {
-		return err
-	}
-
-	if s.Name == AttrNameID && s.Scope != AttrScopeIdentity {
-		return errors.Errorf("scope: must be %s when name is '%s'.",
-			AttrScopeIdentity, AttrNameID)
-	}
-
-	attrNameName := "name"
-	if s.Scope == AttrScopeTags && s.Name != attrNameName {
-		return errors.Errorf("name: must be '%s' when scope is '%s'.",
-			attrNameName, AttrScopeTags)
-	}
-
-	return nil
 }
