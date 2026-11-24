@@ -181,14 +181,18 @@ export const Past = props => {
   if (deploymentsRef.current) {
     const deploymentsList = deploymentsRef.current.getElementsByClassName('deployment-list-item');
     const anchor = {
-      left: deploymentsRef.current.offsetWidth / 2,
-      top: deploymentsRef.current.offsetTop + deploymentsList[0]?.scrollHeight * (isCompact ? 1 : 2)
+      left: deploymentsRef.current.offsetLeft + deploymentsRef.current.offsetWidth / 2
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED, onboardingState, {
       anchor,
       setSnackbar: dispatchedSetSnackbar
     });
-    onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE, onboardingState, { anchor }, onboardingComponent);
+    onboardingComponent = getOnboardingComponentFor(
+      onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE,
+      onboardingState,
+      { anchor: { ...anchor, top: deploymentsRef.current.offsetTop - 15 + deploymentsList[0]?.scrollHeight * (isCompact ? 1 : 2) } },
+      onboardingComponent
+    );
   }
 
   const onFiltersChange = useCallback(
@@ -234,7 +238,7 @@ export const Past = props => {
         ]}
         onChange={onFiltersChange}
       />
-      <div className="deploy-table-contain">
+      <div className="relative">
         {/* TODO: fix status retrieval for past deployments to decide what to show here - */}
         {!loading && !!past.length && !!onboardingComponent && !isShowingDetails && onboardingComponent}
         {!!past.length && (
