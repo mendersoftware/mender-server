@@ -200,7 +200,7 @@ class TestAccess(_TestAccessBase):
 
     def test_ok(self, mongo):
         devid = str(uuid.uuid4())
-        email = "mender_tests@" + str(uuid.uuid4()) + ".com"
+        email = "user+" + str(uuid.uuid4()) + "@example.com"
         password = str(uuid.uuid4())
         user = create_user(email, password)
         r = ApiClient(useradm.URL_MGMT).call(

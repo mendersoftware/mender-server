@@ -108,10 +108,13 @@ func Email(value interface{}) error {
 		return fmt.Errorf("invalid type %T for email", value)
 	}
 
+	// is.Email enforces:
+	//	1 - Length between 6 and 254 characters.
+	//	2 - W3C HTML5 / RFC 5322 compliant email regex.
+	// Reference: https://github.com/asaskevich/govalidator
 	return validation.Validate(value,
-		emailSize,
 		is.ASCII,
-		is.EmailFormat,
+		is.Email,
 	)
 }
 
