@@ -125,7 +125,7 @@ export const GlobalSettings = () => {
   const { canManageReleases, canManageUsers } = userCapabilities;
   const { trial: isTrial = true } = useSelector(getOrganization);
   const { hasDelta: hasDeltaArtifactGeneration } = useSelector(state => state.deployments.config) ?? {};
-  const { hasAiEnabled } = useSelector(getFeatures);
+  const { hasAiEnabled, hasMultitenancy } = useSelector(getFeatures);
   const isPreview = useSelector(getIsPreview);
   const canPersistSettings = window.sessionStorage.getItem(settingsKeys.initialized) && timer.current && canManageUsers;
 
@@ -249,8 +249,15 @@ export const GlobalSettings = () => {
               !isEnterprise && (
                 <Typography className="margin-top-small" variant="body2">
                   Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature,{' '}
-                  <SupportLink variant="ourTeam" /> or <Link to="/subscription">upgrade</Link>
-                  {isTrial ? '' : ' to Mender Enterprise'}.
+                  <SupportLink variant="ourTeam" />
+                  {hasMultitenancy && (
+                    <>
+                      {' '}
+                      or <Link to="/subscription">upgrade</Link>
+                      {isTrial ? '' : ' to Mender Enterprise'}
+                    </>
+                  )}
+                  .
                 </Typography>
               )
             }
