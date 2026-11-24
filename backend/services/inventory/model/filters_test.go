@@ -76,6 +76,27 @@ func TestSearchParams(t *testing.T) {
 			},
 			err: errors.New("filters: (0: (attribute: cannot be blank.).)."),
 		},
+		"error/bad filter values": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Attribute: "reggie",
+						Scope:     "system",
+						Type:      "$regex",
+						Value:     "[unboundchars",
+					},
+					{
+						Attribute: "descarte",
+						Scope:     "system",
+						Type:      "$exists",
+						Value:     "I am",
+					},
+				},
+			},
+			err: errors.New("filters: (" +
+				"0: (value: invalid regular expression: error parsing regexp: missing closing ]: `[unboundchars`.); " +
+				"1: (value: invalid type string for type $exists: must be boolean.).)."),
+		},
 		"ko, filters - unsupported operator": {
 			params: &SearchParams{
 				Filters: []FilterPredicate{
