@@ -15,8 +15,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import { withStyles } from 'tss-react/mui';
+import { Button, Typography } from '@mui/material';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
@@ -25,15 +24,6 @@ import { getDemoDeviceAddress } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById, getDevicesByStatus, setOnboardingComplete } from '@northern.tech/store/thunks';
 import type { PositioningStrategy } from '@popperjs/core';
-
-export const CompletionButton = withStyles(Button, ({ palette }) => ({
-  root: {
-    backgroundColor: palette.background.default,
-    '&:hover': {
-      backgroundColor: palette.background.default
-    }
-  }
-}));
 
 export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
   const timer = useRef();
@@ -68,35 +58,38 @@ export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
               { name: 'flip', enabled: false },
               { name: 'preventOverflow', enabled: true, options: { boundary: window, altBoundary: false } }
             ]
-          },
-          style: { marginLeft: -30, marginTop: -20 }
+          }
         }
       }}
       title={
-        <div className="content">
-          <b>
+        <>
+          <Typography variant="subtitle2">
             <p>Fantastic! You completed your first deployment!</p>
-            <p>Your deployment is finished and your device is now running the updated software.</p>
-          </b>
-          <div className="margin-bottom-small margin-top-small">
+          </Typography>
+          <Typography className="flexbox column margin-bottom-small margin-top-small gap-small" component="div" variant="body2">
+            Your deployment is finished and your device is now running the updated software.
             {!url ? (
               <Loader show={true} />
             ) : (
-              <CompletionButton className="button" variant="text" href={`${url}/index.html?source=${encodeURIComponent(window.location)}`} target="_blank">
+              <Button
+                className="align-self-start"
+                href={`${url}/index.html?source=${encodeURIComponent(window.location)}`}
+                target="_blank"
+                variant="text"
+                color="inherit"
+              >
                 {`Go to ${url}`}
-              </CompletionButton>
+              </Button>
             )}
-            <br />
             and you should see the demo web application actually being run on the device.
-          </div>
-          <p>NOTE: if you have local network restrictions, you may need to check them if you have difficulty loading the page.</p>
-          <div className="flexbox">
-            <div style={{ flexGrow: 1 }} />
-            <Button variant="contained" color="secondary" onClick={() => dispatch(setOnboardingComplete(true))}>
+            <Typography variant="body2" color="textSecondary">
+              NOTE: if you have local network restrictions, you may need to check them if you have difficulty loading the page.
+            </Typography>
+            <Button className="align-self-end" variant="contained" color="secondary" onClick={() => dispatch(setOnboardingComplete(true))}>
               Close
             </Button>
-          </div>
-        </div>
+          </Typography>
+        </>
       }
     >
       <CheckCircleIcon />
