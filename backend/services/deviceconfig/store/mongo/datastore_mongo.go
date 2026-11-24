@@ -185,12 +185,15 @@ func (db *MongoStore) ReplaceConfiguration(ctx context.Context, dev model.Device
 		},
 	}
 
-	_, err := collDevs.UpdateOne(ctx,
+	res, err := collDevs.UpdateOne(ctx,
 		mongostore.WithTenantID(ctx, fltr),
-		update,
-		mopts.UpdateOne().SetUpsert(true))
-
-	return errors.Wrap(err, "mongo: failed to store device configuration")
+		update)
+	if err != nil {
+		return errors.Wrap(err, "mongo: failed to store device configuration")
+	} else if res.MatchedCount == 0 {
+		return store.ErrDeviceNoExist
+	}
+	return nil
 }
 
 func (db *MongoStore) ReplaceReportedConfiguration(ctx context.Context, dev model.Device) error {
