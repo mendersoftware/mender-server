@@ -49,8 +49,7 @@ import {
   saveUserSettings,
   setDeviceListState,
   setTestDeviceStatus,
-  updateDevicesAuth,
-  updateUserColumnSettings
+  updateDevicesAuth
 } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -59,7 +58,7 @@ import { clearAllRetryTimers, setRetryTimer } from '@northern.tech/utils/retryti
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import { defaultHeaders, routes as states } from './BaseDevices';
-import DeviceList, { minCellWidth } from './DeviceList';
+import DeviceList from './DeviceList';
 import ExpandedDevice from './ExpandedDevice';
 import ColumnCustomizationDialog from './dialogs/CustomColumnsDialog';
 import DeviceQuickActions from './widgets/DeviceQuickActions';
@@ -78,6 +77,8 @@ const deviceRefreshTimes = {
   [DEVICE_STATES.rejected]: TIMEOUTS.refreshLong,
   default: TIMEOUTS.refreshDefault
 };
+
+const paginationProps = { classes: { spacer: 'flexbox no-basis', toolbar: 'padding-left-none' } };
 
 export const idAttributeTitleMap = {
   id: 'Device ID',
@@ -135,20 +136,9 @@ export const getHeaders = (columnSelection = [], currentStateHeaders, idAttribut
   ];
 };
 
-const calculateColumnSelectionSize = (changedColumns, customColumnSizes) =>
-  changedColumns.reduce(
-    (accu, column) => {
-      const size = customColumnSizes.find(({ attribute }) => attribute.name === column.key && attribute.scope === column.scope)?.size || minCellWidth;
-      accu.columnSizes.push({ attribute: { name: column.key, scope: column.scope }, size });
-      accu.selectedAttributes.push({ attribute: column.key, scope: column.scope });
-      return accu;
-    },
-    { columnSizes: [], selectedAttributes: [] }
-  );
-
 const OnboardingComponent = ({ deviceListRef, onboardingState }) => {
   let onboardingComponent = null;
-  const element = deviceListRef.current?.querySelector('body .deviceListItem > div');
+  const element = deviceListRef.current?.querySelector('.MuiDataGrid-row');
   if (element) {
     const anchor = { left: 200, top: element.offsetTop + element.offsetHeight };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_PENDING_ONBOARDING, onboardingState, { anchor }, onboardingComponent);
@@ -173,9 +163,7 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
   const { accepted: acceptedCount, pending: pendingCount, rejected: rejectedCount } = useSelector(getDeviceCountsByStatus);
   const allCount = acceptedCount + rejectedCount;
   const availableIssueOptions = useSelector(getAvailableIssueOptionsByType);
-  const customColumnSizes = useSelector(state => state.users.customColumns);
   const deviceListState = useSelector(state => state.devices.deviceList);
-  const { total: deviceCount } = deviceListState;
   const filters = useSelector(getDeviceFilters);
   const idAttribute = useSelector(getIdAttribute);
   const onboardingState = useSelector(getOnboardingState);
@@ -364,38 +352,46 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
 
   const handlePageChange = useCallback(page => dispatchDeviceListState({ selectedId: undefined, page }), [dispatchDeviceListState]);
 
-  const onPageLengthChange = perPage => dispatchDeviceListState({ perPage, page: 1, refreshTrigger: !refreshTrigger });
+  const onPageLengthChange = useCallback(
+    perPage => dispatchDeviceListState({ perPage, page: 1, refreshTrigger: !refreshTrigger }),
+    [dispatchDeviceListState, refreshTrigger]
+  );
 
-  const onSortChange = attribute => {
-    const changedSortCol = attribute.name;
-    let changedSortDown = sortDown === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
-    if (changedSortCol !== sortCol) {
-      changedSortDown = SORTING_OPTIONS.desc;
-    }
-    dispatchDeviceListState({
-      sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope },
-      refreshTrigger: !refreshTrigger
-    });
-  };
+  const onSortChange = useCallback(
+    attribute => {
+      const changedSortCol = attribute.name;
+      let changedSortDown = sortDown === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
+      if (changedSortCol !== sortCol) {
+        changedSortDown = SORTING_OPTIONS.desc;
+      }
+      dispatchDeviceListState({
+        sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope },
+        refreshTrigger: !refreshTrigger
+      });
+    },
+    [dispatchDeviceListState, refreshTrigger, sortCol, sortDown]
+  );
 
   const setDetailsTab = detailsTab => dispatchDeviceListState({ detailsTab, setOnly: true });
 
   const onDeviceIssuesSelectionChange = ({ target: { value: selectedIssues } }) =>
     dispatchDeviceListState({ selectedIssues, page: 1, refreshTrigger: !refreshTrigger });
 
-  const onSelectionChange = (selection = []) => {
-    if (!onboardingState.complete && selection.length) {
-      dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING));
-    }
-    dispatchDeviceListState({ selection, setOnly: true });
-  };
+  const onSelectionChange = useCallback(
+    (selection = []) => {
+      if (!onboardingState.complete && selection.length) {
+        dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING));
+      }
+      dispatchDeviceListState({ selection, setOnly: true });
+    },
+    [dispatch, dispatchDeviceListState, onboardingState.complete]
+  );
 
   const onToggleCustomizationClick = () => setShowCustomization(toggle);
 
   const onChangeColumns = useCallback(
-    (changedColumns, customColumnSizes) => {
-      const { columnSizes, selectedAttributes } = calculateColumnSelectionSize(changedColumns, customColumnSizes);
-      dispatch(updateUserColumnSettings({ columns: columnSizes }));
+    changedColumns => {
+      const selectedAttributes = changedColumns.map(column => ({ attribute: column.key, scope: column.scope }));
       dispatch(saveUserSettings({ columnSelection: changedColumns }));
       // we don't need an explicit refresh trigger here, since the selectedAttributes will be different anyway & otherwise the shown list should still be valid
       dispatchDeviceListState({ selectedAttributes });
@@ -404,21 +400,22 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
     [dispatch, dispatchDeviceListState]
   );
 
-  const onExpandClick = (device = {}) => {
-    dispatchedSetSnackbar('');
-    const { id } = device;
-    dispatchDeviceListState({ selectedId: deviceListState.selectedId === id ? undefined : id, detailsTab: deviceListState.detailsTab || 'identity' });
-    if (!onboardingState.complete) {
-      dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ONBOARDING));
-    }
-  };
+  const onExpandClick = useCallback(
+    (device = {}) => {
+      dispatchedSetSnackbar('');
+      const { id } = device;
+      dispatchDeviceListState({ selectedId: deviceListState.selectedId === id ? undefined : id, detailsTab: deviceListState.detailsTab || 'identity' });
+      if (!onboardingState.complete) {
+        dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ONBOARDING));
+      }
+    },
+    [deviceListState.detailsTab, deviceListState.selectedId, dispatch, dispatchDeviceListState, dispatchedSetSnackbar, onboardingState.complete]
+  );
 
   const onCreateDeploymentClick = devices =>
     navigate(`/deployments?open=true&${devices.map(({ id }) => `deviceId=${id}`).join('&')}`, { state: { internal: true } });
 
   const onCloseExpandedDevice = useCallback(() => dispatchDeviceListState({ selectedId: undefined, detailsTab: '' }), [dispatchDeviceListState]);
-
-  const onResizeColumns = useCallback(columns => dispatch(updateUserColumnSettings({ columns })), [dispatch]);
 
   const actionCallbacks = {
     onAddDevicesToGroup: addDevicesToGroup,
@@ -493,19 +490,16 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
         {devices.length > 0 ? (
           <DeviceList
             columnHeaders={columnHeaders}
-            customColumnSizes={customColumnSizes}
             devices={devices}
             deviceListState={deviceListState}
             idAttribute={idAttribute}
             onChangeRowsPerPage={onPageLengthChange}
             onExpandClick={onExpandClick}
             onPageChange={handlePageChange}
-            onResizeColumns={onResizeColumns}
             onSelect={onSelectionChange}
             onSort={onSortChange}
             pageLoading={pageLoading}
-            pageTotal={deviceCount}
-            PaginationProps={{ classes: { spacer: 'flexbox no-basis', toolbar: 'padding-left-none' } }}
+            PaginationProps={paginationProps}
           />
         ) : (
           <EmptyState allCount={allCount} canManageDevices={canManageDevices} filters={filters} limitMaxed={limitMaxed} onClick={onPreauthClick} />
@@ -525,7 +519,6 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
       <ColumnCustomizationDialog
         attributes={attributes}
         columnHeaders={columnHeaders}
-        customColumnSizes={customColumnSizes}
         idAttribute={idAttribute}
         open={showCustomization}
         onCancel={onToggleCustomizationClick}

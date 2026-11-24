@@ -14,13 +14,12 @@
 import { useEffect, useRef, useState } from 'react';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
-import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import type { Event } from '@northern.tech/store/api/types';
 import type { Webhook } from '@northern.tech/store/constants';
 import { DEVICE_LIST_DEFAULTS, TIMEOUTS } from '@northern.tech/store/constants';
 
-import type { WebhookColumns } from './Management';
+import type { ClassesOverrides, WebhookColumns } from './Management';
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 

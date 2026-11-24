@@ -19,12 +19,11 @@ import { Button } from '@mui/material';
 import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import type { Event } from '@northern.tech/store/api/types';
 import type { Webhook } from '@northern.tech/store/constants';
 
-import type { WebhookColumns } from './Management';
+import type { ClassesOverrides, WebhookColumns } from './Management';
 
 interface SetSnackbarProps {
   action: () => void;
