@@ -18,12 +18,16 @@ import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
 import FileTransfer from './eventdetails/FileTransfer';
 import PortForward from './eventdetails/PortForward';
 import TerminalSession from './eventdetails/TerminalSession';
+import { parseConfigChange } from './eventdetails/utils';
 
 const UserChange = ({ item }) => <Code>{item.change}</Code>;
+
+const IntegrationChange = ({ item }) => <EventDetailsFallbackComponent item={parseConfigChange(item.change)} />;
 
 const changeTypes = {
   user: 'user',
   device: 'device',
+  integration: 'integration',
   tenant: 'tenant'
 };
 
@@ -47,6 +51,8 @@ const EventDetailsDrawerContentMap = (item, FallbackComponent = EventDetailsFall
     content = { title: `Device configuration ${configChangeDescriptor[item.action] || ''}`, content: DeviceConfiguration };
   } else if (type === changeTypes.device) {
     content = { title: 'Device change', content: FallbackComponent };
+  } else if (type === changeTypes.integration) {
+    content = { title: `${item.action}d integration`, content: IntegrationChange };
   } else if (type === changeTypes.tenant) {
     content = { title: `${item.action}d tenant`, content: UserChange };
   }

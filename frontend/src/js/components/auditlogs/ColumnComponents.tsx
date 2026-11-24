@@ -17,7 +17,7 @@ import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import { Link } from '@northern.tech/common-ui/Link';
 import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultiline';
 import Time from '@northern.tech/common-ui/Time';
-import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
+import { DEPLOYMENT_ROUTES, EXTERNAL_PROVIDER, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 
 import { stringifyEvent } from './eventdetails/utils';
@@ -53,6 +53,7 @@ const SoftwareLink = ({ item }) => {
 const DeploymentLink = ({ item }) => <InternalLink to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</InternalLink>;
 const DeviceLink = ({ item }) => <InternalLink to={`/devices?id=${item.object.id}`}>View device</InternalLink>;
 const DeviceRejectedLink = ({ item }) => <InternalLink to={`/devices/rejected?id=${item.object.id}`}>View device</InternalLink>;
+const IntegrationLink = () => <InternalLink to="/settings/integrations">View integrations</InternalLink>;
 const TerminalSessionLink = () => <Link>View session log</Link>;
 const ChangeFallback = props => {
   const {
@@ -71,6 +72,11 @@ const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
 const TokenFormatter = ({ id, user_access_token: token }) => <TextOverflowMultiline variant="body2">{token?.name ?? id}</TextOverflowMultiline>;
 const UserFormatter = ({ user }) => <TextOverflowMultiline variant="body2">{user.email}</TextOverflowMultiline>;
 const TenantFormatter = ({ tenant }) => <TextOverflowMultiline variant="body2">{tenant.name}</TextOverflowMultiline>;
+const IntegrationFormatter = ({ id, integration }) => (
+  <TextOverflowMultiline className="capitalized-start" variant="body2">
+    {EXTERNAL_PROVIDER[integration?.provider]?.title ?? integration?.provider ?? id}
+  </TextOverflowMultiline>
+);
 
 const defaultAccess = canAccess;
 const changeMap = {
@@ -88,23 +94,21 @@ const changeMap = {
   deviceRejected: { actionFormatter: DeviceFormatter, component: DeviceRejectedLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceGeneral: { actionFormatter: DeviceFormatter, component: DeviceLink, accessCheck: ({ canReadDevices }) => canReadDevices },
   deviceTerminalSession: { actionFormatter: DeviceFormatter, component: TerminalSessionLink, accessCheck: defaultAccess },
+  integrationDeleted: { actionFormatter: IntegrationFormatter, component: EmptyComponent, accessCheck: defaultAccess },
+  integrationGeneral: { actionFormatter: IntegrationFormatter, component: IntegrationLink, accessCheck: ({ canManageUsers }) => canManageUsers },
   user: { actionFormatter: UserFormatter, component: ChangeFallback, accessCheck: defaultAccess },
   user_access_token: { actionFormatter: TokenFormatter, component: ChangeFallback, accessCheck: defaultAccess },
   tenant: { actionFormatter: TenantFormatter, component: ChangeFallback, accessCheck: defaultAccess }
 };
 
+const deletableTypes = ['artifact', 'integration', 'software'];
+
 const mapChangeToContent = item => {
   let content = changeMap[item.object.type];
   if (content) {
     return content;
-  } else if (item.object.type === 'artifact' && item.action === 'delete') {
-    content = changeMap.artifactDeleted;
-  } else if (item.object.type === 'artifact') {
-    content = changeMap.artifactGeneral;
-  } else if (item.object.type === 'software' && item.action === 'delete') {
-    content = changeMap.softwareDeleted;
-  } else if (item.object.type === 'software') {
-    content = changeMap.softwareGeneral;
+  } else if (deletableTypes.includes(item.object.type)) {
+    content = changeMap[`${item.object.type}${item.action === 'delete' ? 'Deleted' : 'General'}`];
   } else if (item.object.type === 'device' && item.action.includes('terminal')) {
     content = changeMap.deviceTerminalSession;
   } else if (item.object.type === 'device' && item.action.includes('reject')) {
