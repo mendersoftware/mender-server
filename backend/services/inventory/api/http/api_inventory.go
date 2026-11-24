@@ -944,7 +944,7 @@ func (i *ManagementAPI) IdentitiesSearchHandler(c *gin.Context) {
 
 	devs, totalCount, err := i.App.SearchDevicesByIdentity(ctx, searchParams)
 	if err != nil {
-		rest.RenderError(c, http.StatusInternalServerError, errors.New("internal error"))
+		rest.RenderInternalError(c, err)
 		return
 	}
 
