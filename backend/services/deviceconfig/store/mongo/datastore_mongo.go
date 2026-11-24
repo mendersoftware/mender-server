@@ -18,6 +18,7 @@ import (
 	"context"
 	"crypto/tls"
 	"net/url"
+	"slices"
 	"time"
 
 	"github.com/google/uuid"
@@ -185,12 +186,15 @@ func (db *MongoStore) ReplaceConfiguration(ctx context.Context, dev model.Device
 		},
 	}
 
-	_, err := collDevs.UpdateOne(ctx,
+	res, err := collDevs.UpdateOne(ctx,
 		mongostore.WithTenantID(ctx, fltr),
-		update,
-		mopts.UpdateOne().SetUpsert(true))
-
-	return errors.Wrap(err, "mongo: failed to store device configuration")
+		update)
+	if err != nil {
+		return errors.Wrap(err, "mongo: failed to store device configuration")
+	} else if res.MatchedCount == 0 {
+		return store.ErrDeviceNoExist
+	}
+	return nil
 }
 
 func (db *MongoStore) ReplaceReportedConfiguration(ctx context.Context, dev model.Device) error {
@@ -224,7 +228,7 @@ func (db *MongoStore) ReplaceReportedConfiguration(ctx context.Context, dev mode
 	return errors.Wrap(err, "mongo: failed to store device reported configuration")
 }
 
-func (db *MongoStore) UpdateConfiguration(
+func (db *MongoStore) UpsertConfiguration(
 	ctx context.Context,
 	devID string,
 	attrs model.Attributes,
@@ -240,9 +244,12 @@ func (db *MongoStore) UpdateConfiguration(
 	}
 	collDevs := db.Database(ctx).Collection(CollDevices)
 	attrKeys := make([]string, len(attrs))
+
 	for i, attr := range attrs {
 		attrKeys[i] = attr.Key
 	}
+	slices.Sort(attrKeys)
+	attrKeys = slices.Compact(attrKeys)
 
 	fltr := bson.D{{
 		Key:   fieldID,
@@ -250,55 +257,44 @@ func (db *MongoStore) UpdateConfiguration(
 	}, {
 		Key:   mongostore.FieldTenantID,
 		Value: tenantID,
-	}, {
-		Key: fieldConfigured,
-		Value: bson.D{{
-			Key: "$exists", Value: true,
-		}},
 	}}
-	bwm := []mongo.WriteModel{
-		mongo.NewUpdateOneModel().
-			SetFilter(fltr).
-			SetUpdate(bson.D{{
-				Key: "$pull",
-				Value: bson.D{{
-					Key: fieldConfigured,
-					Value: bson.D{{Key: "key", Value: bson.D{{
-						Key:   "$in",
-						Value: attrKeys,
-					}}}},
-				}},
-			}}),
-		mongo.NewUpdateOneModel().
-			SetUpsert(true).
-			SetFilter(fltr[:2]).
-			SetUpdate(bson.D{{
-				Key: "$set", Value: bson.D{{
-					Key:   fieldUpdatedTs,
-					Value: time.Now().UTC(),
-				}},
-			}, {
-				Key: "$push",
-				Value: bson.D{{
-					Key: fieldConfigured,
-					Value: bson.D{{
-						Key:   "$each",
-						Value: attrs,
-					}, {
-						// Enforce validation constraint
-						Key:   "$slice",
-						Value: model.AttributesMaxLength,
+	//nolint:lll
+	_, err := collDevs.UpdateOne(ctx, fltr, mongo.Pipeline{
+		{{Key: "$set", Value: bson.D{
+			{Key: fieldConfigured, Value: bson.D{
+				{Key: "$filter", Value: bson.D{
+					{Key: "input", Value: bson.D{
+						{Key: "$ifNull", Value: bson.A{"$attrs", bson.A{}}},
+					}},
+					{Key: "cond", Value: bson.D{
+						{Key: "$not", Value: bson.D{
+							{Key: "$in", Value: bson.A{
+								"$$this.key", bson.D{
+									{Key: "$literal", Value: attrKeys},
+								},
+							}},
+						}},
 					}},
 				}},
-			}}),
+			}},
+		}}},
+		{{Key: "$set", Value: bson.D{
+			{Key: fieldConfigured, Value: bson.D{
+				{Key: "$slice", Value: bson.A{
+					bson.D{{Key: "$concatArrays", Value: bson.A{
+						"$" + fieldConfigured,
+						bson.D{{Key: "$literal", Value: attrs}},
+					}}},
+					model.AttributesMaxLength,
+				}},
+			}},
+			{Key: fieldUpdatedTs, Value: time.Now()},
+		}}},
+	}, mopts.UpdateOne().SetUpsert(true))
+	if err != nil {
+		return errors.Wrap(err, "mongo: failed to update configuration")
 	}
-	_, err := collDevs.BulkWrite(ctx,
-		bwm,
-		mopts.BulkWrite().
-			SetOrdered(true),
-	)
-
-	return errors.Wrap(err, "mongo: failed to update configuration")
+	return nil
 }
 
 func (db *MongoStore) SetDeploymentID(ctx context.Context, devID string,

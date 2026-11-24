@@ -17,6 +17,7 @@ package http
 import (
 	"net/http"
 
+	"github.com/mendersoftware/mender-server/services/deviceconfig/app"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
 
@@ -64,11 +65,11 @@ func (api *ManagementAPI) SetConfiguration(c *gin.Context) {
 
 	err = api.App.SetConfiguration(ctx, devID, configuration)
 	if err != nil {
-		c.Error(err) //nolint:errcheck
-		rest.RenderError(c,
-			http.StatusInternalServerError,
-			errors.New(http.StatusText(http.StatusInternalServerError)),
-		)
+		if errors.Is(err, app.ErrDeviceNotFound) {
+			rest.RenderError(c, http.StatusNotFound, err)
+			return
+		}
+		rest.RenderInternalError(c, err)
 		return
 	}
 	c.Status(http.StatusNoContent)

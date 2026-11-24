@@ -58,9 +58,9 @@ type DataStore interface {
 	// ReplaceReportedConfiguration replaces or inserts a new device reported configuration
 	ReplaceReportedConfiguration(ctx context.Context, dev model.Device) error
 
-	// UpdateConfiguration updates the attributes for deviceID by adding the new attributes
+	// UpsertConfiguration updates the attributes for deviceID by adding the new attributes
 	// to the existing set of (desired) attributes).
-	UpdateConfiguration(ctx context.Context, deviceID string, attrs model.Attributes) error
+	UpsertConfiguration(ctx context.Context, deviceID string, attrs model.Attributes) error
 
 	// SetDeploymentID updates the deployment ID of the device
 	SetDeploymentID(ctx context.Context, devID string, deploymentID uuid.UUID) error
