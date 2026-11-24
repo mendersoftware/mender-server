@@ -36,7 +36,6 @@ import {
   getMappedDevicesList,
   getOnboardingState,
   getSelectedGroupInfo,
-  getTestDeviceCount,
   getUserCapabilities,
   getUserSettings,
   getUserSettingsInitialized
@@ -67,7 +66,7 @@ import { DeviceStateSelection } from './widgets/DeviceStateSelection';
 import Filters from './widgets/Filters';
 import DeviceIssuesSelection from './widgets/IssueSelection';
 import ListOptions from './widgets/ListOptions';
-import { TestDeviceLimit } from './widgets/TestDeviceLimit';
+import { TestDeviceLimit, useTestDeviceLimit } from './widgets/TestDeviceLimit';
 
 const { setDeviceFilters, setSnackbar } = storeActions;
 
@@ -181,7 +180,7 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
   const onboardingState = useSelector(getOnboardingState);
   const settingsInitialized = useSelector(getUserSettingsInitialized);
   const userCapabilities = useSelector(getUserCapabilities);
-  const testDevicesCount = useSelector(getTestDeviceCount);
+  const { limit: testDeviceLimit, unlimited: testDevicesUnlimited } = useTestDeviceLimit();
   const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
@@ -538,8 +537,8 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
             {pendingTestDevice?.isTestDevice ? (
               <>
                 <Typography>
-                  Enable up to 10 test devices to bypass rate limits and check in more frequently for faster testing. Adjust the polling intervals on the device
-                  configuration to match.{' '}
+                  Enable {!testDevicesUnlimited && testDeviceLimit > 0 ? `up to ${testDeviceLimit} ` : ''}test devices to bypass rate limits and check in more
+                  frequently for faster testing. Adjust the polling intervals on the device configuration to match.{' '}
                 </Typography>
                 <DocsLink path="overview/limits" title="Learn more" />
                 <Typography className="margin-top-small">You can only assign test devices up to 10 times a day.</Typography>
@@ -549,7 +548,7 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
                 Are you sure you want to remove the test device status from this device? You can only assign test devices up to 10 times a day.
               </Typography>
             )}
-            <TestDeviceLimit testDeviceUsed={testDevicesCount} className="margin-top-small" onNavigate={onTestDeviceLimitNavigate} />
+            <TestDeviceLimit className="margin-top-small" onNavigate={onTestDeviceLimitNavigate} />
           </div>
         }
         open={!!pendingTestDevice}
