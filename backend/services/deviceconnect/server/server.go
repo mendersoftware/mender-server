@@ -52,8 +52,15 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	if err != nil {
 		return err
 	}
+
+	lim, err := dconfig.LoadReadiness(conf)
+	if err != nil {
+		return fmt.Errorf("failed to load memory limits: %w", err)
+	}
 	deviceConnectApp := app.New(
-		dataStore, app.Config{},
+		dataStore, func(c *app.Config) {
+			c.ReadinessLimits = lim
+		},
 	)
 
 	gracefulShutdownTimeout := conf.GetDuration(dconfig.SettingGracefulShutdownTimeout)
