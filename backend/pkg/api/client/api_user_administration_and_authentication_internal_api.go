@@ -36,7 +36,7 @@ type UserAdministrationAndAuthenticationInternalAPIAPI interface {
 	CreateUserInternalExecute(r ApiCreateUserInternalRequest) (*http.Response, error)
 
 	/*
-	DeleteUserInternal Delete a user
+	DeleteInternalV1UseradmTenantsIdUsersId Delete a user
 
 	Remove a user from the tenant.
 
@@ -44,12 +44,12 @@ type UserAdministrationAndAuthenticationInternalAPIAPI interface {
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param tenantId Tenant ID.
 	@param userId User ID.
-	@return ApiDeleteUserInternalRequest
+	@return ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest
 	*/
-	DeleteUserInternal(ctx context.Context, tenantId string, userId string) ApiDeleteUserInternalRequest
+	DeleteInternalV1UseradmTenantsIdUsersId(ctx context.Context, tenantId string, userId string) ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest
 
-	// DeleteUserInternalExecute executes the request
-	DeleteUserInternalExecute(r ApiDeleteUserInternalRequest) (*http.Response, error)
+	// DeleteInternalV1UseradmTenantsIdUsersIdExecute executes the request
+	DeleteInternalV1UseradmTenantsIdUsersIdExecute(r ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) (*http.Response, error)
 
 	/*
 	ListUsersInternal List all users registered under the tenant owning the JWT. 
@@ -291,19 +291,19 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 	return localVarHTTPResponse, nil
 }
 
-type ApiDeleteUserInternalRequest struct {
+type ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest struct {
 	ctx context.Context
 	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	tenantId string
 	userId string
 }
 
-func (r ApiDeleteUserInternalRequest) Execute() (*http.Response, error) {
-	return r.ApiService.DeleteUserInternalExecute(r)
+func (r ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteInternalV1UseradmTenantsIdUsersIdExecute(r)
 }
 
 /*
-DeleteUserInternal Delete a user
+DeleteInternalV1UseradmTenantsIdUsersId Delete a user
 
 Remove a user from the tenant.
 
@@ -311,10 +311,10 @@ Remove a user from the tenant.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId Tenant ID.
  @param userId User ID.
- @return ApiDeleteUserInternalRequest
+ @return ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest
 */
-func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInternal(ctx context.Context, tenantId string, userId string) ApiDeleteUserInternalRequest {
-	return ApiDeleteUserInternalRequest{
+func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteInternalV1UseradmTenantsIdUsersId(ctx context.Context, tenantId string, userId string) ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest {
+	return ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -323,14 +323,14 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 }
 
 // Execute executes the request
-func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInternalExecute(r ApiDeleteUserInternalRequest) (*http.Response, error) {
+func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteInternalV1UseradmTenantsIdUsersIdExecute(r ApiDeleteInternalV1UseradmTenantsIdUsersIdRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.DeleteUserInternal")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.DeleteInternalV1UseradmTenantsIdUsersId")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}

@@ -6602,7 +6602,7 @@ paths:
       summary: Delete a user
       description: |
         Remove a user from the tenant.
-      operationId: Delete User Internal
+      operationId: DeleteInternalV1UseradmTenantsIdUsersId
       parameters:
         - name: tenant_id
           in: path
