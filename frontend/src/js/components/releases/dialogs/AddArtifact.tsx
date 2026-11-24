@@ -18,10 +18,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { CloudUpload } from '@mui/icons-material';
-import { Button, DialogActions, DialogContent } from '@mui/material';
+import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { InputErrorNotification } from '@northern.tech/common-ui/InputErrorNotification';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { getDeviceTypes } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -75,18 +74,19 @@ export const ArtifactUpload = ({ onFileSelect }: { onFileSelect: (file?: File) =
   const { classes } = useStyles();
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const showError = (message: string) => {
+    onFileSelect(undefined);
+    setErrorMessage(message);
+  };
+
   const onDrop = acceptedFiles => {
     if (acceptedFiles.length !== 1) {
-      onFileSelect(undefined);
-      setErrorMessage('The selected file is not supported.');
-      return;
+      return showError('The selected file is not supported.');
     }
     const [file] = acceptedFiles;
     const validationError = validateFile(file);
     if (validationError) {
-      onFileSelect(undefined);
-      setErrorMessage(validationError);
-      return;
+      return showError(validationError);
     }
     setErrorMessage('');
     onFileSelect(file);
@@ -108,7 +108,9 @@ export const ArtifactUpload = ({ onFileSelect }: { onFileSelect: (file?: File) =
           </div>
         )}
       </Dropzone>
-      <InputErrorNotification className="flexbox centered" content={errorMessage} />
+      <Typography className="flexbox centered margin-top-x-small" color="warning" variant="subtitle2">
+        {errorMessage}
+      </Typography>
     </>
   );
 };
