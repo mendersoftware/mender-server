@@ -14,6 +14,8 @@
 package model
 
 import (
+	"fmt"
+	"regexp"
 	"slices"
 	"strings"
 
@@ -142,6 +144,26 @@ func (f FilterPredicate) Validate() error {
 		validation.Field(&f.Type, validation.Required, validation.In(validSelectors...)),
 		validation.Field(&f.Value, validation.NotNil, validation.By(func(interface{}) error {
 			_, err := f.TimeRanges()
+			if err != nil {
+				return err
+			}
+			if f.Type == "$regex" {
+				if value, ok := f.Value.(string); ok {
+					_, err := regexp.Compile(value)
+					if err != nil {
+						return fmt.Errorf(
+							"invalid regular expression: %w",
+							err,
+						)
+					}
+				} else {
+					return fmt.Errorf(
+						"invalid type %T for type $regex: must be string",
+						f.Value,
+					)
+				}
+
+			}
 			return err
 		})))
 }
