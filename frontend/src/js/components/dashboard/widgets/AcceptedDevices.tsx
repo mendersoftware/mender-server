@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { CheckCircle as CheckIcon } from '@mui/icons-material';
 import { Skeleton, Tooltip, Typography } from '@mui/material';
 
-import { getDeviceLimitStats } from '@northern.tech/store/selectors';
+import { getDeviceLimitStats, getFeatures } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 
 import { DeviceLimit } from '../../header/DeviceNotifications';
@@ -30,13 +30,14 @@ export const AcceptedDevices = props => {
   const onWidgetClick = () => onClick({ route: '/devices/accepted' });
 
   const mappedLimits = useSelector(getDeviceLimitStats);
+  const { isHosted } = useSelector(getFeatures);
 
   const limits = mappedLimits.map(({ type, total, limit }) => (
     <Tooltip
       key={type}
       title={
         limit > 0
-          ? `${Math.round((total / limit) * 100)}% used. To increase limits, go to Settings > Billing`
+          ? `${Math.round((total / limit) * 100)}% used.${isHosted ? ' To increase limits, go to Settings > Billing' : ''}`
           : `You have ${total} accepted ${type} ${pluralize('device', total)}`
       }
       slotProps={{

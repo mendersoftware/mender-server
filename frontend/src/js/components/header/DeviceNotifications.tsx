@@ -26,7 +26,7 @@ import {
 import { Alert, Badge, Button, Divider, LinearProgress, Paper, Popover, Tooltip, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { getDeviceLimitStats, getUserRoles } from '@northern.tech/store/selectors';
+import { getDeviceLimitStats, getFeatures, getUserRoles } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 
 const useStyles = makeStyles()(theme => ({
@@ -151,6 +151,7 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [tooltip, setTooltip] = useState(false);
   const { isAdmin } = useSelector(getUserRoles);
+  const { isHosted } = useSelector(getFeatures);
   const mappedLimits = useSelector(getDeviceLimitStats);
 
   const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -254,7 +255,7 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
                 </div>
               ))}
             </div>
-            {isAdmin && (
+            {isAdmin && isHosted && (
               <Button color="primary" variant="text" component={RouterLink} to="/settings/subscription" onClick={handleClose}>
                 Manage device limit
               </Button>
