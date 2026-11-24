@@ -53,8 +53,8 @@ class TestClientCompat:
             "2.2.1",
             "2.1.3",
             "3.3.2",
-            "5.0.0",
-            "5.1.0",
+            "5.0.6",
+            "5.1.1",
         }
         max_tries = 512
         devauthm = ApiClient(deviceauth.URL_MGMT)

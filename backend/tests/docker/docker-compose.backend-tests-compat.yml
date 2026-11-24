@@ -75,14 +75,14 @@ services:
     extends:
       service: mender-client-2-0
     image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:mender-3.7.9
-  mender-client-5.0.0:
+  mender-client-5.0:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:client-5.0.0
-  mender-client-6.0.0:
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker:client-5.0.6
+  mender-client-6.0:
     extends:
       service: mender-client-2-0
-    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker-addons:client-6.0.0
+    image: ${MIRROR_REGISTRY:-docker.io}/mendersoftware/mender-client-docker-addons:client-6.0.1
     configs:
       - source: server_cert
         target: /etc/mender/server.crt
