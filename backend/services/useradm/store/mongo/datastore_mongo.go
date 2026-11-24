@@ -499,11 +499,16 @@ func (db *DataStoreMongo) WithAutomigrate() *DataStoreMongo {
 }
 
 func (db *DataStoreMongo) DeleteToken(ctx context.Context, userID, tokenID oid.ObjectID) error {
-	_, err := db.client.
+	res, err := db.client.
 		Database(mstore.DbFromContext(ctx, DbName)).
 		Collection(DbTokensColl).
 		DeleteOne(ctx, mongostore.WithTenantID(ctx, bson.M{DbID: tokenID, DbTokenSubject: userID}))
-	return err
+	if err != nil {
+		return err
+	} else if res.DeletedCount == 0 {
+		return store.ErrTokenNotFound
+	}
+	return nil
 }
 
 // deletes all tenant's tokens (identity in context)

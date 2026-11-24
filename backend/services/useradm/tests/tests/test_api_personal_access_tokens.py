@@ -31,6 +31,7 @@ from common import (
     TENANTS,
 )
 import mender_client
+import mender_client.exceptions
 import pytest
 
 
@@ -164,3 +165,21 @@ class TestManagementApiPostToken(TestManagementApiPostTokenBase):
 
     def test_tokens_naming_collisions_multiple_users(self, api_client_mgmt, init_users):
         self._test_pat_name_collision_for_multiple_users(api_client_mgmt, init_users)
+
+    def test_delete_missing_token(self, init_users):
+        api_conf = mender_client.Configuration(
+            host="https://traefik",
+            username=init_users[0].email,
+            password="correcthorsebatterystaple",
+        )
+        api_conf.verify_ssl = False
+        api_client = mender_client.ApiClient(api_conf)
+        api_conf.access_token = (
+            mender_client.UserAdministrationManagementAPIApi(api_client)
+            .login_without_preload_content()
+            .read()
+        ).decode()
+        with pytest.raises(mender_client.exceptions.NotFoundException):
+            mender_client.UserAdministrationManagementAPIApi(
+                api_client
+            ).revoke_personal_access_token(id="imprettysurethistokendoesnotexist")

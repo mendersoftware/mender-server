@@ -72,7 +72,7 @@ paths:
               schema:
                 $ref: '../common/schemas.yaml#/components/schemas/Error'
         "503":
-          $ref: '../common/responses.yaml#/components/responses/UnavailableError' 
+          $ref: '../common/responses.yaml#/components/responses/UnavailableError'
       security:
       - Login: []
   /api/management/v1/useradm/auth/logout:
@@ -550,6 +550,8 @@ paths:
           content: {}
         "401":
           $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
