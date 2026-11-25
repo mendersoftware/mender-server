@@ -62,7 +62,7 @@ describe('PreauthDialog Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <Provider store={store}>
-        <PreauthDialog deviceLimitWarning={<div>I should not be rendered/ undefined</div>} limitMaxed={false} onSubmit={vi.fn} onCancel={vi.fn} />
+        <PreauthDialog onSubmit={vi.fn} onCancel={vi.fn} />
       </Provider>
     );
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
@@ -78,7 +78,7 @@ describe('PreauthDialog Component', () => {
     const menderFile = keyFile();
     const ui = (
       <Provider store={store}>
-        <PreauthDialog limitMaxed={false} onSubmit={submitMock} onCancel={vi.fn()} />
+        <PreauthDialog onSubmit={submitMock} onCancel={vi.fn()} />
       </Provider>
     );
     const { rerender } = render(ui);
@@ -116,7 +116,6 @@ describe('PreauthDialog Component', () => {
     await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
     await user.click(screen.getByRole('button', { name: 'Save and add another' }));
     await waitFor(() => rerender(ui));
-    expect(screen.queryByText('reached your limit')).toBeFalsy();
     expect(preAuthSpy).toHaveBeenCalled();
   });
 
@@ -124,7 +123,7 @@ describe('PreauthDialog Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime, applyAccept: false });
     const ui = (
       <Provider store={store}>
-        <PreauthDialog limitMaxed={false} onSubmit={vi.fn()} onCancel={vi.fn()} />
+        <PreauthDialog onSubmit={vi.fn()} onCancel={vi.fn()} />
       </Provider>
     );
     const { rerender } = render(ui);
@@ -149,24 +148,89 @@ describe('PreauthDialog Component', () => {
     expect(screen.getByRole('button', { name: 'Save' })).not.toBeDisabled();
   });
 
-  it('prevents preauthorizations when device limit was reached', async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const menderFile = keyFile();
+  it('does not show a tier selection if only the standard tier is enabled', async () => {
+    render(
+      <Provider store={store}>
+        <PreauthDialog onSubmit={vi.fn()} onCancel={vi.fn()} />
+      </Provider>
+    );
+    expect(screen.queryByText('Device tier')).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+    expect(screen.queryByText(/if the device reports a different tier/i)).not.toBeInTheDocument();
+  });
+
+  it('preauthorizes micro devices if only the micro tier is enabled', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime, applyAccept: false });
+    let requestBody;
+    server.use(
+      http.post(`${deviceAuthV2}/devices`, async ({ request }) => {
+        requestBody = await request.json();
+        return new HttpResponse(null, { status: 201 });
+      })
+    );
+    store = mockStore({ ...defaultState, devices: { ...defaultState.devices, limits: { standard: 0, micro: 10, system: 0 } } });
+    const submitMock = vi.fn();
     const ui = (
       <Provider store={store}>
-        <PreauthDialog acceptedDevices={100} deviceLimit={2} limitMaxed={true} />
+        <PreauthDialog onSubmit={submitMock} onCancel={vi.fn()} />
+      </Provider>
+    );
+    const { rerender } = render(ui);
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+    await user.upload(document.querySelector(dropzone), keyFile());
+    await act(async () => vi.runOnlyPendingTimers());
+    await waitFor(() => rerender(ui));
+    await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
+    await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    await waitFor(() => expect(submitMock).toHaveBeenCalledWith(true));
+    expect(requestBody).toEqual({ pubkey: publicKey.trim(), identity_data: { testKey: 'testValue' }, tier: 'micro' });
+  });
+
+  it('allows preauthorizing devices of other tiers and warns about but does not prevent reached limits', async () => {
+    // the limit is only enforced once the preauthorized device connects and gets accepted
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime, applyAccept: false });
+    let requestBody;
+    server.use(
+      http.post(`${deviceAuthV2}/devices`, async ({ request }) => {
+        requestBody = await request.json();
+        return new HttpResponse(null, { status: 201 });
+      })
+    );
+    store = mockStore({ ...defaultState, devices: { ...defaultState.devices, limits: { standard: 2, micro: -1, system: 0 } } });
+    const submitMock = vi.fn();
+    const ui = (
+      <Provider store={store}>
+        <PreauthDialog onSubmit={submitMock} onCancel={vi.fn()} />
       </Provider>
     );
 
     const { rerender } = render(ui);
     // container.querySelector doesn't work in this scenario for some reason -> but querying document seems to work
-    const uploadInput = document.querySelector(dropzone);
-    await user.upload(uploadInput, menderFile);
+    await user.upload(document.querySelector(dropzone), keyFile());
+    await act(async () => vi.runOnlyPendingTimers());
     await waitFor(() => rerender(ui));
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
     await waitFor(() => rerender(ui));
-    expect(screen.getByText(/You have reached your limit/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
+    expect(screen.getByText(/if the device reports a different tier/i)).toBeInTheDocument();
+    expect(screen.getByText(/reached your standard device limit \(2 of 2\)\. Preauthorized devices won't be accepted/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).not.toBeDisabled();
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(screen.getByRole('option', { name: 'micro' }));
+    await waitFor(() => rerender(ui));
+    expect(screen.queryByText(/reached your/i)).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    await waitFor(() => expect(submitMock).toHaveBeenCalledWith(true));
+    expect(requestBody).toEqual({ pubkey: publicKey.trim(), identity_data: { testKey: 'testValue' }, tier: 'micro' });
   });
 });

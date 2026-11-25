@@ -49,7 +49,6 @@ describe('smaller components', () => {
           filters={[]}
           idAttribute={{ attribute: 'mac', scope: 'identity' }}
           column={{ title: 'mac', attribute: { name: 'mac', scope: 'identity' }, sortable: true, textRender: defaultTextRender }}
-          limitMaxed={true}
           onClick={vi.fn}
         />
       );

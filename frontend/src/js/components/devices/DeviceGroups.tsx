@@ -411,15 +411,7 @@ export const DeviceGroups = () => {
         )}
         {createGroupExplanation && <CreateGroupExplainer isEnterprise={isEnterprise} onClose={() => setCreateGroupExplanation(false)} />}
         <DeviceIdentityDialog open={openIdDialog} onClose={openSettingsDialog} />
-        {openPreauth && (
-          <PreauthDialog
-            acceptedDevices={acceptedCount}
-            deviceLimit={deviceLimit}
-            limitMaxed={limitMaxed}
-            onSubmit={onPreauthSaved}
-            onCancel={() => setOpenPreauth(false)}
-          />
-        )}
+        {openPreauth && <PreauthDialog onSubmit={onPreauthSaved} onCancel={() => setOpenPreauth(false)} />}
       </div>
     </>
   );
