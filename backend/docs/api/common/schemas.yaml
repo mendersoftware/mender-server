@@ -36,11 +36,14 @@ components:
         Mender server.
       properties:
         id:
-          type: string
-          description: The unique ID of the authentication set.
+          allOf:
+            - $ref: '#/components/schemas/DeviceID'
+            - description: |-
+                AuthSet Identifier
+
+                Must be a valid UUID or bson ObjectId (legacy)
         device_id:
-          type: string
-          description: The unique ID of the device the authentication set belongs.
+          $ref: '#/components/schemas/DeviceID'
         identity_data:
           $ref: '#/components/schemas/IdentityData'
         pubkey:
@@ -74,9 +77,7 @@ components:
       type: object
       properties:
         device_id:
-          type: string
-          format: uuid
-          description: ID of the new device.
+          $ref: '#/components/schemas/DeviceID'
       required:
       - device_id
     Scope:
@@ -97,12 +98,6 @@ components:
         - inventory
         - monitor
         - tags
-    TenantID:
-      type: string
-      description: Tenant identifier
-      pattern: "^([0-9a-fA-F]{24}|)$"
-      maxLength: 24
-      example: "6afb62f48cfaf505efbbe6b7"
     TenantID:
       type: string
       description: Tenant identifier
@@ -148,8 +143,8 @@ components:
       pattern: '^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$'
     Email:
       description: |
-        A valid ASCII-only email address. 
-        Must be between 6 and 254 characters in length and conform 
+        A valid ASCII-only email address.
+        Must be between 6 and 254 characters in length and conform
         to standard email formatting (W3C HTML5 / RFC 5322).
       type: string
       format: email

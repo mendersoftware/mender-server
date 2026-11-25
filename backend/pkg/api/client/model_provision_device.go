@@ -21,8 +21,8 @@ var _ MappedNullable = &ProvisionDevice{}
 
 // ProvisionDevice struct for ProvisionDevice
 type ProvisionDevice struct {
-	// ID of the new device.
-	DeviceId string `json:"device_id"`
+	// Device Identifier  Must be a valid UUID or bson ObjectId (legacy)
+	DeviceId string `json:"device_id" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{24})$"`
 	AdditionalProperties map[string]interface{}
 }
 

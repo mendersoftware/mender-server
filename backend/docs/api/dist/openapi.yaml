@@ -7545,11 +7545,14 @@ components:
       description: AuthSet describes the identity a device uses to authenticate with the Mender server.
       properties:
         id:
-          type: string
-          description: The unique ID of the authentication set.
+          allOf:
+            - $ref: '#/components/schemas/DeviceID'
+            - description: |-
+                AuthSet Identifier
+
+                Must be a valid UUID or bson ObjectId (legacy)
         device_id:
-          type: string
-          description: The unique ID of the device the authentication set belongs.
+          $ref: '#/components/schemas/DeviceID'
         identity_data:
           $ref: '#/components/schemas/IdentityData'
         pubkey:
@@ -7574,9 +7577,7 @@ components:
       type: object
       properties:
         device_id:
-          type: string
-          format: uuid
-          description: ID of the new device.
+          $ref: '#/components/schemas/DeviceID'
       required:
         - device_id
     Scope:
@@ -7597,12 +7598,6 @@ components:
         - inventory
         - monitor
         - tags
-    TenantID:
-      type: string
-      description: Tenant identifier
-      pattern: ^([0-9a-fA-F]{24}|)$
-      maxLength: 24
-      example: 6afb62f48cfaf505efbbe6b7
     TenantID:
       type: string
       description: Tenant identifier
