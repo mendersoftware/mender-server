@@ -31,11 +31,23 @@ const generalFileHint = 'Please upload a PEM encoded public key, starting with "
 const invalidKeyError = `This file does not contain a public key. ${generalFileHint}`;
 const emptyKeyError = `This file is empty. ${generalFileHint}`;
 
-export const DeviceLimitWarning = ({ acceptedDevices, deviceLimit }) => (
-  <Alert severity="error">
-    You have reached your limit of authorized devices: {acceptedDevices} of {deviceLimit}
-  </Alert>
-);
+export const DeviceLimitWarning = ({ tier }: { tier?: string }) => {
+  const reachedTierLimits = useSelector(getReachedTierLimits).filter(({ type }) => !tier || type === tier);
+  if (!reachedTierLimits.length) {
+    return null;
+  }
+  if (tier) {
+    const [{ limit, total }] = reachedTierLimits;
+    return (
+      <Alert severity="warning">
+        You have reached your {tier} device limit ({total} of {limit}). Preauthorized devices won&apos;t be accepted when they connect until you increase your
+        limit.
+      </Alert>
+    );
+  }
+  const reachedLimits = reachedTierLimits.map(({ type, limit, total }) => `${total} of ${limit} ${type}`).join(', ');
+  return <Alert severity="warning">You have reached your limit of authorized devices: {reachedLimits}</Alert>;
+};
 
 export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCancel, onSubmit }) => {
   const [jsonIdentity, setJsonIdentity] = useState<Record<string, string>>({});
