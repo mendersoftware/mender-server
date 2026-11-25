@@ -139,6 +139,11 @@ func (dependsCodec) DecodeValue(
 ) error {
 	var depends model.Depends
 	switch typ := vr.Type(); typ {
+	case bson.TypeNull:
+		err := vr.ReadNull()
+		if err != nil {
+			return err
+		}
 	case bson.TypeArray:
 		dec, err := dc.LookupDecoder(tDepends)
 		if err != nil {
