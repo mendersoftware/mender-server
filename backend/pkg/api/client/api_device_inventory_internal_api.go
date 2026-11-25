@@ -783,11 +783,11 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckLivelinessE
 type ApiInventoryInternalCreateTenantRequest struct {
 	ctx context.Context
 	ApiService DeviceInventoryInternalAPIAPI
-	tenantNew *TenantNew
+	newTenant *NewTenant
 }
 
-func (r ApiInventoryInternalCreateTenantRequest) TenantNew(tenantNew TenantNew) ApiInventoryInternalCreateTenantRequest {
-	r.tenantNew = &tenantNew
+func (r ApiInventoryInternalCreateTenantRequest) NewTenant(newTenant NewTenant) ApiInventoryInternalCreateTenantRequest {
+	r.newTenant = &newTenant
 	return r
 }
 
@@ -829,8 +829,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExec
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.tenantNew == nil {
-		return nil, reportError("tenantNew is required and must be specified")
+	if r.newTenant == nil {
+		return nil, reportError("newTenant is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -851,7 +851,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExec
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.tenantNew
+	localVarPostBody = r.newTenant
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

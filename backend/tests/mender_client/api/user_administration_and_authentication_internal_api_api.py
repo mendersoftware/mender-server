@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
-from mender_client.models.tenant_new import TenantNew
+from mender_client.models.new_tenant import NewTenant
 from mender_client.models.user import User
 from mender_client.models.user_new_internal import UserNewInternal
 
@@ -44,7 +44,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def create_user_internal(
         self,
-        tenant_id: Annotated[str, Field(min_length=24, strict=True, max_length=24, description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_new_internal: Annotated[UserNewInternal, Field(description="New user data.")],
         _request_timeout: Union[
             None,
@@ -118,7 +118,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def create_user_internal_with_http_info(
         self,
-        tenant_id: Annotated[str, Field(min_length=24, strict=True, max_length=24, description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_new_internal: Annotated[UserNewInternal, Field(description="New user data.")],
         _request_timeout: Union[
             None,
@@ -192,7 +192,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def create_user_internal_without_preload_content(
         self,
-        tenant_id: Annotated[str, Field(min_length=24, strict=True, max_length=24, description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_new_internal: Annotated[UserNewInternal, Field(description="New user data.")],
         _request_timeout: Union[
             None,
@@ -341,7 +341,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def delete_user_internal(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_id: Annotated[StrictStr, Field(description="User ID.")],
         _request_timeout: Union[
             None,
@@ -414,7 +414,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def delete_user_internal_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_id: Annotated[StrictStr, Field(description="User ID.")],
         _request_timeout: Union[
             None,
@@ -487,7 +487,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def delete_user_internal_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_id: Annotated[StrictStr, Field(description="User ID.")],
         _request_timeout: Union[
             None,
@@ -622,7 +622,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def list_users_internal(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         id: Annotated[Optional[StrictStr], Field(description="Limit result by user ID, can be repeated to include multiple users in the query. ")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="Filter users created after timestamp (UNIX timestamp). ")] = None,
@@ -714,7 +714,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def list_users_internal_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         id: Annotated[Optional[StrictStr], Field(description="Limit result by user ID, can be repeated to include multiple users in the query. ")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="Filter users created after timestamp (UNIX timestamp). ")] = None,
@@ -806,7 +806,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def list_users_internal_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         id: Annotated[Optional[StrictStr], Field(description="Limit result by user ID, can be repeated to include multiple users in the query. ")] = None,
         email: Annotated[Optional[StrictStr], Field(description="Limit result by user email, can be repeated to include multiple users in the query. ")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="Filter users created after timestamp (UNIX timestamp). ")] = None,
@@ -987,7 +987,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def revoke_user_tokens(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_id: Annotated[Optional[StrictStr], Field(description="User ID.")] = None,
         _request_timeout: Union[
             None,
@@ -1061,7 +1061,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def revoke_user_tokens_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_id: Annotated[Optional[StrictStr], Field(description="User ID.")] = None,
         _request_timeout: Union[
             None,
@@ -1135,7 +1135,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def revoke_user_tokens_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="Tenant ID.")],
         user_id: Annotated[Optional[StrictStr], Field(description="User ID.")] = None,
         _request_timeout: Union[
             None,
@@ -1768,7 +1768,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def useradm_create_tenant(
         self,
-        tenant_new: TenantNew,
+        new_tenant: NewTenant,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1785,8 +1785,8 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         """Create a tenant with provided configuration.
 
 
-        :param tenant_new: (required)
-        :type tenant_new: TenantNew
+        :param new_tenant: (required)
+        :type new_tenant: NewTenant
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1810,7 +1810,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         """ # noqa: E501
 
         _param = self._useradm_create_tenant_serialize(
-            tenant_new=tenant_new,
+            new_tenant=new_tenant,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1836,7 +1836,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def useradm_create_tenant_with_http_info(
         self,
-        tenant_new: TenantNew,
+        new_tenant: NewTenant,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1853,8 +1853,8 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         """Create a tenant with provided configuration.
 
 
-        :param tenant_new: (required)
-        :type tenant_new: TenantNew
+        :param new_tenant: (required)
+        :type new_tenant: NewTenant
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1878,7 +1878,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         """ # noqa: E501
 
         _param = self._useradm_create_tenant_serialize(
-            tenant_new=tenant_new,
+            new_tenant=new_tenant,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1904,7 +1904,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def useradm_create_tenant_without_preload_content(
         self,
-        tenant_new: TenantNew,
+        new_tenant: NewTenant,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1921,8 +1921,8 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         """Create a tenant with provided configuration.
 
 
-        :param tenant_new: (required)
-        :type tenant_new: TenantNew
+        :param new_tenant: (required)
+        :type new_tenant: NewTenant
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1946,7 +1946,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         """ # noqa: E501
 
         _param = self._useradm_create_tenant_serialize(
-            tenant_new=tenant_new,
+            new_tenant=new_tenant,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1967,7 +1967,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
 
     def _useradm_create_tenant_serialize(
         self,
-        tenant_new,
+        new_tenant,
         _request_auth,
         _content_type,
         _headers,
@@ -1993,8 +1993,8 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if tenant_new is not None:
-            _body_params = tenant_new
+        if new_tenant is not None:
+            _body_params = new_tenant
 
 
         # set the HTTP header `Accept`

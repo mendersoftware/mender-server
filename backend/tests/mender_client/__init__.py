@@ -177,7 +177,6 @@ __all__ = [
     "TaskResultCLI",
     "TaskResultHTTPRequest",
     "TaskResultHTTPResponse",
-    "TenantNew",
     "UdpateDeviceAuth",
     "Update",
     "UpdateFile",
@@ -352,7 +351,6 @@ from mender_client.models.task_result import TaskResult as TaskResult
 from mender_client.models.task_result_cli import TaskResultCLI as TaskResultCLI
 from mender_client.models.task_result_http_request import TaskResultHTTPRequest as TaskResultHTTPRequest
 from mender_client.models.task_result_http_response import TaskResultHTTPResponse as TaskResultHTTPResponse
-from mender_client.models.tenant_new import TenantNew as TenantNew
 from mender_client.models.udpate_device_auth import UdpateDeviceAuth as UdpateDeviceAuth
 from mender_client.models.update import Update as Update
 from mender_client.models.update_file import UpdateFile as UpdateFile

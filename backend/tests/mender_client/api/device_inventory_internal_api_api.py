@@ -23,7 +23,7 @@ from mender_client.models.attribute_request import AttributeRequest
 from mender_client.models.device_new import DeviceNew
 from mender_client.models.device_update import DeviceUpdate
 from mender_client.models.groups import Groups
-from mender_client.models.tenant_new import TenantNew
+from mender_client.models.new_tenant import NewTenant
 
 from mender_client.api_client import ApiClient, RequestSerialized
 from mender_client.api_response import ApiResponse
@@ -1389,7 +1389,7 @@ class DeviceInventoryInternalAPIApi:
     @validate_call
     def inventory_internal_create_tenant(
         self,
-        tenant_new: TenantNew,
+        new_tenant: NewTenant,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1407,8 +1407,8 @@ class DeviceInventoryInternalAPIApi:
 
         Create a tenant with provided configuration. 
 
-        :param tenant_new: (required)
-        :type tenant_new: TenantNew
+        :param new_tenant: (required)
+        :type new_tenant: NewTenant
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1432,7 +1432,7 @@ class DeviceInventoryInternalAPIApi:
         """ # noqa: E501
 
         _param = self._inventory_internal_create_tenant_serialize(
-            tenant_new=tenant_new,
+            new_tenant=new_tenant,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1458,7 +1458,7 @@ class DeviceInventoryInternalAPIApi:
     @validate_call
     def inventory_internal_create_tenant_with_http_info(
         self,
-        tenant_new: TenantNew,
+        new_tenant: NewTenant,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1476,8 +1476,8 @@ class DeviceInventoryInternalAPIApi:
 
         Create a tenant with provided configuration. 
 
-        :param tenant_new: (required)
-        :type tenant_new: TenantNew
+        :param new_tenant: (required)
+        :type new_tenant: NewTenant
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1501,7 +1501,7 @@ class DeviceInventoryInternalAPIApi:
         """ # noqa: E501
 
         _param = self._inventory_internal_create_tenant_serialize(
-            tenant_new=tenant_new,
+            new_tenant=new_tenant,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1527,7 +1527,7 @@ class DeviceInventoryInternalAPIApi:
     @validate_call
     def inventory_internal_create_tenant_without_preload_content(
         self,
-        tenant_new: TenantNew,
+        new_tenant: NewTenant,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1545,8 +1545,8 @@ class DeviceInventoryInternalAPIApi:
 
         Create a tenant with provided configuration. 
 
-        :param tenant_new: (required)
-        :type tenant_new: TenantNew
+        :param new_tenant: (required)
+        :type new_tenant: NewTenant
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1570,7 +1570,7 @@ class DeviceInventoryInternalAPIApi:
         """ # noqa: E501
 
         _param = self._inventory_internal_create_tenant_serialize(
-            tenant_new=tenant_new,
+            new_tenant=new_tenant,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1591,7 +1591,7 @@ class DeviceInventoryInternalAPIApi:
 
     def _inventory_internal_create_tenant_serialize(
         self,
-        tenant_new,
+        new_tenant,
         _request_auth,
         _content_type,
         _headers,
@@ -1617,8 +1617,8 @@ class DeviceInventoryInternalAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if tenant_new is not None:
-            _body_params = tenant_new
+        if new_tenant is not None:
+            _body_params = new_tenant
 
 
         # set the HTTP header `Accept`

@@ -398,7 +398,6 @@ Class | Method | HTTP request | Description
  - [TaskResultCLI](docs/TaskResultCLI.md)
  - [TaskResultHTTPRequest](docs/TaskResultHTTPRequest.md)
  - [TaskResultHTTPResponse](docs/TaskResultHTTPResponse.md)
- - [TenantNew](docs/TenantNew.md)
  - [UdpateDeviceAuth](docs/UdpateDeviceAuth.md)
  - [Update](docs/Update.md)
  - [UpdateFile](docs/UpdateFile.md)
