@@ -274,9 +274,9 @@ class InternalApiClient:
         return kwargs
 
     def create_tenant(self, tenant_id):
-        tenant = mender_client.TenantNew(tenant_id=tenant_id)
+        tenant = mender_client.NewTenant(tenant_id=tenant_id)
         r = self.client.inventory_internal_create_tenant_with_http_info(
-            tenant_new=tenant
+            new_tenant=tenant
         )
         return Response(status_code=r.status_code, data=r.data)
 
