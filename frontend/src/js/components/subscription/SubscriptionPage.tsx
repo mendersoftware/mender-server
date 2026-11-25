@@ -31,15 +31,7 @@ import type { Addon as OrgAddon } from '@northern.tech/store/api/types';
 import type { Addon, AddonId, AvailableAddon, AvailablePlans } from '@northern.tech/store/constants';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import type { PricePreview, ProductConfig, ProductTier } from '@northern.tech/store/organizationSlice/types';
-import {
-  getAcceptedDevices,
-  getAppInitDone,
-  getCombinedLimit,
-  getDeviceLimits,
-  getOrganization,
-  getProducts,
-  getStripeKey
-} from '@northern.tech/store/selectors';
+import { getAcceptedDevices, getAppInitDone, getDeviceLimits, getOrganization, getProducts, getStripeKey } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
   getBillingPreview,
@@ -167,7 +159,6 @@ const SubscriptionForm = ({
 }: SubscriptionFormProps) => {
   const { setValue, watch, control, setFocus } = useFormContext<FormData>();
   const currentDeviceLimits = useSelector(getDeviceLimits);
-  const totalDeviceLimit = useSelector(getCombinedLimit);
   const { counts: accepted } = useSelector(getAcceptedDevices);
   const deviceStatisticsLoaded = useSelector(getAppInitDone);
   const org = useSelector(getOrganization);
@@ -213,7 +204,7 @@ const SubscriptionForm = ({
     return new Set(allAddons);
   }, [deviceTypes, deviceTierEnabled, selectedPlan.id]);
 
-  const deviceLimitsInitialized = totalDeviceLimit > 0;
+  const deviceLimitsInitialized = Object.values(currentDeviceLimits).some(limit => limit !== 0);
   const selectedAddonsLength = selectedAddons.length;
   const areRequiredTiersEnabled = (deviceTierEnabled: TiersEnabled, currentLimits: DeviceTierLimits) =>
     deviceTypeIds.every(deviceTypeId => currentLimits[deviceTypeId] < 1 || deviceTierEnabled[deviceTypeId]);
