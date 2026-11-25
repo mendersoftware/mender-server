@@ -24,10 +24,10 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -38,10 +38,11 @@ func TestDeviceDeploymentStorageInsert(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping TestDeviceDeploymentStorageInsert in short mode.")
 	}
+	const deviceID = "30b3e62c-9ec2-4312-a7fa-cff24cc7397a"
 
-	deviceDepl1 := model.NewDeviceDeployment("30b3e62c-9ec2-4312-a7fa-cff24cc7397a", "30b3e62c-9ec2-4312-a7fa-cff24cc7397a")
+	deviceDepl1 := model.NewDeviceDeployment(deviceID, "30b3e62c-9ec2-4312-a7fa-cff24cc7397a")
 
-	deviceDepl2 := model.NewDeviceDeployment("30b3e62c-9ec2-4312-a7fa-cff24cc7397a", "30b3e62c-9ec2-4312-a7fa-cff24cc7397a")
+	deviceDepl2 := model.NewDeviceDeployment(deviceID, "30b3e62c-9ec2-4312-a7fa-cff24cc7397b")
 
 	badDeviceDepl := model.NewDeviceDeployment("bad bad", "bad bad bad")
 
@@ -115,24 +116,17 @@ func TestDeviceDeploymentStorageInsert(t *testing.T) {
 				assert.EqualError(t, err, testCase.OutputError.Error())
 			} else {
 				assert.NoError(t, err)
-				collection := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
-					Collection(CollectionDevices)
-				count, err := collection.CountDocuments(
-					ctx, bson.D{})
-				assert.NoError(t, err)
+				deviceDeployments, err := store.GetDeviceDeployments(ctx, 0, -1, deviceID, nil, true)
+				require.NoError(t, err)
 				assert.Equal(t, len(testCase.
-					InputDeviceDeployment), int(count))
+					InputDeviceDeployment), len(deviceDeployments))
 
 				if testCase.InputTenant != "" {
 					// deployment was added to tenant's DB,
 					// make sure it's not in default DB
-					collectionDefault := client.Database(
-						DatabaseName).Collection(CollectionDevices)
-					count, err = collectionDefault.
-						CountDocuments(ctx, bson.D{})
-					assert.NoError(t, err)
-					assert.Equal(t, 0, int(count))
+					deviceDeployments, err := store.GetDeviceDeployments(context.Background(), 0, -1, deviceID, nil, true)
+					require.NoError(t, err)
+					assert.Len(t, deviceDeployments, 0)
 				}
 			}
 		})
@@ -314,14 +308,7 @@ func TestUpdateDeviceDeploymentStatus(t *testing.T) {
 			if testCase.InputDeviceDeployment != nil {
 				// these checks only make sense if there are any deployments in database
 				var deployment *model.DeviceDeployment
-				collDevs := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
-					Collection(CollectionDevices)
-				query := bson.M{
-					StorageKeyDeviceDeploymentDeviceId:     testCase.InputDeviceID,
-					StorageKeyDeviceDeploymentDeploymentID: testCase.InputDeploymentID,
-				}
-				err := collDevs.FindOne(ctx, query).Decode(&deployment)
+				deployment, err = store.GetDeviceDeployment(ctx, testCase.InputDeploymentID, testCase.InputDeviceID, false)
 				assert.NoError(t, err)
 				if testCase.OutputError != nil {
 					// status must be unchanged in case of errors
@@ -451,7 +438,7 @@ func TestUpdateDeviceDeploymentStatusStarted(t *testing.T) {
 				},
 				testCase.InputCurrentStatus,
 			)
-			collDevs := client.Database(DbName).Collection(CollectionDevices)
+			collDevs := client.Database(DefaultDbName).Collection(CollectionDevices)
 			r, err := collDevs.Find(ctx, bson.M{})
 			var deviceDeploymentsStored []model.DeviceDeployment
 			err = r.All(ctx, &deviceDeploymentsStored)
@@ -470,127 +457,10 @@ func TestUpdateDeviceDeploymentStatusStarted(t *testing.T) {
 	}
 }
 
-func TestUpdateDeviceDeploymentLogAvailability(t *testing.T) {
-
-	if testing.Short() {
-		t.Skip("skipping TestUpdateDeviceDeploymentLogAvailability in short mode.")
-	}
-
-	dd := model.NewDeviceDeployment("456", "30b3e62c-9ec2-4312-a7fa-cff24cc7397a")
-
-	testCases := []struct {
-		InputDeviceID         string
-		InputDeploymentID     string
-		InputLog              bool
-		InputDeviceDeployment []*model.DeviceDeployment
-		InputTenant           string
-
-		OutputError error
-	}{
-		{
-			// null deployment ID
-			InputDeviceID: "234",
-			OutputError:   ErrStorageInvalidID,
-		},
-		{
-			// null device ID
-			InputDeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			OutputError:       ErrStorageInvalidID,
-		},
-		{
-			// no deployment/device with this ID
-			InputDeviceID:     "345",
-			InputDeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			InputLog:          true,
-			OutputError:       ErrStorageNotFound,
-		},
-		{
-			InputDeviceID:     "456",
-			InputDeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			InputLog:          true,
-			InputDeviceDeployment: []*model.DeviceDeployment{
-				dd,
-			},
-			OutputError: nil,
-		},
-		{
-			InputDeviceID:     "456",
-			InputDeploymentID: "30b3e62c-9ec2-4312-a7fa-cff24cc7397a",
-			InputLog:          false,
-			InputDeviceDeployment: []*model.DeviceDeployment{
-				dd,
-			},
-			InputTenant: "acme",
-		},
-	}
-
-	for testCaseNumber, testCase := range testCases {
-		t.Run(fmt.Sprintf("test case %d", testCaseNumber+1), func(t *testing.T) {
-
-			t.Logf("testing case %s %s %t %v",
-				testCase.InputDeviceID, testCase.InputDeploymentID,
-				testCase.InputLog, testCase.OutputError)
-
-			// Make sure we start test with empty database
-			db.Wipe()
-
-			client := db.Client()
-			store := NewDataStoreMongoWithClient(client)
-
-			ctx := context.Background()
-			if testCase.InputTenant != "" {
-				ctx = identity.WithContext(ctx, &identity.Identity{
-					Tenant: testCase.InputTenant,
-				})
-			} else {
-				ctx = context.Background()
-			}
-
-			// deployments are created with status DeviceDeploymentStatusPending
-			err := store.InsertMany(ctx, testCase.InputDeviceDeployment...)
-			assert.NoError(t, err)
-
-			err = store.UpdateDeviceDeploymentLogAvailability(ctx,
-				testCase.InputDeviceID, testCase.InputDeploymentID, testCase.InputLog)
-
-			if testCase.OutputError != nil {
-				assert.EqualError(t, err, testCase.OutputError.Error())
-			} else {
-				assert.NoError(t, err)
-
-				if testCase.InputTenant != "" {
-					// we're using tenant's DB, so acting on default DB should fail
-					err := store.UpdateDeviceDeploymentLogAvailability(context.Background(),
-						testCase.InputDeviceID, testCase.InputDeploymentID,
-						testCase.InputLog)
-					assert.EqualError(t, err, ErrStorageNotFound.Error())
-				}
-			}
-
-			if testCase.InputDeviceDeployment != nil {
-				var deployment model.DeviceDeployment
-				query := bson.M{
-					StorageKeyDeviceDeploymentDeviceId:     testCase.InputDeviceID,
-					StorageKeyDeviceDeploymentDeploymentID: testCase.InputDeploymentID,
-				}
-				collDevs := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
-					Collection(CollectionDevices)
-
-				err := collDevs.FindOne(ctx, query).
-					Decode(&deployment)
-				assert.NoError(t, err)
-				assert.Equal(t, testCase.InputLog, deployment.IsLogAvailable)
-			}
-		})
-	}
-}
-
 func newDeviceDeploymentWithStatus(t *testing.T, deviceID string, deploymentID string, status model.DeviceDeploymentStatus) *model.DeviceDeployment {
 	d := model.NewDeviceDeployment(deviceID, deploymentID)
 
 	d.Status = status
-	d.Active = status.Active()
 	return d
 }
 
@@ -605,7 +475,7 @@ func TestAggregateDeviceDeploymentByStatus(t *testing.T) {
 		InputDeviceDeployment []*model.DeviceDeployment
 		InputTenant           string
 		OutputError           error
-		OutputStats           model.Stats
+		OutputStats           *model.Stats
 	}{
 		{
 			InputDeploymentID:     "ee13ea8b-a6d3-4d4c-99a6-bcfcaebc7ec3",
@@ -633,20 +503,20 @@ func TestAggregateDeviceDeploymentByStatus(t *testing.T) {
 					model.DeviceDeploymentStatusPending),
 			},
 			OutputError: nil,
-			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusPendingStr:            1,
-				model.DeviceDeploymentStatusSuccessStr:            1,
-				model.DeviceDeploymentStatusFailureStr:            2,
-				model.DeviceDeploymentStatusRebootingStr:          1,
-				model.DeviceDeploymentStatusDownloadingStr:        1,
-				model.DeviceDeploymentStatusInstallingStr:         0,
-				model.DeviceDeploymentStatusNoArtifactStr:         0,
-				model.DeviceDeploymentStatusAlreadyInstStr:        0,
-				model.DeviceDeploymentStatusAbortedStr:            0,
-				model.DeviceDeploymentStatusDecommissionedStr:     0,
-				model.DeviceDeploymentStatusPauseBeforeCommitStr:  0,
-				model.DeviceDeploymentStatusPauseBeforeInstallStr: 0,
-				model.DeviceDeploymentStatusPauseBeforeRebootStr:  0,
+			OutputStats: &model.Stats{
+				Pending:            1,
+				Success:            1,
+				Failure:            2,
+				Rebooting:          1,
+				Downloading:        1,
+				Installing:         0,
+				NoArtifact:         0,
+				AlreadyInstalled:   0,
+				Aborted:            0,
+				Decommissioned:     0,
+				PauseBeforeCommit:  0,
+				PauseBeforeInstall: 0,
+				PauseBeforeReboot:  0,
 			},
 		},
 		{
@@ -662,20 +532,20 @@ func TestAggregateDeviceDeploymentByStatus(t *testing.T) {
 					model.DeviceDeploymentStatusPauseBeforeReboot),
 			},
 			OutputError: nil,
-			OutputStats: model.Stats{
-				model.DeviceDeploymentStatusPendingStr:            0,
-				model.DeviceDeploymentStatusSuccessStr:            0,
-				model.DeviceDeploymentStatusFailureStr:            0,
-				model.DeviceDeploymentStatusRebootingStr:          0,
-				model.DeviceDeploymentStatusDownloadingStr:        0,
-				model.DeviceDeploymentStatusInstallingStr:         0,
-				model.DeviceDeploymentStatusNoArtifactStr:         0,
-				model.DeviceDeploymentStatusAlreadyInstStr:        0,
-				model.DeviceDeploymentStatusAbortedStr:            0,
-				model.DeviceDeploymentStatusDecommissionedStr:     0,
-				model.DeviceDeploymentStatusPauseBeforeCommitStr:  1,
-				model.DeviceDeploymentStatusPauseBeforeInstallStr: 1,
-				model.DeviceDeploymentStatusPauseBeforeRebootStr:  1,
+			OutputStats: &model.Stats{
+				Pending:            0,
+				Success:            0,
+				Failure:            0,
+				Rebooting:          0,
+				Downloading:        0,
+				Installing:         0,
+				NoArtifact:         0,
+				AlreadyInstalled:   0,
+				Aborted:            0,
+				Decommissioned:     0,
+				PauseBeforeCommit:  1,
+				PauseBeforeInstall: 1,
+				PauseBeforeReboot:  1,
 			},
 		},
 		{
@@ -687,10 +557,10 @@ func TestAggregateDeviceDeploymentByStatus(t *testing.T) {
 					model.DeviceDeploymentStatusSuccess),
 			},
 			InputTenant: "acme",
-			OutputStats: newTestStats(model.Stats{
-				model.DeviceDeploymentStatusSuccessStr: 1,
-				model.DeviceDeploymentStatusFailureStr: 1,
-			}),
+			OutputStats: &model.Stats{
+				Success: 1,
+				Failure: 1,
+			},
 		},
 	}
 
@@ -731,7 +601,7 @@ func TestAggregateDeviceDeploymentByStatus(t *testing.T) {
 					stats, err := store.AggregateDeviceDeploymentByStatus(context.Background(),
 						testCase.InputDeploymentID)
 					assert.NoError(t, err)
-					assert.Equal(t, newTestStats(model.Stats{}), stats)
+					assert.Equal(t, &model.Stats{}, stats)
 				}
 			}
 
@@ -1038,15 +908,10 @@ func TestGetDevicesListForDeployment(t *testing.T) {
 
 			client := db.Client()
 			store := NewDataStoreMongoWithClient(client)
-			collDevs := client.Database(ctxstore.DbFromContext(ctx, DbName)).
-				Collection(CollectionDevices)
 
-			devFaces := make([]interface{}, len(input))
-			for i := range input {
-				devFaces[i] = &input[i]
+			for _, deviceDeployment := range input {
+				require.NoError(t, store.InsertDeviceDeployment(ctx, &deviceDeployment, false))
 			}
-			_, err := collDevs.InsertMany(ctx, devFaces)
-			assert.NoError(t, err)
 
 			statuses, _, err := store.GetDevicesListForDeployment(tc.ctx,
 				tc.inputListQuery)
@@ -1062,6 +927,12 @@ func TestGetDevicesListForDeployment(t *testing.T) {
 				assert.Equal(t,
 					tc.inputListQuery.Limit,
 					len(statuses))
+			}
+			for i := range statuses {
+				if statuses[i].Started != nil {
+					assert.WithinDuration(t, time.Now(), *statuses[i].Started, time.Second)
+					statuses[i].Started = nil
+				}
 			}
 			assert.Equal(t, tc.outputStatuses, statuses)
 
@@ -1243,15 +1114,8 @@ func TestAbortDeviceDeployments(t *testing.T) {
 			if testCase.InputDeviceDeployment != nil {
 				// these checks only make sense if there are any deployments in database
 				var deploymentList []model.DeviceDeployment
-				collDevs := client.Database(DatabaseName).
-					Collection(CollectionDevices)
-				query := bson.M{
-					StorageKeyDeviceDeploymentDeploymentID: testCase.InputDeploymentID,
-				}
-				cursor, err := collDevs.Find(db.CTX(), query)
-				assert.NoError(t, err)
-				err = cursor.All(db.CTX(), &deploymentList)
-				assert.NoError(t, err)
+				deploymentList, err = store.GetDeviceStatusesForDeployment(context.Background(), testCase.InputDeploymentID)
+				require.NoError(t, err)
 
 				if testCase.OutputError != nil {
 					for _, deployment := range deploymentList {
@@ -1331,15 +1195,8 @@ func TestDecommissionDeviceDeployments(t *testing.T) {
 			if testCase.InputDeviceDeployment != nil {
 				// these checks only make sense if there are any deployments in database
 				var deploymentList []model.DeviceDeployment
-				collDevs := client.Database(DatabaseName).
-					Collection(CollectionDevices)
-				query := bson.M{
-					StorageKeyDeviceDeploymentDeviceId: testCase.InputDeviceId,
-				}
-				cursor, err := collDevs.Find(ctx, query)
-				assert.NoError(t, err)
-				err = cursor.All(ctx, &deploymentList)
-				assert.NoError(t, err)
+				deploymentList, err = store.GetDeviceDeployments(ctx, 0, -1, testCase.InputDeviceId, nil, false)
+				require.NoError(t, err)
 
 				if testCase.OutputError != nil {
 					for _, deployment := range deploymentList {
@@ -1427,13 +1284,7 @@ func TestSaveDeviceDeploymentRequest(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 				var deployment *model.DeviceDeployment
-				collDevs := client.Database(ctxstore.
-					DbFromContext(ctx, DatabaseName)).
-					Collection(CollectionDevices)
-				query := bson.M{
-					StorageKeyId: dd.Id,
-				}
-				err := collDevs.FindOne(ctx, query).Decode(&deployment)
+				deployment, err = store.GetDeviceDeployment(ctx, dd.DeploymentId, dd.DeviceId, true)
 				assert.NoError(t, err)
 				assert.Equal(t, tc.request, deployment.Request)
 			}

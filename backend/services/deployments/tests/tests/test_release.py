@@ -111,7 +111,7 @@ class TestRelease:
                 assert len(r1a.updates) == 1
                 r1au = r1a.updates[0]
                 l.unlock()
-                assert r1au.files is None
+                assert r1au.files == []
                 assert r1au.type_info.type is None
 
     @pytest.mark.usefixtures("clean_minio", "clean_db")

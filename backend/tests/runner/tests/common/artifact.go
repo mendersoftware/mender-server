@@ -40,7 +40,7 @@ func WithModuleImage(module *handlers.ModuleImage) ArtifactOption {
 
 // WithDependsProvides sets the type-info depends/provides maps, used by
 // the artifact selection semantics tests.
-func WithDependsProvides(depends, provides map[string]string) ArtifactOption {
+func WithDependsProvides(depends map[string][]string, provides map[string]string) ArtifactOption {
 	return func(args *awriter.WriteArtifactArgs) error {
 		if depends != nil {
 			deps := make(artifact.TypeInfoDepends, len(depends))
@@ -124,9 +124,7 @@ func CreateArtifact(
 			CompatibleDevices: []string{"foo"},
 		},
 		TypeInfoV3: &artifact.TypeInfoV3{
-			Type:             i.GetUpdateType(),
-			ArtifactProvides: artifact.TypeInfoProvides{"foo": "bar"},
-			ArtifactDepends:  artifact.TypeInfoDepends{"foo": "bar"},
+			Type: i.GetUpdateType(),
 		},
 		Updates: &awriter.Updates{
 			Updates: []handlers.Composer{i},

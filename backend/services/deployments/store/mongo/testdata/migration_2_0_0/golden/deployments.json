@@ -1,0 +1,6567 @@
+{
+  "_id": "068610b8-caba-49ef-8dd5-b6e67d5e89e7",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-21"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976008"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278050149"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "32ac73f16c36573e0ece875da60f1306ca68a9edc7b4825f03b396424e139eed"
+}
+{
+  "_id": "084b00f3-884b-48af-bb5d-6a988eba9faa",
+  "deploymentconstructor": {
+    "artifactname": "mender-demo-artifact-20260928-6a5f385",
+    "force_installation": false,
+    "name": "All devices"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277919301"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277921057"
+    }
+  },
+  "artifacts": [
+    "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "0"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "1"
+      }
+    },
+    "total_size": {
+      "$numberInt": "1641984"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "f8c7a1f549b0d6345c3723668d2dde8fd0a57516b421512e3db1b6f5f34e953f"
+}
+{
+  "_id": "0918d011-4993-45d3-a488-98bb838c2c69",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-40"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976220"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278244874"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "2fc28f5f4a2f8c579f95cb599fc86efdcb2b32f9991ec1fd5c37b5293d1bcfd5"
+}
+{
+  "_id": "0a98e23b-c9df-470e-84c9-dd87b4b4a2ca",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-5"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975925"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278010158"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "0c565f29abb7b151be79cae5f798ba1079d25cc4c141858c7dae86b4c47a7359"
+}
+{
+  "_id": "0ee2455c-d467-4feb-a45f-97c0d6b593c4",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-27"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976039"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278095152"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "8d0f5f80451012fc6fb2af36ee6bc212ff85e375f0278de31ba84d77dd85a62d"
+}
+{
+  "_id": "0f56b00c-4ab7-46cb-a70e-8f829544763b",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-10"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975930"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278020149"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "82938105b6c158a3eb6015df5759c9c3bcf357541ca93c577ee9ad3dde06bd8c"
+}
+{
+  "_id": "15a4533d-11f2-41a9-8f5f-24af69c82f08",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-9"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975918"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277995149"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "90e3a293d11bcead5ec3234539f8c420a256af0101006fbef2f55a31ccc5cd5d"
+}
+{
+  "_id": "16a35ef2-1511-4bf0-bee2-d527c210dee0",
+  "deploymentconstructor": {
+    "artifactname": "rootfs_gzip_2.0.0",
+    "force_installation": true,
+    "name": "All devices"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1794218700989"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1794218811086"
+    }
+  },
+  "artifacts": [
+    "317bf1b6-7f11-4794-a704-b76d935097fd",
+    "eae363bf-d91f-4ed0-bce1-76747dc66270"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "1"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "0"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "730059264"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [],
+  "device_list": [
+    "2673de8c-a9cb-4dc4-9374-f9af9769f8b0"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "",
+  "deploymentconstructor_checksum": "df4711b4aacecccd830493ac67e3801b5d97ecfea14a188386dcf94d87a0f622"
+}
+{
+  "_id": "17dc96b8-4322-490a-b96c-082f2ded9895",
+  "deploymentconstructor": {
+    "artifactname": "rootfs_gzip_2.0.0",
+    "force_installation": true,
+    "name": "deploymentGroup"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1794217353841"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1794218221862"
+    }
+  },
+  "artifacts": [
+    "b78cf0d6-1ec6-46b5-8e77-5e1e7571b327",
+    "8c50c68d-21aa-41da-9b80-f570169c2ecd"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "1"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "0"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "730059264"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "group",
+        "scope": "system",
+        "type": "$eq",
+        "value": "deploymentGroup"
+      }
+    ]
+  },
+  "groups": [
+    "deploymentGroup"
+  ],
+  "device_list": [
+    "e7c835de-e851-4842-a56c-282bf732f823"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "69ccfa61a4623b8965f6566ecd329a9c6064fe80f72a0241d40968cfc8732db1"
+}
+{
+  "_id": "1cce1c2b-c14a-4f9f-a6e5-0c0cd41e8fb1",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-11"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975955"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278030150"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "64190ab338fff25fdcab98e8e18cea39e47b793bd118ff2c4faa19c8030731d3"
+}
+{
+  "_id": "20ebaceb-2575-47f6-93e0-153aac703165",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-55"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976190"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278217496"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "55204ff2a55f6f6e4116e907cb75fdb96633f4669bf6b2f7f5204e4f615c88a8"
+}
+{
+  "_id": "223d9f22-8651-4049-9164-d4cf6e627efa",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-43"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976179"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278207497"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "3efb3aff0305fdc38eb749e9d9dc8b90546255d1ec8f57388597ebc6e10466fc"
+}
+{
+  "_id": "22554e36-3fed-43e3-a815-d1d8dd16c44a",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-53"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976148"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278187496"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "7b711bd12721a6d926729e27f732cdf0f0ae8cade1d0683a7f4e0fbabdada944"
+}
+{
+  "_id": "2355a1f1-772b-40ad-941c-192ab8a7c020",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-51"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976176"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278197498"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "fa8b3393f60ae1ba52dda98ef2662c391859757feb05ccdf93fcdbc068f6b448"
+}
+{
+  "_id": "2f635dd4-da27-4abe-b4c7-b7a4bb63888a",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-6"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975921"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278005154"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "a60e76fcffe0f8cb975235d38a2d446f8a552659e6dcb367cfcac0299b961ac4"
+}
+{
+  "_id": "358c247b-a870-4986-8bfb-fb9b4ed9e4c6",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-39"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976111"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278150153"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "953bd2b35385202a902a8d07477ed407f72263bee1c3e6c0c35f1556be61baa0"
+}
+{
+  "_id": "37179a4d-d140-4dd7-a49a-b0788fb0cc3c",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-31"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976085"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278130154"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "a9f2c136b8945cb4d58a96f5ac57fd60d7afe714617db6b91506fb16db369c9f"
+}
+{
+  "_id": "3e106ee6-a5b1-4da9-8bd2-5567a6d2e774",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-20"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976067"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278100240"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "1ba6bfdb9661db0e21536e8e0e052f4f333d16b829cdbf22cf3f64ce4e610ff2"
+}
+{
+  "_id": "43595bf5-1af3-4391-bb5d-acc8c6098ae2",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-19"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976011"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278055152"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "a55c67b06b80ed11d27cd70276b168fce678d8729d726ed380c5b19e085203ed"
+}
+{
+  "_id": "455b9e4e-98b0-42d0-a4ec-1c5ce337b8b5",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-57"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976245"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278284873"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "fb1b7e2eddd6b13fb7f5526a5c5859a172a88d27dd4de93ddfcc8962b8c78c81"
+}
+{
+  "_id": "4f7e7c96-7fa7-4a09-8d27-7bd7ff597dad",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-45"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976231"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278259873"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "2b01d0854180fffed7b00236e2490c1d437b4d1e942fb72280460ca9446dfb9f"
+}
+{
+  "_id": "537c1272-8809-4ee0-90e4-715a127c4c15",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-33"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976144"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278180151"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "991389305e7f19cca38d7c7db2a71f7e7f4cddf8d84a0b80a440dd9e025fa819"
+}
+{
+  "_id": "5b08015e-a6a0-4448-a7e9-3cd03cf4d589",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-32"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976130"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278170147"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "8eb6b5ac216e32c8ea73c5cb64f876b738c8af8418eaa53cdf413ca0d2288993"
+}
+{
+  "_id": "60959680-0783-4ced-88ef-7860bfc09de9",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-14"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976026"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278070166"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "6070325179b50ae83238b43dd75d83bd135dde75769a525a315bac5196b76752"
+}
+{
+  "_id": "62283452-8553-4d97-97c2-09f69a794b88",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-56"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976206"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278227496"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "5a54604056864862e4812f2d9cc0a8a19de20acba8b547fa83a35e64e39d15e7"
+}
+{
+  "_id": "632c9a14-6db4-46e9-8ca2-6e2953fb6bca",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-16"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975965"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278035148"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "853b6ac9ba4eb83b6107b9ed40bbeb4a119a2ae0ab455185f72dc852ce4838e6"
+}
+{
+  "_id": "6931c8bf-a39c-4399-806e-68a15bc88f1e",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-35"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976077"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278115152"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "d129034726583f82c250c8680e8f82d0d2dc1663e4872b5d71c3a24af96f8c54"
+}
+{
+  "_id": "6bbc9be6-c785-4392-92cf-709a82929e04",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-52"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976236"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278269872"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "9b92a24521d55043032a7cabaa7b48a154c3adb23af08c660607605dd64ed827"
+}
+{
+  "_id": "6e1f3128-19d7-41e2-9c41-6ff1044de422",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-17"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975969"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278040220"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "e71f526d71bb1132fb63af2ede840e6a5a7185d18c543976c8dbb4c65c93fe3d"
+}
+{
+  "_id": "7264e9cc-d755-41f2-abfe-464a25b261d8",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-12"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976016"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278060156"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "d7a7edd39df946bebb8f32609efa4adef104383e15011b2ac216e9244cce0f12"
+}
+{
+  "_id": "72a12b7e-5cda-4048-83c3-205d9e5fdeb0",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-34"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976109"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278140151"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "02c673d6dd7d30d12343119c0319be64fda8645a96f95b0970bf7f164c040c4a"
+}
+{
+  "_id": "744c3ab1-b90c-49ba-aa48-29d515e56768",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-23"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976075"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278110151"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "5cda2bc618d23d0eba99518418412de497c6e4c4a35e57eb3b2e366af6d5ddc0"
+}
+{
+  "_id": "761bbd4e-9a82-4b6d-8380-2a8538bb6646",
+  "deploymentconstructor": {
+    "artifactname": "mender-demo-artifact-20260928-6a5f385",
+    "force_installation": false,
+    "name": "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277959131"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277960151"
+    }
+  },
+  "artifacts": [
+    "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "1"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "0"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "id",
+        "scope": "identity",
+        "type": "$in",
+        "value": [
+          "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+        ]
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "f0635cf4682ab481adf1d840b8c1bed649ed16ede1d5e7d74f74d0a02d90483a"
+}
+{
+  "_id": "77ff25fc-5b11-4eea-9144-5c71953e2ea0",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-7"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975927"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278015147"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "8beff425c06f665c7cf3334e0815ea09fa1e2f6a57063b84c6a27a1ccfa5ca3a"
+}
+{
+  "_id": "8b186588-81e7-40ba-98ba-2dde41504d5b",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-30"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976079"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278125154"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "670594f232ae57466997c8c69631bbf77f15b9c8631ae2cd82bb6501b9959567"
+}
+{
+  "_id": "8bc6692d-786e-4d59-b011-97c8e1f4f5aa",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-29"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976078"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278120149"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "cc5b5f5b5ab9207c8df653f2bc578c373b645fae908fe0a767a8bbf255039b8c"
+}
+{
+  "_id": "8d66bf30-7212-4b27-8512-bd6f2f92d0a5",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-46"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976166"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278192491"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "149144e3215a08303a742fd055aa69aa5b4765114895c0bdd603f1a40b6a43f0"
+}
+{
+  "_id": "97a8bcf9-834e-430b-9c40-b4ae9723870e",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-60"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976200"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278222500"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "5c973f895ac9e9cf74accd8572881155589eb420580376c9d3f8dd24fe68582b"
+}
+{
+  "_id": "9a5eb1a6-f91d-403a-b9a7-e470db1c8abf",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-2"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975899"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277980180"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "ff7baee445400c0b44a9017767fb0289bfcba292d9fd16be3c223d595f201054"
+}
+{
+  "_id": "9bf60caf-0933-48c2-9ca3-1d959f817eb0",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-38"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976074"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278105149"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "a9da84b4126b16456d0dbfd1e094957346a1de12bb68e19494cda67d668f0237"
+}
+{
+  "_id": "9cfd9ff5-f907-4d6a-85b5-d0abcf14a29a",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-15"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976093"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278135163"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "00e15070058bf602698ade693c15de48288c881a6479d6b28b1d4d1e0e0cc61b"
+}
+{
+  "_id": "9f865db1-6d23-48fc-bfa4-5b6f75cf1ea7",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-48"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976234"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278264871"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "4297f520257c7eca2b03b1c18848ffb52aa475ba851535494e0aee09641b696e"
+}
+{
+  "_id": "a2cb182d-80e3-4ec5-8d6e-72011df9bc76",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-4"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975915"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277990145"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "8b181c0a3b4817e06310b8fd3f5c99a837f036dc8610501b211b0dd265c79562"
+}
+{
+  "_id": "a5339aa5-fe97-4956-be02-37bbe46c43db",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-42"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976129"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278165180"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "6d65d34c9f296c3ca31155d6190f1ced8d93a01d6f0c23fb1c11a93c5ebc68ac"
+}
+{
+  "_id": "aae8f632-a0c6-4b9f-b530-1c7b553f90b5",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-36"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976110"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278145170"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "c46ce782225eb487ad15a8307d92af73c710524176ffad01b76d03b04a754be8"
+}
+{
+  "_id": "aedfe48f-85aa-42be-b2f0-5768c9cfae0c",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-25"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976031"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278075148"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "e06c12e211bc0257e60d89c06c658db2a0b00051f7bd8dd34dd45431750e1ed3"
+}
+{
+  "_id": "b3ea5025-119d-45db-8834-925f8f35967b",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-49"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976227"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278254876"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "5e08ca5732f73e58160212d4e33d4b288a87d1fb6575d5edb827a2f8953c31df"
+}
+{
+  "_id": "b48dcce9-572f-42b2-a627-50c31be56dd7",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-58"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976237"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278274875"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "24c1a7dcd5be3452a066e1735e96ecd81739aa056179ed71f23b13ad4d2a52a5"
+}
+{
+  "_id": "bc3be937-00fa-40fc-b660-855aa8227be1",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-26"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976007"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278045166"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "f019822f6ba68d4a43dfc4a9220ef65db830d8ccac7e4f89315f79a4e151e132"
+}
+{
+  "_id": "c037b109-e4ef-4524-b9d5-c825e586a699",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-1"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975903"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277985146"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "6d54abe604988e611b6d5b08101451440091973262758dfd7e80a08e49ebea7e"
+}
+{
+  "_id": "c1801f93-7b8e-41d7-8899-4278fe80424a",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-37"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976178"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278202497"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "f73c9d65f0b44de5f2cb1a9dadd19715aacbd07c6d8c26486313a8f213562394"
+}
+{
+  "_id": "c1879bfc-cf8d-4ddd-b900-d5a5b2005395",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-22"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976033"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278080148"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "ac158e6d7c81e505b48dcd0040ece55ef346098d55f3ad9803a76a79aa36e292"
+}
+{
+  "_id": "c8b8a411-4110-4af9-8605-65dc2fce52ed",
+  "deploymentconstructor": {
+    "artifactname": "mender-demo-artifact-20260928-6a5f385",
+    "force_installation": false,
+    "name": "test.group"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277969124"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791277970152"
+    }
+  },
+  "artifacts": [
+    "2e1e13a0-80f3-4fb6-94fa-cbdafd709fa3"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "1"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "0"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "group",
+        "scope": "system",
+        "type": "$eq",
+        "value": "test.group"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "7e85d13977659736e8dc00ad9492bc4ef82d2f2687af5059d420b2d86003e836"
+}
+{
+  "_id": "ccccd45b-db86-4dc8-83ac-9ad544af4db1",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-3"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975920"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278000143"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "ba0e413cf640877118a90a8c24418b56b1dac1be802bc6780d59dcd826d1ec6e"
+}
+{
+  "_id": "d4861296-054f-442d-9dbf-e679a10391a3",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-8"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277975940"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278025163"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "c0bd42e4db2a6ad86a5babd0d9e253753ec837c6fbab11e1b54ef7b8c802b3fd"
+}
+{
+  "_id": "ddae7e2f-5ee0-4e53-a177-7c0888922d98",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-47"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976222"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278249880"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "adeea6df1d3b3cffb034fabfec15d4e65497bca478baaf22c4bffd24c31fc546"
+}
+{
+  "_id": "e02a8e46-ce2a-4fba-9064-2b09300bf1a1",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-54"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976219"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278239872"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "00168fc393b05067d53c9479ca746cdc12ef1606bdd6789121dbd3504dffde48"
+}
+{
+  "_id": "e346bb87-cab2-41a1-bd0a-979585dac37a",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-28"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976181"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278212497"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "6aa906b3772eeb8071708e0d930d624b820636c1ac002374bd01ca09fe5eca1e"
+}
+{
+  "_id": "e3968212-3f03-48c5-959f-52781ba91c9b",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-50"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976131"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278175162"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "088dee354a1177585264aeb0554def184a5d50847f90ba357c835d39c3650ea8"
+}
+{
+  "_id": "e7c764d0-fe08-4268-b343-4ef8a3259fe7",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-44"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976120"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278160196"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "41ab9fd0179407131899329a8c5335433a803e939008e0e2ea294f3020d90e0d"
+}
+{
+  "_id": "ec831ceb-f06b-4f50-9b2a-e540d4546bd8",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-13"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976019"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278065149"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "978927dfd4f534e8b36a9871efbebf36d27f33af8a9edecfefe92451440ea5d4"
+}
+{
+  "_id": "ec839239-a347-414d-b3ba-ae1f64afbe7e",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-41"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976112"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278155153"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "98a8337d3e4812a8ab41591afd76ecd13ea899d3a9dcb5d35f5a2059bec20c98"
+}
+{
+  "_id": "ed37185f-a1ed-488d-9f6c-95420a7d78f9",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-24"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976036"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278085196"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "f2dcb4f9380a84ed5cbe2d063826297be58434fccbd403ebc9bebf246daa6145"
+}
+{
+  "_id": "f2373852-5f33-445f-8659-0561cea317a5",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-59"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976240"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278279878"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "5903e1496dbdd34ed5f2162788b4d738786fccf1b2570705d944d6f8ea84f01d"
+}
+{
+  "_id": "f9b47489-a6a2-4f07-b967-22216e17f9e4",
+  "deploymentconstructor": {
+    "artifactname": "terminalImage",
+    "force_installation": false,
+    "name": "deployment-18"
+  },
+  "created": {
+    "$date": {
+      "$numberLong": "1791277976037"
+    }
+  },
+  "finished": {
+    "$date": {
+      "$numberLong": "1791278090150"
+    }
+  },
+  "artifacts": [
+    "76d8d476-6cbd-4b8b-9dcc-b8837e10a8ec"
+  ],
+  "statistics": {
+    "status": {
+      "aborted": {
+        "$numberLong": "0"
+      },
+      "already-installed": {
+        "$numberLong": "0"
+      },
+      "decommissioned": {
+        "$numberLong": "0"
+      },
+      "downloading": {
+        "$numberLong": "0"
+      },
+      "failure": {
+        "$numberLong": "0"
+      },
+      "installing": {
+        "$numberLong": "0"
+      },
+      "noartifact": {
+        "$numberLong": "1"
+      },
+      "pause_before_committing": {
+        "$numberLong": "0"
+      },
+      "pause_before_installing": {
+        "$numberLong": "0"
+      },
+      "pause_before_rebooting": {
+        "$numberLong": "0"
+      },
+      "pending": {
+        "$numberLong": "0"
+      },
+      "rebooting": {
+        "$numberLong": "0"
+      },
+      "success": {
+        "$numberLong": "0"
+      }
+    },
+    "total_size": {
+      "$numberInt": "0"
+    }
+  },
+  "status": "finished",
+  "device_count": {
+    "$numberLong": "1"
+  },
+  "max_devices": {
+    "$numberLong": "1"
+  },
+  "filter": {
+    "_id": "",
+    "name": "",
+    "terms": [
+      {
+        "attribute": "status",
+        "scope": "identity",
+        "type": "$eq",
+        "value": "accepted"
+      }
+    ]
+  },
+  "groups": [
+    "test.group"
+  ],
+  "device_list": [
+    "a4e62644-29b6-417e-a04a-cb1d6f8f3462"
+  ],
+  "type": "software",
+  "configuration": {
+    "$binary": {
+      "base64": "",
+      "subType": "00"
+    }
+  },
+  "tenant_id": "6ac4ba4782f5286ba64b1bdd",
+  "deploymentconstructor_checksum": "16e680a47e64972ce94003cfc58d49d19a3707c5d452a3705e0feaa4fd109949"
+}

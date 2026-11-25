@@ -20,7 +20,6 @@ import (
 	"time"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
 )
 
@@ -60,10 +59,6 @@ func (l LogMessage) String() string {
 }
 
 type DeploymentLog struct {
-	// skip these 2 field when (un)marshaling to/from JSON
-	DeviceID     string `json:"-" valid:"required"`
-	DeploymentID string `json:"-" valid:"uuidv4,required"`
-
 	Messages []LogMessage `json:"messages" valid:"required"`
 }
 
@@ -86,8 +81,6 @@ func (d *DeploymentLog) UnmarshalJSON(raw []byte) error {
 
 func (d DeploymentLog) Validate() error {
 	return validation.ValidateStruct(&d,
-		validation.Field(&d.DeviceID, validation.Required),
-		validation.Field(&d.DeploymentID, validation.Required, is.UUID),
 		validation.Field(&d.Messages, validation.Required),
 	)
 }

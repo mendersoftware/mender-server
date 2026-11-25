@@ -50,7 +50,7 @@ func TestGetLimits(t *testing.T) {
 		{
 			name: "storage",
 			code: http.StatusOK,
-			body: map[string]interface{}{"limit": 200, "usage": 0},
+			body: map[string]interface{}{"limit": 200},
 			limit: &model.Limit{
 				Name:  "storage",
 				Value: 200,

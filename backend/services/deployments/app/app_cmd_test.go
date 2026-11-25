@@ -24,6 +24,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 	mstorage "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
@@ -125,11 +126,16 @@ func TestCleanupExpiredUploads(t *testing.T) {
 			Once()
 
 		for _, link := range links {
+			tenantID := link.TenantID
+			contextMatcher := mock.MatchedBy(func(ctx context.Context) bool {
+				id := identity.FromContext(ctx)
+				return id != nil && id.Tenant == tenantID
+			})
 			switch status := link.Status; status {
 			case model.LinkStatusProcessing:
 				if link.UpdatedTS.Before(time.Now().Add(-inprogressIdleTime)) {
 					database.On("UpdateUploadIntentStatus",
-						ctx, link.ArtifactID,
+						contextMatcher, link.ArtifactID,
 						model.LinkStatusProcessing, model.LinkStatusPending).
 						Return(store.ErrNotFound).
 						Once()
@@ -143,12 +149,12 @@ func TestCleanupExpiredUploads(t *testing.T) {
 					errDelete = storage.ErrObjectNotFound
 				}
 				objectStore.On("DeleteObject",
-					ctx,
+					contextMatcher,
 					path.Join(link.TenantID, link.ArtifactID)+fileSuffixTmp).
 					Return(errDelete).
 					Once()
 				database.On("UpdateUploadIntentStatus",
-					ctx, link.ArtifactID,
+					contextMatcher, link.ArtifactID,
 					link.Status, statusNew).
 					Return(nil).
 					Once()
@@ -226,8 +232,13 @@ func TestCleanupExpiredUploads(t *testing.T) {
 
 		errInternal := errors.New("internal error")
 		for _, link := range links {
+			tenantID := link.TenantID
+			contextMatcher := mock.MatchedBy(func(ctx context.Context) bool {
+				id := identity.FromContext(ctx)
+				return id != nil && id.Tenant == tenantID
+			})
 			objectStore.On("DeleteObject",
-				ctx,
+				contextMatcher,
 				path.Join(link.TenantID, link.ArtifactID)+fileSuffixTmp).
 				Return(errInternal).
 				Once()

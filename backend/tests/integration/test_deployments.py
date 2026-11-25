@@ -74,10 +74,6 @@ def create_test_artifacts(
         return []
 
     artifact_names = []
-    claims_b64 = utoken.split(".")[1]
-    claims_b64 += "=" * ((3 - len(claims_b64)) % 3)  # Add padding
-    claims = json.loads(urlsafe_b64decode(claims_b64).decode())
-    tenant_id = claims.get("mender.tenant")
 
     with get_mender_artifact(
         "test-artifact",
@@ -96,24 +92,14 @@ def create_test_artifacts(
             upload_image(artifact, utoken, description)
             artifact_names.append(artifact_name)
 
-    db_name = f"deployment_service-{tenant_id}" if tenant_id else "deployment_service"
-    artifacts = [
-        {
-            "name": doc["meta_artifact"]["name"],
-            "description": doc["meta"].get("description"),
-            "device_types": doc["meta_artifact"]["depends"]["device_type"],
-        }
-        for doc in mongo_client[db_name]
-        .images.find(
-            {},
-            {
-                "meta_artifact.name": 1,
-                "meta_artifact.depends.device_type": 1,
-                "meta.description": 1,
-            },
-        )
-        .sort({"meta_artifact.name": 1})
-    ]
+    artifacts = sorted(
+        (
+            ApiClient(deployments.URL_MGMT)
+            .with_auth(utoken)
+            .call("GET", deployments_v2.URL_ARTIFACTS)
+        ).json(),
+        key=lambda artifact: artifact.get("name"),
+    )
 
     return artifacts
 
@@ -947,7 +933,6 @@ def create_dynamic_deployment(
 
     depid = None
     with get_mender_artifact(name) as filename:
-
         upload_image(filename, utoken)
 
         deployment_req = {
@@ -1234,7 +1219,7 @@ class _TestDeploymentsArtifactBase(object):
             [
                 artifact["name"]
                 for artifact in test_artifacts
-                if "arm1" in artifact.get("device_types")
+                if "arm1" in artifact.get("device_types_compatible")
             ],
         )
 
@@ -1250,7 +1235,8 @@ class _TestDeploymentsArtifactBase(object):
                 artifact["name"]
                 for artifact in test_artifacts
                 if any(
-                    [typ.startswith("arm1-") for typ in artifact.get("device_types")]
+                    typ.startswith("arm1-")
+                    for typ in artifact.get("device_types_compatible")
                 )
             ],
         )

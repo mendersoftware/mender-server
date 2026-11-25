@@ -21,7 +21,6 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/v2/bson"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
@@ -133,16 +132,13 @@ func (c DeploymentConstructor) Checksum() string {
 }
 
 type DeploymentStatistics struct {
-	Status    Stats `json:"status" bson:"-"`
+	Status    Stats `json:"status" bson:"status"`
 	TotalSize int   `json:"total_size" bson:"total_size"`
 }
 
 type Deployment struct {
 	// User provided field set
 	*DeploymentConstructor
-
-	// Set the DeploymentConstructor checksum
-	DeploymentConstructorChecksum string `json:"-" bson:"deploymentconstructor_checksum,omitempty"`
 
 	// Auto set on create, required
 	Created *time.Time `json:"created"`
@@ -156,24 +152,16 @@ type Deployment struct {
 	// List of artifact id's targeted for deployments, optional
 	Artifacts []string `json:"artifacts,omitempty" bson:"artifacts"`
 
-	// Aggregated device status counters.
-	// Initialized with the "pending" counter set to total device count for deployment.
-	// Individual counter incremented/decremented according to device status updates.
-	Stats Stats `json:"-"`
-
 	Statistics DeploymentStatistics `json:"statistics,omitempty" bson:"statistics,omitempty"`
 
 	// Status is the overall deployment status
 	Status DeploymentStatus `json:"status" bson:"status"`
 
-	// Active is true for unfinished deployments
-	Active bool `json:"-" bson:"active"`
-
 	// Number of devices being part of the deployment
-	DeviceCount *int `json:"device_count" bson:"device_count"`
+	DeviceCount *int64 `json:"device_count" bson:"device_count"`
 
 	// Total number of devices targeted
-	MaxDevices int `json:"max_devices,omitempty" bson:"max_devices"`
+	MaxDevices int64 `json:"max_devices,omitempty" bson:"max_devices"`
 
 	// device filter
 	Filter *Filter `json:"filter,omitempty" bson:"filter"`
@@ -213,7 +201,6 @@ func NewDeployment() (*Deployment, error) {
 		Created:               &now,
 		Id:                    id,
 		DeploymentConstructor: &DeploymentConstructor{},
-		Stats:                 NewDeviceDeploymentStats(),
 	}, nil
 }
 
@@ -226,13 +213,9 @@ func NewDeploymentFromConstructor(constructor *DeploymentConstructor) (*Deployme
 	}
 
 	deployment.DeploymentConstructor = constructor
-	if constructor != nil {
-		deployment.DeploymentConstructorChecksum = constructor.Checksum()
-	}
 	deployment.Status = DeploymentStatusPending
 
-	deviceCount := 0
-	deployment.DeviceCount = &deviceCount
+	deployment.DeviceCount = new(int64(0))
 
 	return deployment, nil
 }
@@ -246,12 +229,6 @@ func (d Deployment) Validate() error {
 		validation.Field(&d.Artifacts, validation.Each(validation.Required)),
 		validation.Field(&d.DeviceList, validation.Each(validation.Required)),
 	)
-}
-
-func (r *Deployment) MarshalBSON() ([]byte, error) {
-	type Alias Deployment
-	r.Active = r.Status != DeploymentStatusFinished
-	return bson.Marshal((*Alias)(r))
 }
 
 // To be able to hide devices field, from API output provide custom marshaler
@@ -272,23 +249,21 @@ func (d *Deployment) MarshalJSON() ([]byte, error) {
 	if slim.Type == "" {
 		slim.Type = DeploymentTypeSoftware
 	}
-	slim.Statistics.Status = slim.Stats
-
 	return json.Marshal(&slim)
 }
 
 func (d *Deployment) IsNotPending() bool {
-	if d.Stats[DeviceDeploymentStatusDownloadingStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusInstallingStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusRebootingStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusSuccessStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusAlreadyInstStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusFailureStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusAbortedStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusNoArtifactStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusPauseBeforeInstallStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusPauseBeforeCommitStr] > 0 ||
-		d.Stats[DeviceDeploymentStatusPauseBeforeRebootStr] > 0 {
+	if d.Statistics.Status.Downloading > 0 ||
+		d.Statistics.Status.Installing > 0 ||
+		d.Statistics.Status.Rebooting > 0 ||
+		d.Statistics.Status.Success > 0 ||
+		d.Statistics.Status.AlreadyInstalled > 0 ||
+		d.Statistics.Status.Failure > 0 ||
+		d.Statistics.Status.Aborted > 0 ||
+		d.Statistics.Status.NoArtifact > 0 ||
+		d.Statistics.Status.PauseBeforeInstall > 0 ||
+		d.Statistics.Status.PauseBeforeCommit > 0 ||
+		d.Statistics.Status.PauseBeforeReboot > 0 {
 
 		return true
 	}
@@ -298,12 +273,12 @@ func (d *Deployment) IsNotPending() bool {
 
 func (d *Deployment) IsFinished() bool {
 	if d.Finished != nil ||
-		d.MaxDevices > 0 && ((d.Stats[DeviceDeploymentStatusAlreadyInstStr]+
-			d.Stats[DeviceDeploymentStatusSuccessStr]+
-			d.Stats[DeviceDeploymentStatusFailureStr]+
-			d.Stats[DeviceDeploymentStatusNoArtifactStr]+
-			d.Stats[DeviceDeploymentStatusDecommissionedStr]+
-			d.Stats[DeviceDeploymentStatusAbortedStr]) >= d.MaxDevices) {
+		d.MaxDevices > 0 && ((d.Statistics.Status.AlreadyInstalled+
+			d.Statistics.Status.Success+
+			d.Statistics.Status.Failure+
+			d.Statistics.Status.NoArtifact+
+			d.Statistics.Status.Decommissioned+
+			d.Statistics.Status.Aborted) >= int64(d.MaxDevices)) {
 		return true
 	}
 

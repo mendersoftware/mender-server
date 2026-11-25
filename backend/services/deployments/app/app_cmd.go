@@ -19,6 +19,8 @@ import (
 	"path"
 	"time"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
+
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -29,6 +31,7 @@ func (d *Deployments) cleanupExpiredLink(
 	link model.UploadLink,
 	now time.Time,
 ) (err error) {
+	ctx = identity.WithContext(ctx, &identity.Identity{Tenant: link.TenantID})
 	switch link.Status {
 	case model.LinkStatusProcessing:
 		if link.UpdatedTS.Before(now.Add(-inprogressIdleTime)) {
