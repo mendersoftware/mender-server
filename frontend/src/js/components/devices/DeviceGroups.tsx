@@ -34,14 +34,12 @@ import {
 } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
-  getCombinedLimit,
   getDeviceById,
   getDeviceCountsByStatus,
   getDeviceFilters,
   getGroups as getGroupsSelector,
   getIdAttribute,
   getIsEnterprise,
-  getLimitMaxed,
   getOnboardingState,
   getSelectedGroupInfo,
   getSortedFilteringAttributes,
@@ -118,10 +116,8 @@ export const DeviceGroups = () => {
   const tenantCapabilities = useSelector(getTenantCapabilities);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
-  const deviceLimit = useSelector(getCombinedLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const filters = useSelector(getDeviceFilters);
-  const limitMaxed = useSelector(getLimitMaxed);
   const { accepted: acceptedCount, pending: pendingCount } = useSelector(getDeviceCountsByStatus);
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);
   const onboardingState = useSelector(getOnboardingState);
@@ -376,7 +372,7 @@ export const DeviceGroups = () => {
           selectedGroup={selectedGroup}
         />
         <div className="rightFluid relative" style={{ paddingTop: 0 }}>
-          {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedCount} deviceLimit={deviceLimit} />}
+          <DeviceLimitWarning />
           <AuthorizedDevices
             changeLocation={changeLocation}
             addDevicesToGroup={addDevicesToGroup}
