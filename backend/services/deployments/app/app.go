@@ -351,6 +351,7 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 	metadata *model.DirectUploadMetadata,
 ) (string, error) {
 
+	l := log.FromContext(ctx)
 	ctx, err := d.contextWithStorageSettings(ctx)
 	if err != nil {
 		return "", err
@@ -449,6 +450,16 @@ func (d *Deployments) handleArtifact(ctx context.Context,
 
 	// update release
 	if err := d.updateRelease(ctx, image, nil); err != nil {
+		// Try to remove the object from storage.
+		if errDelete := d.objectStorage.DeleteObject(
+			ctx,
+			model.ImagePathFromContext(ctx, artifactID),
+		); errDelete != nil {
+			l.Errorf(
+				"failed to clean up artifact storage after failure: %s",
+				errDelete,
+			)
+		}
 		return "", err
 	}
 
