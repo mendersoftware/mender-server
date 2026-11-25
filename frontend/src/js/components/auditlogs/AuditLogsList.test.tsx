@@ -113,4 +113,29 @@ describe('AuditlogsList Component', () => {
     expect(getRow('my token').getByText('Created PAT my token (t1).')).toBeVisible();
     expect(screen.queryByText(/expires_in/)).not.toBeInTheDocument();
   });
+  it('renders integration entries', async () => {
+    const integrationEvents = [
+      { actor, time: '2019-01-01T12:27:22.667Z', action: 'create', object: { id: 'i1', type: 'integration', integration: { provider: 'iot-hub' } } },
+      { actor, time: '2019-01-01T12:28:22.667Z', action: 'delete', object: { id: 'i2', type: 'integration', integration: { provider: 'webhook' } } }
+    ];
+    render(
+      <AuditLogsList
+        items={integrationEvents}
+        onChangeRowsPerPage={vi.fn}
+        onChangePage={vi.fn}
+        onChangeSorting={vi.fn}
+        selectionState={state.organization.auditlog.selectionState}
+        userCapabilities={adminUserCapabilities}
+        auditLogColumns={[
+          { title: 'Type', sortable: false, render: TypeDescriptor },
+          { title: 'Changed', sortable: false, render: ChangeDescriptor },
+          { title: 'More details', sortable: false, render: ChangeDetailsDescriptor }
+        ]}
+      />,
+      { state }
+    );
+    expect(screen.getAllByText('Integration')).toHaveLength(2);
+    expect(getRow('Azure IoT Hub').getByRole('link', { name: /view integrations/i })).toHaveAttribute('href', '/settings/integrations');
+    expect(getRow('webhook').queryByRole('link')).not.toBeInTheDocument();
+  });
 });
