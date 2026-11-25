@@ -68,9 +68,9 @@ func (db *DataStoreMongo) UpdateReleaseArtifactDescription(
 	_, err := collReleases.UpdateOne(
 		ctx,
 		bson.M{
-			StorageKeyReleaseKind: bson.M{
-				StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
-				"$in":              bson.A{nil, model.ReleaseKindRelease},
+			StorageKeyTenantId: identity.FromContext(ctx).GetTenantID(),
+			StorageKeyReleaseKind: bson.D{
+				{Key: "$in", Value: bson.A{nil, model.ReleaseKindRelease}},
 			},
 			StorageKeyReleaseName:        releaseName,
 			StorageKeyReleaseArtifactsId: artifactToEdit.Id,

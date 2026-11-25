@@ -915,43 +915,31 @@ func (db *DataStoreMongo) ListImages(
 			{{Key: "$limit", Value: int64(filt.PerPage)}},
 		}
 	} else {
-		skipNLimit = mongo.Pipeline{
-			{{Key: "$limit", Value: int64(DefaultDocumentLimit)}},
-		}
+		skipNLimit = mongo.Pipeline{} // RIP ¯\_(ツ)_/¯
 	}
 
-	var combinedPipe mongo.Pipeline
+	combinedPipe := mongo.Pipeline{
+		{{Key: "$match", Value: releaseFilter}},
+		{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
+		{{Key: "$replaceRoot", Value: bson.D{
+			{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
+		}}},
+		{{Key: "$match", Value: artifactFilter}},
+		{{Key: "$facet", Value: bson.M{
+			"artifacts": &skipNLimit,
+			"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
+		}}},
+	}
 	if sortField == StorageKeyReleaseName {
-		combinedPipe = mongo.Pipeline{
-			{{Key: "$match", Value: releaseFilter}},
-			{{Key: "$sort", Value: bson.D{{Key: sortField, Value: sortOrder}}}},
-			{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
-			{{Key: "$replaceRoot", Value: bson.D{
-				{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
-			}}},
-			{{Key: "$match", Value: artifactFilter}},
-			{{Key: "$facet", Value: bson.M{
-				"artifacts": skipNLimit,
-				"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
-			}}},
-		}
+		combinedPipe = slices.Insert(combinedPipe, 1, bson.D{
+			{Key: "$sort", Value: bson.D{{Key: sortField, Value: sortOrder}}},
+		})
 	} else {
 		skipNLimit = slices.Insert(skipNLimit, 0, bson.D{
 			{Key: "$sort", Value: bson.D{
 				{Key: sortField, Value: sortOrder},
 			}},
 		})
-		combinedPipe = mongo.Pipeline{
-			{{Key: "$match", Value: releaseFilter}},
-			{{Key: "$unwind", Value: "$" + StorageKeyReleaseArtifacts}},
-			{{Key: "$replaceRoot", Value: bson.D{
-				{Key: "newRoot", Value: "$" + StorageKeyReleaseArtifacts},
-			}}},
-			{{Key: "$facet", Value: bson.M{
-				"artifacts": &skipNLimit,
-				"count":     mongo.Pipeline{{{Key: "$count", Value: "n"}}},
-			}}},
-		}
 	}
 
 	cursor, err := collReleases.Aggregate(ctx, combinedPipe)
