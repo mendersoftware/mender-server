@@ -22,6 +22,159 @@ components:
       required:
         - error
       type: object
+    JobStatus:
+      example:
+        workflowName: workflowName
+        id: id
+        inputParameters:
+        - name: key
+          value: parameter
+        - name: key
+          value: parameter
+        results:
+        - cli:
+            output: output
+            exitCode: 0
+            error: error
+            command:
+            - command
+            - command
+          request:
+            body: body
+            statusCode: 6
+          response:
+            headers:
+            - headers
+            - headers
+            method: method
+            body: body
+            uri: uri
+        - cli:
+            output: output
+            exitCode: 0
+            error: error
+            command:
+            - command
+            - command
+          request:
+            body: body
+            statusCode: 6
+          response:
+            headers:
+            - headers
+            - headers
+            method: method
+            body: body
+            uri: uri
+        status: status
+      properties:
+        id:
+          type: string
+        workflowName:
+          type: string
+        inputParameters:
+          items:
+            $ref: '#/components/schemas/InputParameter'
+          type: array
+        status:
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/TaskResult'
+          type: array
+      type: object
+    InputParameter:
+      example:
+        name: key
+        value: parameter
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+      - name
+      - value
+      type: object
+    TaskResult:
+      example:
+        cli:
+          output: output
+          exitCode: 0
+          error: error
+          command:
+          - command
+          - command
+        request:
+          body: body
+          statusCode: 6
+        response:
+          headers:
+          - headers
+          - headers
+          method: method
+          body: body
+          uri: uri
+      properties:
+        success:
+          type: boolean
+        cli:
+          $ref: '#/components/schemas/TaskResultCLI'
+        request:
+          $ref: '#/components/schemas/TaskResultHTTPRequest'
+        response:
+          $ref: '#/components/schemas/TaskResultHTTPResponse'
+      type: object
+    TaskResultCLI:
+      example:
+        output: output
+        exitCode: 0
+        error: error
+        command:
+        - command
+        - command
+      properties:
+        command:
+          items:
+            type: string
+          type: array
+        output:
+          type: string
+        error:
+          type: string
+        exitCode:
+          type: integer
+      type: object
+    TaskResultHTTPRequest:
+      example:
+        body: body
+        statusCode: 6
+      properties:
+        statusCode:
+          type: integer
+        body:
+          type: string
+      type: object
+    TaskResultHTTPResponse:
+      example:
+        headers:
+        - headers
+        - headers
+        method: method
+        body: body
+        uri: uri
+      properties:
+        uri:
+          type: string
+        method:
+          type: string
+        headers:
+          items:
+            type: string
+          type: array
+        body:
+          type: string
+      type: object
     NewTenant:
       type: object
       properties:

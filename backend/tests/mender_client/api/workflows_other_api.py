@@ -19,7 +19,6 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict, List
 from typing_extensions import Annotated
-from mender_client.models.input_parameter import InputParameter
 from mender_client.models.job_object import JobObject
 from mender_client.models.start_batch_workflows201_response_inner import StartBatchWorkflows201ResponseInner
 from mender_client.models.start_workflow201_response import StartWorkflow201Response
@@ -829,7 +828,7 @@ class WorkflowsOtherApi:
     def start_batch_workflows(
         self,
         name: Annotated[StrictStr, Field(description="Workflow identifier.")],
-        input_parameter: Annotated[List[List[InputParameter]], Field(description="Contains the definition of the job to be started.")],
+        request_body: Annotated[Dict[str, Any], Field(description="Contains the definition of the job to be started.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -849,8 +848,8 @@ class WorkflowsOtherApi:
 
         :param name: Workflow identifier. (required)
         :type name: str
-        :param input_parameter: Contains the definition of the job to be started. (required)
-        :type input_parameter: List[List[InputParameter]]
+        :param request_body: Contains the definition of the job to be started. (required)
+        :type request_body: Dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -875,7 +874,7 @@ class WorkflowsOtherApi:
 
         _param = self._start_batch_workflows_serialize(
             name=name,
-            input_parameter=input_parameter,
+            request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -902,7 +901,7 @@ class WorkflowsOtherApi:
     def start_batch_workflows_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Workflow identifier.")],
-        input_parameter: Annotated[List[List[InputParameter]], Field(description="Contains the definition of the job to be started.")],
+        request_body: Annotated[Dict[str, Any], Field(description="Contains the definition of the job to be started.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -922,8 +921,8 @@ class WorkflowsOtherApi:
 
         :param name: Workflow identifier. (required)
         :type name: str
-        :param input_parameter: Contains the definition of the job to be started. (required)
-        :type input_parameter: List[List[InputParameter]]
+        :param request_body: Contains the definition of the job to be started. (required)
+        :type request_body: Dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -948,7 +947,7 @@ class WorkflowsOtherApi:
 
         _param = self._start_batch_workflows_serialize(
             name=name,
-            input_parameter=input_parameter,
+            request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -975,7 +974,7 @@ class WorkflowsOtherApi:
     def start_batch_workflows_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Workflow identifier.")],
-        input_parameter: Annotated[List[List[InputParameter]], Field(description="Contains the definition of the job to be started.")],
+        request_body: Annotated[Dict[str, Any], Field(description="Contains the definition of the job to be started.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -995,8 +994,8 @@ class WorkflowsOtherApi:
 
         :param name: Workflow identifier. (required)
         :type name: str
-        :param input_parameter: Contains the definition of the job to be started. (required)
-        :type input_parameter: List[List[InputParameter]]
+        :param request_body: Contains the definition of the job to be started. (required)
+        :type request_body: Dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1021,7 +1020,7 @@ class WorkflowsOtherApi:
 
         _param = self._start_batch_workflows_serialize(
             name=name,
-            input_parameter=input_parameter,
+            request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1043,7 +1042,7 @@ class WorkflowsOtherApi:
     def _start_batch_workflows_serialize(
         self,
         name,
-        input_parameter,
+        request_body,
         _request_auth,
         _content_type,
         _headers,
@@ -1053,7 +1052,6 @@ class WorkflowsOtherApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'InputParameter': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -1072,8 +1070,8 @@ class WorkflowsOtherApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if input_parameter is not None:
-            _body_params = input_parameter
+        if request_body is not None:
+            _body_params = request_body
 
 
         # set the HTTP header `Accept`

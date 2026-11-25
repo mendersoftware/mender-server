@@ -476,12 +476,12 @@ type ApiStartBatchWorkflowsRequest struct {
 	ctx context.Context
 	ApiService WorkflowsOtherAPI
 	name string
-	inputParameter *[][]InputParameter
+	requestBody *map[string]interface{}
 }
 
 // Contains the definition of the job to be started.
-func (r ApiStartBatchWorkflowsRequest) InputParameter(inputParameter [][]InputParameter) ApiStartBatchWorkflowsRequest {
-	r.inputParameter = &inputParameter
+func (r ApiStartBatchWorkflowsRequest) RequestBody(requestBody map[string]interface{}) ApiStartBatchWorkflowsRequest {
+	r.requestBody = &requestBody
 	return r
 }
 
@@ -528,8 +528,8 @@ func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWor
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.inputParameter == nil {
-		return localVarReturnValue, nil, reportError("inputParameter is required and must be specified")
+	if r.requestBody == nil {
+		return localVarReturnValue, nil, reportError("requestBody is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -550,7 +550,7 @@ func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWor
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.inputParameter
+	localVarPostBody = r.requestBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
