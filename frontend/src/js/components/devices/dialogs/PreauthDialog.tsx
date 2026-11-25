@@ -78,16 +78,18 @@ export const PreauthDialog = ({ onCancel, onSubmit }) => {
       setKeyError('');
       return;
     }
-    if (!content) {
+    // PEM files usually end with a newline
+    const key = content.trim();
+    if (!key) {
       setKeyError(emptyKeyError);
       return;
     }
-    if (!publicKeyEnvelope.test(content)) {
+    if (!publicKeyEnvelope.test(key)) {
       setKeyError(invalidKeyError);
       return;
     }
     setKeyError('');
-    setPublicKey(content);
+    setPublicKey(key);
   };
 
   const onHandleSubmit = async shouldClose => {

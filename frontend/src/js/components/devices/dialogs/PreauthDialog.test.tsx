@@ -31,9 +31,11 @@ const mockStore = configureStore([thunk]);
 
 const dropzone = '.dropzone input';
 
+// PEM files written by openssl & co. end with a newline
 const publicKey = `-----BEGIN PUBLIC KEY-----
 MCowBQYDK2VwAyEAGXbdqZ5RyULfSYWUETrpecTJ2AWVN6i+qEsgt0CsiO4=
------END PUBLIC KEY-----`;
+-----END PUBLIC KEY-----
+`;
 
 const keyFile = () => new File([publicKey], 'test.pem');
 
