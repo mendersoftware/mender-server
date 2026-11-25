@@ -20,8 +20,10 @@ var _ MappedNullable = &JobStatus{}
 
 // JobStatus struct for JobStatus
 type JobStatus struct {
-	Id *string `json:"id,omitempty"`
-	WorkflowName *string `json:"workflowName,omitempty"`
+	// Identifier consisting of up to 256 characters from the set `[A-Za-z0-9._-]`. 
+	Id *string `json:"id,omitempty" validate:"regexp=^[A-Za-z0-9._-]*$"`
+	// Human-readable name consisting of up to 256 valid UTF-8 encoded, graphic Unicode characters (letters, marks, numbers, punctuation, symbols and spaces). 
+	WorkflowName *string `json:"workflowName,omitempty" validate:"regexp=^[^\\\\x00-\\\\x1F\\\\x7F-\\\\x9F]*$"`
 	InputParameters []InputParameter `json:"inputParameters,omitempty"`
 	Status *string `json:"status,omitempty"`
 	Results []TaskResult `json:"results,omitempty"`

@@ -7577,9 +7577,9 @@ components:
         status: status
       properties:
         id:
-          type: string
+          $ref: '#/components/schemas/Identifier'
         workflowName:
-          type: string
+          $ref: '#/components/schemas/Name'
         inputParameters:
           items:
             $ref: '#/components/schemas/InputParameter'
@@ -7597,7 +7597,7 @@ components:
         value: parameter
       properties:
         name:
-          type: string
+          $ref: '#/components/schemas/Name'
         value:
           type: string
       required:
