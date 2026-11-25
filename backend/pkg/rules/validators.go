@@ -12,6 +12,12 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
+type Func func(any) error
+
+func (f Func) Validate(value any) error {
+	return f(value)
+}
+
 func HasUnderlyingType(input interface{}, kind reflect.Kind) bool {
 	v := reflect.ValueOf(input)
 
