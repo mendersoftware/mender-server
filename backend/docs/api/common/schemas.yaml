@@ -26,8 +26,7 @@ components:
       type: object
       properties:
         tenant_id:
-          type: string
-          description: ID of new tenant.
+          $ref: "#/components/schemas/TenantID"
       required:
         - tenant_id
     AuthSet:

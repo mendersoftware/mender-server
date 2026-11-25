@@ -56,7 +56,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TenantNew'
+              $ref: "../common/schemas.yaml#/components/schemas/NewTenant"
         required: true
       responses:
         "201":
@@ -350,15 +350,6 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 components:
   schemas:
-    TenantNew:
-      type: object
-      properties:
-        tenant_id:
-          type: string
-          description: ID of given tenant.
-      description: Tenant configuration.
-      example:
-        tenant_id: "1234"
     DeviceNew:
       required:
       - id

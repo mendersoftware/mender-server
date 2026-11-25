@@ -113,7 +113,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TenantNew'
+              $ref: "../common/schemas.yaml#/components/schemas/NewTenant"
         required: true
       responses:
         "201":
@@ -308,11 +308,3 @@ components:
       example:
         email: user@acme.com
         password: mypass1234
-    TenantNew:
-      type: object
-      properties:
-        tenant_id:
-          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
-      description: Tenant configuration.
-      example:
-        tenant_id: "deadbeef1234567890f00b4d"
