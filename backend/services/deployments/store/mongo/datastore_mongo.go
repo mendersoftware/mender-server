@@ -673,34 +673,41 @@ func (db *DataStoreMongo) ImageForDeviceDeployment(ctx context.Context,
 			{Key: "$in", Value: ids},
 		}},
 	}
-	providesDB := make([]Provide, 0, len(provides)+1)
+	providesDB := make([]Provide, 0, len(provides))
 	for key, value := range provides {
 		providesDB = append(providesDB, Depend{
 			Key:   key,
 			Value: value,
 		})
 	}
-	providesDB = append(providesDB, Depend{
-		Key:   "device_type",
-		Value: deviceType,
-	})
 	// Ensure no depends keys are outside the provides shape
 	artifactFilter := bson.D{
 		{Key: "input", Value: "$" + StorageKeyReleaseArtifacts},
 		{Key: "as", Value: "artifact"},
 		{Key: "cond", Value: bson.D{
-			{Key: "$eq", Value: bson.A{
-				// The set intersection of provides and depends must equal the
-				// number of unique depends keys.
-				// That is, for every depends, there must be a matching provides.
-				bson.D{{Key: "$size", Value: bson.D{
-					{Key: "$setIntersection", Value: bson.A{
-						"$$artifact.meta_artifact.depends",
-						bson.D{{Key: "$literal", Value: providesDB}},
-					}},
+			{Key: "$and", Value: bson.A{
+				bson.D{{Key: "$in", Value: bson.A{
+					deviceType,
+					"$$artifact." + StorageKeyImageDeviceTypes,
 				}}},
-				bson.D{{Key: "$size", Value: bson.D{
-					{Key: "$setUnion", Value: bson.A{"$$artifact.meta_artifact.depends.k"}},
+				bson.D{{Key: "$eq", Value: bson.A{
+					// The set intersection of provides and depends must equal
+					// the number of unique depends keys. That is, for every
+					// depends, there must be a matching provides.
+					bson.D{{Key: "$size", Value: bson.D{
+						{Key: "$setIntersection", Value: bson.A{
+							"$$artifact.meta_artifact.depends",
+							bson.D{{
+								Key:   "$literal",
+								Value: providesDB,
+							}},
+						}},
+					}}},
+					bson.D{{Key: "$size", Value: bson.D{
+						{Key: "$setUnion", Value: bson.A{
+							"$$artifact.meta_artifact.depends.k",
+						}},
+					}}},
 				}}},
 			}},
 		}},

@@ -1434,6 +1434,10 @@ func (d *DeploymentsApiHandlers) GetDeploymentForDevice(c *gin.Context) {
 		installed = &model.InstalledDeviceDeployment{
 			ArtifactName: q.Get(ParamArtifactName),
 			DeviceType:   q.Get(ParamDeviceType),
+			Provides: map[string]string{
+				ParamArtifactName: q.Get(ParamArtifactName),
+				ParamDeviceType:   q.Get(ParamDeviceType),
+			},
 		}
 	}
 
