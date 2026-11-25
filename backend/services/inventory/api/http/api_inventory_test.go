@@ -2997,9 +2997,9 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 		"ok": {
 			uaError: nil,
 			body: map[string]interface{}{
-				"tenant_id": "foobar",
+				"tenant_id": "123456789012345678901234",
 			},
-			tenant: model.NewTenant{ID: "foobar"},
+			tenant: model.NewTenant{ID: "123456789012345678901234"},
 
 			res: JSONResponseParams{
 				OutputStatus: http.StatusCreated,
@@ -3007,10 +3007,10 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 		},
 		"error: useradm internal": {
 			body: map[string]interface{}{
-				"tenant_id": "failing-tenant",
+				"tenant_id": "fa1212345678901234567890",
 			},
 			uaError: errors.New("some internal error"),
-			tenant:  model.NewTenant{ID: "failing-tenant"},
+			tenant:  model.NewTenant{ID: "fa1212345678901234567890"},
 
 			res: JSONResponseParams{
 				OutputStatus:     500,
