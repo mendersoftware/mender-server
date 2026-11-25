@@ -15,11 +15,13 @@ package http
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
@@ -270,8 +272,10 @@ func (u *UserAdmApiHandlers) CreateTenantUserHandler(c *gin.Context) {
 		rest.RenderError(c, http.StatusNotFound, errors.New("Entity not found"))
 		return
 	}
-	if err := rules.ObjectId(tenantId); err != nil {
-		rest.RenderError(c, http.StatusBadRequest, err)
+	if err := validation.Validate(tenantId, rules.TenantID); err != nil {
+		rest.RenderError(c,
+			http.StatusBadRequest,
+			fmt.Errorf("invalid path parameter tenant_id: %w", err))
 		return
 	}
 
@@ -345,8 +349,15 @@ func (u *UserAdmApiHandlers) GetUsersHandler(c *gin.Context) {
 
 func (u *UserAdmApiHandlers) GetTenantUsersHandler(c *gin.Context) {
 	ctx := c.Request.Context()
+	tenantID := c.Param("id")
+	if err := validation.Validate(tenantID, rules.TenantID); err != nil {
+		rest.RenderError(c, http.StatusBadRequest,
+			fmt.Errorf("invalid path parameter tenant_id: %w", err),
+		)
+		return
+	}
 	ctx = identity.WithContext(ctx, &identity.Identity{
-		Tenant: c.Param("id"),
+		Tenant: tenantID,
 	})
 	c.Request = c.Request.WithContext(ctx)
 	u.GetUsersHandler(c)
@@ -480,6 +491,12 @@ func (u *UserAdmApiHandlers) DeleteTenantUserHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	tenantId := c.Param("id")
+	if err := validation.Validate(tenantId, rules.TenantID); err != nil {
+		rest.RenderError(c, http.StatusBadRequest,
+			fmt.Errorf("invalid path parameter tenant_id: %w", err),
+		)
+		return
+	}
 	if tenantId != "" {
 		ctx = getTenantContext(ctx, tenantId)
 	}
@@ -568,9 +585,7 @@ func (u *UserAdmApiHandlers) CreateTenantHandler(c *gin.Context) {
 		return
 	}
 
-	err := u.userAdm.CreateTenant(ctx, model.NewTenant{
-		ID: newTenant.ID,
-	})
+	err := u.userAdm.CreateTenant(ctx, newTenant)
 	if err != nil {
 		rest.RenderInternalError(c, err)
 		return
@@ -601,6 +616,12 @@ func (u *UserAdmApiHandlers) DeleteTokensHandler(c *gin.Context) {
 	tenantId := c.Request.URL.Query().Get("tenant_id")
 	if tenantId == "" {
 		rest.RenderError(c, http.StatusBadRequest, errors.New("tenant_id must be provided"))
+		return
+	}
+	if err := validation.Validate(tenantId, rules.TenantID); err != nil {
+		rest.RenderError(c, http.StatusBadRequest,
+			fmt.Errorf("invalid path parameter tenant_id: %w", err),
+		)
 		return
 	}
 	userId := c.Request.URL.Query().Get("user_id")
