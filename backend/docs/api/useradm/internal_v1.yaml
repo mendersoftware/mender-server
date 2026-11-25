@@ -136,7 +136,7 @@ paths:
         description: Tenant ID.
         required: true
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
       - name: id
         in: query
         description: |
@@ -198,7 +198,7 @@ paths:
         description: Tenant ID.
         required: true
         schema:
-          $ref: '../common/schemas.yaml#/components/schemas/ObjectId'
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
       requestBody:
         description: New user data.
         content:
@@ -237,7 +237,7 @@ paths:
         description: Tenant ID.
         required: true
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
       - name: user_id
         in: path
         description: User ID.
@@ -269,7 +269,7 @@ paths:
         description: Tenant ID.
         required: true
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
       - name: user_id
         in: query
         description: User ID.
@@ -312,8 +312,7 @@ components:
       type: object
       properties:
         tenant_id:
-          type: string
-          description: ID of given tenant.
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
       description: Tenant configuration.
       example:
-        tenant_id: "1234"
+        tenant_id: "deadbeef1234567890f00b4d"
