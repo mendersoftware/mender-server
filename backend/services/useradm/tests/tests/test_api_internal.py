@@ -30,16 +30,16 @@ import pytest
 
 class TestInternalApiTenantCreate:
     def test_create_ok(self, api_client_int, clean_db):
-        r = api_client_int.create_tenant("foobar")
+        r = api_client_int.create_tenant("123456789012345678901234")
         assert r.status_code == 201
 
     def test_create_twice(self, api_client_int, clean_db):
 
-        r = api_client_int.create_tenant("foobar")
+        r = api_client_int.create_tenant("123456789012345678901234")
         assert r.status_code == 201
 
         # creating once more should not fail
-        r = api_client_int.create_tenant("foobar")
+        r = api_client_int.create_tenant("123456789012345678901234")
         assert r.status_code == 201
 
     def test_create_empty(self, api_client_int):

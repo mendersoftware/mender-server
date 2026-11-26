@@ -39,24 +39,24 @@ class TestInternalApiTenantCreate:
     def test_create_ok(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             internal_v1_client().deployments_internal_create_tenant(
-                {"tenant_id": "foobar"}
+                {"tenant_id": "123456789012345678901234"}
             )
 
-            assert "deployment_service-foobar" in clean_db.list_database_names()
+            assert "deployment_service-123456789012345678901234" in clean_db.list_database_names()
             assert (
                 "migration_info"
-                in clean_db["deployment_service-foobar"].list_collection_names()
+                in clean_db["deployment_service-123456789012345678901234"].list_collection_names()
             )
 
     def test_create_twice(self, api_client_int, clean_db):
         with Lock(MONGO_LOCK_FILE) as l:
             internal_v1_client().deployments_internal_create_tenant(
-                {"tenant_id": "foobar"}
+                {"tenant_id": "123456789012345678901234"}
             )
 
             # creating once more should not fail
             internal_v1_client().deployments_internal_create_tenant(
-                {"tenant_id": "foobar"}
+                {"tenant_id": "123456789012345678901234"}
             )
             l.unlock()
 
