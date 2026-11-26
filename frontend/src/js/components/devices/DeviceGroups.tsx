@@ -129,6 +129,7 @@ export const DeviceGroups = () => {
   const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
+  const initialLocationKey = useRef(location.key);
   const { classes } = useStyles();
   const { canManageDevices } = userCapabilities;
 
@@ -204,8 +205,13 @@ export const DeviceGroups = () => {
     } else if (selectedGroup) {
       dispatch(selectGroup({ group: '' }));
     }
-    // preset selectedIssues and selectedId with empty values, in case if remain properties are missing them
     const listState = { ...remainder };
+    // the location key only differs from the initial one after navigating while already on this page, in that case a url
+    // without a device id should close the device details, e.g. when following a link to a filtered device list
+    // when arriving on the page the previously selected device should remain open per MEN-4696
+    if (location.key !== initialLocationKey.current) {
+      listState.selectedId = undefined;
+    }
     if (statusParam && (Object.values(DEVICE_STATES).some(state => state === statusParam) || statusParam === 'any')) {
       listState.state = statusParam;
     }

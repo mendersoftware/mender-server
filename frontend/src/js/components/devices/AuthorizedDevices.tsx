@@ -325,11 +325,6 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
 
   const onCancelTestDevice = () => setPendingTestDevice(null);
 
-  const onTestDeviceLimitNavigate = () => {
-    setPendingTestDevice(null);
-    onCloseExpandedDevice();
-  };
-
   const onConfirmTestDevice = () => {
     if (!pendingTestDevice) {
       return;
@@ -548,7 +543,7 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
                 Are you sure you want to remove the test device status from this device? You can only assign test devices up to 10 times a day.
               </Typography>
             )}
-            <TestDeviceLimit className="margin-top-small" onNavigate={onTestDeviceLimitNavigate} />
+            <TestDeviceLimit className="margin-top-small" onNavigate={onCancelTestDevice} />
           </div>
         }
         open={!!pendingTestDevice}
