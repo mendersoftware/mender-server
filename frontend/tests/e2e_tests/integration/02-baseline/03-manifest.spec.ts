@@ -15,7 +15,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
-import { isEnterpriseOrStaging } from '../../utils/commands';
+import { isEnterpriseOrStaging, prepareNewContext } from '../../utils/commands';
 import { navigateTo } from '../../utils/utils';
 
 const manifestFileLocation = 'fixtures/test.manifest.mender';
@@ -23,7 +23,7 @@ const manifestYamlFileLocation = 'fixtures/manifest.yaml';
 
 test.describe('Manifests', () => {
   test.beforeAll(async ({ baseUrl, browser }) => {
-    const context = await browser.newContext();
+    const context = await prepareNewContext({ baseUrl, browser });
     const page = await context.newPage();
     await page.goto(baseUrl);
 

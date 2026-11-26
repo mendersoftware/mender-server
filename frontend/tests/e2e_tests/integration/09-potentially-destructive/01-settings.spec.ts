@@ -23,6 +23,7 @@ import {
   isLoggedIn,
   login,
   prepareCookies,
+  prepareNewContext,
   prepareNewPage,
   processLoginForm,
   startClient
@@ -60,7 +61,7 @@ test.describe('Settings', () => {
     });
     test(`prevents from logging in without 2fa code`, async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment), 'test requires enterprise or staging environment');
-      let context = await browser.newContext({ storageState: { ...emptyStorageState } });
+      let context = await prepareNewContext({ baseUrl, browser, options: { storageState: { ...emptyStorageState } } });
       const domain = baseUrlToDomain(baseUrl);
       context = await prepareCookies(context, domain, '');
       const page = await context.newPage();
@@ -78,7 +79,7 @@ test.describe('Settings', () => {
     });
     test('allows turning 2fa off again', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment), 'test requires enterprise or staging environment');
-      let context = await browser.newContext({ storageState: { ...emptyStorageState } });
+      let context = await prepareNewContext({ baseUrl, browser, options: { storageState: { ...emptyStorageState } } });
       const domain = baseUrlToDomain(baseUrl);
       context = await prepareCookies(context, domain, '');
       const page = await context.newPage();
@@ -99,7 +100,7 @@ test.describe('Settings', () => {
     });
     test('allows logging in without 2fa after deactivation', async ({ baseUrl, browser, environment, password, username }) => {
       test.skip(!isEnterpriseOrStaging(environment), 'test requires enterprise or staging environment');
-      let context = await browser.newContext({ storageState: { ...emptyStorageState } });
+      let context = await prepareNewContext({ baseUrl, browser, options: { storageState: { ...emptyStorageState } } });
       const domain = baseUrlToDomain(baseUrl);
       context = await prepareCookies(context, domain, '');
       const page = await context.newPage();
