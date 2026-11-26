@@ -53,6 +53,29 @@ describe('AddArtifact Component', () => {
     expect(uploadSpy).toHaveBeenCalledWith({ file: menderFile, meta: { description: '' } });
   });
 
+  it('shows the file validation error on every rejected selection', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const invalidFile = new File(['testContent'], 'invalid name.txt');
+    const otherInvalidFile = new File(['testContent'], 'other invalid name.txt');
+    const menderFile = new File(['testContent'], 'test.mender');
+    const ui = <AddArtifact onUploadStarted={vi.fn} />;
+    const { rerender } = render(ui, { preloadedState });
+    const errorText = /Only letters, digits and characters/i;
+    let uploadInput = document.querySelector('.dropzone input');
+    await user.upload(uploadInput, invalidFile);
+    await waitFor(() => expect(screen.getByText(errorText)).toBeVisible());
+    await user.upload(uploadInput, otherInvalidFile);
+    await waitFor(() => expect(screen.getByText(errorText)).toBeVisible());
+    await user.upload(uploadInput, menderFile);
+    await waitFor(() => expect(screen.queryByText(errorText)).not.toBeInTheDocument());
+    await user.click(screen.getByTestId('DeleteIcon'));
+    await waitFor(() => rerender(ui));
+    // need to rerun the query after the step change removed the prior reference
+    uploadInput = document.querySelector('.dropzone input');
+    await user.upload(uploadInput, otherInvalidFile);
+    await waitFor(() => expect(screen.getByText(errorText)).toBeVisible());
+  });
+
   it('validates the artifact information only when trying to progress', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const singleFile = new File(['testContent plain'], 'testFile.txt');
