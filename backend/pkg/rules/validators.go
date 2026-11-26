@@ -57,6 +57,28 @@ func Name(value interface{}) error {
 	)
 }
 
+func NameRule() validation.Rule {
+	return validation.By(func(value interface{}) error {
+		if validation.IsEmpty(value) {
+			return nil
+		}
+
+		v := reflect.ValueOf(value)
+		for v.IsValid() && v.Kind() == reflect.Pointer {
+			if v.IsNil() {
+				return nil
+			}
+			v = v.Elem()
+		}
+
+		if !v.IsValid() {
+			return nil
+		}
+
+		return Name(v.Interface())
+	})
+}
+
 func Text(value interface{}) error {
 	if !HasUnderlyingType(value, reflect.String) {
 		return fmt.Errorf("invalid type %T for text", value)
