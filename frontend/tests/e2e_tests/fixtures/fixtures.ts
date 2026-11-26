@@ -15,27 +15,34 @@ import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
 
-import { getPersistentLoginInfo, resetServerErrors, watchServerErrors } from '../utils/commands.ts';
+import { getPersistentLoginInfo, isEnterpriseOrStaging, login, resetServerErrors, watchServerErrors } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
 
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
 
 type TestFixtures = {
   adminBaseUrl: string;
-  baseUrl: string;
   config: unknown;
   demoDeviceName: string;
   demoDeviceSoftware: string;
-  environment: TestEnvironment;
-  isRemote: boolean;
   page: Page;
-  password: string;
   serverErrorReport: void;
   spTenantUsername: string;
   staticGroupName: string;
   uniqueId: string;
+};
+
+type WorkerFixtures = {
+  baseUrl: string;
+  environment: TestEnvironment;
+  isRemote: boolean;
+  isScheduledRun: boolean;
+  password: string;
+  tenantToken: string;
   username: string;
 };
+
+export type CombinedFixtures = TestFixtures & WorkerFixtures;
 
 const urls = {
   localhost: 'https://docker.mender.io/',
@@ -60,8 +67,9 @@ const defaultConfig = {
   staticGroupName: 'test.group'
 };
 
-const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures>({
-  isRemote: !!process.env.BASE_URL,
+const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures, WorkerFixtures>({
+  isRemote: [!!process.env.BASE_URL, { scope: 'worker' }],
+  isScheduledRun: [!!process.env.IS_SCHEDULED, { scope: 'worker' }],
   // auto fixtures are set up first and torn down last, so this also covers pages created through prepareNewPage
   serverErrorReport: [
     // eslint-disable-next-line no-empty-pattern
@@ -74,11 +82,11 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
     },
     { auto: true }
   ],
-  page: async ({ baseUrl, isRemote, page }, use, testInfo) => {
+  page: async ({ baseUrl, isRemote, page }, use, { project }) => {
     if (isRemote) {
       await watchServerErrors(page, baseUrl);
     }
-    if (testInfo.project.name !== 'admin-panel') {
+    if (project.name !== 'admin-panel') {
       await page.goto(baseUrl);
       await page.waitForTimeout(timeouts.oneSecond);
     }
@@ -87,11 +95,14 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
       await page.unrouteAll({ behavior: 'wait' });
     }
   },
-  // eslint-disable-next-line no-empty-pattern
-  environment: async ({}, use) => {
-    const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'os') as TestEnvironment;
-    await use(environment);
-  },
+  environment: [
+    // eslint-disable-next-line no-empty-pattern
+    async ({}, use) => {
+      const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'os') as TestEnvironment;
+      await use(environment);
+    },
+    { scope: 'worker' }
+  ],
   spTenantUsername: async ({ isRemote }, use) => {
     const spTenantUsername = isRemote ? getPersistentLoginInfo().tenantUsername : defaultConfig.spTenantUsername;
     await use(spTenantUsername);
@@ -100,25 +111,51 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
     const uniqueId = isRemote ? getPersistentLoginInfo().uniqueId : '';
     await use(uniqueId);
   },
-  username: async ({ isRemote }, use) => {
-    const username = isRemote ? getPersistentLoginInfo().username : defaultConfig.username;
-    await use(username);
-  },
-  password: async ({ isRemote }, use) => {
-    const password = isRemote ? getPersistentLoginInfo().password : defaultConfig.password;
-    await use(password);
-  },
+  username: [
+    async ({ isRemote }, use) => {
+      const username = isRemote ? getPersistentLoginInfo().username : defaultConfig.username;
+      await use(username);
+    },
+    { scope: 'worker' }
+  ],
+  password: [
+    async ({ isRemote }, use) => {
+      const password = isRemote ? getPersistentLoginInfo().password : defaultConfig.password;
+      await use(password);
+    },
+    { scope: 'worker' }
+  ],
   adminBaseUrl: async ({ environment, isRemote }, use) => {
     const adminBaseUrl = process.env.ADMIN_BASE_URL ?? adminUrls[environment] ?? (isRemote ? '' : defaultConfig.adminBaseUrl);
     await use(adminBaseUrl);
   },
-  baseUrl: async ({ environment }, use) => {
-    const baseUrl = process.env.BASE_URL ?? urls[environment] ?? defaultConfig.baseUrl;
-    await use(baseUrl);
-  },
+  baseUrl: [
+    async ({ environment }, use) => {
+      const baseUrl = process.env.BASE_URL ?? urls[environment] ?? defaultConfig.baseUrl;
+      await use(baseUrl);
+    },
+    { scope: 'worker' }
+  ],
   demoDeviceName: defaultConfig.demoDeviceName,
   demoDeviceSoftware: defaultConfig.demoDeviceSoftware,
-  staticGroupName: defaultConfig.staticGroupName
+  staticGroupName: defaultConfig.staticGroupName,
+  tenantToken: [
+    async ({ baseUrl, environment, password, playwright, username }, use) => {
+      if (!isEnterpriseOrStaging(environment)) {
+        await use('');
+        return;
+      }
+      // the built-in request fixture is test scoped, so a request context of its own is used to retrieve the token
+      const request = await playwright.request.newContext({ ignoreHTTPSErrors: true });
+      const { token } = await login(username, password, baseUrl, request);
+      const response = await request.get(`${baseUrl}api/management/v2/tenantadm/tenants/me/token`, { headers: { Authorization: `Bearer ${token}` } });
+      expect(response.ok(), await response.text()).toBeTruthy();
+      const { tenant_token: tenantToken } = await response.json();
+      await request.dispose();
+      await use(tenantToken);
+    },
+    { scope: 'worker' }
+  ]
 });
 
 export { expect };

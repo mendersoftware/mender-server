@@ -166,6 +166,14 @@ build:frontend:docker:
     paths:
       - frontend/licenses.json
 
+.pull-compat-clients:
+  # The client compatibility tests start their clients from within the test runner container, which lacks the registry
+  # credentials of this job container - pulling the images here keeps the test from having to pull them itself.
+  - |
+    if [ -n "$IS_SCHEDULED" ]; then
+      SERVER_URL= docker compose -f frontend/tests/e2e_tests/fixtures/docker-compose.compat.yml pull --quiet
+    fi
+
 .template:test:frontend:acceptance:
   stage: test
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
@@ -191,6 +199,7 @@ build:frontend:docker:
     - !reference [.dind-login]
     - !reference [.ecr-login]
     - npm i --prefix frontend/tests/e2e_tests
+    - if [ "$CI_PIPELINE_SOURCE" = "schedule" ]; then export IS_SCHEDULED=true; fi
   artifacts:
     expire_in: 2w
     paths:
@@ -208,6 +217,7 @@ build:frontend:docker:
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
   script:
+    - !reference [.pull-compat-clients]
     - npm run script --prefix frontend/tests/e2e_tests -- --environment os
 
 test:frontend:acceptance:enterprise:
@@ -233,6 +243,7 @@ test:frontend:acceptance:enterprise:
         export MENDER_IMAGE_TAG=main
       fi
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
+    - !reference [.pull-compat-clients]
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
 test:frontend:acceptance:enterprise:qemu:

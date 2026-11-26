@@ -751,16 +751,6 @@ test:review:backend:integration:ng:
     - !reference [.mantra-push-results]
 
 
-test:backend:integration:compat:
-  extends: .template:test:backend:integration
-  script:
-    - make -C backend test-integration args="-s compat" MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
-  artifacts:
-    expire_in: 1w
-    when: always
-    paths:
-      - backend/tests/logs/*
-
 test:integration:
   stage: test
   needs:
@@ -820,10 +810,13 @@ test:prep:
     DEVICE_TYPE: qemux86-64
     DOCKER_CERT_PATH: /certs/client
   before_script:
+    # the compatibility tests pull their clients through the registry mirror
+    - !reference [.ecr-login]
     - mv mender-stress-test-client frontend/tests/e2e_tests/
     - cd frontend/tests/e2e_tests
     - docker pull mendersoftware/mender-client-docker-addons:client-main
     - npm ci --cache .npm --prefer-offline
+    - if [ "$CI_PIPELINE_SOURCE" = "schedule" ]; then export IS_SCHEDULED=true; fi
   script:
     - npm run test
   artifacts:
