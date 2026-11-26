@@ -192,6 +192,12 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.deviceId) < 24 {
+		return localVarReturnValue, nil, reportError("deviceId must have at least 24 elements")
+	}
+	if strlen(r.deviceId) > 36 {
+		return localVarReturnValue, nil, reportError("deviceId must have less than 36 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -343,6 +349,12 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.deviceId) < 24 {
+		return localVarReturnValue, nil, reportError("deviceId must have at least 24 elements")
+	}
+	if strlen(r.deviceId) > 36 {
+		return localVarReturnValue, nil, reportError("deviceId must have less than 36 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1151,6 +1163,12 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.deviceId) < 24 {
+		return localVarReturnValue, nil, reportError("deviceId must have at least 24 elements")
+	}
+	if strlen(r.deviceId) > 36 {
+		return localVarReturnValue, nil, reportError("deviceId must have less than 36 elements")
+	}
 	if r.deviceState == nil {
 		return localVarReturnValue, nil, reportError("deviceState is required and must be specified")
 	}
@@ -1482,6 +1500,12 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDevice
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.deviceId) < 24 {
+		return localVarReturnValue, nil, reportError("deviceId must have at least 24 elements")
+	}
+	if strlen(r.deviceId) > 36 {
+		return localVarReturnValue, nil, reportError("deviceId must have less than 36 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

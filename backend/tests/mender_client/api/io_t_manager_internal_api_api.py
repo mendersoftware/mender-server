@@ -536,8 +536,8 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_decommission_device(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
-        device_id: Annotated[StrictStr, Field(description="ID of the target device.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="ID of the target device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -607,8 +607,8 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_decommission_device_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
-        device_id: Annotated[StrictStr, Field(description="ID of the target device.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="ID of the target device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -678,8 +678,8 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_decommission_device_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
-        device_id: Annotated[StrictStr, Field(description="ID of the target device.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="ID of the target device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -811,7 +811,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_delete_tenant(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant to remove.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant to remove.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -878,7 +878,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_delete_tenant_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant to remove.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant to remove.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -945,7 +945,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_delete_tenant_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant to remove.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant to remove.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1071,7 +1071,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_provision_device(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
         new_device_internal_provision: NewDeviceInternalProvision,
         _request_timeout: Union[
             None,
@@ -1144,7 +1144,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_provision_device_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
         new_device_internal_provision: NewDeviceInternalProvision,
         _request_timeout: Union[
             None,
@@ -1217,7 +1217,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_provision_device_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
         new_device_internal_provision: NewDeviceInternalProvision,
         _request_timeout: Union[
             None,
@@ -1365,7 +1365,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_update_device_statuses(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
         status: Annotated[StrictStr, Field(description="The status of the device")],
         io_t_manager_internal_update_device_statuses_request_inner: List[IoTManagerInternalUpdateDeviceStatusesRequestInner],
         _request_timeout: Union[
@@ -1441,7 +1441,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_update_device_statuses_with_http_info(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
         status: Annotated[StrictStr, Field(description="The status of the device")],
         io_t_manager_internal_update_device_statuses_request_inner: List[IoTManagerInternalUpdateDeviceStatusesRequestInner],
         _request_timeout: Union[
@@ -1517,7 +1517,7 @@ class IoTManagerInternalAPIApi:
     @validate_call
     def io_t_manager_internal_update_device_statuses_without_preload_content(
         self,
-        tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
+        tenant_id: Annotated[str, Field(strict=True, max_length=24, description="ID of tenant the device belongs to.")],
         status: Annotated[StrictStr, Field(description="The status of the device")],
         io_t_manager_internal_update_device_statuses_request_inner: List[IoTManagerInternalUpdateDeviceStatusesRequestInner],
         _request_timeout: Union[

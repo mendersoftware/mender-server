@@ -5946,7 +5946,7 @@ paths:
         - in: path
           name: tenantId
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
           required: true
           description: ID of tenant the device belongs to.
       requestBody:
@@ -5978,7 +5978,7 @@ paths:
         - in: path
           name: tenantId
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
           required: true
           description: ID of tenant to remove.
       responses:
@@ -5996,13 +5996,13 @@ paths:
         - in: path
           name: tenantId
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
           required: true
           description: ID of tenant the device belongs to.
         - in: path
           name: deviceId
           schema:
-            type: string
+            $ref: '#/components/schemas/DeviceID'
           required: true
           description: ID of the target device.
       responses:
@@ -6020,7 +6020,7 @@ paths:
         - in: path
           name: tenantId
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
           required: true
           description: ID of tenant the device belongs to.
         - in: path
@@ -6197,7 +6197,7 @@ paths:
         - name: deviceId
           in: path
           schema:
-            type: string
+            $ref: '#/components/schemas/DeviceID'
           required: true
           description: The unique ID of the device.
       responses:
@@ -6227,7 +6227,7 @@ paths:
         - name: deviceId
           in: path
           schema:
-            type: string
+            $ref: '#/components/schemas/DeviceID'
           required: true
           description: The unique ID of the device.
       responses:
@@ -6260,13 +6260,14 @@ paths:
         - name: deviceId
           in: path
           schema:
-            type: string
+            $ref: '#/components/schemas/DeviceID'
           required: true
           description: The unique ID of the device.
         - name: integrationId
           in: path
           schema:
             type: string
+            format: uuid
           required: true
           description: The unique ID of the integration.
       requestBody:
@@ -6303,13 +6304,14 @@ paths:
         - name: deviceId
           in: path
           schema:
-            type: string
+            $ref: '#/components/schemas/DeviceID'
           required: true
           description: The unique ID of the device.
         - name: integrationId
           in: path
           schema:
             type: string
+            format: uuid
           required: true
           description: The unique ID of the integration.
       responses:
@@ -10193,8 +10195,7 @@ components:
         credentials:
           $ref: '#/components/schemas/Credentials'
         description:
-          type: string
-          description: A short human readable description (max 1024 characters).
+          $ref: '#/components/schemas/Text'
       required:
         - provider
         - credentials

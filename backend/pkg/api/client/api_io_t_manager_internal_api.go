@@ -364,6 +364,15 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDecommissionDeviceEx
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
+	}
+	if strlen(r.deviceId) < 24 {
+		return nil, reportError("deviceId must have at least 24 elements")
+	}
+	if strlen(r.deviceId) > 36 {
+		return nil, reportError("deviceId must have less than 36 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -471,6 +480,9 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDeleteTenantExecute(
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -584,6 +596,9 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecu
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
+	}
 	if r.newDeviceInternalProvision == nil {
 		return nil, reportError("newDeviceInternalProvision is required and must be specified")
 	}
@@ -728,6 +743,9 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalUpdateDeviceStatuses
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
+	}
 	if r.ioTManagerInternalUpdateDeviceStatusesRequestInner == nil {
 		return nil, reportError("ioTManagerInternalUpdateDeviceStatusesRequestInner is required and must be specified")
 	}
