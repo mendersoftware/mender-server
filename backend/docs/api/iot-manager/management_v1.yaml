@@ -142,7 +142,7 @@ paths:
       - name: deviceId
         in: path
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/DeviceID'
         required: true
         description: The unique ID of the device.
       responses:
@@ -170,7 +170,7 @@ paths:
       - name: deviceId
         in: path
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/DeviceID'
         required: true
         description: The unique ID of the device.
       responses:
@@ -202,13 +202,14 @@ paths:
       - name: deviceId
         in: path
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/DeviceID'
         required: true
         description: The unique ID of the device.
       - name: integrationId
         in: path
         schema:
           type: string
+          format: uuid
         required: true
         description: The unique ID of the integration.
       requestBody:
@@ -243,13 +244,14 @@ paths:
       - name: deviceId
         in: path
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/DeviceID'
         required: true
         description: The unique ID of the device.
       - name: integrationId
         in: path
         schema:
           type: string
+          format: uuid
         required: true
         description: The unique ID of the integration.
       responses:
@@ -339,8 +341,7 @@ components:
         credentials:
           $ref: '#/components/schemas/Credentials'
         description:
-          type: string
-          description: 'A short human readable description (max 1024 characters).'
+          $ref: '../common/schemas.yaml#/components/schemas/Text'
       required:
       - provider
       - credentials

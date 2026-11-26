@@ -40,7 +40,7 @@ paths:
       - in: path
         name: tenantId
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
         required: true
         description: ID of tenant the device belongs to.
       requestBody:
@@ -73,7 +73,7 @@ paths:
       - in: path
         name: tenantId
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
         required: true
         description: ID of tenant to remove.
       responses:
@@ -91,13 +91,13 @@ paths:
       - in: path
         name: tenantId
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
         required: true
         description: ID of tenant the device belongs to.
       - in: path
         name: deviceId
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/DeviceID'
         required: true
         description: ID of the target device.
       responses:
@@ -116,7 +116,7 @@ paths:
       - in: path
         name: tenantId
         schema:
-          type: string
+          $ref: '../common/schemas.yaml#/components/schemas/TenantID'
         required: true
         description: ID of tenant the device belongs to.
       - in: path
