@@ -198,9 +198,7 @@ func TestProvisionTenant(t *testing.T) {
 
 		Request: func() *http.Request {
 			body, _ := json.Marshal(map[string]interface{}{
-				"tenant_id": uuid.NewSHA1(
-					uuid.NameSpaceDNS, []byte("mender.io"),
-				),
+				"tenant_id": "123456789012345678901234",
 			})
 
 			req, _ := http.NewRequest("POST",
@@ -217,9 +215,7 @@ func TestProvisionTenant(t *testing.T) {
 			app.On("ProvisionTenant",
 				contextMatcher,
 				model.NewTenant{
-					TenantID: uuid.NewSHA1(
-						uuid.NameSpaceDNS, []byte("mender.io"),
-					).String(),
+					TenantID: "123456789012345678901234",
 				},
 			).Return(errors.New("something went wrong!"))
 			return app
