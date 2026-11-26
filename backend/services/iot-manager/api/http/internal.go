@@ -30,8 +30,9 @@ import (
 )
 
 const (
-	ParamTenantID = "tenant_id"
-	ParamDeviceID = "device_id"
+	ParamTenantID      = "tenant_id"
+	ParamDeviceID      = "device_id"
+	ParamIntegrationID = "integration_id"
 )
 
 type InternalHandler APIHandler

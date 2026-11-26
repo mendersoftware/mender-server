@@ -548,7 +548,7 @@ func TestGetIntegrationById(t *testing.T) {
 			t.Parallel()
 			app := tc.App(t, &tc)
 			defer app.AssertExpectations(t)
-			repl := strings.NewReplacer(":id", tc.IntegrationID)
+			repl := strings.NewReplacer(":"+ParamIntegrationID, tc.IntegrationID)
 			req, _ := http.NewRequest(
 				http.MethodGet,
 				"http://localhost"+APIURLManagement+
@@ -746,7 +746,7 @@ func TestSetIntegrationCredentials(t *testing.T) {
 			t.Parallel()
 			app := tc.App(t, &tc)
 			defer app.AssertExpectations(t)
-			repl := strings.NewReplacer(":id", tc.IntegrationID)
+			repl := strings.NewReplacer(":"+ParamIntegrationID, tc.IntegrationID)
 			var body io.Reader
 			if tc.RequestBody != nil {
 				b, _ := json.Marshal(tc.RequestBody)
@@ -942,7 +942,7 @@ func TestRemoveIntegration(t *testing.T) {
 			t.Parallel()
 			app := tc.App(t, &tc)
 			defer app.AssertExpectations(t)
-			repl := strings.NewReplacer(":id", tc.IntegrationID)
+			repl := strings.NewReplacer(":"+ParamIntegrationID, tc.IntegrationID)
 			req, _ := http.NewRequest(
 				http.MethodDelete,
 				"http://localhost"+APIURLManagement+
@@ -1085,7 +1085,7 @@ func TestGetEvents(t *testing.T) {
 				})},
 			},
 
-			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + paramQueryIntegrationID + "=" + integrationId,
+			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + ParamIntegrationID + "=" + integrationId,
 
 			TotalEvents: 1,
 			App: func(t *testing.T) *mapp.App {
@@ -1204,7 +1204,7 @@ func TestGetEvents(t *testing.T) {
 				textproto.CanonicalMIMEHeaderKey(requestid.RequestIdHeader): []string{"test"},
 			},
 
-			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + paramQueryIntegrationID + "=trash",
+			Url: "http://localhost" + APIURLManagement + APIURLEvents + "?" + ParamIntegrationID + "=trash",
 
 			StatusCode: http.StatusBadRequest,
 			Response: map[string]interface{}{

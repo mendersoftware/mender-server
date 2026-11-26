@@ -18,7 +18,6 @@ import (
 	"context"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -110,8 +109,8 @@ func (h *ManagementHandler) CreateIntegration(c *gin.Context) {
 		return
 	}
 
-	path := strings.Replace(APIURLIntegration, ":id", inserted.ID.String(), 1)
-	c.Header(hdrLocation, APIURLManagement+path)
+	path := c.Request.URL.JoinPath(inserted.ID.String()).Path
+	c.Header(hdrLocation, path)
 	c.Status(http.StatusCreated)
 
 }
@@ -122,7 +121,7 @@ func (h *ManagementHandler) GetIntegrationById(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param("id"))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c,
 			http.StatusBadRequest,
@@ -154,7 +153,7 @@ func (h *ManagementHandler) SetIntegrationCredentials(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param("id"))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c,
 			http.StatusBadRequest,
@@ -195,7 +194,7 @@ func (h *ManagementHandler) RemoveIntegration(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param("id"))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c,
 			http.StatusBadRequest,
@@ -235,7 +234,7 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 		)
 		return
 	}
-	integrationID := c.Request.URL.Query().Get(paramQueryIntegrationID)
+	integrationID := c.Request.URL.Query().Get(ParamIntegrationID)
 	if len(integrationID) > 0 {
 		if err := uuid.Validate(integrationID); err == nil {
 			filter.IntegrationID = &integrationID

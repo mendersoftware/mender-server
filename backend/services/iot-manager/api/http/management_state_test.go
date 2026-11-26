@@ -285,7 +285,7 @@ func TestGetDeviceState(t *testing.T) {
 			defer testApp.AssertExpectations(t)
 			handler := NewRouter(testApp)
 			w := httptest.NewRecorder()
-			url := strings.Replace(APIURLDeviceState, ":id", tc.DeviceID, 1)
+			url := strings.Replace(APIURLDeviceState, ":"+ParamDeviceID, tc.DeviceID, 1)
 			req, _ := http.NewRequest("GET",
 				"http://localhost"+
 					APIURLManagement+
@@ -533,11 +533,11 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 			defer testApp.AssertExpectations(t)
 			handler := NewRouter(testApp)
 			w := httptest.NewRecorder()
-			url := strings.Replace(APIURLDeviceStateIntegration, ":id", tc.DeviceID, 1)
+			url := strings.Replace(APIURLDeviceStateIntegration, ":"+ParamDeviceID, tc.DeviceID, 1)
 			if tc.IntegrationIDString == "" {
 				tc.IntegrationIDString = tc.IntegrationID.String()
 			}
-			url = strings.Replace(url, ":integrationId", tc.IntegrationIDString, 1)
+			url = strings.Replace(url, ":"+ParamIntegrationID, tc.IntegrationIDString, 1)
 			req, _ := http.NewRequest("GET",
 				"http://localhost"+
 					APIURLManagement+
@@ -807,11 +807,11 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 			defer testApp.AssertExpectations(t)
 			handler := NewRouter(testApp)
 			w := httptest.NewRecorder()
-			url := strings.Replace(APIURLDeviceStateIntegration, ":id", tc.DeviceID, 1)
+			url := strings.Replace(APIURLDeviceStateIntegration, ":"+ParamDeviceID, tc.DeviceID, 1)
 			if tc.IntegrationIDString == "" {
 				tc.IntegrationIDString = tc.IntegrationID.String()
 			}
-			url = strings.Replace(url, ":integrationId", tc.IntegrationIDString, 1)
+			url = strings.Replace(url, ":"+ParamIntegrationID, tc.IntegrationIDString, 1)
 			var body io.Reader
 			if tc.RequestBody != nil {
 				b, _ := json.Marshal(tc.RequestBody)

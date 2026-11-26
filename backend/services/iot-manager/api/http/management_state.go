@@ -27,25 +27,19 @@ import (
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
 
-const (
-	paramDeviceID           = "id"
-	paramIntegrationID      = "integrationId"
-	paramQueryIntegrationID = "integration_id"
-)
-
 var (
 	ErrEmptyDeviceID        = errors.New("device ID is empty")
 	ErrInvalidIntegrationID = errors.New("integration ID is not a valid UUID")
 )
 
-// GET /devices/:id/state
+// GET /devices/:device_id/state
 func (h *ManagementHandler) GetDeviceState(c *gin.Context) {
 	ctx, _, err := getContextAndIdentity(c)
 	if err != nil {
 		return
 	}
 
-	deviceID := c.Param(paramDeviceID)
+	deviceID := c.Param(ParamDeviceID)
 	if deviceID == "" {
 		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
 		return
@@ -84,12 +78,12 @@ func (h *ManagementHandler) GetDeviceStateIntegration(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(paramDeviceID)
+	deviceID := c.Param(ParamDeviceID)
 	if deviceID == "" {
 		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param(paramIntegrationID))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c, http.StatusBadRequest, ErrInvalidIntegrationID)
 		return
@@ -114,12 +108,12 @@ func (h *ManagementHandler) SetDeviceStateIntegration(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(paramDeviceID)
+	deviceID := c.Param(ParamDeviceID)
 	if deviceID == "" {
 		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param(paramIntegrationID))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c, http.StatusBadRequest, ErrInvalidIntegrationID)
 		return
