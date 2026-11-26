@@ -117,7 +117,7 @@ gui:
   image:
     registry: "${CI_REGISTRY}"
     repository: "northern.tech/mender/${CI_PROJECT_NAME}"
-    tag: "build-${CI_COMMIT_SHA}"
+    tag: "${MENDER_IMAGE_TAG}"
   imagePullSecrets:
     - name: gitlab-registry
   nodeSelector:

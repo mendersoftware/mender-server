@@ -16,12 +16,12 @@ global:
     existingSecret: "mender-s3-artifacts"
 
 # Image configuration - override all services to use GitLab registry
-# All images are tagged with build-${CI_COMMIT_SHA}
+# All images are tagged with ${MENDER_IMAGE_TAG} (build-<pipeline>-<sha>)
 default:
   image:
     registry: "${CI_REGISTRY}"
     repository: "northern.tech/mender/${CI_PROJECT_NAME}"
-    tag: "build-${CI_COMMIT_SHA}"
+    tag: "${MENDER_IMAGE_TAG}"
 
   # Image pull secrets for GitLab registry
   imagePullSecrets:
