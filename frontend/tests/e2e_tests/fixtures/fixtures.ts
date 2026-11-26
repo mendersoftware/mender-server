@@ -68,7 +68,12 @@ const defaultConfig = {
 };
 
 const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures, WorkerFixtures>({
-  isRemote: [!!process.env.BASE_URL, { scope: 'worker' }],
+  isRemote: [
+    async ({ baseUrl }, use) => {
+      await use(!!baseUrl);
+    },
+    { scope: 'worker' }
+  ],
   isScheduledRun: [!!process.env.IS_SCHEDULED, { scope: 'worker' }],
   // auto fixtures are set up first and torn down last, so this also covers pages created through prepareNewPage
   serverErrorReport: [
