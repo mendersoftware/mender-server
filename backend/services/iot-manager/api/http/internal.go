@@ -20,10 +20,12 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -62,7 +64,11 @@ func (dev *internalDevice) UnmarshalJSON(b []byte) error {
 //
 //	500 - internal server error on removal
 func (h *InternalHandler) DeleteTenant(c *gin.Context) {
-	tenantID := c.Param(ParamTenantID)
+	tenantID, err := PathParam(c, ParamTenantID, rules.TenantID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
 
 	ctx := identity.WithContext(
 		c.Request.Context(),
@@ -70,7 +76,7 @@ func (h *InternalHandler) DeleteTenant(c *gin.Context) {
 			Tenant: tenantID,
 		},
 	)
-	err := h.app.DeleteTenant(ctx)
+	err = h.app.DeleteTenant(ctx)
 	if err != nil {
 		rest.RenderError(c, http.StatusInternalServerError, err)
 	}
@@ -82,7 +88,11 @@ func (h *InternalHandler) DeleteTenant(c *gin.Context) {
 //
 //	500 - internal server error
 func (h *InternalHandler) ProvisionDevice(c *gin.Context) {
-	tenantID := c.Param(ParamTenantID)
+	tenantID, err := PathParam(c, ParamTenantID, rules.TenantID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
 	var device internalDevice
 	if err := c.ShouldBindJSON(&device); err != nil {
 		rest.RenderError(c,
@@ -99,7 +109,7 @@ func (h *InternalHandler) ProvisionDevice(c *gin.Context) {
 		Subject: device.ID,
 		Tenant:  tenantID,
 	})
-	err := h.app.ProvisionDevice(ctx, model.DeviceEvent(device))
+	err = h.app.ProvisionDevice(ctx, model.DeviceEvent(device))
 	switch cause := errors.Cause(err); cause {
 	case nil, app.ErrNoCredentials:
 		c.Status(http.StatusAccepted)
@@ -111,14 +121,22 @@ func (h *InternalHandler) ProvisionDevice(c *gin.Context) {
 }
 
 func (h *InternalHandler) DecommissionDevice(c *gin.Context) {
-	deviceID := c.Param(ParamDeviceID)
-	tenantID := c.Param(ParamTenantID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
+	tenantID, err := PathParam(c, ParamTenantID, rules.TenantID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
 
 	ctx := identity.WithContext(c.Request.Context(), &identity.Identity{
 		Subject: deviceID,
 		Tenant:  tenantID,
 	})
-	err := h.app.DecommissionDevice(ctx, deviceID)
+	err = h.app.DecommissionDevice(ctx, deviceID)
 	switch errors.Cause(err) {
 	case nil, app.ErrNoCredentials:
 		c.Status(http.StatusAccepted)
@@ -141,6 +159,12 @@ func (h *InternalHandler) BulkSetDeviceStatus(c *gin.Context) {
 		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
+	tenantID, err := PathParam(c, ParamTenantID, rules.TenantID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
+
 	if err := c.ShouldBindJSON(&schema); err != nil {
 		rest.RenderError(c,
 			http.StatusBadRequest,
@@ -157,7 +181,7 @@ func (h *InternalHandler) BulkSetDeviceStatus(c *gin.Context) {
 	ctx := identity.WithContext(
 		c.Request.Context(),
 		&identity.Identity{
-			Tenant: c.Param("tenant_id"),
+			Tenant: tenantID,
 		},
 	)
 	for _, item := range schema {
@@ -168,9 +192,9 @@ func (h *InternalHandler) BulkSetDeviceStatus(c *gin.Context) {
 
 // POST /tenants/:tenant_id/auth
 func (h *InternalHandler) PreauthorizeHandler(c *gin.Context) {
-	tenantID, okTenant := c.Params.Get("tenant_id")
-	if !(okTenant) {
-		(*APIHandler)(h).NoRoute(c)
+	tenantID, err := PathParam(c, ParamTenantID, rules.TenantID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 	var req model.PreauthRequest
@@ -192,7 +216,6 @@ func (h *InternalHandler) PreauthorizeHandler(c *gin.Context) {
 		Subject:  req.DeviceID,
 		Tenant:   tenantID,
 	})
-	var err error
 	switch provider {
 	case string(model.ProviderIoTHub):
 		err = h.app.VerifyDeviceTwin(ctx, req)

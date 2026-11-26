@@ -19,6 +19,8 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
 )
 
 type Integration struct {
@@ -28,18 +30,14 @@ type Integration struct {
 	Description string      `json:"description,omitempty" bson:"description,omitempty"`
 }
 
-var (
-	lenLessThan1024 = validation.Length(0, 1024)
-)
-
 func (itg Integration) Validate() error {
 	return validation.ValidateStruct(&itg,
-		validation.Field(&itg.ID),
+		validation.Field(&itg.ID), // Constrainted by type
 		validation.Field(&itg.Provider,
 			validation.Required,
 			validation.By(itg.compatibleCredentials)),
 		validation.Field(&itg.Credentials),
-		validation.Field(&itg.Description, lenLessThan1024),
+		validation.Field(&itg.Description, rules.Func(rules.Text)),
 	)
 }
 

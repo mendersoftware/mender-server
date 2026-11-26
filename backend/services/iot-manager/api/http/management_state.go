@@ -18,10 +18,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -39,9 +41,9 @@ func (h *ManagementHandler) GetDeviceState(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(ParamDeviceID)
-	if deviceID == "" {
-		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -78,9 +80,9 @@ func (h *ManagementHandler) GetDeviceStateIntegration(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(ParamDeviceID)
-	if deviceID == "" {
-		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
@@ -108,9 +110,9 @@ func (h *ManagementHandler) SetDeviceStateIntegration(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(ParamDeviceID)
-	if deviceID == "" {
-		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))

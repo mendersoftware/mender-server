@@ -24,6 +24,7 @@ import (
 	"strings"
 	"testing"
 
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
@@ -64,20 +65,20 @@ func TestGetDeviceState(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID: "1",
+			DeviceID: "d35932dc-274d-41bd-9305-8932d24d59de",
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDevice",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 				).Return(&model.Device{
-					ID:             "1",
+					ID:             "d35932dc-274d-41bd-9305-8932d24d59de",
 					IntegrationIDs: []uuid.UUID{integrationID},
 				}, nil)
 				mapp.On("GetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 					integrationID,
 				).Return(&model.DeviceState{
 					Desired: map[string]interface{}{
@@ -109,13 +110,13 @@ func TestGetDeviceState(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID: "1",
+			DeviceID: "d35932dc-274d-41bd-9305-8932d24d59de",
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDevice",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 				).Return(nil, errors.New("internal error"))
 				return mapp
 			},
@@ -139,13 +140,13 @@ func TestGetDeviceState(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID: "1",
+			DeviceID: "d35932dc-274d-41bd-9305-8932d24d59de",
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDevice",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 				).Return(nil, app.ErrDeviceNotFound)
 				return mapp
 			},
@@ -169,20 +170,20 @@ func TestGetDeviceState(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID: "1",
+			DeviceID: "d35932dc-274d-41bd-9305-8932d24d59de",
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDevice",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 				).Return(&model.Device{
-					ID:             "1",
+					ID:             "d35932dc-274d-41bd-9305-8932d24d59de",
 					IntegrationIDs: []uuid.UUID{integrationID},
 				}, nil)
 				mapp.On("GetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 					integrationID,
 				).Return(nil, errors.New("internal error"))
 				return mapp
@@ -207,20 +208,20 @@ func TestGetDeviceState(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID: "1",
+			DeviceID: "d35932dc-274d-41bd-9305-8932d24d59de",
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDevice",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 				).Return(&model.Device{
-					ID:             "1",
+					ID:             "d35932dc-274d-41bd-9305-8932d24d59de",
 					IntegrationIDs: []uuid.UUID{integrationID},
 				}, nil)
 				mapp.On("GetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"d35932dc-274d-41bd-9305-8932d24d59de",
 					integrationID,
 				).Return(nil, app.ErrIntegrationNotFound)
 				return mapp
@@ -246,7 +247,7 @@ func TestGetDeviceState(t *testing.T) {
 
 			StatusCode: http.StatusBadRequest,
 			Response: rest.Error{
-				Err:       ErrEmptyDeviceID.Error(),
+				Err:       pathParamError{param: ParamDeviceID, err: validation.ErrRequired}.Error(),
 				RequestID: "829cbefb-70e7-438f-9ac5-35fd131c2111",
 			},
 		},
@@ -263,7 +264,7 @@ func TestGetDeviceState(t *testing.T) {
 					Tenant:   "123456789012345678901234",
 				})},
 			},
-			DeviceID: "1",
+			DeviceID: "d35932dc-274d-41bd-9305-8932d24d59de",
 
 			StatusCode: http.StatusForbidden,
 			Response: rest.Error{
@@ -333,14 +334,14 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "f15d844c-7890-4d55-8dff-dc1beceb6539",
 			IntegrationID: integrationID,
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"f15d844c-7890-4d55-8dff-dc1beceb6539",
 					integrationID,
 				).Return(&model.DeviceState{
 					Desired: map[string]interface{}{
@@ -370,14 +371,14 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "f15d844c-7890-4d55-8dff-dc1beceb6539",
 			IntegrationID: integrationID,
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"f15d844c-7890-4d55-8dff-dc1beceb6539",
 					integrationID,
 				).Return(nil, errors.New("internal error"))
 				return mapp
@@ -402,46 +403,14 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "f15d844c-7890-4d55-8dff-dc1beceb6539",
 			IntegrationID: integrationID,
 
 			App: func(t *testing.T) *mapp.App {
 				mapp := new(mapp.App)
 				mapp.On("GetDeviceStateIntegration",
 					contextMatcher,
-					"1",
-					integrationID,
-				).Return(nil, app.ErrIntegrationNotFound)
-				return mapp
-			},
-
-			StatusCode: http.StatusNotFound,
-			Response: rest.Error{
-				Err:       app.ErrIntegrationNotFound.Error(),
-				RequestID: "829cbefb-70e7-438f-9ac5-35fd131c2111",
-			},
-		},
-		{
-			Name: "error, get device state integration not found",
-
-			Headers: http.Header{
-				textproto.CanonicalMIMEHeaderKey(requestid.RequestIdHeader): []string{
-					"829cbefb-70e7-438f-9ac5-35fd131c2111",
-				},
-				"Authorization": []string{"Bearer " + GenerateJWT(identity.Identity{
-					IsUser:  true,
-					Subject: "829cbefb-70e7-438f-9ac5-35fd131c2111",
-					Tenant:  "123456789012345678901234",
-				})},
-			},
-			DeviceID:      "1",
-			IntegrationID: integrationID,
-
-			App: func(t *testing.T) *mapp.App {
-				mapp := new(mapp.App)
-				mapp.On("GetDeviceStateIntegration",
-					contextMatcher,
-					"1",
+					"f15d844c-7890-4d55-8dff-dc1beceb6539",
 					integrationID,
 				).Return(nil, app.ErrIntegrationNotFound)
 				return mapp
@@ -471,7 +440,7 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 
 			StatusCode: http.StatusBadRequest,
 			Response: rest.Error{
-				Err:       ErrEmptyDeviceID.Error(),
+				Err:       pathParamError{param: ParamDeviceID, err: validation.ErrRequired}.Error(),
 				RequestID: "829cbefb-70e7-438f-9ac5-35fd131c2111",
 			},
 		},
@@ -488,7 +457,7 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:            "1",
+			DeviceID:            "f15d844c-7890-4d55-8dff-dc1beceb6539",
 			IntegrationIDString: "2",
 
 			StatusCode: http.StatusBadRequest,
@@ -510,7 +479,7 @@ func TestGetDeviceStateIntegration(t *testing.T) {
 					Tenant:   "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "f15d844c-7890-4d55-8dff-dc1beceb6539",
 			IntegrationID: integrationID,
 
 			StatusCode: http.StatusForbidden,
@@ -586,7 +555,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "4cda9acf-dbba-4b82-992a-cc408f62fb11",
 			IntegrationID: integrationID,
 			RequestBody: map[string]interface{}{
 				"desired": map[string]string{
@@ -598,7 +567,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 				mapp := new(mapp.App)
 				mapp.On("SetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"4cda9acf-dbba-4b82-992a-cc408f62fb11",
 					integrationID,
 					&model.DeviceState{
 						Desired: map[string]interface{}{
@@ -633,7 +602,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "4cda9acf-dbba-4b82-992a-cc408f62fb11",
 			IntegrationID: integrationID,
 			RequestBody: map[string]interface{}{
 				"desired": map[string]string{
@@ -645,7 +614,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 				mapp := new(mapp.App)
 				mapp.On("SetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"4cda9acf-dbba-4b82-992a-cc408f62fb11",
 					integrationID,
 					&model.DeviceState{
 						Desired: map[string]interface{}{
@@ -675,7 +644,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "4cda9acf-dbba-4b82-992a-cc408f62fb11",
 			IntegrationID: integrationID,
 			RequestBody: map[string]interface{}{
 				"desired": map[string]string{
@@ -687,7 +656,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 				mapp := new(mapp.App)
 				mapp.On("SetDeviceStateIntegration",
 					contextMatcher,
-					"1",
+					"4cda9acf-dbba-4b82-992a-cc408f62fb11",
 					integrationID,
 					&model.DeviceState{
 						Desired: map[string]interface{}{
@@ -717,7 +686,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "4cda9acf-dbba-4b82-992a-cc408f62fb11",
 			IntegrationID: integrationID,
 			RequestBody:   nil,
 
@@ -745,7 +714,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 
 			StatusCode: http.StatusBadRequest,
 			Response: rest.Error{
-				Err:       ErrEmptyDeviceID.Error(),
+				Err:       pathParamError{param: ParamDeviceID, err: validation.ErrRequired}.Error(),
 				RequestID: "829cbefb-70e7-438f-9ac5-35fd131c2111",
 			},
 		},
@@ -762,7 +731,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					Tenant:  "123456789012345678901234",
 				})},
 			},
-			DeviceID:            "1",
+			DeviceID:            "4cda9acf-dbba-4b82-992a-cc408f62fb11",
 			IntegrationIDString: "2",
 
 			StatusCode: http.StatusBadRequest,
@@ -784,7 +753,7 @@ func TestSetDeviceStateIntegration(t *testing.T) {
 					Tenant:   "123456789012345678901234",
 				})},
 			},
-			DeviceID:      "1",
+			DeviceID:      "4cda9acf-dbba-4b82-992a-cc408f62fb11",
 			IntegrationID: integrationID,
 
 			StatusCode: http.StatusForbidden,
