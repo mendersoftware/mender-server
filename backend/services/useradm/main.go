@@ -24,6 +24,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 	"github.com/mendersoftware/mender-server/pkg/version"
 
 	. "github.com/mendersoftware/mender-server/services/useradm/config"
@@ -167,6 +168,15 @@ func doMain(args []string) error {
 		config.Config.SetEnvPrefix("USERADM")
 		config.Config.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 		config.Config.AutomaticEnv()
+
+		// Disable the DNS (MX/A) lookup of the e-mail domain, so that users
+		// can be created on air-gapped installations.
+		if config.Config.GetBool(SettingDisableEmailVerification) {
+			log.NewEmpty().Warn(
+				"e-mail domain DNS check is disabled",
+			)
+			rules.SetEmailDNSCheck(false)
+		}
 
 		if config.Config.IsSet(SettingPlanDefinitions) {
 			log.NewEmpty().Info(

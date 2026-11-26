@@ -163,3 +163,9 @@
 # Overwrite with environment variable: USERADM_REQUEST_SIZE_LIMIT
 
 # request_size_limit: 1048576
+
+# Disable the DNS (MX/A record) lookup of the e-mail domain performed when
+# validating e-mail addresses; only the e-mail format is checked.
+# Needed on air-gapped installations where public domains cannot be resolved.
+# Overwrite with environment variable: USERADM_INSECURE_DISABLE_EMAIL_VERIFICATION
+# insecure_disable_email_verification: false

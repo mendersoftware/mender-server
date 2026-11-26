@@ -93,6 +93,12 @@ const (
 	// Max Request body size
 	SettingMaxRequestSize        = "request_size_limit"
 	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
+
+	// SettingDisableEmailVerification disables the DNS (MX/A) lookup of the
+	// e-mail domain when validating e-mail addresses (air-gapped setups).
+	// The name matches the enterprise setting, which additionally disables
+	// the e-mail verification flow.
+	SettingDisableEmailVerification = "insecure_disable_email_verification"
 )
 
 var (

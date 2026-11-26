@@ -103,6 +103,17 @@ func DeploymentName(value interface{}) error {
 	)
 }
 
+// emailDNSCheckDisabled controls whether Email skips the DNS (MX/A) lookup
+// of the e-mail domain. The zero value keeps the lookup enabled.
+var emailDNSCheckDisabled bool
+
+// SetEmailDNSCheck enables or disables the DNS (MX/A) lookup performed by
+// Email on the e-mail domain. The check is enabled by default; disable it on
+// air-gapped installations where public domains cannot be resolved.
+func SetEmailDNSCheck(enabled bool) {
+	emailDNSCheckDisabled = !enabled
+}
+
 func Email(value interface{}) error {
 	if !HasUnderlyingType(value, reflect.String) {
 		return fmt.Errorf("invalid type %T for email", value)
@@ -111,10 +122,17 @@ func Email(value interface{}) error {
 	// is.Email enforces:
 	//	1 - Length between 6 and 254 characters.
 	//	2 - W3C HTML5 / RFC 5322 compliant email regex.
+	//	3 - The e-mail domain has an MX or A/AAAA DNS record.
+	// is.EmailFormat enforces only 1 and 2 (no DNS lookup).
 	// Reference: https://github.com/asaskevich/govalidator
+	emailRule := is.Email
+	if emailDNSCheckDisabled {
+		emailRule = is.EmailFormat
+	}
+
 	return validation.Validate(value,
 		is.ASCII,
-		is.Email,
+		emailRule,
 	)
 }
 
