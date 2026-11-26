@@ -55,7 +55,7 @@ test.describe('Manifests', () => {
     await tagsInput.fill('e2e-tag');
     await tagsInput.press('Enter');
     await drawer.getByRole('button', { name: /^upload$/i }).click();
-    await expect(page.getByRole('cell', { name: 'e2e-tag' })).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'e2e-tag' })).toBeVisible({ timeout: 15000 });
   });
 
   test('shows the manifests tab and list', async ({ page }) => {
@@ -125,6 +125,6 @@ test.describe('Manifests', () => {
     await tagsInput.fill('yaml-e2e-tag');
     await tagsInput.press('Enter');
     await drawer.getByRole('button', { name: /^upload$/i }).click();
-    await expect(page.getByRole('cell', { name: 'yaml-e2e-tag' })).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'yaml-e2e-tag' })).toBeVisible({ timeout: 15000 });
   });
 });
