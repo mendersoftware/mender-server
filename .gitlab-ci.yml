@@ -817,6 +817,7 @@ test:prep:
     - docker pull mendersoftware/mender-client-docker-addons:client-main
     - npm ci --cache .npm --prefer-offline
     - if [ "$CI_PIPELINE_SOURCE" = "schedule" ]; then export IS_SCHEDULED=true; fi
+    - !reference [.pull-compat-clients]
   script:
     - npm run test
   artifacts:
