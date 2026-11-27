@@ -94,7 +94,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   const applyPreviewFilter = useCallback(
     updatedFilter => {
       const activeFilters = filterDefinedFilters([...filters, updatedFilter]);
-      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: activeFilters }));
+      dispatch(setDeviceListState({ page: 1, shouldSelectDevices: true, forceRefresh: true, filterSelection: activeFilters }));
     },
     [dispatch, filters]
   );
