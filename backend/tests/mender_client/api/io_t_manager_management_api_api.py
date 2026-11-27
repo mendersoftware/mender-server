@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Dict, List, Optional
 from typing_extensions import Annotated
 from uuid import UUID
@@ -46,8 +46,8 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_get_device_state(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
-        integration_id: Annotated[StrictStr, Field(description="The unique ID of the integration.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
+        integration_id: Annotated[UUID, Field(description="The unique ID of the integration.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67,7 +67,7 @@ class IoTManagerManagementAPIApi:
         :param device_id: The unique ID of the device. (required)
         :type device_id: str
         :param integration_id: The unique ID of the integration. (required)
-        :type integration_id: str
+        :type integration_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -120,8 +120,8 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_get_device_state_with_http_info(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
-        integration_id: Annotated[StrictStr, Field(description="The unique ID of the integration.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
+        integration_id: Annotated[UUID, Field(description="The unique ID of the integration.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -141,7 +141,7 @@ class IoTManagerManagementAPIApi:
         :param device_id: The unique ID of the device. (required)
         :type device_id: str
         :param integration_id: The unique ID of the integration. (required)
-        :type integration_id: str
+        :type integration_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -194,8 +194,8 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_get_device_state_without_preload_content(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
-        integration_id: Annotated[StrictStr, Field(description="The unique ID of the integration.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
+        integration_id: Annotated[UUID, Field(description="The unique ID of the integration.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -215,7 +215,7 @@ class IoTManagerManagementAPIApi:
         :param device_id: The unique ID of the device. (required)
         :type device_id: str
         :param integration_id: The unique ID of the integration. (required)
-        :type integration_id: str
+        :type integration_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -331,7 +331,7 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_get_device_states(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -401,7 +401,7 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_get_device_states_with_http_info(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -471,7 +471,7 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_get_device_states_without_preload_content(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1749,8 +1749,8 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_replace_state(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
-        integration_id: Annotated[StrictStr, Field(description="The unique ID of the integration.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
+        integration_id: Annotated[UUID, Field(description="The unique ID of the integration.")],
         device_state: DeviceState,
         _request_timeout: Union[
             None,
@@ -1771,7 +1771,7 @@ class IoTManagerManagementAPIApi:
         :param device_id: The unique ID of the device. (required)
         :type device_id: str
         :param integration_id: The unique ID of the integration. (required)
-        :type integration_id: str
+        :type integration_id: UUID
         :param device_state: (required)
         :type device_state: DeviceState
         :param _request_timeout: timeout setting for this request. If one
@@ -1828,8 +1828,8 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_replace_state_with_http_info(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
-        integration_id: Annotated[StrictStr, Field(description="The unique ID of the integration.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
+        integration_id: Annotated[UUID, Field(description="The unique ID of the integration.")],
         device_state: DeviceState,
         _request_timeout: Union[
             None,
@@ -1850,7 +1850,7 @@ class IoTManagerManagementAPIApi:
         :param device_id: The unique ID of the device. (required)
         :type device_id: str
         :param integration_id: The unique ID of the integration. (required)
-        :type integration_id: str
+        :type integration_id: UUID
         :param device_state: (required)
         :type device_state: DeviceState
         :param _request_timeout: timeout setting for this request. If one
@@ -1907,8 +1907,8 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_replace_state_without_preload_content(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
-        integration_id: Annotated[StrictStr, Field(description="The unique ID of the integration.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
+        integration_id: Annotated[UUID, Field(description="The unique ID of the integration.")],
         device_state: DeviceState,
         _request_timeout: Union[
             None,
@@ -1929,7 +1929,7 @@ class IoTManagerManagementAPIApi:
         :param device_id: The unique ID of the device. (required)
         :type device_id: str
         :param integration_id: The unique ID of the integration. (required)
-        :type integration_id: str
+        :type integration_id: UUID
         :param device_state: (required)
         :type device_state: DeviceState
         :param _request_timeout: timeout setting for this request. If one
@@ -2366,7 +2366,7 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_unregister_device_integrations(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2437,7 +2437,7 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_unregister_device_integrations_with_http_info(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2508,7 +2508,7 @@ class IoTManagerManagementAPIApi:
     @validate_call
     def io_t_manager_management_unregister_device_integrations_without_preload_content(
         self,
-        device_id: Annotated[StrictStr, Field(description="The unique ID of the device.")],
+        device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36, description="The unique ID of the device.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],

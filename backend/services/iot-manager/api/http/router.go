@@ -51,12 +51,12 @@ const (
 	APIURLManagement = "/api/management/v1/iot-manager"
 
 	APIURLIntegrations           = "/integrations"
-	APIURLIntegration            = "/integrations/:id"
+	APIURLIntegration            = "/integrations/:integration_id"
 	APIURLIntegrationCredentials = APIURLIntegration + "/credentials"
 
-	APIURLDevice                 = "/devices/:id"
+	APIURLDevice                 = "/devices/:device_id"
 	APIURLDeviceState            = APIURLDevice + "/state"
-	APIURLDeviceStateIntegration = APIURLDevice + "/state/:integrationId"
+	APIURLDeviceStateIntegration = APIURLDevice + "/state/:integration_id"
 
 	APIURLEvents = "/events"
 )

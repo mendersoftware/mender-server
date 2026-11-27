@@ -25,8 +25,8 @@ type Integration struct {
 	Id *string `json:"id,omitempty"`
 	Provider string `json:"provider"`
 	Credentials Credentials `json:"credentials"`
-	// A short human readable description (max 1024 characters).
-	Description *string `json:"description,omitempty"`
+	// Free-form text consisting of up to 4096 valid UTF-8 encoded, graphic Unicode characters (letters, marks, numbers, punctuation, symbols and spaces), tabs and line breaks. 
+	Description *string `json:"description,omitempty" validate:"regexp=^[^\\\\x00-\\\\x08\\\\x0B\\\\x0C\\\\x0E-\\\\x1F\\\\x7F-\\\\x9F]*$"`
 	AdditionalProperties map[string]interface{}
 }
 

@@ -18,19 +18,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
-)
-
-const (
-	paramDeviceID           = "id"
-	paramIntegrationID      = "integrationId"
-	paramQueryIntegrationID = "integration_id"
 )
 
 var (
@@ -38,16 +34,16 @@ var (
 	ErrInvalidIntegrationID = errors.New("integration ID is not a valid UUID")
 )
 
-// GET /devices/:id/state
+// GET /devices/:device_id/state
 func (h *ManagementHandler) GetDeviceState(c *gin.Context) {
 	ctx, _, err := getContextAndIdentity(c)
 	if err != nil {
 		return
 	}
 
-	deviceID := c.Param(paramDeviceID)
-	if deviceID == "" {
-		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
 
@@ -84,12 +80,12 @@ func (h *ManagementHandler) GetDeviceStateIntegration(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(paramDeviceID)
-	if deviceID == "" {
-		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param(paramIntegrationID))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c, http.StatusBadRequest, ErrInvalidIntegrationID)
 		return
@@ -114,12 +110,12 @@ func (h *ManagementHandler) SetDeviceStateIntegration(c *gin.Context) {
 		return
 	}
 
-	deviceID := c.Param(paramDeviceID)
-	if deviceID == "" {
-		rest.RenderError(c, http.StatusBadRequest, ErrEmptyDeviceID)
+	deviceID, err := PathParam(c, ParamDeviceID, validation.Required, rules.DeviceID)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
-	integrationID, err := uuid.Parse(c.Param(paramIntegrationID))
+	integrationID, err := uuid.Parse(c.Param(ParamIntegrationID))
 	if err != nil {
 		rest.RenderError(c, http.StatusBadRequest, ErrInvalidIntegrationID)
 		return

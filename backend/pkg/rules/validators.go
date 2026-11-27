@@ -1,14 +1,22 @@
 package rules
 
 import (
+	"encoding/hex"
 	"fmt"
 	"reflect"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
+	"github.com/google/uuid"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
+
+type Func func(any) error
+
+func (f Func) Validate(value any) error {
+	return f(value)
+}
 
 func HasUnderlyingType(input interface{}, kind reflect.Kind) bool {
 	v := reflect.ValueOf(input)
@@ -31,6 +39,77 @@ func ObjectId(value interface{}) error {
 
 	if _, err := bson.ObjectIDFromHex(value.(string)); err != nil {
 		return fmt.Errorf("invalid object id hex string: %w", err)
+	}
+	return nil
+}
+
+type stringValidator[T any] func(T) error
+
+func (f stringValidator[T]) Validate(value any) error {
+	var valueT T
+	switch t := value.(type) {
+	case T:
+		valueT = t
+	case *T:
+		if t == nil {
+			break
+		}
+		valueT = *t
+	default:
+		return fmt.Errorf("invalid type %T for %T", value, valueT)
+	}
+	return f(valueT)
+}
+
+var TenantID tenantID
+
+type tenantID struct{}
+
+var ErrInvalidTenantID = validation.NewError("invalid_tenant_id", "must be a valid TenantID")
+
+func (rule tenantID) Validate(value any) error {
+	return stringValidator[string](rule.ValidateString).Validate(value)
+}
+
+func (tenantID) ValidateString(value string) error {
+	var valid bool
+	switch len(value) {
+	case 0:
+		valid = true
+	case 24:
+		_, err := hex.DecodeString(value)
+		valid = err == nil
+	}
+	if !valid {
+		return ErrInvalidTenantID
+	}
+	return nil
+}
+
+var DeviceID deviceID
+
+type deviceID struct{}
+
+var ErrInvalidDeviceID = validation.NewError("invalid_device_id", "must be a valid DeviceID")
+
+func (rule deviceID) Validate(value any) error {
+	return stringValidator[string](rule.ValidateString).Validate(value)
+}
+
+func (rule deviceID) ValidateString(value string) error {
+	var valid bool
+	switch len(value) {
+	case 0:
+		return nil
+	case 24:
+		_, err := hex.DecodeString(value)
+		valid = err == nil
+	case 36:
+		_, err := uuid.Parse(value)
+		valid = err == nil
+	}
+	if !valid {
+		return ErrInvalidDeviceID
 	}
 	return nil
 }

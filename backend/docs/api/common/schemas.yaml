@@ -106,6 +106,23 @@ components:
       minLength: 24
       maxLength: 24
       example: "6afb62f48cfaf505efbbe6b7"
+    TenantID:
+      type: string
+      description: Tenant identifier
+      pattern: "^([0-9a-fA-F]{24}|)$"
+      maxLength: 24
+      example: "6afb62f48cfaf505efbbe6b7"
+    DeviceID:
+      # Up until Dec 9th 2019 Device IDs and auth set IDs were bson ObjectId strings
+      # https://github.com/mendersoftware/deviceauth/commit/a01c1db2b29895e82806bbfb75016ec2219dbd8f
+      type: string
+      description: |-
+        Device Identifier
+
+        Must be a valid UUID or bson ObjectId (legacy)
+      pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{24})$"
+      minLength: 24 # Length of ObjectId
+      maxLength: 36 # Length of a UUID
     Identifier:
       description: |
         Identifier consisting of up to 256 characters from the set
