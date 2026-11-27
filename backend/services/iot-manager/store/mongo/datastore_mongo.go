@@ -461,10 +461,9 @@ func (db *DataStoreMongo) GetDeviceByIntegrationID(
 	if err := collDevices.FindOne(ctx,
 		filter,
 	).Decode(&device); err != nil {
-		switch err {
-		case mongo.ErrNoDocuments:
+		if errors.Is(err, mongo.ErrNoDocuments) {
 			return nil, store.ErrObjectNotFound
-		default:
+		} else {
 			return nil, errors.Wrap(err, ErrFailedToGetDevice.Error())
 		}
 	}

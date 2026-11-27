@@ -56,7 +56,7 @@ func (h *ManagementHandler) GetDeviceState(c *gin.Context) {
 		rest.RenderError(c, http.StatusNotFound, app.ErrDeviceNotFound)
 		return
 	} else if err != nil {
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
@@ -68,7 +68,7 @@ func (h *ManagementHandler) GetDeviceState(c *gin.Context) {
 			err == app.ErrUnknownIntegration) {
 			continue
 		} else if err != nil {
-			rest.RenderError(c, http.StatusInternalServerError, err)
+			rest.RenderInternalError(c, err)
 			return
 		}
 		states[integrationID.String()] = *state
@@ -100,7 +100,7 @@ func (h *ManagementHandler) GetDeviceStateIntegration(c *gin.Context) {
 		rest.RenderError(c, http.StatusNotFound, err)
 		return
 	} else if err != nil {
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
@@ -142,7 +142,7 @@ func (h *ManagementHandler) SetDeviceStateIntegration(c *gin.Context) {
 		rest.RenderError(c, http.StatusConflict, err)
 		return
 	} else if err != nil {
-		rest.RenderError(c, http.StatusInternalServerError, err)
+		rest.RenderInternalError(c, err)
 		return
 	}
 

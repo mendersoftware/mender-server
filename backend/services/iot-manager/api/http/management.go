@@ -64,10 +64,7 @@ func (h *ManagementHandler) GetIntegrations(c *gin.Context) {
 
 	integrations, err := h.app.GetIntegrations(ctx)
 	if err != nil {
-		rest.RenderError(c,
-			http.StatusInternalServerError,
-			err,
-		)
+		rest.RenderInternalError(c, err)
 		return
 	}
 
@@ -101,11 +98,7 @@ func (h *ManagementHandler) CreateIntegration(c *gin.Context) {
 			// NOTE: temporary limitation
 			rest.RenderError(c, http.StatusConflict, cause)
 		default:
-			_ = c.Error(err)
-			rest.RenderError(c,
-				http.StatusInternalServerError,
-				err,
-			)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
@@ -137,10 +130,7 @@ func (h *ManagementHandler) GetIntegrationById(c *gin.Context) {
 		case app.ErrIntegrationNotFound:
 			rest.RenderError(c, http.StatusNotFound, ErrIntegrationNotFound)
 		default:
-			rest.RenderError(c,
-				http.StatusInternalServerError,
-				err,
-			)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
@@ -178,10 +168,7 @@ func (h *ManagementHandler) SetIntegrationCredentials(c *gin.Context) {
 		case app.ErrIntegrationNotFound:
 			rest.RenderError(c, http.StatusNotFound, ErrIntegrationNotFound)
 		default:
-			rest.RenderError(c,
-				http.StatusInternalServerError,
-				err,
-			)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
@@ -210,10 +197,7 @@ func (h *ManagementHandler) RemoveIntegration(c *gin.Context) {
 		case app.ErrCannotRemoveIntegration:
 			rest.RenderError(c, http.StatusConflict, app.ErrCannotRemoveIntegration)
 		default:
-			rest.RenderError(c,
-				http.StatusInternalServerError,
-				err,
-			)
+			rest.RenderInternalError(c, err)
 		}
 		return
 	}
@@ -250,10 +234,7 @@ func (h *ManagementHandler) GetEvents(c *gin.Context) {
 
 	events, totalCount, err := h.app.GetEvents(ctx, *filter)
 	if err != nil {
-		rest.RenderError(c,
-			http.StatusInternalServerError,
-			err,
-		)
+		rest.RenderInternalError(c, err)
 		return
 	}
 	c.Header("X-Total-Count", strconv.FormatInt(totalCount, 10))

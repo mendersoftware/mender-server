@@ -191,7 +191,7 @@ func TestGetIntegrations(t *testing.T) {
 
 			StatusCode: http.StatusInternalServerError,
 			Response: rest.Error{
-				Err:       "error retrieving integrations collection results",
+				Err:       "internal error",
 				RequestID: "829cbefb-70e7-438f-9ac5-35fd131c2111",
 			},
 		},
@@ -706,7 +706,7 @@ func TestSetIntegrationCredentials(t *testing.T) {
 				Err:       app.ErrIntegrationNotFound.Error(),
 				RequestID: "test",
 			},
-			Error: errors.New("random internal server error"),
+			Error: errors.New("internal error"),
 		},
 		{
 			Name: "error, integration not found",
@@ -911,7 +911,7 @@ func TestRemoveIntegration(t *testing.T) {
 				Err:       app.ErrIntegrationNotFound.Error(),
 				RequestID: "test",
 			},
-			Error: errors.New("Internal Server Error"),
+			Error: errors.New("internal error"),
 		},
 		{
 			Name: "error, cannot parse path param",
