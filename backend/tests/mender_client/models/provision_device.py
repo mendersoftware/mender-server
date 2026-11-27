@@ -18,9 +18,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List
-from uuid import UUID
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,8 +28,15 @@ class ProvisionDevice(BaseModel):
     """
     ProvisionDevice
     """ # noqa: E501
-    device_id: UUID = Field(description="ID of the new device.")
+    device_id: Annotated[str, Field(min_length=24, strict=True, max_length=36)] = Field(description="Device Identifier  Must be a valid UUID or bson ObjectId (legacy)")
     __properties: ClassVar[List[str]] = ["device_id"]
+
+    @field_validator('device_id')
+    def device_id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{24})$", value):
+            raise ValueError(r"must validate the regular expression /^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{24})$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -858,7 +858,7 @@ type newTenantRequest struct {
 
 func (t newTenantRequest) Validate() error {
 	return validation.ValidateStruct(&t,
-		validation.Field(&t.TenantID, validation.Required),
+		validation.Field(&t.TenantID, validation.Required, rules.TenantID),
 	)
 }
 func (i *InternalAPI) CreateTenantHandler(c *gin.Context) {

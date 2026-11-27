@@ -20,6 +20,6 @@ from mender_client import ApiException
 class TestInternalApi:
     def test_create_tenant_ok(self, internal_api, clean_db):
         try:
-            internal_api.create_tenant("foobar")
+            internal_api.create_tenant("123456789012345678901234")
         except ApiException as e:
             assert e.status == 201

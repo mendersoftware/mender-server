@@ -20,6 +20,8 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
 )
 
 type Device struct {
@@ -55,6 +57,6 @@ type NewDevice struct {
 
 func (dev NewDevice) Validate() error {
 	return validation.ValidateStruct(&dev,
-		validation.Field(&dev.ID, validation.Required),
+		validation.Field(&dev.ID, validation.Required, rules.DeviceID),
 	)
 }

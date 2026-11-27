@@ -27,19 +27,19 @@ import pytest
 class TestInternalApiTenantCreate:
     def test_create_ok(self, internal_client, clean_db):
 
-        r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("123456789012345678901234")
         assert r.status_code == 201
 
-        assert "inventory-foobar" in clean_db.list_database_names()
-        assert "migration_info" in clean_db["inventory-foobar"].list_collection_names()
+        assert "inventory-123456789012345678901234" in clean_db.list_database_names()
+        assert "migration_info" in clean_db["inventory-123456789012345678901234"].list_collection_names()
 
     def test_create_twice(self, internal_client, clean_db):
 
-        r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("123456789012345678901234")
         assert r.status_code == 201
 
         # creating once more should not fail
-        r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("123456789012345678901234")
         assert r.status_code == 201
 
     def test_create_empty(self, internal_client):

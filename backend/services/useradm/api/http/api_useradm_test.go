@@ -1368,7 +1368,7 @@ func TestUserAdmApiDeleteTenantUser(t *testing.T) {
 			),
 		},
 		"ok with tenant ID": {
-			tenantID: "tenant",
+			tenantID: "123456789012345678901234",
 			uaError:  nil,
 
 			checker: mt.NewJSONResponse(
@@ -1500,9 +1500,9 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 		"ok": {
 			uaError: nil,
 			body: map[string]interface{}{
-				"tenant_id": "foobar",
+				"tenant_id": "123456789012345678901234",
 			},
-			tenant: model.NewTenant{ID: "foobar"},
+			tenant: model.NewTenant{ID: "123456789012345678901234"},
 
 			checker: mt.NewJSONResponse(
 				http.StatusCreated,
@@ -1512,10 +1512,10 @@ func TestUserAdmApiCreateTenant(t *testing.T) {
 		},
 		"error: useradm internal": {
 			body: map[string]interface{}{
-				"tenant_id": "failing-tenant",
+				"tenant_id": "fa1212345678901234567890",
 			},
 			uaError: errors.New("some internal error"),
-			tenant:  model.NewTenant{ID: "failing-tenant"},
+			tenant:  model.NewTenant{ID: "fa1212345678901234567890"},
 
 			checker: mt.NewJSONResponse(
 				http.StatusInternalServerError,
@@ -1823,7 +1823,7 @@ func TestUserAdmApiDeleteTokens(t *testing.T) {
 		checker mt.ResponseChecker
 	}{
 		"ok, tenant": {
-			params:  "?tenant_id=foo",
+			params:  "?tenant_id=123456789012345678901234",
 			uaError: nil,
 
 			checker: mt.NewJSONResponse(
@@ -1833,7 +1833,8 @@ func TestUserAdmApiDeleteTokens(t *testing.T) {
 			),
 		},
 		"ok, tenant and user": {
-			params:  "?tenant_id=foo&user_id=bar",
+			params: "?tenant_id=123456789012345678901234&user_id=10bb9339-b182-4a91-b1ad-51054b49a9e1",
+
 			uaError: nil,
 
 			checker: mt.NewJSONResponse(
@@ -1852,7 +1853,7 @@ func TestUserAdmApiDeleteTokens(t *testing.T) {
 			),
 		},
 		"error: useradm internal": {
-			params:  "?tenant_id=foo",
+			params:  "?tenant_id=123456789012345678901234",
 			uaError: errors.New("some internal error"),
 
 			checker: mt.NewJSONResponse(

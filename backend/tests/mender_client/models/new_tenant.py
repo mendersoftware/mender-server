@@ -18,8 +18,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +28,15 @@ class NewTenant(BaseModel):
     """
     NewTenant
     """ # noqa: E501
-    tenant_id: StrictStr = Field(description="ID of new tenant.")
+    tenant_id: Annotated[str, Field(strict=True, max_length=24)] = Field(description="Tenant identifier")
     __properties: ClassVar[List[str]] = ["tenant_id"]
+
+    @field_validator('tenant_id')
+    def tenant_id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^([0-9a-fA-F]{24}|)$", value):
+            raise ValueError(r"must validate the regular expression /^([0-9a-fA-F]{24}|)$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

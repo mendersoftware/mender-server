@@ -184,9 +184,6 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if strlen(r.tenantId) < 24 {
-		return nil, reportError("tenantId must have at least 24 elements")
-	}
 	if strlen(r.tenantId) > 24 {
 		return nil, reportError("tenantId must have less than 24 elements")
 	}
@@ -342,6 +339,9 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -504,6 +504,9 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInte
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if strlen(r.tenantId) > 24 {
+		return localVarReturnValue, nil, reportError("tenantId must have less than 24 elements")
+	}
 
 	if r.id != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
@@ -667,6 +670,9 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 	localVarFormParams := url.Values{}
 	if r.tenantId == nil {
 		return nil, reportError("tenantId is required and must be specified")
+	}
+	if strlen(*r.tenantId) > 24 {
+		return nil, reportError("tenantId must have less than 24 elements")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "tenant_id", r.tenantId, "form", "")
@@ -977,11 +983,11 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckL
 type ApiUseradmCreateTenantRequest struct {
 	ctx context.Context
 	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
-	tenantNew *TenantNew
+	newTenant *NewTenant
 }
 
-func (r ApiUseradmCreateTenantRequest) TenantNew(tenantNew TenantNew) ApiUseradmCreateTenantRequest {
-	r.tenantNew = &tenantNew
+func (r ApiUseradmCreateTenantRequest) NewTenant(newTenant NewTenant) ApiUseradmCreateTenantRequest {
+	r.newTenant = &newTenant
 	return r
 }
 
@@ -1020,8 +1026,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.tenantNew == nil {
-		return nil, reportError("tenantNew is required and must be specified")
+	if r.newTenant == nil {
+		return nil, reportError("newTenant is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1042,7 +1048,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.tenantNew
+	localVarPostBody = r.newTenant
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

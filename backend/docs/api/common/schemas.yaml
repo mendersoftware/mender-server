@@ -22,12 +22,164 @@ components:
       required:
         - error
       type: object
+    JobStatus:
+      example:
+        workflowName: workflowName
+        id: id
+        inputParameters:
+        - name: key
+          value: parameter
+        - name: key
+          value: parameter
+        results:
+        - cli:
+            output: output
+            exitCode: 0
+            error: error
+            command:
+            - command
+            - command
+          request:
+            body: body
+            statusCode: 6
+          response:
+            headers:
+            - headers
+            - headers
+            method: method
+            body: body
+            uri: uri
+        - cli:
+            output: output
+            exitCode: 0
+            error: error
+            command:
+            - command
+            - command
+          request:
+            body: body
+            statusCode: 6
+          response:
+            headers:
+            - headers
+            - headers
+            method: method
+            body: body
+            uri: uri
+        status: status
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        workflowName:
+          $ref: '#/components/schemas/Name'
+        inputParameters:
+          items:
+            $ref: '#/components/schemas/InputParameter'
+          type: array
+        status:
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/TaskResult'
+          type: array
+      type: object
+    InputParameter:
+      example:
+        name: key
+        value: parameter
+      properties:
+        name:
+          $ref: '#/components/schemas/Name'
+        value:
+          type: string
+      required:
+      - name
+      - value
+      type: object
+    TaskResult:
+      example:
+        cli:
+          output: output
+          exitCode: 0
+          error: error
+          command:
+          - command
+          - command
+        request:
+          body: body
+          statusCode: 6
+        response:
+          headers:
+          - headers
+          - headers
+          method: method
+          body: body
+          uri: uri
+      properties:
+        success:
+          type: boolean
+        cli:
+          $ref: '#/components/schemas/TaskResultCLI'
+        request:
+          $ref: '#/components/schemas/TaskResultHTTPRequest'
+        response:
+          $ref: '#/components/schemas/TaskResultHTTPResponse'
+      type: object
+    TaskResultCLI:
+      example:
+        output: output
+        exitCode: 0
+        error: error
+        command:
+        - command
+        - command
+      properties:
+        command:
+          items:
+            type: string
+          type: array
+        output:
+          type: string
+        error:
+          type: string
+        exitCode:
+          type: integer
+      type: object
+    TaskResultHTTPRequest:
+      example:
+        body: body
+        statusCode: 6
+      properties:
+        statusCode:
+          type: integer
+        body:
+          type: string
+      type: object
+    TaskResultHTTPResponse:
+      example:
+        headers:
+        - headers
+        - headers
+        method: method
+        body: body
+        uri: uri
+      properties:
+        uri:
+          type: string
+        method:
+          type: string
+        headers:
+          items:
+            type: string
+          type: array
+        body:
+          type: string
+      type: object
     NewTenant:
       type: object
       properties:
         tenant_id:
-          type: string
-          description: ID of new tenant.
+          $ref: "#/components/schemas/TenantID"
       required:
         - tenant_id
     AuthSet:
@@ -37,11 +189,14 @@ components:
         Mender server.
       properties:
         id:
-          type: string
-          description: The unique ID of the authentication set.
+          allOf:
+            - $ref: '#/components/schemas/DeviceID'
+            - description: |-
+                AuthSet Identifier
+
+                Must be a valid UUID or bson ObjectId (legacy)
         device_id:
-          type: string
-          description: The unique ID of the device the authentication set belongs.
+          $ref: '#/components/schemas/DeviceID'
         identity_data:
           $ref: '#/components/schemas/IdentityData'
         pubkey:
@@ -75,9 +230,7 @@ components:
       type: object
       properties:
         device_id:
-          type: string
-          format: uuid
-          description: ID of the new device.
+          $ref: '#/components/schemas/DeviceID'
       required:
       - device_id
     Scope:
@@ -98,14 +251,23 @@ components:
         - inventory
         - monitor
         - tags
-    ObjectId:
+    TenantID:
       type: string
-      description: |
-        Identifier of an object.
-      pattern: '^[0-9a-fA-F]{24}$'
-      minLength: 24
+      description: Tenant identifier
+      pattern: "^([0-9a-fA-F]{24}|)$"
       maxLength: 24
       example: "6afb62f48cfaf505efbbe6b7"
+    DeviceID:
+      # Up until Dec 9th 2019 Device IDs and auth set IDs were bson ObjectId strings
+      # https://github.com/mendersoftware/deviceauth/commit/a01c1db2b29895e82806bbfb75016ec2219dbd8f
+      type: string
+      description: |-
+        Device Identifier
+
+        Must be a valid UUID or bson ObjectId (legacy)
+      pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{24})$"
+      minLength: 24 # Length of ObjectId
+      maxLength: 36 # Length of a UUID
     Identifier:
       description: |
         Identifier consisting of up to 256 characters from the set
@@ -134,8 +296,8 @@ components:
       pattern: '^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$'
     Email:
       description: |
-        A valid ASCII-only email address. 
-        Must be between 6 and 254 characters in length and conform 
+        A valid ASCII-only email address.
+        Must be between 6 and 254 characters in length and conform
         to standard email formatting (W3C HTML5 / RFC 5322).
       type: string
       format: email

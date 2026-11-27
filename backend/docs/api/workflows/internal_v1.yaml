@@ -92,15 +92,12 @@ paths:
           type: string
       requestBody:
         description: Contains the definition of the job to be started.
+        required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InputParameter'
-        required: true
+              type: object
+              additionalProperties: {}
       responses:
         "201":
           description: Workflows created successfully
@@ -258,80 +255,6 @@ components:
           type: array
           items:
             type: string
-    InputParameter:
-      required:
-      - name
-      - value
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-      example:
-        name: key
-        value: parameter
-    TaskResultCLI:
-      type: object
-      properties:
-        command:
-          type: array
-          items:
-            type: string
-        output:
-          type: string
-        error:
-          type: string
-        exitCode:
-          type: integer
-    TaskResultHTTPRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        body:
-          type: string
-    TaskResultHTTPResponse:
-      type: object
-      properties:
-        uri:
-          type: string
-        method:
-          type: string
-        headers:
-          type: array
-          items:
-            type: string
-        body:
-          type: string
-    TaskResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-        cli:
-          $ref: '#/components/schemas/TaskResultCLI'
-        request:
-          $ref: '#/components/schemas/TaskResultHTTPRequest'
-        response:
-          $ref: '#/components/schemas/TaskResultHTTPResponse'
-    JobStatus:
-      type: object
-      properties:
-        id:
-          type: string
-        workflowName:
-          type: string
-        inputParameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/InputParameter'
-        status:
-          type: string
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskResult'
     JobObject:
       type: object
       properties:
@@ -342,13 +265,13 @@ components:
         inputParameters:
           type: array
           items:
-            $ref: '#/components/schemas/InputParameter'
+            $ref: '../common/schemas.yaml#/components/schemas/InputParameter'
         status:
           type: string
         results:
           type: array
           items:
-            $ref: '#/components/schemas/TaskResult'
+            $ref: '../common/schemas.yaml#/components/schemas/TaskResult'
         insert_time:
           type: string
           format: date-time

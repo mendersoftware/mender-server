@@ -15,9 +15,15 @@
 package model
 
 import (
+	"fmt"
+	"strings"
 	"time"
 
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
+	"github.com/mendersoftware/mender-server/services/workflows/utils"
 )
 
 // Status
@@ -74,7 +80,52 @@ type InputParameter struct {
 	Raw interface{} `json:"raw,omitempty" bson:"raw"`
 }
 
+func (ip InputParameter) Validate() error {
+	return validation.ValidateStruct(&ip,
+		validation.Field(&ip.Name, rules.Func(rules.Name)),
+	)
+}
+
 type InputParameters []InputParameter
+
+func NewInputParametersFromMap(inputParameters map[string]any) InputParameters {
+	jobInputParameters := make(InputParameters, 0, len(inputParameters))
+	for key, value := range inputParameters {
+		valueSlice, ok := value.([]interface{})
+		if ok {
+			values := make([]string, 0, len(valueSlice))
+			for _, value := range valueSlice {
+				valueString, err := utils.ConvertAnythingToString(value)
+				if err == nil {
+					values = append(values, valueString)
+				}
+			}
+			jobInputParameters = append(jobInputParameters, InputParameter{
+				Name:  key,
+				Value: strings.Join(values, ","),
+				Raw:   value,
+			})
+		} else {
+			valueString, err := utils.ConvertAnythingToString(value)
+			if err == nil {
+				jobInputParameters = append(jobInputParameters, InputParameter{
+					Name:  key,
+					Value: valueString,
+					Raw:   value,
+				})
+			}
+		}
+	}
+	return jobInputParameters
+}
+
+func (ip InputParameters) Validate() error {
+	err := validation.Each().Validate(ip)
+	if err != nil {
+		return fmt.Errorf("invalid InputParameters: %w", err)
+	}
+	return nil
+}
 
 func (param InputParameters) Map() map[string]interface{} {
 	var ret = map[string]interface{}{}

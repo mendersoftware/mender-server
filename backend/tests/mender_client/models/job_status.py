@@ -18,8 +18,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from mender_client.models.input_parameter import InputParameter
 from mender_client.models.task_result import TaskResult
 from typing import Optional, Set
@@ -29,12 +30,32 @@ class JobStatus(BaseModel):
     """
     JobStatus
     """ # noqa: E501
-    id: Optional[StrictStr] = None
-    workflow_name: Optional[StrictStr] = Field(default=None, alias="workflowName")
+    id: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = Field(default=None, description="Identifier consisting of up to 256 characters from the set `[A-Za-z0-9._-]`. ")
+    workflow_name: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = Field(default=None, description="Human-readable name consisting of up to 256 valid UTF-8 encoded, graphic Unicode characters (letters, marks, numbers, punctuation, symbols and spaces). ", alias="workflowName")
     input_parameters: Optional[List[InputParameter]] = Field(default=None, alias="inputParameters")
     status: Optional[StrictStr] = None
     results: Optional[List[TaskResult]] = None
     __properties: ClassVar[List[str]] = ["id", "workflowName", "inputParameters", "status", "results"]
+
+    @field_validator('id')
+    def id_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[A-Za-z0-9._-]*$", value):
+            raise ValueError(r"must validate the regular expression /^[A-Za-z0-9._-]*$/")
+        return value
+
+    @field_validator('workflow_name')
+    def workflow_name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[^\x00-\x1F\x7F-\x9F]*$", value):
+            raise ValueError(r"must validate the regular expression /^[^\x00-\x1F\x7F-\x9F]*$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

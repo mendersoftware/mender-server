@@ -18,8 +18,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,9 +28,16 @@ class InputParameter(BaseModel):
     """
     InputParameter
     """ # noqa: E501
-    name: StrictStr
+    name: Annotated[str, Field(min_length=0, strict=True, max_length=256)] = Field(description="Human-readable name consisting of up to 256 valid UTF-8 encoded, graphic Unicode characters (letters, marks, numbers, punctuation, symbols and spaces). ")
     value: StrictStr
     __properties: ClassVar[List[str]] = ["name", "value"]
+
+    @field_validator('name')
+    def name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[^\x00-\x1F\x7F-\x9F]*$", value):
+            raise ValueError(r"must validate the regular expression /^[^\x00-\x1F\x7F-\x9F]*$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -20,10 +20,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 )
 
 const DefaultTopic = "default"
@@ -84,4 +86,12 @@ func GetWorkflowsFromPath(path string) map[string]*Workflow {
 		}
 	}
 	return workflows
+}
+
+func (wf Workflow) Validate() error {
+	return validation.ValidateStruct(&wf,
+		validation.Field(&wf.Name, validation.Required, rules.Func(rules.Name)),
+		validation.Field(&wf.InputParameters, validation.Each(rules.Func(rules.Name))),
+		validation.Field(&wf.Tasks, validation.Required.Error("cannot be empty")),
+	)
 }

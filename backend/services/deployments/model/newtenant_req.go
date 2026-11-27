@@ -17,11 +17,19 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/pkg/errors"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
 )
 
 type NewTenantReq struct {
 	TenantId string `json:"tenant_id"`
+}
+
+func (t NewTenantReq) Validate() error {
+	return validation.ValidateStruct(&t,
+		validation.Field(&t.TenantId, validation.Required, rules.TenantID),
+	)
 }
 
 func ParseNewTenantReq(source io.Reader) (*NewTenantReq, error) {
@@ -32,8 +40,8 @@ func ParseNewTenantReq(source io.Reader) (*NewTenantReq, error) {
 		return nil, err
 	}
 
-	if r.TenantId == "" {
-		return nil, errors.New("tenant_id must be provided")
+	if err := r.Validate(); err != nil {
+		return nil, err
 	}
 
 	return &r, nil

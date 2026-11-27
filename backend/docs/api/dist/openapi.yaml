@@ -4713,7 +4713,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TenantNew'
+              $ref: '#/components/schemas/NewTenant'
         required: true
       responses:
         '201':
@@ -6485,7 +6485,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TenantNew'
+              $ref: '#/components/schemas/NewTenant'
         required: true
       responses:
         '201':
@@ -6508,7 +6508,7 @@ paths:
           description: Tenant ID.
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
         - name: id
           in: query
           description: |
@@ -6570,7 +6570,7 @@ paths:
           description: Tenant ID.
           required: true
           schema:
-            $ref: '#/components/schemas/ObjectId'
+            $ref: '#/components/schemas/TenantID'
       requestBody:
         description: New user data.
         content:
@@ -6609,7 +6609,7 @@ paths:
           description: Tenant ID.
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
         - name: user_id
           in: path
           description: User ID.
@@ -6641,7 +6641,7 @@ paths:
           description: Tenant ID.
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/TenantID'
         - name: user_id
           in: query
           description: User ID.
@@ -7379,15 +7379,12 @@ paths:
             type: string
       requestBody:
         description: Contains the definition of the job to be started.
+        required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InputParameter'
-        required: true
+              type: object
+              additionalProperties: {}
       responses:
         '201':
           description: Workflows created successfully
@@ -7535,12 +7532,164 @@ components:
       required:
         - error
       type: object
+    JobStatus:
+      example:
+        workflowName: workflowName
+        id: id
+        inputParameters:
+          - name: key
+            value: parameter
+          - name: key
+            value: parameter
+        results:
+          - cli:
+              output: output
+              exitCode: 0
+              error: error
+              command:
+                - command
+                - command
+            request:
+              body: body
+              statusCode: 6
+            response:
+              headers:
+                - headers
+                - headers
+              method: method
+              body: body
+              uri: uri
+          - cli:
+              output: output
+              exitCode: 0
+              error: error
+              command:
+                - command
+                - command
+            request:
+              body: body
+              statusCode: 6
+            response:
+              headers:
+                - headers
+                - headers
+              method: method
+              body: body
+              uri: uri
+        status: status
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        workflowName:
+          $ref: '#/components/schemas/Name'
+        inputParameters:
+          items:
+            $ref: '#/components/schemas/InputParameter'
+          type: array
+        status:
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/TaskResult'
+          type: array
+      type: object
+    InputParameter:
+      example:
+        name: key
+        value: parameter
+      properties:
+        name:
+          $ref: '#/components/schemas/Name'
+        value:
+          type: string
+      required:
+        - name
+        - value
+      type: object
+    TaskResult:
+      example:
+        cli:
+          output: output
+          exitCode: 0
+          error: error
+          command:
+            - command
+            - command
+        request:
+          body: body
+          statusCode: 6
+        response:
+          headers:
+            - headers
+            - headers
+          method: method
+          body: body
+          uri: uri
+      properties:
+        success:
+          type: boolean
+        cli:
+          $ref: '#/components/schemas/TaskResultCLI'
+        request:
+          $ref: '#/components/schemas/TaskResultHTTPRequest'
+        response:
+          $ref: '#/components/schemas/TaskResultHTTPResponse'
+      type: object
+    TaskResultCLI:
+      example:
+        output: output
+        exitCode: 0
+        error: error
+        command:
+          - command
+          - command
+      properties:
+        command:
+          items:
+            type: string
+          type: array
+        output:
+          type: string
+        error:
+          type: string
+        exitCode:
+          type: integer
+      type: object
+    TaskResultHTTPRequest:
+      example:
+        body: body
+        statusCode: 6
+      properties:
+        statusCode:
+          type: integer
+        body:
+          type: string
+      type: object
+    TaskResultHTTPResponse:
+      example:
+        headers:
+          - headers
+          - headers
+        method: method
+        body: body
+        uri: uri
+      properties:
+        uri:
+          type: string
+        method:
+          type: string
+        headers:
+          items:
+            type: string
+          type: array
+        body:
+          type: string
+      type: object
     NewTenant:
       type: object
       properties:
         tenant_id:
-          type: string
-          description: ID of new tenant.
+          $ref: '#/components/schemas/TenantID'
       required:
         - tenant_id
     AuthSet:
@@ -7548,11 +7697,14 @@ components:
       description: AuthSet describes the identity a device uses to authenticate with the Mender server.
       properties:
         id:
-          type: string
-          description: The unique ID of the authentication set.
+          allOf:
+            - $ref: '#/components/schemas/DeviceID'
+            - description: |-
+                AuthSet Identifier
+
+                Must be a valid UUID or bson ObjectId (legacy)
         device_id:
-          type: string
-          description: The unique ID of the device the authentication set belongs.
+          $ref: '#/components/schemas/DeviceID'
         identity_data:
           $ref: '#/components/schemas/IdentityData'
         pubkey:
@@ -7577,9 +7729,7 @@ components:
       type: object
       properties:
         device_id:
-          type: string
-          format: uuid
-          description: ID of the new device.
+          $ref: '#/components/schemas/DeviceID'
       required:
         - device_id
     Scope:
@@ -7600,14 +7750,21 @@ components:
         - inventory
         - monitor
         - tags
-    ObjectId:
+    TenantID:
       type: string
-      description: |
-        Identifier of an object.
-      pattern: ^[0-9a-fA-F]{24}$
-      minLength: 24
+      description: Tenant identifier
+      pattern: ^([0-9a-fA-F]{24}|)$
       maxLength: 24
       example: 6afb62f48cfaf505efbbe6b7
+    DeviceID:
+      type: string
+      description: |-
+        Device Identifier
+
+        Must be a valid UUID or bson ObjectId (legacy)
+      pattern: ^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{24})$
+      minLength: 24
+      maxLength: 36
     Identifier:
       description: |
         Identifier consisting of up to 256 characters from the set
@@ -7636,8 +7793,8 @@ components:
       pattern: ^[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]*$
     Email:
       description: |
-        A valid ASCII-only email address. 
-        Must be between 6 and 254 characters in length and conform 
+        A valid ASCII-only email address.
+        Must be between 6 and 254 characters in length and conform
         to standard email formatting (W3C HTML5 / RFC 5322).
       type: string
       format: email
@@ -9658,15 +9815,6 @@ components:
           description: Attribute description.
         value:
           $ref: '#/components/schemas/FilterValue'
-    TenantNew:
-      type: object
-      properties:
-        tenant_id:
-          type: string
-          description: ID of given tenant.
-      description: Tenant configuration.
-      example:
-        tenant_id: '1234'
     DeviceNew:
       required:
         - id
@@ -10667,80 +10815,6 @@ components:
           type: array
           items:
             type: string
-    InputParameter:
-      required:
-        - name
-        - value
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-      example:
-        name: key
-        value: parameter
-    TaskResultCLI:
-      type: object
-      properties:
-        command:
-          type: array
-          items:
-            type: string
-        output:
-          type: string
-        error:
-          type: string
-        exitCode:
-          type: integer
-    TaskResultHTTPRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        body:
-          type: string
-    TaskResultHTTPResponse:
-      type: object
-      properties:
-        uri:
-          type: string
-        method:
-          type: string
-        headers:
-          type: array
-          items:
-            type: string
-        body:
-          type: string
-    TaskResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-        cli:
-          $ref: '#/components/schemas/TaskResultCLI'
-        request:
-          $ref: '#/components/schemas/TaskResultHTTPRequest'
-        response:
-          $ref: '#/components/schemas/TaskResultHTTPResponse'
-    JobStatus:
-      type: object
-      properties:
-        id:
-          type: string
-        workflowName:
-          type: string
-        inputParameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/InputParameter'
-        status:
-          type: string
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskResult'
     JobObject:
       type: object
       properties:

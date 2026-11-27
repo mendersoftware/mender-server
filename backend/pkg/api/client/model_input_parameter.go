@@ -21,7 +21,8 @@ var _ MappedNullable = &InputParameter{}
 
 // InputParameter struct for InputParameter
 type InputParameter struct {
-	Name string `json:"name"`
+	// Human-readable name consisting of up to 256 valid UTF-8 encoded, graphic Unicode characters (letters, marks, numbers, punctuation, symbols and spaces). 
+	Name string `json:"name" validate:"regexp=^[^\\\\x00-\\\\x1F\\\\x7F-\\\\x9F]*$"`
 	Value string `json:"value"`
 	AdditionalProperties map[string]interface{}
 }

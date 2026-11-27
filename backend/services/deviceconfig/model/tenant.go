@@ -14,7 +14,11 @@
 
 package model
 
-import validation "github.com/go-ozzo/ozzo-validation/v4"
+import (
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
+)
 
 type NewTenant struct {
 	TenantID string `json:"tenant_id"`
@@ -22,6 +26,6 @@ type NewTenant struct {
 
 func (t NewTenant) Validate() error {
 	return validation.ValidateStruct(&t,
-		validation.Field(&t.TenantID, validation.Required),
+		validation.Field(&t.TenantID, validation.Required, rules.TenantID),
 	)
 }

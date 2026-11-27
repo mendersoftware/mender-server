@@ -19,19 +19,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/store"
-	"github.com/mendersoftware/mender-server/services/workflows/utils"
 )
 
 const (
@@ -122,40 +122,12 @@ func (h WorkflowController) GetWorkflows(c *gin.Context) {
 
 func (h WorkflowController) startWorkflowGetJob(
 	c *gin.Context,
-	inputParameters map[string]interface{},
+	jobInputParameters model.InputParameters,
 	name string,
 ) ([]byte, string, string, error) {
 	workflowVersion := ""
 	if values := c.Request.Header[HeaderWorkflowMinVersion]; len(values) > 0 {
 		workflowVersion = values[0]
-	}
-
-	var jobInputParameters []model.InputParameter
-	for key, value := range inputParameters {
-		valueSlice, ok := value.([]interface{})
-		if ok {
-			values := make([]string, 0, 10)
-			for _, value := range valueSlice {
-				valueString, err := utils.ConvertAnythingToString(value)
-				if err == nil {
-					values = append(values, valueString)
-				}
-			}
-			jobInputParameters = append(jobInputParameters, model.InputParameter{
-				Name:  key,
-				Value: strings.Join(values, ","),
-				Raw:   value,
-			})
-		} else {
-			valueString, err := utils.ConvertAnythingToString(value)
-			if err == nil {
-				jobInputParameters = append(jobInputParameters, model.InputParameter{
-					Name:  key,
-					Value: valueString,
-					Raw:   value,
-				})
-			}
-		}
 	}
 
 	jobID := bson.NewObjectID().Hex()
@@ -205,8 +177,13 @@ func (h WorkflowController) StartWorkflow(c *gin.Context) {
 		})
 		return
 	}
+	params := model.NewInputParametersFromMap(inputParameters)
+	if err := params.Validate(); err != nil {
+		rest.RenderError(c, http.StatusBadRequest, err)
+		return
+	}
 
-	jobJSON, jobID, subject, err := h.startWorkflowGetJob(c, inputParameters, name)
+	jobJSON, jobID, subject, err := h.startWorkflowGetJob(c, params, name)
 	if err != nil {
 		l.Error(err)
 		statusCode := http.StatusBadRequest
@@ -251,9 +228,16 @@ func (h WorkflowController) StartBatchWorkflows(c *gin.Context) {
 		})
 		return
 	}
-
+	params := make([]model.InputParameters, 0, len(inputParametersBatch))
+	for _, ip := range inputParametersBatch {
+		params = append(params, model.NewInputParametersFromMap(ip))
+	}
+	if err := validation.Validate(params, validation.Each()); err != nil {
+		rest.RenderError(c, http.StatusBadRequest, fmt.Errorf("invalid batch input: %w", err))
+		return
+	}
 	result := make([]map[string]string, 0, len(inputParametersBatch))
-	for _, inputParameters := range inputParametersBatch {
+	for _, inputParameters := range params {
 		jobJSON, jobID, subject, err := h.startWorkflowGetJob(c, inputParameters, name)
 		if err != nil {
 			l.Error(err)

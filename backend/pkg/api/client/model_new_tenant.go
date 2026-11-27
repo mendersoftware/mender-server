@@ -21,8 +21,8 @@ var _ MappedNullable = &NewTenant{}
 
 // NewTenant struct for NewTenant
 type NewTenant struct {
-	// ID of new tenant.
-	TenantId string `json:"tenant_id"`
+	// Tenant identifier
+	TenantId string `json:"tenant_id" validate:"regexp=^([0-9a-fA-F]{24}|)$"`
 	AdditionalProperties map[string]interface{}
 }
 
