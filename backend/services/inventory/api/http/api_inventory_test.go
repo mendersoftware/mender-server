@@ -3458,7 +3458,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError("attribute: cannot be blank; scope: cannot be blank; type: cannot be blank; value: is required."),
+				OutputBodyObject: RestError("filters: (0: (attribute: cannot be blank; scope: cannot be blank; type: cannot be blank; value: is required.).)."),
 				OutputHeaders:    nil,
 			},
 		},
@@ -3499,7 +3499,7 @@ func TestApiInventorySearchDevices(t *testing.T) {
 			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError("attribute: cannot be blank; order: cannot be blank; scope: cannot be blank."),
+				OutputBodyObject: RestError("sort: (0: (attribute: cannot be blank; order: cannot be blank; scope: cannot be blank.).)."),
 				OutputHeaders:    nil,
 			},
 		},
@@ -3868,7 +3868,7 @@ func TestApiParseSearchParams(t *testing.T) {
 					},
 				},
 			}),
-			err: errors.New("order: must be a valid value."),
+			err: errors.New("sort: (0: (order: must be a valid value.).)."),
 		},
 		"wrong filter type": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
@@ -3894,7 +3894,7 @@ func TestApiParseSearchParams(t *testing.T) {
 					},
 				},
 			}),
-			err: errors.New("type: must be a valid value."),
+			err: errors.New("filters: (1: (type: must be a valid value.).)."),
 		},
 		"invalid JSON": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
@@ -4061,7 +4061,7 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 			}),
 			resp: JSONResponseParams{
 				OutputStatus:     400,
-				OutputBodyObject: RestError("attribute: cannot be blank; scope: cannot be blank; type: cannot be blank; value: is required."),
+				OutputBodyObject: RestError("filters: (0: (attribute: cannot be blank; scope: cannot be blank; type: cannot be blank; value: is required.).)."),
 				OutputHeaders:    nil,
 			},
 		},

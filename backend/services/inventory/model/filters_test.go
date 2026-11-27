@@ -74,7 +74,28 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("attribute: cannot be blank."),
+			err: errors.New("filters: (0: (attribute: cannot be blank.).)."),
+		},
+		"error/bad filter values": {
+			params: &SearchParams{
+				Filters: []FilterPredicate{
+					{
+						Attribute: "reggie",
+						Scope:     "system",
+						Type:      "$regex",
+						Value:     "[unboundchars",
+					},
+					{
+						Attribute: "descarte",
+						Scope:     "system",
+						Type:      "$exists",
+						Value:     "I am",
+					},
+				},
+			},
+			err: errors.New("filters: (" +
+				"0: (value: invalid regular expression: error parsing regexp: missing closing ]: `[unboundchars`.); " +
+				"1: (value: invalid type string for type $exists: must be boolean.).)."),
 		},
 		"ko, filters - unsupported operator": {
 			params: &SearchParams{
@@ -87,7 +108,7 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("type: must be a valid value."),
+			err: errors.New("filters: (0: (type: must be a valid value.).)."),
 		},
 		"ok, filters - datetime attribute": {
 			params: &SearchParams{
@@ -112,8 +133,8 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New(`value: "yesterday" is not a month, date or timestamp ` +
-				`(e.g. 2025-01, 2025-01-15+02:00 or 2025-01-15T10:30Z).`),
+			err: errors.New(`filters: (0: (value: "yesterday" is not a month, date or timestamp ` +
+				`(e.g. 2025-01, 2025-01-15+02:00 or 2025-01-15T10:30Z).).).`),
 		},
 		"ok, sort": {
 			params: &SearchParams{
@@ -135,7 +156,7 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("attribute: cannot be blank."),
+			err: errors.New("sort: (0: (attribute: cannot be blank.).)."),
 		},
 		"ko, sort, invalid scope": {
 			params: &SearchParams{
@@ -147,7 +168,7 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("scope: must be one of system, identity, inventory, monitor, tags."),
+			err: errors.New("sort: (0: (scope: must be one of system, identity, inventory, monitor, tags.).)."),
 		},
 		"ok, attributes": {
 			params: &SearchParams{
@@ -167,7 +188,7 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("attribute: cannot be blank."),
+			err: errors.New("attributes: (0: (attribute: cannot be blank.).)."),
 		},
 		"ko, attributes, invalid scope": {
 			params: &SearchParams{
@@ -178,7 +199,7 @@ func TestSearchParams(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("scope: must be one of system, identity, inventory, monitor, tags."),
+			err: errors.New("attributes: (0: (scope: must be one of system, identity, inventory, monitor, tags.).)."),
 		},
 		"ko, per_page exceed limit (500)": {
 			params: &SearchParams{
@@ -192,7 +213,7 @@ func TestSearchParams(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			err := tc.params.Validate()
 			if tc.err != nil {
-				assert.EqualError(t, tc.err, err.Error())
+				assert.EqualError(t, err, tc.err.Error())
 			} else {
 				assert.NoError(t, err)
 			}
@@ -220,13 +241,13 @@ func TestFilter(t *testing.T) {
 		},
 		"ko, empty": {
 			filter: &Filter{},
-			err:    errors.New("name: cannot be blank."),
+			err:    errors.New("name: cannot be blank; terms: at least one filter term must be provided."),
 		},
 		"ko, no filter terms": {
 			filter: &Filter{
 				Name: "name",
 			},
-			err: errors.New("at least one filter term must be provided"),
+			err: errors.New("terms: at least one filter term must be provided."),
 		},
 		"ko, term validation": {
 			filter: &Filter{
@@ -239,7 +260,7 @@ func TestFilter(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("validation failed for term: attribute: cannot be blank."),
+			err: errors.New("terms: (0: (attribute: cannot be blank.).)."),
 		},
 		"ko, scope": {
 			filter: &Filter{
@@ -253,7 +274,7 @@ func TestFilter(t *testing.T) {
 					},
 				},
 			},
-			err: errors.New("validation failed for term: scope: must be one of system, identity, inventory, monitor, tags."),
+			err: errors.New("terms: (0: (scope: must be one of system, identity, inventory, monitor, tags.).)."),
 		},
 	}
 
@@ -261,7 +282,7 @@ func TestFilter(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			err := tc.filter.Validate()
 			if tc.err != nil {
-				assert.EqualError(t, tc.err, err.Error())
+				assert.EqualError(t, err, tc.err.Error())
 			} else {
 				assert.NoError(t, err)
 			}
