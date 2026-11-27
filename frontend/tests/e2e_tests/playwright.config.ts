@@ -43,6 +43,59 @@ export const projectParamsByBrowser = {
   firefox: { ...devices['Desktop Firefox'], storageState: storagePath, viewport }
 };
 
+const scheduledRuns = [
+  {
+    name: 'potentially-destructive-chromium',
+    testDir: `${testDirBase}/09-potentially-destructive`,
+    use: projectParamsByBrowser.chrome,
+    dependencies: ['advanced-chromium', 'admin-panel'],
+    workers: 1
+  },
+  // Tests that need more devices than a trial allows run after the account upgrade in 09-potentially-destructive. This is the
+  // end of the chromium chain, so a `--project=chromium` run includes everything before it.
+  {
+    name: 'chromium',
+    testDir: `${testDirBase}/10-plan-upgrade-required`,
+    use: projectParamsByBrowser.chrome,
+    dependencies: ['potentially-destructive-chromium'],
+    teardown: 'teardown',
+    workers: 1
+  },
+  {
+    name: 'potentially-destructive-firefox',
+    testDir: `${testDirBase}/09-potentially-destructive`,
+    use: projectParamsByBrowser.firefox,
+    dependencies: ['advanced-firefox'],
+    teardown: 'teardown',
+    workers: 1
+  },
+  {
+    name: 'firefox',
+    testDir: `${testDirBase}/10-plan-upgrade-required`,
+    use: projectParamsByBrowser.firefox,
+    dependencies: ['potentially-destructive-firefox'],
+    teardown: 'teardown',
+    workers: 1
+  }
+];
+const nonScheduledRuns = [
+  {
+    name: 'chromium',
+    testDir: `${testDirBase}/09-potentially-destructive`,
+    use: projectParamsByBrowser.chrome,
+    dependencies: ['advanced-chromium', 'admin-panel'],
+    workers: 1
+  },
+  {
+    name: 'firefox',
+    testDir: `${testDirBase}/09-potentially-destructive`,
+    use: projectParamsByBrowser.firefox,
+    dependencies: ['advanced-firefox'],
+    teardown: 'teardown',
+    workers: 1
+  }
+];
+
 const options: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
   projects: [
@@ -62,32 +115,7 @@ const options: PlaywrightTestConfig = {
     // kept in a dependency free project so it can be run on its own with `--project=admin-panel`,
     // while still being pulled in by the regular chromium run below.
     { name: 'admin-panel', testDir: `${testDirBase}/05-admin-panel`, use: { ...devices['Desktop Chrome'], viewport }, workers: 1 },
-
-    {
-      name: 'potentially-destructive-chromium',
-      testDir: `${testDirBase}/09-potentially-destructive`,
-      use: projectParamsByBrowser.chrome,
-      dependencies: ['advanced-chromium', 'admin-panel'],
-      workers: 1
-    },
-    // Tests that need more devices than a trial allows run after the account upgrade in 09-potentially-destructive. This is the
-    // end of the chromium chain, so a `--project=chromium` run includes everything before it.
-    {
-      name: 'chromium',
-      testDir: `${testDirBase}/10-plan-upgrade-required`,
-      use: projectParamsByBrowser.chrome,
-      dependencies: ['potentially-destructive-chromium'],
-      teardown: 'teardown',
-      workers: 1
-    },
-    {
-      name: 'firefox',
-      testDir: `${testDirBase}/09-potentially-destructive`,
-      use: projectParamsByBrowser.firefox,
-      dependencies: ['advanced-firefox'],
-      teardown: 'teardown',
-      workers: 1
-    },
+    ...(process.env.IS_SCHEDULED ? scheduledRuns : nonScheduledRuns),
     { name: 'teardown', testMatch: /.*\.teardown\.ts/ }
   ],
   reporter: process.env.CI
