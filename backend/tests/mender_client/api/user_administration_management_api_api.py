@@ -2362,6 +2362,7 @@ class UserAdministrationManagementAPIApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '401': "Error",
+            '404': "Error",
             '500': "Error",
         }
         response_data = self.api_client.call_api(
@@ -2430,6 +2431,7 @@ class UserAdministrationManagementAPIApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '401': "Error",
+            '404': "Error",
             '500': "Error",
         }
         response_data = self.api_client.call_api(
@@ -2498,6 +2500,7 @@ class UserAdministrationManagementAPIApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '204': None,
             '401': "Error",
+            '404': "Error",
             '500': "Error",
         }
         response_data = self.api_client.call_api(

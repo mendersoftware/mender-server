@@ -53,6 +53,8 @@ var (
 	ErrCannotModifyPassword = errors.New("password cannot be modified")
 	// password too similar to the email
 	ErrPassAndMailTooSimilar = errors.New("password is too similar to the email")
+
+	ErrTokenNotFound = store.ErrTokenNotFound
 )
 
 const (
@@ -228,7 +230,11 @@ func (u *UserAdm) SignToken(ctx context.Context, t *jwt.Token) (string, error) {
 }
 
 func (u *UserAdm) Logout(ctx context.Context, token *jwt.Token) error {
-	return u.db.DeleteToken(ctx, token.Subject, token.ID)
+	err := u.db.DeleteToken(ctx, token.Subject, token.ID)
+	if errors.Is(err, store.ErrTokenNotFound) {
+		return nil
+	}
+	return err
 }
 
 func (ua *UserAdm) CreateUser(ctx context.Context, u *model.User) error {
@@ -582,6 +588,9 @@ func (ua *UserAdm) DeleteToken(ctx context.Context, id string) error {
 	}
 	err := ua.db.DeleteToken(ctx, oid.FromString(identity.Subject), oid.FromString(id))
 	if err != nil {
+		if errors.Is(err, store.ErrTokenNotFound) {
+			return ErrTokenNotFound
+		}
 		return errors.Wrap(err, "useradm: failed to delete token")
 	}
 

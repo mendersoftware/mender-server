@@ -753,6 +753,10 @@ func (u *UserAdmApiHandlers) DeleteTokenHandler(c *gin.Context) {
 
 	err := u.userAdm.DeleteToken(ctx, c.Param("id"))
 	if err != nil {
+		if errors.Is(err, useradm.ErrTokenNotFound) {
+			rest.RenderError(c, http.StatusNotFound, err)
+			return
+		}
 		rest.RenderInternalError(c, err)
 		return
 	}
