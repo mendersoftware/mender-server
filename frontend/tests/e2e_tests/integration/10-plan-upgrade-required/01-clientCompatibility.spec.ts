@@ -19,7 +19,7 @@ import type { CombinedFixtures } from '../../fixtures/fixtures';
 import baseTest, { expect } from '../../fixtures/fixtures';
 import { isLoggedIn, login, prepareNewPage } from '../../utils/commands';
 import type { CompatibleClient } from '../../utils/compat';
-import { compatibleClients, startCompatClients } from '../../utils/compat';
+import { compatibleClients as compatibilityClients, startCompatClients } from '../../utils/compat';
 import { storageFolder, storagePath, timeouts } from '../../utils/constants';
 
 const md5 = (content: Buffer) => createHash('md5').update(content).digest('hex');
@@ -94,6 +94,8 @@ const setupLegacyDevice = async ({ baseUrl, legacyClient, password, request, use
     });
     expect(response.status()).toBe(204);
   }
+  // low effort test device tagging as this might fail on OS
+  await request.put(`${baseUrl}api/management/v2/devauth/devices/${deviceId}/flags`, { headers, data: { test_device: true } });
   await expect
     .poll(
       async () => {
@@ -111,7 +113,7 @@ const test = baseTest.extend<{}, CompatWorkerFixtures>({
   legacyClient: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
-      const legacyClient = compatibleClients.find(({ connectVersion }) => connectVersion === legacyConnectVersion);
+      const legacyClient = compatibilityClients.find(({ connectVersion }) => connectVersion === legacyConnectVersion);
       expect(legacyClient, `fixtures/docker-compose.compat.yml should label a client with mender-connect ${legacyConnectVersion}`).toBeDefined();
       await use(legacyClient!);
     },
@@ -128,6 +130,14 @@ const test = baseTest.extend<{}, CompatWorkerFixtures>({
   ]
 });
 
+const sampleClients = [...compatibilityClients.slice(0, 3), ...compatibilityClients.slice(-3)];
+if (!sampleClients.some(({ connectVersion }) => connectVersion === legacyConnectVersion)) {
+  const legacyClient = compatibilityClients.find(({ connectVersion }) => connectVersion === legacyConnectVersion);
+  sampleClients.push(legacyClient!);
+}
+
+const compatibleClients = process.env.TEST_ENVIRONMENT === 'staging' ? sampleClients : compatibilityClients;
+
 test.describe('Client compatibility', () => {
   test.skip(({ isScheduledRun }) => !isScheduledRun, 'client compatibility tests are only run on scheduled pipelines');
   test.describe.configure({ timeout: 5 * timeouts.sixtySeconds });
@@ -143,7 +153,7 @@ test.describe('Client compatibility', () => {
 
   for (const client of compatibleClients) {
     const { hostname } = client;
-    test(`${client.image} can be authorized`, async ({ page }) => {
+    test(`${client.image} can be authorized`, async ({ baseUrl, environment, page, request }) => {
       await openDeviceByHostname(page, hostname);
       const deviceId = new URL(page.url()).searchParams.get('id');
       expect(deviceId, `no device id found in ${page.url()}`).toBeTruthy();
@@ -154,6 +164,14 @@ test.describe('Client compatibility', () => {
         await acceptButton.click();
       }
       await expect(expandedDevice.getByRole('button', { name: /decommission device/i })).toBeVisible({ timeout: timeouts.tenSeconds });
+      if (environment === 'staging') {
+        const storage = await page.localStorage.getItem('JWT');
+        expect(storage).not.toBeFalsy();
+        const { token } = JSON.parse(storage!);
+        const headers = { Authorization: `Bearer ${token}` };
+        // shortcut test device accepts when on staging to avoid rate limits
+        await request.put(`${baseUrl}api/management/v2/devauth/devices/${deviceId}/flags`, { headers, data: { test_device: true } });
+      }
       storeAcceptedDevice(hostname, deviceId!);
     });
   }
