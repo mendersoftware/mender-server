@@ -121,4 +121,12 @@ describe('DeviceNotifications Component', () => {
     const popover = await screen.findByRole('presentation');
     expect(popover).toMatchSnapshot();
   });
+  it('only points to the subscription settings in hosted setups', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onPremState = { ...preloadedState, app: { ...preloadedState.app, features: { ...preloadedState.app.features, isHosted: false } } };
+    render(<DeviceNotifications total={240} pending={5} />, { preloadedState: onPremState });
+    await user.click(screen.getByRole('button', { name: '240' }));
+    await screen.findByRole('presentation');
+    expect(screen.queryByText(/Manage device limit/i)).not.toBeInTheDocument();
+  });
 });

@@ -3672,7 +3672,7 @@ exports[`App Component > renders correctly 1`] = `
                   class="flexbox column full-width margin-top-x-small"
                 >
                   <div
-                    aria-label="0% used. To increase limits, go to Settings > Billing"
+                    aria-label="0% used."
                     class="margin-bottom-x-small"
                     data-mui-internal-clone-element="true"
                   >
