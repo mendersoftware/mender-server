@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Alert, Button, DialogActions, DialogContent, Typography } from '@mui/material';
@@ -21,6 +22,10 @@ import { Link } from '@northern.tech/common-ui/Link';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
+import { Select } from '@northern.tech/common-ui/forms/Select';
+import type { DeviceTier } from '@northern.tech/store/constants';
+import { DEVICE_TIERS } from '@northern.tech/store/constants';
+import { getEnabledTiers, getReachedTierLimits } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { preauthDevice } from '@northern.tech/store/thunks';
 import { isEmpty } from '@northern.tech/utils/helpers';
@@ -31,18 +36,35 @@ const generalFileHint = 'Please upload a PEM encoded public key, starting with "
 const invalidKeyError = `This file does not contain a public key. ${generalFileHint}`;
 const emptyKeyError = `This file is empty. ${generalFileHint}`;
 
-export const DeviceLimitWarning = ({ acceptedDevices, deviceLimit }) => (
-  <Alert severity="error">
-    You have reached your limit of authorized devices: {acceptedDevices} of {deviceLimit}
-  </Alert>
-);
+export const DeviceLimitWarning = ({ tier }: { tier?: string }) => {
+  const reachedTierLimits = useSelector(getReachedTierLimits).filter(({ type }) => !tier || type === tier);
+  if (!reachedTierLimits.length) {
+    return null;
+  }
+  if (tier) {
+    const [{ limit, total }] = reachedTierLimits;
+    return (
+      <Alert severity="warning">
+        You have reached your {tier} device limit ({total} of {limit}). Preauthorized devices won&apos;t be accepted when they connect until you increase your
+        limit.
+      </Alert>
+    );
+  }
+  const reachedLimits = reachedTierLimits.map(({ type, limit, total }) => `${total} of ${limit} ${type}`).join(', ');
+  return <Alert severity="warning">You have reached your limit of authorized devices: {reachedLimits}</Alert>;
+};
 
-export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCancel, onSubmit }) => {
+export const PreauthDialog = ({ onCancel, onSubmit }) => {
+  const enabledTiers = useSelector(getEnabledTiers);
   const [jsonIdentity, setJsonIdentity] = useState<Record<string, string>>({});
   const [keyError, setKeyError] = useState<string>('');
   const [publicKey, setPublicKey] = useState<string>('');
   const [submitError, setSubmitError] = useState<string>('');
+  const [selectedTier, setSelectedTier] = useState<DeviceTier>();
   const dispatch = useAppDispatch();
+  const defaultTier = enabledTiers.includes(DEVICE_TIERS.standard) || !enabledTiers.length ? DEVICE_TIERS.standard : enabledTiers[0];
+  const tier = selectedTier && enabledTiers.includes(selectedTier) ? selectedTier : defaultTier;
+  const tierOptions = useMemo(() => enabledTiers.map(type => ({ id: type, title: type })), [enabledTiers]);
 
   const convertIdentityToJSON = useCallback(jsonIdentity => {
     setSubmitError('');
@@ -56,33 +78,31 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
       setKeyError('');
       return;
     }
-    if (!content) {
+    // PEM files usually end with a newline
+    const key = content.trim();
+    if (!key) {
       setKeyError(emptyKeyError);
       return;
     }
-    if (!publicKeyEnvelope.test(content)) {
+    if (!publicKeyEnvelope.test(key)) {
       setKeyError(invalidKeyError);
       return;
     }
     setKeyError('');
-    setPublicKey(content);
+    setPublicKey(key);
   };
 
   const onHandleSubmit = async shouldClose => {
     setSubmitError('');
-    const authset = {
-      pubkey: publicKey,
-      identity_data: jsonIdentity
-    };
     try {
-      await dispatch(preauthDevice(authset)).unwrap();
+      await dispatch(preauthDevice({ pubkey: publicKey, identity_data: jsonIdentity, tier })).unwrap();
       onSubmit(shouldClose);
     } catch (error) {
       setSubmitError(typeof error === 'string' ? error : (error as Error)?.message);
     }
   };
 
-  const isSubmitDisabled = !publicKey || isEmpty(jsonIdentity) || !!limitMaxed;
+  const isSubmitDisabled = !publicKey || isEmpty(jsonIdentity);
   return (
     <BaseDialog open title="Preauthorize devices" onClose={onCancel}>
       <DialogContent>
@@ -106,7 +126,21 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
         <ContentSection title="Identity data">
           <KeyValueEditor onInputChange={convertIdentityToJSON} />
         </ContentSection>
-        {!!limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} />}
+        {tierOptions.length > 1 && (
+          <ContentSection title="Device tier">
+            <Select
+              className="capitalized"
+              MenuItemProps={{ className: 'capitalized' }}
+              onChange={({ target: { value } }) => setSelectedTier(value as DeviceTier)}
+              options={tierOptions}
+              value={tier}
+            />
+            <Alert className="margin-top-small" severity="info">
+              If the device reports a different tier, it won’t be accepted automatically and will appear as pending.
+            </Alert>
+          </ContentSection>
+        )}
+        <DeviceLimitWarning tier={tier} />
         {!!submitError && <Alert severity="error">The device could not be added: {submitError}</Alert>}
       </DialogContent>
       <DialogActions>

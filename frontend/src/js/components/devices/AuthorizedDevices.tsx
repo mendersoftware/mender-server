@@ -32,7 +32,6 @@ import {
   getDeviceFilters,
   getFilterAttributes,
   getIdAttribute,
-  getLimitMaxed,
   getMappedDevicesList,
   getOnboardingState,
   getSelectedGroupInfo,
@@ -164,7 +163,6 @@ const OnboardingComponent = ({ deviceListRef, onboardingState }) => {
 };
 
 export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, openSettingsDialog, removeDevicesFromGroup, showsDialog, changeLocation }) => {
-  const limitMaxed = useSelector(getLimitMaxed);
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
   const { selectedGroup, groupFilters = [] } = useSelector(getSelectedGroupInfo);
   const { columnSelection = [] } = useSelector(getUserSettings);
@@ -507,7 +505,7 @@ export const Authorized = ({ addDevicesToGroup, onGroupClick, onPreauthClick, op
             PaginationProps={{ classes: { spacer: 'flexbox no-basis', toolbar: 'padding-left-none' } }}
           />
         ) : (
-          <EmptyState allCount={allCount} canManageDevices={canManageDevices} filters={filters} limitMaxed={limitMaxed} onClick={onPreauthClick} />
+          <EmptyState allCount={allCount} canManageDevices={canManageDevices} filters={filters} onClick={onPreauthClick} />
         )}
       </div>
       <ExpandedDevice

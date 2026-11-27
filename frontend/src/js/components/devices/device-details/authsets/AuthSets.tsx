@@ -21,7 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
-import { getCombinedLimit, getDeviceCountsByStatus, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
@@ -45,9 +45,6 @@ export const Authsets = ({ decommission, device, listRef }) => {
   const [confirmDecommission, setConfirmDecommission] = useState(false);
   const [loading, setLoading] = useState<string>();
   const dispatch = useAppDispatch();
-  const { accepted: acceptedDevices } = useSelector(getDeviceCountsByStatus);
-  const deviceLimit = useSelector(getCombinedLimit);
-  const limitMaxed = useSelector(getLimitMaxed);
   const userCapabilities = useSelector(getUserCapabilities);
   const { classes } = useStyles();
   const { auth_sets = [], status = DEVICE_STATES.accepted } = device;
@@ -68,7 +65,6 @@ export const Authsets = ({ decommission, device, listRef }) => {
         <MenderHelpTooltip id={HELPTOOLTIPS.authExplainButton.id} small className="margin-left-small" />
       </div>
       <Authsetlist
-        limitMaxed={limitMaxed}
         listRef={listRef}
         total={auth_sets.length}
         confirm={updateDeviceAuthStatus}
@@ -76,7 +72,7 @@ export const Authsets = ({ decommission, device, listRef }) => {
         device={device}
         userCapabilities={userCapabilities}
       />
-      {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} />}
+      <DeviceLimitWarning />
       {![DEVICE_STATES.preauth, DEVICE_STATES.pending].includes(device.status) && canManageDevices && (
         <Button className="margin-top-small" color="error" variant="outlined" onClick={() => setConfirmDecommission(true)}>
           Decommission device

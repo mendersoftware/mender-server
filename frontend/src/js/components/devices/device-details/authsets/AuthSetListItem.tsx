@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Check as CheckIcon, FileCopyOutlined as CopyPasteIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 // material ui
@@ -21,6 +22,7 @@ import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { Code } from '@northern.tech/common-ui/CopyCode';
 import Time from '@northern.tech/common-ui/Time';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
+import { getIsTierLimitMaxed } from '@northern.tech/store/selectors';
 import { formatTime } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
@@ -108,14 +110,20 @@ const requestModalConfig = {
   [DEVICE_DISMISSAL_STATE]: { header: 'Dismiss request?', confirmButtonText: 'Dismiss request' }
 };
 
-const ActionButtons = ({ authset, limitMaxed, onAcceptClick, onDismissClick, onRequestConfirm, userCapabilities }) => {
+const ActionButtons = ({ authset, device, onAcceptClick, onDismissClick, onRequestConfirm, userCapabilities }) => {
+  const isTierLimitMaxed = useSelector(state => getIsTierLimitMaxed(state, authset.tier));
   const { canManageDevices } = userCapabilities;
   if (!canManageDevices) {
     return null;
   }
+  // switching the authset of an accepted device within the same tier doesn't add to that tier's device count
+  const isAddingToTier = !(device.status === DEVICE_STATES.accepted && device.tier === authset.tier);
   return (
     <div className="action-buttons flexbox">
-      <Button onClick={onAcceptClick} disabled={authset.status === DEVICE_STATES.accepted || authset.status === DEVICE_STATES.preauth || limitMaxed}>
+      <Button
+        onClick={onAcceptClick}
+        disabled={authset.status === DEVICE_STATES.accepted || authset.status === DEVICE_STATES.preauth || (isTierLimitMaxed && isAddingToTier)}
+      >
         Accept
       </Button>
       <Button
@@ -129,7 +137,7 @@ const ActionButtons = ({ authset, limitMaxed, onAcceptClick, onDismissClick, onR
   );
 };
 
-const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpanded, limitMaxed, loading, onExpand, total, userCapabilities }) => {
+const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpanded, loading, onExpand, total, userCapabilities }) => {
   const [showKey, setShowKey] = useState(false);
   const [keyHash, setKeyHash] = useState('');
   const [endKey, setEndKey] = useState('');
@@ -243,7 +251,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
           ) : (
             <ActionButtons
               authset={authset}
-              limitMaxed={limitMaxed}
+              device={device}
               onAcceptClick={onAcceptClick}
               onDismissClick={onDismissClick}
               onRequestConfirm={onRequestConfirm}

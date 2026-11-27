@@ -75,18 +75,14 @@ export const AcceptedEmptyState = ({ allCount }) => (
   </div>
 );
 
-export const PreauthorizedEmptyState = ({ canManageDevices, limitMaxed, onClick }) => (
+export const PreauthorizedEmptyState = ({ canManageDevices, onClick }) => (
   <div className="dashboard-placeholder">
     <p>There are no preauthorized devices.</p>
     {canManageDevices && (
       <p>
-        {limitMaxed ? (
-          'Preauthorize devices'
-        ) : (
-          <Link component="span" className="clickable" onClick={onClick}>
-            Preauthorize devices
-          </Link>
-        )}{' '}
+        <Link component="span" className="clickable" onClick={onClick}>
+          Preauthorize devices
+        </Link>{' '}
         so that when they come online, they will connect to the server immediately
       </p>
     )}

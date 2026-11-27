@@ -13,9 +13,10 @@
 //    limitations under the License.
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { render } from '@/testUtils';
+import { defaultState, render } from '@/testUtils';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import { adminUserCapabilities, undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { defaultColumns } from './AuthSetList';
@@ -63,7 +64,6 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
         onExpand={vi.fn}
         confirm={vi.fn}
         device={device}
-        limitMaxed={false}
         total={10}
         userCapabilities={adminUserCapabilities}
       />
@@ -116,5 +116,40 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
     ).toEqual(
       'The request will be dismissed, and removed from the list. Dismissing this request will <b>not</b> affect the device status as it is using a different authentication set. Do you want to continue?'
     );
+  });
+  it('only prevents accepting authsets of a tier that reached its limit', async () => {
+    const preloadedState = {
+      ...defaultState,
+      devices: {
+        ...defaultState.devices,
+        limits: { standard: 2, micro: -1, system: 0 },
+        byStatus: { ...defaultState.devices.byStatus, accepted: { deviceIds: [], counts: { standard: 2, micro: 30, system: 0, total: 32 } } }
+      }
+    };
+    const renderItem = (authset, device) =>
+      render(
+        <AuthsetListItem
+          authset={{ pubkey: '', ts: '2020-09-21T12:42:34.571Z', ...authset }}
+          classes={{}}
+          columns={defaultColumns}
+          confirm={vi.fn}
+          device={{ id: 'a1', auth_sets: [authset], ...device }}
+          isExpanded={false}
+          onExpand={vi.fn}
+          total={1}
+          userCapabilities={adminUserCapabilities}
+        />,
+        { preloadedState }
+      );
+    const pending = { status: DEVICE_STATES.pending };
+    let view = renderItem({ id: '1', status: DEVICE_STATES.pending, tier: 'standard' }, { ...pending, tier: 'standard' });
+    expect(screen.getByRole('button', { name: 'Accept' })).toBeDisabled();
+    view.unmount();
+    view = renderItem({ id: '2', status: DEVICE_STATES.pending, tier: 'micro' }, { ...pending, tier: 'micro' });
+    expect(screen.getByRole('button', { name: 'Accept' })).not.toBeDisabled();
+    view.unmount();
+    // switching the key of an already accepted device does not add to the tier count
+    renderItem({ id: '3', status: DEVICE_STATES.pending, tier: 'standard' }, { status: DEVICE_STATES.accepted, tier: 'standard' });
+    expect(screen.getByRole('button', { name: 'Accept' })).not.toBeDisabled();
   });
 });
