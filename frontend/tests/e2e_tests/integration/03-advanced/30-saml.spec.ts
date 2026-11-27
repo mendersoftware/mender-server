@@ -16,7 +16,7 @@ import dns from 'node:dns';
 import { v4 as uuid } from 'uuid';
 
 import baseTest, { expect } from '../../fixtures/fixtures';
-import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn } from '../../utils/commands';
+import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, prepareNewContext } from '../../utils/commands';
 import { timeouts } from '../../utils/constants';
 import { startIdpServer } from '../../utils/idp';
 
@@ -128,7 +128,7 @@ test.describe('SAML Login via sso/id/login', () => {
     await expect(startUrlValue).toHaveText(/\/login$/, { timeout: timeouts.tenSeconds });
     const loginUrl = await startUrlValue.innerText();
     console.log(`logging in via ${loginUrl} (using: ${samlSettings.credentials[browserName]})`);
-    const context = await browser.newContext();
+    const context = await prepareNewContext({ baseUrl, browser });
     const samlPage = await context.newPage();
     await samlPage.goto(loginUrl);
     // This screenshot saves the view right after the first redirection

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../../fixtures/fixtures';
-import { baseUrlToDomain, getTokenFromStorage, prepareCookies, prepareNewPage, processLoginForm } from '../../utils/commands';
+import { baseUrlToDomain, getTokenFromStorage, prepareCookies, prepareNewContext, prepareNewPage, processLoginForm } from '../../utils/commands';
 import { spStoragePath, switchTenantStoragePath, timeouts } from '../../utils/constants';
 import { navigateTo, selectDeviceLimitInput } from '../../utils/utils';
 
@@ -152,7 +152,7 @@ test.describe('Multi tenant access', () => {
     }
     // here we can't use prepareNewPage as it sets the initial JWT to be used on every page init
     const domain = baseUrlToDomain(baseUrl);
-    let newContext = await browser.newContext({ storageState: switchTenantStoragePath });
+    let newContext = await prepareNewContext({ baseUrl, browser, options: { storageState: switchTenantStoragePath } });
     newContext = await prepareCookies(newContext, domain, '');
     const newPage = await newContext.newPage();
     await newPage.goto(`${baseUrl}ui/`);

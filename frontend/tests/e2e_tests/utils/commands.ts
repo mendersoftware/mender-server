@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { APIRequestContext, APIResponse, Browser, BrowserContext, Page, Request, Response } from '@playwright/test';
+import type { APIRequestContext, APIResponse, Browser, BrowserContext, BrowserContextOptions, Page, Request, Response } from '@playwright/test';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import { jwtDecode } from 'jwt-decode';
@@ -104,14 +104,21 @@ const logServerError = (request: Request, response: Response | APIResponse) =>
     `${new Date().toISOString()} ${request.method()} ${request.url()} -> ${response.status()} (request id: ${response.headers()['x-men-requestid'] ?? 'n/a'})`
   );
 
-export const watchServerErrors = async (page: Page, baseUrl: string) => {
-  page.on('response', response => {
+export const watchServerErrors = async (context: BrowserContext, baseUrl: string) => {
+  let isContextClosed = false;
+  context.on('close', () => (isContextClosed = true));
+  context.on('response', response => {
     const request = response.request();
     if (response.status() >= 500 && request.url().startsWith(baseUrl) && !isReplayable(request)) {
       logServerError(request, response);
     }
   });
-  await page.route(`${baseUrl}**`, async route => {
+  // requests that never received a response (connection resets, timeouts, ...) don't show up as responses at all
+  context.on('requestfailed', request => {
+    const errorText = request.failure()?.errorText ?? 'unknown error';
+    serverErrors.push(`${new Date().toISOString()} ${request.method()} ${request.url()} -> failed: ${errorText}`);
+  });
+  await context.route(`${baseUrl}**`, async route => {
     const request = route.request();
     if (!isReplayable(request)) {
       return route.continue();
@@ -128,13 +135,18 @@ export const watchServerErrors = async (page: Page, baseUrl: string) => {
       }
       await route.fulfill({ response });
     } catch (error) {
-      // pages from prepareNewPage are not unrouted by a fixture, so the test may close them while a request is still in flight
-      if (page.isClosed()) {
+      // tests may close pages or contexts while a request is still in flight
+      if (request.frame().page().isClosed()) {
         return;
       }
       throw error;
     }
   });
+  return async () => {
+    if (!isContextClosed) {
+      await context.unrouteAll({ behavior: 'wait' });
+    }
+  };
 };
 
 const ensureFeedbackDisabled = async ({ baseUrl, page, token }: { baseUrl: string; page: Page; token: string }) => {
@@ -146,6 +158,15 @@ const ensureFeedbackDisabled = async ({ baseUrl, page, token }: { baseUrl: strin
     headers: { Authorization: `Bearer ${token}` }
   });
   return page;
+};
+
+// the context fixture is error watched already - custom contexts need to be watched separately
+export const prepareNewContext = async ({ baseUrl, browser, options }: { baseUrl: string; browser: Browser; options?: BrowserContextOptions }) => {
+  const context = await browser.newContext(options);
+  if (process.env.BASE_URL) {
+    await watchServerErrors(context, baseUrl);
+  }
+  return context;
 };
 
 export const prepareNewPage = async ({
@@ -165,7 +186,7 @@ export const prepareNewPage = async ({
 }) => {
   let context = passedContext;
   if (!context) {
-    context = await browser.newContext({ storageState: { ...emptyStorageState } });
+    context = await prepareNewContext({ baseUrl, browser, options: { storageState: { ...emptyStorageState } } });
   }
   let logInResult = { userId: '', token: '' };
   if (username && password) {
@@ -178,9 +199,6 @@ export const prepareNewPage = async ({
     window.localStorage.setItem(`onboardingComplete`, 'true');
   }, logInResult.token);
   let page = await context.newPage();
-  if (process.env.BASE_URL) {
-    await watchServerErrors(page, baseUrl);
-  }
   page = await ensureFeedbackDisabled({ baseUrl, page, token: logInResult.token });
   await page.goto(`${baseUrl}ui/`);
   return page;

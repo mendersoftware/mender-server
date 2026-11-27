@@ -70,7 +70,7 @@ const defaultConfig = {
 const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures, WorkerFixtures>({
   isRemote: [!!process.env.BASE_URL, { scope: 'worker' }],
   isScheduledRun: [!!process.env.IS_SCHEDULED, { scope: 'worker' }],
-  // auto fixtures are set up first and torn down last, so this also covers pages created through prepareNewPage
+  // auto fixtures are set up first and torn down last, so this also covers pages & contexts created through prepareNewPage & prepareNewContext
   serverErrorReport: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, testInfo) => {
@@ -82,18 +82,17 @@ const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFi
     },
     { auto: true }
   ],
-  page: async ({ baseUrl, isRemote, page }, use, { project }) => {
-    if (isRemote) {
-      await watchServerErrors(page, baseUrl);
-    }
+  context: async ({ baseUrl, context, isRemote }, use) => {
+    const stopWatching = isRemote ? await watchServerErrors(context, baseUrl) : undefined;
+    await use(context);
+    await stopWatching?.();
+  },
+  page: async ({ baseUrl, page }, use, { project }) => {
     if (project.name !== 'admin-panel') {
       await page.goto(baseUrl);
       await page.waitForTimeout(timeouts.oneSecond);
     }
     await use(page);
-    if (isRemote && !page.isClosed()) {
-      await page.unrouteAll({ behavior: 'wait' });
-    }
   },
   environment: [
     // eslint-disable-next-line no-empty-pattern
