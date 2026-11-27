@@ -17,10 +17,10 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 import type { CombinedFixtures } from '../../fixtures/fixtures';
 import baseTest, { expect } from '../../fixtures/fixtures';
-import { login } from '../../utils/commands';
+import { isLoggedIn, login, prepareNewPage } from '../../utils/commands';
 import type { CompatibleClient } from '../../utils/compat';
 import { compatibleClients, startCompatClients } from '../../utils/compat';
-import { storageFolder, timeouts } from '../../utils/constants';
+import { storageFolder, storagePath, timeouts } from '../../utils/constants';
 
 const md5 = (content: Buffer) => createHash('md5').update(content).digest('hex');
 
@@ -132,9 +132,13 @@ test.describe('Client compatibility', () => {
   test.skip(({ isScheduledRun }) => !isScheduledRun, 'client compatibility tests are only run on scheduled pipelines');
   test.describe.configure({ timeout: 5 * timeouts.sixtySeconds });
 
-  test('starts the compatible clients', async ({ baseUrl, tenantToken }) => {
+  test('starts the compatible clients', async ({ baseUrl, context, password, request, username, tenantToken }) => {
     test.setTimeout(10 * timeouts.sixtySeconds);
     await startCompatClients(baseUrl, tenantToken);
+    const newPage = await prepareNewPage({ baseUrl, context, password, request, username });
+    await isLoggedIn(newPage);
+    await context.storageState({ path: storagePath });
+    await context.close();
   });
 
   for (const client of compatibleClients) {
