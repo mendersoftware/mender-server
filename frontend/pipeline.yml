@@ -171,7 +171,7 @@ build:frontend:docker:
   # credentials of this job container - pulling the images here keeps the test from having to pull them itself.
   - |
     if [ -n "$IS_SCHEDULED" ]; then
-      SERVER_URL= docker compose -f frontend/tests/e2e_tests/fixtures/docker-compose.compat.yml pull --quiet
+      docker compose -f frontend/tests/e2e_tests/fixtures/docker-compose.compat.yml pull --quiet
     fi
 
 .template:test:frontend:acceptance:
