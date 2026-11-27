@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 
 import { GlobalSettings } from './Global';
 
@@ -46,5 +47,11 @@ describe('GlobalSettings Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('does not offer subscription upgrades in OS setups', async () => {
+    const features = { ...defaultState.app.features, hasMultitenancy: false, isEnterprise: false, isHosted: false };
+    render(<GlobalSettings />, { preloadedState: { ...preloadedState, app: { ...preloadedState.app, features } } });
+    expect(screen.getByText(/delta artifacts generation is not enabled/i)).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /upgrade/i })).not.toBeInTheDocument();
   });
 });
