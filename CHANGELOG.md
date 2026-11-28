@@ -1,4 +1,135 @@
 ---
+## 4.1.6 - 2026-11-28
+
+
+### Bug fixes
+
+- *(deviceauth)* Check auth request signature before processing request ([f431a14](https://github.com/mendersoftware/mender-server/commit/f431a14d54ebc2918cfbae8a00eee9ba6bc37919))
+
+### Dependency updates
+
+- *(deps)* Update dependency filelock to v4 [security] ([5d486d1](https://github.com/mendersoftware/mender-server/commit/5d486d1a5c8d2af1fa55fb8e2ae5777d086c93c2))
+
+  - filelock 3.29.0 -> 4.2.1
+
+- *(deps)* Update golang-dependencies ([fccba3b](https://github.com/mendersoftware/mender-server/commit/fccba3bb2c2703896e25290c37247307c095cc47))
+
+  - github.com/aws/aws-sdk-go-v2 v1.47.3 -> v1.47.4
+  - github.com/aws/aws-sdk-go-v2/config v1.33.9 -> v1.33.10
+  - github.com/aws/aws-sdk-go-v2/credentials v1.20.9 -> v1.20.10
+  - github.com/aws/aws-sdk-go-v2/service/iot v1.84.4 -> v1.84.6
+  - github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.40.4 -> v1.42.0
+  - github.com/aws/aws-sdk-go-v2/service/s3 v1.114.3 -> v1.114.5
+  - github.com/mendersoftware/mender-artifact v0.0.0-20261008095710-3f0b4d469773 -> v0.0.0-20261021105616-273773df8155
+  - github.com/nats-io/nats.go v1.54.0 -> v1.55.0
+
+- *(deps)* Update test-dependencies ([0298108](https://github.com/mendersoftware/mender-server/commit/029810854c2efcf09d28589a3ed644ab4848200b))
+
+  | datasource | package        | from    | to      |
+  | ---------- | -------------- | ------- | ------- |
+  | npm        | commander      | 15.0.0  | 15.1.0  |
+  | npm        | dayjs          | 1.11.21 | 1.11.23 |
+  | npm        | docker-compose | 1.4.2   | 1.5.0   |
+  | npm        | inquirer       | 14.0.2  | 14.2.5  |
+  | npm        | ora            | 9.4.0   | 9.4.1   |
+  | npm        | otplib         | 13.4.1  | 13.6.0  |
+  | npm        | uuid           | 14.0.0  | 14.0.3  |
+  | npm        | yaml           | 2.9.0   | 2.9.1   |
+
+- *(deps)* Update npm-dev-dependencies ([45eabf6](https://github.com/mendersoftware/mender-server/commit/45eabf6774f1675cb09a32d508b8ec956915bb48))
+
+  | datasource | package      | from    | to      |
+  | ---------- | ------------ | ------- | ------- |
+  | npm        | @rspack/cli  | 2.2.9   | 2.3.1   |
+  | npm        | @rspack/core | 2.2.9   | 2.3.1   |
+  | npm        | autoprefixer | 10.6.1  | 10.6.2  |
+  | npm        | core-js      | 3.50.0  | 3.51.0  |
+  | npm        | globals      | 17.13.0 | 17.14.0 |
+  | npm        | undici       | 8.12.2  | 8.12.4  |
+
+- *(deps)* Update dependency @playwright/test to v1.65.0 ([b5b2219](https://github.com/mendersoftware/mender-server/commit/b5b2219067d751d084c419ea41801a059a442b4b))
+
+  | datasource | package          | from   | to     |
+  | ---------- | ---------------- | ------ | ------ |
+  | npm        | @playwright/test | 1.60.0 | 1.65.0 |
+
+- *(deps)* Update docker-compose ([5621b9e](https://github.com/mendersoftware/mender-server/commit/5621b9e99a3fe3ec41ea760745307fce339a2d5b))
+
+  | datasource | package                      | from    | to      |
+  | ---------- | ---------------------------- | ------- | ------- |
+  | docker     | chrislusf/seaweedfs          | 4.48    | 4.52    |
+  | docker     | jordimartin/mmock            | v2.7.6  | v2.7.9  |
+  | docker     | jordimartin/mmock            | v3.0.0  | v3.1.6  |
+  | docker     | mcr.microsoft.com/azure-cli  | 2.40.0  | 2.92.0  |
+  | docker     | opensearchproject/opensearch | 2.4.0   | 2.19.7  |
+  | docker     | traefik                      | v3.7.15 | v3.7.17 |
+
+- *(deps)* Update python-dependencies ([247f590](https://github.com/mendersoftware/mender-server/commit/247f590819251ea43a30ac695ca5c85b896356c1))
+
+  | datasource | package           | from      | to         |
+  | ---------- | ----------------- | --------- | ---------- |
+  | pypi       | pillow            | 12.2.0    | 12.3.0     |
+  | pypi       | azure-cli         | 2.90.0    | 2.92.0     |
+  | pypi       | boto3             | 1.43.20   | 1.43.126   |
+  | pypi       | certifi           | 2026.5.20 | 2026.10.23 |
+  | pypi       | cffi              | 2.0.0     | 2.1.1      |
+  | pypi       | cryptography      | 50.0.0    | 50.0.2     |
+  | pypi       | docker            | 7.1.0     | 7.2.0      |
+  | pypi       | filelock          | 4.2.1     | 4.2.9      |
+  | pypi       | idna              | 3.18      | 3.20       |
+  | pypi       | iniconfig         | 2.3.0     | 2.3.1      |
+  | pypi       | kubernetes        | 36.0.2    | 36.0.3     |
+  | pypi       | packaging         | 26.2      | 26.3       |
+  | pypi       | pluggy            | 1.6.0     | 1.7.0      |
+  | pypi       | pycparser         | 3.0       | 3.12       |
+  | pypi       | pydantic          | 2.13.4    | 2.14.3     |
+  | pypi       | pyjwt             | 2.13.0    | 2.15.1     |
+  | pypi       | pymongo           | 4.17.0    | 4.19.0     |
+  | pypi       | pyotp             | 2.9.0     | 2.10.0     |
+  | pypi       | pyparsing         | 3.3.2     | 3.3.3      |
+  | pypi       | pytest            | 9.0.3     | 9.2.0      |
+  | pypi       | pytest-forked     | 1.6.0     | 1.7.5      |
+  | pypi       | pytest-httpserver | 1.1.5     | 1.2.0      |
+  | pypi       | redis             | 8.0.0     | 8.1.0      |
+  | pypi       | redo              | 3.0.0     | 3.0.1      |
+  | pypi       | semver            | 3.0.4     | 3.1.0      |
+  | pypi       | stripe            | 15.2.0    | 15.6.2     |
+  | pypi       | urllib3           | 2.7.0     | 2.8.0      |
+  | pypi       | websockets        | 16.0      | 16.1.1     |
+
+- *(deps)* Update docker-base-images ([f164fd7](https://github.com/mendersoftware/mender-server/commit/f164fd732199c9144a8d11334df0565be539a345))
+
+  | datasource | package | from   | to     |
+  | ---------- | ------- | ------ | ------ |
+  | docker     | alpine  | 3.24.2 | 3.24.4 |
+  | docker     | golang  | 1.27.2 | 1.27.4 |
+  | docker     | python  | 3.14   | 3.15   |
+  | docker     | python  | 3.13   | 3.15   |
+
+- *(deps)* Update traefik docker tag to v3.7.19 ([4b78881](https://github.com/mendersoftware/mender-server/commit/4b78881ddf925c59cf1cf00e0d532c2c94e209fd))
+
+  | datasource | package | from    | to      |
+  | ---------- | ------- | ------- | ------- |
+  | docker     | traefik | v3.7.18 | v3.7.19 |
+
+- *(deps)* Update docker docker tag to v29.10 ([b771dc7](https://github.com/mendersoftware/mender-server/commit/b771dc7b7b36c786023d53cbda99e3f7c8ecda76))
+
+  | datasource | package | from | to    |
+  | ---------- | ------- | ---- | ----- |
+  | docker     | docker  | 29.9 | 29.10 |
+
+- *(deps)* Update go modules ([a80c487](https://github.com/mendersoftware/mender-server/commit/a80c48758a3742f47ce0a76a1a5afec89d4b4e5b))
+
+  | datasource | package                                   | from                               | to                                 |
+  | ---------- | ----------------------------------------- | ---------------------------------- | ---------------------------------- |
+  | go         | github.com/aws/aws-sdk-go-v2/config       | v1.33.18                           | v1.33.21                           |
+  | go         | github.com/aws/aws-sdk-go-v2/credentials  | v1.21.0                            | v1.21.3                            |
+  | go         | github.com/aws/aws-sdk-go-v2/service/s3   | v1.114.10                          | v1.116.0                           |
+  | go         | github.com/mendersoftware/mender-artifact | v0.0.0-20261029122707-b33dd7c4202d | v0.0.0-20261116102507-e56270c4a7cc |
+  | go         | github.com/nats-io/nats.go                | v1.55.0                            | v1.56.0                            |
+  | go         | golang.org/x/net                          | v0.62.0                            | v0.63.0                            |
+
+
 ## 4.1.5 - 2026-10-23
 
 
